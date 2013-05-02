@@ -1,0 +1,187 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0D4B1DD0-60C5-4452-9ABA-94D6303FF904}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WorkFlowService</RootNamespace>
+    <AssemblyName>WorkFlowService</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WebService\appsBLLservice.asmx" />
+    <Content Include="Default.aspx" />
+    <Content Include="Web.config" />
+    <Content Include="WebService\base_userBLLservice.asmx" />
+    <Content Include="WebService\elementsBLLservice.asmx" />
+    <Content Include="WebService\init_statusBLLservice.asmx" />
+    <Content Include="WebService\menusBLLservice.asmx" />
+    <Content Include="WebService\operationsBLLservice.asmx" />
+    <Content Include="WebService\privilegesBLLservice.asmx" />
+    <Content Include="WebService\privileges_typeBLLservice.asmx" />
+    <Content Include="WebService\privilege_roleBLLservice.asmx" />
+    <Content Include="WebService\rolesBLLservice.asmx" />
+    <Content Include="WebService\usersBLLservice.asmx" />
+    <Content Include="WebService\user_roleBLLservice.asmx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DAL\base_userDAL.cs" />
+    <Compile Include="DAL\elementsDAL.cs" />
+    <Compile Include="DAL\init_statusDAL.cs" />
+    <Compile Include="DAL\menusDAL.cs" />
+    <Compile Include="DAL\operationsDAL.cs" />
+    <Compile Include="DAL\privilegesDAL.cs" />
+    <Compile Include="DAL\privileges_typeDAL.cs" />
+    <Compile Include="DAL\privilege_roleDAL.cs" />
+    <Compile Include="DAL\rolesDAL.cs" />
+    <Compile Include="DAL\usersDAL.cs" />
+    <Compile Include="DAL\user_roleDAL.cs" />
+    <Compile Include="Model\base_userModel.cs" />
+    <Compile Include="Model\elementsModel.cs" />
+    <Compile Include="Model\init_statusModel.cs" />
+    <Compile Include="Model\menusModel.cs" />
+    <Compile Include="Model\operationsModel.cs" />
+    <Compile Include="Model\privilegesModel.cs" />
+    <Compile Include="Model\privileges_typeModel.cs" />
+    <Compile Include="Model\privilege_roleModel.cs" />
+    <Compile Include="Model\rolesModel.cs" />
+    <Compile Include="Model\usersModel.cs" />
+    <Compile Include="Model\user_roleModel.cs" />
+    <Compile Include="WebService\appsBLLservice.asmx.cs">
+      <DependentUpon>appsBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Common\ConfigHelper.cs" />
+    <Compile Include="DAL\appsDAL.cs" />
+    <Compile Include="DBHelp\DbHelperSQL.cs" />
+    <Compile Include="DBHelp\StoreProcedureHelper.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\appsModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebService\base_userBLLservice.asmx.cs">
+      <DependentUpon>base_userBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\elementsBLLservice.asmx.cs">
+      <DependentUpon>elementsBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\init_statusBLLservice.asmx.cs">
+      <DependentUpon>init_statusBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\menusBLLservice.asmx.cs">
+      <DependentUpon>menusBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\operationsBLLservice.asmx.cs">
+      <DependentUpon>operationsBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\privilegesBLLservice.asmx.cs">
+      <DependentUpon>privilegesBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\privileges_typeBLLservice.asmx.cs">
+      <DependentUpon>privileges_typeBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\privilege_roleBLLservice.asmx.cs">
+      <DependentUpon>privilege_roleBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\rolesBLLservice.asmx.cs">
+      <DependentUpon>rolesBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\usersBLLservice.asmx.cs">
+      <DependentUpon>usersBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\user_roleBLLservice.asmx.cs">
+      <DependentUpon>user_roleBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3228</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
