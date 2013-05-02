@@ -1,0 +1,7 @@
+E:\上海（工作流）\工作流权限管理记录\V2.0.0\WorkFlow\WorkFlow\bin\WorkFlow.dll
+E:\上海（工作流）\工作流权限管理记录\V2.0.0\WorkFlow\WorkFlow\bin\WorkFlow.pdb
+E:\上海（工作流）\工作流权限管理记录\V2.0.0\WorkFlow\WorkFlow\bin\EntityFramework.dll
+E:\上海（工作流）\工作流权限管理记录\V2.0.0\WorkFlow\WorkFlow\bin\EntityFramework.xml
+E:\上海（工作流）\工作流权限管理记录\V2.0.0\WorkFlow\WorkFlow\obj\Debug\ResolveAssemblyReference.cache
+E:\上海（工作流）\工作流权限管理记录\V2.0.0\WorkFlow\WorkFlow\obj\Debug\WorkFlow.dll
+E:\上海（工作流）\工作流权限管理记录\V2.0.0\WorkFlow\WorkFlow\obj\Debug\WorkFlow.pdb
