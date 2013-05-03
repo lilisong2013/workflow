@@ -16,6 +16,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ExistsName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Add">
         <s:complexType>
           <s:sequence>
@@ -210,6 +224,12 @@
   <wsdl:message name="ExistsSoapOut">
     <wsdl:part name="parameters" element="tns:ExistsResponse" />
   </wsdl:message>
+  <wsdl:message name="ExistsNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsName" />
+  </wsdl:message>
+  <wsdl:message name="ExistsNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsNameResponse" />
+  </wsdl:message>
   <wsdl:message name="AddSoapIn">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
@@ -276,6 +296,11 @@
       <wsdl:input message="tns:ExistsSoapIn" />
       <wsdl:output message="tns:ExistsSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="ExistsName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在系统名称为appName该记录</wsdl:documentation>
+      <wsdl:input message="tns:ExistsNameSoapIn" />
+      <wsdl:output message="tns:ExistsNameSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Add">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
@@ -331,6 +356,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="Exists">
       <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsName">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsName" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -440,6 +474,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ExistsName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Add">
       <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
@@ -533,10 +576,10 @@
   </wsdl:binding>
   <wsdl:service name="appsBLLservice">
     <wsdl:port name="appsBLLserviceSoap" binding="tns:appsBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/appsBLLservice.asmx" />
+      <soap:address location="http://192.168.12.12:8081/WebService/appsBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="appsBLLserviceSoap12" binding="tns:appsBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/appsBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.12:8081/WebService/appsBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

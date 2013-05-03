@@ -924,7 +924,7 @@
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\AppsManagement\AppsPage.aspx" />
-    <Content Include="Views\BaseUserManagement\BaseUserPage.aspx" />
+    <Content Include="Views\BaseUserManagement\App_Apply.aspx" />
     <Content Include="Views\Home\Login.aspx" />
     <Content Include="Views\Home\LoginPage.aspx" />
     <Content Include="Views\Home\Index.aspx" />
@@ -934,6 +934,7 @@
     </None>
     <Content Include="Views\Home\RegistPage.aspx" />
     <Content Include="Views\Shared\mainsite.Master" />
+    <Content Include="Views\Shared\adminSite.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
     <None Include="Web References\AppsWebService\appsModel.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -1076,10 +1077,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/appsBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/appsBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\AppsWebService\</RelPath>
-      <UpdateFromURL>http://192.168.11.103:8081/WebService/appsBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.12.12:8081/WebService/appsBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

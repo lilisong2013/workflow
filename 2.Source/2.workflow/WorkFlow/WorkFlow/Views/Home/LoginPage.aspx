@@ -98,7 +98,7 @@
         <div class="loginform">
             <div class="row">
                 <div class="loginleft">
-                    <form class="form-signin" method="post" action="/Home/LoginValidation">
+                    <form class="form-signin" method="post" action="/Home/AdminLoginValidation">
                         <h2>超级管理员登录</h2>
 
                         <div class="controls">

@@ -32,6 +32,8 @@ namespace WorkFlow.AppsWebService {
         
         private System.Threading.SendOrPostCallback ExistsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsNameOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateOperationCompleted;
@@ -94,6 +96,9 @@ namespace WorkFlow.AppsWebService {
         public event ExistsCompletedEventHandler ExistsCompleted;
         
         /// <remarks/>
+        public event ExistsNameCompletedEventHandler ExistsNameCompleted;
+        
+        /// <remarks/>
         public event AddCompletedEventHandler AddCompleted;
         
         /// <remarks/>
@@ -149,6 +154,35 @@ namespace WorkFlow.AppsWebService {
             if ((this.ExistsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ExistsCompleted(this, new ExistsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsName(string appName) {
+            object[] results = this.Invoke("ExistsName", new object[] {
+                        appName});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsNameAsync(string appName) {
+            this.ExistsNameAsync(appName, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsNameAsync(string appName, object userState) {
+            if ((this.ExistsNameOperationCompleted == null)) {
+                this.ExistsNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsNameOperationCompleted);
+            }
+            this.InvokeAsync("ExistsName", new object[] {
+                        appName}, this.ExistsNameOperationCompleted, userState);
+        }
+        
+        private void OnExistsNameOperationCompleted(object arg) {
+            if ((this.ExistsNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsNameCompleted(this, new ExistsNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -651,6 +685,32 @@ namespace WorkFlow.AppsWebService {
         private object[] results;
         
         internal ExistsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsNameCompletedEventHandler(object sender, ExistsNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

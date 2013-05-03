@@ -34,9 +34,7 @@ namespace WorkFlow.Controllers
         public ActionResult Logout()
         {
             Session["loginName"] = null;
-            //return RedirectToAction("Login");
-            var script = "$(document).ready(function () {alert('tuichu');});";
-            return JavaScript(script);
+            return RedirectToAction("Login");
         }
 
         public ActionResult OrganizationStruct()
@@ -52,7 +50,7 @@ namespace WorkFlow.Controllers
         }
 
         /// <summary>
-        /// 登录验证
+        /// 系统用户登录验证
         /// </summary>
         /// <param name="collection">表单数组</param>
         /// <returns>通过，进入系统首页</returns>
@@ -70,6 +68,24 @@ namespace WorkFlow.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// 超级管理员登录验证
+        /// </summary>
+        /// <param name="collection">表单数组</param>
+        /// <returns>通过，进入超级管理员页面</returns>
+        public ActionResult AdminLoginValidation(FormCollection collection)
+        {
+            if (collection["loginName"].Trim() == "")
+            {
+                return Content("<script>alert('登录名不能为空！');window.history.back();</script>");
+            }
+
+
+
+            Session["loginName"] = collection["loginName"].Trim();
+            int m_count = collection.Count;
+            return RedirectToAction("App_Apply","BaseUserManagement");
+        }
         /// <summary>
         /// 用户注册
         /// </summary>

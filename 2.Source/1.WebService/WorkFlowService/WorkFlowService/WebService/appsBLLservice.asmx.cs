@@ -29,6 +29,15 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 是否存在系统名称为appName该记录
+        /// </summary>
+        [WebMethod(Description = "是否存在系统名称为appName该记录")]
+        public bool ExistsName(string appName)
+        {
+            return m_appsdal.ExistsName(appName);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         [WebMethod(Description = "增加一条记录")]

@@ -12,7 +12,7 @@ namespace WorkFlow.Controllers
         //
         // GET: /BaseUserManagement/
 
-        public ActionResult BaseUserPage()
+        public ActionResult App_Apply()
         {
             if (Session["loginName"] == null)
             {
@@ -20,12 +20,28 @@ namespace WorkFlow.Controllers
             }
             else
             {
+                WorkFlow.AppsWebService.appsBLLservice m_apps = new AppsWebService.appsBLLservice();
+                int m_appCount = m_apps.GetRecordCount("invalid=1");
+                DataSet ds=m_apps.GetAppsTopList(1,"invalid=1","apply_at Asc");
+                if (m_appCount > 0)
+                {
+                    ViewData["appCount"] = m_appCount;
+                    ViewData["appName"] = ds.Tables[0].Rows[0][1];
+                }
+                else
+                {
+                    ViewData["appCount"] = m_appCount;
+                }
                 return View();
             }
         }
 
+        public ActionResult ChangePage(int id)
+        {
+            return RedirectToAction("App_Apply");
+        }
 
-        public ActionResult GetAllBase_UserList()
+        public ActionResult GetApps_Apply()
         {
             //排序的字段名
             string sortname = Request.Params["sortname"];
@@ -36,16 +52,16 @@ namespace WorkFlow.Controllers
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
-            WorkFlow.Base_UserWebService.base_userBLLservice m_base_userBllService = new Base_UserWebService.base_userBLLservice();
-            DataSet ds = m_base_userBllService.GetAllBase_UserList();
+            WorkFlow.AppsWebService.appsBLLservice m_appsService = new AppsWebService.appsBLLservice();
+            DataSet ds = m_appsService.GetAllAppsList();
 
-            IList<WorkFlow.Base_UserWebService.base_userModel> m_list = new List<WorkFlow.Base_UserWebService.base_userModel>();
+            IList<WorkFlow.AppsWebService.appsModel> m_list = new List<WorkFlow.AppsWebService.appsModel>();
 
             var total = ds.Tables[0].Rows.Count;
             for (var i = 0; i < total; i++)
             {
-                WorkFlow.Base_UserWebService.base_userModel m_base_userModel = (WorkFlow.Base_UserWebService.base_userModel)Activator.CreateInstance(typeof(WorkFlow.Base_UserWebService.base_userModel));
-                PropertyInfo[] m_propertys = m_base_userModel.GetType().GetProperties();
+                WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)Activator.CreateInstance(typeof(WorkFlow.AppsWebService.appsModel));
+                PropertyInfo[] m_propertys = m_appsModel.GetType().GetProperties();
                 foreach (PropertyInfo pi in m_propertys)
                 {
                     for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
@@ -55,14 +71,14 @@ namespace WorkFlow.Controllers
                         {
                             // 数据库NULL值单独处理 
                             if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-                                pi.SetValue(m_base_userModel, ds.Tables[0].Rows[i][j], null);
+                                pi.SetValue(m_appsModel, ds.Tables[0].Rows[i][j], null);
                             else
-                                pi.SetValue(m_base_userModel, null, null);
+                                pi.SetValue(m_appsModel, null, null);
                             break;
                         }
                     }
                 }
-                m_list.Add(m_base_userModel);
+                m_list.Add(m_appsModel);
             }
 
             //模拟排序操作
@@ -71,7 +87,7 @@ namespace WorkFlow.Controllers
             else
                 m_list = m_list.OrderBy(c => c.id).ToList();
 
-            IList<WorkFlow.Base_UserWebService.base_userModel> m_targetList = new List<WorkFlow.Base_UserWebService.base_userModel>();
+            IList<WorkFlow.AppsWebService.appsModel> m_targetList = new List<WorkFlow.AppsWebService.appsModel>();
             //模拟分页操作
             for (var i = 0; i < total; i++)
             {

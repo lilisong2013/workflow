@@ -14,9 +14,9 @@ namespace Saron.WorkFlowService.DAL
         { }
         #region  Method
         /// <summary>
-        /// 是否存在该记录
+        /// 是否存在id号为appId的该记录
         /// </summary>
-        public bool Exists(int id)
+        public bool Exists(int appId)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from apps");
@@ -24,7 +24,23 @@ namespace Saron.WorkFlowService.DAL
             SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
 			};
-            parameters[0].Value = id;
+            parameters[0].Value = appId;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// 是否存在系统名称为appName该记录
+        /// </summary>
+        public bool ExistsName(string appName)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from apps");
+            strSql.Append(" where name=@name ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@name", SqlDbType.NVarChar,80)
+			};
+            parameters[0].Value = appName;
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
