@@ -20,18 +20,6 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                WorkFlow.AppsWebService.appsBLLservice m_apps = new AppsWebService.appsBLLservice();
-                int m_appCount = m_apps.GetRecordCount("invalid=1");
-                DataSet ds=m_apps.GetAppsTopList(1,"invalid=1","apply_at Asc");
-                if (m_appCount > 0)
-                {
-                    ViewData["appCount"] = m_appCount;
-                    ViewData["appName"] = ds.Tables[0].Rows[0][1];
-                }
-                else
-                {
-                    ViewData["appCount"] = m_appCount;
-                }
                 return View();
             }
         }
@@ -39,6 +27,20 @@ namespace WorkFlow.Controllers
         public ActionResult ChangePage(int id)
         {
             return RedirectToAction("App_Apply");
+        }
+
+        /// <summary>
+        /// 显示所选系统的详情
+        /// </summary>
+        /// <param name="id">系统的ID</param>
+        /// <returns></returns>
+        public ActionResult DetailInfo(int id)
+        {
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+            m_appsModel = m_appsBllService.GetModel(id);
+            ViewData["appsName"] = m_appsModel.name;
+            return View();
         }
 
         public ActionResult GetApps_Apply()

@@ -89,14 +89,5 @@ namespace WorkFlow.Controllers
             return Json(gridData);
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult AddApps(FormCollection collection)
-        {
-            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-            int count = collection.Count;
-            string ipstr = collection[5];
-            return RedirectToAction("AppsPage", "AppsManagement");
-        }
     }
 }

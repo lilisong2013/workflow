@@ -11,6 +11,7 @@
     <script src="../../bootstrap/js/bootstrap.js" type="text/javascript"></script>
     
     <style type="text/css">
+
     .navbar .navbar-inner {
         background: #3993ba;
         background: -moz-linear-gradient(top, #3993ba 0%, #067ead 100%);
@@ -87,12 +88,18 @@
          float: left;
     }
     </style>
+
 </head>
 <body>
     <div class="navbar">
         <div class="navbar-inner">
-            <a href="#" class="brand">权限管理系统</a>
+            <div class="container">
+                <a href="#" class="brand">权限管理系统</a>
+            </div>
         </div>
+    </div>
+    <div class="container">
+        <div class="" style=" border:1px solid red; width:100%; height:20px; display:none;"></div>
     </div>
     <div class="container">
         <div class="loginform">
@@ -133,7 +140,7 @@
     </div>
     <div id="footer" class="navbar-fixed-bottom">
         <div class="container">
-            <p class="navbar-text">@山东三龙智能技术有限公司</p>
+            <p class="navbar-text span3 offset3">@山东三龙智能技术有限公司</p>
         </div>
     </div>
 </body>

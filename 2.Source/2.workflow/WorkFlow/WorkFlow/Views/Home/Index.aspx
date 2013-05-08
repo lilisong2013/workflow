@@ -4,6 +4,12 @@
     Index
 </asp:Content>
 
+<asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
+
+    <script src="../../bootstrap/js/bootstrap-dropdown.js" type="text/javascript"></script>
+
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
   
     <div class="container">

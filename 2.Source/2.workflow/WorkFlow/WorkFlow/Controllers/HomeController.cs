@@ -13,7 +13,14 @@ namespace WorkFlow.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            if (Session["loginName"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult RegistPage()
@@ -41,7 +48,7 @@ namespace WorkFlow.Controllers
         {
             if (Session["loginName"]==null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Login");
             }
             else
             {
@@ -86,6 +93,7 @@ namespace WorkFlow.Controllers
             int m_count = collection.Count;
             return RedirectToAction("App_Apply","BaseUserManagement");
         }
+        
         /// <summary>
         /// 用户注册
         /// </summary>

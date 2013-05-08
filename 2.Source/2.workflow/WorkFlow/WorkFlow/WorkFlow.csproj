@@ -64,6 +64,7 @@
     <Compile Include="Controllers\AppsManagementController.cs" />
     <Compile Include="Controllers\BaseUserManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RolesManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -134,6 +135,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -925,9 +933,12 @@
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\AppsManagement\AppsPage.aspx" />
     <Content Include="Views\BaseUserManagement\App_Apply.aspx" />
+    <Content Include="Views\BaseUserManagement\DetailInfo.aspx" />
     <Content Include="Views\Home\Login.aspx" />
     <Content Include="Views\Home\LoginPage.aspx" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\RolesManagement\AppRoles.aspx" />
+    <Content Include="WebForm1.aspx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -1063,6 +1074,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Views\ElementsManagement\" />
+    <Folder Include="Views\MenusManagement\" />
+    <Folder Include="Views\OperationsManagement\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

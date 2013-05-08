@@ -91,7 +91,9 @@
 <body>
     <div class="navbar">
         <div class="navbar-inner">
+            <div class="container">
             <a href="#" class="brand">权限管理系统</a>
+            </div>
         </div>
     </div>
     <div class="container">
