@@ -12,3 +12,10 @@ E:\上海（工作流）\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow
 E:\上海（工作流）\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\WorkFlow.pdb
 E:\上海（工作流）\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\EntityFramework.dll
 E:\上海（工作流）\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\EntityFramework.xml
+F:\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\obj\Debug\ResolveAssemblyReference.cache
+F:\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\obj\Debug\WorkFlow.dll
+F:\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\obj\Debug\WorkFlow.pdb
+F:\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\WorkFlow.dll
+F:\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\WorkFlow.pdb
+F:\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\EntityFramework.dll
+F:\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\EntityFramework.xml
