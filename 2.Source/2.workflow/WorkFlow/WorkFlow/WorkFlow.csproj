@@ -71,6 +71,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InformationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -138,6 +139,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -617,6 +625,7 @@
     <Content Include="Content\themes\base\jquery.ui.tabs.css" />
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="CSS\docsfile.css" />
+    <Content Include="CSS\promptDivCss.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\communication.gif" />
@@ -938,13 +947,12 @@
     <Content Include="Views\MenusManagement\AppMenus.aspx" />
     <Content Include="Views\OperationsManagement\AppOperations.aspx" />
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
+    <Content Include="WebForm1.aspx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Views\Home\RegistPage.aspx" />
-    <Content Include="Views\RolesManagement\ChangePage.aspx" />
-    <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\Shared\mainsite.Master" />
     <Content Include="Views\Shared\adminSite.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
@@ -1040,9 +1048,7 @@
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
     <None Include="Web References\ElementsWebService\elementsBLLservice.disco" />
     <Content Include="Views\Home\OrganizationStruct.aspx" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1075,9 +1081,7 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -1241,7 +1245,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>22076</DevelopmentServerPort>
+          <DevelopmentServerPort>54651</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

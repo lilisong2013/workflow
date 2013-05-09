@@ -6,39 +6,36 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
+    
+    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+    
+    <script type="text/javascript">
 
-<script type="text/javascript">
-
-    $(document).ready(function () {
-        var form = $("#add_Menus");
-        form.submit(function () {
-            $.post(form.attr("action"),
-                form.serialize(),
-                function (result, status) {
-                    //debugger;
-                    $("#promptDIV").addClass(result.Message);
-                },
-                "JSON");
-            return false;
+        $(document).ready(function () {
+            var form = $("#add_Menus");
+            form.submit(function () {
+                $.post(form.attr("action"),
+                    form.serialize(),
+                    function (result, status) {
+                        //debugger;
+                        $("#promptDIV").addClass(result.css);
+                        $("#promptDIV").html(result.message);
+                    },
+                    "JSON");
+                return false;
+            });
         });
-    });
-</script>
+    </script>
 
-<style type="text/css">
-    .warningDIV{ border:2px solid #CCCC00; height:28px;
-    -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;box-shadow: 0 0 15px #222; }
-    .successDIV{ border:2px solid #66CC66; height:28px;
-    -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;box-shadow: 0 0 15px #222;}
-    .errorDIV{ border:2px solid #CC3333; height:28px;
-    -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;box-shadow: 0 0 15px #222;}
+    <style type="text/css">
 
-</style>
+    </style>
 
-<script type="text/javascript">
-    $(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-    });
-</script>
+        });
+    </script>
 
 </asp:Content>
 
