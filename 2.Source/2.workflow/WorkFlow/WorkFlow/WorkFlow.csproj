@@ -63,7 +63,10 @@
   <ItemGroup>
     <Compile Include="Controllers\AppsManagementController.cs" />
     <Compile Include="Controllers\BaseUserManagementController.cs" />
+    <Compile Include="Controllers\ElementsManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MenusManagementController.cs" />
+    <Compile Include="Controllers\OperationsManagementController.cs" />
     <Compile Include="Controllers\RolesManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -926,6 +929,7 @@
     <Content Include="Scripts\jquery-1.5.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.11.js" />
     <Content Include="Scripts\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -934,9 +938,12 @@
     <Content Include="Views\AppsManagement\AppsPage.aspx" />
     <Content Include="Views\BaseUserManagement\App_Apply.aspx" />
     <Content Include="Views\BaseUserManagement\DetailInfo.aspx" />
+    <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\Home\Login.aspx" />
     <Content Include="Views\Home\LoginPage.aspx" />
     <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Views\MenusManagement\AppMenus.aspx" />
+    <Content Include="Views\OperationsManagement\AppOperations.aspx" />
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <Content Include="WebForm1.aspx" />
     <None Include="Properties\Settings.settings">
@@ -1074,9 +1081,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Views\ElementsManagement\" />
-    <Folder Include="Views\MenusManagement\" />
-    <Folder Include="Views\OperationsManagement\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
