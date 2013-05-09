@@ -639,6 +639,7 @@
     <Content Include="images\qie.png" />
     <Content Include="images\yuanjiaojuxing.png" />
     <Content Include="JS\dosefile.js" />
+    <Content Include="JS\loginValidator.js" />
     <Content Include="LigerUI\lib\jquery-validation\jquery.metadata.js" />
     <Content Include="LigerUI\lib\jquery-validation\jquery.validate.min.js" />
     <Content Include="LigerUI\lib\jquery-validation\messages_cn.js" />
