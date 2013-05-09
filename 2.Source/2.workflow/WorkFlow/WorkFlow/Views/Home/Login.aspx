@@ -10,6 +10,7 @@
     <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
     <script src="../../bootstrap/js/bootstrap.js" type="text/javascript"></script>
     
+    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
 
     .navbar .navbar-inner {
@@ -89,6 +90,34 @@
     }
     </style>
 
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var form = $("#userLogin");
+            form.submit(function () {
+                if ($.trim($("#loginName").val()).length == 0 || $.trim($("#loginPassword").val()).length == 0) {
+                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").html("用户名不能为空！");
+
+                    return false;
+                }
+                else {
+                    $.post(form.attr("action"),
+                    form.serialize(),
+                    function (result, status) {
+                        //debugger;
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass(result.css);
+                        $("#promptDIV").html(result.message);
+                    },
+                    "JSON");
+                    return false;
+                }
+            });
+        });
+    </script>
+
 </head>
 <body>
     <div class="navbar">
@@ -99,26 +128,27 @@
         </div>
     </div>
     <div class="container">
-        <div class="" style=" border:1px solid red; width:100%; height:20px; display:none;"></div>
+         <%--操作提示DIV--%>
+        <div id="promptDIV" class="row"></div>
     </div>
     <div class="container">
         <div class="loginform">
             <div class="row">
                 <div class="loginleft">
-                    <form class="form-signin" method="post" action="/Home/LoginValidation">
+                    <form id="userLogin" class="form-signin" method="post" action="/Home/LoginValidation">
                         <h2>应用系统管理员登录</h2>
 
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on span1">@<i class="icon-user"></i></span>
-                                <input type="text" name="loginName" class="span2" />
+                                <input type="text" id="loginName" name="loginName" class="span2" />
                             </div>
                         </div>
 
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on span1">@<i class="icon-lock"></i></span>
-                                <input type="password" name="loginPassword" class="span2" />
+                                <input type="password" id="loginPassword" name="loginPassword" class="span2" />
                             </div>
                         </div>
 
@@ -126,7 +156,7 @@
                             <label class="checkbox">
                                 <input type="checkbox" /> 下次自动登录
                             </label>
-                            <button type="submit" class="btn btn-primary">登录</button>
+                            <input type="submit" class="btn btn-primary" value="登录" />
                         </div>
                     </form>
                 </div>

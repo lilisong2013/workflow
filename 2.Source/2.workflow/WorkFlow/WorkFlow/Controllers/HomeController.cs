@@ -61,18 +61,28 @@ namespace WorkFlow.Controllers
         /// </summary>
         /// <param name="collection">表单数组</param>
         /// <returns>通过，进入系统首页</returns>
-        public ActionResult LoginValidation(FormCollection collection)
+        public ActionResult LoginValidation()
         {
-            if (collection["loginName"].Trim() == "")
+            string m_loginName = Request.Form["loginName"];
+            string m_loginPassword = Request.Form["loginName"];
+
+
+
+            if (m_loginName == "1")
             {
-                return Content("<script>alert('登录名不能为空！');window.history.back();</script>");
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = m_loginName+"登录成功" });
             }
 
+            else if (m_loginName == "2")
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "登录失败" });
+            }
 
-
-            Session["loginName"] = collection["loginName"].Trim();
-            int m_count = collection.Count;
-            return RedirectToAction("Index");
+            else
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-warningDIV", message = "警告" });
+            }
+            
         }
 
         /// <summary>
