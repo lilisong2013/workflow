@@ -263,18 +263,30 @@ namespace Saron.WorkFlowService.DAL
 				return null;
 			}
 		}
+        /// <summary>
+        /// 获得有效数据列表
+        /// </summary>
+        public DataSet GetValidRolesList()
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
+            strSql.Append(" FROM roles where deleted=0");
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 
 		/// <summary>
 		/// 获得数据列表
 		/// </summary>
 		public DataSet GetRolesList(string strWhere)
 		{
+            
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
 			strSql.Append(" FROM roles ");
 			if(strWhere.Trim()!="")
 			{
-				strSql.Append(" where "+strWhere);
+				strSql.Append("where deleted=0");
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}

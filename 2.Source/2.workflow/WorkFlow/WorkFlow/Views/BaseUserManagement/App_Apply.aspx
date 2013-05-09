@@ -108,7 +108,7 @@
             <li class="active"><a id="" href="#Apps_valid" data-toggle="tab">活动的(<%=2 %>)</a></li>
             <li><a id="invalidTab" href="#Apps_Invalid" data-toggle="tab">无效的(<%=9 %>)</a></li>
             <li><a href="#Apps_All" data-toggle="tab">所有的(<%=11 %>)</a></li>
-        </ul>
+     </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="Apps_valid">
                 <div id="validgrid">1</div>
