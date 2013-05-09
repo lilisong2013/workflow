@@ -63,7 +63,9 @@
   <ItemGroup>
     <Content Include="WebService\appsBLLservice.asmx" />
     <Content Include="Default.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="WebService\base_userBLLservice.asmx" />
     <Content Include="WebService\elementsBLLservice.asmx" />
     <Content Include="WebService\init_statusBLLservice.asmx" />
