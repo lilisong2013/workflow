@@ -139,7 +139,7 @@ namespace Saron.WorkFlowService.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from roles ");
+            strSql.Append("update roles set deleted='True'");
 			strSql.Append(" where id=@id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -271,7 +271,7 @@ namespace Saron.WorkFlowService.DAL
 
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
-            strSql.Append(" FROM roles where deleted=0");
+            strSql.Append(" FROM roles where deleted='0'");
             return DbHelperSQL.Query(strSql.ToString());
         }
 
@@ -286,7 +286,7 @@ namespace Saron.WorkFlowService.DAL
 			strSql.Append(" FROM roles ");
 			if(strWhere.Trim()!="")
 			{
-				strSql.Append("where deleted=0");
+                strSql.Append("where name='Tom' ");
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
