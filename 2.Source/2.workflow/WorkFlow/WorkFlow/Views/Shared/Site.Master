@@ -101,8 +101,21 @@
                                     </a>
                                 </li>
                                 <li role="presentation" class="divider"></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">&nbsp;&nbsp;<i class="icon-list-alt"></i>&nbsp;&nbsp;&nbsp;菜&nbsp;&nbsp;单</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">&nbsp;&nbsp;<i class="icon-leaf"></i>&nbsp;&nbsp;&nbsp;功&nbsp;&nbsp;能</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="/MenusManagement/AppMenus">
+                                        &nbsp;&nbsp;<i class="icon-list-alt"></i>&nbsp;&nbsp;&nbsp;菜&nbsp;&nbsp;单
+                                    </a>
+                                </li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="/OperationsManagement/AppOperations">
+                                        &nbsp;&nbsp;<i class="icon-leaf"></i>&nbsp;&nbsp;&nbsp;功&nbsp;&nbsp;能
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/ElementsManagement/AppElements">
+                                        &nbsp;&nbsp;<i class="icon-leaf"></i>&nbsp;&nbsp;&nbsp;元&nbsp;&nbsp;素
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
