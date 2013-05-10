@@ -33,8 +33,26 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
+            BindUser();
         });
+
+        function BindUser() {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/MenusManagement/GetMenusName",
+                data: "{}", //即使参数为空，也需要设置
+                dataType: 'JSON', //返回的类型为XML  
+                success: function (result) {
+                    //成功后执行的方法
+                    try {
+                        $("#MenusParent").append("<option value='null'>子菜单</option>");
+                    } catch (e) {
+
+                    }
+                }
+            });
+        }
     </script>
 
 </asp:Content>
@@ -85,7 +103,8 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">父菜单</label>
                     <div class="controls">
-                        <select name="MenusParent" class="span4">
+                        <select id="MenusParent" name="MenusParent" class="span4">
+                            <option value="null">父菜单</option>
                         </select>
                     </div>
                 </div>
