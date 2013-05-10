@@ -36,17 +36,7 @@ namespace WorkFlow.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.12.12:8081/WebService/appsBLLservice.asmx")]
-        public string WorkFlow_AppsWebService_appsBLLservice {
-            get {
-                return ((string)(this["WorkFlow_AppsWebService_appsBLLservice"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/usersBLLservice.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.12.12:8081/WebService/usersBLLservice.asmx")]
         public string WorkFlow_usersWebService_usersBLLservice {
             get {
                 return ((string)(this["WorkFlow_usersWebService_usersBLLservice"]));
@@ -140,6 +130,16 @@ namespace WorkFlow.Properties {
         public string WorkFlow_ElementsWebService_elementsBLLservice {
             get {
                 return ((string)(this["WorkFlow_ElementsWebService_elementsBLLservice"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/appsBLLservice.asmx")]
+        public string WorkFlow_AppsWebService_appsBLLservice {
+            get {
+                return ((string)(this["WorkFlow_AppsWebService_appsBLLservice"]));
             }
         }
     }
