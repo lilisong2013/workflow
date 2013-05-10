@@ -102,6 +102,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetValidRolesList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetValidRolesListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetValidRolesListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetRolesList">
         <s:complexType>
           <s:sequence>
@@ -239,6 +256,12 @@
   <wsdl:message name="GetModelSoapOut">
     <wsdl:part name="parameters" element="tns:GetModelResponse" />
   </wsdl:message>
+  <wsdl:message name="GetValidRolesListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetValidRolesList" />
+  </wsdl:message>
+  <wsdl:message name="GetValidRolesListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetValidRolesListResponse" />
+  </wsdl:message>
   <wsdl:message name="GetRolesListSoapIn">
     <wsdl:part name="parameters" element="tns:GetRolesList" />
   </wsdl:message>
@@ -299,6 +322,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValidRolesList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据Deleted标志显示有效内容</wsdl:documentation>
+      <wsdl:input message="tns:GetValidRolesListSoapIn" />
+      <wsdl:output message="tns:GetValidRolesListSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetRolesList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据where条件获得数据列表：strWhere（where条件）</wsdl:documentation>
@@ -375,6 +403,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetModel">
       <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValidRolesList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetValidRolesList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -477,6 +514,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetModel">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValidRolesList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetValidRolesList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -42,6 +42,8 @@ namespace WorkFlow.RolesWebService {
         
         private System.Threading.SendOrPostCallback GetModelOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetValidRolesListOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetRolesListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetRolesTopListOperationCompleted;
@@ -107,6 +109,9 @@ namespace WorkFlow.RolesWebService {
         
         /// <remarks/>
         public event GetModelCompletedEventHandler GetModelCompleted;
+        
+        /// <remarks/>
+        public event GetValidRolesListCompletedEventHandler GetValidRolesListCompleted;
         
         /// <remarks/>
         public event GetRolesListCompletedEventHandler GetRolesListCompleted;
@@ -294,6 +299,33 @@ namespace WorkFlow.RolesWebService {
             if ((this.GetModelCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetModelCompleted(this, new GetModelCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetValidRolesList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetValidRolesList() {
+            object[] results = this.Invoke("GetValidRolesList", new object[0]);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetValidRolesListAsync() {
+            this.GetValidRolesListAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetValidRolesListAsync(object userState) {
+            if ((this.GetValidRolesListOperationCompleted == null)) {
+                this.GetValidRolesListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetValidRolesListOperationCompleted);
+            }
+            this.InvokeAsync("GetValidRolesList", new object[0], this.GetValidRolesListOperationCompleted, userState);
+        }
+        
+        private void OnGetValidRolesListOperationCompleted(object arg) {
+            if ((this.GetValidRolesListCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetValidRolesListCompleted(this, new GetValidRolesListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -777,6 +809,32 @@ namespace WorkFlow.RolesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((rolesModel)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetValidRolesListCompletedEventHandler(object sender, GetValidRolesListCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetValidRolesListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetValidRolesListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
     }
