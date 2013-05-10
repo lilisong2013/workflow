@@ -35,5 +35,10 @@ namespace WorkFlow.Controllers
 
         }
 
+        public ActionResult GetMenusName()
+        {
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "<i class='icon-check'></i>添加成功" });
+        }
+
     }
 }
