@@ -17,6 +17,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="LoginValidator">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginValidatorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoginValidatorResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="ExistsLogin">
         <s:complexType>
           <s:sequence>
@@ -124,17 +139,31 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetModel">
+      <s:element name="GetModelByID">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetModelResponse">
+      <s:element name="GetModelByIDResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:usersModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelByIDResult" type="tns:usersModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelByLoginResult" type="tns:usersModel" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -245,6 +274,12 @@
   <wsdl:message name="ExistsSoapOut">
     <wsdl:part name="parameters" element="tns:ExistsResponse" />
   </wsdl:message>
+  <wsdl:message name="LoginValidatorSoapIn">
+    <wsdl:part name="parameters" element="tns:LoginValidator" />
+  </wsdl:message>
+  <wsdl:message name="LoginValidatorSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginValidatorResponse" />
+  </wsdl:message>
   <wsdl:message name="ExistsLoginSoapIn">
     <wsdl:part name="parameters" element="tns:ExistsLogin" />
   </wsdl:message>
@@ -281,11 +316,17 @@
   <wsdl:message name="DeleteListSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteListResponse" />
   </wsdl:message>
-  <wsdl:message name="GetModelSoapIn">
-    <wsdl:part name="parameters" element="tns:GetModel" />
+  <wsdl:message name="GetModelByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelByID" />
   </wsdl:message>
-  <wsdl:message name="GetModelSoapOut">
-    <wsdl:part name="parameters" element="tns:GetModelResponse" />
+  <wsdl:message name="GetModelByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelByLogin" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelByLoginResponse" />
   </wsdl:message>
   <wsdl:message name="GetUsersListSoapIn">
     <wsdl:part name="parameters" element="tns:GetUsersList" />
@@ -323,6 +364,11 @@
       <wsdl:input message="tns:ExistsSoapIn" />
       <wsdl:output message="tns:ExistsSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="LoginValidator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在用户名login且密码password的用户</wsdl:documentation>
+      <wsdl:input message="tns:LoginValidatorSoapIn" />
+      <wsdl:output message="tns:LoginValidatorSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="ExistsLogin">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在登录名为login的记录</wsdl:documentation>
       <wsdl:input message="tns:ExistsLoginSoapIn" />
@@ -353,10 +399,15 @@
       <wsdl:input message="tns:DeleteListSoapIn" />
       <wsdl:output message="tns:DeleteListSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetModel">
+    <wsdl:operation name="GetModelByID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
-      <wsdl:input message="tns:GetModelSoapIn" />
-      <wsdl:output message="tns:GetModelSoapOut" />
+      <wsdl:input message="tns:GetModelByIDSoapIn" />
+      <wsdl:output message="tns:GetModelByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名login得到一个实体对象</wsdl:documentation>
+      <wsdl:input message="tns:GetModelByLoginSoapIn" />
+      <wsdl:output message="tns:GetModelByLoginSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetUsersList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据where条件获得数据列表：strWhere（where条件）</wsdl:documentation>
@@ -388,6 +439,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="Exists">
       <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoginValidator">
+      <soap:operation soapAction="http://saron.workflowservice.org/LoginValidator" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -449,8 +509,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetModel">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+    <wsdl:operation name="GetModelByID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModelByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLogin">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModelByLogin" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -515,6 +584,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="LoginValidator">
+      <soap12:operation soapAction="http://saron.workflowservice.org/LoginValidator" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ExistsLogin">
       <soap12:operation soapAction="http://saron.workflowservice.org/ExistsLogin" style="document" />
       <wsdl:input>
@@ -569,8 +647,17 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetModel">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+    <wsdl:operation name="GetModelByID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModelByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLogin">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModelByLogin" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
