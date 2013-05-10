@@ -15,7 +15,7 @@ namespace WorkFlow.Controllers
 
         public ActionResult AppRoles()
         {
-            if (Session["loginName"] == null)
+            if (Session["user"] == null)
             {
                 return RedirectToAction("Index", "Home");
             }
