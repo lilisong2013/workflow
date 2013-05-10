@@ -15,7 +15,7 @@ namespace WorkFlow.Controllers
 
         public ActionResult AppRoles()
         {
-            if (Session["user"] == null)
+            if (Session["loginName"] == null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -25,6 +25,68 @@ namespace WorkFlow.Controllers
             }
             
         }
+
+        /// <summary>
+        /// 角色添加
+        /// </summary>
+        /// <param name="collection">表单数据</param>
+        /// <returns>成功,返回主页面</returns>
+        public ActionResult RegisterRole(FormCollection collection)
+        {
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+         
+            if (collection["rolesName"].Trim() == "")
+            {
+                return Content("<script>alert('角色名称不能为空!');window.history.back();</script>");
+            }
+            if (collection["rolesInvalid"].Trim() == "")
+            {
+                return Content("<script>alert('记录是否有效不能为空!');window.history.back();</script>");
+            }
+            if (collection["rolesDeleted"].Trim() == "")
+            {
+                return Content("<script>alert('记录是否删除不能为空!');window.history.back();</script>");
+            }
+            if (collection["rolesCreated_at"].Trim() == "")
+            {
+                return Content("<script>alert('记录创建时间不能为空!');window.history.back();</script>");
+            }
+            if (collection["rolesCreated_by"].Trim() == "")
+            {
+                return Content("<script>alert('记录创建用户不能为空!');window.history.back();</script>");
+            }
+            if (collection["rolesCreated_ip"].Trim() == "")
+            {
+                return Content("<script>alert('记录创建IP不能为空!');window.history.back();</script>");
+            }
+            m_rolesModel.name=collection["rolesName"].Trim();
+            //判断一下添加的角色名称与数据库中的名称是否重名
+            
+            m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());//String转化为Boolean
+            m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());//String转化为Boolean
+            m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
+            m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
+            m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
+            m_rolesModel.remark=collection["rolesRemark"].Trim();
+            m_rolesBllService.Add(m_rolesModel);
+          //  return RedirectToAction("AppRole");
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！" });
+        }
+        public ActionResult AddRoles()
+        {
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+
+            m_rolesModel.name=Request.Form["RolesName"];
+            m_rolesModel.remark=Request.Form["RolesRemark"];
+            //m_rolesModel.invalid = Boolean.TryParse((Request.Form["RolesInvalid"]),true);
+            m_rolesBllService.Add(m_rolesModel);
+            return Json(new Saron.WorkFlow.Models.InformationModel { success=true,css="p-successDIV",message="添加成功！"});
+        }
         /// <summary>
         /// 删除一条内容为系统好为id的信息
         /// </summary>
@@ -32,7 +94,7 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult ChangePage(int id)
         {
-          //  return RedirectToAction("ChangePage");
+       
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBLLService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
             if (m_rolesBLLService.Delete(id))
@@ -59,12 +121,19 @@ namespace WorkFlow.Controllers
             ViewData["rolesName"] = m_rolesModel.name;
             ViewData["rolesRemark"] = m_rolesModel.remark;
             ViewData["rolesInvalid"] = m_rolesModel.invalid;
+            ViewData["rolesDeleted"] = m_rolesModel.deleted;
+            ViewData["rolesCreated_at"] = m_rolesModel.created_at;
+            ViewData["rolesCreated_by"] = m_rolesModel.created_by;
+            ViewData["rolesCreated_ip"] = m_rolesModel.created_ip;
+            ViewData["rolesUpdated_at"] = m_rolesModel.updated_at;
+            ViewData["rolesUpdated_by"] = m_rolesModel.updated_by;
+            ViewData["rolesUpdated_ip"] = m_rolesModel.updated_ip;
+            ViewData["rolesApp_id"] = m_rolesModel.app_id;
             return View();
         }
 
         public ActionResult GetRoles_Apply()
         {
-            Boolean flag;
             //排序的字段名
             string sortname = Request.Params["sortname"];
             //排序的方向

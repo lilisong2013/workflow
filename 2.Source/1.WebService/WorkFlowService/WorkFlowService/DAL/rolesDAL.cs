@@ -283,11 +283,9 @@ namespace Saron.WorkFlowService.DAL
             
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
-			strSql.Append(" FROM roles ");
-			if(strWhere.Trim()!="")
-			{
-                strSql.Append("where name='Tom' ");
-			}
+			strSql.Append(" FROM roles ");	
+            strSql.Append("where deleted='False'"+strWhere);
+		
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
