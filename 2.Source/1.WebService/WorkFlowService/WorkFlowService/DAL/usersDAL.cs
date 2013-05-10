@@ -33,6 +33,23 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// （用户登录）是否存在用户或密码
+        /// </summary>
+        public bool Exists(string login,string password)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from users");
+            strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40),
+					new SqlParameter("@password", SqlDbType.NVarChar,255)};
+            parameters[0].Value = login;
+            parameters[1].Value = password;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
         /// 是否存在该用户
         /// </summary>
         /// <param name="login">登录名</param>
@@ -57,7 +74,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("insert into users(");
             strSql.Append("login,password,name,employee_no,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id)");
             strSql.Append(" values (");
-            strSql.Append("@login,@password,@name,@employee_no,@mobile_phone,@mail,@remark,@admin,@invalid,@deleted,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip,@app_id)");
+            strSql.Append("@login,dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))),@name,@employee_no,@mobile_phone,@mail,@remark,@admin,@invalid,@deleted,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip,@app_id)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
@@ -105,6 +122,7 @@ namespace Saron.WorkFlowService.DAL
                 return Convert.ToInt32(obj);
             }
         }
+        
         /// <summary>
         /// 更新一条数据
         /// </summary>
@@ -202,6 +220,7 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+       
         /// <summary>
         /// 删除一条数据
         /// </summary>
@@ -227,6 +246,7 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+        
         /// <summary>
         /// 批量删除数据
         /// </summary>
@@ -248,8 +268,10 @@ namespace Saron.WorkFlowService.DAL
 
 
         /// <summary>
-        /// 得到一个对象实体
+        /// 得到一个user实体
         /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns>userModel</returns>
         public Saron.WorkFlowService.Model.usersModel GetModel(int id)
         {
 
@@ -260,6 +282,127 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@id", SqlDbType.Int,4)
 			};
             parameters[0].Value = id;
+
+            Saron.WorkFlowService.Model.usersModel model = new Saron.WorkFlowService.Model.usersModel();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0]["id"] != null && ds.Tables[0].Rows[0]["id"].ToString() != "")
+                {
+                    model.id = int.Parse(ds.Tables[0].Rows[0]["id"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["login"] != null && ds.Tables[0].Rows[0]["login"].ToString() != "")
+                {
+                    model.login = ds.Tables[0].Rows[0]["login"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["password"] != null && ds.Tables[0].Rows[0]["password"].ToString() != "")
+                {
+                    model.password = ds.Tables[0].Rows[0]["password"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["name"] != null && ds.Tables[0].Rows[0]["name"].ToString() != "")
+                {
+                    model.name = ds.Tables[0].Rows[0]["name"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["employee_no"] != null && ds.Tables[0].Rows[0]["employee_no"].ToString() != "")
+                {
+                    model.employee_no = ds.Tables[0].Rows[0]["employee_no"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["mobile_phone"] != null && ds.Tables[0].Rows[0]["mobile_phone"].ToString() != "")
+                {
+                    model.mobile_phone = ds.Tables[0].Rows[0]["mobile_phone"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["mail"] != null && ds.Tables[0].Rows[0]["mail"].ToString() != "")
+                {
+                    model.mail = ds.Tables[0].Rows[0]["mail"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["remark"] != null && ds.Tables[0].Rows[0]["remark"].ToString() != "")
+                {
+                    model.remark = ds.Tables[0].Rows[0]["remark"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["admin"] != null && ds.Tables[0].Rows[0]["admin"].ToString() != "")
+                {
+                    if ((ds.Tables[0].Rows[0]["admin"].ToString() == "1") || (ds.Tables[0].Rows[0]["admin"].ToString().ToLower() == "true"))
+                    {
+                        model.admin = true;
+                    }
+                    else
+                    {
+                        model.admin = false;
+                    }
+                }
+                if (ds.Tables[0].Rows[0]["invalid"] != null && ds.Tables[0].Rows[0]["invalid"].ToString() != "")
+                {
+                    if ((ds.Tables[0].Rows[0]["invalid"].ToString() == "1") || (ds.Tables[0].Rows[0]["invalid"].ToString().ToLower() == "true"))
+                    {
+                        model.invalid = true;
+                    }
+                    else
+                    {
+                        model.invalid = false;
+                    }
+                }
+                if (ds.Tables[0].Rows[0]["deleted"] != null && ds.Tables[0].Rows[0]["deleted"].ToString() != "")
+                {
+                    if ((ds.Tables[0].Rows[0]["deleted"].ToString() == "1") || (ds.Tables[0].Rows[0]["deleted"].ToString().ToLower() == "true"))
+                    {
+                        model.deleted = true;
+                    }
+                    else
+                    {
+                        model.deleted = false;
+                    }
+                }
+                if (ds.Tables[0].Rows[0]["created_at"] != null && ds.Tables[0].Rows[0]["created_at"].ToString() != "")
+                {
+                    model.created_at = DateTime.Parse(ds.Tables[0].Rows[0]["created_at"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["created_by"] != null && ds.Tables[0].Rows[0]["created_by"].ToString() != "")
+                {
+                    model.created_by = int.Parse(ds.Tables[0].Rows[0]["created_by"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["created_ip"] != null && ds.Tables[0].Rows[0]["created_ip"].ToString() != "")
+                {
+                    model.created_ip = ds.Tables[0].Rows[0]["created_ip"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["updated_at"] != null && ds.Tables[0].Rows[0]["updated_at"].ToString() != "")
+                {
+                    model.updated_at = DateTime.Parse(ds.Tables[0].Rows[0]["updated_at"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["updated_by"] != null && ds.Tables[0].Rows[0]["updated_by"].ToString() != "")
+                {
+                    model.updated_by = int.Parse(ds.Tables[0].Rows[0]["updated_by"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["updated_ip"] != null && ds.Tables[0].Rows[0]["updated_ip"].ToString() != "")
+                {
+                    model.updated_ip = ds.Tables[0].Rows[0]["updated_ip"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["app_id"] != null && ds.Tables[0].Rows[0]["app_id"].ToString() != "")
+                {
+                    model.app_id = int.Parse(ds.Tables[0].Rows[0]["app_id"].ToString());
+                }
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        
+        /// <summary>
+        /// 得到一个user实体
+        /// </summary>
+        /// <param name="login">登录名称</param>
+        /// <returns>userModel</returns>
+        public Saron.WorkFlowService.Model.usersModel GetModel(string login)
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 id,login,password,name,employee_no,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id from users ");
+            strSql.Append(" where login=@login and deleted=0");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40)
+			};
+            parameters[0].Value = login;
 
             Saron.WorkFlowService.Model.usersModel model = new Saron.WorkFlowService.Model.usersModel();
             DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
