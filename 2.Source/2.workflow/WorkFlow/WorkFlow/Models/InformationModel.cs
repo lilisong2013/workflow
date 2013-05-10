@@ -13,6 +13,7 @@ namespace Saron.WorkFlow.Models
         private bool m_success;//是否成功
         private string m_css;//调用css名称
         private string m_message;//返回的信息
+        private string m_toUrl;//跳转页面
 
         public bool success
         {
@@ -30,6 +31,12 @@ namespace Saron.WorkFlow.Models
         {
             set { m_message = value; }
             get { return m_message; }
+        }
+
+        public string toUrl
+        {
+            set { m_toUrl = value; }
+            get { return m_toUrl; }
         }
     }
 }
