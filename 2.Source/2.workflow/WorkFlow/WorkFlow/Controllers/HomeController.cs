@@ -13,7 +13,7 @@ namespace WorkFlow.Controllers
 
         public ActionResult Index()
         {
-            if (Session["loginName"] == null)
+            if (Session["user"] == null)
             {
                 return RedirectToAction("Login");
             }
@@ -40,13 +40,13 @@ namespace WorkFlow.Controllers
 
         public ActionResult Logout()
         {
-            Session["loginName"] = null;
+            Session["user"] = null;
             return RedirectToAction("Login");
         }
 
         public ActionResult OrganizationStruct()
         {
-            if (Session["loginName"]==null)
+            if (Session["user"]==null)
             {
                 return RedirectToAction("Login");
             }
@@ -64,25 +64,29 @@ namespace WorkFlow.Controllers
         public ActionResult LoginValidation()
         {
             string m_loginName = Request.Form["loginName"];
-            string m_loginPassword = Request.Form["loginName"];
+            string m_loginPassword = Request.Form["loginPassword"];
 
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
 
-
-            if (m_loginName == "1")
+            try
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = m_loginName+"登录成功" });
+                if (m_usersBllService.LoginValidator(m_loginName, m_loginPassword))
+                {
+                    m_usersModel = m_usersBllService.GetModelByLogin(m_loginName);
+                    Session["user"] = m_usersModel;
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/Home/Index" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
+                }
+            }
+            catch(Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错："+ex.ToString() });
             }
 
-            else if (m_loginName == "2")
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "登录失败" });
-            }
-
-            else
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-warningDIV", message = "警告" });
-            }
-            
         }
 
         /// <summary>
