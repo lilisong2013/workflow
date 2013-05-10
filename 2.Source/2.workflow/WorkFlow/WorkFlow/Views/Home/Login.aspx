@@ -106,10 +106,14 @@
                     $.post(form.attr("action"),
                     form.serialize(),
                     function (result, status) {
-                        //debugger;
+                        //debugger
                         $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                         $("#promptDIV").addClass(result.css);
                         $("#promptDIV").html(result.message);
+
+                        if (result.success) {
+                            location.href = result.toUrl;
+                        }
                     },
                     "JSON");
                     return false;

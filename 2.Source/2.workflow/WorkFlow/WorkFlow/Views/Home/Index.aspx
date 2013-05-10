@@ -19,7 +19,12 @@
     </div>
 
     <div class="container">
-
+    <h2>管理员信息</h2>
+    <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
+    <label><%=m_usersModel.login %></label>
+    <label><%=m_usersModel.name %></label>
+    <label><%=m_usersModel.password %></label>
+    <label><%=m_usersModel.app_id %></label>
     </div>
 
 
