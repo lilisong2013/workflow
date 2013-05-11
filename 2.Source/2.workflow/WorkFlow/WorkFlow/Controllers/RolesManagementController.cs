@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Reflection;
+using System.Collections;
 
 namespace WorkFlow.Controllers
 {
@@ -31,34 +32,37 @@ namespace WorkFlow.Controllers
 
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
             WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-         
-            if (collection["rolesName"].Trim() == "")
+            string m_rolesName = collection["rolesName"].Trim();
+            string m_rolesInvalid = collection["rolesInvalid"].Trim();
+            string m_rolesDeleted=collection["rolesDeleted"].Trim();
+            string m_rolesCreated_at = collection["rolesCreated_at"].Trim();
+            string m_rolesCreated_by = collection["rolesCreated_by"].Trim();
+            string m_rolesCreated_ip = collection["rolesCreated_ip"].Trim();
+            if (m_rolesName.Length == 0)
+              {
+                  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "角色名称不能为空！" });
+              }
+            if (m_rolesInvalid.Length == 0)
             {
-                return Content("<script>alert('角色名称不能为空!');window.history.back();</script>");
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "记录是否有效不能为空！" });
             }
-            if (collection["rolesInvalid"].Trim() == "")
-            {
-                return Content("<script>alert('记录是否有效不能为空!');window.history.back();</script>");
-            }
-            if (collection["rolesDeleted"].Trim() == "")
-            {
-                return Content("<script>alert('记录是否删除不能为空!');window.history.back();</script>");
-            }
-            if (collection["rolesCreated_at"].Trim() == "")
-            {
-                return Content("<script>alert('记录创建时间不能为空!');window.history.back();</script>");
-            }
-            if (collection["rolesCreated_by"].Trim() == "")
-            {
-                return Content("<script>alert('记录创建用户不能为空!');window.history.back();</script>");
-            }
-            if (collection["rolesCreated_ip"].Trim() == "")
-            {
-                return Content("<script>alert('记录创建IP不能为空!');window.history.back();</script>");
-            }
+
             m_rolesModel.name=collection["rolesName"].Trim();
-            //判断一下添加的角色名称与数据库中的名称是否重名
-            
+            //获得deleted=false的rolesName列表
+            DataSet ds = m_rolesBllService.GetValidRolesList();
+            var total = ds.Tables[0].Rows.Count;
+            ArrayList rolesList = new ArrayList();
+            for (int i = 0; i < total; i++)
+            {
+                rolesList.Add(ds.Tables[0].Rows[i][0].ToString());
+            }
+            foreach (string rolesname in rolesList)
+            {
+                if (rolesname.Equals(collection["rolesName"].Trim()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的角色名称!" });
+                }
+            }
             m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());//String转化为Boolean
             m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());//String转化为Boolean
             m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
@@ -66,8 +70,8 @@ namespace WorkFlow.Controllers
             m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
             m_rolesModel.remark=collection["rolesRemark"].Trim();
             m_rolesBllService.Add(m_rolesModel);
-          //  return RedirectToAction("AppRole");
-            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！" });
+           // return RedirectToAction("AppRoles");
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/RolesManagement/AppRoles" });
         }
         public ActionResult AddRoles()
         {
