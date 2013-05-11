@@ -1041,7 +1041,9 @@
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
     <None Include="Web References\ElementsWebService\elementsBLLservice.disco" />
     <Content Include="Views\Home\OrganizationStruct.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

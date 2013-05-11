@@ -81,7 +81,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_rolesDal.GetValidRolesList();
         }
-
+        /// <summary>
+        /// （用户注册）获得deleted=false的角色名称
+        /// </summary>
+        [WebMethod(Description = "获得deleted=false的角色名称")]
+        public DataSet GetDeletedRoles()
+        {
+            return m_rolesDal.DeletedRolesName();
+        }
         /// <summary>
         /// 获得数据列表
         /// </summary>

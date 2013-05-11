@@ -19,18 +19,33 @@
         $(document).ready(function () {
             var form = $("#add_Roles");
             form.submit(function () {
-                $.post(form.attr("action"),
-                form.serialize(),
-                function (result, status) {
-                    //debugger;
-                    $("#promptDIV").addClass(result.css);
-                    $("#promptDIV").html(result.message);
-                },
-                "JSON");
-                return false;
+                if ($.trim($("#rolesName").val()).length == 0 || $.trim($("#rolesInvalid").val()).length == 0) {
+                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").html("角色名称或记录是否有效不能为空！");
+
+                    return false;
+                }
+                else {
+                    $.post(form.attr("action"),
+                    form.serialize(),
+                    function (result, status) {
+                        //debugger
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass(result.css);
+                        $("#promptDIV").html(result.message);
+
+                        if (result.success) {
+                            location.href = result.toUrl;
+                        }
+                    },
+                    "JSON");
+                    return false;
+                }
             });
         });
-</script>
+    </script>
+
 
     <script type="text/javascript">
         $(document).ready(function () {
