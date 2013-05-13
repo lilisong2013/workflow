@@ -139,22 +139,41 @@ namespace WorkFlow.Controllers
             string m_operationsRemark = collection["operationsRemark"].Trim();
             string m_operationsApp_id = collection["operationsApp_id"].Trim();
             string m_operationsInvalid = collection["operationsInvalid"].Trim();
-            string m_operationsDeleted = collection["operationsDeleted"].Trim();
-            string m_operationsCreated_at = collection["operationsCreated_at"].Trim();
-            string m_operationsCreated_by = collection["operationsCreated_by"].Trim();
-            string m_operationsCreated_ip = collection["operationsCreated_ip"].Trim();
-            string m_operationsUpdated_at = collection["operationsUpdated_at"].Trim();
-            string m_operationsUpdated_by = collection["operationsUpdated_by"].Trim();
-            string m_operationsUpdated_ip = collection["operationsUpdated_ip"].Trim();
-            if (m_operationsName.Length == 0)
+            //string m_operationsDeleted = collection["operationsDeleted"].Trim();
+           // string m_operationsCreated_at = collection["operationsCreated_at"].Trim();
+           // string m_operationsCreated_by = collection["operationsCreated_by"].Trim();
+           // string m_operationsCreated_ip = collection["operationsCreated_ip"].Trim();
+           // string m_operationsUpdated_at = collection["operationsUpdated_at"].Trim();
+           // string m_operationsUpdated_by = collection["operationsUpdated_by"].Trim();
+           // string m_operationsUpdated_ip = collection["operationsUpdated_ip"].Trim();
+            if (m_operationsName.Length== 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="操作名称不能为空!"});
             }
             //获取operations表中所有name的值       
-             //DataSet ds = m_operationsBllService.GetOperationsNameList();
-            // DataSet ds = m_operationsBllService.GetAllOperationsList();
-           
-            return View();
+            DataSet ds = m_operationsBllService.GetOperationsNameList();
+            var total = ds.Tables[0].Rows.Count;
+            ArrayList operationsList = new ArrayList();
+            for (int i = 0; i < total; i++)
+            {
+                operationsList.Add(ds.Tables[0].Rows[i][0].ToString());
+            }
+            foreach (string operationsname in operationsList)
+            {
+                if (operationsname.Equals(collection["operationsName"].Trim()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作名称!" });
+                }
+            }
+            m_operationsModel.name = collection["operationsName"].Trim();
+            m_operationsModel.code = collection["operationsCode"].Trim();
+            m_operationsModel.description = collection["operationsDescription"].Trim();
+            m_operationsModel.remark = collection["operationsRemark"].Trim();
+            m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
+            m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
+            m_operationsModel.deleted = Convert.ToBoolean(collection["operationsDeleted"].Trim());
+            m_operationsBllService.Add(m_operationsModel);
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/OperationsManagement/AppOperations" });
         }
     }
 }
