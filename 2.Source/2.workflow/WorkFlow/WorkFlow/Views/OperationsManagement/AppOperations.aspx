@@ -103,12 +103,6 @@
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsDescription">操作描述：</label>
-                        <div class="controls">
-                            <input type="text" name="operationsDescription" id="operationsDescription" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsApp_id">应用系统ID：</label>
                         <div class="controls">
                             <input type="text" name="operationsApp_id" id="operationsApp_id" class="input-prepend span4" />
@@ -119,50 +113,13 @@
                         <div class="controls">
                             <input type="text" name="operationsInvalid" id="operationsInvalid" class="input-prepend span4" />
                         </div>
-                    </div>
+                    </div>  
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsDeleted">是否删除：</label>
+                        <label class="control-label" for="operationsDescription">操作描述：</label>
                         <div class="controls">
-                            <input type="text" name="operationsDeleted" id="operationsDeleted" class="input-prepend span4" />
+                           <textarea name="operationsDescription" id="operationsDescription" rows="4" cols="5" class="span4"></textarea>
                         </div>
-                    </div>
-                          <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsCreated_at">记录创建时间：</label>
-                        <div class="controls">
-                            <input type="text" name="operationsCreated_at" id="operationsCreated_at" class="input-prepend span4"/>
-                            
-                        </div>
-                    </div>
-                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsCreated_by">记录创建用户：</label>
-                        <div class="controls">
-                            <input type="text" name="operationsCreated_by" id="operationsCreated_by" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsCreated_ip">记录创建IP：</label>
-                        <div class="controls">
-                            <input type="text" name="operationsCreated_ip" id="operationsCreated_ip" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsUpdated_at">记录更新时间：</label>
-                        <div class="controls">
-                            <input type="text" name="operationsUpdated_at" id="operationsUpdated_at" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsUpdated_by">记录更新用户：</label>
-                        <div class="controls">
-                            <input type="text" name="operationsUpdated_by" id="operationsUpdated_by" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsUpdated_ip">记录更新IP：</label>
-                        <div class="controls">
-                            <input type="text" name="operationsUpdated_ip" id="operationsUpdated_ip" class="input-prepend span4" />
-                        </div>
-                    </div>
+                    </div>              
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsRemark">备注：</label>
                         <div class="controls">

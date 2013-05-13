@@ -129,6 +129,31 @@ namespace WorkFlow.Controllers
         ///</summary>
         ///<param name="id">系统的ID</param>
         ///<returns></returns>
-        
+        public ActionResult RegisterOperations(FormCollection collection)
+        {
+            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+            WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
+            string m_operationsName=collection["operationsName"].Trim();
+            string m_operationsCode = collection["operationsCode"].Trim();
+            string m_operationsDescription = collection["operationsDescription"].Trim();
+            string m_operationsRemark = collection["operationsRemark"].Trim();
+            string m_operationsApp_id = collection["operationsApp_id"].Trim();
+            string m_operationsInvalid = collection["operationsInvalid"].Trim();
+            string m_operationsDeleted = collection["operationsDeleted"].Trim();
+            string m_operationsCreated_at = collection["operationsCreated_at"].Trim();
+            string m_operationsCreated_by = collection["operationsCreated_by"].Trim();
+            string m_operationsCreated_ip = collection["operationsCreated_ip"].Trim();
+            string m_operationsUpdated_at = collection["operationsUpdated_at"].Trim();
+            string m_operationsUpdated_by = collection["operationsUpdated_by"].Trim();
+            string m_operationsUpdated_ip = collection["operationsUpdated_ip"].Trim();
+            if (m_operationsName.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="操作名称不能为空!"});
+            }
+            //获取operations表中所有name的值
+       
+           // DataSet ds = m_operationsBllService.GetOperationsNameList();
+            return View();
+        }
     }
 }

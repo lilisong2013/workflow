@@ -56,7 +56,7 @@ namespace WorkFlow.OperationsWebService {
         
         /// <remarks/>
         public operationsBLLservice() {
-            this.Url = global::WorkFlow.Properties.Settings.Default.WorkFlow_OperationsWebService_operationsBLLservice;
+            this.Url = "http://192.168.11.103:8081/WebService/operationsBLLservice.asmx";
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
