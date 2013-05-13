@@ -17,7 +17,38 @@
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#AllRoles").ligerGrid({
+                var form = $("#add_Operations");
+                form.submit(function () {
+                    if ($.trim($("#operationsName").val()).length == 0) {
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass("p-warningDIV");
+                        $("#promptDIV").html("操作名称不能为空！");
+
+                        return false;
+                    }
+                    else {
+                    $.post(form.attr("action"),
+                    form.serialize(),
+                    function (result, status) {
+                        //debugger
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass(result.css);
+                        $("#promptDIV").html(result.message);
+
+                        if (result.success) {
+                            location.href = result.toUrl;
+                        }
+                    },
+                    "JSON");
+                        return false;
+                    }
+                });
+            });
+    </script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#AllOperations").ligerGrid({
                     columns: [
                 { display: '操作名称', name: 'name', width: 80 },
                 { display: '操作编码', name: 'code', width: 80 },
@@ -50,8 +81,8 @@
     <div class="container"><h2>功能管理</h2></div>
     <div class="container">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#AllRoles" data-toggle="tab"><i class="icon-check"></i>全部<%=10 %></a></li>
-            <li><a href="#AddRoles" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
+            <li class="active"><a href="#AllOperations" data-toggle="tab"><i class="icon-check"></i>全部<%=10 %></a></li>
+            <li><a href="#AddOperations" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
     <div class="tab-content">
@@ -86,19 +117,56 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsInvalid">是否有效：</label>
                         <div class="controls">
-                            <input type="text" name="rolesCreated_by" id="rolesCreated_by" class="input-prepend span4" />
+                            <input type="text" name="operationsInvalid" id="operationsInvalid" class="input-prepend span4" />
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesCreated_ip">记录创建IP：</label>
+                        <label class="control-label" for="operationsDeleted">是否删除：</label>
                         <div class="controls">
-                            <input type="text" name="rolesCreated_ip" id="rolesCreated_ip" class="input-prepend span4" />
+                            <input type="text" name="operationsDeleted" id="operationsDeleted" class="input-prepend span4" />
+                        </div>
+                    </div>
+                          <div class="control-group span6 offset2">
+                        <label class="control-label" for="operationsCreated_at">记录创建时间：</label>
+                        <div class="controls">
+                            <input type="text" name="operationsCreated_at" id="operationsCreated_at" class="input-prepend span4"/>
+                            
+                        </div>
+                    </div>
+                     <div class="control-group span6 offset2">
+                        <label class="control-label" for="operationsCreated_by">记录创建用户：</label>
+                        <div class="controls">
+                            <input type="text" name="operationsCreated_by" id="operationsCreated_by" class="input-prepend span4" />
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesRemark">备注：</label>
+                        <label class="control-label" for="operationsCreated_ip">记录创建IP：</label>
                         <div class="controls">
-                            <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4"></textarea>
+                            <input type="text" name="operationsCreated_ip" id="operationsCreated_ip" class="input-prepend span4" />
+                        </div>
+                    </div>
+                    <div class="control-group span6 offset2">
+                        <label class="control-label" for="operationsUpdated_at">记录更新时间：</label>
+                        <div class="controls">
+                            <input type="text" name="operationsUpdated_at" id="operationsUpdated_at" class="input-prepend span4" />
+                        </div>
+                    </div>
+                    <div class="control-group span6 offset2">
+                        <label class="control-label" for="operationsUpdated_by">记录更新用户：</label>
+                        <div class="controls">
+                            <input type="text" name="operationsUpdated_by" id="operationsUpdated_by" class="input-prepend span4" />
+                        </div>
+                    </div>
+                    <div class="control-group span6 offset2">
+                        <label class="control-label" for="operationsUpdated_ip">记录更新IP：</label>
+                        <div class="controls">
+                            <input type="text" name="operationsUpdated_ip" id="operationsUpdated_ip" class="input-prepend span4" />
+                        </div>
+                    </div>
+                    <div class="control-group span6 offset2">
+                        <label class="control-label" for="operationsRemark">备注：</label>
+                        <div class="controls">
+                            <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4"></textarea>
                             <input type="hidden" name="createdBy" id="createdBy" value="<%=1 %>" />
                             <% string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
                             <input type="hidden" name="createdIP" id="createdIP" value="<%= ipAddress %>" />

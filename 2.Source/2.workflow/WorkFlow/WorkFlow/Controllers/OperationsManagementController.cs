@@ -81,5 +81,54 @@ namespace WorkFlow.Controllers
             };
             return Json(gridData);
         }
+        /// <summary>
+        /// 显示所选系统的详情
+        /// </summary>
+        /// <param name="id">系统的ID</param>
+        /// <returns></returns>
+        public ActionResult DetailInfo(int id)
+        {
+            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+            WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
+            m_operationsModel = m_operationsBllService.GetModel(id);
+            ViewData["operationsName"] = m_operationsModel.name;
+            ViewData["operationsCode"] = m_operationsModel.code;
+            ViewData["operationsDescription"] = m_operationsModel.description;
+            ViewData["operationsRemark"] = m_operationsModel.remark;
+            ViewData["operationsApp_id"] = m_operationsModel.app_id;
+            ViewData["operationsInvalid"] = m_operationsModel.invalid;
+            ViewData["operationsDeleted"] = m_operationsModel.deleted;
+            ViewData["operationsCreated_at"] = m_operationsModel.created_at;
+            ViewData["operationsCreated_by"] = m_operationsModel.created_by;
+            ViewData["operationsCreated_ip"] = m_operationsModel.created_ip;
+            ViewData["operationsUpdated_at"] = m_operationsModel.updated_at;
+            ViewData["operationsUpdated_by"] = m_operationsModel.updated_by;
+            ViewData["operationsUpdated_ip"] = m_operationsModel.updated_ip;
+            return View();
+        }
+        ///<summary>
+        ///删除数据库中指定记录的操作
+        ///</summary>
+        ///<param name="id">系统的ID</param>
+        ///<returns></returns>
+        public ActionResult ChangePage(int id)
+        {
+            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+            WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
+            if (m_operationsBllService.Delete(id))
+            {
+                return RedirectToAction("AppOperations");
+            }
+            else 
+            {
+                return View();
+            }      
+        }
+        ///<summary>
+        ///向数据库中添加记录的操作
+        ///</summary>
+        ///<param name="id">系统的ID</param>
+        ///<returns></returns>
+        
     }
 }

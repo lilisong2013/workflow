@@ -940,6 +940,7 @@
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\MenusManagement\AppMenus.aspx" />
     <Content Include="Views\OperationsManagement\AppOperations.aspx" />
+    <Content Include="Views\OperationsManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
