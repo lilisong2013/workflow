@@ -150,9 +150,10 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="操作名称不能为空!"});
             }
-            //获取operations表中所有name的值
-       
-           // DataSet ds = m_operationsBllService.GetOperationsNameList();
+            //获取operations表中所有name的值       
+             //DataSet ds = m_operationsBllService.GetOperationsNameList();
+            // DataSet ds = m_operationsBllService.GetAllOperationsList();
+           
             return View();
         }
     }
