@@ -83,9 +83,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_operationsDal.GetList(strWhere);
         }
-        /// <summary>
-        /// 获得前几行数据
+        ///<summary>
+        /// 获得operations表中所有的name列
         /// </summary>
+        [WebMethod(Description = "获取operations表中所有的name字段的值")]
+        public DataSet GetOperationsNameList()
+        {
+            return m_operationsDal.GetNameList();
+        }
         [WebMethod(Description = "获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）")]
         public DataSet GetOperationsTopList(int Top, string strWhere, string filedOrder)
         {
