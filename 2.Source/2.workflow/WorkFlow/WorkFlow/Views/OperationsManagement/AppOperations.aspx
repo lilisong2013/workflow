@@ -6,12 +6,11 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet"
+   <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet"
         type="text/css" />
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+
     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
   
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
@@ -79,6 +78,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container"><h2>功能管理</h2></div>
+      <div class="container">
+        <%--操作提示DIV--%>
+        <div id="promptDIV" class="row"></div>
+    </div>
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#AllOperations" data-toggle="tab"><i class="icon-check"></i>全部<%=10 %></a></li>
@@ -124,7 +127,7 @@
                         <label class="control-label" for="operationsRemark">备注：</label>
                         <div class="controls">
                             <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4"></textarea>
-                            <input type="hidden" name="createdBy" id="createdBy" value="<%=1 %>" />
+                            <input type="hidden" name="createdBy" id="createdBy" value="<%=11%>" />
                             <% string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
                             <input type="hidden" name="createdIP" id="createdIP" value="<%= ipAddress %>" />
                         </div>

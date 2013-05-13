@@ -171,7 +171,10 @@ namespace WorkFlow.Controllers
             m_operationsModel.remark = collection["operationsRemark"].Trim();
             m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
             m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
-            m_operationsModel.deleted = Convert.ToBoolean(collection["operationsDeleted"].Trim());
+            m_operationsModel.deleted = false;
+            m_operationsModel.created_at = System.DateTime.Now;
+            m_operationsModel.created_by = 11;
+            m_operationsModel.created_ip=Convert.ToString(Session["createdIP"]);
             m_operationsBllService.Add(m_operationsModel);
             return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/OperationsManagement/AppOperations" });
         }
