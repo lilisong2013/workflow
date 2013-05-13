@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Reflection;
+using System.Collections;
 
 namespace WorkFlow.Controllers
 {
@@ -15,15 +16,73 @@ namespace WorkFlow.Controllers
 
         public ActionResult AppRoles()
         {
-            if (Session["user"] == null)
+               
+                return View();         
+        }
+
+        /// <summary>
+        /// 角色添加
+        /// </summary>
+        /// <param name="collection">表单数据</param>
+        /// <returns>成功,返回主页面</returns>
+        public ActionResult RegisterRole(FormCollection collection)
+        {
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+            string m_rolesName = collection["rolesName"].Trim();
+            string m_rolesInvalid = collection["rolesInvalid"].Trim();
+            string m_rolesDeleted=collection["rolesDeleted"].Trim();
+            string m_rolesCreated_at = collection["rolesCreated_at"].Trim();
+            string m_rolesCreated_by = collection["rolesCreated_by"].Trim();
+            string m_rolesCreated_ip = collection["rolesCreated_ip"].Trim();
+            if (m_rolesName.Length == 0)
+              {
+                  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "角色名称不能为空！" });
+              }
+            if (m_rolesInvalid.Length == 0)
             {
-                return RedirectToAction("Index", "Home");
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "记录是否有效不能为空！" });
             }
-            else 
+
+            m_rolesModel.name=collection["rolesName"].Trim();
+            //获得deleted=false的rolesName列表
+            DataSet ds = m_rolesBllService.GetValidRolesList();
+            var total = ds.Tables[0].Rows.Count;
+            ArrayList rolesList = new ArrayList();
+            for (int i = 0; i < total; i++)
             {
-                return View();
+                rolesList.Add(ds.Tables[0].Rows[i][0].ToString());
             }
-            
+            foreach (string rolesname in rolesList)
+            {
+                if (rolesname.Equals(collection["rolesName"].Trim()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的角色名称!" });
+                }
+            }
+            m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());//String转化为Boolean
+            m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());//String转化为Boolean
+            m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
+            m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
+            m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
+            m_rolesModel.remark=collection["rolesRemark"].Trim();
+            m_rolesBllService.Add(m_rolesModel);
+           // return RedirectToAction("AppRoles");
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/RolesManagement/AppRoles" });
+        }
+        public ActionResult AddRoles()
+        {
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+
+            m_rolesModel.name=Request.Form["RolesName"];
+            m_rolesModel.remark=Request.Form["RolesRemark"];
+            //m_rolesModel.invalid = Boolean.TryParse((Request.Form["RolesInvalid"]),true);
+            m_rolesBllService.Add(m_rolesModel);
+            return Json(new Saron.WorkFlow.Models.InformationModel { success=true,css="p-successDIV",message="添加成功！"});
         }
         /// <summary>
         /// 删除一条内容为系统好为id的信息
@@ -32,7 +91,7 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult ChangePage(int id)
         {
-          //  return RedirectToAction("ChangePage");
+       
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBLLService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
             if (m_rolesBLLService.Delete(id))
@@ -59,12 +118,19 @@ namespace WorkFlow.Controllers
             ViewData["rolesName"] = m_rolesModel.name;
             ViewData["rolesRemark"] = m_rolesModel.remark;
             ViewData["rolesInvalid"] = m_rolesModel.invalid;
+            ViewData["rolesDeleted"] = m_rolesModel.deleted;
+            ViewData["rolesCreated_at"] = m_rolesModel.created_at;
+            ViewData["rolesCreated_by"] = m_rolesModel.created_by;
+            ViewData["rolesCreated_ip"] = m_rolesModel.created_ip;
+            ViewData["rolesUpdated_at"] = m_rolesModel.updated_at;
+            ViewData["rolesUpdated_by"] = m_rolesModel.updated_by;
+            ViewData["rolesUpdated_ip"] = m_rolesModel.updated_ip;
+            ViewData["rolesApp_id"] = m_rolesModel.app_id;
             return View();
         }
 
         public ActionResult GetRoles_Apply()
         {
-            Boolean flag;
             //排序的字段名
             string sortname = Request.Params["sortname"];
             //排序的方向

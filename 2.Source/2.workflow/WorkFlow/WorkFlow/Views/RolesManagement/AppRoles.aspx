@@ -13,36 +13,39 @@
 
     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
   
+    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         $(document).ready(function () {
             var form = $("#add_Roles");
             form.submit(function () {
-                $.post(form.attr("action"),
-                form.serialize(),
-                function (result, status) {
-                    //debugger;
-                    $("#promptDIV").addClass(result.Message);
-                },
-                "JSON");
-                return false;
+                if ($.trim($("#rolesName").val()).length == 0 || $.trim($("#rolesInvalid").val()).length == 0) {
+                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").html("角色名称或记录是否有效不能为空！");
+
+                    return false;
+                }
+                else {
+                    $.post(form.attr("action"),
+                    form.serialize(),
+                    function (result, status) {
+                        //debugger
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass(result.css);
+                        $("#promptDIV").html(result.message);
+
+                        if (result.success) {
+                            location.href = result.toUrl;
+                        }
+                    },
+                    "JSON");
+                    return false;
+                }
             });
         });
-</script>
-<style type="text/css">
-    .warningDIV{ border:2px solid #CCCC00; height:28px;
-    -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;box-shadow: 0 0 15px #222; }
-    .successDIV{ border:2px solid #66CC66; height:28px;
-    -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;box-shadow: 0 0 15px #222;}
-    .errorDIV{ border:2px solid #CC3333; height:28px;
-    -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;box-shadow: 0 0 15px #222;}
+    </script>
 
-</style>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-
-    });
-</script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#AllRoles").ligerGrid({
@@ -85,9 +88,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container"><h2>角色管理</h2></div>
-    <div class="container">
-        <div></div>
-    </div>
+
     <div class="container">
         <%--操作提示DIV--%>
         <div id="promptDIV" class="row"></div>
@@ -101,17 +102,42 @@
     <div class="tab-content">
         <div class="tab-pane active" id="AllRoles"></div>
         <div class="tab-pane" id="AddRoles">
-          <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/AddRoles">
+          <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/RegisterRole">
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesName">角色名称：</label>
                         <div class="controls">
                             <input type="text" name="rolesName" id="rolesName" class="input-prepend span4"/>
+                            
+                        </div>
+                    </div>
+                     <div class="control-group span6 offset2">
+                        <label class="control-label" for="rolesInvalid">记录是否有效：</label>
+                        <div class="controls">
+                            <input type="text" name="rolesInvalid" id="rolesInvalid" class="input-prepend span4" />
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesInvalid">是否有效：</label>
+                        <label class="control-label" for="rolesDeleted">记录是否删除：</label>
                         <div class="controls">
-                            <input type="text" name="rolesInvalid" id="rolesInvalid" class="input-prepend span4" />
+                            <input type="text" name="rolesDeleted" id="rolesDeleted" class="input-prepend span4" />
+                        </div>
+                    </div>
+                    <div class="control-group span6 offset2">
+                        <label class="control-label" for="rolesCreated_at">记录创建时间：</label>
+                        <div class="controls">
+                            <input type="text" name="rolesCreated_at" id="rolesCreated_at" class="input-prepend span4" />
+                        </div>
+                    </div>
+                    <div class="control-group span6 offset2">
+                        <label class="control-label" for="rolesCreated_by">记录创建用户：</label>
+                        <div class="controls">
+                            <input type="text" name="rolesCreated_by" id="rolesCreated_by" class="input-prepend span4" />
+                        </div>
+                    </div>
+                    <div class="control-group span6 offset2">
+                        <label class="control-label" for="rolesCreated_ip">记录创建IP：</label>
+                        <div class="controls">
+                            <input type="text" name="rolesCreated_ip" id="rolesCreated_ip" class="input-prepend span4" />
                         </div>
                     </div>
                     <div class="control-group span6 offset2">

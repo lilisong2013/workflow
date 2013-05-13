@@ -29,8 +29,15 @@ namespace Saron.WorkFlowService.DAL
 
 			return DbHelperSQL.Exists(strSql.ToString(),parameters);
 		}
-
-
+        /// <summary>
+        /// deleted=false的角色名称集
+        /// </summary>
+        public DataSet DeletedRolesName()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name from roles where deleted='false'");
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>
@@ -283,11 +290,9 @@ namespace Saron.WorkFlowService.DAL
             
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
-			strSql.Append(" FROM roles ");
-			if(strWhere.Trim()!="")
-			{
-                strSql.Append("where name='Tom' ");
-			}
+			strSql.Append(" FROM roles ");	
+            strSql.Append("where deleted='False'"+strWhere);
+		
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
