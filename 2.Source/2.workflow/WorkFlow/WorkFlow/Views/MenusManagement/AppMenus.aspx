@@ -8,7 +8,16 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
     
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
-    
+    <script src="../../Scripts/MicrosoftAjax.debug.js" type="text/javascript"></script>
+    <script src="../../Scripts/MicrosoftAjax.js" type="text/javascript"></script>
+    <script src="../../Scripts/MicrosoftMvcAjax.debug.js" type="text/javascript"></script>
+    <script src="../../Scripts/MicrosoftMvcAjax.js" type="text/javascript"></script>
+
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet"
+        type="text/css" />
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -34,25 +43,60 @@
     <script type="text/javascript">
         $(document).ready(function () {
             BindUser();
+            $("#menusInfo").html("一级菜单");
         });
 
         function BindUser() {
             $.ajax({
-                type: "POST",
+                type: "GET",
                 contentType: "application/json",
                 url: "/MenusManagement/GetMenusName",
-                data: "{}", //即使参数为空，也需要设置
+                data: {}, //即使参数为空，也需要设置
                 dataType: 'JSON', //返回的类型为XML  
-                success: function (result) {
+                success: function (result, status) {
                     //成功后执行的方法
                     try {
-                        $("#MenusParent").append("<option value='null'>子菜单</option>");
+                        if (status == "success") {
+                            //alert(result.Total);
+                            for (var i = 0; i < result.Total; i++) {
+                                $("#MenusParent").append("<option value='" + result.Rows[i].menusID + "'>" + result.Rows[i].menusName + "</option>");
+                            }
+                        }
                     } catch (e) {
 
                     }
                 }
             });
         }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var TreeDeptData = { Rows: [
+                { id: '01', name: "企划部", remark: "1989-01-12",
+                    children: [{ id: '0101', name: "企划分部一", remark: "企划分部一"},
+                               { id: '0102', name: "企划分部二", remark: "企划分部二", 
+                                   children:[{ id: '010201', name: "企划分部二 A组", remark: "企划分部二 A组" },
+                                             { id: '010202', name: "企划分部二 B组", remark: "企划分部二 B组" }]},
+                               { id: '0103', name: "企划分部三", remark: "企划分部三" }]},
+                { id: '02', name: "研发部", remark: "研发部" },
+                { id: '03', name: "产品部", remark: "产品部"}]};
+
+                $("#AllMenus").ligerGrid({
+                columns: [
+                    { display: '部门名', name: 'name', width: 250, align: 'left', editor: { type: 'text'} },
+                { display: '部门标示', name: 'id', width: 250, type: 'int', align: 'left' },
+
+                { display: '部门描述', name: 'remark', width: 250, align: 'left', editor: { type: 'text'} }
+                ], width: '100%', pageSizeOptions: [5, 10, 15, 20], height: '97%',
+                onSelectRow: function (rowdata, rowindex) {
+                    $("#txtrowindex").val(rowindex);
+                },
+                data: TreeDeptData, alternatingRow: false, tree: { columnName: 'name' }, checkbox: false,
+                autoCheckChildren: false
+            });
+
+        });
     </script>
 
 </asp:Content>
@@ -77,7 +121,8 @@
     <div class="tab-content">
        
         <%--查看所有菜单--%>
-        <div class="tab-pane active" id="AllMenus">所有菜单</div>
+        <div class="tab-pane active" id="AllMenus">
+        </div>
         
         <%--添加菜单--%>
         <div class="tab-pane" id="AddMenus">
@@ -104,7 +149,7 @@
                     <label class="control-label">父菜单</label>
                     <div class="controls">
                         <select id="MenusParent" name="MenusParent" class="span4">
-                            <option value="null">父菜单</option>
+                            <option id="menusInfo" value="-1"></option>
                         </select>
                     </div>
                 </div>

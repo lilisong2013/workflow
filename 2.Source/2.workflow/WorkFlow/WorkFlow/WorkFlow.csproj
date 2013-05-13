@@ -72,6 +72,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\InformationModel.cs" />
+    <Compile Include="Models\menusHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1206,10 +1207,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_rolesWebService_rolesBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/usersBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/usersBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\UsersWebService\</RelPath>
-      <UpdateFromURL>http://192.168.12.12:8081/WebService/usersBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/usersBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

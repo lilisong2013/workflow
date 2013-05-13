@@ -10,8 +10,7 @@
         type="text/css" />
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+
     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
   
     <script type="text/javascript">
