@@ -132,11 +132,11 @@ namespace WorkFlow.Controllers
         ///</summay>
         ///<param name="id">系统的ID</param>
         ///<returns></returns>
-        public ActionResult EditOperations()
+        public ActionResult EditOperations(int id)
         {
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
-            //m_operationsModel = m_operationsBllService.GetModel(id);
+            m_operationsModel = m_operationsBllService.GetModel(id);
 
             if (m_operationsBllService.Update(m_operationsModel))
             {
