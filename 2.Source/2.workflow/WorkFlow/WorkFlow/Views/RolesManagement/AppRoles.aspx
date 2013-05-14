@@ -64,7 +64,7 @@
                 },
                 { display: '', width: 200,
                     render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/RolesManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/RolesManagement/ChangePage?id=' + row.id + '">编辑</a>';
+                        var html = '<i class="icon-lock"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/RolesManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/RolesManagement/EditPage?id=' + row.id + '">编辑</a>';
                         return html;
                     }
                 }

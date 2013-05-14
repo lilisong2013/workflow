@@ -137,23 +137,25 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
+
             int m_operationsId = Convert.ToInt32(collection["operationsId"].Trim());
             m_operationsModel = m_operationsBllService.GetModel(m_operationsId);
-            /* string m_operationsName = collection["operationsName"].Trim();
-             string m_operationsCode = collection["operationsCode"].Trim();
-             string m_operationsDescription = collection["operationsDescription"].Trim();
-             Boolean m_operationsDeleted = Convert.ToBoolean(collection["operationsDeleted"]);
-             string m_operationsRemark = collection["operationsRemark"].Trim();
-             string m_operationsApp_id = collection["operationsApp_id"].Trim();
-             Boolean m_operationsInvalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
-             DateTime m_operationsCreated_at = Convert.ToDateTime(collection["operationsCreated_at"].Trim());
-             int m_operationsCreated_by = Convert.ToInt32(collection["operationsCreated_by"].Trim());
-             string m_operationsCreated_ip=collection["operationsCreated_ip"].Trim();
-             */
+
+
+            m_operationsModel.name = collection["operationsName"].Trim();
+            m_operationsModel.code = collection["operationsCode"].Trim();
+            m_operationsModel.description = collection["operationsDescription"].Trim();
+            m_operationsModel.deleted = Convert.ToBoolean(collection["operationsDeleted"]);
+            m_operationsModel.remark = collection["operationsRemark"].Trim();
+            m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
+            m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
+            m_operationsModel.created_at=Convert.ToDateTime(collection["operationsCreated_at"].Trim());
+            m_operationsModel.created_by = Convert.ToInt32(collection["operationsCreated_by"].Trim());
+            m_operationsModel.created_ip = collection["operationsCreated_ip"].Trim();                   
             if (m_operationsBllService.Update(m_operationsModel))
              {
-                // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/OperationsManagement/AppOperations" });
-                 return RedirectToAction("AppOperations");
+               //return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/OperationsManagement/AppOperations" });
+               return RedirectToAction("AppOperations");
             }
              else
              {

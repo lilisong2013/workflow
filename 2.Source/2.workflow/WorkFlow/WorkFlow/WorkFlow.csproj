@@ -949,6 +949,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Views\Home\RegistPage.aspx" />
+    <Content Include="Views\RolesManagement\EditPage.aspx" />
     <Content Include="Views\Shared\mainsite.Master" />
     <Content Include="Views\Shared\adminSite.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
@@ -1148,10 +1149,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_MenusWebService_menusBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/operationsBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.12.3:8081/WebService/operationsBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\OperationsWebService\</RelPath>
-      <UpdateFromURL>http://192.168.11.103:8081/WebService/operationsBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.12.3:8081/WebService/operationsBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

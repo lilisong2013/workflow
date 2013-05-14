@@ -104,8 +104,58 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
-
         /// <summary>
+        /// 显示所选系统的详情
+        /// </summary>
+        /// <param name="id">系统的ID</param>
+        /// <returns></returns>
+        public ActionResult EditPage(int id)
+        {
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+            ViewData["rolesName"] = m_rolesModel.name;
+            ViewData["rolesRemark"] = m_rolesModel.remark;
+            ViewData["rolesInvalid"] = m_rolesModel.invalid;
+            ViewData["rolesDeleted"] = m_rolesModel.deleted;
+            ViewData["rolesCreated_at"] = m_rolesModel.created_at;
+            ViewData["rolesCreated_by"] = m_rolesModel.created_by;
+            ViewData["rolesCreated_ip"] = m_rolesModel.created_ip;
+            ViewData["rolesUpdated_at"] = m_rolesModel.updated_at;
+            ViewData["rolesUpdated_by"] = m_rolesModel.updated_by;
+            ViewData["rolesUpdated_ip"] = m_rolesModel.updated_ip;
+            ViewData["rolesApp_id"] = m_rolesModel.app_id;
+            return View();
+        }
+        /// <summary>
+        /// 修改数据库中的信息
+        /// </summary>
+        /// <param name="id">系统的ID</param>
+        /// <returns></returns>
+        /// <summary>
+        public ActionResult EditRoles(FormCollection collection)
+        {
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+            int id = Convert.ToInt32(collection["rolesId"].Trim());
+            m_rolesModel = m_rolesBllService.GetModel(id);
+            m_rolesModel.name = collection["rolesName"].Trim();
+            m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());
+            m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());
+            m_rolesModel.remark = collection["rolesRemark"].Trim();
+            m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
+            m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
+            m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
+            m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
+            if (m_rolesBllService.Update(m_rolesModel))
+            {
+               return RedirectToAction("AppRoles");
+            }
+            else
+            {
+                return RedirectToAction("AppRoles");
+            }
+            
+        }
         /// 显示所选系统的详情
         /// </summary>
         /// <param name="id">系统的ID</param>
