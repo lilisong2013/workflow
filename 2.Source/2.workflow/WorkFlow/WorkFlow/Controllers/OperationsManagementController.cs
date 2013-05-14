@@ -120,6 +120,7 @@ namespace WorkFlow.Controllers
             ViewData["operationsName"] = m_operationsModel.name;
             ViewData["operationsCode"] = m_operationsModel.code;
             ViewData["operationsDescription"] = m_operationsModel.description;
+            ViewData["operationsDeleted"] = m_operationsModel.deleted;
             ViewData["operationsRemark"] = m_operationsModel.remark;
             ViewData["operationsApp_id"] = m_operationsModel.app_id;
             ViewData["operationsInvalid"] = m_operationsModel.invalid;
