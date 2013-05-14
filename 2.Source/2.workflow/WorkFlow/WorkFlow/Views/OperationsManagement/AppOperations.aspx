@@ -53,9 +53,9 @@
                 { display: '操作编码', name: 'code', width: 80 },
                 { display: '操作描述', name: 'description', width: 80 },
                 { display: '备注', name: 'remark', width: 180 },              
-                { display: '', width: 100,
+                { display: '', width: 200,
                     render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/OperationsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/OperationsManagement/ChangePage?id=' + row.id + '">删除</a>';
+                        var html = '<i class="icon-lock"></i><a href="/OperationsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/OperationsManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit" ></i><a href="/OperationsManagement/EditPage?id=' + row.id + '">编辑</a> ';
                         return html;
                     }
                 }

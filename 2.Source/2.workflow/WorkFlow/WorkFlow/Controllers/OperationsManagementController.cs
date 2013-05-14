@@ -106,6 +106,24 @@ namespace WorkFlow.Controllers
             ViewData["operationsUpdated_ip"] = m_operationsModel.updated_ip;
             return View();
         }
+        ///<summay>
+        ///编辑数据库中指定记录的操作
+        ///</summay>
+        ///<param name="id">系统的ID</param>
+        ///<returns></returns>
+        public ActionResult EditPage(int id)
+        {
+            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+            WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
+            m_operationsModel = m_operationsBllService.GetModel(id);
+            ViewData["operationsName"] = m_operationsModel.name;
+            ViewData["operationsCode"] = m_operationsModel.code;
+            ViewData["operationsDescription"] = m_operationsModel.description;
+            ViewData["operationsRemark"] = m_operationsModel.remark;
+            ViewData["operationsApp_id"] = m_operationsModel.app_id;
+            ViewData["operationsInvalid"] = m_operationsModel.invalid;
+            return View();
+        }
         ///<summary>
         ///删除数据库中指定记录的操作
         ///</summary>
