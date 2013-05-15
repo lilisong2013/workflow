@@ -90,6 +90,14 @@ namespace Saron.WorkFlowService.WebService
             return m_rolesDal.DeletedRolesName();
         }
         /// <summary>
+        /// （用户注册）获得deleted=false且rolename不能于name的角色名称
+        /// </summary>
+        [WebMethod(Description = "获得deleted=false且rolename不能于name的角色名称")]
+        public DataSet GetDistinctRoles(string rolename)
+        {
+            return m_rolesDal.DistinctRolesName(rolename);
+        }
+        /// <summary>
         /// 获得数据列表
         /// </summary>
         [WebMethod(Description = "根据where条件获得数据列表：strWhere（where条件）")]
