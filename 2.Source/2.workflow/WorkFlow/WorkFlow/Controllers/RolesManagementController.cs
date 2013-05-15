@@ -113,6 +113,8 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+            m_rolesModel = m_rolesBllService.GetModel(id);
+            ViewData["rolesId"] = m_rolesModel.id;
             ViewData["rolesName"] = m_rolesModel.name;
             ViewData["rolesRemark"] = m_rolesModel.remark;
             ViewData["rolesInvalid"] = m_rolesModel.invalid;
@@ -148,7 +150,8 @@ namespace WorkFlow.Controllers
             m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
             if (m_rolesBllService.Update(m_rolesModel))
             {
-               return RedirectToAction("AppRoles");
+              // return RedirectToAction("AppRoles");
+              return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/RolesManagement/AppRoles" }); 
             }
             else
             {
