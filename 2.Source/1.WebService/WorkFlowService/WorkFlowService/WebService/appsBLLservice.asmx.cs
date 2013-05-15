@@ -43,7 +43,14 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "增加一条记录")]
         public int Add(Saron.WorkFlowService.Model.appsModel model)
         {
-            return m_appsdal.Add(model);
+            if (!ExistsName(model.name))
+            {
+                return m_appsdal.Add(model);
+            }
+            else
+            {
+                return -1;//系统名称已经存在
+            }
         }
 
         /// <summary>
@@ -53,25 +60,6 @@ namespace Saron.WorkFlowService.WebService
         public bool Update(Saron.WorkFlowService.Model.appsModel model)
         {
             return m_appsdal.Update(model);
-        }
-
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        [WebMethod(Description = "删除id为id的记录")]
-        public bool Delete(int id)
-        {
-
-            return m_appsdal.Delete(id);
-        }
-
-        /// <summary>
-        /// 批量删除数据
-        /// </summary>
-        [WebMethod(Description = "删除多条数据")]
-        public bool DeleteList(string idlist)
-        {
-            return m_appsdal.DeleteList(idlist);
         }
 
         /// <summary>
