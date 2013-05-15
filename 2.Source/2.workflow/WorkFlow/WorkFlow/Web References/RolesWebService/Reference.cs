@@ -60,7 +60,7 @@ namespace WorkFlow.RolesWebService {
         
         /// <remarks/>
         public rolesBLLservice() {
-            this.Url = global::WorkFlow.Properties.Settings.Default.WorkFlow_rolesWebService_rolesBLLservice;
+            this.Url = "http://192.168.11.103:8081/WebService/rolesBLLservice.asmx";
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;

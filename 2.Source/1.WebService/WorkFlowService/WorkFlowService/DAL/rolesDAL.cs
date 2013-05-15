@@ -2,7 +2,8 @@
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using Saron.DBUtility;//数据库操作
+using Saron.DBUtility;
+using System.Collections;//数据库操作
 
 namespace Saron.WorkFlowService.DAL
 {
@@ -44,7 +45,9 @@ namespace Saron.WorkFlowService.DAL
         public DataSet DistinctRolesName(string rolesname)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select name from roles where deleted='false' and name!='rolesname'");
+         
+            ArrayList disname = new ArrayList();
+            strSql.Append("select name from roles where deleted='false' and name!='"+rolesname+"'");
             return DbHelperSQL.Query(strSql.ToString());
         }
 		/// <summary>
