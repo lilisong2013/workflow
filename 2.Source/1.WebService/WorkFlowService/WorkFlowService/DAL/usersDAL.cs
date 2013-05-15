@@ -59,7 +59,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from users");
-            strSql.Append(" where login=@login and deletde=false and app_id=@appId");
+            strSql.Append(" where login=@login and deletde=0 and app_id=@appId");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
                     new SqlParameter("@app_id", SqlDbType.Int,4)};
