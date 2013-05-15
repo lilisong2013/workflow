@@ -38,6 +38,15 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select name from roles where deleted='false'");
             return DbHelperSQL.Query(strSql.ToString());
         }
+        /// <summary>
+        /// deleted=false且rolename=name的角色名称集
+        /// </summary>
+        public DataSet DistinctRolesName(string rolesname)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name from roles where deleted='false' and name!='rolesname'");
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>

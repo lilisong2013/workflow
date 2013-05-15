@@ -148,23 +148,21 @@ namespace WorkFlow.Controllers
             m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
             m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
             m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
-            DataSet ds = m_rolesBllService.GetDeletedRoles();
+            DataSet ds = m_rolesBllService.GetDistinctRoles(collection["rolesName"].Trim().ToString());
             var total=ds.Tables[0].Rows.Count;
             ArrayList ValidateRolesName = new ArrayList();
             for (int i = 0; i < total; i++)
             {
-                if (ds.Tables[0].Rows[i][0].ToString().Equals(collection["rolesName"].Trim().ToString()) == false)
-                { 
-                ValidateRolesName.Add(ds.Tables[0].Rows[i][0].ToString());
-                }
+                ValidateRolesName.Add(ds.Tables[i].Rows[i][0]);
+                              
             }
-            foreach (string validateName in ValidateRolesName)
-            {
-                if ((validateName).Equals(collection["rolesName"]))
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的角色名称！" });
-                }
-            }
+           foreach (string validateName in ValidateRolesName)
+             {
+                    if ((validateName).Equals(collection["rolesName"]))
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的角色名称！" });
+                    }
+             }
             if (m_rolesBllService.Update(m_rolesModel))
             {
                     if (m_rolesModel.name.Length == 0 || Convert.ToString(m_rolesModel.invalid).Length == 0)
