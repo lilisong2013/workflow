@@ -63,6 +63,15 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        [WebMethod(Description = "删除id为id的记录")]
+        public bool Delete(int id)
+        {
+            return m_appsdal.Delete(id);
+        }
+
+        /// <summary>
         /// 得到一个对象实体
         /// </summary>
         [WebMethod(Description = "根据主键id得到一个实体对象")]
