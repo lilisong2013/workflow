@@ -46,6 +46,8 @@ namespace WorkFlow.RolesWebService {
         
         private System.Threading.SendOrPostCallback GetDeletedRolesOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetDistinctRolesOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetRolesListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetRolesTopListOperationCompleted;
@@ -117,6 +119,9 @@ namespace WorkFlow.RolesWebService {
         
         /// <remarks/>
         public event GetDeletedRolesCompletedEventHandler GetDeletedRolesCompleted;
+        
+        /// <remarks/>
+        public event GetDistinctRolesCompletedEventHandler GetDistinctRolesCompleted;
         
         /// <remarks/>
         public event GetRolesListCompletedEventHandler GetRolesListCompleted;
@@ -358,6 +363,35 @@ namespace WorkFlow.RolesWebService {
             if ((this.GetDeletedRolesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetDeletedRolesCompleted(this, new GetDeletedRolesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetDistinctRoles", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetDistinctRoles(string rolename) {
+            object[] results = this.Invoke("GetDistinctRoles", new object[] {
+                        rolename});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetDistinctRolesAsync(string rolename) {
+            this.GetDistinctRolesAsync(rolename, null);
+        }
+        
+        /// <remarks/>
+        public void GetDistinctRolesAsync(string rolename, object userState) {
+            if ((this.GetDistinctRolesOperationCompleted == null)) {
+                this.GetDistinctRolesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDistinctRolesOperationCompleted);
+            }
+            this.InvokeAsync("GetDistinctRoles", new object[] {
+                        rolename}, this.GetDistinctRolesOperationCompleted, userState);
+        }
+        
+        private void OnGetDistinctRolesOperationCompleted(object arg) {
+            if ((this.GetDistinctRolesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetDistinctRolesCompleted(this, new GetDistinctRolesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -884,6 +918,32 @@ namespace WorkFlow.RolesWebService {
         private object[] results;
         
         internal GetDeletedRolesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetDistinctRolesCompletedEventHandler(object sender, GetDistinctRolesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetDistinctRolesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetDistinctRolesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
