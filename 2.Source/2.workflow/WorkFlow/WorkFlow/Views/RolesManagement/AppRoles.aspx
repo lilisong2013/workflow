@@ -95,7 +95,7 @@
     </div>
     <div class="container">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#AllRoles" data-toggle="tab"><i class="icon-check"></i>全部<%=10 %></a></li>
+            <li class="active"><a href="#AllRoles" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddRoles" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
