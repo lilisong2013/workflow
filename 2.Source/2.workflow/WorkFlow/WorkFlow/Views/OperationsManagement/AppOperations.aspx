@@ -78,15 +78,15 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container"><h2>功能管理</h2></div>
-      <div class="container">
-        <%--操作提示DIV--%>
-        <div id="promptDIV" class="row"></div>
-    </div>
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#AllOperations" data-toggle="tab"><i class="icon-check"></i>全部<%=10 %></a></li>
             <li><a href="#AddOperations" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
+    </div>
+   <div class="container">
+     <%--操作提示DIV--%>
+     <div id="promptDIV" class="row"></div>
     </div>
     <div class="tab-content">
         <div class="tab-pane active" id="AllOperations"></div>
@@ -134,9 +134,9 @@
                     </div>
                     <div class="control-group span6 offset3">
                         <div class="controls">
-                            <input type="submit" value="添加" class="btn" /> 
+                            <input type="submit" value="添加" class="btn btn-primary span1" /> 
                             &nbsp;&nbsp;&nbsp;
-                            <input type="button" value="重置"  class="btn" />
+                            <input type="reset" value="重置"  class="btn btn-primary span1" />
                         </div>
                     </div>
                 </form>

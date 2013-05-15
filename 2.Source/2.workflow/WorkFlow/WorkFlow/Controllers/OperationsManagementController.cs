@@ -197,9 +197,9 @@ namespace WorkFlow.Controllers
             string m_operationsRemark = collection["operationsRemark"].Trim();
             string m_operationsApp_id = collection["operationsApp_id"].Trim();
             string m_operationsInvalid = collection["operationsInvalid"].Trim();
-            if (m_operationsName.Length== 0)
+            if (m_operationsName.Length== 0||m_operationsApp_id.Length==0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="操作名称不能为空!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="操作名称、App_id不能为空!"});
             }
             //获取operations表中所有name的值       
             DataSet ds = m_operationsBllService.GetOperationsNameList();
