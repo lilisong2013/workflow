@@ -93,7 +93,6 @@ namespace Saron.WorkFlowService.WebService
         /// （用户注册）获得deleted=false且rolename不能于name的角色名称
         /// </summary>
         [WebMethod(Description = "获得deleted=false且rolename不能于name的角色名称")]
-        [System.Web.Services.Protocols.SoapHeaderAttribute("AuthenticationInfo")]
         public DataSet GetDistinctRoles(string rolename)
         {
             return m_rolesDal.DistinctRolesName(rolename);
