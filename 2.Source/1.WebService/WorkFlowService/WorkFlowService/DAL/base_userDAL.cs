@@ -99,6 +99,7 @@ namespace Saron.WorkFlowService.DAL
                 return Convert.ToInt32(obj);
             }
         }
+       
         /// <summary>
         /// 更新一条数据
         /// </summary>
@@ -107,7 +108,7 @@ namespace Saron.WorkFlowService.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update base_user set ");
             strSql.Append("login=@login,");
-            strSql.Append("password=@password,");
+            strSql.Append("password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))),");
             strSql.Append("name=@name,");
             strSql.Append("mobile_phone=@mobile_phone,");
             strSql.Append("mail=@mail,");
@@ -168,6 +169,35 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="login">超级管理员帐号</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
+        public bool ModifyPassword(string login,string password)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update base_user set ");
+            strSql.Append("password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password)))");
+            strSql.Append(" where login=@login");
+            SqlParameter[] parameters = {
+					new SqlParameter("@password", SqlDbType.NVarChar,255),
+					new SqlParameter("@login", SqlDbType.NVarChar,40)};
+            parameters[0].Value = password;
+            parameters[1].Value = login;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 删除一条数据
         /// </summary>
         public bool Delete(int id)
@@ -191,6 +221,7 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+        
         /// <summary>
         /// 批量删除数据
         /// </summary>
