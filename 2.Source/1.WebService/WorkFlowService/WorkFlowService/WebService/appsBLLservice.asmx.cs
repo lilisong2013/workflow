@@ -99,12 +99,30 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
-        /// 获得数据列表
+        /// 获得所有系统数据列表
         /// </summary>
         [WebMethod(Description = "获得所有数据列表")]
         public DataSet GetAllAppsList()
         {
             return GetAppsList("");
+        }
+
+        /// <summary>
+        /// 获得有效系统数据列表
+        /// </summary>
+        [WebMethod(Description = "获得有效系统数据列表")]
+        public DataSet GetInvalidAppsList()
+        {
+            return GetAppsList("invalid=0");
+        }
+
+        /// <summary>
+        /// 获得无效系统数据列表
+        /// </summary>
+        [WebMethod(Description = "获得无效系统数据列表")]
+        public DataSet GetValidAppsList()
+        {
+            return GetAppsList("invalid=1");
         }
 
         /// <summary>
