@@ -53,7 +53,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "增加一条记录")]
         public int Add(Saron.WorkFlowService.Model.usersModel model)
         {
-            if (ExistsLogin(model.login,model.app_id))
+            if (!ExistsLogin(model.login,model.app_id))
             {
                 return m_usersdal.Add(model);
             }
@@ -114,6 +114,15 @@ namespace Saron.WorkFlowService.WebService
         public Saron.WorkFlowService.Model.usersModel GetModelByLogin(string login)
         {
             return m_usersdal.GetModel(login);
+        }
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        [WebMethod(Description = "根据系统ID得到一个实体对象")]
+        public Saron.WorkFlowService.Model.usersModel GetModelByAppID(int appID)
+        {
+            return m_usersdal.GetModelByAppID(appID);
         }
 
         /// <summary>
