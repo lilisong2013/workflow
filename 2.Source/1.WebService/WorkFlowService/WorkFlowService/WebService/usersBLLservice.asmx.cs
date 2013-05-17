@@ -35,7 +35,27 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "是否存在用户名login且密码password的用户")]
         public bool LoginValidator(string login,string password)
         {
-            return m_usersdal.Exists(login, password);
+            bool flag = m_usersdal.Exists(login, password);
+            if (flag)
+            {
+                Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();
+                Saron.WorkFlowService.Model.appsModel m_appModel = new appsModel();
+                Saron.WorkFlowService.DAL.appsDAL m_appDal=new DAL.appsDAL();
+                m_userModel = GetModelByLogin(login);
+                m_appModel = m_appDal.GetModel((int)m_userModel.app_id);
+                if (m_appModel.invalid)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
       
         /// <summary>
