@@ -29,10 +29,19 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// （超级管理员登录）是否存在用户或密码
+        /// </summary>
+        [WebMethod(Description = "是否存在用户名login且密码password的超级管理员")]
+        public bool LoginValidator(string login, string password)
+        {
+            return m_base_userdal.Exists(login, password);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         [WebMethod(Description = "增加一条记录")]
-        public decimal Add(base_userModel model)
+        public int Add(base_userModel model)
         {
             return m_base_userdal.Add(model);
         }
@@ -47,12 +56,20 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 修改密码
+        /// </summary>
+        [WebMethod(Description = "修改密码")]
+        public bool ModifyPassword(string login, string password)
+        {
+            return m_base_userdal.ModifyPassword(login, password);
+        }
+
+        /// <summary>
         /// 删除一条数据
         /// </summary>
         [WebMethod(Description = "删除id为id的记录")]
         public bool Delete(int id)
         {
-
             return m_base_userdal.Delete(id);
         }
 
@@ -72,6 +89,15 @@ namespace Saron.WorkFlowService.WebService
         public base_userModel GetModel(int id)
         {
             return m_base_userdal.GetModel(id);
+        }
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        [WebMethod(Description = "根据登录名login得到一个实体对象")]
+        public base_userModel GetModelByLogin(string login)
+        {
+            return m_base_userdal.GetModel(login);
         }
 
         /// <summary>
