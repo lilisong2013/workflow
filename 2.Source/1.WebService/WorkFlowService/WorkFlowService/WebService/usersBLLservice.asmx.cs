@@ -42,9 +42,9 @@ namespace Saron.WorkFlowService.WebService
         /// 是否存在该用户
         /// </summary>
         [WebMethod(Description = "是否存在登录名为login的记录")]
-        public bool ExistsLogin(string login)
+        public bool ExistsLogin(string login,int? appId)
         {
-            return m_usersdal.ExistsLogin(login);
+            return m_usersdal.ExistsLogin(login,appId);
         }
 
         /// <summary>
@@ -53,7 +53,14 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "增加一条记录")]
         public int Add(Saron.WorkFlowService.Model.usersModel model)
         {
-            return m_usersdal.Add(model);
+            if (ExistsLogin(model.login,model.app_id))
+            {
+                return m_usersdal.Add(model);
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         /// <summary>

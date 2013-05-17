@@ -36,7 +36,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from apps");
-            strSql.Append(" where name=@name ");
+            strSql.Append(" where name=@name");
             SqlParameter[] parameters = {
 					new SqlParameter("@name", SqlDbType.NVarChar,80)
 			};
@@ -179,6 +179,7 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+        
         /// <summary>
         /// 批量删除数据
         /// </summary>

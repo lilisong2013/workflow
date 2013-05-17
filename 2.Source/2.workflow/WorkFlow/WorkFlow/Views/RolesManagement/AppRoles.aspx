@@ -138,7 +138,13 @@
                            <input type="checkbox" id="rolescb" name="rolescb" checked="checked" onclick="checkAll(this,'true')"/>
                            <input type="hidden" id="rolesInvalid" name="rolesInvalid" value="true" />
                         </div>
-                    </div>       
+                    </div> 
+                    <div class="control-group span6 offset2">
+                    <label class="control-label" for="rolesInvalid">系统ID：</label>
+                    <div class="controls">
+                      <input type="text" id="rolesApp_id" name="rolesApp_id" class="input-prepend span4"/>       
+                    </div>
+                    </div>        
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesRemark">备注：</label>
                         <div class="controls">

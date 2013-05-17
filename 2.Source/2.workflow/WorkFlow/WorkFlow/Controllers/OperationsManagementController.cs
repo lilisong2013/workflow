@@ -124,8 +124,6 @@ namespace WorkFlow.Controllers
             ViewData["operationsRemark"] = m_operationsModel.remark;
             ViewData["operationsApp_id"] = m_operationsModel.app_id;
             ViewData["operationsInvalid"] = m_operationsModel.invalid;
-            //DataSet ds = m_operationsBllService.Update(m_operationsModel);
-
             return View();
         }
         ///<summay>
@@ -143,12 +141,24 @@ namespace WorkFlow.Controllers
 
 
             m_operationsModel.name = collection["operationsName"].Trim();
+            if (m_operationsModel.name.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
+            }
             m_operationsModel.code = collection["operationsCode"].Trim();
             m_operationsModel.description = collection["operationsDescription"].Trim();
             m_operationsModel.deleted = Convert.ToBoolean(collection["operationsDeleted"]);
             m_operationsModel.remark = collection["operationsRemark"].Trim();
             m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
+            if (m_operationsModel.app_id.ToString().Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="系统ID不能为空!"});
+            }
             m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
+            if (m_operationsModel.invalid.ToString().Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV",message="是否有效不能为空!"});
+            }
             m_operationsModel.created_at=Convert.ToDateTime(collection["operationsCreated_at"].Trim());
             m_operationsModel.created_by = Convert.ToInt32(collection["operationsCreated_by"].Trim());
             m_operationsModel.created_ip = collection["operationsCreated_ip"].Trim();                   
@@ -191,15 +201,24 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
+
             string m_operationsName=collection["operationsName"].Trim();
+            if (m_operationsName.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
+            }
             string m_operationsCode = collection["operationsCode"].Trim();
             string m_operationsDescription = collection["operationsDescription"].Trim();
             string m_operationsRemark = collection["operationsRemark"].Trim();
             string m_operationsApp_id = collection["operationsApp_id"].Trim();
-            string m_operationsInvalid = collection["operationsInvalid"].Trim();
-            if (m_operationsName.Length== 0||m_operationsApp_id.Length==0)
+            if (m_operationsApp_id.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="操作名称、App_id不能为空!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "App_id不能为空!" });
+            }
+            string m_operationsInvalid = collection["operationsInvalid"].Trim();
+            if (m_operationsInvalid.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空!" });
             }
             //获取operations表中所有name的值       
             DataSet ds = m_operationsBllService.GetOperationsNameList();
@@ -224,7 +243,7 @@ namespace WorkFlow.Controllers
             m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
             m_operationsModel.deleted = false;
             m_operationsModel.created_at = System.DateTime.Now;
-            m_operationsModel.created_by = 11;
+            m_operationsModel.created_by =32;
             m_operationsModel.created_ip=Convert.ToString(Session["createdIP"]);
             m_operationsBllService.Add(m_operationsModel);
             return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/OperationsManagement/AppOperations" });
