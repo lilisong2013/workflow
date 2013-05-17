@@ -95,7 +95,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 更新一条数据
 		/// </summary>
 		public bool Update(Saron.WorkFlowService.Model.rolesModel model)

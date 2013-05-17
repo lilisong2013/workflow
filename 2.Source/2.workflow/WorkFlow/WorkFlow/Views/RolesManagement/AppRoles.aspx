@@ -15,13 +15,36 @@
   
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
+        var tem = "";
+        function checkAll(e, thisvalue) {
+            tem = document.getElementById("rolesInvalid").value;
+            var bb = document.getElementById('rolesInvalid');
+            if (e.checked == true) {
+                tem = thisvalue;
+            }
+            else {
+                tem = tem.replace(thisvalue,"False");
+            }
+            bb.value = tem;
+        }
+    </script>
+    <script type="text/javascript">
+        function onclick() {
+            if (document.getElementById("rolesInvalid").checked) {
+                return false;
+            }
+            else
+                return true;
+        }
+    </script>
+    <script type="text/javascript">
         $(document).ready(function () {
             var form = $("#add_Roles");
             form.submit(function () {
-                if ($.trim($("#rolesName").val()).length == 0 || $.trim($("#rolesInvalid").val()).length == 0) {
+                if ($.trim($("#rolesName").val()).length == 0) {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                     $("#promptDIV").addClass("p-warningDIV");
-                    $("#promptDIV").html("角色名称或记录是否有效不能为空！");
+                    $("#promptDIV").html("角色名称不能为空--???！");
 
                     return false;
                 }
@@ -55,10 +78,10 @@
                 { display: '是否有效', name: 'invalid', width: 80,
                     render: function (record, rowindex, value, column) {
                         if (!value) {
-                            return "<img src='../../images/grid-checkbox-checked.gif' />";
-                        }
-                        else {
                             return "<img src='../../images/grid-checkbox.gif' />";
+                        }
+                        else {                         
+                            return "<img src='../../images/grid-checkbox-checked.gif' />";
                         }
                     }
                 },
@@ -88,11 +111,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container"><h2>角色管理</h2></div>
-
-    <div class="container">
-        <%--操作提示DIV--%>
-        <div id="promptDIV" class="row"></div>
-    </div>
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#AllRoles" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
@@ -100,60 +118,46 @@
         </ul>
     </div>
     <div class="tab-content">
+       <div class="container">
+        <%--操作提示DIV--%>
+       <div id="promptDIV" class="row"></div>
+       </div>
+
         <div class="tab-pane active" id="AllRoles"></div>
         <div class="tab-pane" id="AddRoles">
           <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/RegisterRole">
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesName">角色名称：</label>
                         <div class="controls">
-                            <input type="text" name="rolesName" id="rolesName" class="input-prepend span4"/>
-                            
+                            <input type="text" name="rolesName" id="rolesName" class="input-prepend span4"/>                            
                         </div>
                     </div>
                      <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesInvalid">记录是否有效：</label>
+                        <label class="control-label" for="rolesInvalid">是否有效：</label>
                         <div class="controls">
-                            <input type="text" name="rolesInvalid" id="rolesInvalid" class="input-prepend span4" />
+                           <input type="checkbox" id="rolescb" name="rolescb" checked="checked" onclick="checkAll(this,'true')"/>
+                           <input type="hidden" id="rolesInvalid" name="rolesInvalid" value="true" />
                         </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesDeleted">记录是否删除：</label>
-                        <div class="controls">
-                            <input type="text" name="rolesDeleted" id="rolesDeleted" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesCreated_at">记录创建时间：</label>
-                        <div class="controls">
-                            <input type="text" name="rolesCreated_at" id="rolesCreated_at" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesCreated_by">记录创建用户：</label>
-                        <div class="controls">
-                            <input type="text" name="rolesCreated_by" id="rolesCreated_by" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesCreated_ip">记录创建IP：</label>
-                        <div class="controls">
-                            <input type="text" name="rolesCreated_ip" id="rolesCreated_ip" class="input-prepend span4" />
-                        </div>
-                    </div>
+                    </div>       
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesRemark">备注：</label>
                         <div class="controls">
                             <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4"></textarea>
-                            <input type="hidden" name="createdBy" id="createdBy" value="<%=1 %>" />
-                            <% string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
-                            <input type="hidden" name="createdIP" id="createdIP" value="<%= ipAddress %>" />
+                            <%Boolean DelFlag = false; %>
+                            <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="<%=DelFlag%>" />
+                            <input type="hidden" name="rolesCreated_by" id="rolesCreated_by" value="<%=1 %>" />
+                            <%string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
+                            <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
+                            <%DateTime t = Convert.ToDateTime(dt);%>
+                            <input type="hidden" name="rolesCreated_ip" id="rolesCreated_ip" value="<%= ipAddress %>" />
+                            <input type="hidden" name="rolesCreated_at" id="rolesCreated_at" value="<%= t %>" />
                         </div>
                     </div>
                     <div class="control-group span6 offset3">
                         <div class="controls">
-                            <input type="submit" value="添加" class="btn" /> 
+                            <input type="submit" value="添加" class="btn btn-primary  span1" /> 
                             &nbsp;&nbsp;&nbsp;
-                            <input type="button" value="重置"  class="btn" />
+                            <input type="reset" value="重置"  class="btn btn-primary  span1" />
                         </div>
                     </div>
                 </form>
