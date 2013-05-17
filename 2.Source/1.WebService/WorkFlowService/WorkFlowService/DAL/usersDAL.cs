@@ -54,6 +54,7 @@ namespace Saron.WorkFlowService.DAL
         /// 是否存在该用户
         /// </summary>
         /// <param name="login">登录名</param>
+        /// <param name="appId">系统ID</param>
         /// <returns>存在true，不存在false</returns>
         public bool ExistsLogin(string login,int? appId)
         {
@@ -65,6 +66,23 @@ namespace Saron.WorkFlowService.DAL
                     new SqlParameter("@appId", SqlDbType.Int,4)};
             parameters[0].Value = login;
             parameters[1].Value = appId;
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+
+        /// <summary>
+        /// 是否存在该用户
+        /// </summary>
+        /// <param name="login">登录名</param>
+        /// <returns>存在true，不存在false</returns>
+        public bool ExistsLogin(string login)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from users");
+            strSql.Append(" where login=@login and deleted=0");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40)};
+            parameters[0].Value = login;
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
 
