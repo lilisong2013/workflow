@@ -112,7 +112,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("created_ip=@created_ip,");
             strSql.Append("updated_at=@updated_at,");
             strSql.Append("updated_by=@updated_by,");
-            strSql.Append("updated_ip=@updated_ip");
+            strSql.Append("updated_ip=@updated_ip,");
             strSql.Append("apply_at=@apply_at,");
             strSql.Append("approval_at=@approval_at");
             strSql.Append(" where id=@id");
@@ -342,6 +342,7 @@ namespace Saron.WorkFlowService.DAL
                 return Convert.ToInt32(obj);
             }
         }
+        
         /// <summary>
         /// 分页获取数据列表
         /// </summary>
@@ -367,6 +368,8 @@ namespace Saron.WorkFlowService.DAL
             strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
             return DbHelperSQL.Query(strSql.ToString());
         }
+
+
         #endregion  Method
     }
 }
