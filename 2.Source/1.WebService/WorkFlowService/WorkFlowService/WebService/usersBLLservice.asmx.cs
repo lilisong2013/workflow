@@ -35,16 +35,45 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "是否存在用户名login且密码password的用户")]
         public bool LoginValidator(string login,string password)
         {
-            return m_usersdal.Exists(login, password);
+            bool flag = m_usersdal.Exists(login, password);
+            if (flag)
+            {
+                Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();
+                Saron.WorkFlowService.Model.appsModel m_appModel = new appsModel();
+                Saron.WorkFlowService.DAL.appsDAL m_appDal=new DAL.appsDAL();
+                m_userModel = GetModelByLogin(login);
+                m_appModel = m_appDal.GetModel((int)m_userModel.app_id);
+                if (m_appModel.invalid)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
       
         /// <summary>
         /// 是否存在该用户
         /// </summary>
-        [WebMethod(Description = "是否存在登录名为login的记录")]
-        public bool ExistsLogin(string login,int? appId)
+        [WebMethod(Description = "系统ID为appId是否存在登录名为login的记录")]
+        public bool ExistsLoginAndAppID(string login,int? appId)
         {
             return m_usersdal.ExistsLogin(login,appId);
+        }
+
+        /// <summary>
+        /// 是否存在该用户
+        /// </summary>
+        [WebMethod(Description = "是否存在登录名为login的记录")]
+        public bool ExistsLogin(string login)
+        {
+            return m_usersdal.ExistsLogin(login);
         }
 
         /// <summary>
@@ -53,7 +82,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "增加一条记录")]
         public int Add(Saron.WorkFlowService.Model.usersModel model)
         {
-            if (ExistsLogin(model.login,model.app_id))
+            if (!ExistsLogin(model.login))
             {
                 return m_usersdal.Add(model);
             }
@@ -114,6 +143,15 @@ namespace Saron.WorkFlowService.WebService
         public Saron.WorkFlowService.Model.usersModel GetModelByLogin(string login)
         {
             return m_usersdal.GetModel(login);
+        }
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        [WebMethod(Description = "根据系统ID得到一个实体对象")]
+        public Saron.WorkFlowService.Model.usersModel GetModelByAppID(int appID)
+        {
+            return m_usersdal.GetModelByAppID(appID);
         }
 
         /// <summary>

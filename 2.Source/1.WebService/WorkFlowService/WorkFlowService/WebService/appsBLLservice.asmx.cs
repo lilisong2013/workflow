@@ -113,7 +113,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "获得有效系统数据列表")]
         public DataSet GetInvalidAppsList()
         {
-            return GetAppsList("invalid=0");
+            return GetAppsList("invalid=1");
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "获得无效系统数据列表")]
         public DataSet GetValidAppsList()
         {
-            return GetAppsList("invalid=1");
+            return GetAppsList("invalid=0");
         }
 
         /// <summary>

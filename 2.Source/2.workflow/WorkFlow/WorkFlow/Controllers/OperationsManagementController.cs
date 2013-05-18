@@ -138,41 +138,63 @@ namespace WorkFlow.Controllers
 
             int m_operationsId = Convert.ToInt32(collection["operationsId"].Trim());
             m_operationsModel = m_operationsBllService.GetModel(m_operationsId);
-
-
-            m_operationsModel.name = collection["operationsName"].Trim();
-            if (m_operationsModel.name.Length == 0)
+            string name = collection["operationsName"].Trim().ToString();
+            string appid = collection["operationsApp_id"].Trim().ToString();
+            string invalidflag = (collection["operationsInvalid"].Trim()).ToString();
+            if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
             }
+            if (appid.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统ID不能为空!" });
+            }
+            if (invalidflag.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空!" });
+            }
+            DataSet ds = m_operationsBllService.GetOperationsNameList();
+            var total = ds.Tables[0].Rows.Count;
+            ArrayList operationsList = new ArrayList();
+            for (int i = 0; i < total; i++)
+            {
+                operationsList.Add(ds.Tables[0].Rows[i][0].ToString());             
+            }
+            for (int i = 0; i < total; i++)
+            {  //修改后的操作名称和本身相同
+                if (m_operationsModel.name.ToString().Equals(collection["operationsName"]))
+                {
+                    operationsList.Remove(m_operationsModel.name);
+                }            
+                
+            }
+            m_operationsModel.name = collection["operationsName"].Trim();
             m_operationsModel.code = collection["operationsCode"].Trim();
             m_operationsModel.description = collection["operationsDescription"].Trim();
             m_operationsModel.deleted = Convert.ToBoolean(collection["operationsDeleted"]);
             m_operationsModel.remark = collection["operationsRemark"].Trim();
             m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
-            if (m_operationsModel.app_id.ToString().Length == 0)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="系统ID不能为空!"});
-            }
-            m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
-            if (m_operationsModel.invalid.ToString().Length == 0)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV",message="是否有效不能为空!"});
-            }
+            m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());           
             m_operationsModel.created_at=Convert.ToDateTime(collection["operationsCreated_at"].Trim());
             m_operationsModel.created_by = Convert.ToInt32(collection["operationsCreated_by"].Trim());
-            m_operationsModel.created_ip = collection["operationsCreated_ip"].Trim();                   
-            if (m_operationsBllService.Update(m_operationsModel))
-             {
-               //return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/OperationsManagement/AppOperations" });
-               return RedirectToAction("AppOperations");
-            }
-             else
-             {
-                 return RedirectToAction("AppOperations");
-             }
-           
-          
+            m_operationsModel.created_ip = collection["operationsCreated_ip"].Trim();
+             foreach (string operationListname in operationsList)
+                {
+                    if (operationListname.Equals(m_operationsModel.name.ToString()))
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作名称!" });
+                    }
+              }
+               //修改后的操作名称与数据库表中的操作名称不相同并且操作名称不是本身自己            
+                    if (m_operationsBllService.Update(m_operationsModel))
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/OperationsManagement/AppOperations" });
+                        // return RedirectToAction("AppOperations");
+                    }
+                    else
+                    {
+                        return RedirectToAction("AppOperations");
+                    }        
         }
         ///<summary>
         ///删除数据库中指定记录的操作
