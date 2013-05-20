@@ -142,16 +142,20 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-            string m_elementsName = collection["ElementsName"].Trim();
-            string m_elementsCode = collection["ElementsCode"].Trim();
-            if (m_elementsName.Length == 0)
+           // m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()));
+            string name = collection["elementsName"].Trim();
+            string code = collection["elementsCode"].Trim();
+            //string Initstatus_id = Convert.ToString(collection["elementsInitstatus_id"].Trim());
+           // string Menu_id = Convert.ToString(collection["elementsMenu_id"].Trim());
+            if (name.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="元素名称不能为空---!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
             }
-            if (m_elementsCode.Length == 0)
+            if (code.Length == 1)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="元素编码不能为空??!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码不能空!" });
             }
+        
             return RedirectToAction("AppElements");
             //if (Request.IsAjaxRequest())
             //{
