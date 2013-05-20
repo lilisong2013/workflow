@@ -53,14 +53,6 @@
      $(document).ready(function () {
          var form = $("#addElements");
          form.submit(function () {
-//             if ($.trim($("#ElementsName").val()).length == 0) {
-//                 $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-//                 $("#promptDIV").addClass("p-warningDIV");
-//                 $("#promptDIV").html("元素名称不能为空？？？！");
-
-//                 return false;
-//             }
-            // else {
                  $.post(form.attr("action"),
                     form.serialize(),
                     function (result, status) {
@@ -74,12 +66,63 @@
                         }
                     },
                     "JSON");
-                 return false;
-            // }
+                 return false;           
          });
      });
  </script>
+ <script type="text/javascript">
+     $(document).ready(function () {
+         BindStatus();
+         $("#StatusInfo").html("请选择");
+     });
+     function BindStatus() {
+         $.ajax({
+             type: "GET",
+             contentType: "application/json",
+             url: "ElementsManagement/GetStatusName",
+             data: {}, //即使参数为空，也需要设置
+             dataType: 'JSON', //返回的类型为XML
+             success: function (result, status) {
+                 //成功后执行的方法
+                 try {
+                     if (status == "success") {
+                         for (var i = 0; i < result.Total; i++) {
+                             $("#StatusParent").append("<option value='" + result.Rows[i].InitStatusID + "'>" + result.Rows[i].InitStatusName + "</option>");
+                         }
+                     }
+                 } catch (e)
+               { }
+             }
+         });
+     }
+ </script>
 
+ <script type="text/javascript">
+     $(document).ready(function () {
+         BindMenuName();
+         $("#MenuInfo").html("请选择");
+     });
+     function BindMenuName() {
+         $.ajax({
+             type: "GET",
+             contentType: "application/json",
+             url: "ElementsManagement/GetMenusName",
+             data: {}, //即使参数为空，也需要设置
+             dataType: 'JSON', //返回的类型为XML
+             success: function (result, status) {
+                 //成功后执行的方法
+                 try {
+                     if (status == "success") {
+                         for (var i = 0; i < result.Total; i++) {
+                             $("#MenuParent").append("<option value='" + result.Rows[i].menusID + "'>" + result.Rows[i].menusName + "</option>");
+                         }
+                     }
+                 } catch (e)
+               { }
+             }
+         });
+     }
+ </script>
 </asp:Content>
 
 
@@ -116,9 +159,7 @@
                     <label class="control-label">初始化状态</label>
                     <div class="controls">
                         <select class="span4" id="elementsInitstatus_id" name="elementsInitstatus_id">
-                         <option value="可见" id="elementsId1">可见</option>
-                         <option value="不可见" id="elementsId2">不可见</option>
-                         <option value="无效" id="elementsId3">无效</option>
+                         <option id="elementsInfo" value="-1"></option>
                         </select>
                     </div>
                 </div>

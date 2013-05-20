@@ -173,6 +173,67 @@ namespace WorkFlow.Controllers
         /// 编辑元素操作
         /// </summary>
         ///<returns></returns>
+        ///<summary>
+        ///获得下拉列表框内容
+        /// </summary>
+        /// <returns>json数据</returns>
+        public ActionResult GetStatusName()
+        {
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            DataSet ds = m_elementsBllService.GetAllElementsList();
+            List<Saron.WorkFlow.Models.InitStatusIDHelper> m_elementlist = new List<Saron.WorkFlow.Models.InitStatusIDHelper>();
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                if (ds.Tables[0].Rows[i][4] == DBNull.Value)
+                {
+                    m_elementlist.Add(new Saron.WorkFlow.Models.InitStatusIDHelper{InitStatusID=Convert.ToInt32(ds.Tables[0].Rows[i][0]),InitStatusName=ds.Tables[0].Rows[i][1].ToString()});
+                }
+                else
+                {
+                    m_elementlist.Add(new Saron.WorkFlow.Models.InitStatusIDHelper { InitStatusID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), InitStatusName = ds.Tables[0].Rows[i][1].ToString()});
+                }
+            }
+               var dataJson = new { 
+                Rows=m_elementlist,
+                Total = ds.Tables[0].Rows.Count
+            };
+            return Json(dataJson, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 获得菜单的下拉列表
+        /// </summary>
+        /// <returns>json数据</returns>
+        public ActionResult GetMenusName()
+        {
+            WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+            WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
+
+            DataSet ds = m_menusBllService.GetAllMenusList();
+            List<Saron.WorkFlow.Models.menusHelper> m_menuslist = new List<Saron.WorkFlow.Models.menusHelper>();
+
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                if (ds.Tables[0].Rows[i][5] == DBNull.Value)
+                {
+                    m_menuslist.Add(new Saron.WorkFlow.Models.menusHelper { menusID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), menusName = ds.Tables[0].Rows[i][1].ToString(), menusLevel = 1, parentID = -1 });
+                }
+                else
+                {
+                    m_menuslist.Add(new Saron.WorkFlow.Models.menusHelper { menusID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), menusName = ds.Tables[0].Rows[i][1].ToString(), menusLevel = 1, parentID = Convert.ToInt32(ds.Tables[0].Rows[i][5]) });
+                }
+
+            }
+
+            var dataJson = new
+            {
+                Rows = m_menuslist,
+                Total = ds.Tables[0].Rows.Count
+            };
+            return Json(dataJson, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult EditElements(FormCollection collection)
         {
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
