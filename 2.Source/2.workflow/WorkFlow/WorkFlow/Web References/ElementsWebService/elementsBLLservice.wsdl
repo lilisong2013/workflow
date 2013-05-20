@@ -127,6 +127,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetNameList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetNameListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNameListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetElementsTopList">
         <s:complexType>
           <s:sequence>
@@ -249,6 +266,12 @@
   <wsdl:message name="GetElementsListSoapOut">
     <wsdl:part name="parameters" element="tns:GetElementsListResponse" />
   </wsdl:message>
+  <wsdl:message name="GetNameListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNameList" />
+  </wsdl:message>
+  <wsdl:message name="GetNameListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNameListResponse" />
+  </wsdl:message>
   <wsdl:message name="GetElementsTopListSoapIn">
     <wsdl:part name="parameters" element="tns:GetElementsTopList" />
   </wsdl:message>
@@ -308,6 +331,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据where条件获得数据列表：strWhere（where条件）</wsdl:documentation>
       <wsdl:input message="tns:GetElementsListSoapIn" />
       <wsdl:output message="tns:GetElementsListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNameList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有元素表中所有的Name的数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetNameListSoapIn" />
+      <wsdl:output message="tns:GetNameListSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetElementsTopList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）</wsdl:documentation>
@@ -388,6 +416,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetElementsList">
       <soap:operation soapAction="http://saron.workflowservice.org/GetElementsList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNameList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetNameList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -490,6 +527,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetElementsList">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetElementsList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNameList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetNameList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

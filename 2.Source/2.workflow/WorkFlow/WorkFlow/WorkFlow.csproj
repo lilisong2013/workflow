@@ -936,6 +936,8 @@
     <Content Include="Views\BaseUserManagement\App_Apply.aspx" />
     <Content Include="Views\BaseUserManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
+    <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
+    <Content Include="Views\ElementsManagement\EditPage.aspx" />
     <Content Include="Views\Home\Login.aspx" />
     <Content Include="Views\Home\LoginPage.aspx" />
     <Content Include="Views\Home\Index.aspx" />

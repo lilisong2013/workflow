@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
+using System.Reflection;
+using System.Collections;
 
 namespace WorkFlow.Controllers
 {
@@ -15,23 +18,226 @@ namespace WorkFlow.Controllers
         {
             return View();
         }
-
-        public ActionResult AddElements()
+        /// <summary>
+        /// 获取数据库中Elements表中所有有效的数据
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetElements_Apply()
         {
-            if (Request.IsAjaxRequest())
-            {
-                string str1 = Request.Form["ElementsName"];
-                string str2 = Request.Form["ElementsCode"];
+            //排序的字段名
+            string sortname = Request.Params["sortname"];
+            //排序的方向
+            string sortorder = Request.Params["sortorder"];
+            //当前页
+            int page = Convert.ToInt32(Request.Params["page"]);
+            //每页显示的记录数
+            int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
-                return Json(new LoginResultDTO { Success = true, Message = "添加成功", ReturnUrl = "SomeURL" });
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsService= new ElementsWebService.elementsBLLservice();
+            DataSet ds = m_elementsService.GetAllElementsList();
+            IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
+            var total = ds.Tables[0].Rows.Count;
+            for (var i = 0; i < total; i++)
+            {
+                WorkFlow.ElementsWebService.elementsModel m_elementsModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
+                PropertyInfo[] m_propertys = m_elementsModel.GetType().GetProperties();
+                foreach (PropertyInfo pi in m_propertys)
+                {
+                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                    {
+                        // 属性与字段名称一致的进行赋值 
+                        if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                        {
+                            // 数据库NULL值单独处理 
+                            if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                pi.SetValue(m_elementsModel, ds.Tables[0].Rows[i][j], null);
+                            else
+                                pi.SetValue(m_elementsModel, null, null);
+                            break;
+                        }
+                    }
+                }
+                m_list.Add(m_elementsModel);
+            }
+
+            //模拟排序操作
+            if (sortorder == "desc")
+                m_list = m_list.OrderByDescending(c => c.id).ToList();
+            else
+                m_list = m_list.OrderBy(c => c.id).ToList();
+            IList<WorkFlow.ElementsWebService.elementsModel> m_targetList = new List<WorkFlow.ElementsWebService.elementsModel>();
+            //模拟分页操作
+            for (var i = 0; i < total; i++)
+            {
+                if (i >= (page - 1) * pagesize && i < page * pagesize)
+                {
+                    m_targetList.Add(m_list[i]);
+                }
+            }
+            var gridData = new
+            {
+                Rows = m_targetList,
+                Total = total
+            };
+            return Json(gridData);
+        }
+        /// <summary>
+        /// 显示元素操作的详细信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DetailInfo(int id)
+        {
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            m_elementsModel = m_elementsBllService.GetModel(id);
+            ViewData["elementsName"] = m_elementsModel.name;
+            ViewData["elementsCode"] = m_elementsModel.code;
+            ViewData["elementsRemark"] = m_elementsModel.remark;
+            ViewData["elementsInitstatus_id"] = m_elementsModel.initstatus_id;
+            ViewData["elementsSeqno"] = m_elementsModel.seqno;
+            ViewData["elementsMenu_id"] = m_elementsModel.menu_id;
+            ViewData["elementsApp_id"] = m_elementsModel.app_id;
+            ViewData["elementsInvalid"] = m_elementsModel.invalid;
+            ViewData["elementsDeleted"] = m_elementsModel.deleted;
+            ViewData["elementsCreated_at"] = m_elementsModel.created_at;
+            ViewData["elementsCreated_by"] = m_elementsModel.created_by;
+            ViewData["elementsCreated_ip"] = m_elementsModel.created_ip;
+            ViewData["elementsUpdated_at"] = m_elementsModel.updated_at;
+            ViewData["elementsUpdated_by"] = m_elementsModel.updated_by;
+            ViewData["elementsUpdated_ip"] = m_elementsModel.updated_ip;
+            return View();
+        }
+        ///<summary>
+        ///编辑元素的详细信息
+        ///</summary>
+        ///<returns></returns>
+        public ActionResult EditPage(int id)
+        {
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            m_elementsModel = m_elementsBllService.GetModel(id);
+            ViewData["elementsId"] = m_elementsModel.id;
+            ViewData["elementsName"] = m_elementsModel.name;
+            ViewData["elementsCode"] = m_elementsModel.code;
+            ViewData["elementsRemark"] = m_elementsModel.remark;
+            ViewData["elementsInitstatus_id"] = m_elementsModel.initstatus_id;
+            ViewData["elementsSeqno"] = m_elementsModel.seqno;
+            ViewData["elementsMenu_id"] = m_elementsModel.menu_id;
+            ViewData["elementsApp_id"] = m_elementsModel.app_id;
+            ViewData["elementsInvalid"] = m_elementsModel.invalid;
+            ViewData["elementsDeleted"] = m_elementsModel.deleted;
+            ViewData["elementsCreated_at"] = m_elementsModel.created_at;
+            ViewData["elementsCreated_by"] = m_elementsModel.created_by;
+            ViewData["elementsCreated_ip"] = m_elementsModel.created_ip;
+            ViewData["elementsUpdated_at"] = m_elementsModel.updated_at;
+            ViewData["elementsUpdated_by"] = m_elementsModel.updated_by;
+            ViewData["elementsUpdated_ip"] = m_elementsModel.updated_ip;
+            return View();
+        }
+        /// <summary>
+        /// 添加元素操作
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AddElements(FormCollection collection)
+        {
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            string m_elementsName = collection["ElementsName"].Trim();
+            string m_elementsCode = collection["ElementsCode"].Trim();
+            if (m_elementsName.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="元素名称不能为空---!"});
+            }
+            if (m_elementsCode.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="元素编码不能为空??!"});
+            }
+            return RedirectToAction("AppElements");
+            //if (Request.IsAjaxRequest())
+            //{
+            //    string str1 = Request.Form["ElementsName"];
+            //    string str2 = Request.Form["ElementsCode"];
+
+            //    return Json(new LoginResultDTO { Success = true, Message = "添加成功", ReturnUrl = "SomeURL" });
+            //}
+            //else
+            //{
+            //    return RedirectToAction("AppElements");
+            //}
+        }
+        /// <summary>
+        /// 编辑元素操作
+        /// </summary>
+        ///<returns></returns>
+        public ActionResult EditElements(FormCollection collection)
+        {
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()));
+            string name = collection["elementsName"].Trim();
+            string code = collection["elementsCode"].Trim();
+            string Initstatus_id = collection["elementsInitstatus_id"].Trim();
+            string Menu_id = collection["elementsMenu_id"].Trim();
+            if (name.Length == 0)
+            {      
+               return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
+            }
+            if (code.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="元素编码不能空!"});
+            }
+            if (Initstatus_id.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="初始化状态码不能为空!"});
+            }
+            if (Menu_id.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="页面ID不能为空!"});
+            }
+            DataSet ds = m_elementsBllService.GetNameList();
+            var total = ds.Tables[0].Rows.Count;
+            ArrayList elementsList = new ArrayList();
+            for (int i = 0; i < total; i++)
+            {
+                elementsList.Add(ds.Tables[0].Rows[i][0].ToString());
+            }
+            for (int i = 0; i < total; i++)
+            { 
+            //修改后的名称和原名称相同
+                if (m_elementsModel.name.ToString().Equals(collection["elementsName"].Trim().ToString()))
+                {
+                    elementsList.Remove(m_elementsModel.name);
+                }
+            }
+            m_elementsModel.name = collection["elementsName"].Trim();
+            m_elementsModel.code = collection["elementsCode"].Trim();
+            m_elementsModel.remark = collection["elementsRemark"].Trim();
+            m_elementsModel.initstatus_id = Convert.ToInt32(collection["elementsInitstatus_id"].Trim().ToString());
+            m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim().ToString());
+            m_elementsModel.menu_id = Convert.ToInt32(collection["elementsMenu_id"].Trim().ToString());
+            m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim().ToString());
+            m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim().ToString());
+            m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim().ToString());
+            m_elementsModel.created_at =Convert.ToDateTime(collection["elementsCreated_at"].Trim());
+            m_elementsModel.created_by = Convert.ToInt32(collection["elementsCreated_by"].Trim());
+            m_elementsModel.created_ip = collection["elementsCreated_ip"].Trim();
+            foreach (string elementsName in elementsList)
+            {//如果修改后的名称与数据表中的名称相同
+                if (elementsName.Equals(m_elementsModel.name.ToString()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
+                }
+            }
+            if (m_elementsBllService.Update(m_elementsModel))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "修改成功!", toUrl = "/ElementsManagement/AppElements" });
             }
             else
             {
                 return RedirectToAction("AppElements");
             }
+            
         }
-
-
         public class LoginResultDTO
         {
             public bool Success { get; set; }

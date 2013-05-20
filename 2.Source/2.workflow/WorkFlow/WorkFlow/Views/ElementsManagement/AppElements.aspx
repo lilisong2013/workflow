@@ -49,23 +49,37 @@
 
          });
  </script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        var form = $("#addElements");
-        form.submit(function () {
-            $.post(form.attr("action"),
-                form.serialize(),
-                function (result, status) {
-                    //debugger;
-                    alert(status);
-                },
-                "JSON");
-            return false;
-        });
-    });
-</script>
+ <script type="text/javascript">
+     $(document).ready(function () {
+         var form = $("#addElements");
+         form.submit(function () {
+//             if ($.trim($("#ElementsName").val()).length == 0) {
+//                 $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+//                 $("#promptDIV").addClass("p-warningDIV");
+//                 $("#promptDIV").html("元素名称不能为空？？？！");
 
-   
+//                 return false;
+//             }
+            // else {
+                 $.post(form.attr("action"),
+                    form.serialize(),
+                    function (result, status) {
+                        //debugger
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass(result.css);
+                        $("#promptDIV").html(result.message);
+
+                        if (result.success) {
+                            location.href = result.toUrl;
+                        }
+                    },
+                    "JSON");
+                 return false;
+            // }
+         });
+     });
+ </script>
+
 </asp:Content>
 
 
@@ -89,19 +103,22 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">页面元素名称</label>
                     <div class="controls">
-                        <input name="ElementsName" type="text" class="input-prepend span4" />
+                        <input id="elementsName" name="elementsName" type="text" class="input-prepend span4" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">页面元素编码</label>
                     <div class="controls">
-                        <input name="ElementsCode" type="text" class="input-prepend span4" />
+                        <input id="elementsCode" name="elementsCode" type="text" class="input-prepend span4" />
                     </div>
-                </div>
+                </div>             
                 <div class="control-group span6 offset2">
                     <label class="control-label">初始化状态</label>
                     <div class="controls">
-                        <select class="span4">
+                        <select class="span4" id="elementsInitstatus_id" name="elementsInitstatus_id">
+                         <option value="可见" id="elementsId1">可见</option>
+                         <option value="不可见" id="elementsId2">不可见</option>
+                         <option value="无效" id="elementsId3">无效</option>
                         </select>
                     </div>
                 </div>
@@ -113,15 +130,21 @@
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
+                 <label class="control-label">系统ID</label>
+                 <div class="controls">
+                  <input id="elementsApp_id" name="elementsApp_id" type="text" class="span4"/>
+                 </div>
+                </div>
+                <div class="control-group span6 offset2">
                     <label class="control-label">排序码</label>
                     <div class="controls">
-                        <input name="ElementsCode" type="text" class="span4" />
+                        <input id="elementsCode" name="elementsCode" type="text" class="span4" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="ElementsRemark" rows="4" cols="5" class="span4"></textarea>
+                        <textarea id="elementsRemark" name="elementsRemark" rows="4" cols="5" class="span4"></textarea>
                     </div>
                 </div>
                 <div class="control-group span6 offset3">
