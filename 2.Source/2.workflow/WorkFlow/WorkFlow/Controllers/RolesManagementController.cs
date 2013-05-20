@@ -42,6 +42,11 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空??！" });
             }
+            string m_AppId = collection["rolesApp_id"].Trim();
+            if (m_AppId.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="系统ID不能为空!"});
+            }
             m_rolesModel.name=collection["rolesName"].Trim();
             //获得deleted=false的rolesName列表
             DataSet ds = m_rolesBllService.GetDeletedRoles();
@@ -151,14 +156,6 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统名称不能为空！" });
             }
-            m_rolesModel.name = collection["rolesName"].Trim();
-            m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());
-            m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());
-            m_rolesModel.remark = collection["rolesRemark"].Trim();
-            m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
-            m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
-            m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
-            m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
             //获得deleted=false的rolesName列表
             DataSet ds = m_rolesBllService.GetDeletedRoles();
             var total = ds.Tables[0].Rows.Count;
@@ -167,6 +164,22 @@ namespace WorkFlow.Controllers
             {
                 rolesList.Add(ds.Tables[0].Rows[i][0].ToString());
             }
+            for (int i = 0; i < total; i++)
+            { 
+               if(m_rolesModel.name.ToString().Equals(collection["rolesName"].Trim().ToString()))
+               {
+                   rolesList.Remove(m_rolesModel.name);
+               }
+            }
+            m_rolesModel.name = collection["rolesName"].Trim();
+            m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());
+            m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());
+            m_rolesModel.remark = collection["rolesRemark"].Trim();
+            m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
+            m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
+            m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
+            m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
+         
             foreach (string rolesname in rolesList)
             {
                 if (rolesname.Equals(collection["rolesName"].Trim()))
