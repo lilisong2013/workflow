@@ -77,7 +77,7 @@
      });
      function BindStatus() {
          $.ajax({
-             type: "GET",
+             type: "Post",
              contentType: "application/json",
              url: "/ElementsManagement/GetStatusName",
              data: {}, //即使参数为空，也需要设置
@@ -104,7 +104,7 @@
      });
      function BindMenuName() {
          $.ajax({
-             type: "GET",
+             type: "Post",
              contentType: "application/json",
              url: "/ElementsManagement/GetMenusName",
              data: {}, //即使参数为空，也需要设置

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Data;
 using System.Reflection;
 using System.Collections;
-
+using System.Web.Mvc.Ajax;
 namespace WorkFlow.Controllers
 {
     public class ElementsManagementController : Controller
@@ -117,9 +117,12 @@ namespace WorkFlow.Controllers
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
             if (m_elementsBllService.Delete(id))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "删除记录成功!", toUrl = "/ElementsManagement/AppElements" });
+                return RedirectToAction("AppElements");
             }
-            return RedirectToAction("AppElements");
+            else 
+            {
+                return View();
+            }          
         }
         ///<summary>
         ///编辑元素的详细信息
@@ -171,6 +174,20 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="系统ID不能为空!"});
             }
+            DataSet ds = m_elementsBllService.GetAllElementsList();
+            ArrayList elementsList = new ArrayList();
+            var total = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < total; i++)
+            {
+                elementsList.Add(ds.Tables[0].Rows[i][1].ToString());
+            }
+            foreach (string elementslist in elementsList)
+            {
+                if (elementslist.Equals(collection["elementsName"].Trim().ToString()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
+                }
+            }
             m_elementsModel.name = collection["elementsName"].Trim();
             m_elementsModel.code = collection["elementsCode"].Trim();
             m_elementsModel.remark = collection["elementsRemark"].Trim();
@@ -184,7 +201,7 @@ namespace WorkFlow.Controllers
             m_elementsModel.created_by = Convert.ToInt32(collection["Created_by"].Trim());
             m_elementsModel.created_ip=collection["Created_ip"].Trim();
             m_elementsBllService.Add(m_elementsModel);
-            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, message = "添加成功", toUrl = "/ElementsManagement/AppElements" });
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功", toUrl = "/ElementsManagement/AppElements" });
             //if (Request.IsAjaxRequest())
             //{
             //    string str1 = Request.Form["ElementsName"];
