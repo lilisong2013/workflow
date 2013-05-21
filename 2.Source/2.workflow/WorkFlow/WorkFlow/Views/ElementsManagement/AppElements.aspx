@@ -123,6 +123,32 @@
          });
      }
  </script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        BindAppId();
+        $("#AppIdInfo").html("请选择");
+    });
+    function BindAppId() {
+        $.ajax({
+            type: "Post",
+            contentType: "application/json",
+            url: "/ElementsManagement/GetAppId",
+            data: {}, //即使参数为空，也需要设置
+            dataType: 'JSON', //返回的类型为XML
+            success: function (result, status) {
+                //成功后执行的方法
+                try {
+                    if (status == "success") {
+                        for (var i = 0; i < result.Total; i++) {
+                            $("#AppIdParent").append("<option value='" + result.Rows[i].AppID + "'>" + result.Rows[i].AppID + "</option>");
+                        }
+                    }
+                } catch (e)
+            { }
+            }
+        });
+    }
+</script>
 </asp:Content>
 
 
@@ -143,6 +169,7 @@
         <%--操作提示DIV--%>
        <div id="promptDIV" class="row"></div>
       </div>
+
        <div class="tab-pane active" id="AllElements"></div>
         <div class="tab-pane" id="AddElements">
             <form id="addElements" class="form-horizontal" method="post" action="/ElementsManagement/AddElements">
@@ -177,7 +204,9 @@
                 <div class="control-group span6 offset2">
                  <label class="control-label">系统ID</label>
                  <div class="controls">
-                  <input id="elementsApp_id" name="elementsApp_id" type="text" class="span4"/>
+                 <select class="span4" id="AppIdParent" name="AppIdParent">
+                  <option id="AppIdInfo" value="-1"></option>
+                 </select>                 
                  </div>
                 </div>
                 <div class="control-group span6 offset2">
@@ -197,8 +226,8 @@
                         <input type="hidden" id="Created_ip" name="Created_ip" value="<%=ipAddress%>"/>
                     </div>
                 </div>
-                <div class="control-group span6 offset3">
-                    <input type="submit" class="btn btn-primary btn-large span4" onclick="" value="添加元素" />
+                <div class="control-group span5 offset2">
+                    <input type="submit" class="btn btn-primary span4" onclick="" value="添加元素" />
                 </div>
             </form>
         </div>

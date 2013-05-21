@@ -71,6 +71,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppIDHelper.cs" />
     <Compile Include="Models\InformationModel.cs" />
     <Compile Include="Models\InitStatusIDHelper.cs" />
     <Compile Include="Models\menuHelper.cs" />
