@@ -79,7 +79,7 @@
          $.ajax({
              type: "GET",
              contentType: "application/json",
-             url: "ElementsManagement/GetStatusName",
+             url: "/ElementsManagement/GetStatusName",
              data: {}, //即使参数为空，也需要设置
              dataType: 'JSON', //返回的类型为XML
              success: function (result, status) {
@@ -106,7 +106,7 @@
          $.ajax({
              type: "GET",
              contentType: "application/json",
-             url: "ElementsManagement/GetMenusName",
+             url: "/ElementsManagement/GetMenusName",
              data: {}, //即使参数为空，也需要设置
              dataType: 'JSON', //返回的类型为XML
              success: function (result, status) {
@@ -135,7 +135,10 @@
             <li><a href="#AddElements" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
-    <div class="tab-content">
+      <% string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
+      <% string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
+      <% DateTime t = Convert.ToDateTime(s); %>
+     <div class="tab-content">
       <div class="container">
         <%--操作提示DIV--%>
        <div id="promptDIV" class="row"></div>
@@ -158,15 +161,16 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">初始化状态</label>
                     <div class="controls">
-                        <select class="span4" id="elementsInitstatus_id" name="elementsInitstatus_id">
-                         <option id="elementsInfo" value="-1"></option>
+                        <select class="span4" id="StatusParent" name="StatusParent">
+                         <option id="StatusInfo" value="-1"></option>
                         </select>
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">所在页面</label>
                     <div class="controls">
-                        <select class="span4">
+                        <select class="span4" id="MenuParent" name="MenuParent">
+                         <option id="MenuInfo" value="-1"></option>
                         </select>
                     </div>
                 </div>
@@ -179,13 +183,18 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">排序码</label>
                     <div class="controls">
-                        <input id="elementsCode" name="elementsCode" type="text" class="span4" />
+                        <input id="elementsSeqno" name="elementsSeqno" type="text" class="span4" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
                         <textarea id="elementsRemark" name="elementsRemark" rows="4" cols="5" class="span4"></textarea>
+                        <input type="hidden" id="elementsInvalid" name="elementsInvalid" value="true"/>
+                        <input type="hidden" id="elementsDeleted" name="elementsDeleted" value="false"/>
+                        <input type="hidden" id="Created_at" name="Created_at" value="<%=t %>"/>
+                        <input type="hidden" id="Created_by" name="Created_by" value="<%=32 %>"/>
+                        <input type="hidden" id="Created_ip" name="Created_ip" value="<%=ipAddress%>"/>
                     </div>
                 </div>
                 <div class="control-group span6 offset3">

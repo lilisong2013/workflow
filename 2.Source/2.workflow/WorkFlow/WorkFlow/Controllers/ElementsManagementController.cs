@@ -108,6 +108,20 @@ namespace WorkFlow.Controllers
             return View();
         }
         ///<summary>
+        ///删除指定ID的操作
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ChangePage(int id)
+        {
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            if (m_elementsBllService.Delete(id))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "删除记录成功!", toUrl = "/ElementsManagement/AppElements" });
+            }
+            return RedirectToAction("AppElements");
+        }
+        ///<summary>
         ///编辑元素的详细信息
         ///</summary>
         ///<returns></returns>
@@ -142,21 +156,35 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-           // m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()));
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
-            //string Initstatus_id = Convert.ToString(collection["elementsInitstatus_id"].Trim());
-           // string Menu_id = Convert.ToString(collection["elementsMenu_id"].Trim());
+            string appid = Convert.ToString(collection["elementsApp_id"].Trim());
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
             }
-            if (code.Length == 1)
+            if (code.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码不能空!" });
             }
-        
-            return RedirectToAction("AppElements");
+            if (appid.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="系统ID不能为空!"});
+            }
+            m_elementsModel.name = collection["elementsName"].Trim();
+            m_elementsModel.code = collection["elementsCode"].Trim();
+            m_elementsModel.remark = collection["elementsRemark"].Trim();
+            m_elementsModel.initstatus_id = Convert.ToInt32(collection["StatusParent"].Trim());
+            m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim());
+            m_elementsModel.menu_id = Convert.ToInt32(collection["MenuParent"].Trim());
+            m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim());
+            m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim());
+            m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim());
+            m_elementsModel.created_at=Convert.ToDateTime(collection["Created_at"].Trim());
+            m_elementsModel.created_by = Convert.ToInt32(collection["Created_by"].Trim());
+            m_elementsModel.created_ip=collection["Created_ip"].Trim();
+            m_elementsBllService.Add(m_elementsModel);
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, message = "添加成功", toUrl = "/ElementsManagement/AppElements" });
             //if (Request.IsAjaxRequest())
             //{
             //    string str1 = Request.Form["ElementsName"];
@@ -169,30 +197,19 @@ namespace WorkFlow.Controllers
             //    return RedirectToAction("AppElements");
             //}
         }
-        /// <summary>
-        /// 编辑元素操作
-        /// </summary>
-        ///<returns></returns>
         ///<summary>
-        ///获得下拉列表框内容
+        ///获得初始化状态的下拉列表
         /// </summary>
         /// <returns>json数据</returns>
         public ActionResult GetStatusName()
         {
-            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
-            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-            DataSet ds = m_elementsBllService.GetAllElementsList();
+            WorkFlow.Init_StatusWebService.init_statusBLLservice m_init_statusBllService = new Init_StatusWebService.init_statusBLLservice();
+            WorkFlow.Init_StatusWebService.init_statusModel m_init_statusModel = new Init_StatusWebService.init_statusModel();
+            DataSet ds = m_init_statusBllService.GetAllInit_StatusList();
             List<Saron.WorkFlow.Models.InitStatusIDHelper> m_elementlist = new List<Saron.WorkFlow.Models.InitStatusIDHelper>();
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-            {
-                if (ds.Tables[0].Rows[i][4] == DBNull.Value)
-                {
-                    m_elementlist.Add(new Saron.WorkFlow.Models.InitStatusIDHelper{InitStatusID=Convert.ToInt32(ds.Tables[0].Rows[i][0]),InitStatusName=ds.Tables[0].Rows[i][1].ToString()});
-                }
-                else
-                {
-                    m_elementlist.Add(new Saron.WorkFlow.Models.InitStatusIDHelper { InitStatusID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), InitStatusName = ds.Tables[0].Rows[i][1].ToString()});
-                }
+            {               
+                    m_elementlist.Add(new Saron.WorkFlow.Models.InitStatusIDHelper { InitStatusID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), InitStatusName = Convert.ToString(ds.Tables[0].Rows[i][1])});               
             }
                var dataJson = new { 
                 Rows=m_elementlist,
