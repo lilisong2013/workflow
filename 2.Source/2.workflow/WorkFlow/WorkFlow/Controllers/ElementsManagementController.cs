@@ -93,7 +93,8 @@ namespace WorkFlow.Controllers
             ViewData["elementsName"] = m_elementsModel.name;
             ViewData["elementsCode"] = m_elementsModel.code;
             ViewData["elementsRemark"] = m_elementsModel.remark;
-            ViewData["elementsInitstatus_id"] = m_elementsModel.initstatus_id;
+            //ViewData["elementsInitstatus_id"] = m_elementsModel.initstatus_id;
+            ViewData["elementsInitstatus_id"] = GetStatusValue(Convert.ToInt32(m_elementsModel.initstatus_id));
             ViewData["elementsSeqno"] = m_elementsModel.seqno;
             ViewData["elementsMenu_id"] = m_elementsModel.menu_id;
             ViewData["elementsApp_id"] = m_elementsModel.app_id;
@@ -106,6 +107,24 @@ namespace WorkFlow.Controllers
             ViewData["elementsUpdated_by"] = m_elementsModel.updated_by;
             ViewData["elementsUpdated_ip"] = m_elementsModel.updated_ip;
             return View();
+        }
+        /// <summary>
+        /// 根据状态ID返回状态值
+        /// </summary>
+        /// <param name="id">状态ID</param>
+        /// <returns>状态值</returns>
+        public string  GetStatusValue(int id)
+        {
+            if (id == 1)
+            {
+                return "可见";
+            }
+            if (id == 2)
+            {
+                return "不可见";
+            }
+            return "无效";
+            
         }
         ///<summary>
         ///删除指定ID的操作
@@ -133,6 +152,11 @@ namespace WorkFlow.Controllers
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
             m_elementsModel = m_elementsBllService.GetModel(id);
+            string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
+            DateTime t = Convert.ToDateTime(s);
+            m_elementsModel.updated_at = t;
+            m_elementsModel.updated_by = m_elementsModel.created_by;
+            m_elementsModel.updated_ip = m_elementsModel.created_ip;
             ViewData["elementsId"] = m_elementsModel.id;
             ViewData["elementsName"] = m_elementsModel.name;
             ViewData["elementsCode"] = m_elementsModel.code;
@@ -338,6 +362,9 @@ namespace WorkFlow.Controllers
                     elementsList.Remove(m_elementsModel.name);
                 }
             }
+            String s = DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
+            DateTime t = Convert.ToDateTime(s);
+            WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
             m_elementsModel.name = collection["elementsName"].Trim();
             m_elementsModel.code = collection["elementsCode"].Trim();
             m_elementsModel.remark = collection["elementsRemark"].Trim();
@@ -350,6 +377,9 @@ namespace WorkFlow.Controllers
             m_elementsModel.created_at =Convert.ToDateTime(collection["elementsCreated_at"].Trim());
             m_elementsModel.created_by = Convert.ToInt32(collection["elementsCreated_by"].Trim());
             m_elementsModel.created_ip = collection["elementsCreated_ip"].Trim();
+            m_elementsModel.updated_at = t;
+            m_elementsModel.updated_by = Convert.ToInt32(m_userModel.id);
+            m_elementsModel.updated_ip = collection["elementsCreated_ip"].Trim();
             foreach (string elementsName in elementsList)
             {//如果修改后的名称与数据表中的名称相同
                 if (elementsName.Equals(m_elementsModel.name.ToString()))

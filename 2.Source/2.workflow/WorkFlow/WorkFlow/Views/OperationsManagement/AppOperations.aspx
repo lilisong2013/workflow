@@ -94,6 +94,33 @@
 
             });
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            BindAppId();
+            $("#AppIdInfo").html("请选择");
+        });
+        function BindAppId() {
+            $.ajax({
+                type: "Post",
+                contentType: "application/json",
+                url: "/ElementsManagement/GetAppId",
+                data: {}, //即使参数为空，也需要设置
+                dataType: 'JSON', //返回的类型为XML
+                success: function (result, status) {
+                    //成功后执行的方法
+                    try {
+                        if (status == "success") {
+                            for (var i = 0; i < result.Total; i++) {
+                                $("#AppIdParent").append("<option value='" + result.Rows[i].AppID + "'>" + result.Rows[i].AppID + "</option>");
+                            }
+                        }
+                    } catch (e)
+            { }
+                }
+            });
+        }
+</script>
 </asp:Content>
 
 
@@ -130,7 +157,9 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsApp_id">应用系统ID：</label>
                         <div class="controls">
-                            <input type="text" name="operationsApp_id" id="operationsApp_id" class="input-prepend span4" />
+                           <select id="AppIdParent" name="AppIdParent" class="span4">
+                             <option id="AppIdInfo" value="-1"></option>
+                           </select>
                         </div>
                     </div>
                     <div class="control-group span6 offset2">

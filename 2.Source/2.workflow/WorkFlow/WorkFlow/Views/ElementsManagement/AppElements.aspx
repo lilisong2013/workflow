@@ -222,8 +222,9 @@
                         <input type="hidden" id="elementsInvalid" name="elementsInvalid" value="true"/>
                         <input type="hidden" id="elementsDeleted" name="elementsDeleted" value="false"/>
                         <input type="hidden" id="Created_at" name="Created_at" value="<%=t %>"/>
-                        <input type="hidden" id="Created_by" name="Created_by" value="<%=32 %>"/>
-                        <input type="hidden" id="Created_ip" name="Created_ip" value="<%=ipAddress%>"/>
+                        <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
+                        <input type="hidden" id="Created_by" name="Created_by" value="<%=m_userModel.id%>"/>
+                        <input type="hidden" id="Created_ip" name="Created_ip" value="<%=ipAddress%>"/>           
                     </div>
                 </div>
                 <div class="control-group span5 offset2">

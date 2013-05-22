@@ -37,12 +37,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "角色名称不能为空??！" });
             }
-            string m_Invalid = collection["rolesInvalid"].Trim();
-            if (m_Invalid.Length == 0)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空??！" });
-            }
-            string m_AppId = collection["rolesApp_id"].Trim();
+            string m_AppId = collection["AppIdParent"].Trim();
             if (m_AppId.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="系统ID不能为空!"});
@@ -63,15 +58,15 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的角色名称!" });
                 }
             }
+            m_rolesModel.name = collection["rolesName"].Trim();
             m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());//String转化为Boolean
             m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());//String转化为Boolean
-            m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
+            m_rolesModel.app_id = Convert.ToInt32(collection["AppIdParent"].Trim());
             m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
             m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
             m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
             m_rolesModel.remark=collection["rolesRemark"].Trim();
             m_rolesBllService.Add(m_rolesModel);
-           // return RedirectToAction("AppRoles");
             return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/RolesManagement/AppRoles" });
         }
         public ActionResult AddRoles()

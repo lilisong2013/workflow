@@ -953,6 +953,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Views\Home\RegistPage.aspx" />
+    <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
     <Content Include="Views\Shared\mainsite.Master" />
     <Content Include="Views\Shared\adminSite.Master" />
