@@ -150,7 +150,7 @@
 
         <div class="tab-pane active" id="AllRoles"></div>
         <div class="tab-pane" id="AddRoles">
-          <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/RegisterRole">
+          <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/AddRoles">
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesName">角色名称：</label>
                         <div class="controls">
@@ -170,7 +170,7 @@
                         <div class="controls">
                             <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4"></textarea>
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]); %>
-                            <%string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
+                            <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(dt);%>
                             <input type="hidden" name="rolesInvalid" id="rolesInvalid" value="true"/>

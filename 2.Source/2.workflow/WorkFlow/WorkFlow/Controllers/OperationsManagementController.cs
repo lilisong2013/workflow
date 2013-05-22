@@ -168,6 +168,10 @@ namespace WorkFlow.Controllers
                 }            
                 
             }
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
+            DateTime t = Convert.ToDateTime(s);
+            
             m_operationsModel.name = collection["operationsName"].Trim();
             m_operationsModel.code = collection["operationsCode"].Trim();
             m_operationsModel.description = collection["operationsDescription"].Trim();
@@ -175,9 +179,9 @@ namespace WorkFlow.Controllers
             m_operationsModel.remark = collection["operationsRemark"].Trim();
             m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
             m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());           
-            m_operationsModel.created_at=Convert.ToDateTime(collection["operationsCreated_at"].Trim());
-            m_operationsModel.created_by = Convert.ToInt32(collection["operationsCreated_by"].Trim());
-            m_operationsModel.created_ip = collection["operationsCreated_ip"].Trim();
+            m_operationsModel.updated_at = t;
+            m_operationsModel.updated_by = m_usersModel.id;
+            m_operationsModel.updated_ip = collection["operationsCreated_ip"].Trim();
              foreach (string operationListname in operationsList)
                 {
                     if (operationListname.Equals(m_operationsModel.name.ToString()))
@@ -232,7 +236,7 @@ namespace WorkFlow.Controllers
             string m_operationsCode = collection["operationsCode"].Trim();
             string m_operationsDescription = collection["operationsDescription"].Trim();
             string m_operationsRemark = collection["operationsRemark"].Trim();
-            string m_operationsApp_id = collection["operationsApp_id"].Trim();
+            string m_operationsApp_id = collection["AppIdParent"].Trim();
             if (m_operationsApp_id.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "App_id不能为空!" });
@@ -257,16 +261,19 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作名称!" });
                 }
             }
+            string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
+            DateTime t = Convert.ToDateTime(s);
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
             m_operationsModel.name = collection["operationsName"].Trim();
             m_operationsModel.code = collection["operationsCode"].Trim();
             m_operationsModel.description = collection["operationsDescription"].Trim();
             m_operationsModel.remark = collection["operationsRemark"].Trim();
-            m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
+            m_operationsModel.app_id = Convert.ToInt32(collection["AppIdParent"].Trim());
             m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
-            m_operationsModel.deleted = false;
-            m_operationsModel.created_at = System.DateTime.Now;
-            m_operationsModel.created_by =32;
-            m_operationsModel.created_ip=Convert.ToString(Session["createdIP"]);
+            m_operationsModel.deleted =Convert.ToBoolean(collection["operationsDeleted"].Trim());
+            m_operationsModel.created_at = t;
+            m_operationsModel.created_by =m_usersModel.id;
+            m_operationsModel.created_ip=Convert.ToString(collection["createdIP"].Trim());
             m_operationsBllService.Add(m_operationsModel);
             return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/OperationsManagement/AppOperations" });
         }

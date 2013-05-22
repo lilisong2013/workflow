@@ -364,7 +364,8 @@ namespace WorkFlow.Controllers
             }
             String s = DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
-            WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
             m_elementsModel.name = collection["elementsName"].Trim();
             m_elementsModel.code = collection["elementsCode"].Trim();
             m_elementsModel.remark = collection["elementsRemark"].Trim();
@@ -374,11 +375,8 @@ namespace WorkFlow.Controllers
             m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim().ToString());
             m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim().ToString());
             m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim().ToString());
-            m_elementsModel.created_at =Convert.ToDateTime(collection["elementsCreated_at"].Trim());
-            m_elementsModel.created_by = Convert.ToInt32(collection["elementsCreated_by"].Trim());
-            m_elementsModel.created_ip = collection["elementsCreated_ip"].Trim();
             m_elementsModel.updated_at = t;
-            m_elementsModel.updated_by = Convert.ToInt32(m_userModel.id);
+            m_elementsModel.updated_by = Convert.ToInt32(m_usersModel.id);
             m_elementsModel.updated_ip = collection["elementsCreated_ip"].Trim();
             foreach (string elementsName in elementsList)
             {//如果修改后的名称与数据表中的名称相同

@@ -163,13 +163,6 @@
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsInvalid">是否有效：</label>
-                        <div class="controls">
-                        <input type="checkbox" id="osInvalid" name="osInvalid" checked="checked" onclick="checkAll(this,'true')"/>
-                        <input type="hidden" name="operationsInvalid" id="operationsInvalid"  value="true" class="input-prepend span4"/>
-                        </div>
-                    </div>  
-                    <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsDescription">操作描述：</label>
                         <div class="controls">
                            <textarea name="operationsDescription" id="operationsDescription" rows="4" cols="5" class="span4"></textarea>
@@ -179,8 +172,14 @@
                         <label class="control-label" for="operationsRemark">备注：</label>
                         <div class="controls">
                             <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4"></textarea>
-                            <input type="hidden" name="createdBy" id="createdBy" value="<%=32%>" />
-                            <% string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
+                            <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
+                            <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
+                            <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
+                            <%DateTime t = Convert.ToDateTime(s); %>
+                            <input type="hidden" name="operationsInvalid" id="operationsInvalid" value="true"/>
+                            <input type="hidden" name="operationsDeleted" id="operationsDeleted" value="false"/>
+                            <input type="hidden" name="createdBy" id="createdBy" value="<%=m_usersModel.id%>" />
+                            <input type="hidden" name="createdAt" id="createdAt" value="<%=t%>"/>
                             <input type="hidden" name="createdIP" id="createdIP" value="<%= ipAddress %>" />
                         </div>
                     </div>
