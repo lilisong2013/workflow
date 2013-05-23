@@ -15,13 +15,14 @@ namespace WorkFlow.Controllers
         public ActionResult App_Apply()
         {
             if (Session["loginName"] == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View();
-            }
+             {
+                 return RedirectToAction("Index", "Home");
+             }
+             else
+             {
+                 return View();
+             }
+           
         }
 
         public ActionResult ChangePage(int id)

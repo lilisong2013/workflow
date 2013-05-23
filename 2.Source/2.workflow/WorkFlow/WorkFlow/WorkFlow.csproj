@@ -68,6 +68,7 @@
     <Compile Include="Controllers\MenusManagementController.cs" />
     <Compile Include="Controllers\OperationsManagementController.cs" />
     <Compile Include="Controllers\RolesManagementController.cs" />
+    <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1050,6 +1051,7 @@
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
     <None Include="Web References\ElementsWebService\elementsBLLservice.disco" />
     <Content Include="Views\Home\OrganizationStruct.aspx" />
+    <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

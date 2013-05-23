@@ -161,7 +161,7 @@
             <li><a href="#AddElements" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
-      <% string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
+      <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
       <% string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
       <% DateTime t = Convert.ToDateTime(s); %>
      <div class="tab-content">
@@ -202,14 +202,6 @@
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
-                 <label class="control-label">系统ID</label>
-                 <div class="controls">
-                 <select class="span4" id="AppIdParent" name="AppIdParent">
-                  <option id="AppIdInfo" value="-1"></option>
-                 </select>                 
-                 </div>
-                </div>
-                <div class="control-group span6 offset2">
                     <label class="control-label">排序码</label>
                     <div class="controls">
                         <input id="elementsSeqno" name="elementsSeqno" type="text" class="span4" />
@@ -219,10 +211,11 @@
                     <label class="control-label">备注信息</label>
                     <div class="controls">
                         <textarea id="elementsRemark" name="elementsRemark" rows="4" cols="5" class="span4"></textarea>
+                        <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>                   
+                        <input type="hidden" id="elementsApp_id" name="elementsApp_id" value="<%=m_userModel.app_id%>"/>
                         <input type="hidden" id="elementsInvalid" name="elementsInvalid" value="true"/>
                         <input type="hidden" id="elementsDeleted" name="elementsDeleted" value="false"/>
-                        <input type="hidden" id="Created_at" name="Created_at" value="<%=t %>"/>
-                        <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
+                        <input type="hidden" id="Created_at" name="Created_at" value="<%=t %>"/>               
                         <input type="hidden" id="Created_by" name="Created_by" value="<%=m_userModel.id%>"/>
                         <input type="hidden" id="Created_ip" name="Created_ip" value="<%=ipAddress%>"/>           
                     </div>

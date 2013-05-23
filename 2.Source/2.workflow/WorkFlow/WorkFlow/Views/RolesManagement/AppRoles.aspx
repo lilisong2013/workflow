@@ -157,14 +157,7 @@
                             <input type="text" name="rolesName" id="rolesName" class="input-prepend span4"/>                            
                         </div>
                     </div>
-                    <div class="control-group span6 offset2">
-                    <label class="control-label" for="rolesInvalid">系统ID：</label>
-                    <div class="controls">
-                      <select id="AppIdParent" name="AppIdParent" class="span4">
-                        <option value="-1" id="AppIdInfo"></option>
-                      </select>                     
-                    </div>
-                    </div>        
+                          
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesRemark">备注：</label>
                         <div class="controls">
@@ -173,6 +166,7 @@
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(dt);%>
+                            <input type="hidden" name="rolesApp_id" id="rolesApp_id" value="<%=m_usersModel.app_id%>"/>
                             <input type="hidden" name="rolesInvalid" id="rolesInvalid" value="true"/>
                             <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="false" />
                             <input type="hidden" name="rolesCreated_by" id="rolesCreated_by" value="<%=m_usersModel.id%>" />

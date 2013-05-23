@@ -140,26 +140,17 @@
     <div class="tab-content">
         <div class="tab-pane active" id="AllOperations"></div>
         <div class="tab-pane" id="AddOperations">
-          <form id="add_Operations" class="form-horizontal" method="post" action="/OperationsManagement/RegisterOperations">
+          <form id="add_Operations" class="form-horizontal" method="post" action="/OperationsManagement/AddOperations">
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsName">操作名称：</label>
                         <div class="controls">
-                            <input type="text" name="operationsName" id="operationsName" class="input-prepend span4"/>
-                            
+                            <input type="text" name="operationsName" id="operationsName" class="input-prepend span4"/>                  
                         </div>
                     </div>
                      <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsCode">操作编码：</label>
                         <div class="controls">
                             <input type="text" name="operationsCode" id="operationsCode" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsApp_id">应用系统ID：</label>
-                        <div class="controls">
-                           <select id="AppIdParent" name="AppIdParent" class="span4">
-                             <option id="AppIdInfo" value="-1"></option>
-                           </select>
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
@@ -176,6 +167,7 @@
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(s); %>
+                            <input type="hidden" name="operationsApp_id" id="operationsApp_id" value="<%=m_usersModel.app_id%>"/>
                             <input type="hidden" name="operationsInvalid" id="operationsInvalid" value="true"/>
                             <input type="hidden" name="operationsDeleted" id="operationsDeleted" value="false"/>
                             <input type="hidden" name="createdBy" id="createdBy" value="<%=m_usersModel.id%>" />

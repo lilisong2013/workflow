@@ -37,11 +37,6 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "角色名称不能为空??！" });
             }
-            string m_AppId = collection["AppIdParent"].Trim();
-            if (m_AppId.Length == 0)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统ID不能为空!" });
-            }
             m_rolesModel.name = collection["rolesName"].Trim();
             //获得deleted=false的rolesName列表
             DataSet ds = m_rolesBllService.GetDeletedRoles();
@@ -61,7 +56,7 @@ namespace WorkFlow.Controllers
             m_rolesModel.name = collection["rolesName"].Trim();
             m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());//String转化为Boolean
             m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());//String转化为Boolean
-            m_rolesModel.app_id = Convert.ToInt32(collection["AppIdParent"].Trim());
+            m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
             m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
             m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
             m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
@@ -134,16 +129,6 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "角色名称不能为空！" });
             }
-            string valid = collection["rolesInvalid"].Trim();
-            if (valid.Length == 0)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空！" });
-            }
-            string appid = collection["rolesApp_id"].Trim();
-            if (appid.Length == 0)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统名称不能为空！" });
-            }
             //获得deleted=false的rolesName列表
             DataSet ds = m_rolesBllService.GetDeletedRoles();
             var total = ds.Tables[0].Rows.Count;
@@ -210,7 +195,10 @@ namespace WorkFlow.Controllers
             ViewData["rolesApp_id"] = m_rolesModel.app_id;
             return View();
         }
-
+        /// <summary>
+        /// 显示系统的详细的信息
+        /// </summary>
+        /// <returns></returns>
         public ActionResult GetRoles_Apply()
         {
             //排序的字段名

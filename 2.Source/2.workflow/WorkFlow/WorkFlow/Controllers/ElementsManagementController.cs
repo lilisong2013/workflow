@@ -187,7 +187,6 @@ namespace WorkFlow.Controllers
             string code = collection["elementsCode"].Trim();
             int initstatusid = Convert.ToInt32(collection["StatusParent"].Trim());
             int menuid = Convert.ToInt32(collection["MenuParent"].Trim());
-            int appid = Convert.ToInt32(collection["AppIdParent"].Trim());
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
@@ -202,11 +201,7 @@ namespace WorkFlow.Controllers
             }
             if (menuid == -1)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="所在页面不能为空!" });
-            }
-            if (appid==-1)
-            {
-             return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="系统ID不能为空!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空!" });
             }
             DataSet ds = m_elementsBllService.GetAllElementsList();
             ArrayList elementsList = new ArrayList();
@@ -228,7 +223,7 @@ namespace WorkFlow.Controllers
             m_elementsModel.initstatus_id = Convert.ToInt32(collection["StatusParent"].Trim());
             m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim());
             m_elementsModel.menu_id = Convert.ToInt32(collection["MenuParent"].Trim());
-            m_elementsModel.app_id = Convert.ToInt32(collection["AppIdParent"].Trim());
+            m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim());
             m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim());
             m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim());
             m_elementsModel.created_at=Convert.ToDateTime(collection["Created_at"].Trim());
@@ -236,17 +231,6 @@ namespace WorkFlow.Controllers
             m_elementsModel.created_ip=collection["Created_ip"].Trim();
             m_elementsBllService.Add(m_elementsModel);
             return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功", toUrl = "/ElementsManagement/AppElements" });
-            //if (Request.IsAjaxRequest())
-            //{
-            //    string str1 = Request.Form["ElementsName"];
-            //    string str2 = Request.Form["ElementsCode"];
-
-            //    return Json(new LoginResultDTO { Success = true, Message = "添加成功", ReturnUrl = "SomeURL" });
-            //}
-            //else
-            //{
-            //    return RedirectToAction("AppElements");
-            //}
         }
         ///<summary>
         ///获得系统ID的下拉列表框
