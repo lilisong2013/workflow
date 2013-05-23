@@ -85,7 +85,7 @@ namespace WorkFlow.Controllers
             }
         }
         /// <summary>
-        /// 显示所选系统的详情
+        /// 获取ID的数据表详情
         /// </summary>
         /// <param name="id">系统的ID</param>
         /// <returns></returns>
