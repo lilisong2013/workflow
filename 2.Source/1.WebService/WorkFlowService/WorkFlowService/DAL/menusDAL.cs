@@ -83,7 +83,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 更新一条数据
 		/// </summary>
 		public bool Update(Saron.WorkFlowService.Model.menusModel model)
@@ -172,7 +173,8 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 批量删除数据
 		/// </summary>
 		public bool DeleteList(string idlist )
@@ -307,6 +309,98 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
+
+        /// <summary>
+        /// 获得系统菜单列表
+        /// </summary>
+        /// <param name="appId">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetListOfApp(int appId)
+        {
+            StringBuilder strSql=new StringBuilder();
+			strSql.Append("select id,name,code,url,app_id,parent_id,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+			strSql.Append(" FROM menus ");
+            strSql.Append(" where app_id=@app_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appId;
+			return DbHelperSQL.Query(strSql.ToString(),parameters);
+        }
+
+        /// <summary>
+        /// 获得某系统某菜单的子菜单
+        /// </summary>
+        /// <param name="appId">系统ID</param>
+        /// <param name="parentId">父菜单ID</param>
+        /// <returns>子菜数据列表</returns>
+        public DataSet GetChildrenMenusListOfApp(int appId,int parentId)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,url,app_id,parent_id,remark,invalid ");
+            strSql.Append(" FROM menus ");
+            strSql.Append(" where app_id=@app_id and parent_id=@parent_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@parent_id", SqlDbType.Int,4),
+			};
+            parameters[0].Value = appId;
+            parameters[1].Value = parentId;
+            return DbHelperSQL.Query(strSql.ToString(),parameters);
+        }
+
+        public DataSet GetChildrenMenusListOfApp(int parentId)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,url,app_id,parent_id,remark,invalid ");
+            strSql.Append(" FROM menus ");
+            strSql.Append(" where parent_id=@parent_id and deleted=0 ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@parent_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = parentId;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
+
+        /// <summary>
+        /// 获得某系统的顶级菜单
+        /// </summary>
+        /// <param name="appId">系统ID</param>
+        /// <param name="parentId">父菜单ID</param>
+        /// <returns>子菜数据列表</returns>
+        public DataSet GetTopMenusListOfApp(int appId)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,url,app_id,parent_id,remark,invalid ");
+            strSql.Append(" FROM menus ");
+            strSql.Append(" where app_id=@app_id and parent_id is null and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+			};
+            parameters[0].Value = appId;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// 菜单是否存在子菜单
+        /// </summary>
+        /// <param name="parentId">父菜单ID</param>
+        /// <returns></returns>
+        public bool ExistsChildrenMenus(int parentId)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from menus");
+            strSql.Append(" where parent_id=@parent_id and deleted=0");
+            SqlParameter[] parameters = {
+					new SqlParameter("@parent_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = parentId;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+
 		/// <summary>
 		/// 获得前几行数据
 		/// </summary>
@@ -349,7 +443,9 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        
+        /// <summary>
 		/// 分页获取数据列表
 		/// </summary>
 		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)

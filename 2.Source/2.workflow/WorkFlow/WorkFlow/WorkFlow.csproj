@@ -1052,6 +1052,8 @@
     <None Include="Web References\ElementsWebService\elementsBLLservice.disco" />
     <Content Include="Views\Home\OrganizationStruct.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
+    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
+    <Content Include="Views\UsersManagement\EditPage.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
