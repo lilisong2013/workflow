@@ -84,7 +84,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_elementsDal.GetList(strWhere);
         }
-       
+        /// <summary>
+        /// 获得Name数据列表
+        /// </summary>
+        [WebMethod(Description = "获得所有元素表中所有的Name的数据列表")]
+        public DataSet GetNameList()
+        {
+            return m_elementsDal.GetNameList();
+        }
         /// <summary>
         /// 获得前几行数据
         /// </summary>

@@ -71,8 +71,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppIDHelper.cs" />
     <Compile Include="Models\InformationModel.cs" />
-    <Compile Include="Models\menusHelper.cs" />
+    <Compile Include="Models\InitStatusIDHelper.cs" />
+    <Compile Include="Models\menuHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -936,6 +938,8 @@
     <Content Include="Views\BaseUserManagement\App_Apply.aspx" />
     <Content Include="Views\BaseUserManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
+    <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
+    <Content Include="Views\ElementsManagement\EditPage.aspx" />
     <Content Include="Views\Home\Login.aspx" />
     <Content Include="Views\Home\LoginPage.aspx" />
     <Content Include="Views\Home\Index.aspx" />
@@ -949,6 +953,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Views\Home\RegistPage.aspx" />
+    <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
     <Content Include="Views\Shared\mainsite.Master" />
     <Content Include="Views\Shared\adminSite.Master" />
@@ -1244,7 +1249,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>6279</DevelopmentServerPort>
+          <DevelopmentServerPort>2503</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

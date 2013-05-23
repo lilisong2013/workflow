@@ -94,6 +94,33 @@
 
             });
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            BindAppId();
+            $("#AppIdInfo").html("请选择");
+        });
+        function BindAppId() {
+            $.ajax({
+                type: "Post",
+                contentType: "application/json",
+                url: "/ElementsManagement/GetAppId",
+                data: {}, //即使参数为空，也需要设置
+                dataType: 'JSON', //返回的类型为XML
+                success: function (result, status) {
+                    //成功后执行的方法
+                    try {
+                        if (status == "success") {
+                            for (var i = 0; i < result.Total; i++) {
+                                $("#AppIdParent").append("<option value='" + result.Rows[i].AppID + "'>" + result.Rows[i].AppID + "</option>");
+                            }
+                        }
+                    } catch (e)
+            { }
+                }
+            });
+        }
+</script>
 </asp:Content>
 
 
@@ -130,16 +157,11 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsApp_id">应用系统ID：</label>
                         <div class="controls">
-                            <input type="text" name="operationsApp_id" id="operationsApp_id" class="input-prepend span4" />
+                           <select id="AppIdParent" name="AppIdParent" class="span4">
+                             <option id="AppIdInfo" value="-1"></option>
+                           </select>
                         </div>
                     </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsInvalid">是否有效：</label>
-                        <div class="controls">
-                        <input type="checkbox" id="osInvalid" name="osInvalid" checked="checked" onclick="checkAll(this,'true')"/>
-                        <input type="hidden" name="operationsInvalid" id="operationsInvalid"  value="true" class="input-prepend span4"/>
-                        </div>
-                    </div>  
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsDescription">操作描述：</label>
                         <div class="controls">
@@ -150,8 +172,14 @@
                         <label class="control-label" for="operationsRemark">备注：</label>
                         <div class="controls">
                             <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4"></textarea>
-                            <input type="hidden" name="createdBy" id="createdBy" value="<%=32%>" />
-                            <% string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
+                            <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
+                            <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
+                            <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
+                            <%DateTime t = Convert.ToDateTime(s); %>
+                            <input type="hidden" name="operationsInvalid" id="operationsInvalid" value="true"/>
+                            <input type="hidden" name="operationsDeleted" id="operationsDeleted" value="false"/>
+                            <input type="hidden" name="createdBy" id="createdBy" value="<%=m_usersModel.id%>" />
+                            <input type="hidden" name="createdAt" id="createdAt" value="<%=t%>"/>
                             <input type="hidden" name="createdIP" id="createdIP" value="<%= ipAddress %>" />
                         </div>
                     </div>

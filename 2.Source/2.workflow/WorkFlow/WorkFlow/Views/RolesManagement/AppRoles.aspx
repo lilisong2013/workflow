@@ -104,7 +104,32 @@
 
         });
     </script>
-    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            BindAppId();
+            $("#AppIdInfo").html("请选择");
+        });
+        function BindAppId() {
+            $.ajax({
+                type: "Post",
+                contentType: "application/json",
+                url: "/ElementsManagement/GetAppId",
+                data: {}, //即使参数为空，也需要设置
+                dataType: 'JSON', //返回的类型为XML
+                success: function (result, status) {
+                    //成功后执行的方法
+                    try {
+                        if (status == "success") {
+                            for (var i = 0; i < result.Total; i++) {
+                                $("#AppIdParent").append("<option value='" + result.Rows[i].AppID + "'>" + result.Rows[i].AppID + "</option>");
+                            }
+                        }
+                    } catch (e)
+            { }
+                }
+            });
+        }
+</script>
 
 </asp:Content>
 
@@ -125,38 +150,34 @@
 
         <div class="tab-pane active" id="AllRoles"></div>
         <div class="tab-pane" id="AddRoles">
-          <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/RegisterRole">
+          <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/AddRoles">
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesName">角色名称：</label>
                         <div class="controls">
                             <input type="text" name="rolesName" id="rolesName" class="input-prepend span4"/>                            
                         </div>
                     </div>
-                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesInvalid">是否有效：</label>
-                        <div class="controls">
-                           <input type="checkbox" id="rolescb" name="rolescb" checked="checked" onclick="checkAll(this,'true')"/>
-                           <input type="hidden" id="rolesInvalid" name="rolesInvalid" value="true" />
-                        </div>
-                    </div> 
                     <div class="control-group span6 offset2">
                     <label class="control-label" for="rolesInvalid">系统ID：</label>
                     <div class="controls">
-                      <input type="text" id="rolesApp_id" name="rolesApp_id" class="input-prepend span4"/>       
+                      <select id="AppIdParent" name="AppIdParent" class="span4">
+                        <option value="-1" id="AppIdInfo"></option>
+                      </select>                     
                     </div>
                     </div>        
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesRemark">备注：</label>
                         <div class="controls">
                             <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4"></textarea>
-                            <%Boolean DelFlag = false; %>
-                            <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="<%=DelFlag%>" />
-                            <input type="hidden" name="rolesCreated_by" id="rolesCreated_by" value="<%=1 %>" />
-                            <%string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
+                            <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]); %>
+                            <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(dt);%>
+                            <input type="hidden" name="rolesInvalid" id="rolesInvalid" value="true"/>
+                            <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="false" />
+                            <input type="hidden" name="rolesCreated_by" id="rolesCreated_by" value="<%=m_usersModel.id%>" />
                             <input type="hidden" name="rolesCreated_ip" id="rolesCreated_ip" value="<%= ipAddress %>" />
-                            <input type="hidden" name="rolesCreated_at" id="rolesCreated_at" value="<%= t %>" />
+                            <input type="hidden" name="rolesCreated_at" id="rolesCreated_at" value="<%=t %>"/>
                         </div>
                     </div>
                     <div class="control-group span6 offset3">
