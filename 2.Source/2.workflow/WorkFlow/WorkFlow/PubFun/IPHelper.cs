@@ -55,13 +55,5 @@ namespace Saron.Common.PubFun
             }
             return Ip;
         }
-      /*  private static string getIPAddress()
-        {
-            System.Net.IPAddress addr;
-            // 获得本机局域网IP地址   
-            addr = new System.Net.IPAddress(Dns.GetHostByName(Dns.GetHostName()).AddressList[0].Address);
-            return addr.ToString();
-        }*/
-
     }
 }

@@ -371,7 +371,7 @@ namespace WorkFlow.Controllers
             }
             if (m_elementsBllService.Update(m_elementsModel))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "修改成功!", toUrl = "/ElementsManagement/AppElements" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功!", toUrl = "/ElementsManagement/AppElements" });
             }
             else
             {

@@ -67,5 +67,23 @@ namespace Saron.Common.PubFun
         {
             return System.Text.RegularExpressions.Regex.IsMatch(str_passWord, @"^[a-zA-Z0-9]+$");
         }
+        /// <summary>
+        /// 验证邮件的格式（数字、字母、符号的组合@数字/字母.com/cn）
+        /// </summary>
+        /// <param name="str_passWord">邮件地址</param>
+        /// <returns></returns>
+        public static bool IsEmail(string str_email)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(str_email, @"^\s*([A-Za-z0-9_-]+(\.\w+)*@([\w-]+\.)+\w{2,3})\s*$");
+        }
+        /// <summary>
+        /// 验证手机号码的格式（11位的数字）
+        /// </summary>
+        /// <param name="str_passWord">邮件地址</param>
+        /// <returns></returns>
+        public static bool IsMobilePhone(string str_mobile)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(str_mobile,@"\b(86)?0?\d{11}\b");
+        }
     }
 }

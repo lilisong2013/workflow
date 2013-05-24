@@ -166,6 +166,7 @@
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(dt);%>
+                          
                             <input type="hidden" name="rolesApp_id" id="rolesApp_id" value="<%=m_usersModel.app_id%>"/>
                             <input type="hidden" name="rolesInvalid" id="rolesInvalid" value="true"/>
                             <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="false" />

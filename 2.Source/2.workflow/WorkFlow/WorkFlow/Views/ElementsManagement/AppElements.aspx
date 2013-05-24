@@ -220,9 +220,13 @@
                         <input type="hidden" id="Created_ip" name="Created_ip" value="<%=ipAddress%>"/>           
                     </div>
                 </div>
-                <div class="control-group span5 offset2">
-                    <input type="submit" class="btn btn-primary span4" onclick="" value="添加元素" />
-                </div>
+              <div class="control-group span6 offset3">
+                  <div class="controls">
+                            <input type="submit" value="添加" class="btn btn-primary  span1" /> 
+                            &nbsp;&nbsp;&nbsp;
+                            <input type="reset" value="重置"  class="btn btn-primary  span1" />
+                  </div>
+              </div>
             </form>
         </div>
     </div>
