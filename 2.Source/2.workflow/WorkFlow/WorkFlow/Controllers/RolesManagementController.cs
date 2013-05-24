@@ -137,6 +137,7 @@ namespace WorkFlow.Controllers
             {
                 rolesList.Add(ds.Tables[0].Rows[i][0].ToString());
             }
+            //如果是自己本身，角色名称修改后的名称和修改前的名称一样。
             for (int i = 0; i < total; i++)
             { 
                if(m_rolesModel.name.ToString().Equals(collection["rolesName"].Trim().ToString()))

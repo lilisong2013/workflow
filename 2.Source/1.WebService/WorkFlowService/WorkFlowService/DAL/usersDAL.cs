@@ -151,6 +151,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update users set ");
+            strSql.Append("login=@login");
             strSql.Append("password=@password,");
             strSql.Append("name=@name,");
             strSql.Append("employee_no=@employee_no,");
@@ -169,6 +170,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("app_id=@app_id");
             strSql.Append(" where id=@id");
             SqlParameter[] parameters = {
+                    new SqlParameter("@login",SqlDbType.NVarChar,40),
 					new SqlParameter("@password", SqlDbType.NVarChar,255),
 					new SqlParameter("@name", SqlDbType.NVarChar,40),
 					new SqlParameter("@employee_no", SqlDbType.NVarChar,40),
