@@ -169,14 +169,7 @@ namespace WorkFlow.Controllers
             DateTime t = Convert.ToDateTime(s);
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             m_rolesModel.name = collection["rolesName"].Trim();
-            if (Convert.ToBoolean(collection["rolesInvalid"].Trim()) == true)
-            {
-                m_rolesModel.invalid = true;
-            }
-            if (Convert.ToBoolean(collection["rolesInvalid"].Trim()) == false)
-            {
-                m_rolesModel.invalid = false;
-            }
+            m_rolesModel.invalid = Convert.ToBoolean(collection["InvalidParent"].Trim());
             m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());
             m_rolesModel.remark = collection["rolesRemark"].Trim();
             m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
