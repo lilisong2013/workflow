@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Data;
 using System.Reflection;
 using System.Collections;
-
+using System.Web.Mvc.Ajax;
 namespace WorkFlow.Controllers
 {
     public class RolesManagementController : Controller
@@ -115,8 +115,21 @@ namespace WorkFlow.Controllers
 
         public ActionResult GetInvalidName()
         {
-   
-            return View();
+
+            string[] invalid = new string[2];
+            invalid[0]="true";
+            invalid[1]="false";
+            List<Saron.WorkFlow.Models.InvalidHelper> m_invalidlist=new List<Saron.WorkFlow.Models.InvalidHelper>();
+            for (int i = 0; i < 2; i++)
+            {
+                m_invalidlist.Add(new Saron.WorkFlow.Models.InvalidHelper { InvalidID=invalid[i].ToString(),InvalidName=invalid[i].ToString()});
+            }
+            var dataJson = new
+            {
+                Rows = m_invalidlist,
+                Total = 2
+            };
+            return Json(dataJson,JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
