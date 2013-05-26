@@ -139,9 +139,14 @@ namespace WorkFlow.Controllers
             int m_operationsId = Convert.ToInt32(collection["operationsId"].Trim());
             m_operationsModel = m_operationsBllService.GetModel(m_operationsId);
             string name = collection["operationsName"].Trim().ToString();
+            string invalid = collection["operationsInvalid"].Trim();
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
+            }
+            if (invalid.Length == 0 || invalid.Equals("请选择"))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
             }
             DataSet ds = m_operationsBllService.GetOperationsNameList();
             var total = ds.Tables[0].Rows.Count;

@@ -185,8 +185,9 @@ namespace WorkFlow.Controllers
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
-            int initstatusid = Convert.ToInt32(collection["StatusParent"].Trim());
-            int menuid = Convert.ToInt32(collection["MenuParent"].Trim());
+            string  initstatusid = (collection["StatusParent"].Trim());
+            string  menuid = (collection["MenuParent"].Trim());
+            string  seqno =(collection["elementsSeqno"].Trim());
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
@@ -195,13 +196,17 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码不能空!" });
             }
-            if (initstatusid == -1)
+            if (initstatusid.Length == 0 || initstatusid.Equals("请选择"))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="初始化状态不能为空!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "初始化状态不能为空!" });
             }
-            if (menuid == -1)
+            if (menuid.Length == 0 || menuid.Equals("请选择"))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空!" });
+            }
+            if (seqno.Length== 0) 
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="排序码不能为空!" });
             }
             DataSet ds = m_elementsBllService.GetAllElementsList();
             ArrayList elementsList = new ArrayList();
@@ -315,6 +320,7 @@ namespace WorkFlow.Controllers
             string code = collection["elementsCode"].Trim();
             string Initstatus_id = collection["elementsInitstatus_id"].Trim();
             string Menu_id = collection["elementsMenu_id"].Trim();
+            string invalid = collection["elementsInvalid"].Trim();
             if (name.Length == 0)
             {      
                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
@@ -330,6 +336,10 @@ namespace WorkFlow.Controllers
             if (Menu_id.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="页面ID不能为空!"});
+            }
+            if (invalid.Length == 0 || invalid.Equals("请选择"))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
             }
             DataSet ds = m_elementsBllService.GetNameList();
             var total = ds.Tables[0].Rows.Count;

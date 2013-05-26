@@ -189,7 +189,7 @@
                     <label class="control-label">初始化状态</label>
                     <div class="controls">
                         <select class="span4" id="StatusParent" name="StatusParent">
-                         <option id="StatusInfo" value="-1"></option>
+                         <option id="StatusInfo"></option>
                         </select>
                     </div>
                 </div>
@@ -197,7 +197,7 @@
                     <label class="control-label">所在页面</label>
                     <div class="controls">
                         <select class="span4" id="MenuParent" name="MenuParent">
-                         <option id="MenuInfo" value="-1"></option>
+                         <option id="MenuInfo"></option>
                         </select>
                     </div>
                 </div>

@@ -145,9 +145,14 @@ namespace WorkFlow.Controllers
             int id = Convert.ToInt32(collection["rolesId"].Trim());
             m_rolesModel = m_rolesBllService.GetModel(id);
             string name = collection["rolesName"].Trim();
+            string invalid = collection["InvalidParent"].Trim();
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "角色名称不能为空！" });
+            }
+            if (invalid.Length == 0 || invalid.Equals("请选择"))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
             }
             //获得deleted=false的rolesName列表
             DataSet ds = m_rolesBllService.GetDeletedRoles();
