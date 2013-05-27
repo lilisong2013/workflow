@@ -143,8 +143,26 @@
     <Content Include="bootstrap\css\bootstrap.min.css" />
     <Content Include="bootstrap\img\glyphicons-halflings-white.png" />
     <Content Include="bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="bootstrap\js\bootstrap-affix.js" />
+    <Content Include="bootstrap\js\bootstrap-alert.js" />
+    <Content Include="bootstrap\js\bootstrap-button.js" />
+    <Content Include="bootstrap\js\bootstrap-carousel.js" />
+    <Content Include="bootstrap\js\bootstrap-collapse.js" />
+    <Content Include="bootstrap\js\bootstrap-dropdown.js" />
+    <Content Include="bootstrap\js\bootstrap-modal.js" />
+    <Content Include="bootstrap\js\bootstrap-popover.js" />
+    <Content Include="bootstrap\js\bootstrap-scrollspy.js" />
+    <Content Include="bootstrap\js\bootstrap-tab.js" />
+    <Content Include="bootstrap\js\bootstrap-tooltip.js" />
+    <Content Include="bootstrap\js\bootstrap-transition.js" />
+    <Content Include="bootstrap\js\bootstrap-typeahead.js" />
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
+    <Content Include="bootstrap\js\jquery-1.7.2.js" />
+    <Content Include="bootstrap\js\jquery-1.9.1.js" />
+    <Content Include="bootstrap\js\jquery-1.9.1.min.js" />
+    <Content Include="bootstrap\js\jquery-2.0.0.js" />
+    <Content Include="bootstrap\js\jquery-2.0.0.min.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -494,6 +512,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Views\OperationsManagement\AppOperations.aspx" />
+    <Content Include="Views\OperationsManagement\DetailInfo.aspx" />
+    <Content Include="Views\OperationsManagement\EditPage.aspx" />
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
@@ -590,6 +610,8 @@
     <None Include="Web References\OperationsWebService\operationsBLLservice.disco" />
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
+    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
+    <Content Include="Views\UsersManagement\EditPage.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
