@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     AppElements
@@ -53,7 +53,7 @@
      $(document).ready(function () {
          var form = $("#addElements");
          form.submit(function () {
-                 $.post(form.attr("action"),
+             $.post(form.attr("action"),
                     form.serialize(),
                     function (result, status) {
                         //debugger
@@ -66,7 +66,7 @@
                         }
                     },
                     "JSON");
-                 return false;           
+             return false;
          });
      });
  </script>
@@ -232,5 +232,6 @@
     </div>
 
 </asp:Content>
+
 
 

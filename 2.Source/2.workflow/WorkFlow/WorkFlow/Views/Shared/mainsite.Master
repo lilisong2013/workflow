@@ -28,12 +28,12 @@
                 <ul class="dropdown-menu">
                   <li><a href="#"></a></li>
                   <li><a href="/UsersManagement/AppUsers">用户管理</a></li>
-                  <li><a href="/PrivilegesManagement/TreeTest">角色管理</a></li>
+                  <li><a href="/RolesManagement/AppRoles">角色管理</a></li>
                   <li><a href="/PrivilegesManagement/AppPrivileges">权限管理</a></li>
                   <li class="divider"></li>
                   <li><a href="/MenusManagement/AppMenus">菜单管理</a></li>
-                  <li><a href="#">功能管理</a></li>
-                  <li><a href="#">元素管理</a></li>
+                  <li><a href="/OperationsManagement/AppOperations">功能管理</a></li>
+                  <li><a href="/ElementsManagement/AppElements">元素管理</a></li>
                 </ul>
               </li>
             </ul>

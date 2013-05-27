@@ -563,10 +563,10 @@
   </wsdl:binding>
   <wsdl:service name="init_statusBLLservice">
     <wsdl:port name="init_statusBLLserviceSoap" binding="tns:init_statusBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/init_statusBLLservice.asmx" />
+      <soap:address location="http://192.168.12.12:8081/WebService/init_statusBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="init_statusBLLserviceSoap12" binding="tns:init_statusBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/init_statusBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.12:8081/WebService/init_statusBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
