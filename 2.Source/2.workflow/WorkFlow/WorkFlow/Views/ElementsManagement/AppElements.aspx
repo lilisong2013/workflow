@@ -161,15 +161,14 @@
             <li><a href="#AddElements" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
+    <div class="container">
+     <%--操作提示DIV--%>
+     <div id="promptDIV" class="row"></div>
+    </div>
       <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
       <% string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
       <% DateTime t = Convert.ToDateTime(s); %>
      <div class="tab-content">
-      <div class="container">
-        <%--操作提示DIV--%>
-       <div id="promptDIV" class="row"></div>
-      </div>
-
        <div class="tab-pane active" id="AllElements"></div>
         <div class="tab-pane" id="AddElements">
             <form id="addElements" class="form-horizontal" method="post" action="/ElementsManagement/AddElements">

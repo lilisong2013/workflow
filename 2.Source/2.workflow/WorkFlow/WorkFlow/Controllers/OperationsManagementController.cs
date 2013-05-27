@@ -224,11 +224,15 @@ namespace WorkFlow.Controllers
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
 
             string m_operationsName = collection["operationsName"].Trim();
+            string m_operationsCode = collection["operationsCode"].Trim();
             if (m_operationsName.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
             }
-            string m_operationsCode = collection["operationsCode"].Trim();
+            if (m_operationsCode.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="操作编码不能为空!"});
+            }
             string m_operationsDescription = collection["operationsDescription"].Trim();
             string m_operationsRemark = collection["operationsRemark"].Trim();
             string m_operationsInvalid = collection["operationsInvalid"].Trim();

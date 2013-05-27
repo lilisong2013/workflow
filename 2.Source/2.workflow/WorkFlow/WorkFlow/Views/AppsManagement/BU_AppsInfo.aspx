@@ -26,8 +26,8 @@
     </div>
 </div>
 <div class="container">
-    <% workflow.AppsWebService.appsModel m_appsModel = (workflow.AppsWebService.appsModel)ViewData["appInfo"];
-       workflow.UsersWebService.usersModel m_userModel = (workflow.UsersWebService.usersModel)ViewData["userInfo"];%>
+    <% WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)ViewData["appInfo"];
+       WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)ViewData["userInfo"];%>
     <div class="form-horizontal">
         <div class="control-group">
             <label class="control-label">系统名称：</label>

@@ -7,10 +7,10 @@ AppUsers
         type="text/css" />
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-
     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
-  
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+
+
         <script type="text/javascript">
             $(document).ready(function () {
                 $("#AllUsers").ligerGrid({
@@ -47,6 +47,7 @@ AppUsers
 
             });
     </script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             var form = $("#add_Users");
@@ -69,6 +70,7 @@ AppUsers
             });
         });
     </script>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户管理</h2></div>
@@ -78,11 +80,11 @@ AppUsers
             <li><a href="#AddUsers" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
  </div>
-  <div class="tab-content">
-       <div class="container">
-        <%--操作提示DIV--%>
-       <div id="promptDIV" class="row"></div>
-       </div>
+  <div class="container">
+  <%--操作提示DIV--%>
+  <div id="promptDIV" class="row"></div>
+  </div>
+  <div class="tab-content"> 
        <div class="tab-pane active" id="AllUsers"></div>
        <div class="tab-pane" id="AddUsers">
           <form id="add_Users" class="form-horizontal" method="post" action="/UsersManagement/AddUsers">

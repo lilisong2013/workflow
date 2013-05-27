@@ -142,12 +142,11 @@
             <li><a href="#AddRoles" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
-    <div class="tab-content">
        <div class="container">
         <%--操作提示DIV--%>
        <div id="promptDIV" class="row"></div>
        </div>
-
+    <div class="tab-content">
         <div class="tab-pane active" id="AllRoles"></div>
         <div class="tab-pane" id="AddRoles">
           <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/AddRoles">

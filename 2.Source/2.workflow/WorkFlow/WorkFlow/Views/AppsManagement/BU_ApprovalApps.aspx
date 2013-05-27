@@ -38,7 +38,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
 <div class="container">
-    <% workflow.Base_UserWebService.base_userModel m_baseuserModel= (workflow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
+    <% WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
     <div class="row">
         <h2 class="span3">系统审批</h2>
         <div class="btn-group pull-right">
@@ -58,8 +58,8 @@
     </div>
 </div>
 <div class="container">
-    <% workflow.AppsWebService.appsModel m_appsModel = (workflow.AppsWebService.appsModel)ViewData["appInfo"];
-       workflow.UsersWebService.usersModel m_userModel = (workflow.UsersWebService.usersModel)ViewData["userInfo"];%>
+    <% WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)ViewData["appInfo"];
+       WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)ViewData["userInfo"];%>
     <div class="form-horizontal">
         <div class="control-group">
             <label class="control-label">系统名称：</label>
