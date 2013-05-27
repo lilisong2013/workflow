@@ -30,6 +30,23 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Exists(strSql.ToString(),parameters);
 		}
 
+        /// <summary>
+        /// 某种权限类型下某种权限项目的权限是否已经存在
+        /// </summary>
+        public bool ExistsItemOfPrivilegesType(int privilegesTypeID,int privilegesItemID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from privileges");
+            strSql.Append(" where privilegetype_id=@privilegetype_id and privilegeitem_id=@privilegeitem_id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@privilegetype_id", SqlDbType.Int,4),
+                    new SqlParameter("@privilegeitem_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = privilegesTypeID;
+            parameters[1].Value = privilegesItemID;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
 
 		/// <summary>
 		/// 增加一条数据
@@ -78,6 +95,7 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
+
 		/// <summary>
 		/// 更新一条数据
 		/// </summary>
@@ -158,7 +176,8 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 批量删除数据
 		/// </summary>
 		public bool DeleteList(string idlist )
@@ -320,7 +339,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 分页获取数据列表
 		/// </summary>
 		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)

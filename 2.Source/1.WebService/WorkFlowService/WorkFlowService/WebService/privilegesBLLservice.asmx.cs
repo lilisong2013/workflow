@@ -31,6 +31,15 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 某种权限类型下某种权限项目的权限是否已经存在
+        /// </summary>
+        [WebMethod(Description = "某种权限类型下某种权限项目的权限是否已经存在")]
+        public bool ExistsItemOfPrivilegesType(int privilegesTypeID, int privilegesItemID)
+        {
+            return m_privilegesDal.ExistsItemOfPrivilegesType(privilegesTypeID, privilegesItemID);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         [WebMethod(Description = "增加一条记录")]
