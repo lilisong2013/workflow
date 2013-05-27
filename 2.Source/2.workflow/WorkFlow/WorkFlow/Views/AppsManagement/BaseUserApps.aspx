@@ -118,7 +118,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container">
-    <%WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
+    <% workflow.Base_UserWebService.base_userModel m_baseuserModel= (workflow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
     <div class="row">
         <h2 class="span3">系统管理</h2>
         <div class="btn-group pull-right">

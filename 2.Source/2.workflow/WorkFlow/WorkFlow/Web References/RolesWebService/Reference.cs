@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace WorkFlow.RolesWebService1 {
+namespace WorkFlow.RolesWebService {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -62,7 +62,7 @@ namespace WorkFlow.RolesWebService1 {
         
         /// <remarks/>
         public rolesBLLservice() {
-            this.Url = global::WorkFlow.Properties.Settings.Default.WorkFlow_RolesWebService1_rolesBLLservice;
+            this.Url = global::WorkFlow.Properties.Settings.Default.WorkFlow_RolesWebService_rolesBLLservice;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;

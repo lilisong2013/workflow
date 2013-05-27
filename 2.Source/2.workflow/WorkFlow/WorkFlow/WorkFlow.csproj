@@ -68,10 +68,14 @@
     <Compile Include="Controllers\OperationsManagementController.cs" />
     <Compile Include="Controllers\PrivilegesManagementController.cs" />
     <Compile Include="Controllers\RolesManagementController.cs" />
+    <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppIDHelper.cs" />
     <Compile Include="Models\InformationModel.cs" />
+    <Compile Include="Models\InitStatusIDHelper.cs" />
+    <Compile Include="Models\InvalidHelper.cs" />
     <Compile Include="Models\menusHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -96,7 +100,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\Init_StatusWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\MenusWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\OperationsWebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -111,7 +125,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\RolesWebService1\Reference.cs">
+    <Compile Include="Web References\RolesWebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -502,11 +516,27 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Web References\Init_StatusWebService\init_statusBLLservice.wsdl" />
+    <None Include="Web References\Init_StatusWebService\init_statusModel.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Init_StatusWebService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\MenusWebService\menusBLLservice.wsdl" />
     <None Include="Web References\MenusWebService\menusModel1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\MenusWebService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\OperationsWebService\operationsBLLservice.wsdl" />
+    <None Include="Web References\OperationsWebService\operationsModel.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\OperationsWebService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -526,12 +556,12 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\RolesWebService1\Reference.map">
+    <None Include="Web References\RolesWebService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\RolesWebService1\rolesBLLservice.wsdl" />
-    <None Include="Web References\RolesWebService1\rolesModel.datasource">
+    <None Include="Web References\RolesWebService\rolesBLLservice.wsdl" />
+    <None Include="Web References\RolesWebService\rolesModel.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\UsersWebService\Reference.map">
@@ -549,7 +579,10 @@
     <None Include="Web References\Privileges_TypeWebService\privileges_typeBLLservice.disco" />
     <None Include="Web References\ElementsWebService\elementsBLLservice.disco" />
     <Content Include="Views\PrivilegesManagement\TreeTest.aspx" />
-    <None Include="Web References\RolesWebService1\rolesBLLservice.disco" />
+    <None Include="Web References\RolesWebService\rolesBLLservice.disco" />
+    <None Include="Web References\OperationsWebService\operationsBLLservice.disco" />
+    <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
+    <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -623,14 +656,14 @@
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\RolesWebService1\</RelPath>
+      <RelPath>Web References\RolesWebService\</RelPath>
       <UpdateFromURL>http://192.168.11.103:8081/WebService/rolesBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>WorkFlow_RolesWebService1_rolesBLLservice</CachedSettingsPropName>
+      <CachedSettingsPropName>WorkFlow_RolesWebService_rolesBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/appsBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -654,6 +687,17 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_Base_UserWebService_base_userBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/init_statusBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Init_StatusWebService\</RelPath>
+      <UpdateFromURL>http://192.168.12.12:8081/WebService/init_statusBLLservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WorkFlow_Init_StatusWebService_init_statusBLLservice</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/menusBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\MenusWebService\</RelPath>
@@ -675,6 +719,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_UsersWebService_usersBLLservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/operationsBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\OperationsWebService\</RelPath>
+      <UpdateFromURL>http://192.168.12.12:8081/WebService/operationsBLLservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WorkFlow_OperationsWebService_operationsBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>

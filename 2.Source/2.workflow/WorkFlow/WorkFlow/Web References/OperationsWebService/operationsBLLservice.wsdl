@@ -580,10 +580,10 @@
   </wsdl:binding>
   <wsdl:service name="operationsBLLservice">
     <wsdl:port name="operationsBLLserviceSoap" binding="tns:operationsBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/operationsBLLservice.asmx" />
+      <soap:address location="http://192.168.12.12:8081/WebService/operationsBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="operationsBLLserviceSoap12" binding="tns:operationsBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/operationsBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.12:8081/WebService/operationsBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
