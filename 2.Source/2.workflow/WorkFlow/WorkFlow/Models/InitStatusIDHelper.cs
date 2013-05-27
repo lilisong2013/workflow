@@ -17,7 +17,7 @@ namespace Saron.WorkFlow.Models
             get { return m_initStatusID; }
             set { m_initStatusID = value; }
         }
-      
+
         /// <summary>
         /// 初始化状态名称
         /// </summary>

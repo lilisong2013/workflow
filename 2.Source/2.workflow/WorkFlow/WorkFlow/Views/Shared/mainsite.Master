@@ -27,6 +27,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">综合管理<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="#"></a></li>
+                  <li><a href="/UsersManagement/AppUsers">用户管理</a></li>
                   <li><a href="/PrivilegesManagement/TreeTest">角色管理</a></li>
                   <li><a href="/PrivilegesManagement/AppPrivileges">权限管理</a></li>
                   <li class="divider"></li>

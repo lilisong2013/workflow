@@ -13,13 +13,13 @@ namespace Saron.WorkFlow.Models
             get { return m_invalidID; }
             set { m_invalidID = value; }
         }
-   
+
         public string InvalidName
         {
             get { return m_invalidName; }
             set { m_invalidName = value; }
         }
-        
-      
+
+
     }
 }
