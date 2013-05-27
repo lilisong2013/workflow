@@ -68,7 +68,7 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public usersBLLservice() {
-            this.Url = "http://192.168.11.103:8081/WebService/usersBLLservice.asmx";
+            this.Url = global::WorkFlow.Properties.Settings.Default.WorkFlow_UsersWebService_usersBLLservice;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;

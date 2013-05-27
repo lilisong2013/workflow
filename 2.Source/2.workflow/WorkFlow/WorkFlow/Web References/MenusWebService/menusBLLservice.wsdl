@@ -166,6 +166,83 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetMenusListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMenusListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMenusListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChildrenMenus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="parentID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChildrenMenusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetChildrenMenusResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTopMenusListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTopMenusListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTopMenusListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsChildrenMenus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="parentId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsChildrenMenusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsChildrenMenusResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetRecordCount">
         <s:complexType>
           <s:sequence>
@@ -260,6 +337,30 @@
   <wsdl:message name="GetAllMenusListSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllMenusListResponse" />
   </wsdl:message>
+  <wsdl:message name="GetMenusListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMenusListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetMenusListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMenusListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetChildrenMenusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetChildrenMenus" />
+  </wsdl:message>
+  <wsdl:message name="GetChildrenMenusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetChildrenMenusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTopMenusListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTopMenusListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetTopMenusListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTopMenusListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsChildrenMenusSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsChildrenMenus" />
+  </wsdl:message>
+  <wsdl:message name="ExistsChildrenMenusSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsChildrenMenusResponse" />
+  </wsdl:message>
   <wsdl:message name="GetRecordCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetRecordCount" />
   </wsdl:message>
@@ -317,6 +418,26 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
       <wsdl:input message="tns:GetAllMenusListSoapIn" />
       <wsdl:output message="tns:GetAllMenusListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenusListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的菜单列表</wsdl:documentation>
+      <wsdl:input message="tns:GetMenusListOfAppSoapIn" />
+      <wsdl:output message="tns:GetMenusListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChildrenMenus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某菜单的子菜单</wsdl:documentation>
+      <wsdl:input message="tns:GetChildrenMenusSoapIn" />
+      <wsdl:output message="tns:GetChildrenMenusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTopMenusListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的顶级菜单</wsdl:documentation>
+      <wsdl:input message="tns:GetTopMenusListOfAppSoapIn" />
+      <wsdl:output message="tns:GetTopMenusListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsChildrenMenus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">id为id的菜单是否存在子菜单记录</wsdl:documentation>
+      <wsdl:input message="tns:ExistsChildrenMenusSoapIn" />
+      <wsdl:output message="tns:ExistsChildrenMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetRecordCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得记录总条数</wsdl:documentation>
@@ -405,6 +526,42 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllMenusList">
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllMenusList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenusListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetMenusListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChildrenMenus">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetChildrenMenus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTopMenusListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetTopMenusListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsChildrenMenus">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsChildrenMenus" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -514,6 +671,42 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetMenusListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetMenusListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChildrenMenus">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetChildrenMenus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTopMenusListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetTopMenusListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsChildrenMenus">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsChildrenMenus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetRecordCount">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
       <wsdl:input>
@@ -535,10 +728,10 @@
   </wsdl:binding>
   <wsdl:service name="menusBLLservice">
     <wsdl:port name="menusBLLserviceSoap" binding="tns:menusBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/menusBLLservice.asmx" />
+      <soap:address location="http://192.168.12.12:8081/WebService/menusBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="menusBLLserviceSoap12" binding="tns:menusBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/menusBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.12:8081/WebService/menusBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

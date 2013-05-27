@@ -32,15 +32,21 @@ namespace WorkFlow.Base_UserWebService {
         
         private System.Threading.SendOrPostCallback ExistsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback LoginValidatorOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ModifyPasswordOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetModelOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetModelByLoginOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetBase_UserListOperationCompleted;
         
@@ -94,10 +100,16 @@ namespace WorkFlow.Base_UserWebService {
         public event ExistsCompletedEventHandler ExistsCompleted;
         
         /// <remarks/>
+        public event LoginValidatorCompletedEventHandler LoginValidatorCompleted;
+        
+        /// <remarks/>
         public event AddCompletedEventHandler AddCompleted;
         
         /// <remarks/>
         public event UpdateCompletedEventHandler UpdateCompleted;
+        
+        /// <remarks/>
+        public event ModifyPasswordCompletedEventHandler ModifyPasswordCompleted;
         
         /// <remarks/>
         public event DeleteCompletedEventHandler DeleteCompleted;
@@ -107,6 +119,9 @@ namespace WorkFlow.Base_UserWebService {
         
         /// <remarks/>
         public event GetModelCompletedEventHandler GetModelCompleted;
+        
+        /// <remarks/>
+        public event GetModelByLoginCompletedEventHandler GetModelByLoginCompleted;
         
         /// <remarks/>
         public event GetBase_UserListCompletedEventHandler GetBase_UserListCompleted;
@@ -153,11 +168,42 @@ namespace WorkFlow.Base_UserWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/LoginValidator", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool LoginValidator(string login, string password) {
+            object[] results = this.Invoke("LoginValidator", new object[] {
+                        login,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void LoginValidatorAsync(string login, string password) {
+            this.LoginValidatorAsync(login, password, null);
+        }
+        
+        /// <remarks/>
+        public void LoginValidatorAsync(string login, string password, object userState) {
+            if ((this.LoginValidatorOperationCompleted == null)) {
+                this.LoginValidatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoginValidatorOperationCompleted);
+            }
+            this.InvokeAsync("LoginValidator", new object[] {
+                        login,
+                        password}, this.LoginValidatorOperationCompleted, userState);
+        }
+        
+        private void OnLoginValidatorOperationCompleted(object arg) {
+            if ((this.LoginValidatorCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LoginValidatorCompleted(this, new LoginValidatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Add", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public decimal Add(base_userModel model) {
+        public int Add(base_userModel model) {
             object[] results = this.Invoke("Add", new object[] {
                         model});
-            return ((decimal)(results[0]));
+            return ((int)(results[0]));
         }
         
         /// <remarks/>
@@ -207,6 +253,37 @@ namespace WorkFlow.Base_UserWebService {
             if ((this.UpdateCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.UpdateCompleted(this, new UpdateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ModifyPassword", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ModifyPassword(string login, string password) {
+            object[] results = this.Invoke("ModifyPassword", new object[] {
+                        login,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ModifyPasswordAsync(string login, string password) {
+            this.ModifyPasswordAsync(login, password, null);
+        }
+        
+        /// <remarks/>
+        public void ModifyPasswordAsync(string login, string password, object userState) {
+            if ((this.ModifyPasswordOperationCompleted == null)) {
+                this.ModifyPasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnModifyPasswordOperationCompleted);
+            }
+            this.InvokeAsync("ModifyPassword", new object[] {
+                        login,
+                        password}, this.ModifyPasswordOperationCompleted, userState);
+        }
+        
+        private void OnModifyPasswordOperationCompleted(object arg) {
+            if ((this.ModifyPasswordCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ModifyPasswordCompleted(this, new ModifyPasswordCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -294,6 +371,35 @@ namespace WorkFlow.Base_UserWebService {
             if ((this.GetModelCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetModelCompleted(this, new GetModelCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetModelByLogin", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public base_userModel GetModelByLogin(string login) {
+            object[] results = this.Invoke("GetModelByLogin", new object[] {
+                        login});
+            return ((base_userModel)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetModelByLoginAsync(string login) {
+            this.GetModelByLoginAsync(login, null);
+        }
+        
+        /// <remarks/>
+        public void GetModelByLoginAsync(string login, object userState) {
+            if ((this.GetModelByLoginOperationCompleted == null)) {
+                this.GetModelByLoginOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetModelByLoginOperationCompleted);
+            }
+            this.InvokeAsync("GetModelByLogin", new object[] {
+                        login}, this.GetModelByLoginOperationCompleted, userState);
+        }
+        
+        private void OnGetModelByLoginOperationCompleted(object arg) {
+            if ((this.GetModelByLoginCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetModelByLoginCompleted(this, new GetModelByLoginCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -702,6 +808,32 @@ namespace WorkFlow.Base_UserWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void LoginValidatorCompletedEventHandler(object sender, LoginValidatorCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class LoginValidatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal LoginValidatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     public delegate void AddCompletedEventHandler(object sender, AddCompletedEventArgs e);
     
     /// <remarks/>
@@ -718,10 +850,10 @@ namespace WorkFlow.Base_UserWebService {
         }
         
         /// <remarks/>
-        public decimal Result {
+        public int Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((decimal)(this.results[0]));
+                return ((int)(this.results[0]));
             }
         }
     }
@@ -739,6 +871,32 @@ namespace WorkFlow.Base_UserWebService {
         private object[] results;
         
         internal UpdateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ModifyPasswordCompletedEventHandler(object sender, ModifyPasswordCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ModifyPasswordCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ModifyPasswordCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -817,6 +975,32 @@ namespace WorkFlow.Base_UserWebService {
         private object[] results;
         
         internal GetModelCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public base_userModel Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((base_userModel)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetModelByLoginCompletedEventHandler(object sender, GetModelByLoginCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetModelByLoginCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetModelByLoginCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
