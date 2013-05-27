@@ -659,6 +659,7 @@
     <Folder Include="Views\ElementsManagement\" />
     <Folder Include="Views\OperationsManagement\" />
     <Folder Include="Views\RolesManagement\" />
+    <Folder Include="Web References\AppsWebService\App_LocalResources\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
