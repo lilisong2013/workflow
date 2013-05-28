@@ -183,10 +183,16 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+
+            WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+            WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            string str=Request.Form["MenusParent"];
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
             string  initstatusid = (collection["StatusParent"].Trim());
-            string  menuid = (collection["MenuParent"].Trim());
+            //string  menuid = (collection["MenuParent"].Trim());
+            string menuid = Request.Form["MenusParent"];
             string  seqno =(collection["elementsSeqno"].Trim());
             if (name.Length == 0)
             {
@@ -200,9 +206,9 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "初始化状态不能为空!" });
             }
-            if (menuid.Length == 0 || menuid.Equals("请选择"))
+            if (menuid.Length == 0||menuid.Equals("顶级菜单"))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "父菜单不能为空!" });
             }
             if (seqno.Length== 0) 
             {
@@ -227,7 +233,7 @@ namespace WorkFlow.Controllers
             m_elementsModel.remark = collection["elementsRemark"].Trim();
             m_elementsModel.initstatus_id = Convert.ToInt32(collection["StatusParent"].Trim());
             m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim());
-            m_elementsModel.menu_id = Convert.ToInt32(collection["MenuParent"].Trim());
+            m_elementsModel.menu_id = Convert.ToInt32(collection["MenusParent"].Trim());
             m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim());
             m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim());
             m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim());
@@ -310,7 +316,11 @@ namespace WorkFlow.Controllers
             };
             return Json(dataJson, JsonRequestBehavior.AllowGet);
         }
-
+        /// <summary>
+        /// 编辑信息
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
         public ActionResult EditElements(FormCollection collection)
         {
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
