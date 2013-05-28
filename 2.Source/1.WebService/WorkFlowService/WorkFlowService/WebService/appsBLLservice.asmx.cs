@@ -29,12 +29,28 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 是否存在系统名称为appName该记录
+        /// </summary>
+        [WebMethod(Description = "是否存在系统名称为appName该记录")]
+        public bool ExistsName(string appName)
+        {
+            return m_appsdal.ExistsName(appName);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         [WebMethod(Description = "增加一条记录")]
         public int Add(Saron.WorkFlowService.Model.appsModel model)
         {
-            return m_appsdal.Add(model);
+            if (!ExistsName(model.name))
+            {
+                return m_appsdal.Add(model);
+            }
+            else
+            {
+                return -1;//系统名称已经存在
+            }
         }
 
         /// <summary>
@@ -52,17 +68,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "删除id为id的记录")]
         public bool Delete(int id)
         {
-
             return m_appsdal.Delete(id);
-        }
-
-        /// <summary>
-        /// 批量删除数据
-        /// </summary>
-        [WebMethod(Description = "删除多条数据")]
-        public bool DeleteList(string idlist)
-        {
-            return m_appsdal.DeleteList(idlist);
         }
 
         /// <summary>
@@ -93,12 +99,30 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
-        /// 获得数据列表
+        /// 获得所有系统数据列表
         /// </summary>
         [WebMethod(Description = "获得所有数据列表")]
         public DataSet GetAllAppsList()
         {
             return GetAppsList("");
+        }
+
+        /// <summary>
+        /// 获得有效系统数据列表
+        /// </summary>
+        [WebMethod(Description = "获得有效系统数据列表")]
+        public DataSet GetInvalidAppsList()
+        {
+            return GetAppsList("invalid=1");
+        }
+
+        /// <summary>
+        /// 获得无效系统数据列表
+        /// </summary>
+        [WebMethod(Description = "获得无效系统数据列表")]
+        public DataSet GetValidAppsList()
+        {
+            return GetAppsList("invalid=0");
         }
 
         /// <summary>

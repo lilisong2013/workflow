@@ -32,13 +32,13 @@ namespace WorkFlow.AppsWebService {
         
         private System.Threading.SendOrPostCallback ExistsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsNameOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback DeleteListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetModelOperationCompleted;
         
@@ -47,6 +47,10 @@ namespace WorkFlow.AppsWebService {
         private System.Threading.SendOrPostCallback GetAppsTopListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllAppsListOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetInvalidAppsListOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetValidAppsListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetRecordCountOperationCompleted;
         
@@ -94,6 +98,9 @@ namespace WorkFlow.AppsWebService {
         public event ExistsCompletedEventHandler ExistsCompleted;
         
         /// <remarks/>
+        public event ExistsNameCompletedEventHandler ExistsNameCompleted;
+        
+        /// <remarks/>
         public event AddCompletedEventHandler AddCompleted;
         
         /// <remarks/>
@@ -101,9 +108,6 @@ namespace WorkFlow.AppsWebService {
         
         /// <remarks/>
         public event DeleteCompletedEventHandler DeleteCompleted;
-        
-        /// <remarks/>
-        public event DeleteListCompletedEventHandler DeleteListCompleted;
         
         /// <remarks/>
         public event GetModelCompletedEventHandler GetModelCompleted;
@@ -116,6 +120,12 @@ namespace WorkFlow.AppsWebService {
         
         /// <remarks/>
         public event GetAllAppsListCompletedEventHandler GetAllAppsListCompleted;
+        
+        /// <remarks/>
+        public event GetInvalidAppsListCompletedEventHandler GetInvalidAppsListCompleted;
+        
+        /// <remarks/>
+        public event GetValidAppsListCompletedEventHandler GetValidAppsListCompleted;
         
         /// <remarks/>
         public event GetRecordCountCompletedEventHandler GetRecordCountCompleted;
@@ -149,6 +159,35 @@ namespace WorkFlow.AppsWebService {
             if ((this.ExistsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ExistsCompleted(this, new ExistsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsName(string appName) {
+            object[] results = this.Invoke("ExistsName", new object[] {
+                        appName});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsNameAsync(string appName) {
+            this.ExistsNameAsync(appName, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsNameAsync(string appName, object userState) {
+            if ((this.ExistsNameOperationCompleted == null)) {
+                this.ExistsNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsNameOperationCompleted);
+            }
+            this.InvokeAsync("ExistsName", new object[] {
+                        appName}, this.ExistsNameOperationCompleted, userState);
+        }
+        
+        private void OnExistsNameOperationCompleted(object arg) {
+            if ((this.ExistsNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsNameCompleted(this, new ExistsNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -236,35 +275,6 @@ namespace WorkFlow.AppsWebService {
             if ((this.DeleteCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteCompleted(this, new DeleteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/DeleteList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool DeleteList(string idlist) {
-            object[] results = this.Invoke("DeleteList", new object[] {
-                        idlist});
-            return ((bool)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void DeleteListAsync(string idlist) {
-            this.DeleteListAsync(idlist, null);
-        }
-        
-        /// <remarks/>
-        public void DeleteListAsync(string idlist, object userState) {
-            if ((this.DeleteListOperationCompleted == null)) {
-                this.DeleteListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteListOperationCompleted);
-            }
-            this.InvokeAsync("DeleteList", new object[] {
-                        idlist}, this.DeleteListOperationCompleted, userState);
-        }
-        
-        private void OnDeleteListOperationCompleted(object arg) {
-            if ((this.DeleteListCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.DeleteListCompleted(this, new DeleteListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -383,6 +393,60 @@ namespace WorkFlow.AppsWebService {
             if ((this.GetAllAppsListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllAppsListCompleted(this, new GetAllAppsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetInvalidAppsList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetInvalidAppsList() {
+            object[] results = this.Invoke("GetInvalidAppsList", new object[0]);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetInvalidAppsListAsync() {
+            this.GetInvalidAppsListAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetInvalidAppsListAsync(object userState) {
+            if ((this.GetInvalidAppsListOperationCompleted == null)) {
+                this.GetInvalidAppsListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetInvalidAppsListOperationCompleted);
+            }
+            this.InvokeAsync("GetInvalidAppsList", new object[0], this.GetInvalidAppsListOperationCompleted, userState);
+        }
+        
+        private void OnGetInvalidAppsListOperationCompleted(object arg) {
+            if ((this.GetInvalidAppsListCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetInvalidAppsListCompleted(this, new GetInvalidAppsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetValidAppsList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetValidAppsList() {
+            object[] results = this.Invoke("GetValidAppsList", new object[0]);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetValidAppsListAsync() {
+            this.GetValidAppsListAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetValidAppsListAsync(object userState) {
+            if ((this.GetValidAppsListOperationCompleted == null)) {
+                this.GetValidAppsListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetValidAppsListOperationCompleted);
+            }
+            this.InvokeAsync("GetValidAppsList", new object[0], this.GetValidAppsListOperationCompleted, userState);
+        }
+        
+        private void OnGetValidAppsListOperationCompleted(object arg) {
+            if ((this.GetValidAppsListCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetValidAppsListCompleted(this, new GetValidAppsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -666,6 +730,32 @@ namespace WorkFlow.AppsWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsNameCompletedEventHandler(object sender, ExistsNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     public delegate void AddCompletedEventHandler(object sender, AddCompletedEventArgs e);
     
     /// <remarks/>
@@ -729,32 +819,6 @@ namespace WorkFlow.AppsWebService {
         private object[] results;
         
         internal DeleteCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public bool Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void DeleteListCompletedEventHandler(object sender, DeleteListCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class DeleteListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal DeleteListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -859,6 +923,58 @@ namespace WorkFlow.AppsWebService {
         private object[] results;
         
         internal GetAllAppsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetInvalidAppsListCompletedEventHandler(object sender, GetInvalidAppsListCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetInvalidAppsListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetInvalidAppsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetValidAppsListCompletedEventHandler(object sender, GetValidAppsListCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetValidAppsListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetValidAppsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

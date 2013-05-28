@@ -44,6 +44,8 @@ namespace WorkFlow.OperationsWebService {
         
         private System.Threading.SendOrPostCallback GetOperationsListOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetOperationsNameListOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetOperationsTopListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllOperationsListOperationCompleted;
@@ -110,6 +112,9 @@ namespace WorkFlow.OperationsWebService {
         
         /// <remarks/>
         public event GetOperationsListCompletedEventHandler GetOperationsListCompleted;
+        
+        /// <remarks/>
+        public event GetOperationsNameListCompletedEventHandler GetOperationsNameListCompleted;
         
         /// <remarks/>
         public event GetOperationsTopListCompletedEventHandler GetOperationsTopListCompleted;
@@ -323,6 +328,33 @@ namespace WorkFlow.OperationsWebService {
             if ((this.GetOperationsListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetOperationsListCompleted(this, new GetOperationsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOperationsNameList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetOperationsNameList() {
+            object[] results = this.Invoke("GetOperationsNameList", new object[0]);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetOperationsNameListAsync() {
+            this.GetOperationsNameListAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetOperationsNameListAsync(object userState) {
+            if ((this.GetOperationsNameListOperationCompleted == null)) {
+                this.GetOperationsNameListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOperationsNameListOperationCompleted);
+            }
+            this.InvokeAsync("GetOperationsNameList", new object[0], this.GetOperationsNameListOperationCompleted, userState);
+        }
+        
+        private void OnGetOperationsNameListOperationCompleted(object arg) {
+            if ((this.GetOperationsNameListCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetOperationsNameListCompleted(this, new GetOperationsNameListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -818,6 +850,32 @@ namespace WorkFlow.OperationsWebService {
         private object[] results;
         
         internal GetOperationsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetOperationsNameListCompletedEventHandler(object sender, GetOperationsNameListCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetOperationsNameListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetOperationsNameListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

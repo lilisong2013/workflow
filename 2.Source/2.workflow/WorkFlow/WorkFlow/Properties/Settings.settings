@@ -2,20 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WorkFlow.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="WorkFlow_Base_UserWebService_base_userBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/base_userBLLservice.asmx</Value>
-    </Setting>
-    <Setting Name="WorkFlow_AppsWebService_appsBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/appsBLLservice.asmx</Value>
-    </Setting>
-    <Setting Name="WorkFlow_usersWebService_usersBLLservice" Type="(Web Service URL)" Scope="Application">
+    <Setting Name="WorkFlow_UsersWebService_usersBLLservice" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://192.168.11.103:8081/WebService/usersBLLservice.asmx</Value>
     </Setting>
-    <Setting Name="WorkFlow_rolesWebService_rolesBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/rolesBLLservice.asmx</Value>
-    </Setting>
-    <Setting Name="WorkFlow_User_RoleWebService_user_roleBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/user_roleBLLservice.asmx</Value>
+    <Setting Name="WorkFlow_Base_UserWebService_base_userBLLservice" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/base_userBLLservice.asmx</Value>
     </Setting>
     <Setting Name="WorkFlow_PrivilegesWebService_privilegesBLLservice" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://192.168.11.103:8081/WebService/privilegesBLLservice.asmx</Value>
@@ -23,20 +14,23 @@
     <Setting Name="WorkFlow_Privileges_TypeWebService_privileges_typeBLLservice" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://192.168.11.103:8081/WebService/privileges_typeBLLservice.asmx</Value>
     </Setting>
-    <Setting Name="WorkFlow_Privilege_RoleWebService_privilege_roleBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx</Value>
+    <Setting Name="WorkFlow_ElementsWebService_elementsBLLservice" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/elementsBLLservice.asmx</Value>
     </Setting>
-    <Setting Name="WorkFlow_OperationsWebService_operationsBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/operationsBLLservice.asmx</Value>
+    <Setting Name="WorkFlow_AppsWebService_appsBLLservice" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/appsBLLservice.asmx</Value>
     </Setting>
     <Setting Name="WorkFlow_MenusWebService_menusBLLservice" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://192.168.11.103:8081/WebService/menusBLLservice.asmx</Value>
     </Setting>
-    <Setting Name="WorkFlow_Init_StatusWebService_init_statusBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/init_statusBLLservice.asmx</Value>
+    <Setting Name="WorkFlow_RolesWebService_rolesBLLservice" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/rolesBLLservice.asmx</Value>
     </Setting>
-    <Setting Name="WorkFlow_ElementsWebService_elementsBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/elementsBLLservice.asmx</Value>
+    <Setting Name="WorkFlow_OperationsWebService_operationsBLLservice" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.12.12:8081/WebService/operationsBLLservice.asmx</Value>
+    </Setting>
+    <Setting Name="WorkFlow_Init_StatusWebService_init_statusBLLservice" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.12.12:8081/WebService/init_statusBLLservice.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

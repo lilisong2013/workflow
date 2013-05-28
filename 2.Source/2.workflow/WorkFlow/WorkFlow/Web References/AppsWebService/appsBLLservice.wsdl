@@ -16,6 +16,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ExistsName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Add">
         <s:complexType>
           <s:sequence>
@@ -72,20 +86,6 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="idlist" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="DeleteListResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -164,6 +164,40 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetInvalidAppsList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetInvalidAppsListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInvalidAppsListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValidAppsList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetValidAppsListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetValidAppsListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetRecordCount">
         <s:complexType>
           <s:sequence>
@@ -210,6 +244,12 @@
   <wsdl:message name="ExistsSoapOut">
     <wsdl:part name="parameters" element="tns:ExistsResponse" />
   </wsdl:message>
+  <wsdl:message name="ExistsNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsName" />
+  </wsdl:message>
+  <wsdl:message name="ExistsNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsNameResponse" />
+  </wsdl:message>
   <wsdl:message name="AddSoapIn">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
@@ -227,12 +267,6 @@
   </wsdl:message>
   <wsdl:message name="DeleteSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteResponse" />
-  </wsdl:message>
-  <wsdl:message name="DeleteListSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteList" />
-  </wsdl:message>
-  <wsdl:message name="DeleteListSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteListResponse" />
   </wsdl:message>
   <wsdl:message name="GetModelSoapIn">
     <wsdl:part name="parameters" element="tns:GetModel" />
@@ -258,6 +292,18 @@
   <wsdl:message name="GetAllAppsListSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllAppsListResponse" />
   </wsdl:message>
+  <wsdl:message name="GetInvalidAppsListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInvalidAppsList" />
+  </wsdl:message>
+  <wsdl:message name="GetInvalidAppsListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInvalidAppsListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetValidAppsListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetValidAppsList" />
+  </wsdl:message>
+  <wsdl:message name="GetValidAppsListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetValidAppsListResponse" />
+  </wsdl:message>
   <wsdl:message name="GetRecordCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetRecordCount" />
   </wsdl:message>
@@ -276,6 +322,11 @@
       <wsdl:input message="tns:ExistsSoapIn" />
       <wsdl:output message="tns:ExistsSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="ExistsName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在系统名称为appName该记录</wsdl:documentation>
+      <wsdl:input message="tns:ExistsNameSoapIn" />
+      <wsdl:output message="tns:ExistsNameSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Add">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
@@ -290,11 +341,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录</wsdl:documentation>
       <wsdl:input message="tns:DeleteSoapIn" />
       <wsdl:output message="tns:DeleteSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除多条数据</wsdl:documentation>
-      <wsdl:input message="tns:DeleteListSoapIn" />
-      <wsdl:output message="tns:DeleteListSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModel">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
@@ -316,6 +362,16 @@
       <wsdl:input message="tns:GetAllAppsListSoapIn" />
       <wsdl:output message="tns:GetAllAppsListSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetInvalidAppsList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得有效系统数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetInvalidAppsListSoapIn" />
+      <wsdl:output message="tns:GetInvalidAppsListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppsList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得无效系统数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetValidAppsListSoapIn" />
+      <wsdl:output message="tns:GetValidAppsListSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetRecordCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得记录总条数</wsdl:documentation>
       <wsdl:input message="tns:GetRecordCountSoapIn" />
@@ -331,6 +387,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="Exists">
       <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsName">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsName" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -358,15 +423,6 @@
     </wsdl:operation>
     <wsdl:operation name="Delete">
       <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -410,6 +466,24 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetInvalidAppsList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetInvalidAppsList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppsList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetValidAppsList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetRecordCount">
       <soap:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
       <wsdl:input>
@@ -440,6 +514,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ExistsName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Add">
       <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
@@ -460,15 +543,6 @@
     </wsdl:operation>
     <wsdl:operation name="Delete">
       <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -512,6 +586,24 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetInvalidAppsList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetInvalidAppsList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppsList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetValidAppsList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetRecordCount">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
       <wsdl:input>
@@ -533,10 +625,10 @@
   </wsdl:binding>
   <wsdl:service name="appsBLLservice">
     <wsdl:port name="appsBLLserviceSoap" binding="tns:appsBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/appsBLLservice.asmx" />
+      <soap:address location="http://192.168.12.12:8081/WebService/appsBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="appsBLLserviceSoap12" binding="tns:appsBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/appsBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.12:8081/WebService/appsBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

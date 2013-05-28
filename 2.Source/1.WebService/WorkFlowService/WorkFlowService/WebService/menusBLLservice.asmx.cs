@@ -105,6 +105,42 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 获得某系统的菜单列表
+        /// </summary>
+        [WebMethod(Description = "获得某系统的菜单列表")]
+        public DataSet GetMenusListOfApp(int appId)
+        {
+            return m_menusDal.GetListOfApp(appId);
+        }
+
+        /// <summary>
+        /// 获得某系统某菜单的子菜单
+        /// </summary>
+        [WebMethod(Description = "获得某系统某菜单的子菜单")]
+        public DataSet GetChildrenMenus(int parentID)
+        {
+            return m_menusDal.GetChildrenMenusListOfApp(parentID);
+        }
+
+        /// <summary>
+        /// 获得某系统的顶级菜单
+        /// </summary>
+        [WebMethod(Description = "获得某系统的顶级菜单")]
+        public DataSet GetTopMenusListOfApp(int appID)
+        {
+            return m_menusDal.GetTopMenusListOfApp(appID);
+        }
+
+        /// <summary>
+        /// 是否存在该记录
+        /// </summary>
+        [WebMethod(Description = "id为id的菜单是否存在子菜单记录")]
+        public bool ExistsChildrenMenus(int parentId)
+        {
+            return m_menusDal.ExistsChildrenMenus(parentId);
+        }
+
+        /// <summary>
         /// 获取记录总数
         /// </summary>
         [WebMethod(Description = "获得记录总条数")]

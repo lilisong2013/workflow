@@ -44,6 +44,8 @@ namespace WorkFlow.ElementsWebService {
         
         private System.Threading.SendOrPostCallback GetElementsListOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetNameListOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetElementsTopListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllElementsListOperationCompleted;
@@ -110,6 +112,9 @@ namespace WorkFlow.ElementsWebService {
         
         /// <remarks/>
         public event GetElementsListCompletedEventHandler GetElementsListCompleted;
+        
+        /// <remarks/>
+        public event GetNameListCompletedEventHandler GetNameListCompleted;
         
         /// <remarks/>
         public event GetElementsTopListCompletedEventHandler GetElementsTopListCompleted;
@@ -323,6 +328,33 @@ namespace WorkFlow.ElementsWebService {
             if ((this.GetElementsListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetElementsListCompleted(this, new GetElementsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetNameList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetNameList() {
+            object[] results = this.Invoke("GetNameList", new object[0]);
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetNameListAsync() {
+            this.GetNameListAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetNameListAsync(object userState) {
+            if ((this.GetNameListOperationCompleted == null)) {
+                this.GetNameListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetNameListOperationCompleted);
+            }
+            this.InvokeAsync("GetNameList", new object[0], this.GetNameListOperationCompleted, userState);
+        }
+        
+        private void OnGetNameListOperationCompleted(object arg) {
+            if ((this.GetNameListCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetNameListCompleted(this, new GetNameListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -845,6 +877,32 @@ namespace WorkFlow.ElementsWebService {
         private object[] results;
         
         internal GetElementsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetNameListCompletedEventHandler(object sender, GetNameListCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetNameListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetNameListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

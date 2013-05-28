@@ -2,7 +2,8 @@
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using Saron.DBUtility;//数据库操作
+using Saron.DBUtility;
+using System.Collections;//数据库操作
 
 namespace Saron.WorkFlowService.DAL
 {
@@ -29,8 +30,26 @@ namespace Saron.WorkFlowService.DAL
 
 			return DbHelperSQL.Exists(strSql.ToString(),parameters);
 		}
-
-
+        /// <summary>
+        /// deleted=false的角色名称集
+        /// </summary>
+        public DataSet DeletedRolesName()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name from roles where deleted='false'");
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+        /// <summary>
+        /// deleted=false且rolename=name的角色名称集
+        /// </summary>
+        public DataSet DistinctRolesName(string rolesname)
+        {
+            StringBuilder strSql = new StringBuilder();
+         
+            ArrayList disname = new ArrayList();
+            strSql.Append("select name from roles where deleted='false' and name!='"+rolesname+"'");
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>
@@ -76,7 +95,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 更新一条数据
 		/// </summary>
 		public bool Update(Saron.WorkFlowService.Model.rolesModel model)
@@ -139,7 +159,7 @@ namespace Saron.WorkFlowService.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from roles ");
+            strSql.Append("update roles set deleted='True'");
 			strSql.Append(" where id=@id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -263,19 +283,29 @@ namespace Saron.WorkFlowService.DAL
 				return null;
 			}
 		}
+        /// <summary>
+        /// 获得有效数据列表
+        /// </summary>
+        public DataSet GetValidRolesList()
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
+            strSql.Append(" FROM roles where deleted='0'");
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 
 		/// <summary>
 		/// 获得数据列表
 		/// </summary>
 		public DataSet GetRolesList(string strWhere)
 		{
+            
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
-			strSql.Append(" FROM roles ");
-			if(strWhere.Trim()!="")
-			{
-				strSql.Append(" where "+strWhere);
-			}
+			strSql.Append(" FROM roles ");	
+            strSql.Append("where deleted='False'"+strWhere);
+		
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 

@@ -298,10 +298,15 @@ namespace Saron.WorkFlowService.DAL
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
-
-		/// <summary>
-		/// 获得前几行数据
+        ///<summary>
+		/// 获得数据库中name的数据列表
 		/// </summary>
+        public DataSet GetNameList()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name from operations");
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 		public DataSet GetList(int Top,string strWhere,string filedOrder)
 		{
 			StringBuilder strSql=new StringBuilder();
