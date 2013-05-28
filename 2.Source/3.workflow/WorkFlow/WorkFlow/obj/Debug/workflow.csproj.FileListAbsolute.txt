@@ -1,0 +1,28 @@
+E:\上海（工作流）\work\saron_007003\2.Source\3.newWorkFlow\workflow\workflow\bin\workflow.dll
+E:\上海（工作流）\work\saron_007003\2.Source\3.newWorkFlow\workflow\workflow\bin\workflow.pdb
+E:\上海（工作流）\work\saron_007003\2.Source\3.newWorkFlow\workflow\workflow\bin\EntityFramework.dll
+E:\上海（工作流）\work\saron_007003\2.Source\3.newWorkFlow\workflow\workflow\bin\EntityFramework.xml
+E:\上海（工作流）\work\saron_007003\2.Source\3.newWorkFlow\workflow\workflow\obj\Debug\ResolveAssemblyReference.cache
+E:\上海（工作流）\work\saron_007003\2.Source\3.newWorkFlow\workflow\workflow\obj\Debug\workflow.dll
+E:\上海（工作流）\work\saron_007003\2.Source\3.newWorkFlow\workflow\workflow\obj\Debug\workflow.pdb
+G:\WorkFlow\WorkFlow\bin\workflow.dll
+G:\WorkFlow\WorkFlow\bin\workflow.pdb
+G:\WorkFlow\WorkFlow\bin\EntityFramework.dll
+G:\WorkFlow\WorkFlow\bin\EntityFramework.xml
+G:\WorkFlow\WorkFlow\obj\Debug\ResolveAssemblyReference.cache
+G:\WorkFlow\WorkFlow\obj\Debug\workflow.dll
+G:\WorkFlow\WorkFlow\obj\Debug\workflow.pdb
+F:\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\obj\Debug\ResolveAssemblyReference.cache
+F:\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\WorkFlow.dll
+F:\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\WorkFlow.pdb
+F:\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\EntityFramework.dll
+F:\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\bin\EntityFramework.xml
+F:\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\obj\Debug\WorkFlow.dll
+F:\work\saron_007003\2.Source\2.workflow\WorkFlow\WorkFlow\obj\Debug\WorkFlow.pdb
+E:\上海（工作流）\工作流权限管理记录\新建文件夹 (2)\2.workflow\WorkFlow\WorkFlow\bin\WorkFlow.dll
+E:\上海（工作流）\工作流权限管理记录\新建文件夹 (2)\2.workflow\WorkFlow\WorkFlow\bin\WorkFlow.pdb
+E:\上海（工作流）\工作流权限管理记录\新建文件夹 (2)\2.workflow\WorkFlow\WorkFlow\bin\EntityFramework.dll
+E:\上海（工作流）\工作流权限管理记录\新建文件夹 (2)\2.workflow\WorkFlow\WorkFlow\bin\EntityFramework.xml
+E:\上海（工作流）\工作流权限管理记录\新建文件夹 (2)\2.workflow\WorkFlow\WorkFlow\obj\Debug\ResolveAssemblyReference.cache
+E:\上海（工作流）\工作流权限管理记录\新建文件夹 (2)\2.workflow\WorkFlow\WorkFlow\obj\Debug\WorkFlow.dll
+E:\上海（工作流）\工作流权限管理记录\新建文件夹 (2)\2.workflow\WorkFlow\WorkFlow\obj\Debug\WorkFlow.pdb
