@@ -151,7 +151,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update users set ");
-            strSql.Append("password=@password,");
+            strSql.Append("password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))),");
             strSql.Append("name=@name,");
             strSql.Append("employee_no=@employee_no,");
             strSql.Append("mobile_phone=@mobile_phone,");
