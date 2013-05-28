@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     AppElements
@@ -53,7 +53,7 @@
      $(document).ready(function () {
          var form = $("#addElements");
          form.submit(function () {
-                 $.post(form.attr("action"),
+             $.post(form.attr("action"),
                     form.serialize(),
                     function (result, status) {
                         //debugger
@@ -66,7 +66,7 @@
                         }
                     },
                     "JSON");
-                 return false;           
+             return false;
          });
      });
  </script>
@@ -161,15 +161,14 @@
             <li><a href="#AddElements" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
-      <% string ipAddress = Saron.Common.PubFun.IPHelper.GetClientIP(); %>
+    <div class="container">
+     <%--操作提示DIV--%>
+     <div id="promptDIV" class="row"></div>
+    </div>
+      <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
       <% string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
       <% DateTime t = Convert.ToDateTime(s); %>
      <div class="tab-content">
-      <div class="container">
-        <%--操作提示DIV--%>
-       <div id="promptDIV" class="row"></div>
-      </div>
-
        <div class="tab-pane active" id="AllElements"></div>
         <div class="tab-pane" id="AddElements">
             <form id="addElements" class="form-horizontal" method="post" action="/ElementsManagement/AddElements">
@@ -189,7 +188,7 @@
                     <label class="control-label">初始化状态</label>
                     <div class="controls">
                         <select class="span4" id="StatusParent" name="StatusParent">
-                         <option id="StatusInfo" value="-1"></option>
+                         <option id="StatusInfo"></option>
                         </select>
                     </div>
                 </div>
@@ -197,17 +196,9 @@
                     <label class="control-label">所在页面</label>
                     <div class="controls">
                         <select class="span4" id="MenuParent" name="MenuParent">
-                         <option id="MenuInfo" value="-1"></option>
+                         <option id="MenuInfo"></option>
                         </select>
                     </div>
-                </div>
-                <div class="control-group span6 offset2">
-                 <label class="control-label">系统ID</label>
-                 <div class="controls">
-                 <select class="span4" id="AppIdParent" name="AppIdParent">
-                  <option id="AppIdInfo" value="-1"></option>
-                 </select>                 
-                 </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">排序码</label>
@@ -219,21 +210,27 @@
                     <label class="control-label">备注信息</label>
                     <div class="controls">
                         <textarea id="elementsRemark" name="elementsRemark" rows="4" cols="5" class="span4"></textarea>
+                        <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>                   
+                        <input type="hidden" id="elementsApp_id" name="elementsApp_id" value="<%=m_userModel.app_id%>"/>
                         <input type="hidden" id="elementsInvalid" name="elementsInvalid" value="true"/>
                         <input type="hidden" id="elementsDeleted" name="elementsDeleted" value="false"/>
-                        <input type="hidden" id="Created_at" name="Created_at" value="<%=t %>"/>
-                        <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
+                        <input type="hidden" id="Created_at" name="Created_at" value="<%=t %>"/>               
                         <input type="hidden" id="Created_by" name="Created_by" value="<%=m_userModel.id%>"/>
                         <input type="hidden" id="Created_ip" name="Created_ip" value="<%=ipAddress%>"/>           
                     </div>
                 </div>
-                <div class="control-group span5 offset2">
-                    <input type="submit" class="btn btn-primary span4" onclick="" value="添加元素" />
-                </div>
+              <div class="control-group span6 offset3">
+                  <div class="controls">
+                            <input type="submit" value="添加" class="btn btn-primary  span1" /> 
+                            &nbsp;&nbsp;&nbsp;
+                            <input type="reset" value="重置"  class="btn btn-primary  span1" />
+                  </div>
+              </div>
             </form>
         </div>
     </div>
 
 </asp:Content>
+
 
 

@@ -48,6 +48,14 @@ namespace WorkFlow.MenusWebService {
         
         private System.Threading.SendOrPostCallback GetAllMenusListOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetMenusListOfAppOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetChildrenMenusOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetTopMenusListOfAppOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ExistsChildrenMenusOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetRecordCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetListByPageOperationCompleted;
@@ -116,6 +124,18 @@ namespace WorkFlow.MenusWebService {
         
         /// <remarks/>
         public event GetAllMenusListCompletedEventHandler GetAllMenusListCompleted;
+        
+        /// <remarks/>
+        public event GetMenusListOfAppCompletedEventHandler GetMenusListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetChildrenMenusCompletedEventHandler GetChildrenMenusCompleted;
+        
+        /// <remarks/>
+        public event GetTopMenusListOfAppCompletedEventHandler GetTopMenusListOfAppCompleted;
+        
+        /// <remarks/>
+        public event ExistsChildrenMenusCompletedEventHandler ExistsChildrenMenusCompleted;
         
         /// <remarks/>
         public event GetRecordCountCompletedEventHandler GetRecordCountCompleted;
@@ -383,6 +403,122 @@ namespace WorkFlow.MenusWebService {
             if ((this.GetAllMenusListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllMenusListCompleted(this, new GetAllMenusListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetMenusListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetMenusListOfApp(int appId) {
+            object[] results = this.Invoke("GetMenusListOfApp", new object[] {
+                        appId});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetMenusListOfAppAsync(int appId) {
+            this.GetMenusListOfAppAsync(appId, null);
+        }
+        
+        /// <remarks/>
+        public void GetMenusListOfAppAsync(int appId, object userState) {
+            if ((this.GetMenusListOfAppOperationCompleted == null)) {
+                this.GetMenusListOfAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMenusListOfAppOperationCompleted);
+            }
+            this.InvokeAsync("GetMenusListOfApp", new object[] {
+                        appId}, this.GetMenusListOfAppOperationCompleted, userState);
+        }
+        
+        private void OnGetMenusListOfAppOperationCompleted(object arg) {
+            if ((this.GetMenusListOfAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetMenusListOfAppCompleted(this, new GetMenusListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetChildrenMenus", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetChildrenMenus(int parentID) {
+            object[] results = this.Invoke("GetChildrenMenus", new object[] {
+                        parentID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetChildrenMenusAsync(int parentID) {
+            this.GetChildrenMenusAsync(parentID, null);
+        }
+        
+        /// <remarks/>
+        public void GetChildrenMenusAsync(int parentID, object userState) {
+            if ((this.GetChildrenMenusOperationCompleted == null)) {
+                this.GetChildrenMenusOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetChildrenMenusOperationCompleted);
+            }
+            this.InvokeAsync("GetChildrenMenus", new object[] {
+                        parentID}, this.GetChildrenMenusOperationCompleted, userState);
+        }
+        
+        private void OnGetChildrenMenusOperationCompleted(object arg) {
+            if ((this.GetChildrenMenusCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetChildrenMenusCompleted(this, new GetChildrenMenusCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetTopMenusListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetTopMenusListOfApp(int appID) {
+            object[] results = this.Invoke("GetTopMenusListOfApp", new object[] {
+                        appID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetTopMenusListOfAppAsync(int appID) {
+            this.GetTopMenusListOfAppAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetTopMenusListOfAppAsync(int appID, object userState) {
+            if ((this.GetTopMenusListOfAppOperationCompleted == null)) {
+                this.GetTopMenusListOfAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetTopMenusListOfAppOperationCompleted);
+            }
+            this.InvokeAsync("GetTopMenusListOfApp", new object[] {
+                        appID}, this.GetTopMenusListOfAppOperationCompleted, userState);
+        }
+        
+        private void OnGetTopMenusListOfAppOperationCompleted(object arg) {
+            if ((this.GetTopMenusListOfAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetTopMenusListOfAppCompleted(this, new GetTopMenusListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsChildrenMenus", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsChildrenMenus(int parentId) {
+            object[] results = this.Invoke("ExistsChildrenMenus", new object[] {
+                        parentId});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsChildrenMenusAsync(int parentId) {
+            this.ExistsChildrenMenusAsync(parentId, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsChildrenMenusAsync(int parentId, object userState) {
+            if ((this.ExistsChildrenMenusOperationCompleted == null)) {
+                this.ExistsChildrenMenusOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsChildrenMenusOperationCompleted);
+            }
+            this.InvokeAsync("ExistsChildrenMenus", new object[] {
+                        parentId}, this.ExistsChildrenMenusOperationCompleted, userState);
+        }
+        
+        private void OnExistsChildrenMenusOperationCompleted(object arg) {
+            if ((this.ExistsChildrenMenusCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsChildrenMenusCompleted(this, new ExistsChildrenMenusCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -892,6 +1028,110 @@ namespace WorkFlow.MenusWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetMenusListOfAppCompletedEventHandler(object sender, GetMenusListOfAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetMenusListOfAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetMenusListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetChildrenMenusCompletedEventHandler(object sender, GetChildrenMenusCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetChildrenMenusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetChildrenMenusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetTopMenusListOfAppCompletedEventHandler(object sender, GetTopMenusListOfAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetTopMenusListOfAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetTopMenusListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsChildrenMenusCompletedEventHandler(object sender, ExistsChildrenMenusCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsChildrenMenusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsChildrenMenusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
     }

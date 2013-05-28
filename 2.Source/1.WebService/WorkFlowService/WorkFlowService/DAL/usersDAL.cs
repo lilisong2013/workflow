@@ -151,7 +151,12 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update users set ");
+<<<<<<< HEAD
             strSql.Append("password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))),");
+=======
+            strSql.Append("login=@login,");
+            strSql.Append("password=@password,");
+>>>>>>> b33eead6771f5c353573c26726321ec77d4367ef
             strSql.Append("name=@name,");
             strSql.Append("employee_no=@employee_no,");
             strSql.Append("mobile_phone=@mobile_phone,");
@@ -168,7 +173,8 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("updated_ip=@updated_ip,");
             strSql.Append("app_id=@app_id");
             strSql.Append(" where id=@id");
-            SqlParameter[] parameters = {
+            SqlParameter[] parameters = { 
+                    new SqlParameter("@login", SqlDbType.NVarChar,40),
 					new SqlParameter("@password", SqlDbType.NVarChar,255),
 					new SqlParameter("@name", SqlDbType.NVarChar,40),
 					new SqlParameter("@employee_no", SqlDbType.NVarChar,40),
@@ -185,27 +191,26 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@updated_by", SqlDbType.Int,4),
 					new SqlParameter("@updated_ip", SqlDbType.NVarChar,40),
 					new SqlParameter("@app_id", SqlDbType.Int,4),
-					new SqlParameter("@id", SqlDbType.Int,4),
-					new SqlParameter("@login", SqlDbType.NVarChar,40)};
-            parameters[0].Value = model.password;
-            parameters[1].Value = model.name;
-            parameters[2].Value = model.employee_no;
-            parameters[3].Value = model.mobile_phone;
-            parameters[4].Value = model.mail;
-            parameters[5].Value = model.remark;
-            parameters[6].Value = model.admin;
-            parameters[7].Value = model.invalid;
-            parameters[8].Value = model.deleted;
-            parameters[9].Value = model.created_at;
-            parameters[10].Value = model.created_by;
-            parameters[11].Value = model.created_ip;
-            parameters[12].Value = model.updated_at;
-            parameters[13].Value = model.updated_by;
-            parameters[14].Value = model.updated_ip;
-            parameters[15].Value = model.app_id;
-            parameters[16].Value = model.id;
-            parameters[17].Value = model.login;
-
+					new SqlParameter("@id", SqlDbType.Int,4)
+					};
+            parameters[0].Value = model.login;
+            parameters[1].Value = model.password;
+            parameters[2].Value = model.name;
+            parameters[3].Value = model.employee_no;
+            parameters[4].Value = model.mobile_phone;
+            parameters[5].Value = model.mail;
+            parameters[6].Value = model.remark;
+            parameters[7].Value = model.admin;
+            parameters[8].Value = model.invalid;
+            parameters[9].Value = model.deleted;
+            parameters[10].Value = model.created_at;
+            parameters[11].Value = model.created_by;
+            parameters[12].Value = model.created_ip;
+            parameters[13].Value = model.updated_at;
+            parameters[14].Value = model.updated_by;
+            parameters[15].Value = model.updated_ip;
+            parameters[16].Value = model.app_id;
+            parameters[17].Value = model.id;
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
             {

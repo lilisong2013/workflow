@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkFlow", "WorkFlow\WorkFlow.csproj", "{4A821707-79DE-41B2-ADE7-91FAE5747CB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkFlow", "WorkFlow\WorkFlow.csproj", "{DE276492-04DB-4268-AFE3-41EA59648F1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4A821707-79DE-41B2-ADE7-91FAE5747CB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A821707-79DE-41B2-ADE7-91FAE5747CB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A821707-79DE-41B2-ADE7-91FAE5747CB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A821707-79DE-41B2-ADE7-91FAE5747CB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE276492-04DB-4268-AFE3-41EA59648F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE276492-04DB-4268-AFE3-41EA59648F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE276492-04DB-4268-AFE3-41EA59648F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE276492-04DB-4268-AFE3-41EA59648F1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

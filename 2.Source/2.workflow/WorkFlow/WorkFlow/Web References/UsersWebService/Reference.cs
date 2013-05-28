@@ -34,6 +34,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback LoginValidatorOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsLoginAndAppIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ExistsLoginOperationCompleted;
         
         private System.Threading.SendOrPostCallback AddOperationCompleted;
@@ -50,6 +52,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback GetModelByLoginOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetModelByAppIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetUsersListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetUsersTopListOperationCompleted;
@@ -64,7 +68,7 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public usersBLLservice() {
-            this.Url = global::WorkFlow.Properties.Settings.Default.WorkFlow_usersWebService_usersBLLservice;
+            this.Url = global::WorkFlow.Properties.Settings.Default.WorkFlow_UsersWebService_usersBLLservice;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -105,6 +109,9 @@ namespace WorkFlow.UsersWebService {
         public event LoginValidatorCompletedEventHandler LoginValidatorCompleted;
         
         /// <remarks/>
+        public event ExistsLoginAndAppIDCompletedEventHandler ExistsLoginAndAppIDCompleted;
+        
+        /// <remarks/>
         public event ExistsLoginCompletedEventHandler ExistsLoginCompleted;
         
         /// <remarks/>
@@ -127,6 +134,9 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public event GetModelByLoginCompletedEventHandler GetModelByLoginCompleted;
+        
+        /// <remarks/>
+        public event GetModelByAppIDCompletedEventHandler GetModelByAppIDCompleted;
         
         /// <remarks/>
         public event GetUsersListCompletedEventHandler GetUsersListCompleted;
@@ -202,6 +212,37 @@ namespace WorkFlow.UsersWebService {
             if ((this.LoginValidatorCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.LoginValidatorCompleted(this, new LoginValidatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsLoginAndAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsLoginAndAppID(string login, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<int> appId) {
+            object[] results = this.Invoke("ExistsLoginAndAppID", new object[] {
+                        login,
+                        appId});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsLoginAndAppIDAsync(string login, System.Nullable<int> appId) {
+            this.ExistsLoginAndAppIDAsync(login, appId, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsLoginAndAppIDAsync(string login, System.Nullable<int> appId, object userState) {
+            if ((this.ExistsLoginAndAppIDOperationCompleted == null)) {
+                this.ExistsLoginAndAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsLoginAndAppIDOperationCompleted);
+            }
+            this.InvokeAsync("ExistsLoginAndAppID", new object[] {
+                        login,
+                        appId}, this.ExistsLoginAndAppIDOperationCompleted, userState);
+        }
+        
+        private void OnExistsLoginAndAppIDOperationCompleted(object arg) {
+            if ((this.ExistsLoginAndAppIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsLoginAndAppIDCompleted(this, new ExistsLoginAndAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -436,6 +477,35 @@ namespace WorkFlow.UsersWebService {
             if ((this.GetModelByLoginCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetModelByLoginCompleted(this, new GetModelByLoginCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetModelByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public usersModel GetModelByAppID(int appID) {
+            object[] results = this.Invoke("GetModelByAppID", new object[] {
+                        appID});
+            return ((usersModel)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetModelByAppIDAsync(int appID) {
+            this.GetModelByAppIDAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetModelByAppIDAsync(int appID, object userState) {
+            if ((this.GetModelByAppIDOperationCompleted == null)) {
+                this.GetModelByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetModelByAppIDOperationCompleted);
+            }
+            this.InvokeAsync("GetModelByAppID", new object[] {
+                        appID}, this.GetModelByAppIDOperationCompleted, userState);
+        }
+        
+        private void OnGetModelByAppIDOperationCompleted(object arg) {
+            if ((this.GetModelByAppIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetModelByAppIDCompleted(this, new GetModelByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -893,6 +963,32 @@ namespace WorkFlow.UsersWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsLoginAndAppIDCompletedEventHandler(object sender, ExistsLoginAndAppIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsLoginAndAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsLoginAndAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     public delegate void ExistsLoginCompletedEventHandler(object sender, ExistsLoginCompletedEventArgs e);
     
     /// <remarks/>
@@ -1086,6 +1182,32 @@ namespace WorkFlow.UsersWebService {
         private object[] results;
         
         internal GetModelByLoginCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public usersModel Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((usersModel)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetModelByAppIDCompletedEventHandler(object sender, GetModelByAppIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetModelByAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetModelByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
