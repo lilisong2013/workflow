@@ -1,13 +1,14 @@
-﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/secondsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
-<!DOCTYPE html>
+<asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
+    RegistPage
+</asp:Content>
 
-<html>
-<head runat="server">
-    <title>RegistPage</title>
-    <link href="../../bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="../../bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-
+<%--子页面的css、js--%>
+<asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
+    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+    <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
+    
     <style type="text/css">
         .container{ min-width:700px;}
         .control-group .{}
@@ -22,18 +23,55 @@
         #userinfo .m-leftform{border-right:1px solid #ccc; width:300px; position:relative; float:left;}
         #userinfo .m-rightform{ position:relative; float:left;}
     </style>
-</head>
-<body>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var options = {
+                //beforeSubmit: showRequest,  // from提交前的响应的回调函数
+                success: showResponse,  // form提交响应成功后执行的回调函数
+                url: "/Home/RegistUser",
+                type: "POST",
+                dataType: "json"
+            };
+
+            $("#submit").click(function () {
+                if (false) {
+
+                    return false;
+                } else {
+                    $("#appsRegist").ajaxForm(options);
+                }
+            });
+
+            function showResponse(responseText, statusText) {
+                //成功后执行的方法
+                //alert(responseText.Id + responseText.Name);
+                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                $("#promptDIV").addClass(responseText.css);
+                $("#promptDIV").html(responseText.message);
+            } 
+        });
+    </script>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    
+    <div class="container">
+         <%--操作提示DIV--%>
+        <div id="promptDIV" class="row"></div>
+    </div>
+    
     <div class="container">
         <ul class="breadcrumb">
             <li class="active"><a href="#">系统管理员注册</a><span class="divider">/</span></li>
-            <li><a href="/Home/Login">登录</a> <span class="divider">/</span></li>
+            <li><a href="/Home/Login">登录</a></li>
         </ul>
     </div>
+    
     <div class="container">
-        <form class="form-inline" method="post" action="/Home/RegistUser">
+        <form id="appsRegist" class="form-inline" method="post" action="">
         <input type="reset" class="btn btn-primary pull-right" value="重置信息" />
-        <input type="submit" class="btn btn-primary pull-right" value="提交申请" />
+        <input id="submit" type="submit" class="btn btn-primary pull-right" value="提交申请" />
         <div class="control-group" style="border-style:none">
             <h3>系统信息</h3>
             <div class="m-group-topborder">
@@ -59,11 +97,11 @@
                     </div>
                     <div class="m-newline">
                         <label class="control-label">登录密码：</label>
-                        <input name="userPassword" type="text" class="span2" />
+                        <input name="userPassword" type="password" class="span2" />
                     </div>
                     <div class="m-newline">
                         <label class="control-label">确认密码：</label>
-                        <input name="userPassword2" type="text" class="span2" />
+                        <input name="userPassword2" type="password" class="span2" />
                     </div>
                     <div class="m-newline">
                     <label class="control-label">真实姓名：</label>
@@ -98,5 +136,7 @@
         </div>
         </form>
     </div>
-</body>
-</html>
+
+</asp:Content>
+
+

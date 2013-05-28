@@ -1,4 +1,12 @@
-﻿using System;
+﻿///<summary>
+///Copyright (C) Shandong SARON Intelligent Technology Co., Ltd all rights reserved
+///文件名称：ConditionFilter.cs
+///功能概述：正则表达式，条件过滤
+///    作者：朱建刚
+///创建日期：2013-04-19
+///</summary>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -54,14 +62,8 @@ namespace Saron.Common.PubFun
                 Ip = "202.96.134.133";
             }
             return Ip;
-        }
-      /*  private static string getIPAddress()
-        {
-            System.Net.IPAddress addr;
-            // 获得本机局域网IP地址   
-            addr = new System.Net.IPAddress(Dns.GetHostByName(Dns.GetHostName()).AddressList[0].Address);
-            return addr.ToString();
-        }*/
+        } 
+
 
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     AppOperations
@@ -21,7 +21,7 @@
                  tem = thisvalue;
              }
              else {
-                 tem = tem.replace(thisvalue,"False");
+                 tem = tem.replace(thisvalue, "False");
              }
              bb.value = tem;
          }
@@ -38,7 +38,7 @@
                         return false;
                     }
                     else {
-                    $.post(form.attr("action"),
+                        $.post(form.attr("action"),
                     form.serialize(),
                     function (result, status) {
                         //debugger
@@ -66,15 +66,15 @@
                 { display: '操作描述', name: 'description', width: 80 },
                 { display: '备注', name: 'remark', width: 180 },
                 { display: '是否有效', name: 'invalid', width: 80,
-                      render: function (record, rowindex, value, column) {
-                          if (!value) {
-                              return "<img src='../../images/grid-checkbox.gif' />";
-                          }
-                          else {
-                              return "<img src='../../images/grid-checkbox-checked.gif' />";
-                          }
-                      }
-                 },            
+                    render: function (record, rowindex, value, column) {
+                        if (!value) {
+                            return "<img src='../../images/grid-checkbox.gif' />";
+                        }
+                        else {
+                            return "<img src='../../images/grid-checkbox-checked.gif' />";
+                        }
+                    }
+                },
                 { display: '', width: 200,
                     render: function (row) {
                         var html = '<i class="icon-lock"></i><a href="/OperationsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/OperationsManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit" ></i><a href="/OperationsManagement/EditPage?id=' + row.id + '">编辑</a> ';
@@ -129,7 +129,7 @@
     <div class="container"><h2>功能管理</h2></div>
     <div class="container">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#AllOperations" data-toggle="tab"><i class="icon-check"></i>全部<%=10 %></a></li>
+            <li class="active"><a href="#AllOperations" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddOperations" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
@@ -140,26 +140,17 @@
     <div class="tab-content">
         <div class="tab-pane active" id="AllOperations"></div>
         <div class="tab-pane" id="AddOperations">
-          <form id="add_Operations" class="form-horizontal" method="post" action="/OperationsManagement/RegisterOperations">
+          <form id="add_Operations" class="form-horizontal" method="post" action="/OperationsManagement/AddOperations">
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsName">操作名称：</label>
                         <div class="controls">
-                            <input type="text" name="operationsName" id="operationsName" class="input-prepend span4"/>
-                            
+                            <input type="text" name="operationsName" id="operationsName" class="input-prepend span4"/>                  
                         </div>
                     </div>
                      <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsCode">操作编码：</label>
                         <div class="controls">
                             <input type="text" name="operationsCode" id="operationsCode" class="input-prepend span4" />
-                        </div>
-                    </div>
-                    <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsApp_id">应用系统ID：</label>
-                        <div class="controls">
-                           <select id="AppIdParent" name="AppIdParent" class="span4">
-                             <option id="AppIdInfo" value="-1"></option>
-                           </select>
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
@@ -176,6 +167,7 @@
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(s); %>
+                            <input type="hidden" name="operationsApp_id" id="operationsApp_id" value="<%=m_usersModel.app_id%>"/>
                             <input type="hidden" name="operationsInvalid" id="operationsInvalid" value="true"/>
                             <input type="hidden" name="operationsDeleted" id="operationsDeleted" value="false"/>
                             <input type="hidden" name="createdBy" id="createdBy" value="<%=m_usersModel.id%>" />

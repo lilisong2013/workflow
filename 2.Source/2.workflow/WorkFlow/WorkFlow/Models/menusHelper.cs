@@ -7,7 +7,7 @@ namespace Saron.WorkFlow.Models
 {
     public class menusHelper
     {
-        private int m_menusID;
+        private int m_menusID;//菜单ID
         private string m_menusName;
         private int m_parentID;
         private int m_menusLevel;
@@ -48,6 +48,7 @@ namespace Saron.WorkFlow.Models
             get { return m_menusLevel; }
         }
 
-    }
+
+
     }
 }

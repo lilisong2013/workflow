@@ -3,68 +3,68 @@
 <!DOCTYPE html>
 
 <html>
-<head runat="server">
+<head id="Head1" runat="server">
     <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
-    <link href="../../bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <link href="../../bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
-    <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../Scripts/jquery-1.7.2.js" type="text/javascript"></script>
     <script src="../../bootstrap/js/bootstrap.js" type="text/javascript"></script>
-    <script src="../../bootstrap/js/bootstrap-dropdown.js" type="text/javascript"></script>
     
+    <link href="../../Css/blue.css" rel="stylesheet" type="text/css" />
+    <%--页面js--%>
     <asp:ContentPlaceHolder ID="PageJS" runat="server" />
 
-    <style type="text/css">
-    .navbar .navbar-inner {
-        background: #3993ba;
-        background: -moz-linear-gradient(top, #3993ba 0%, #067ead 100%);
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3993ba), color-stop(100%,#067ead));
-        background: -webkit-linear-gradient(top, #3993ba 0%,#067ead 100%);
-        background: -o-linear-gradient(top, #3993ba 0%,#067ead 100%);
-        background: -ms-linear-gradient(top, #3993ba 0%,#067ead 100%);
-        background: linear-gradient(top, #3993ba 0%,#067ead 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3993ba', endColorstr='#067ead',GradientType=0 );
-    }
-
-    .navbar .nav > li > a {
-        color: #c1dce7;
-    }
-    .navbar .nav > li:hover > a {
-        color:#fff;
-    }
-    .navbar .nav .active > a, .navbar .nav .active > a:hover {
-        background: #206484 !important;
-    }
-    .navbar .divider-vertical {
-        border-left-color:#2078A1;
-        border-right-color:#3497C2;
-    }
-
-    #footer{
-     height: 60px;
-     background-color: #C8CFA9;
-    }
-    </style>
-    <script type="text/javascript">
-        $(document).ready(function () {
-           $('.dropdown-toggle').dropdown();
-        });
-    </script>
 </head>
 <body>
     <div class="navbar">
-        <div class="navbar-inner">
-            <a href="#" class="brand">权限管理系统</a>
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Project name</a>
+          <div class="collapse nav-collapse">
+            <ul class="nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">综合管理<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#"></a></li>
+                  <li><a href="/UsersManagement/AppUsers">用户管理</a></li>
+                  <li><a href="/RolesManagement/AppRoles">角色管理</a></li>
+                  <li><a href="/PrivilegesManagement/AppPrivileges">权限管理</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/MenusManagement/AppMenus">菜单管理</a></li>
+                  <li><a href="/OperationsManagement/AppOperations">功能管理</a></li>
+                  <li><a href="/ElementsManagement/AppElements">元素管理</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%
+                    WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+                    if (m_usersModel.login == null)
+                    { %>
+                    请登录
+                <% }
+                    else
+                    {%>
+                    欢迎，<%=m_usersModel.login%>
+                    <%} %>
+                <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/Home/Login">退出</a></li>
+                  <li><a href="/Home/Login">重新登录</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
     </div>
     <div class="container">
         <asp:ContentPlaceHolder ID="MainContent" runat="server">
         
         </asp:ContentPlaceHolder>
-    </div>
-    <div id="footer" class="navbar-fixed-bottom">
-        <div class="container">
-            <p class="navbar-text">@山东三龙智能技术有限公司</p>
-        </div>
     </div>
 </body>
 </html>

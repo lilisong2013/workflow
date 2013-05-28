@@ -26,30 +26,20 @@ namespace WorkFlow.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/usersBLLservice.asmx")]
+        public string WorkFlow_UsersWebService_usersBLLservice {
+            get {
+                return ((string)(this["WorkFlow_UsersWebService_usersBLLservice"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/base_userBLLservice.asmx")]
         public string WorkFlow_Base_UserWebService_base_userBLLservice {
             get {
                 return ((string)(this["WorkFlow_Base_UserWebService_base_userBLLservice"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/usersBLLservice.asmx")]
-        public string WorkFlow_usersWebService_usersBLLservice {
-            get {
-                return ((string)(this["WorkFlow_usersWebService_usersBLLservice"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/user_roleBLLservice.asmx")]
-        public string WorkFlow_User_RoleWebService_user_roleBLLservice {
-            get {
-                return ((string)(this["WorkFlow_User_RoleWebService_user_roleBLLservice"]));
             }
         }
         
@@ -76,36 +66,6 @@ namespace WorkFlow.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx")]
-        public string WorkFlow_Privilege_RoleWebService_privilege_roleBLLservice {
-            get {
-                return ((string)(this["WorkFlow_Privilege_RoleWebService_privilege_roleBLLservice"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/menusBLLservice.asmx")]
-        public string WorkFlow_MenusWebService_menusBLLservice {
-            get {
-                return ((string)(this["WorkFlow_MenusWebService_menusBLLservice"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/init_statusBLLservice.asmx")]
-        public string WorkFlow_Init_StatusWebService_init_statusBLLservice {
-            get {
-                return ((string)(this["WorkFlow_Init_StatusWebService_init_statusBLLservice"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/elementsBLLservice.asmx")]
         public string WorkFlow_ElementsWebService_elementsBLLservice {
             get {
@@ -126,7 +86,27 @@ namespace WorkFlow.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/operationsBLLservice.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/menusBLLservice.asmx")]
+        public string WorkFlow_MenusWebService_menusBLLservice {
+            get {
+                return ((string)(this["WorkFlow_MenusWebService_menusBLLservice"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/rolesBLLservice.asmx")]
+        public string WorkFlow_RolesWebService_rolesBLLservice {
+            get {
+                return ((string)(this["WorkFlow_RolesWebService_rolesBLLservice"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.12.12:8081/WebService/operationsBLLservice.asmx")]
         public string WorkFlow_OperationsWebService_operationsBLLservice {
             get {
                 return ((string)(this["WorkFlow_OperationsWebService_operationsBLLservice"]));
@@ -136,10 +116,10 @@ namespace WorkFlow.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:3228/WebService/rolesBLLservice.asmx")]
-        public string WorkFlow_rolesWebService_rolesBLLservice {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.12.12:8081/WebService/init_statusBLLservice.asmx")]
+        public string WorkFlow_Init_StatusWebService_init_statusBLLservice {
             get {
-                return ((string)(this["WorkFlow_rolesWebService_rolesBLLservice"]));
+                return ((string)(this["WorkFlow_Init_StatusWebService_init_statusBLLservice"]));
             }
         }
     }
