@@ -315,6 +315,25 @@ namespace Saron.WorkFlowService.DAL
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
+
+        /// <summary>
+        /// 获得某一菜单下的页面元素
+        /// </summary>
+        /// <param name="menusID"></param>
+        /// <returns></returns>
+        public DataSet GetElementsLisOfMenus(int menusID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM elements ");
+            strSql.Append(" where menu_id=@menu_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@menu_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = menusID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        
         ///<summary>
         ///获得Name数据列表
         /// </summary>
@@ -324,7 +343,9 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select name from elements");
             return DbHelperSQL.Query(strSql.ToString());
         }
-		/// 获得前几行数据
+		
+        
+        /// 获得前几行数据
 		/// </summary>
 		public DataSet GetList(int Top,string strWhere,string filedOrder)
 		{
@@ -365,7 +386,9 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        
+        /// <summary>
 		/// 分页获取数据列表
 		/// </summary>
 		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)

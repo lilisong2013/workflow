@@ -168,7 +168,8 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 批量删除数据
 		/// </summary>
 		public bool DeleteList(string idlist )
@@ -307,6 +308,26 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select name from operations");
             return DbHelperSQL.Query(strSql.ToString());
         }
+
+        /// <summary>
+        /// 获得某系统中操作的数据列表
+        /// </summary>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetOperationsListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,description,remark,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM operations ");
+            strSql.Append(" where app_id=@app_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
+
 		public DataSet GetList(int Top,string strWhere,string filedOrder)
 		{
 			StringBuilder strSql=new StringBuilder();
