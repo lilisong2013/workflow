@@ -84,6 +84,16 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_elementsDal.GetList(strWhere);
         }
+
+        /// <summary>
+        /// 获得某一菜单下的页面元素
+        /// </summary>
+        [WebMethod(Description = "获得某一菜单下的页面元素")]
+        public DataSet GetElementsListOfMenus(int menusID)
+        {
+            return m_elementsDal.GetElementsLisOfMenus(menusID);
+        }
+
         /// <summary>
         /// 获得Name数据列表
         /// </summary>
@@ -92,6 +102,8 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_elementsDal.GetNameList();
         }
+        
+        
         /// <summary>
         /// 获得前几行数据
         /// </summary>

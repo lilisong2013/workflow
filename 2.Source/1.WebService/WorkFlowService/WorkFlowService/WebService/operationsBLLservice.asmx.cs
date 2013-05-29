@@ -91,6 +91,17 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_operationsDal.GetNameList();
         }
+
+        ///<summary>
+        /// 获得某系统中操作的数据列表
+        /// </summary>
+        [WebMethod(Description = "获得某系统中操作的数据列表")]
+        public DataSet GetOperationsListOfApp(int appID)
+        {
+            return m_operationsDal.GetOperationsListOfApp(appID);
+        }
+
+
         [WebMethod(Description = "获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）")]
         public DataSet GetOperationsTopList(int Top, string strWhere, string filedOrder)
         {
