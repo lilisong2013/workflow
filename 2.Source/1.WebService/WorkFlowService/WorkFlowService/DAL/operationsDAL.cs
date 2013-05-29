@@ -299,6 +299,7 @@ namespace Saron.WorkFlowService.DAL
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
+
         ///<summary>
 		/// 获得数据库中name的数据列表
 		/// </summary>

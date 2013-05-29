@@ -84,7 +84,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_elementsDal.GetList(strWhere);
         }
-
+        ///<summary>
+        ///获得某系统的元素数据列表
+        /// </summary>
+        [WebMethod(Description = "根据系统ID获得数据列表:appid(where条件)")]
+        public DataSet GetElementsListOfApp(int appid)
+        {
+            return m_elementsDal.GetElementsListOfApp(appid);
+        }
         /// <summary>
         /// 获得某一菜单下的页面元素
         /// </summary>

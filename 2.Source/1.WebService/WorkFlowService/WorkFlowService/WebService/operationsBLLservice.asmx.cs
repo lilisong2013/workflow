@@ -83,6 +83,7 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_operationsDal.GetList(strWhere);
         }
+   
         ///<summary>
         /// 获得operations表中所有的name列
         /// </summary>
@@ -117,7 +118,7 @@ namespace Saron.WorkFlowService.WebService
         {
             return GetOperationsList("");
         }
-
+     
         /// <summary>
         /// 获取记录总数
         /// </summary>

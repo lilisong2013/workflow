@@ -65,6 +65,7 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_privilegesDal.Delete(id);
         }
+        
         /// <summary>
         /// 批量删除数据
         /// </summary>
@@ -91,6 +92,7 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_privilegesDal.GetList(strWhere);
         }
+       
         /// <summary>
         /// 获得前几行数据
         /// </summary>
@@ -110,6 +112,15 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 获得某系统的所有权限列表
+        /// </summary>
+        [WebMethod(Description = "获得某系统的所有权限列表")]
+        public DataSet GetAllListByAppID(int appID)
+        {
+            return m_privilegesDal.GetAllListByAppID(appID);
+        }
+
+        /// <summary>
         /// 获取记录总数
         /// </summary>
         [WebMethod(Description = "获得记录总条数")]
@@ -117,6 +128,7 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_privilegesDal.GetRecordCount(strWhere);
         }
+        
         /// <summary>
         /// 分页获取数据列表
         /// </summary>
