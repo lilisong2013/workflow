@@ -150,10 +150,10 @@ namespace Saron.WorkFlowService.DAL
         public bool Update(Saron.WorkFlowService.Model.usersModel model)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("update users set ");
-            strSql.Append("password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))),");
+            strSql.Append("update users set ");           
             strSql.Append("login=@login,");
-            strSql.Append("password=@password,");
+            strSql.Append("password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))),");
+            //strSql.Append("password=@password,");
             strSql.Append("name=@name,");
             strSql.Append("employee_no=@employee_no,");
             strSql.Append("mobile_phone=@mobile_phone,");
@@ -531,7 +531,20 @@ namespace Saron.WorkFlowService.DAL
                 return null;
             }
         }
-
+        ///<summary>
+        ///获得某系统的数据列表
+        /// </summary>
+        public DataSet GetAllUsersListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  id,login,password,name,employee_no,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id from users ");
+            strSql.Append(" where app_id=@app_id and deleted=0");
+            SqlParameter[] parameters = { 
+                         new SqlParameter("@app_id",SqlDbType.Int,4)                            
+            };
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(),parameters);
+        }
         /// <summary>
         /// 得到一个user实体
         /// </summary>

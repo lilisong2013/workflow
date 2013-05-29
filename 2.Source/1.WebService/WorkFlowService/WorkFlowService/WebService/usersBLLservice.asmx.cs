@@ -182,6 +182,14 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 获得某系统的数据列表
+        /// </summary>
+        [WebMethod(Description = "获得所有数据列表")]
+        public DataSet GetAllUsersListOfApp(int appID)
+        {
+            return m_usersdal.GetAllUsersListOfApp(appID);
+        }
+        /// <summary>
         /// 获得记录总数
         /// </summary>
         [WebMethod(Description = "获得记录总条数")]

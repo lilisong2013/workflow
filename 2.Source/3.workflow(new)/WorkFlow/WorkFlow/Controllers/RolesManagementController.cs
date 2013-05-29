@@ -227,6 +227,8 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult GetRoles_Apply()
         {
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            int appID = Convert.ToInt32(m_usersModel.app_id);
             //排序的字段名
             string sortname = Request.Params["sortname"];
             //排序的方向
@@ -237,7 +239,7 @@ namespace WorkFlow.Controllers
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
             WorkFlow.RolesWebService.rolesBLLservice m_rolesService = new RolesWebService.rolesBLLservice();
-            DataSet ds = m_rolesService.GetAllRolesList();
+            DataSet ds = m_rolesService.GetAllRolesListOfApp(appID);
             IList<WorkFlow.RolesWebService.rolesModel> m_list = new List<WorkFlow.RolesWebService.rolesModel>();
 
             var total = ds.Tables[0].Rows.Count;

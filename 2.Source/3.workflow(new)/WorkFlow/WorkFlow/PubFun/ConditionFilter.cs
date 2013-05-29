@@ -85,5 +85,6 @@ namespace Saron.Common.PubFun
         {
             return System.Text.RegularExpressions.Regex.IsMatch(str_mobile, @"\b(86)?0?\d{11}\b");
         }
+
     }
 }

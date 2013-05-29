@@ -20,6 +20,8 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult GetUsers_Apply()
         {
+            WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            int appID = Convert.ToInt32(m_userModel.app_id);
             //排序的字段名
             string sortname = Request.Params["sortname"];
             //排序的方向
@@ -29,7 +31,7 @@ namespace WorkFlow.Controllers
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
             WorkFlow.UsersWebService.usersBLLservice m_usersService = new UsersWebService.usersBLLservice();
-            DataSet ds = m_usersService.GetAllUsersList();
+            DataSet ds = m_usersService.GetAllUsersListOfApp(appID);
             IList<WorkFlow.UsersWebService.usersModel> m_list = new List<WorkFlow.UsersWebService.usersModel>();
             var total = ds.Tables[0].Rows.Count;
             for (var i = 0; i < total; i++)
@@ -130,6 +132,9 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            int appID = Convert.ToInt32(m_userModel.app_id);
             string login = collection["usersLogin"].Trim();
             string password = collection["usersPassword"].Trim();
             string name = collection["usersName"].Trim();
@@ -140,10 +145,14 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录名称不能为空!" });
             }
-
+            
             if (password.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码不能为空!" });
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsPassWord(password)==false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码必须为字母和数字的组合且至少为8位!" });
             }
             if (name.Length == 0)
             {
@@ -169,7 +178,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件格式不正确!" });
             }
-            DataSet ds = m_usersBllService.GetAllUsersList();
+            DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID);
             ArrayList usersList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
             for (int i = 0; i < total; i++)
@@ -183,8 +192,7 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的登录名称！" });
                 }
             }
-            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-            int testid = Convert.ToInt32(m_userModel.app_id);
+
             WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)Session["apps"];
             m_usersModel.login = collection["usersLogin"].Trim();
             m_usersModel.password = collection["usersPassword"].Trim();
@@ -199,7 +207,7 @@ namespace WorkFlow.Controllers
             m_usersModel.created_at = Convert.ToDateTime(collection["usersCreated_at"].Trim());
             m_usersModel.created_by = Convert.ToInt32(collection["usersCreated_by"].Trim());
             m_usersModel.created_ip = collection["usersCreated_ip"].Trim();
-            // m_usersModel.app_id = m_appsModel.id;
+            m_usersModel.app_id = appID;
             m_usersBllService.Add(m_usersModel);
             return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功!", toUrl = "/UsersManagement/AppUsers" });
         }
@@ -212,11 +220,13 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+
+            WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
+            int appID =Convert.ToInt32(m_userModel.app_id);
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
             string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress();
-            //??
-            WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)Session["apps"];
+ 
             m_usersModel = m_usersBllService.GetModelByID(id);
             ViewData["usersId"] = id;
             ViewData["usersLogin"] = m_usersModel.login;
@@ -235,7 +245,7 @@ namespace WorkFlow.Controllers
             ViewData["usersUpdated_at"] = m_usersModel.updated_at;
             ViewData["usersUpdated_by"] = m_usersModel.updated_by;
             ViewData["usersUpdated_ip"] = m_usersModel.updated_ip;
-            ViewData["usersApp_id"] = m_usersModel.app_id;
+            ViewData["usersApp_id"] = appID;
             //ViewData["usersApp_id"] = m_appsModel.id;
             return View();
         }
@@ -247,9 +257,14 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+
+            WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
+            int appID = Convert.ToInt32(m_userModel.app_id);
+
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
             string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress();
+
             int id = Convert.ToInt32(collection["usersId"]);
             m_usersModel = m_usersBllService.GetModelByID(id);
             string login = collection["usersLogin"].Trim();
@@ -268,6 +283,10 @@ namespace WorkFlow.Controllers
             if (pass.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码不能为空!" });
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsPassWord(pass) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="密码必须是字母和数字的组合且至少为8位"});
             }
             if (name.Length == 0)
             {
@@ -305,7 +324,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空!" });
             }
-            DataSet ds = m_usersBllService.GetAllUsersList();
+            DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID);
             ArrayList userList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
             //将数据库中登录名称放到ArrayList中。

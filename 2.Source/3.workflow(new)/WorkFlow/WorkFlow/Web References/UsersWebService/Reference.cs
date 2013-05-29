@@ -32,7 +32,7 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback ExistsOperationCompleted;
         
-        private System.Threading.SendOrPostCallback LoginValidatorOperationCompleted;
+        private System.Threading.SendOrPostCallback SysAdminLoginValidatorOperationCompleted;
         
         private System.Threading.SendOrPostCallback ExistsLoginAndAppIDOperationCompleted;
         
@@ -106,7 +106,7 @@ namespace WorkFlow.UsersWebService {
         public event ExistsCompletedEventHandler ExistsCompleted;
         
         /// <remarks/>
-        public event LoginValidatorCompletedEventHandler LoginValidatorCompleted;
+        public event SysAdminLoginValidatorCompletedEventHandler SysAdminLoginValidatorCompleted;
         
         /// <remarks/>
         public event ExistsLoginAndAppIDCompletedEventHandler ExistsLoginAndAppIDCompleted;
@@ -185,33 +185,33 @@ namespace WorkFlow.UsersWebService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/LoginValidator", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool LoginValidator(string login, string password) {
-            object[] results = this.Invoke("LoginValidator", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/SysAdminLoginValidator", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool SysAdminLoginValidator(string login, string password) {
+            object[] results = this.Invoke("SysAdminLoginValidator", new object[] {
                         login,
                         password});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void LoginValidatorAsync(string login, string password) {
-            this.LoginValidatorAsync(login, password, null);
+        public void SysAdminLoginValidatorAsync(string login, string password) {
+            this.SysAdminLoginValidatorAsync(login, password, null);
         }
         
         /// <remarks/>
-        public void LoginValidatorAsync(string login, string password, object userState) {
-            if ((this.LoginValidatorOperationCompleted == null)) {
-                this.LoginValidatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLoginValidatorOperationCompleted);
+        public void SysAdminLoginValidatorAsync(string login, string password, object userState) {
+            if ((this.SysAdminLoginValidatorOperationCompleted == null)) {
+                this.SysAdminLoginValidatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSysAdminLoginValidatorOperationCompleted);
             }
-            this.InvokeAsync("LoginValidator", new object[] {
+            this.InvokeAsync("SysAdminLoginValidator", new object[] {
                         login,
-                        password}, this.LoginValidatorOperationCompleted, userState);
+                        password}, this.SysAdminLoginValidatorOperationCompleted, userState);
         }
         
-        private void OnLoginValidatorOperationCompleted(object arg) {
-            if ((this.LoginValidatorCompleted != null)) {
+        private void OnSysAdminLoginValidatorOperationCompleted(object arg) {
+            if ((this.SysAdminLoginValidatorCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.LoginValidatorCompleted(this, new LoginValidatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.SysAdminLoginValidatorCompleted(this, new SysAdminLoginValidatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -937,17 +937,17 @@ namespace WorkFlow.UsersWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void LoginValidatorCompletedEventHandler(object sender, LoginValidatorCompletedEventArgs e);
+    public delegate void SysAdminLoginValidatorCompletedEventHandler(object sender, SysAdminLoginValidatorCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class LoginValidatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class SysAdminLoginValidatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal LoginValidatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal SysAdminLoginValidatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

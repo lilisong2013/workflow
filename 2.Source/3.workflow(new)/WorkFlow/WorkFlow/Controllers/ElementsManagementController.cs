@@ -24,8 +24,8 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult GetElements_Apply()
         {
-            WorkFlow.UsersWebService.usersModel m_uesersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-            int appid = Convert.ToInt32(m_uesersModel.app_id);
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            int appid = Convert.ToInt32(m_usersModel.app_id);
             //排序的字段名
             string sortname = Request.Params["sortname"];
             //排序的方向
@@ -34,8 +34,8 @@ namespace WorkFlow.Controllers
             int page = Convert.ToInt32(Request.Params["page"]);
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsService= new ElementsWebService.elementsBLLservice();
 
-            WorkFlow.ElementsWebService.elementsBLLservice m_elementsService= new ElementsWebService.elementsBLLservice();           
             DataSet ds = m_elementsService.GetElementsListOfApp(appid);
             IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
             var total = ds.Tables[0].Rows.Count;

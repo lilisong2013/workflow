@@ -122,7 +122,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return GetRolesList("");
         }
-
+        ///<summary>
+        ///获得某系统的角色列表
+        /// </summary>
+        [WebMethod(Description = "获得某应用系统的数据列表")]
+        public DataSet GetAllRolesListOfApp(int appID)
+        {
+            return m_rolesDal.GetAllRolesListOfApp(appID);
+        }
         /// <summary>
         /// 分页获取数据列表
         /// </summary>

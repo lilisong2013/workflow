@@ -17,7 +17,7 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="LoginValidator">
+      <s:element name="SysAdminLoginValidator">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
@@ -25,10 +25,10 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="LoginValidatorResponse">
+      <s:element name="SysAdminLoginValidatorResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="LoginValidatorResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="SysAdminLoginValidatorResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -303,11 +303,11 @@
   <wsdl:message name="ExistsSoapOut">
     <wsdl:part name="parameters" element="tns:ExistsResponse" />
   </wsdl:message>
-  <wsdl:message name="LoginValidatorSoapIn">
-    <wsdl:part name="parameters" element="tns:LoginValidator" />
+  <wsdl:message name="SysAdminLoginValidatorSoapIn">
+    <wsdl:part name="parameters" element="tns:SysAdminLoginValidator" />
   </wsdl:message>
-  <wsdl:message name="LoginValidatorSoapOut">
-    <wsdl:part name="parameters" element="tns:LoginValidatorResponse" />
+  <wsdl:message name="SysAdminLoginValidatorSoapOut">
+    <wsdl:part name="parameters" element="tns:SysAdminLoginValidatorResponse" />
   </wsdl:message>
   <wsdl:message name="ExistsLoginAndAppIDSoapIn">
     <wsdl:part name="parameters" element="tns:ExistsLoginAndAppID" />
@@ -405,10 +405,10 @@
       <wsdl:input message="tns:ExistsSoapIn" />
       <wsdl:output message="tns:ExistsSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="LoginValidator">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在用户名login且密码password的用户</wsdl:documentation>
-      <wsdl:input message="tns:LoginValidatorSoapIn" />
-      <wsdl:output message="tns:LoginValidatorSoapOut" />
+    <wsdl:operation name="SysAdminLoginValidator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在系统管理员login且密码password的系统管理员</wsdl:documentation>
+      <wsdl:input message="tns:SysAdminLoginValidatorSoapIn" />
+      <wsdl:output message="tns:SysAdminLoginValidatorSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsLoginAndAppID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统ID为appId是否存在登录名为login的记录</wsdl:documentation>
@@ -497,8 +497,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="LoginValidator">
-      <soap:operation soapAction="http://saron.workflowservice.org/LoginValidator" style="document" />
+    <wsdl:operation name="SysAdminLoginValidator">
+      <soap:operation soapAction="http://saron.workflowservice.org/SysAdminLoginValidator" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -653,8 +653,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="LoginValidator">
-      <soap12:operation soapAction="http://saron.workflowservice.org/LoginValidator" style="document" />
+    <wsdl:operation name="SysAdminLoginValidator">
+      <soap12:operation soapAction="http://saron.workflowservice.org/SysAdminLoginValidator" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

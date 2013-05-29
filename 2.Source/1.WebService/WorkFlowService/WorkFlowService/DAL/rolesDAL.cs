@@ -308,7 +308,20 @@ namespace Saron.WorkFlowService.DAL
 		
 			return DbHelperSQL.Query(strSql.ToString());
 		}
-
+        ///<summary>
+        ///获得某系统数据列表
+        /// </summary>
+        public DataSet GetAllRolesListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
+            strSql.Append(" FROM roles where app_id=@app_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
 		/// <summary>
 		/// 获得前几行数据
 		/// </summary>
