@@ -25,6 +25,8 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult GetOperations_Apply()
         {
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            int appid = Convert.ToInt32(m_usersModel.app_id);
             //排序的字段名
             string sortname = Request.Params["sortname"];
             //排序的方向
@@ -34,7 +36,8 @@ namespace WorkFlow.Controllers
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsService = new OperationsWebService.operationsBLLservice();
-            DataSet ds = m_operationsService.GetAllOperationsList();
+           // DataSet ds = m_operationsService.GetAllOperationsList();
+            DataSet ds = m_operationsService.GetOperationsListOfApp(appid);
             IList<WorkFlow.OperationsWebService.operationsModel> m_list = new List<WorkFlow.OperationsWebService.operationsModel>();
 
             var total = ds.Tables[0].Rows.Count;
