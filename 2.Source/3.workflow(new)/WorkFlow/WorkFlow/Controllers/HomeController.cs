@@ -42,7 +42,7 @@ namespace WorkFlow.Controllers
         }
        
         /// <summary>
-        /// 
+        /// 系统管理员登录
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -56,7 +56,7 @@ namespace WorkFlow.Controllers
 
             try
             {
-                if (m_usersBllService.LoginValidator(m_loginName, m_loginPassword))
+                if (m_usersBllService.SysAdminLoginValidator(m_loginName, m_loginPassword))
                 {
                     m_usersModel = m_usersBllService.GetModelByLogin(m_loginName);
                     Session["user"] = m_usersModel;

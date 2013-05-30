@@ -35,8 +35,8 @@ namespace WorkFlow.Controllers
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
-            WorkFlow.ElementsWebService.elementsBLLservice m_elementsService= new ElementsWebService.elementsBLLservice();           
-            DataSet ds = m_elementsService.GetElementsListOfApp(appid);
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsService= new ElementsWebService.elementsBLLservice();
+            DataSet ds = m_elementsService.GetAllElementsList();//GetElementsListOfApp(appid);
             IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
             var total = ds.Tables[0].Rows.Count;
             for (var i = 0; i < total; i++)
