@@ -153,7 +153,7 @@ namespace WorkFlow.Controllers
             m_userModel.mobile_phone = Request.Form["userMobilePhone"].Trim();
             m_userModel.mail = Request.Form["userMail"].Trim();
             m_userModel.remark = Request.Form["userRemark"].Trim();
-            //m_userModel.admin = true;
+            m_userModel.admin = true;
             m_userModel.invalid = true;
             m_userModel.deleted = false;
             m_userModel.created_at = DateTime.Now;

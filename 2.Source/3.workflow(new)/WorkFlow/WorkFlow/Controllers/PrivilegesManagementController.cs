@@ -25,18 +25,26 @@ namespace WorkFlow.Controllers
         }
 
 
-        //添加权限
-        public ActionResult AddPrivileges()
+        //添加操作权限
+        public ActionResult AddPrivilegesOfOperations()
         {
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
             WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = new WorkFlow.PrivilegesWebService.privilegesModel();
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
 
-            m_privilegesModel.name = Request.Form["PrivilegesName"].ToString();
-            m_privilegesModel.privilegetype_id = Convert.ToInt32(Request.Form["PrivilegesType"].ToString());
-            m_privilegesModel.privilegeitem_id = Convert.ToInt32(Request.Form["PrivilegesItem"].ToString());
-            m_privilegesModel.remark = Request.Form["PrivilegesRemark"].ToString();
+            string m_privilegeName=Request.Form["oPrivilegesName"].ToString();
+
+            //权限名称是否存在
+            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
+            }
+
+            m_privilegesModel.name = m_privilegeName;//权限名称
+            m_privilegesModel.privilegetype_id = 3;//权限类型ID
+            m_privilegesModel.privilegeitem_id = Convert.ToInt32(Request.Form["oPrivilegesItem"].ToString());
+            m_privilegesModel.remark = Request.Form["oPrivilegesRemark"].ToString();
             m_privilegesModel.app_id = (int)m_usersModel.app_id;//系统ID
             m_privilegesModel.created_at = DateTime.Now;
             m_privilegesModel.created_by = m_usersModel.id;
@@ -50,7 +58,93 @@ namespace WorkFlow.Controllers
                 }
                 else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加权限成功！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加权限失败！" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+            }
+
+        }
+
+        //添加菜单权限
+        public ActionResult AddPrivilegesOfMenus()
+        {
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = new WorkFlow.PrivilegesWebService.privilegesModel();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            string m_privilegeName = Request.Form["mPrivilegesName"].ToString();
+
+            //权限名称是否存在
+            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
+            }
+
+            m_privilegesModel.name = m_privilegeName;//权限名称
+            m_privilegesModel.privilegetype_id = 1;//权限类型ID
+            m_privilegesModel.privilegeitem_id = Convert.ToInt32(Request.Form["mPrivilegesItem"].ToString());
+            m_privilegesModel.remark = Request.Form["mPrivilegesRemark"].ToString();
+            m_privilegesModel.app_id = (int)m_usersModel.app_id;//系统ID
+            m_privilegesModel.created_at = DateTime.Now;
+            m_privilegesModel.created_by = m_usersModel.id;
+            m_privilegesModel.created_ip = Saron.Common.PubFun.IPHelper.GetClientIP();
+
+            try
+            {
+                if (m_privilegesBllService.Add(m_privilegesModel) != 0)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加权限失败！" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+            }
+
+        }
+
+        //添加页面元素权限
+        public ActionResult AddPrivilegesOfElements()
+        {
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = new WorkFlow.PrivilegesWebService.privilegesModel();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            string m_privilegeName = Request.Form["ePrivilegesName"].ToString();
+
+            //权限名称是否存在
+            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
+            }
+
+            m_privilegesModel.name = m_privilegeName;//权限名称
+            m_privilegesModel.privilegetype_id = 2;//权限类型ID
+            m_privilegesModel.privilegeitem_id = Convert.ToInt32(Request.Form["ePrivilegesItem"].ToString());
+            m_privilegesModel.remark = Request.Form["ePrivilegesRemark"].ToString();
+            m_privilegesModel.app_id = (int)m_usersModel.app_id;//系统ID
+            m_privilegesModel.created_at = DateTime.Now;
+            m_privilegesModel.created_by = m_usersModel.id;
+            m_privilegesModel.created_ip = Saron.Common.PubFun.IPHelper.GetClientIP();
+
+            try
+            {
+                if (m_privilegesBllService.Add(m_privilegesModel) != 0)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加权限失败！" });
                 }
             }
             catch (Exception ex)
@@ -138,86 +232,6 @@ namespace WorkFlow.Controllers
             data += "]}]";
             return Json(data);
         }
-        //权限项目列表：操作
-        public ActionResult GetOperationOfItem()
-        {
-            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
-            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-            string data = "{Rows:[";
-            try
-            {
-                DataSet ds = m_operationsBllService.GetOperationsListOfApp((int)m_userModel.app_id);
-                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                {
-                    string id = ds.Tables[0].Rows[i][0].ToString();
-                    string name = ds.Tables[0].Rows[i][1].ToString();
-                    string code = ds.Tables[0].Rows[i][2].ToString();
-                    string description = ds.Tables[0].Rows[i][3].ToString();
-                    string remark = ds.Tables[0].Rows[i][4].ToString();
-                    if (i == ds.Tables[0].Rows.Count - 1)
-                    {
-                        data += "{name:'" + name + "',";
-                        data += "id:'" + id + "',";
-                        data += "code:'" + code + "',";
-                        data += "description:'" + description + "',";
-                        data += "remark:''}";
-                    }
-                    else
-                    {
-                        data += "{name:'" + name + "',";
-                        data += "id:'" + id + "',";
-                        data += "code:'" + code + "',";
-                        data += "description:'" + description + "',";
-                        data += "remark:''},";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-            data += "]}";
-            return Json(data);
-        }
-        //权限项目列表：元素
-        public ActionResult GetElementOfItem()
-        {
-            int menusID = Convert.ToInt32(Request.Params["menusID"]);//菜单ID
-            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new WorkFlow.ElementsWebService.elementsBLLservice();
-            string data = "{Rows:[";
-            try
-            {
-                DataSet ds = m_elementsBllService.GetElementsListOfMenus(menusID);
-                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                {
-                    string id = ds.Tables[0].Rows[i][0].ToString();
-                    string name = ds.Tables[0].Rows[i][1].ToString();
-                    string code = ds.Tables[0].Rows[i][2].ToString();
-                    string remark = ds.Tables[0].Rows[i][3].ToString();
-                    if (i == ds.Tables[0].Rows.Count - 1)
-                    {
-                        data += "{name:'" + name + "',";
-                        data += "id:'" + id + "',"; 
-                        data += "code:'" + code + "',";
-                        data += "remark:''}";
-                    }
-                    else
-                    {
-                        data += "{name:'" + name + "',";
-                        data += "id:'" + id + "',"; 
-                        data += "code:'" + code + "',";
-                        data += "remark:''},";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
-            data += "]}";
-            return Json(data);
-        }
-
         //菜单
         public string GetChildrenMenusList(int parentId)
         {
@@ -283,6 +297,89 @@ namespace WorkFlow.Controllers
             dataStr += "]";
             return dataStr;
         }
+        
+        //权限项目列表：操作
+        public ActionResult GetOperationOfItem()
+        {
+            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            string data = "{Rows:[";
+            try
+            {
+                DataSet ds = m_operationsBllService.GetOperationsListOfApp((int)m_userModel.app_id);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string id = ds.Tables[0].Rows[i][0].ToString();
+                    string name = ds.Tables[0].Rows[i][1].ToString();
+                    string code = ds.Tables[0].Rows[i][2].ToString();
+                    string description = ds.Tables[0].Rows[i][3].ToString();
+                    string remark = ds.Tables[0].Rows[i][4].ToString();
+                    if (i == ds.Tables[0].Rows.Count - 1)
+                    {
+                        data += "{name:'" + name + "',";
+                        data += "id:'" + id + "',";
+                        data += "code:'" + code + "',";
+                        data += "description:'" + description + "',";
+                        data += "remark:''}";
+                    }
+                    else
+                    {
+                        data += "{name:'" + name + "',";
+                        data += "id:'" + id + "',";
+                        data += "code:'" + code + "',";
+                        data += "description:'" + description + "',";
+                        data += "remark:''},";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            data += "]}";
+            return Json(data);
+        }
+        
+        //权限项目列表：元素
+        public ActionResult GetElementOfItem()
+        {
+            int menusID = Convert.ToInt32(Request.Params["menusID"]);//菜单ID
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new WorkFlow.ElementsWebService.elementsBLLservice();
+            string data = "{Rows:[";
+            try
+            {
+                DataSet ds = m_elementsBllService.GetElementsListOfMenus(menusID);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string id = ds.Tables[0].Rows[i][0].ToString();
+                    string name = ds.Tables[0].Rows[i][1].ToString();
+                    string code = ds.Tables[0].Rows[i][2].ToString();
+                    string remark = ds.Tables[0].Rows[i][3].ToString();
+                    if (i == ds.Tables[0].Rows.Count - 1)
+                    {
+                        data += "{name:'" + name + "',";
+                        data += "id:'" + id + "',"; 
+                        data += "code:'" + code + "',";
+                        data += "remark:''}";
+                    }
+                    else
+                    {
+                        data += "{name:'" + name + "',";
+                        data += "id:'" + id + "',"; 
+                        data += "code:'" + code + "',";
+                        data += "remark:''},";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            data += "]}";
+            return Json(data);
+        }
+
+        
 
         //判断项目(操作)是否已经创建权限
         public ActionResult ExistPrivilegeItemOfOperations()

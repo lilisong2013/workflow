@@ -40,6 +40,15 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 某系统中是否存在权限名称
+        /// </summary>
+        [WebMethod(Description = "系统ID为appID的系统中是否存在privilegeName的权限名称")]
+        public bool ExistsPrivilegeName(string privilegeName, int appID)
+        {
+            return m_privilegesDal.ExistsPrivilegesName(privilegeName, appID);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         [WebMethod(Description = "增加一条记录")]

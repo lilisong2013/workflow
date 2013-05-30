@@ -34,6 +34,8 @@ namespace WorkFlow.PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback ExistsItemOfPrivilegesTypeOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsPrivilegeNameOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateOperationCompleted;
@@ -99,6 +101,9 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         public event ExistsItemOfPrivilegesTypeCompletedEventHandler ExistsItemOfPrivilegesTypeCompleted;
+        
+        /// <remarks/>
+        public event ExistsPrivilegeNameCompletedEventHandler ExistsPrivilegeNameCompleted;
         
         /// <remarks/>
         public event AddCompletedEventHandler AddCompleted;
@@ -190,6 +195,37 @@ namespace WorkFlow.PrivilegesWebService {
             if ((this.ExistsItemOfPrivilegesTypeCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ExistsItemOfPrivilegesTypeCompleted(this, new ExistsItemOfPrivilegesTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsPrivilegeName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsPrivilegeName(string privilegeName, int appID) {
+            object[] results = this.Invoke("ExistsPrivilegeName", new object[] {
+                        privilegeName,
+                        appID});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsPrivilegeNameAsync(string privilegeName, int appID) {
+            this.ExistsPrivilegeNameAsync(privilegeName, appID, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsPrivilegeNameAsync(string privilegeName, int appID, object userState) {
+            if ((this.ExistsPrivilegeNameOperationCompleted == null)) {
+                this.ExistsPrivilegeNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsPrivilegeNameOperationCompleted);
+            }
+            this.InvokeAsync("ExistsPrivilegeName", new object[] {
+                        privilegeName,
+                        appID}, this.ExistsPrivilegeNameOperationCompleted, userState);
+        }
+        
+        private void OnExistsPrivilegeNameOperationCompleted(object arg) {
+            if ((this.ExistsPrivilegeNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsPrivilegeNameCompleted(this, new ExistsPrivilegeNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -745,6 +781,32 @@ namespace WorkFlow.PrivilegesWebService {
         private object[] results;
         
         internal ExistsItemOfPrivilegesTypeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsPrivilegeNameCompletedEventHandler(object sender, ExistsPrivilegeNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsPrivilegeNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsPrivilegeNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

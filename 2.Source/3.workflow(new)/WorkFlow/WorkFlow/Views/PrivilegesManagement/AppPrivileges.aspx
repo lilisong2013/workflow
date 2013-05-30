@@ -16,6 +16,7 @@
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
+    
     <%--权限类型--%>
     <script type="text/javascript">
         var manager = null;
@@ -283,20 +284,19 @@
         }
     </script>
     
-    <%--添加权限--%>
+    <%--添加操作权限(按钮点击)--%>
     <script type="text/javascript">
         $(document).ready(function () {
             var o_options = {
                 beforeSubmit: o_showRequest,  // from提交前的响应的回调函数
                 success: showResponse,  // form提交响应成功后执行的回调函数
-                url: "/PrivilegesManagement/AddPrivileges",
+                url: "/PrivilegesManagement/AddPrivilegesOfOperations",
                 type: "POST",
                 dataType: "json"
             };
 
             $("#oSubmit").click(function () {
                 if (false) {
-
                     return false;
                 } else {
                     $("#add_OperationsPrivileges").ajaxForm(o_options);
@@ -305,45 +305,34 @@
 
             //提交add_OperationsPrivileges表单前执行的函数
             function o_showRequest() {
-                var oPrivilegesName = $("#oPrivilegesName").val();
+                var oPrivilegesName = $.trim($("#oPrivilegesName").val());
+                var operationsID = $("#oPrivilegesItem").val();
+                //alert(oPrivilegesName);
                 if (oPrivilegesName == "") {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                     $("#promptDIV").addClass("p-warningDIV");
                     $("#promptDIV").html("权限名称不能为空");
+
+                    return false;
+                }
+
+                if (operationsID == "-1") {
+                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").html("请选择权限项目！");
+
+                    return false;
                 }
             }
 
+            //提交add_OperationsPrivileges表单后执行的函数
             function showResponse(responseText, statusText) {
-                //成功后执行的方法
                 $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                 $("#promptDIV").addClass(responseText.css);
                 $("#promptDIV").html(responseText.message);
             }
         });
        
-    </script>
-
-    <%--添加页面元素权限--%>
-    <script type="text/javascript">
-        var eManagerGrid;
-        $(document).ready(function () {
-            $("#eMyGrid").hide(); //初始化隐藏eMyGride表格
-            //初始化ligerGrid
-            $("#eMyGrid").ligerGrid({
-                width: '99%',
-                height: '300'
-            });
-            eManagerGrid = $("#eMyGrid").ligerGetGridManager();
-
-            //下拉列表控件的点击事件
-            $("#ePrivilegesItem").click(function () {
-                if ($("#eMyGrid").is(":hidden")) {
-                    $("#eMyGrid").show();
-                } else {
-                    $("#eMyGrid").hide();
-                }
-            });
-        });
     </script>
 
     <%--添加操作权限--%>
@@ -359,8 +348,8 @@
             oManagerGrid = $("#oMyGrid").ligerGetGridManager();
 
             //切换Tab页面时重载oMyGrid数据
-            $("#operationsTab").click(function(){
-                BindOperationsList();//oMyGrid绑定数据
+            $("#operationsTab").click(function () {
+                BindOperationsList(); //oMyGrid绑定数据
             });
 
             //下拉列表控件的点击事件
@@ -400,6 +389,63 @@
             });
         }
     </script>
+
+    <%--添加菜单权限--%>
+    <script type="text/javascript">
+        var mManagerTree;
+        $(document).ready(function () {
+            $("#mMyTree").hide(); //初始化隐藏eMyGride表格
+            //初始化ligerTree
+            $("#mMyTree").ligerTree({
+                checkbox: false,
+                textFieldName: 'name',
+                onSelect: OnselectMenus
+            });
+            mManagerTree = $("#mMyTree").ligerGetTreeManager();
+
+            //切换Tab页面时重载mMyTree数据
+            $("#menusTab").click(function () {
+                BindMenusList(); //mMyTree绑定数据
+            });
+
+            //下拉列表控件的点击事件
+            $("#ePrivilegesItem").click(function () {
+                if ($("#mMyTree").is(":hidden")) {
+                    $("#mMyTree").show();
+                } else {
+                    $("#mMyTree").hide();
+                }
+            });
+
+            //oMyGrid绑定数据
+            function BindOperationsList() {
+                $.ajax({
+                    url: "/PrivilegesManagement/GetOperationOfItem",
+                    type: "POST",
+                    dataType: "json",
+                    data: {},
+                    success: function (responseText, statusText) {
+                        //alert(responseText);
+                        var dataOperationsJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                        //更新oMyGrid数据
+                        oManagerGrid.setOptions({
+                            columns: [
+                                { display: '操作名称', name: 'name', width: 120 },
+                                { display: '操作编码', name: 'code', width: 120 },
+                                { display: '操作描述', name: 'description', width: 160 },
+                                { display: '备注信息', name: 'remark', width: 180 }
+                                ],
+                            data: dataOperationsJson,
+                            onSelectRow: OnSelectOperations
+                        });
+                        //重载oMyGrid数据
+                        oManagerGrid.loadData();
+                    }
+                });
+        });
+    </script>
+
+    
    
     <script type="text/javascript">
         //选择项目(操作)后判断该操作是否已经创建权限
@@ -417,7 +463,7 @@
                     }
                     else {
                         $("#oPrivilegesItemInfo").val("-1");
-                        $("#oPrivilegesItemInfo").html("选择权限项目(操作)");
+                        $("#oPrivilegesItemInfo").html("选择权限项目（操作）");
 
                         $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                         $("#promptDIV").addClass(responseText.css);
@@ -436,10 +482,12 @@
         <%--操作提示DIV--%>
         <div id="promptDIV" class="row"></div>
     </div>
+
+    <%--Tab标签--%>
     <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
             <li class="active" id="infoTab"><a href="#AllPrivileges" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
-            <li><a href="#AddMenusPrivileges" data-toggle="tab"><i class="icon-plus"></i>菜单</a></li>
+            <li id="menusTab"><a href="#AddMenusPrivileges" data-toggle="tab"><i class="icon-plus"></i>菜单</a></li>
             <li id="operationsTab"><a href="#AddOperationsPrivileges" data-toggle="tab"><i class="icon-plus"></i>操作</a></li>
             <li><a href="#AddElementsPrivileges" data-toggle="tab"><i class="icon-plus"></i>页面元素</a></li>
         </ul>
@@ -454,43 +502,40 @@
         
         <%--添加菜单权限--%>
         <div class="tab-pane" id="AddMenusPrivileges">
-            <form id="add_Privileges" class="form-horizontal" method="post" action="/PrivilegesManagement/AddPrivileges">
-                <div class="control-group span6 offset2">
+            <form id="add_Privileges" class="form-horizontal" method="post" action="">
+                <div class="control-group">
                     <label class="control-label">权限名称</label>
                     <div class="controls">
-                        <input name="PrivilegesName" type="text" class="input-prepend span4" />
+                        <input name="mPrivilegesName" type="text" class="input-prepend span9" />
                     </div>
                 </div>
-                <div class="control-group span6 offset2">
+                <div class="control-group">
                     <label class="control-label">权限类型</label>
                     <div class="controls">
-                        <select id="PrivilegesType" name="PrivilegesType" class="span4">
-                            <option value="-1">选择权限类型</option>
-                        </select>
+                        <label class="span9 input-xlarge uneditable-input">菜单</label>
                     </div>
                 </div>
-                <div class="control-group span6 offset2">
+                <div class="control-group">
                     <label class="control-label">权限项目</label>
                     <div class="controls">
-                        <select id="PrivilegesItem" name="PrivilegesItem" class="span4">
-                            <option id="PrivilegesItemInfo" value="-1">选择权限项目</option>
+                        <select id="mPrivilegesItem" name="mPrivilegesItem" class="span9">
+                            <option id="mPrivilegesItemInfo" value="-1">选择权限项目（菜单）</option>
                         </select>
                     </div>
                 </div>
-                <div class="control-group span9 offset2">
-                    <div id="mygrid1" class="controls">
-                        <div id="mytree"></div>
-                        <div id="mygrid"></div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div id="mMyTree"></div>
                     </div>
                 </div>
-                <div class="control-group span6 offset2">
+                <div class="control-group">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="PrivilegesRemark" rows="4" cols="5" class="span4"></textarea>
+                        <textarea name="PrivilegesRemark" rows="4" cols="5" class="span9"></textarea>
                     </div>
                 </div>
-                <div class="control-group span6 offset3">
-                    <input id="submit" type="submit" class="btn btn-primary btn-large span4"  value="添加权限" />
+                <div class="control-group offset1">
+                    <input id="submit" type="submit" class="btn btn-primary btn-large span10"  value="添加权限" />
                 </div>
             </form>
         </div>
@@ -514,7 +559,7 @@
                     <label class="control-label">权限项目</label>
                     <div class="controls">
                         <select id="oPrivilegesItem" name="oPrivilegesItem" class="span9">
-                            <option id="oPrivilegesItemInfo" value="-1">选择权限项目</option>
+                            <option id="oPrivilegesItemInfo" value="-1">选择权限项目（操作）</option>
                         </select>
                     </div>
                 </div>

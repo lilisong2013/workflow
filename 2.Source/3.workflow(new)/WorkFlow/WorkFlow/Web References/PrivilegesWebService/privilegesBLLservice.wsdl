@@ -31,6 +31,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ExistsPrivilegeName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="privilegeName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsPrivilegeNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsPrivilegeNameResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Add">
         <s:complexType>
           <s:sequence>
@@ -252,6 +267,12 @@
   <wsdl:message name="ExistsItemOfPrivilegesTypeSoapOut">
     <wsdl:part name="parameters" element="tns:ExistsItemOfPrivilegesTypeResponse" />
   </wsdl:message>
+  <wsdl:message name="ExistsPrivilegeNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsPrivilegeName" />
+  </wsdl:message>
+  <wsdl:message name="ExistsPrivilegeNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsPrivilegeNameResponse" />
+  </wsdl:message>
   <wsdl:message name="AddSoapIn">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
@@ -329,6 +350,11 @@
       <wsdl:input message="tns:ExistsItemOfPrivilegesTypeSoapIn" />
       <wsdl:output message="tns:ExistsItemOfPrivilegesTypeSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="ExistsPrivilegeName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统ID为appID的系统中是否存在privilegeName的权限名称</wsdl:documentation>
+      <wsdl:input message="tns:ExistsPrivilegeNameSoapIn" />
+      <wsdl:output message="tns:ExistsPrivilegeNameSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Add">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
@@ -398,6 +424,15 @@
     </wsdl:operation>
     <wsdl:operation name="ExistsItemOfPrivilegesType">
       <soap:operation soapAction="http://saron.workflowservice.org/ExistsItemOfPrivilegesType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsPrivilegeName">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsPrivilegeName" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -518,6 +553,15 @@
     </wsdl:operation>
     <wsdl:operation name="ExistsItemOfPrivilegesType">
       <soap12:operation soapAction="http://saron.workflowservice.org/ExistsItemOfPrivilegesType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsPrivilegeName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsPrivilegeName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
