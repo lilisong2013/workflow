@@ -50,6 +50,8 @@ namespace WorkFlow.PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetAllPrivilegesListOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAllListByAppIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetRecordCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetListByPageOperationCompleted;
@@ -121,6 +123,9 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         public event GetAllPrivilegesListCompletedEventHandler GetAllPrivilegesListCompleted;
+        
+        /// <remarks/>
+        public event GetAllListByAppIDCompletedEventHandler GetAllListByAppIDCompleted;
         
         /// <remarks/>
         public event GetRecordCountCompletedEventHandler GetRecordCountCompleted;
@@ -419,6 +424,35 @@ namespace WorkFlow.PrivilegesWebService {
             if ((this.GetAllPrivilegesListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllPrivilegesListCompleted(this, new GetAllPrivilegesListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllListByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllListByAppID(int appID) {
+            object[] results = this.Invoke("GetAllListByAppID", new object[] {
+                        appID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllListByAppIDAsync(int appID) {
+            this.GetAllListByAppIDAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllListByAppIDAsync(int appID, object userState) {
+            if ((this.GetAllListByAppIDOperationCompleted == null)) {
+                this.GetAllListByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllListByAppIDOperationCompleted);
+            }
+            this.InvokeAsync("GetAllListByAppID", new object[] {
+                        appID}, this.GetAllListByAppIDOperationCompleted, userState);
+        }
+        
+        private void OnGetAllListByAppIDOperationCompleted(object arg) {
+            if ((this.GetAllListByAppIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllListByAppIDCompleted(this, new GetAllListByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -919,6 +953,32 @@ namespace WorkFlow.PrivilegesWebService {
         private object[] results;
         
         internal GetAllPrivilegesListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetAllListByAppIDCompletedEventHandler(object sender, GetAllListByAppIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllListByAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllListByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

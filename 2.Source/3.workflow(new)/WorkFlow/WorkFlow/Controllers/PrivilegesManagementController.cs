@@ -284,10 +284,44 @@ namespace WorkFlow.Controllers
             return dataStr;
         }
 
-        //判断项目是否已经创建权限
-        public ActionResult ExistPrivilegeItemOfPrivilegeType()
+        //判断项目(操作)是否已经创建权限
+        public ActionResult ExistPrivilegeItemOfOperations()
         {
-            int privilegeTypeID = Convert.ToInt32(Request.Params["privilegeTypeID"]);//权限类型ID
+            int privilegeTypeID = 3;//权限类型ID
+            int privilegeItemID = Convert.ToInt32(Request.Params["operationsID"]);//权限项目ID
+
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
+
+            if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+            }
+            else
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+            }
+        }
+        //判断项目(菜单)是否已经创建权限
+        public ActionResult ExistPrivilegeItemOfMenus()
+        {
+            int privilegeTypeID = 1;//权限类型ID
+            int privilegeItemID = Convert.ToInt32(Request.Params["menusID"]);//权限项目ID
+
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
+
+            if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID))
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+            }
+            else
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+            }
+        }
+        //判断项目(页面元素)是否已经创建权限
+        public ActionResult ExistPrivilegeItemOfElements()
+        {
+            int privilegeTypeID = 2;//权限类型ID
             int privilegeItemID = Convert.ToInt32(Request.Params["privilegeItemID"]);//权限项目ID
 
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
@@ -331,8 +365,50 @@ namespace WorkFlow.Controllers
             
         }
 
+        //权限列表
+        public ActionResult GetAllPrivilegesList()
+        {
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            string data = "{Rows:[";
+            try
+            {
+                DataSet ds = m_privilegesBllService.GetAllListByAppID((int)m_userModel.app_id);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string id = ds.Tables[0].Rows[i][0].ToString();
+                    string name = ds.Tables[0].Rows[i][1].ToString();
+                    string privilegetype_id = ds.Tables[0].Rows[i][2].ToString();
+                    string privilegeitem_id = ds.Tables[0].Rows[i][3].ToString();
+                    string remark = ds.Tables[0].Rows[i][4].ToString();
+                    string invalid = ds.Tables[0].Rows[i][5].ToString();
+                    if (i == ds.Tables[0].Rows.Count - 1)
+                    {
+                        data += "{name:'" + name + "',";
+                        data += "id:'" + id + "',";
+                        data += "privilegetype_id:'" + privilegetype_id + "',";
+                        data += "privilegeitem_id:'" + privilegeitem_id + "',";
+                        data += "invalid:'" + invalid + "',";
+                        data += "remark:''}";
+                    }
+                    else
+                    {
+                        data += "{name:'" + name + "',";
+                        data += "id:'" + id + "',";
+                        data += "privilegetype_id:'" + privilegetype_id + "',";
+                        data += "privilegeitem_id:'" + privilegeitem_id + "',";
+                        data += "invalid:'" + invalid + "',";
+                        data += "remark:''},";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
 
-
+            data += "]}";
+            return Json(data);
+        }
 
 
 

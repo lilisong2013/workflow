@@ -110,7 +110,7 @@
                             dataType: "json",
                             data: {},
                             success: function (responseText, statusText) {
-                                alert(responseText);
+                                //alert(responseText);
                                 var dataOpertionjson = eval("(" + responseText + ")"); //将json字符串转化为json数据
                                 //更新mygrid数据
                                 managerGrid.setOptions({
@@ -230,26 +230,88 @@
         }
               
     </script>
+
+    <%--权限列表--%>
+    <script type="text/javascript">
+        var managerListGrid;
+        $(document).ready(function () {
+
+            //定义ligerGrid
+            $("#privilegesgrid").ligerGrid({
+                width: '99%',
+                height: '400'
+            });
+            managerListGrid = $("#privilegesgrid").ligerGetGridManager();
+
+            GetPrivilegeList(); //获取数据列表
+
+            $("#infoTab").click(function () {
+                GetPrivilegeList(); //获取数据列表
+            });
+
+        });
+
+        function GetPrivilegeList() {
+            $.ajax({
+                url: "/PrivilegesManagement/GetAllPrivilegesList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataprivilegejson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //更新mygrid数据
+                    managerListGrid.setOptions({
+                        columns: [
+                            { display: '权限名称', name: 'name', width: 120 },
+                            { display: '权限类型', name: 'privilegetype_id', width: 120 },
+                            { display: '权限项目', name: 'privilegeitem_id', width: 160 },
+                            { display: '备注信息', name: 'remark', width: 180 },
+                            { display: '', width: 100,
+                                render: function (row) {
+                                    var html = '<i class="icon-lock"></i><a href="/MenusManagement/DeleteMenus?id=' + row.id + '">详情</a>';
+                                    return html;
+                                }
+                            }
+                            ],
+                        data: dataprivilegejson
+                    });
+                    managerListGrid.loadData();
+
+                }
+            });
+        }
+    </script>
     
     <%--添加权限--%>
     <script type="text/javascript">
         $(document).ready(function () {
-            var options = {
-                //beforeSubmit: showRequest,  // from提交前的响应的回调函数
+            var o_options = {
+                beforeSubmit: o_showRequest,  // from提交前的响应的回调函数
                 success: showResponse,  // form提交响应成功后执行的回调函数
                 url: "/PrivilegesManagement/AddPrivileges",
                 type: "POST",
                 dataType: "json"
             };
 
-            $("#submit").click(function () {
+            $("#oSubmit").click(function () {
                 if (false) {
 
                     return false;
                 } else {
-                    $("#add_Privileges").ajaxForm(options);
+                    $("#add_OperationsPrivileges").ajaxForm(o_options);
                 }
             });
+
+            //提交add_OperationsPrivileges表单前执行的函数
+            function o_showRequest() {
+                var oPrivilegesName = $("#oPrivilegesName").val();
+                if (oPrivilegesName == "") {
+                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").html("权限名称不能为空");
+                }
+            }
 
             function showResponse(responseText, statusText) {
                 //成功后执行的方法
@@ -259,6 +321,111 @@
             }
         });
        
+    </script>
+
+    <%--添加页面元素权限--%>
+    <script type="text/javascript">
+        var eManagerGrid;
+        $(document).ready(function () {
+            $("#eMyGrid").hide(); //初始化隐藏eMyGride表格
+            //初始化ligerGrid
+            $("#eMyGrid").ligerGrid({
+                width: '99%',
+                height: '300'
+            });
+            eManagerGrid = $("#eMyGrid").ligerGetGridManager();
+
+            //下拉列表控件的点击事件
+            $("#ePrivilegesItem").click(function () {
+                if ($("#eMyGrid").is(":hidden")) {
+                    $("#eMyGrid").show();
+                } else {
+                    $("#eMyGrid").hide();
+                }
+            });
+        });
+    </script>
+
+    <%--添加操作权限--%>
+    <script type="text/javascript">
+        var oManagerGrid;
+        $(document).ready(function () {
+            $("#oMyGrid").hide(); //初始化隐藏eMyGride表格
+            //初始化ligerGrid
+            $("#oMyGrid").ligerGrid({
+                width: '99%',
+                height: '300'
+            });
+            oManagerGrid = $("#oMyGrid").ligerGetGridManager();
+
+            //切换Tab页面时重载oMyGrid数据
+            $("#operationsTab").click(function(){
+                BindOperationsList();//oMyGrid绑定数据
+            });
+
+            //下拉列表控件的点击事件
+            $("#oPrivilegesItem").click(function () {
+                if ($("#oMyGrid").is(":hidden")) {
+                    $("#oMyGrid").show();
+                } else {
+                    $("#oMyGrid").hide();
+                }
+            });
+        });
+
+        //oMyGrid绑定数据
+        function BindOperationsList() {
+            $.ajax({
+                url: "/PrivilegesManagement/GetOperationOfItem",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataOperationsJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //更新oMyGrid数据
+                    oManagerGrid.setOptions({
+                        columns: [
+                            { display: '操作名称', name: 'name', width: 120 },
+                            { display: '操作编码', name: 'code', width: 120 },
+                            { display: '操作描述', name: 'description', width: 160 },
+                            { display: '备注信息', name: 'remark', width: 180 }
+                            ],
+                        data: dataOperationsJson,
+                        onSelectRow: OnSelectOperations
+                    });
+                    //重载oMyGrid数据
+                    oManagerGrid.loadData();
+                }
+            });
+        }
+    </script>
+   
+    <script type="text/javascript">
+        //选择项目(操作)后判断该操作是否已经创建权限
+        function OnSelectOperations(rowdata, rowindex, rowDomElement) {
+            //alert(rowdata.id);
+            $.ajax({
+                url: "/PrivilegesManagement/ExistPrivilegeItemOfOperations",
+                type: "POST",
+                dataType: "json",
+                data: {operationsID: rowdata.id },
+                success: function (responseText, statusText) {
+                    if (responseText.success) {
+                        $("#oPrivilegesItemInfo").val(rowdata.id);
+                        $("#oPrivilegesItemInfo").html(rowdata.name);
+                    }
+                    else {
+                        $("#oPrivilegesItemInfo").val("-1");
+                        $("#oPrivilegesItemInfo").html("选择权限项目(操作)");
+
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass(responseText.css);
+                        $("#promptDIV").html(responseText.message);
+                    }
+                }
+            });
+        }
     </script>
 </asp:Content>
 
@@ -271,8 +438,10 @@
     </div>
     <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#AllPrivileges" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
-            <li><a href="#AddPrivileges" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
+            <li class="active" id="infoTab"><a href="#AllPrivileges" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
+            <li><a href="#AddMenusPrivileges" data-toggle="tab"><i class="icon-plus"></i>菜单</a></li>
+            <li id="operationsTab"><a href="#AddOperationsPrivileges" data-toggle="tab"><i class="icon-plus"></i>操作</a></li>
+            <li><a href="#AddElementsPrivileges" data-toggle="tab"><i class="icon-plus"></i>页面元素</a></li>
         </ul>
     </div>
 
@@ -283,8 +452,8 @@
             <div id="privilegesgrid"></div> 
         </div>
         
-        <%--添加权限--%>
-        <div class="tab-pane" id="AddPrivileges">
+        <%--添加菜单权限--%>
+        <div class="tab-pane" id="AddMenusPrivileges">
             <form id="add_Privileges" class="form-horizontal" method="post" action="/PrivilegesManagement/AddPrivileges">
                 <div class="control-group span6 offset2">
                     <label class="control-label">权限名称</label>
@@ -325,6 +494,89 @@
                 </div>
             </form>
         </div>
+
+        <%--添加操作权限--%>
+        <div class="tab-pane" id="AddOperationsPrivileges">
+            <form id="add_OperationsPrivileges" class="form-horizontal" method="post" action="">
+                <div class="control-group">
+                    <label class="control-label">权限名称</label>
+                    <div class="controls">
+                        <input id="oPrivilegesName" name="oPrivilegesName" type="text" class="input-prepend span9" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">权限类型</label>
+                    <div class="controls">
+                        <label class="span9 input-xlarge uneditable-input">操作</label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">权限项目</label>
+                    <div class="controls">
+                        <select id="oPrivilegesItem" name="oPrivilegesItem" class="span9">
+                            <option id="oPrivilegesItemInfo" value="-1">选择权限项目</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls span9">
+                        <div id="oMyGrid"></div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">备注信息</label>
+                    <div class="controls">
+                        <textarea name="oPrivilegesRemark" rows="4" cols="5" class="span9"></textarea>
+                    </div>
+                </div>
+                <div class="control-group offset1">
+                    <input id="oSubmit" type="submit" class="btn btn-primary btn-large span10"  value="添加操作权限" />
+                </div>
+            </form>
+        </div>
+
+        <%--添加页面元素权限--%>
+        <div class="tab-pane" id="AddElementsPrivileges">
+            <form id="add_ElementsPrivileges" class="form-horizontal" method="post" action="">
+                <div class="control-group">
+                    <label class="control-label">权限名称</label>
+                    <div class="controls">
+                        <input name="ePrivilegesName" type="text" class="input-prepend span9" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">权限类型</label>
+                    <div class="controls">
+                        <select id="ePrivilegesType" name="ePrivilegesType" class="span9">
+                            <option id="ePrivilegesTypeInfo" value="-1">选择权限类型</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">权限项目</label>
+                    <div class="controls">
+                        <select id="ePrivilegesItem" name="ePrivilegesItem" class="span9">
+                            <option id="ePrivilegesItemInfo" value="-1">选择权限项目</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls span9">
+                        <div id="eMyGrid"></div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">备注信息</label>
+                    <div class="controls">
+                        <textarea name="ePrivilegesRemark" rows="4" cols="5" class="span9"></textarea>
+                    </div>
+                </div>
+                <div class="control-group offset1">
+                    <input id="esubmit" type="submit" class="btn btn-primary btn-large span10"  value="添加页面元素权限" />
+                </div>
+            </form>
+        </div>
+
     </div>
 </asp:Content>
 
