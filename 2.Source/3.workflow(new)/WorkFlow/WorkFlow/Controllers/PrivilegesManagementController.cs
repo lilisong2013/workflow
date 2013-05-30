@@ -193,7 +193,7 @@ namespace WorkFlow.Controllers
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new WorkFlow.MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new WorkFlow.MenusWebService.menusModel();
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-            string data = "[{name:'顶级菜单',id:'-1',children:[";
+            string data = "[";
             try
             {
                 DataSet ds = m_menusBllService.GetTopMenusListOfApp((int)m_userModel.app_id);
@@ -229,7 +229,7 @@ namespace WorkFlow.Controllers
             {
             }
 
-            data += "]}]";
+            data += "]";
             return Json(data);
         }
         //菜单
@@ -419,7 +419,7 @@ namespace WorkFlow.Controllers
         public ActionResult ExistPrivilegeItemOfElements()
         {
             int privilegeTypeID = 2;//权限类型ID
-            int privilegeItemID = Convert.ToInt32(Request.Params["privilegeItemID"]);//权限项目ID
+            int privilegeItemID = Convert.ToInt32(Request.Params["elementID"]);//权限项目ID
 
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
 
@@ -446,7 +446,7 @@ namespace WorkFlow.Controllers
 
             try
             {
-                if (m_menusWebService.ExistsChildrenMenus(menusID))
+                if (!m_menusWebService.ExistsChildrenMenus(menusID))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false });
                 }

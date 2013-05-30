@@ -129,7 +129,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return GetElementsList("");
         }
-
+        ///<summary>
+        ///获得appid和menuid的元素数据列表
+        /// </summary>
+        [WebMethod(Description = "获得所有数据列表")]
+        public DataSet GetAllElementsListOfMenuApp(int appID, int menuID)
+        {
+            return m_elementsDal.GetAllElementsListOfMenuApp(appID, menuID);
+        }
         /// <summary>
         /// 获取记录总数
         /// </summary>

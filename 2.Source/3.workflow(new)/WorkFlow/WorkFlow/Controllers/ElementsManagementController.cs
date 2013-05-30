@@ -190,6 +190,8 @@ namespace WorkFlow.Controllers
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            int appID = Convert.ToInt32(m_usersModel.app_id);
+            int menuID = Convert.ToInt32(Request.Form["MenusParent"]);
             string str=Request.Form["MenusParent"];
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
@@ -217,20 +219,20 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="排序码不能为空!" });
             }
-            DataSet ds = m_elementsBllService.GetAllElementsList();
+            DataSet ds = m_elementsBllService.GetAllElementsListOfMenuApp(appID,menuID);
             ArrayList elementsList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
             for (int i = 0; i < total; i++)
             {
                 elementsList.Add(ds.Tables[0].Rows[i][1].ToString());
             }
-            foreach (string elementslist in elementsList)
+            /*foreach (string elementslist in elementsList)
             {
                 if (elementslist.Equals(collection["elementsName"].Trim().ToString()))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
                 }
-            }
+            }*/
             m_elementsModel.name = collection["elementsName"].Trim();
             m_elementsModel.code = collection["elementsCode"].Trim();
             m_elementsModel.remark = collection["elementsRemark"].Trim();
