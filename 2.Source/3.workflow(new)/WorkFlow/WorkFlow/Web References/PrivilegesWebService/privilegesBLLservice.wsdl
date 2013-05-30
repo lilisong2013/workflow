@@ -179,6 +179,27 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAllListByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllListByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllListByAppIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetRecordCount">
         <s:complexType>
           <s:sequence>
@@ -279,6 +300,12 @@
   <wsdl:message name="GetAllPrivilegesListSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllPrivilegesListResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAllListByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllListByAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetAllListByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllListByAppIDResponse" />
+  </wsdl:message>
   <wsdl:message name="GetRecordCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetRecordCount" />
   </wsdl:message>
@@ -341,6 +368,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
       <wsdl:input message="tns:GetAllPrivilegesListSoapIn" />
       <wsdl:output message="tns:GetAllPrivilegesListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllListByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限列表</wsdl:documentation>
+      <wsdl:input message="tns:GetAllListByAppIDSoapIn" />
+      <wsdl:output message="tns:GetAllListByAppIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetRecordCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得记录总条数</wsdl:documentation>
@@ -438,6 +470,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllPrivilegesList">
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllPrivilegesList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllListByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllListByAppID" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -549,6 +590,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllPrivilegesList">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetAllPrivilegesList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllListByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllListByAppID" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

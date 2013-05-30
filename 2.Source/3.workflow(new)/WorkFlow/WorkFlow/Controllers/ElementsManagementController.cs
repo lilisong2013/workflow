@@ -36,7 +36,12 @@ namespace WorkFlow.Controllers
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsService= new ElementsWebService.elementsBLLservice();
 
+<<<<<<< HEAD
             DataSet ds = m_elementsService.GetElementsListOfApp(appid);
+=======
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsService= new ElementsWebService.elementsBLLservice();
+            DataSet ds = m_elementsService.GetAllElementsList();//GetElementsListOfApp(appid);
+>>>>>>> 4771c7f6c07e40f993547b079927a221aa294355
             IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
             var total = ds.Tables[0].Rows.Count;
             for (var i = 0; i < total; i++)

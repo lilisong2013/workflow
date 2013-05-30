@@ -30,12 +30,12 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
-        /// （用户登录）是否存在用户或密码
+        /// （系统管理员登录）是否存在管理员或密码
         /// </summary>
-        [WebMethod(Description = "是否存在用户名login且密码password的用户")]
-        public bool LoginValidator(string login,string password)
+        [WebMethod(Description = "是否存在系统管理员login且密码password的系统管理员")]
+        public bool SysAdminLoginValidator(string login,string password)
         {
-            bool flag = m_usersdal.Exists(login, password);
+            bool flag = m_usersdal.ExistsSysAdmin(login, password);
             if (flag)
             {
                 Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();

@@ -51,6 +51,23 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// （系统管理员登录）是否存在管理员或密码
+        /// </summary>
+        public bool ExistsSysAdmin(string login, string password)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from users");
+            strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and admin=1 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40),
+					new SqlParameter("@password", SqlDbType.NVarChar,255)};
+            parameters[0].Value = login;
+            parameters[1].Value = password;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
         /// 是否存在该用户
         /// </summary>
         /// <param name="login">登录名</param>
