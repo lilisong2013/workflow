@@ -54,6 +54,8 @@ namespace WorkFlow.ElementsWebService {
         
         private System.Threading.SendOrPostCallback GetAllElementsListOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAllElementsListOfMenuAppOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetRecordCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetListByPageOperationCompleted;
@@ -131,6 +133,9 @@ namespace WorkFlow.ElementsWebService {
         
         /// <remarks/>
         public event GetAllElementsListCompletedEventHandler GetAllElementsListCompleted;
+        
+        /// <remarks/>
+        public event GetAllElementsListOfMenuAppCompletedEventHandler GetAllElementsListOfMenuAppCompleted;
         
         /// <remarks/>
         public event GetRecordCountCompletedEventHandler GetRecordCountCompleted;
@@ -483,6 +488,37 @@ namespace WorkFlow.ElementsWebService {
             if ((this.GetAllElementsListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllElementsListCompleted(this, new GetAllElementsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllElementsListOfMenuApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllElementsListOfMenuApp(int appID, int menuID) {
+            object[] results = this.Invoke("GetAllElementsListOfMenuApp", new object[] {
+                        appID,
+                        menuID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllElementsListOfMenuAppAsync(int appID, int menuID) {
+            this.GetAllElementsListOfMenuAppAsync(appID, menuID, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllElementsListOfMenuAppAsync(int appID, int menuID, object userState) {
+            if ((this.GetAllElementsListOfMenuAppOperationCompleted == null)) {
+                this.GetAllElementsListOfMenuAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllElementsListOfMenuAppOperationCompleted);
+            }
+            this.InvokeAsync("GetAllElementsListOfMenuApp", new object[] {
+                        appID,
+                        menuID}, this.GetAllElementsListOfMenuAppOperationCompleted, userState);
+        }
+        
+        private void OnGetAllElementsListOfMenuAppOperationCompleted(object arg) {
+            if ((this.GetAllElementsListOfMenuAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllElementsListOfMenuAppCompleted(this, new GetAllElementsListOfMenuAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1075,6 +1111,32 @@ namespace WorkFlow.ElementsWebService {
         private object[] results;
         
         internal GetAllElementsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetAllElementsListOfMenuAppCompletedEventHandler(object sender, GetAllElementsListOfMenuAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllElementsListOfMenuAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllElementsListOfMenuAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

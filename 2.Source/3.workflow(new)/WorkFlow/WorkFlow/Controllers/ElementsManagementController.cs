@@ -226,13 +226,13 @@ namespace WorkFlow.Controllers
             {
                 elementsList.Add(ds.Tables[0].Rows[i][1].ToString());
             }
-            /*foreach (string elementslist in elementsList)
+            foreach (string elementslist in elementsList)
             {
                 if (elementslist.Equals(collection["elementsName"].Trim().ToString()))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
                 }
-            }*/
+            }
             m_elementsModel.name = collection["elementsName"].Trim();
             m_elementsModel.code = collection["elementsCode"].Trim();
             m_elementsModel.remark = collection["elementsRemark"].Trim();

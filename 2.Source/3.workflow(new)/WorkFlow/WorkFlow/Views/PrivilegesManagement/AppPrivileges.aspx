@@ -17,14 +17,13 @@
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
     
-    <%--权限类型--%>
+    <%--隐藏提示信息--%>
     <script type="text/javascript">
-        var manager = null;
-        var managerGrid = null;
         //隐藏提示信息
         $(document).click(function () {
             $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
             $("#promptDIV").html("");
+<<<<<<< HEAD
         });
 //        $(document).ready(function () {
 //            $("#mytree").hide();
@@ -230,6 +229,9 @@
 //            });
 //        }
               
+=======
+        });   
+>>>>>>> ecad3b75bf91ff88f4aff3ce760b11f21f02b396
     </script>
 
     <%--权限列表--%>
