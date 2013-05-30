@@ -486,7 +486,7 @@ namespace WorkFlow.Controllers
                         data += "privilegetype_id:'" + privilegetype_id + "',";
                         data += "privilegeitem_id:'" + privilegeitem_id + "',";
                         data += "invalid:'" + invalid + "',";
-                        data += "remark:''}";
+                        data += "remark:'" + remark + "'}";
                     }
                     else
                     {
@@ -495,7 +495,7 @@ namespace WorkFlow.Controllers
                         data += "privilegetype_id:'" + privilegetype_id + "',";
                         data += "privilegeitem_id:'" + privilegeitem_id + "',";
                         data += "invalid:'" + invalid + "',";
-                        data += "remark:''},";
+                        data += "remark:'" + remark + "'},";
                     }
                 }
             }
