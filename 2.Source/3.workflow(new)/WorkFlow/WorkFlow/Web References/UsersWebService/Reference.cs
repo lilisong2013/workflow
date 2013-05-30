@@ -60,6 +60,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback GetAllUsersListOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAllUsersListOfAppOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetRecordCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetListByPageOperationCompleted;
@@ -146,6 +148,9 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public event GetAllUsersListCompletedEventHandler GetAllUsersListCompleted;
+        
+        /// <remarks/>
+        public event GetAllUsersListOfAppCompletedEventHandler GetAllUsersListOfAppCompleted;
         
         /// <remarks/>
         public event GetRecordCountCompletedEventHandler GetRecordCountCompleted;
@@ -595,6 +600,35 @@ namespace WorkFlow.UsersWebService {
             if ((this.GetAllUsersListCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllUsersListCompleted(this, new GetAllUsersListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllUsersListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllUsersListOfApp(int appID) {
+            object[] results = this.Invoke("GetAllUsersListOfApp", new object[] {
+                        appID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllUsersListOfAppAsync(int appID) {
+            this.GetAllUsersListOfAppAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllUsersListOfAppAsync(int appID, object userState) {
+            if ((this.GetAllUsersListOfAppOperationCompleted == null)) {
+                this.GetAllUsersListOfAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllUsersListOfAppOperationCompleted);
+            }
+            this.InvokeAsync("GetAllUsersListOfApp", new object[] {
+                        appID}, this.GetAllUsersListOfAppOperationCompleted, userState);
+        }
+        
+        private void OnGetAllUsersListOfAppOperationCompleted(object arg) {
+            if ((this.GetAllUsersListOfAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllUsersListOfAppCompleted(this, new GetAllUsersListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1286,6 +1320,32 @@ namespace WorkFlow.UsersWebService {
         private object[] results;
         
         internal GetAllUsersListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetAllUsersListOfAppCompletedEventHandler(object sender, GetAllUsersListOfAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllUsersListOfAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllUsersListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

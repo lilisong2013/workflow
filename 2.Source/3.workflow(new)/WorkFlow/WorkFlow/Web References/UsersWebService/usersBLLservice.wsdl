@@ -257,6 +257,27 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAllUsersListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllUsersListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllUsersListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetRecordCount">
         <s:complexType>
           <s:sequence>
@@ -387,6 +408,12 @@
   <wsdl:message name="GetAllUsersListSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllUsersListResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAllUsersListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllUsersListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetAllUsersListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllUsersListOfAppResponse" />
+  </wsdl:message>
   <wsdl:message name="GetRecordCountSoapIn">
     <wsdl:part name="parameters" element="tns:GetRecordCount" />
   </wsdl:message>
@@ -474,6 +501,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
       <wsdl:input message="tns:GetAllUsersListSoapIn" />
       <wsdl:output message="tns:GetAllUsersListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetAllUsersListOfAppSoapIn" />
+      <wsdl:output message="tns:GetAllUsersListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetRecordCount">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得记录总条数</wsdl:documentation>
@@ -616,6 +648,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllUsersList">
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllUsersList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllUsersListOfApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -772,6 +813,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllUsersList">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetAllUsersList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllUsersListOfApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
