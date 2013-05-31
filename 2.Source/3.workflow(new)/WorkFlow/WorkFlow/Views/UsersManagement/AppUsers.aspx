@@ -36,7 +36,7 @@ AppUsers
                 }
                 ],
                     dataAction: 'server',
-                    width: '100%',
+                    width: '90%',
                     pageSizeOptions: [5, 10, 15, 20, 25, 50],
                     pageSize: 15,
                     height: '400',
@@ -136,7 +136,7 @@ AppUsers
                             <input type="hidden" name="usersInvalid" id="usersInvalid" value="true"/>
                             <input type="hidden" name="usersDeleted" id="usersDeleted" value="false" />
                             <input type="hidden" name="usersAdmin" id="usersAdmin" value="false"/>
-                            <input type="hidden" name="usersCreated_by" id="usersCreated_by" value="<%=-1%>" />
+                            <input type="hidden" name="usersCreated_by" id="usersCreated_by" value="<%=m_usersModel.id%>" />
                             <input type="hidden" name="usersCreated_ip" id="usersCreated_ip" value="<%=ipAddress%>" />
                             <input type="hidden" name="usersCreated_at" id="usersCreated_at" value="<%=t%>"/>
                         </div>

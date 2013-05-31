@@ -83,7 +83,7 @@
                 }
                 ],
                     dataAction: 'server',
-                    width: '100%',
+                    width: '90%',
                     pageSizeOptions: [5, 10, 15, 20, 25, 50],
                     pageSize: 15,
                     height: '400',
