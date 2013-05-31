@@ -16,8 +16,39 @@ namespace WorkFlow.Controllers
 
         public ActionResult AppRoles()
         {
-               
-                return View();         
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                return View();
+            }        
+        }
+
+        public ActionResult Role_Privileges()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+                WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+
+                int roleID = Convert.ToInt32(Request.Params[0].ToString());
+
+                try{
+                    m_rolesModel = m_rolesBllService.GetModel(roleID);
+                }catch(Exception ex)
+                {
+                }
+
+                ViewData["r_ID"] = m_rolesModel.id;
+                ViewData["r_Name"] = m_rolesModel.name;
+                return View();
+            }
         }
 
         /// <summary>
@@ -64,6 +95,7 @@ namespace WorkFlow.Controllers
             m_rolesBllService.Add(m_rolesModel);
             return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/RolesManagement/AppRoles" });
         }
+        
         /// <summary>
         /// 删除一条内容为系统好为id的信息
         /// </summary>
@@ -84,6 +116,7 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
+        
         /// <summary>
         /// 获取ID的数据表详情
         /// </summary>
@@ -198,6 +231,7 @@ namespace WorkFlow.Controllers
                 return RedirectToAction("AppRoles");
             }
         }
+        
         /// <summary>
         /// 显示所选系统的详情
         /// </summary>
@@ -221,6 +255,7 @@ namespace WorkFlow.Controllers
             ViewData["rolesApp_id"] = m_rolesModel.app_id;
             return View();
         }
+        
         /// <summary>
         /// 显示系统的详细的信息
         /// </summary>

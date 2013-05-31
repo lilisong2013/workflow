@@ -608,6 +608,7 @@
     <None Include="Web References\RolesWebService\rolesBLLservice.disco" />
     <None Include="Web References\OperationsWebService\operationsBLLservice.disco" />
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
+    <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
