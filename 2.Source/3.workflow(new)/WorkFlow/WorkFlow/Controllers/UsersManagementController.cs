@@ -268,6 +268,7 @@ namespace WorkFlow.Controllers
             int id = Convert.ToInt32(collection["usersId"]);
             m_usersModel = m_usersBllService.GetModelByID(id);
             string login = collection["usersLogin"].Trim();
+            //string pass=Request.Form["usersPassword"];
             string pass = collection["usersPassword"].Trim();
             string name = collection["usersName"].Trim();
             string employeeno = collection["usersEmployee_no"].Trim();
@@ -283,10 +284,6 @@ namespace WorkFlow.Controllers
             if (pass.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码不能为空!" });
-            }
-            if (Saron.Common.PubFun.ConditionFilter.IsPassWord(pass) == false)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="密码必须是字母和数字的组合且至少为8位"});
             }
             if (name.Length == 0)
             {
@@ -359,7 +356,7 @@ namespace WorkFlow.Controllers
             m_usersModel.invalid = Convert.ToBoolean(collection["usersInvalid"].Trim());
             m_usersModel.deleted = Convert.ToBoolean(collection["usersDeleted"].Trim());
             m_usersModel.updated_at = t;
-            m_usersModel.updated_by = -1;
+            m_usersModel.updated_by = m_userModel.id;
             m_usersModel.updated_ip = ipAddress;
             // m_usersModel.app_id = Convert.ToInt32(collection["usersApp_id"].Trim());
             if (m_usersBllService.Update(m_usersModel))
