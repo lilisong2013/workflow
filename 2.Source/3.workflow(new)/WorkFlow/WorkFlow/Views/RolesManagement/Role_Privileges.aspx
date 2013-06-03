@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
 <script type="text/javascript">
     $(document).ready(function () {
-        
+        $.ajax({});
     });
 </script>
 </asp:Content>
