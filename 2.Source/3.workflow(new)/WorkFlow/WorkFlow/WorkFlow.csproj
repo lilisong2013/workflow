@@ -612,6 +612,7 @@
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

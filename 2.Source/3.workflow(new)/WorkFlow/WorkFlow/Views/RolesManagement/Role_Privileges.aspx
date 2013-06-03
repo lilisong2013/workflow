@@ -5,11 +5,66 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-<script type="text/javascript">
-    $(document).ready(function () {
-        
-    });
-</script>
+    <%--菜单权限初始化--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: "/RolesManagement/GetMunusPrivilegeList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataJson = eval("(" + responseText + ")");
+
+                    for (var i = 0; i < dataJson.total; i++) {
+                        $("#menusList").append("<label class='checkbox span2'><input id='menusprivilege" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
+                    }
+                }
+            });
+        });
+    </script>
+    
+    
+    <%--操作权限初始化--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: "/RolesManagement/GetOperationsPrivilegeList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataJson = eval("(" + responseText + ")");
+
+                    for (var i = 0; i < dataJson.total; i++) {
+                        $("#operationsList").append("<label class='checkbox span2'><input id='operationsprivilege" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
+                    }
+                }
+            });
+        });
+    </script>
+
+    <%--页面元素权限初始化--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: "/RolesManagement/GetElementsPrivilegeList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataJson = eval("(" + responseText + ")");
+
+                    for (var i = 0; i < dataJson.total; i++) {
+                        $("#elementsList").append("<label class='checkbox span2'><input id='elementsprivilege" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
+                    }
+                }
+            });
+        });
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -38,7 +93,7 @@
                     <h3>操作</h3>
                 </div>
                 <div id="operationsList">
-                
+                    
                 </div>
             </div>
 

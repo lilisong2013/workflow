@@ -334,6 +334,28 @@ namespace Saron.WorkFlowService.DAL
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
 
+
+        /// <summary>
+        /// 获得某种权限类型下的权限列表
+        /// </summary>
+        /// <param name="privilegeTypeID">权限类型ID</param>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetListByPrivilegeType(int privilegeTypeID, int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM privileges ");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=@privilegetype_id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@privilegetype_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            parameters[1].Value = privilegeTypeID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
 		/// <summary>
 		/// 获得前几行数据
 		/// </summary>

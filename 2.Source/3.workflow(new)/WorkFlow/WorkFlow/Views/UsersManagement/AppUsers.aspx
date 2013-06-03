@@ -9,10 +9,6 @@ AppUsers
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
-
-
-
-
         <script type="text/javascript">
             $(document).ready(function () {
                 $("#AllUsers").ligerGrid({
@@ -32,7 +28,7 @@ AppUsers
                 },
                 { display: '', width: 200,
                     render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/UsersManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a>';
+                        var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/UsersManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a><i class="icon-edit"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色</a>';
                         return html;
                     }
                 }
