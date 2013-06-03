@@ -325,5 +325,102 @@ namespace WorkFlow.Controllers
             };
             return Json(gridData);
         }
+
+
+        //获取操作类型的权限列表
+        public ActionResult GetOperationsPrivilegeList()
+        {
+            string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            DataSet ds = new DataSet();
+            try
+            {
+                ds=m_privilegesBllService.GetListByPrivilegeType(3, (int)m_userModel.app_id);
+            }
+            catch (Exception ex)
+            {
+            }
+            int total = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < total; i++)
+            {
+                if (i < total - 1)
+                {
+                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
+                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'},";
+                }
+                else
+                {
+                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
+                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'}";
+                }
+            }
+            strJson += "],total:'"+total+"'}";
+            return Json(strJson);
+        }
+
+        //获取菜单类型的权限列表
+        public ActionResult GetMunusPrivilegeList()
+        {
+            string strJson = "{List:[";
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = m_privilegesBllService.GetListByPrivilegeType(1, (int)m_userModel.app_id);
+            }
+            catch (Exception ex)
+            {
+            }
+            int total = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < total; i++)
+            {
+                if (i < total - 1)
+                {
+                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
+                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'},";
+                }
+                else
+                {
+                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
+                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'}";
+                }
+            }
+            strJson += "],total:'" + total + "'}";
+            return Json(strJson);
+        }
+
+        //获取页面元素类型的权限列表
+        public ActionResult GetElementsPrivilegeList()
+        {
+            string strJson = "{List:[";
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = m_privilegesBllService.GetListByPrivilegeType(2, (int)m_userModel.app_id);
+            }
+            catch (Exception ex)
+            {
+            }
+            int total = ds.Tables[0].Rows.Count;
+            for (int i = 0; i < total; i++)
+            {
+                if (i < total - 1)
+                {
+                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
+                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'},";
+                }
+                else
+                {
+                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
+                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'}";
+                }
+            }
+            strJson += "],total:'" + total + "'}";
+            return Json(strJson);
+        }
     }
 }
