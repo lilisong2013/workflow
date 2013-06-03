@@ -130,6 +130,15 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 获得某系统某种权限类型下的权限列表
+        /// </summary>
+        [WebMethod(Description = "获得某系统某种权限类型下的权限列表")]
+        public DataSet GetListByPrivilegeType(int privilegeTypeID, int appID)
+        {
+            return m_privilegesDal.GetListByPrivilegeType(privilegeTypeID, appID);
+        }
+
+        /// <summary>
         /// 获取记录总数
         /// </summary>
         [WebMethod(Description = "获得记录总条数")]
