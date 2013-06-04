@@ -368,8 +368,40 @@ namespace Saron.WorkFlowService.DAL
             strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
             return DbHelperSQL.Query(strSql.ToString());
         }
-
-
+        ///<summary>
+        ///统计下已审批系统的个数
+        ///</summary>
+        public int GetValidAppCount()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from apps where invalid='false'");
+            Object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
+        ///<summary>
+        ///统计下待审批系统的个数
+        ///</summary>
+        public int GetInValidAppCount()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from apps where invalid='true'");
+            Object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
         #endregion  Method
     }
 }

@@ -11,7 +11,7 @@
     $(document).ready(function (result) {
         $("#approvalApply").click(function () {
             var appID = $("#appID").val();
-            //alert(appID);
+            alert(appID);
             $.ajax({
                 url: "/AppsManagement/ApprovalAppsApply",
                 type: "POST",
@@ -58,75 +58,57 @@
     </div>
 </div>
 <div class="container">
-    <% WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)ViewData["appInfo"];
-       WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)ViewData["userInfo"];%>
+    <% WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)ViewData["appInfo"];%>
+    <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)ViewData["userInfo"];%>
     <div class="form-horizontal">
-        <div class="control-group">
-            <label class="control-label">系统名称：</label>
-            <div class="controls">
-                <input id="appID" type="hidden" value="<%=m_appsModel.id %>" />
-                <span class="input-xlarge uneditable-input"><%=m_appsModel.name %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">系统编码：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_appsModel.code %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">访问链接：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_appsModel.url %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">系统备注：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_appsModel.remark %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">系统管理员：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_userModel.login %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">管理员姓名：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_userModel.name %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">管理员工号：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_userModel.employee_no %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">手机号码：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_userModel.mobile_phone %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">邮件地址：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_userModel.mail %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">管理员备注：</label>
-            <div class="controls">
-                <span class="input-xlarge uneditable-input"><%=m_userModel.remark %></span>
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <div id="approvalApply"  class="btn btn-primary">批准申请</div>
-            </div>
-        </div>
+    <form id="approvalApply" method="post" action="" class="form-horizontal">
+       <table border="1" align="left" width="700">
+         <tr>
+         <td>系统名称：</td>
+         <td><%=m_appsModel.name %></td>
+         </tr>
+         <tr>
+         <td>系统编码：</td>
+         <td><%=m_appsModel.code %></td>
+         </tr>
+          <tr>
+         <td>访问链接：</td>
+         <td><%=m_appsModel.url %></td>
+         </tr>
+         <tr>
+         <td>系统备注：</td>
+         <td><%=m_appsModel.remark %></td>
+         </tr>
+         <tr>
+         <td>系统管理员：</td>
+         <td><%=m_userModel.login %></td>
+         </tr>
+         <tr>
+         <td>管理员姓名：</td>
+         <td><%=m_userModel.name %></td>
+         </tr>
+           <tr>
+         <td>管理员工号：</td>
+         <td><%=m_userModel.employee_no %></td>
+         </tr>
+         <tr>
+         <td>手机号码：</td>
+         <td><%=m_userModel.mobile_phone %></td>
+         </tr>
+         <tr>
+         <td>邮件地址：</td>
+         <td><%=m_userModel.mail %></td>
+         </tr>
+         <tr>
+         <td>管理员备注：</td>
+         <td><%=m_userModel.remark %></td>
+         </tr>
+         <tr>
+         <input id="appID" type="hidden" value="<%=m_appsModel.id %>"/>
+          <td colspan="2" align="center"><div id="Div1"  class="btn btn-primary">批准申请</div></td>
+         </tr>
+        </table>
+     </form>
     </div>
 </div>
 <div class="container">

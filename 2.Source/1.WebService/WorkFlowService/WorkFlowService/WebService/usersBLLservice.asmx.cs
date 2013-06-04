@@ -135,7 +135,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_usersdal.GetModel(id);
         }
-
+        ///<summary>
+        ///根据appid获得一个用户对象实体
+        /// </summary>
+       [WebMethod(Description = "根据应用系统appid、admin、invalid信息得到一个实体对象")]
+        public Saron.WorkFlowService.Model.usersModel GetModelByAppAdmin(int appid, int admin, int invalid)
+        {
+            return m_usersdal.GetModelByAppAdmin(appid,admin,invalid);
+        }
         /// <summary>
         /// 得到一个对象实体
         /// </summary>

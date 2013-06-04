@@ -56,6 +56,10 @@ namespace WorkFlow.AppsWebService {
         
         private System.Threading.SendOrPostCallback GetListByPageOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetValidAppCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetInValidAppCountOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -132,6 +136,12 @@ namespace WorkFlow.AppsWebService {
         
         /// <remarks/>
         public event GetListByPageCompletedEventHandler GetListByPageCompleted;
+        
+        /// <remarks/>
+        public event GetValidAppCountCompletedEventHandler GetValidAppCountCompleted;
+        
+        /// <remarks/>
+        public event GetInValidAppCountCompletedEventHandler GetInValidAppCountCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Exists", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -515,6 +525,60 @@ namespace WorkFlow.AppsWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetValidAppCount", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetValidAppCount() {
+            object[] results = this.Invoke("GetValidAppCount", new object[0]);
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetValidAppCountAsync() {
+            this.GetValidAppCountAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetValidAppCountAsync(object userState) {
+            if ((this.GetValidAppCountOperationCompleted == null)) {
+                this.GetValidAppCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetValidAppCountOperationCompleted);
+            }
+            this.InvokeAsync("GetValidAppCount", new object[0], this.GetValidAppCountOperationCompleted, userState);
+        }
+        
+        private void OnGetValidAppCountOperationCompleted(object arg) {
+            if ((this.GetValidAppCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetValidAppCountCompleted(this, new GetValidAppCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetInValidAppCount", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetInValidAppCount() {
+            object[] results = this.Invoke("GetInValidAppCount", new object[0]);
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetInValidAppCountAsync() {
+            this.GetInValidAppCountAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetInValidAppCountAsync(object userState) {
+            if ((this.GetInValidAppCountOperationCompleted == null)) {
+                this.GetInValidAppCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetInValidAppCountOperationCompleted);
+            }
+            this.InvokeAsync("GetInValidAppCount", new object[0], this.GetInValidAppCountOperationCompleted, userState);
+        }
+        
+        private void OnGetInValidAppCountOperationCompleted(object arg) {
+            if ((this.GetInValidAppCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetInValidAppCountCompleted(this, new GetInValidAppCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -534,7 +598,7 @@ namespace WorkFlow.AppsWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1036,6 +1100,58 @@ namespace WorkFlow.AppsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetValidAppCountCompletedEventHandler(object sender, GetValidAppCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetValidAppCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetValidAppCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetInValidAppCountCompletedEventHandler(object sender, GetInValidAppCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetInValidAppCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetInValidAppCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }

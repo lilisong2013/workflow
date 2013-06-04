@@ -28,11 +28,17 @@ AppUsers
                 },
                 { display: '', width: 200,
                     render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/UsersManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a><i class="icon-edit"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色</a>';
+                        var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/UsersManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a>';
                         return html;
                     }
+                },
+               { display: '', width: 200,
+                     render: function (row) {
+                         var html = '<i class="icon-edit"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色设置</a>';
+                         return html;
+                     }
                 }
-                ],
+               ],
                     dataAction: 'server',
                     width: '90%',
                     pageSizeOptions: [5, 10, 15, 20, 25, 50],

@@ -4,18 +4,12 @@ UseRolesInfo
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
-        type="text/css" />
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
-    <script src="../../bootstrap/js/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
+
     <script type="text/javascript">
         var usersID;
         $(document).ready(function () {
-            usersID =$("#usersID").val(); //用户ID
+            usersID = $("#usersID").val(); //用户ID
         });
         var epTotal = 0;//角色数量
     </script>
@@ -55,17 +49,27 @@ UseRolesInfo
              if (false) {
                  return false;
              } else {
+                 user_rolesStr = "{"; //JSON数据字符串
+                 var urTotal = 0; //用户角色的数量
+                 //alert(urTotal);
+
+                 //用户角色被选中的项
                  for (var i = 0; i < epTotal; i++) {
-                     if ($("#rolesprivilege" + i.toString()).attr("checked") == "true") {
-                        // alert($("#rolesprivilege" + i.toString()).val());
+                     var checkBoxID = $("#rolesprivilege" + i.toString()); //复选框ID
+                     alert(checkBoxID);
+                     if (checkBoxID.is(":checked")) {
+                         alert(checkBoxID.val() + "选中");
+                         user_rolesStr += "rprivilegeID" + urTotal.toString() + ":'" + checkBoxID.val() + "',";
+                         urTotal++;
                      } else {
-                         alert($("#rolesprivilege" + i.toString()).val());
+                         alert(checkBoxID.val() + "未选中");
                      }
                  }
-                 user_rolesStr += "ur_total:'3'}";
+                 user_rolesStr += "ur_total:'" + urTotal + "',u_ID:'" + $("#usersID").val() + "'}";
+                 alert(user_rolesStr);
                  user_rolesData = eval("(" + user_rolesStr + ")");
                  $("#user_roles").ajaxForm({
-                     success: ue_showResponse, //form提交响应成功后执行的回调函数                  
+                     success:ue_showResponse,//form提交响应成功后执行的回调函数                  
                      url: "/UsersManagement/AddUserRoles",
                      type: "POST",
                      dataType: "json",
@@ -75,12 +79,24 @@ UseRolesInfo
          });
          //提交user_roles表单后执行的函数
          function ue_showResponse(responseText, statusText) {
+             alert("ok?");
              $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
              $("#promptDIV").addClass(responseText.css);
              $("#promptDIV").html(responseText.message);
+             if (result.success) {
+                 location.href = result.toUrl;
+             }
          }
      });
  </script>
+   <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
+        });
+    </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户角色管理</h2></div>
@@ -95,7 +111,7 @@ UseRolesInfo
        <div class="controls">
        <%WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"]; %>
        <span class="input-xlarge uneditable-input"><%=m_userModel.login%></span>
-       <input id="usersID" name="usersID" type="hidden" value="<%=m_userModel.id%>" />
+       <input id="usersID" name="usersID" type="hidden" value="<%=ViewData["u_ID"]%>" />
        </div>
       </div>
       <div class="control-group">

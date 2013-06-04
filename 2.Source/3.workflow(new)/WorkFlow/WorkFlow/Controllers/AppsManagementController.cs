@@ -15,15 +15,8 @@ namespace WorkFlow.Controllers
         // GET: /AppsManagement/
 
         public ActionResult BaseUserApps()
-        {
-            if (Session["baseuser"] == null)
-            {
-                return RedirectToAction("Login","Home");
-            }
-            else
-            {
-                return View();
-            }
+        {                    
+                return View();          
         }
 
         public ActionResult ReturnBaseUserApps()
@@ -37,7 +30,24 @@ namespace WorkFlow.Controllers
                 return RedirectToAction("BaseUserApps");
             }
         }
-
+        //删除ID为id的应用系统管理员
+        public ActionResult ChangePage(int id)
+        {
+             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+             WorkFlow.AppsWebService.appsModel m_appsModel =m_appsBllService.GetModel(id);
+             int appid = m_appsModel.id;
+             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+              //获得ID为id的用户模型;
+              WorkFlow.UsersWebService.usersModel m_userModel = m_usersBllService.GetModelByID(id);
+              
+              
+             
+              if (m_usersBllService.Delete(id) && m_appsBllService.Delete(appid))
+              {
+                  return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功!", toUrl = "/AppsManagement/BaseUserApps" });
+              }
+            return RedirectToAction("BaseUserApps");
+        }
         //退出超级管理员界面
         public ActionResult QuitSys()
         {
@@ -51,7 +61,11 @@ namespace WorkFlow.Controllers
             Session["baseuser"] = null;
             return RedirectToAction("AdminLogin", "Home");
         }
-
+        //超级管理员密码修改
+        public ActionResult BU_AppsPassModify()
+        {
+            return View();
+        }
         //系统审批页面
         public ActionResult BU_ApprovalApps(int id)
         {
@@ -115,10 +129,21 @@ namespace WorkFlow.Controllers
 
             WorkFlow.Base_UserWebService.base_userBLLservice m_baseuserBllService = new Base_UserWebService.base_userBLLservice();
             WorkFlow.Base_UserWebService.base_userModel m_baseuserModel=(Base_UserWebService.base_userModel)Session["baseuser"];
-
+            if (m_newpassword.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="用户的新密码不能为空!"});
+            }
+            if (m_oldpassword.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="用户的原密码不能为空!"});
+            }
+            if (m_newpassword2.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="用户的确认密码不能为空!"});
+            }
             if (m_newpassword != m_newpassword2)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "两次密码不一致！" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false,css ="p-errorDIV", message = "两次密码不一致！" });
             }
 
             try
@@ -132,7 +157,7 @@ namespace WorkFlow.Controllers
                 {
                     m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_baseuserModel.login);
                     Session["baseuser"] = m_baseuserModel;
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-successDIV", message = "密码修改成功！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功！", toUrl = "/AppsManagement/BaseUserApps" });
                 }
                 else
                 {
@@ -172,7 +197,7 @@ namespace WorkFlow.Controllers
 
             if (m_appsBllService.Update(m_appsModel))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "系统：" + m_appsModel.name + "，已经可以使用！" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "系统：" + m_appsModel.name + "，已经可以使用！", toUrl = "/AppsManagement/BaseUserApps" });
             }
             else
             {
@@ -340,6 +365,28 @@ namespace WorkFlow.Controllers
             };
             return Json(gridData);
         }
-
+        ///<summary>
+        ///统计已审批的系统数量
+        ///</summary>
+        ///<returns></returns>
+        public int InvalidAppsCount()
+        {
+            int invalidCount;
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+            invalidCount=m_appsBllService.GetInValidAppCount();
+            return invalidCount;
+        }
+        ///<summary>
+        ///统计待审批的系统数量
+        ///</summary>
+        public int ValidAppsCount()
+        {
+            int validCount;
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+            validCount = m_appsBllService.GetValidAppCount();
+            return validCount;
+        }
     }
 }

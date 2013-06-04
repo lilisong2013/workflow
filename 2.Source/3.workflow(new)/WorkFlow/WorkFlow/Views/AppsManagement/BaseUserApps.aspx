@@ -57,7 +57,7 @@
             toUrl = "BU_AppsInfo";
             BindGrid();
 
-            //切换“有效系统”标签
+            //切换“已审批系统”标签
             $("#validTab").click(function () {
                 $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                 $("#promptDIV").html("");
@@ -67,7 +67,7 @@
                 BindGrid();
             });
 
-            //切换“系统申请”标签
+            //切换“待审批系统”标签
             $("#invalidTab").click(function () {
                 $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                 $("#promptDIV").html("");
@@ -84,19 +84,10 @@
                 { display: '系统编码', name: 'code', width: 80 },
                 { display: '访问连接', name: 'url', width: 120 },
                 { display: '备注', name: 'remark', width: 200 },
-                { display: '是否有效', name: 'invalid', width: 80,
-                    render: function (record, rowindex, value, column) {
-                        if (!value) {
-                            return "<img src='../../images/grid-checkbox-checked.gif' />";
-                        }
-                        else {
-                            return "<img src='../../images/grid-checkbox.gif' />";
-                        }
-                    }
-                },
+              
                 { display: '', width: 100,
                     render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/AppsManagement/' + toUrl + '?id=' + row.id + '">详情</a>';
+                        var html = '<i class="icon-lock"></i><a href="/AppsManagement/' + toUrl + '?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/AppsManagement/ChangePage?id=' + row.id + '">删除</a>';
                         return html;
                     }
                 }
@@ -129,6 +120,7 @@
             <ul class="dropdown-menu">
                 <li><a href="/AppsManagement/QuitSys">退出</a></li>
                 <li><a href="/AppsManagement/LoginAgain">重新登录</a></li>
+                <li><a href="/AppsManagement/BU_AppsPassModify">修改密码</a></li>
             </ul>
         </div>
     </div>
@@ -139,9 +131,9 @@
 </div>
 <div class="container">
     <ul class="nav nav-tabs">
-            <li class="active"><a id="validTab" href="#Apps_valid" data-toggle="tab">有效系统</a></li>
-            <li><a id="invalidTab" href="#Apps_Invalid" data-toggle="tab">系统申请</a></li>
-            <li><a href="#Apps_Password" data-toggle="tab">修改密码</a></li>
+    <%WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new WorkFlow.AppsWebService.appsBLLservice(); %>
+            <li class="active"><a id="validTab" href="#Apps_valid" data-toggle="tab">已审批系统(<%=m_appsBllService.GetValidAppCount() %>)</a></li>
+            <li><a id="invalidTab" href="#Apps_Invalid" data-toggle="tab">待审批系统(<%=m_appsBllService.GetInValidAppCount()%>)</a></li>             
      </ul>
         <div class="tab-content">
             <%--系统中运行中的系统--%>
@@ -152,38 +144,7 @@
             <%--审批中的系统申请--%>
             <div class="tab-pane" id="Apps_Invalid">
                 <div id="invalidGrid"></div>
-            </div>
-
-            <%--修改超级管理员密码--%>
-            <div class="tab-pane" id="Apps_Password">
-                <div class="container">
-                    <form id="modifypassword" method="post" action="" class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="oldpassword">原密码：</label>
-                            <div class="controls">
-                                <input name="oldpassword" id="oldpassword" type="password" class="span3" />
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="newpassword">新密码：</label>
-                            <div class="controls">
-                                <input name="newpassword" id="newpassword" type="password" class="span3" />
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="newpassword2">确认密码：</label>
-                            <div class="controls">
-                                <input name="newpassword2" id="newpassword2" type="password" class="span3" />
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <input id="submit" type="submit" class="btn btn-primary span3" value="修改" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            </div>         
         </div>
 </div>
 

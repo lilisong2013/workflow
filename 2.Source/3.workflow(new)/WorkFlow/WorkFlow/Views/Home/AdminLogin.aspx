@@ -21,9 +21,8 @@
             $("#submit").click(function () {
                 if ($.trim($("#loginName").val()).length == 0 || $.trim($("#loginPassword").val()).length == 0) {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").addClass("p-errorDIV");
                     $("#promptDIV").html("用户名或密码不能为空！");
-
                     return false;
                 } else {
                     $("#adminLogin").ajaxForm(options);
@@ -81,7 +80,7 @@
                     </form>
                 </div>
                 <div class="loginright">
-                    <h2>超级管理员？</h2>
+                    <h2>超级管理员</h2>
                     <p>审批系统管理员的使用申请！</p>
                 </div>
             </div>

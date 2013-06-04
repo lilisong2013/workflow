@@ -374,7 +374,24 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult UserRoles()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+                WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+                int usersID = Convert.ToInt32(Request.Params[0].ToString());
+                try
+                {
+                    m_usersModel = m_usersBllService.GetModelByID(usersID);
+                }
+                catch (Exception ex) { }
+                ViewData["u_ID"] = m_usersModel.id;
+                ViewData["u_login"] = m_usersModel.login;
+                return View();
+            }           
         }
         ///<summary>
         ///获取角色类型的权限列表
@@ -403,7 +420,16 @@ namespace WorkFlow.Controllers
             {
                 int m_rolesID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
                 string m_rolesName = ds.Tables[0].Rows[i][1].ToString();
-
+                string m_selected = string.Empty;
+                //判断用户中是否存在此角色
+                if (m_user_roleBllService.Exists(m_usersID, m_rolesID))
+                {
+                    m_selected = "true";
+                }
+                else
+                {
+                    m_selected = "false";
+                }
                 if (i < total - 1)
                 {
                     strJson += "{id:'" + m_rolesID + "',";
@@ -424,14 +450,36 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult AddUserRoles()
         {
-          
-            string ur_total = Request.Params["ur_total"];
-            string strjson = "";
+            int m_usersID = Convert.ToInt32(Request.Params["u_ID"]);//用户ID
+            int m_ur_total = Convert.ToInt32(Request.Params["ur_total"]);//用户角色数量
             WorkFlow.User_RoleBLLservice.user_roleBLLservice m_user_roleBllService = new User_RoleBLLservice.user_roleBLLservice();
             WorkFlow.User_RoleBLLservice.user_roleModel m_user_roleModel = new User_RoleBLLservice.user_roleModel();
-            WorkFlow.UsersWebService.usersModel m_usersModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
-
-            return Json(strjson);
+            
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService=new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.usersModel m_usersModel=new UsersWebService.usersModel();
+            WorkFlow.UsersWebService.usersModel m_userModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+            try
+            {
+                if (m_user_roleBllService.DeleteByRoleID(m_usersID))
+                //删除用户下的角色
+                {
+                    for (int i = 0;i < m_ur_total;i++)
+                    {
+                        int m_rolesID = Convert.ToInt32(Request.Params[("rprivilegeID" + i)]);
+                        m_user_roleModel.user_id = m_usersID;
+                        m_user_roleModel.role_id = m_rolesID;
+                        if ((m_user_roleBllService.Add(m_user_roleModel)==0))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="修改失败!"});
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+            }
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/UsersManagement/UserRoles" });
         }
     }
 }

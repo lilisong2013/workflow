@@ -512,6 +512,7 @@
     <Content Include="Views\AppsManagement\BaseUserApps.aspx" />
     <Content Include="Views\AppsManagement\BU_ApprovalApps.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsInfo.aspx" />
+    <Content Include="Views\AppsManagement\BU_AppsPassModify.aspx" />
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
@@ -529,6 +530,7 @@
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
+    <Content Include="Views\Shared\superadmin.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
     <None Include="Web References\AppsWebService\appsModel1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -624,11 +626,11 @@
     <None Include="Web References\OperationsWebService\operationsBLLservice.disco" />
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
     <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <Content Include="Views\Shared\Infomation.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
@@ -636,7 +638,6 @@
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <None Include="Web References\User_RoleBLLservice\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -718,10 +719,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_Privileges_TypeWebService_privileges_typeBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\Privileges_RoleWebService\</RelPath>
-      <UpdateFromURL>http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
