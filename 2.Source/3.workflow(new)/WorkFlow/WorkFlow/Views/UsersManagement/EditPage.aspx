@@ -13,7 +13,6 @@ EditPage
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script src="../../bootstrap/js/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
-
      <script type="text/javascript">
          $(document).ready(function () {
              var form = $("#Edit_Users");

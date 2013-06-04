@@ -368,5 +368,13 @@ namespace WorkFlow.Controllers
                 return RedirectToAction("AppUsers");
             }
         }
+        ///<summary>
+        ///给用户赋角色
+        ///</summary>
+        ///<returns></returns>
+        public ActionResult UserRoles()
+        {
+            return View();
+        }
     }
 }
