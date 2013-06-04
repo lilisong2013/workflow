@@ -482,12 +482,37 @@ namespace WorkFlow.Controllers
             return Json(strJson);
         }
 
-
+        //修改角色权限
         public ActionResult AddRolePrivileges()
         {
-            string rp_total = Request.Params["rp_total"];
-            string strjson = "";
-            return Json(strjson);
+            int m_rp_total = Convert.ToInt32(Request.Params["rp_total"]);//角色权限数量
+            int m_roleID = Convert.ToInt32(Request.Params["r_ID"]);//角色ID
+            WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
+            WorkFlow.Privileges_RoleWebService.privilege_roleModel m_privilege_roleModel = new Privileges_RoleWebService.privilege_roleModel();
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            try
+            {
+                if (m_privilege_roleBllService.DeleteByRoleID(m_roleID))//删除角色下的权限
+                {
+                    for (int i = 0; i < m_rp_total; i++)
+                    {
+                        int m_privilegeID = Convert.ToInt32(Request.Params[("rprivilegeID" + i)]);
+                        m_privilege_roleModel.role_id = m_roleID;
+                        m_privilege_roleModel.privilege_id = m_privilegeID;
+                        if (!m_privilege_roleBllService.Add(m_privilege_roleModel))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+            }
+
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/RolesManagement/Role_Privileges" });
         }
     }
 }

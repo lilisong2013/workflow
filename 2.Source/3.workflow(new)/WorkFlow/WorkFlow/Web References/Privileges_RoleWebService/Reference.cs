@@ -31,9 +31,13 @@ namespace WorkFlow.Privileges_RoleWebService {
         
         private System.Threading.SendOrPostCallback ExistsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback Privilege_RoleCountByRoleIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteByRoleIDOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -77,10 +81,16 @@ namespace WorkFlow.Privileges_RoleWebService {
         public event ExistsCompletedEventHandler ExistsCompleted;
         
         /// <remarks/>
+        public event Privilege_RoleCountByRoleIDCompletedEventHandler Privilege_RoleCountByRoleIDCompleted;
+        
+        /// <remarks/>
         public event AddCompletedEventHandler AddCompleted;
         
         /// <remarks/>
         public event DeleteCompletedEventHandler DeleteCompleted;
+        
+        /// <remarks/>
+        public event DeleteByRoleIDCompletedEventHandler DeleteByRoleIDCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Exists", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -110,6 +120,35 @@ namespace WorkFlow.Privileges_RoleWebService {
             if ((this.ExistsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ExistsCompleted(this, new ExistsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Privilege_RoleCountByRoleID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int Privilege_RoleCountByRoleID(int role_id) {
+            object[] results = this.Invoke("Privilege_RoleCountByRoleID", new object[] {
+                        role_id});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void Privilege_RoleCountByRoleIDAsync(int role_id) {
+            this.Privilege_RoleCountByRoleIDAsync(role_id, null);
+        }
+        
+        /// <remarks/>
+        public void Privilege_RoleCountByRoleIDAsync(int role_id, object userState) {
+            if ((this.Privilege_RoleCountByRoleIDOperationCompleted == null)) {
+                this.Privilege_RoleCountByRoleIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnPrivilege_RoleCountByRoleIDOperationCompleted);
+            }
+            this.InvokeAsync("Privilege_RoleCountByRoleID", new object[] {
+                        role_id}, this.Privilege_RoleCountByRoleIDOperationCompleted, userState);
+        }
+        
+        private void OnPrivilege_RoleCountByRoleIDOperationCompleted(object arg) {
+            if ((this.Privilege_RoleCountByRoleIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.Privilege_RoleCountByRoleIDCompleted(this, new Privilege_RoleCountByRoleIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -170,6 +209,35 @@ namespace WorkFlow.Privileges_RoleWebService {
             if ((this.DeleteCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteCompleted(this, new DeleteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/DeleteByRoleID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool DeleteByRoleID(int role_id) {
+            object[] results = this.Invoke("DeleteByRoleID", new object[] {
+                        role_id});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void DeleteByRoleIDAsync(int role_id) {
+            this.DeleteByRoleIDAsync(role_id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteByRoleIDAsync(int role_id, object userState) {
+            if ((this.DeleteByRoleIDOperationCompleted == null)) {
+                this.DeleteByRoleIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteByRoleIDOperationCompleted);
+            }
+            this.InvokeAsync("DeleteByRoleID", new object[] {
+                        role_id}, this.DeleteByRoleIDOperationCompleted, userState);
+        }
+        
+        private void OnDeleteByRoleIDOperationCompleted(object arg) {
+            if ((this.DeleteByRoleIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteByRoleIDCompleted(this, new DeleteByRoleIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -253,6 +321,32 @@ namespace WorkFlow.Privileges_RoleWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void Privilege_RoleCountByRoleIDCompletedEventHandler(object sender, Privilege_RoleCountByRoleIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Privilege_RoleCountByRoleIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal Privilege_RoleCountByRoleIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     public delegate void AddCompletedEventHandler(object sender, AddCompletedEventArgs e);
     
     /// <remarks/>
@@ -290,6 +384,32 @@ namespace WorkFlow.Privileges_RoleWebService {
         private object[] results;
         
         internal DeleteCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void DeleteByRoleIDCompletedEventHandler(object sender, DeleteByRoleIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class DeleteByRoleIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal DeleteByRoleIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

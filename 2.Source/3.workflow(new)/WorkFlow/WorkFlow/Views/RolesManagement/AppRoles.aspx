@@ -93,7 +93,7 @@
                 },
                 { display: '', width: 200,
                     render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置'+row.id+'</a>';
+                        var html = '<i class="icon-lock"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
                         return html;
                     }
                 }
