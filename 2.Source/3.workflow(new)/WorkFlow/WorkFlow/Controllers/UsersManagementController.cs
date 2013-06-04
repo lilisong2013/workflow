@@ -376,5 +376,16 @@ namespace WorkFlow.Controllers
         {
             return View();
         }
+        ///<summary>
+        ///获取角色类型的权限列表
+        /// </summary>
+        ///<returns></returns>
+        public ActionResult GetRolesList()
+        {
+            int m_usersID = Convert.ToInt32(Request.Params["usersID"]);//用户ID
+            string strJson="{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
+            
+            return View();
+        }
     }
 }
