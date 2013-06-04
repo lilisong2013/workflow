@@ -330,7 +330,10 @@ namespace WorkFlow.Controllers
         //获取操作类型的权限列表
         public ActionResult GetOperationsPrivilegeList()
         {
+            int m_roleID = Convert.ToInt32(Request.Params["roleID"]);//角色ID
+
             string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
+            WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             DataSet ds = new DataSet();
@@ -344,15 +347,31 @@ namespace WorkFlow.Controllers
             int total = ds.Tables[0].Rows.Count;
             for (int i = 0; i < total; i++)
             {
-                if (i < total - 1)
+                int m_privilegeID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
+                string m_privilegeName = ds.Tables[0].Rows[i][1].ToString();
+                string m_selected = string.Empty;
+
+                //判断角色中是否已经存在该权限
+                if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID))
                 {
-                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
-                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'},";
+                    m_selected = "true";
                 }
                 else
                 {
-                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
-                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'}";
+                    m_selected = "false";
+                }
+
+                if (i < total - 1)
+                {
+                    strJson += "{id:'" + m_privilegeID + "',";
+                    strJson += "name:'" + m_privilegeName + "',";
+                    strJson += "selected:'" + m_selected + "'},";
+                }
+                else
+                {
+                    strJson += "{id:'" + m_privilegeID + "',";
+                    strJson += "name:'" + m_privilegeName + "',";
+                    strJson += "selected:'" + m_selected + "'}";
                 }
             }
             strJson += "],total:'"+total+"'}";
@@ -362,7 +381,10 @@ namespace WorkFlow.Controllers
         //获取菜单类型的权限列表
         public ActionResult GetMunusPrivilegeList()
         {
+            int m_roleID = Convert.ToInt32(Request.Params["roleID"]);//角色ID
+            
             string strJson = "{List:[";
+            WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             DataSet ds = new DataSet();
@@ -373,18 +395,36 @@ namespace WorkFlow.Controllers
             catch (Exception ex)
             {
             }
-            int total = ds.Tables[0].Rows.Count;
+
+            int total = ds.Tables[0].Rows.Count;//菜单类型的权限数量
+            
             for (int i = 0; i < total; i++)
             {
-                if (i < total - 1)
+                int m_privilegeID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
+                string m_privilegeName = ds.Tables[0].Rows[i][1].ToString();
+                string m_selected = string.Empty;
+                
+                //判断角色中是否已经存在该权限
+                if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID))
                 {
-                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
-                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'},";
+                    m_selected = "true";
                 }
                 else
                 {
-                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
-                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'}";
+                    m_selected = "false";
+                }
+                
+                if (i < total - 1)
+                {
+                    strJson += "{id:'" + m_privilegeID + "',";
+                    strJson += "name:'" + m_privilegeName + "',";
+                    strJson += "selected:'" + m_selected + "'},";
+                }
+                else
+                {
+                    strJson += "{id:'" + m_privilegeID + "',";
+                    strJson += "name:'" + m_privilegeName + "',";
+                    strJson += "selected:'" + m_selected + "'}";
                 }
             }
             strJson += "],total:'" + total + "'}";
@@ -394,7 +434,10 @@ namespace WorkFlow.Controllers
         //获取页面元素类型的权限列表
         public ActionResult GetElementsPrivilegeList()
         {
+            int m_roleID = Convert.ToInt32(Request.Params["roleID"]);//角色ID
+
             string strJson = "{List:[";
+            WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             DataSet ds = new DataSet();
@@ -408,19 +451,43 @@ namespace WorkFlow.Controllers
             int total = ds.Tables[0].Rows.Count;
             for (int i = 0; i < total; i++)
             {
-                if (i < total - 1)
+                int m_privilegeID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
+                string m_privilegeName = ds.Tables[0].Rows[i][1].ToString();
+                string m_selected = string.Empty;
+
+                //判断角色中是否已经存在该权限
+                if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID))
                 {
-                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
-                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'},";
+                    m_selected = "true";
                 }
                 else
                 {
-                    strJson += "{id:'" + ds.Tables[0].Rows[i][0] + "',";
-                    strJson += "name:'" + ds.Tables[0].Rows[i][1] + "'}";
+                    m_selected = "false";
+                }
+
+                if (i < total - 1)
+                {
+                    strJson += "{id:'" + m_privilegeID + "',";
+                    strJson += "name:'" + m_privilegeName + "',";
+                    strJson += "selected:'" + m_selected + "'},";
+                }
+                else
+                {
+                    strJson += "{id:'" + m_privilegeID + "',";
+                    strJson += "name:'" + m_privilegeName + "',";
+                    strJson += "selected:'" + m_selected + "'}";
                 }
             }
             strJson += "],total:'" + total + "'}";
             return Json(strJson);
+        }
+
+
+        public ActionResult AddRolePrivileges()
+        {
+            string rp_total = Request.Params["rp_total"];
+            string strjson = "";
+            return Json(strjson);
         }
     }
 }
