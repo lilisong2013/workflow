@@ -618,15 +618,10 @@
     <None Include="Web References\RolesWebService\rolesBLLservice.disco" />
     <None Include="Web References\OperationsWebService\operationsBLLservice.disco" />
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
-    <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
-<<<<<<< HEAD
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-=======
-    <Content Include="Views\UsersManagement\UserRoles.aspx" />
->>>>>>> b186670304f64e573d4aa7a132a6c0d8626900b6
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -707,7 +702,7 @@
       <CachedDynamicPropName>
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>WorkFlow_Privileges_RoleWebService_privilege_roleBLLservice</CachedSettingsPropName>
+      <CachedSettingsPropName>WorkFlow_Privileges_RoleWebService1_privilege_roleBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -764,10 +759,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_MenusWebService_menusBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/usersBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/usersBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\UsersWebService\</RelPath>
-      <UpdateFromURL>http://192.168.12.12:8081/WebService/usersBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/usersBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
