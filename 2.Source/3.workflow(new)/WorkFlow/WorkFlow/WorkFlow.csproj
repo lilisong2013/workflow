@@ -622,7 +622,11 @@
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
+<<<<<<< HEAD
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+=======
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
+>>>>>>> b186670304f64e573d4aa7a132a6c0d8626900b6
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
