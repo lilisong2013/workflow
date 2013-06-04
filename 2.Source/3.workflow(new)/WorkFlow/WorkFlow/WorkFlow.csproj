@@ -623,14 +623,11 @@
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
+    <Content Include="Views\UsersManagement\EditPage.aspx" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <Content Include="Web.config">
@@ -704,10 +701,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_Privileges_TypeWebService_privileges_typeBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\Privileges_RoleWebService\</RelPath>
-      <UpdateFromURL>http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
