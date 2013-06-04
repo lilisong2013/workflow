@@ -424,8 +424,13 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult AddUserRoles()
         {
+          
             string ur_total = Request.Params["ur_total"];
             string strjson = "";
+            WorkFlow.User_RoleBLLservice.user_roleBLLservice m_user_roleBllService = new User_RoleBLLservice.user_roleBLLservice();
+            WorkFlow.User_RoleBLLservice.user_roleModel m_user_roleModel = new User_RoleBLLservice.user_roleModel();
+            WorkFlow.UsersWebService.usersModel m_usersModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+
             return Json(strjson);
         }
     }

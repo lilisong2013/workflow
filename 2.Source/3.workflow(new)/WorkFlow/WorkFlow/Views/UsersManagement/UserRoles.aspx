@@ -57,7 +57,7 @@ UseRolesInfo
              } else {
                  for (var i = 0; i < epTotal; i++) {
                      if ($("#rolesprivilege" + i.toString()).attr("checked") == "true") {
-                         alert($("#rolesprivilege" + i.toString()).val());
+                        // alert($("#rolesprivilege" + i.toString()).val());
                      } else {
                          alert($("#rolesprivilege" + i.toString()).val());
                      }
@@ -65,7 +65,7 @@ UseRolesInfo
                  user_rolesStr += "ur_total:'3'}";
                  user_rolesData = eval("(" + user_rolesStr + ")");
                  $("#user_roles").ajaxForm({
-                     success: ue_showResponse, //form提交响应成功后执行的回调函数
+                     success: ue_showResponse, //form提交响应成功后执行的回调函数                  
                      url: "/UsersManagement/AddUserRoles",
                      type: "POST",
                      dataType: "json",
@@ -84,6 +84,10 @@ UseRolesInfo
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户角色管理</h2></div>
+  <div class="container">
+  <%--操作提示DIV--%>
+  <div id="promptDIV" class="row"></div>
+  </div>
   <div class="tab-pane">
    <form  id="user_roles" method="post" action="" class="form-horizontal">   
       <div class="control-group page-header">

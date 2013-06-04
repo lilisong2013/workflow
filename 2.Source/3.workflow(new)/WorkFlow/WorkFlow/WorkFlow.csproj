@@ -642,6 +642,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
