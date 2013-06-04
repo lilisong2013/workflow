@@ -621,10 +621,19 @@
     <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\Shared\Infomation.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
+<<<<<<< HEAD
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
+=======
+    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
+<<<<<<< HEAD
+    <Content Include="Views\UsersManagement\EditPage.aspx" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
+=======
+>>>>>>> 2cb20de6fa3aa47dde44102ff30e61c52980059e
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
@@ -633,6 +642,10 @@
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
+<<<<<<< HEAD
+=======
+>>>>>>> 36bc790d521f5c9df1050930b583a87595793e5d
+>>>>>>> 2cb20de6fa3aa47dde44102ff30e61c52980059e
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
