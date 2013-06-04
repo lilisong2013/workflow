@@ -140,6 +140,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\User_RoleBLLservice\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="bootstrap\css\bootstrap-responsive.css" />
@@ -632,6 +637,11 @@
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
+    <None Include="Web References\User_RoleBLLservice\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -654,6 +664,10 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.aspx" />
     <None Include="Web References\UsersWebService\usersModel1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.wsdl" />
+    <None Include="Web References\User_RoleBLLservice\user_roleModel.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
   </ItemGroup>
@@ -790,6 +804,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_OperationsWebService_operationsBLLservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/user_roleBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\User_RoleBLLservice\</RelPath>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/user_roleBLLservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WorkFlow_User_RoleBLLservice_user_roleBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
