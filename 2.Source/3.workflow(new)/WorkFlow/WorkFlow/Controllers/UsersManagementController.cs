@@ -384,8 +384,54 @@ namespace WorkFlow.Controllers
         {
             int m_usersID = Convert.ToInt32(Request.Params["usersID"]);//用户ID
             string strJson="{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
-            
-            return View();
+            WorkFlow.User_RoleBLLservice.user_roleBLLservice m_user_roleBllService = new User_RoleBLLservice.user_roleBLLservice();
+            WorkFlow.User_RoleBLLservice.user_roleModel m_user_roleModel = new User_RoleBLLservice.user_roleModel();
+          
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+           
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id);
+            }
+            catch (Exception ex)
+            { }
+            int total = ds.Tables[0].Rows.Count;//某系统角色类型的数量
+            for (int i = 0; i < total; i++)
+            {
+                int m_rolesID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
+                string m_rolesName = ds.Tables[0].Rows[i][1].ToString();
+
+                if (i < total - 1)
+                {
+                    strJson += "{id:'" + m_rolesID + "',";
+                    strJson += "name:'" + m_rolesName + "'},";
+                }
+                else 
+                {
+                    strJson += "{id:'"+m_rolesID+"',";
+                    strJson += "name:'" + m_rolesName + "'}";
+                }
+            }
+            strJson += "],total:'"+total+"'}";
+            return Json(strJson);
+        }
+        ///<summary>
+        ///添加用户角色
+        ///</summary>
+        ///<returns></returns>
+        public ActionResult AddUserRoles()
+        {
+          
+            string ur_total = Request.Params["ur_total"];
+            string strjson = "";
+            WorkFlow.User_RoleBLLservice.user_roleBLLservice m_user_roleBllService = new User_RoleBLLservice.user_roleBLLservice();
+            WorkFlow.User_RoleBLLservice.user_roleModel m_user_roleModel = new User_RoleBLLservice.user_roleModel();
+            WorkFlow.UsersWebService.usersModel m_usersModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            return Json(strjson);
         }
     }
 }
