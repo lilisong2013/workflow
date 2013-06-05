@@ -140,6 +140,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\User_RoleBLLservice\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="bootstrap\css\bootstrap-responsive.css" />
@@ -621,6 +626,7 @@
     <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\Shared\Infomation.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
+<<<<<<< HEAD
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
@@ -630,6 +636,39 @@
     <Content Include="Views\UsersManagement\EditPage.aspx" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
+=======
+<<<<<<< HEAD
+    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
+    <Content Include="Views\UsersManagement\EditPage.aspx" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
+=======
+    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
+<<<<<<< HEAD
+    <Content Include="Views\UsersManagement\EditPage.aspx" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
+=======
+>>>>>>> 2cb20de6fa3aa47dde44102ff30e61c52980059e
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\EditPage.aspx" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
+    <None Include="Web References\User_RoleBLLservice\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
+    <Content Include="Views\UsersManagement\UserRoles.aspx" />
+<<<<<<< HEAD
+=======
+>>>>>>> 36bc790d521f5c9df1050930b583a87595793e5d
+>>>>>>> 2cb20de6fa3aa47dde44102ff30e61c52980059e
+>>>>>>> 2dddec654c4d4342db40c6e781033f109c7a9017
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -652,6 +691,10 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.aspx" />
     <None Include="Web References\UsersWebService\usersModel1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.wsdl" />
+    <None Include="Web References\User_RoleBLLservice\user_roleModel.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
   </ItemGroup>
@@ -788,6 +831,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_OperationsWebService_operationsBLLservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/user_roleBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\User_RoleBLLservice\</RelPath>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/user_roleBLLservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WorkFlow_User_RoleBLLservice_user_roleBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
