@@ -20,7 +20,7 @@
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="#">Project name</a>
+          <a class="brand" href="#">权限管理系统</a>
           <div class="collapse nav-collapse">
             <ul class="nav">
               <li class="dropdown">
@@ -53,7 +53,7 @@
                 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="/Home/Login">退出</a></li>
-                  <li><a href="/Home/Login">重新登录</a></li>                  
+                  <li><a href="/Home/Login">重新登录</a></li>                                 
                 </ul>
               </li>
             </ul>

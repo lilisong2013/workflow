@@ -18,7 +18,10 @@ namespace WorkFlow.Controllers
         {                    
                 return View();          
         }
-
+        public ActionResult BU_AppsPassModifyCon()
+        {
+             return View();
+        }
         public ActionResult ReturnBaseUserApps()
         {
             if (Session["baseuser"] == null)
@@ -35,18 +38,28 @@ namespace WorkFlow.Controllers
         {
              WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
              WorkFlow.AppsWebService.appsModel m_appsModel =m_appsBllService.GetModel(id);
-             int appid = m_appsModel.id;
+             int userappid = m_appsModel.id;
              WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
               //获得ID为id的用户模型;
-              WorkFlow.UsersWebService.usersModel m_userModel = m_usersBllService.GetModelByID(id);
-              
-              
-             
-              if (m_usersBllService.Delete(id) && m_appsBllService.Delete(appid))
+              WorkFlow.UsersWebService.usersModel m_userModel = m_usersBllService.GetModelByAppAdmin(userappid);
+
+              int userid = m_userModel.id;
+
+              if (m_usersBllService.Delete(userid))
               {
-                  return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功!", toUrl = "/AppsManagement/BaseUserApps" });
+               // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "确定删除?", toUrl = "/AppsManagement/BaseUserApps" });
               }
-            return RedirectToAction("BaseUserApps");
+              if (m_appsBllService.Delete(id))
+              {
+                  //string datajson=Convert.ToString(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功!", toUrl = "/AppsManagement/BaseUserApps" });
+                  // return Json(datajson,JsonRequestBehavior.AllowGet);
+                  return RedirectToAction("BaseUserApps");
+              }
+              else
+              {
+                  return RedirectToAction("BaseUserApps");
+              }
+             
         }
         //退出超级管理员界面
         public ActionResult QuitSys()
@@ -157,7 +170,7 @@ namespace WorkFlow.Controllers
                 {
                     m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_baseuserModel.login);
                     Session["baseuser"] = m_baseuserModel;
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功！", toUrl = "/AppsManagement/BaseUserApps" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功！", toUrl = "/AppsManagement/BU_AppsPassModifyCon" });
                 }
                 else
                 {
@@ -197,12 +210,14 @@ namespace WorkFlow.Controllers
 
             if (m_appsBllService.Update(m_appsModel))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "系统：" + m_appsModel.name + "，已经可以使用！", toUrl = "/AppsManagement/BaseUserApps" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "系统：" + m_appsModel.name + "，已经可以使用！", toUrl = "/AppsManagement/BU_ApprovalAppsCon" });
+                
             }
             else
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统：" + m_appsModel.name + "，审批失败！" });
             }
+          
         }
 
 

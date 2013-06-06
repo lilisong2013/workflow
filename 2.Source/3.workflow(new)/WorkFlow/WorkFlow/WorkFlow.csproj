@@ -511,12 +511,16 @@
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\AppsManagement\BaseUserApps.aspx" />
     <Content Include="Views\AppsManagement\BU_ApprovalApps.aspx" />
+    <Content Include="Views\AppsManagement\BU_ApprovalAppsCon.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsInfo.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsPassModify.aspx" />
+    <Content Include="Views\AppsManagement\BU_AppsPassModifyCon.aspx" />
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
     <Content Include="Views\Home\AdminLogin.aspx" />
+    <Content Include="Views\Home\AdminPass.aspx" />
+    <Content Include="Views\Home\AdminPassCon.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Home\Login.aspx" />
     <None Include="LigerUI\lib\ligerUI\skins\icons\新建 Microsoft Office Excel 工作表.xlsx" />
@@ -524,13 +528,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Views\Home\RegistPageCon.aspx" />
     <Content Include="Views\OperationsManagement\AppOperations.aspx" />
     <Content Include="Views\OperationsManagement\DetailInfo.aspx" />
     <Content Include="Views\OperationsManagement\EditPage.aspx" />
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
-    <Content Include="Views\Shared\superadmin.Master" />
+    <Content Include="Views\Shared\appsadmin.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
     <None Include="Web References\AppsWebService\appsModel1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -627,31 +632,10 @@
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
     <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\Shared\Infomation.aspx" />
-<<<<<<< HEAD
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-=======
-    <Content Include="Views\UsersManagement\AppUsers.aspx" />
-    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
-    <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <Content Include="Views\UsersManagement\UserRoles.aspx" />
-    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
-    <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <Content Include="Views\UsersManagement\UserRoles.aspx" />
-    <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <Content Include="Views\UsersManagement\UserRoles.aspx" />
-    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
-    <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <Content Include="Views\UsersManagement\UserRoles.aspx" />
-    <Content Include="Views\UsersManagement\DetailInfo.aspx" />
-    <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <Content Include="Views\UsersManagement\UserRoles.aspx" />
->>>>>>> 737176210f6e7f407ccfeddba25347b77c9c2923
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
@@ -663,13 +647,8 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-<<<<<<< HEAD
     <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
-=======
-    <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
-    <Content Include="Views\UsersManagement\UserRoles.aspx" />
->>>>>>> 737176210f6e7f407ccfeddba25347b77c9c2923
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -745,10 +724,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_Privileges_TypeWebService_privileges_typeBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\Privileges_RoleWebService\</RelPath>
-      <UpdateFromURL>http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

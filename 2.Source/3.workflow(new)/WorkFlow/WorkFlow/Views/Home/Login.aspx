@@ -21,7 +21,7 @@
              $("#submit").click(function () {
                  if ($.trim($("#loginName").val()).length == 0 || $.trim($("#loginPassword").val()).length == 0) {
                      $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                     $("#promptDIV").addClass("p-warningDIV");
+                     $("#promptDIV").addClass("p-errorDIV");
                      $("#promptDIV").html("用户名或密码不能为空！");
 
                      return false;
@@ -81,7 +81,7 @@
                     </form>
                 </div>
                 <div class="loginright">
-                    <h2>没有帐号？</h2>
+                    <h2>注册帐号</h2>
                     <p>应用系统如果想要集成通用权限管理功能，请点击下面的注册按钮！<strong><a href="/Home/AdminLogin">超级管理员</a></strong>审批后方可登录！</p>
                     <p><a href="/Home/RegistPage" class="btn">注册</a></p>
                 </div>

@@ -5,34 +5,63 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
+     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
-
+    
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
+        type="text/css" />
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
 <script type="text/javascript">
-    $(document).ready(function (result) {
-        $("#approvalApply").click(function () {
+    $(document).ready(function () {
+        var form = $("#approvalApply1");
+        form.submit(function () {
             var appID = $("#appID").val();
             alert(appID);
-            $.ajax({
-                url: "/AppsManagement/ApprovalAppsApply",
-                type: "POST",
-                dataType: "json",
-                data:{id:appID},
-                success: showResponse
-            });
-        });
+            $.post(form.attr("action"),
+                    form.serialize(),
+                    function (result, status) {
+                        //debugger
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass(result.css);
+                        $("#promptDIV").html(result.message);
 
-        function showResponse(responseText, statusText) {
-            //成功后执行的方法
-            //alert(responseText.Id + responseText.Name);
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-            $("#promptDIV").addClass(responseText.css);
-            $("#promptDIV").html(responseText.message);
-
+                        if (result.success) {
+                            location.href = result.toUrl;
+                        }
+                    },
+                    "JSON");
             return false;
-        }
-    });
-</script>
 
+        });
+    });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function (result) {
+            $("#approvalApply").click(function () {
+                var appID = $("#appID").val();
+                //alert(appID);
+                $.ajax({
+                    url: "/AppsManagement/ApprovalAppsApply",
+                    type: "POST",
+                    dataType: "json",
+                    data: { id: appID },
+                    success: showResponse
+                });
+            });
+
+            function showResponse(responseText, statusText) {
+                //成功后执行的方法
+                //alert(responseText.Id + responseText.Name);
+                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                $("#promptDIV").addClass(responseText.css);
+                $("#promptDIV").html(responseText.message);
+
+                return false;
+            }
+        });
+</script>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -105,7 +134,7 @@
          </tr>
          <tr>
          <input id="appID" type="hidden" value="<%=m_appsModel.id %>"/>
-          <td colspan="2" align="center"><div id="Div1"  class="btn btn-primary">批准申请</div></td>
+          <td colspan="2" align="center"><input id="approvalApply" type="button" value="批准申请"/></td>
          </tr>
         </table>
      </form>
