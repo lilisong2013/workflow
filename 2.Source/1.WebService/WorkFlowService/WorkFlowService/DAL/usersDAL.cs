@@ -434,7 +434,7 @@ namespace Saron.WorkFlowService.DAL
         ///<param name="admin">admin</param>
         ///<param name="invalid">invalid</param>
         /// <returns>userModel</returns> 
-        public Saron.WorkFlowService.Model.usersModel GetModelByAppAdmin(int app_id, int admin, int invalid)
+        public Saron.WorkFlowService.Model.usersModel GetModelByAppAdmin(int app_id)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,login,password,name,employee_no,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id from users ");
