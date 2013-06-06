@@ -131,7 +131,7 @@
                             role_privilegesStr += "rprivilegeID" + rpTotal.toString() + ":'" + checkBoxID.val() + "',";
                             rpTotal++;
                         } else {
-                            //alert(checkBoxID.val() + "未选中");
+                            alert(checkBoxID.val() + "未选中");
                         }
                     }
                     //操作权限中被选中的项

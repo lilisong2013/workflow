@@ -151,5 +151,21 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_appsdal.GetListByPage(strWhere, orderby, startIndex, endIndex);
         }
+        ///<summary>
+        ///统计下已审批系统的数量
+        ///</summary>
+        [WebMethod(Description = "统计下已审批系统的数量")]
+        public int GetValidAppCount()
+        {
+            return m_appsdal.GetValidAppCount();
+        }
+        ///<summary>
+        ///统计下待审批系统的数量
+        ///</summary>
+        [WebMethod(Description = "统计下已审批系统的数量")]
+        public int GetInValidAppCount()
+        {
+            return m_appsdal.GetInValidAppCount();
+        }
     }
 }
