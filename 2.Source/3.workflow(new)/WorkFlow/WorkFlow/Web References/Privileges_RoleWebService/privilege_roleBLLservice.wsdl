@@ -237,10 +237,10 @@
   </wsdl:binding>
   <wsdl:service name="privilege_roleBLLservice">
     <wsdl:port name="privilege_roleBLLserviceSoap" binding="tns:privilege_roleBLLserviceSoap">
-      <soap:address location="http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx" />
+      <soap:address location="http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="privilege_roleBLLserviceSoap12" binding="tns:privilege_roleBLLserviceSoap12">
-      <soap12:address location="http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx" />
+      <soap12:address location="http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
