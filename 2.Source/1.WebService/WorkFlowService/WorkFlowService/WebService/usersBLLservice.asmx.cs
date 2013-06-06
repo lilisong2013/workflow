@@ -57,6 +57,8 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
         }
+
+        
       
         /// <summary>
         /// 是否存在该用户
@@ -208,5 +210,47 @@ namespace Saron.WorkFlowService.WebService
         }
 
         #endregion  Method
+
+        //外部系统使用接口
+        #region InterfaceMethod
+        /// <summary>
+        /// （普通用户登录）是否存在用户名或密码
+        /// </summary>
+        [WebMethod(Description = "是否存在用户名login且密码password的系统用户")]
+        public bool SysUserLoginValidator(string login, string password, int appID)
+        {
+            bool flag = m_usersdal.ExistsSysUser(login, password, appID);
+            if (flag)
+            {
+                Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();
+                Saron.WorkFlowService.Model.appsModel m_appModel = new appsModel();
+                Saron.WorkFlowService.DAL.appsDAL m_appDal = new DAL.appsDAL();
+                m_userModel = GetUserModelByLogin(login,appID);
+                m_appModel = m_appDal.GetModel((int)m_userModel.app_id);
+                if (m_appModel.invalid)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 得到一个对象实体(普通用户)
+        /// </summary>
+        [WebMethod(Description = "根据登录名login和系统ID得到一个实体对象（普通用户）")]
+        public Saron.WorkFlowService.Model.usersModel GetUserModelByLogin(string login,int appID)
+        {
+            return m_usersdal.GetModel(login,appID);
+        }
+        #endregion
     }
 }
