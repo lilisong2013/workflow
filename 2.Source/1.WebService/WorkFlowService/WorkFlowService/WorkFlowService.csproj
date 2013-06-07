@@ -77,6 +77,7 @@
     <Content Include="WebService\rolesBLLservice.asmx" />
     <Content Include="WebService\usersBLLservice.asmx" />
     <Content Include="WebService\user_roleBLLservice.asmx" />
+    <Content Include="WebService\v_privilegesBLLservice.asmx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\base_userDAL.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="DAL\rolesDAL.cs" />
     <Compile Include="DAL\usersDAL.cs" />
     <Compile Include="DAL\user_roleDAL.cs" />
+    <Compile Include="DAL\v_privilegesDAL.cs" />
+    <Compile Include="DAL\v_usersDAL.cs" />
     <Compile Include="Model\base_userModel.cs" />
     <Compile Include="Model\elementsModel.cs" />
     <Compile Include="Model\init_statusModel.cs" />
@@ -101,6 +104,8 @@
     <Compile Include="Model\rolesModel.cs" />
     <Compile Include="Model\usersModel.cs" />
     <Compile Include="Model\user_roleModel.cs" />
+    <Compile Include="Model\v_privilegesModel.cs" />
+    <Compile Include="Model\v_usersModel.cs" />
     <Compile Include="WebService\appsBLLservice.asmx.cs">
       <DependentUpon>appsBLLservice.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -160,6 +165,10 @@
     </Compile>
     <Compile Include="WebService\user_roleBLLservice.asmx.cs">
       <DependentUpon>user_roleBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\v_privilegesBLLservice.asmx.cs">
+      <DependentUpon>v_privilegesBLLservice.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
