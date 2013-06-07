@@ -64,7 +64,7 @@
                             { display: '备注信息', name: 'remark', width: 180 },
                             { display: '', width: 100,
                                 render: function (row) {
-                                    var html = '<i class="icon-lock"></i><a href="/MenusManagement/DeleteMenus?id=' + row.id + '">详情</a>';
+                                    var html = '<i class="icon-lock"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                     return html;
                                 }
                             }
@@ -159,7 +159,7 @@
                 //alert(oPrivilegesName);
                 if (oPrivilegesName == "") {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").addClass("p-errorDIV");
                     $("#promptDIV").html("权限名称不能为空");
 
                     return false;
@@ -167,7 +167,7 @@
 
                 if (operationsID == "-1") {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").addClass("p-errorDIV");
                     $("#promptDIV").html("请选择权限项目！");
 
                     return false;
@@ -257,7 +257,7 @@
                 //alert(oPrivilegesName);
                 if (mPrivilegesName == "") {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").addClass("p-errorDIV");
                     $("#promptDIV").html("权限名称不能为空");
 
                     return false;
@@ -265,7 +265,7 @@
 
                 if (menusID == "-1") {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").addClass("p-errorDIV");
                     $("#promptDIV").html("请选择权限项目！");
 
                     return false;
@@ -430,7 +430,7 @@
                 //alert(oPrivilegesName);
                 if (ePrivilegesName == "") {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").addClass("p-errorDIV");
                     $("#promptDIV").html("权限名称不能为空");
 
                     return false;
@@ -438,7 +438,7 @@
 
                 if (elementID == "-1") {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-warningDIV");
+                    $("#promptDIV").addClass("p-errorDIV");
                     $("#promptDIV").html("请选择权限项目！");
 
                     return false;

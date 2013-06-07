@@ -572,7 +572,7 @@ namespace Saron.WorkFlowService.DAL
         /// </summary>
         /// <param name="login">登录名称</param>
         /// <returns>userModel</returns>
-        public Saron.WorkFlowService.Model.usersModel GetModel(string login)
+        public Saron.WorkFlowService.Model.usersModel GetModelByLogin(string login)
         {
 
             StringBuilder strSql = new StringBuilder();

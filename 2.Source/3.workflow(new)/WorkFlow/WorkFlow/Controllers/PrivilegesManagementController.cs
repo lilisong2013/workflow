@@ -506,6 +506,23 @@ namespace WorkFlow.Controllers
             data += "]}";
             return Json(data);
         }
+        /// <summary>
+        /// 显示所选权限系统的详情
+        /// </summary>
+        /// <param name="id">系统的ID</param>
+        /// <returns></returns>
+        public ActionResult DetailInfo(int id)
+        {
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = m_privilegesBllService.GetModel(id);
+            ViewData["name"] = m_privilegesModel.name;
+            ViewData["privilegetype_id"] = m_privilegesModel.privilegetype_id;
+            ViewData["privilegeitem_id"] = m_privilegesModel.privilegeitem_id;
+            ViewData["remark"] = m_privilegesModel.remark;
+            ViewData["app_id"] = m_privilegesModel.app_id;
+            ViewData["invalid"] = m_privilegesModel.invalid;
+            return View();
+        }
 
     }
 }

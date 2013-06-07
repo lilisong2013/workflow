@@ -152,5 +152,15 @@ namespace WorkFlow.Properties {
                 return ((string)(this["WorkFlow_User_RoleBLLservice_user_roleBLLservice"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/v_privilegesBLLservice.asmx")]
+        public string WorkFlow_V_PrivilegesWebService_v_privilegesBLLservice {
+            get {
+                return ((string)(this["WorkFlow_V_PrivilegesWebService_v_privilegesBLLservice"]));
+            }
+        }
     }
 }

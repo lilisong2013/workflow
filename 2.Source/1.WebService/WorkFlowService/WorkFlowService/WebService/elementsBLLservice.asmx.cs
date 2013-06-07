@@ -101,7 +101,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_elementsDal.GetElementsLisOfMenus(menusID);
         }
-
+        ///<summary>
+        ///获得某一菜单下的页面元素列表
+        /// </summary>
+        [WebMethod(Description = "获得某菜单下的页面元素的Code列表")]
+        public DataSet GetCodeListOfMenuApp(int app_id, int menu_id)
+        {
+            return m_elementsDal.GetCodeListOfMenuApp(app_id,menu_id);
+        }
         /// <summary>
         /// 获得Name数据列表
         /// </summary>

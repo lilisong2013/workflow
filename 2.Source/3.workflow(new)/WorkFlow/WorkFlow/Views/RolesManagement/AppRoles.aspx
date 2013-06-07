@@ -43,8 +43,8 @@
             form.submit(function () {
                 if ($.trim($("#rolesName").val()).length == 0) {
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-warningDIV");
-                    $("#promptDIV").html("角色名称不能为空--???！");
+                    $("#promptDIV").addClass("p-errorDIV");
+                    $("#promptDIV").html("角色名称不能为空！");
 
                     return false;
                 }
@@ -74,17 +74,7 @@
             $("#AllRoles").ligerGrid({
                 columns: [
                 { display: '角色名称', name: 'name', width: 80 },
-                { display: '角色备注', name: 'remark', width: 200 },
-                { display: '是否有效', name: 'invalid', width: 80,
-                    render: function (record, rowindex, value, column) {
-                        if (!value) {
-                            return "<img src='../../images/grid-checkbox.gif' />";
-                        }
-                        else {
-                            return "<img src='../../images/grid-checkbox-checked.gif' />";
-                        }
-                    }
-                },
+                { display: '角色备注', name: 'remark', width: 200 },              
                 { display: '', width: 200,
                     render: function (row) {
                         var html = '<i class="icon-lock"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/RolesManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/RolesManagement/EditPage?id=' + row.id + '">编辑</a>';

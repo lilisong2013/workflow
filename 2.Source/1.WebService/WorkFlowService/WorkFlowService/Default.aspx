@@ -65,6 +65,8 @@
     <a href="WebService/init_statusBLLservice.asmx">页面元素初始化状态代码WebService/init_statusBLLservice.asmx</a>
     <br />
     <a href="WebService/elementsBLLservice.asmx">页面元素WebService/elementsBLLservice.asmx</a>
+    <br />
+    <a href="WebService/v_privilegesBLLservice.asmx">权限项目视图WebService/v_privilegesBLLservice.asmx</a>
     </form>
 </body>
 </html>

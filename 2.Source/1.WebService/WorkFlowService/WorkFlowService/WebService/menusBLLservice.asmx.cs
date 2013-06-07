@@ -56,8 +56,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_menusDal.Delete(id);
         }
-
-
+        ///<summar>
+        ///删除一条记录，令deleted=1
+        /// </summar>
+        [WebMethod(Description = "令deleted=1的记录")]
+        public bool DeleteID(int id)
+        {
+            return m_menusDal.DeleteID(id);
+        }
         /// <summary>
         /// 批量删除数据
         /// </summary>
@@ -103,16 +109,24 @@ namespace Saron.WorkFlowService.WebService
         {
             return GetMenusList("");
         }
-
-        /// <summary>
-        /// 获得某系统的菜单列表
+        ///<summary>
+        ///获得某系统的Code、parent_id编码
         /// </summary>
-        [WebMethod(Description = "获得某系统的菜单列表")]
-        public DataSet GetMenusListOfApp(int appId)
+        [WebMethod(Description = "获得某系统的code、parent_id")]
+        public DataSet GetCodeParentOfApp(int appId, int Id)
         {
-            return m_menusDal.GetListOfApp(appId);
+            return m_menusDal.GetCodeParentOfApp(appId,Id);
         }
-
+        /// <summary>
+        /// 获得某系统的id,parent_id编码
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <returns></returns>
+        [WebMethod(Description="获得系统appid的id、parent_id")]
+        public DataSet GetAllParentIdOfApp(int appId)
+        {
+            return m_menusDal.GetAllParentIdOfApp(appId);
+        }
         /// <summary>
         /// 获得某系统某菜单的子菜单
         /// </summary>
@@ -157,7 +171,7 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_menusDal.GetListByPage(strWhere, orderby, startIndex, endIndex);
         }
-
+     
         #endregion  Method
     }
 }

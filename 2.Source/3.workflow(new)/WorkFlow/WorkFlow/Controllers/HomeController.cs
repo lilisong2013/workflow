@@ -288,7 +288,7 @@ namespace WorkFlow.Controllers
             string m_newpassword = Request.Form["newpassword"];
             string m_newpassword2 = Request.Form["newpassword2"];
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-            WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             if (m_oldpassword.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的原密码不能为空!" });
@@ -307,11 +307,11 @@ namespace WorkFlow.Controllers
             }
             try
             {
-                /* if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword) == false)
+                if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword) == false)
                  {
                      return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原始密码不正确!" });
-                 }*/
-                if (m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword))
+                 }
+                if (m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword)==true)
                 {
                     m_usersModel = m_usersBllService.GetModelByLogin(m_usersModel.login);
                     Session["user"] = m_usersModel;

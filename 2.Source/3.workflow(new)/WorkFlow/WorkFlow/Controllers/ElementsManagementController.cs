@@ -191,7 +191,7 @@ namespace WorkFlow.Controllers
             WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             int appID = Convert.ToInt32(m_usersModel.app_id);
-            int menuID = Convert.ToInt32(Request.Form["MenusParent"]);
+            
             string str=Request.Form["MenusParent"];
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
@@ -219,6 +219,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="排序码不能为空!" });
             }
+            int menuID = Convert.ToInt32(collection["MenusParent"]);
             DataSet ds = m_elementsBllService.GetAllElementsListOfMenuApp(appID,menuID);
             ArrayList elementsList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
@@ -231,6 +232,20 @@ namespace WorkFlow.Controllers
                 if (elementslist.Equals(collection["elementsName"].Trim().ToString()))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
+                }
+            }
+            DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID);
+            ArrayList codeList = new ArrayList();
+            var codetotal = codeds.Tables[0].Rows.Count;
+            for (int i = 0; i < codetotal; i++)
+            {
+                codeList.Add(codeds.Tables[0].Rows[i][0]);
+            }
+            foreach (string codename in codeList)
+            {
+                if (codename.Equals(collection["elementsCode"].Trim().ToString()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的编码名称!"});
                 }
             }
             m_elementsModel.name = collection["elementsName"].Trim();
@@ -330,7 +345,13 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+
+            WorkFlow.UsersWebService.usersModel codeModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+           
             m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()));
+            int appID = Convert.ToInt32(codeModel.app_id);
+            int menuID = Convert.ToInt32(collection["elementsMenu_id"]);
+
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
             string Initstatus_id = collection["elementsInitstatus_id"].Trim();
@@ -364,11 +385,24 @@ namespace WorkFlow.Controllers
                 elementsList.Add(ds.Tables[0].Rows[i][0].ToString());
             }
             for (int i = 0; i < total; i++)
-            { 
-            //修改后的名称和原名称相同
+            {  //修改后的名称和原名称相同          
                 if (m_elementsModel.name.ToString().Equals(collection["elementsName"].Trim().ToString()))
                 {
                     elementsList.Remove(m_elementsModel.name);
+                }
+            }
+            DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID);
+            ArrayList codeList = new ArrayList();
+            var codetotal = codeds.Tables[0].Rows.Count;
+            for(int i = 0; i < codetotal; i++)
+            {
+                codeList.Add(codeds.Tables[0].Rows[i][0].ToString());
+            }
+            for (int i = 0; i < codetotal; i++)
+            { //修改后的名称和原名称相同
+                if (m_elementsModel.code.ToString().Equals(collection["elementsCode"].Trim().ToString()))
+                {
+                    codeList.Remove(m_elementsModel.code);
                 }
             }
             String s = DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
@@ -392,6 +426,13 @@ namespace WorkFlow.Controllers
                 if (elementsName.Equals(m_elementsModel.name.ToString()))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
+                }
+            }
+            foreach (string codeName in codeList)
+            {//如果修改后的编码与数据库中的编码相同 
+                if (codeName.Equals(m_elementsModel.code.ToString()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的编码!"});
                 }
             }
             if (m_elementsBllService.Update(m_elementsModel))

@@ -152,7 +152,7 @@ namespace WorkFlow.Controllers
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(password)==false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码必须为字母和数字的组合且至少为8位!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码以字母开头，且为字母和数字的组合且至少为6位!" });
             }
             if (name.Length == 0)
             {
@@ -275,7 +275,7 @@ namespace WorkFlow.Controllers
             string phone = collection["usersMobile_phone"].Trim();
             string mail = collection["usersMail"].Trim();
             // string appid = (collection["usersApp_id"].Trim());
-            string admin = (collection["usersAdmin"].Trim());
+            //string admin = (collection["usersAdmin"].Trim());
             string invalid = (collection["usersInvalid"].Trim());
             if (login.Length == 0)
             {
@@ -313,10 +313,6 @@ namespace WorkFlow.Controllers
              {
                  return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="系统ID不能为空!" });
              }*/
-            if (admin.Length == 0 || admin.Equals("请选择"))
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否为管理员不能为空!" });
-            }
             if (invalid.Length == 0 || invalid.Equals("请选择"))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空!" });
@@ -352,7 +348,7 @@ namespace WorkFlow.Controllers
             m_usersModel.mobile_phone = collection["usersMobile_phone"].Trim();
             m_usersModel.mail = collection["usersMail"].Trim();
             m_usersModel.remark = collection["usersRemark"].Trim();
-            m_usersModel.admin = Convert.ToBoolean(collection["usersAdmin"].Trim());
+            m_usersModel.admin = false;
             m_usersModel.invalid = Convert.ToBoolean(collection["usersInvalid"].Trim());
             m_usersModel.deleted = Convert.ToBoolean(collection["usersDeleted"].Trim());
             m_usersModel.updated_at = t;
@@ -372,16 +368,12 @@ namespace WorkFlow.Controllers
         ///给用户赋角色
         ///</summary>
         ///<returns></returns>
-        public ActionResult UserRoles()
+        public ActionResult UserRoles(int id)
         {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
+            
                 WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
                 WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+                m_usersModel = m_usersBllService.GetModelByID(id);
                 int usersID = Convert.ToInt32(Request.Params[0].ToString());
                 try
                 {
@@ -391,7 +383,7 @@ namespace WorkFlow.Controllers
                 ViewData["u_ID"] = m_usersModel.id;
                 ViewData["u_login"] = m_usersModel.login;
                 return View();
-            }           
+                      
         }
         ///<summary>
         ///获取角色类型的权限列表
@@ -479,7 +471,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
             }
-            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/UsersManagement/UserRoles" });
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "角色添加成功！", toUrl = "/UsersManagement/AppUsers" });
         }
     }
 }

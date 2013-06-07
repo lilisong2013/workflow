@@ -24,19 +24,9 @@
          $(document).ready(function () {
              $("#AllElements").ligerGrid({
                  columns: [
-                { display: '元素名称', name: 'name', width: 80 },
-                { display: '元素编码', name: 'code', width: 80 },               
-                { display: '是否有效', name: 'invalid', width: 80,
-                    render: function (record, rowindex, value, column) {
-                        if (!value) {
-                            return "<img src='../../images/grid-checkbox.gif' />";
-                        }
-                        else {
-                            return "<img src='../../images/grid-checkbox-checked.gif' />";
-                        }
-                    }
-                },
-                { display: '', width: 200,
+                { display: '元素名称', name: 'name', width: 100 },
+                { display: '元素编码', name: 'code', width: 100 },               
+                { display: '', width: 260,
                     render: function (row) {
                         var html = '<i class="icon-lock"></i><a href="/ElementsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/ElementsManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/ElementsManagement/EditPage?id=' + row.id + '">编辑</a>';
                         return html;
@@ -272,7 +262,7 @@
                         <textarea id="elementsRemark" name="elementsRemark" rows="4" cols="5" class="span4"></textarea>
                         <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>                   
                         <input type="hidden" id="elementsApp_id" name="elementsApp_id" value="<%=m_userModel.app_id%>"/>
-                        <input type="hidden" id="elementsInvalid" name="elementsInvalid" value="true"/>
+                        <input type="hidden" id="elementsInvalid" name="elementsInvalid" value="false"/>
                         <input type="hidden" id="elementsDeleted" name="elementsDeleted" value="false"/>
                         <input type="hidden" id="Created_at" name="Created_at" value="<%=t %>"/>               
                         <input type="hidden" id="Created_by" name="Created_by" value="<%=m_userModel.id%>"/>

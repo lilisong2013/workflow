@@ -41,16 +41,22 @@
                         checkbox: false,
                         alternatingRow: false,
                         autoCheckChildren: false,
-                        columns: [{ display: '菜单名', name: 'name', width: 250, align: 'center' },
-                                  { display: '菜单编码', name: 'code', width: 250, align: 'center' },
-                                  { display: '菜单URL', name: 'url', width: 250, align: 'center' },
-                                  { display: '备注信息', name: 'remark', width: 250, type: 'int', align: 'center' },
+                        columns: [{ display: '菜单名', name: 'name', width: 150, align: 'center' },
+                                  { display: '菜单编码', name: 'code', width: 150, align: 'center' },
+                                  { display: '菜单URL', name: 'url', width: 150, align: 'center' },
+                                  { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-lock"></i><a href="/MenusManagement/DeleteMenus?id=' + row.id + '">详情</a>';
+                                          var html = '<i class="icon-lock"></i><a href="#">详情</a>';
                                           return html;
                                       }
-                                  }
+                                  },
+                                  { display: '', width: 100,
+                                       render: function (row) {
+                                           var html = '<i class="icon-trash"></i><a href="/MenusManagement/ChangePage?id=' + row.id + '">删除</a>';
+                                           return html;
+                                       }
+                                   }
                                  ]
                     });
                 }
@@ -142,7 +148,7 @@
     </div>
     <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#AllMenus" data-toggle="tab"><i class="icon-check"></i>全部<%=10 %></a></li>
+            <li class="active"><a href="#AllMenus" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddMenus" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>

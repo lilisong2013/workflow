@@ -145,6 +145,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\V_PrivilegesWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="bootstrap\css\bootstrap-responsive.css" />
@@ -529,9 +534,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Views\Home\RegistPageCon.aspx" />
+    <Content Include="Views\MenusManagement\DetailInfo.aspx" />
     <Content Include="Views\OperationsManagement\AppOperations.aspx" />
     <Content Include="Views\OperationsManagement\DetailInfo.aspx" />
     <Content Include="Views\OperationsManagement\EditPage.aspx" />
+    <Content Include="Views\PrivilegesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
@@ -633,15 +640,8 @@
     <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\Shared\Infomation.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\User_RoleBLLservice\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -649,6 +649,11 @@
     </None>
     <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
+    <None Include="Web References\V_PrivilegesWebService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -677,6 +682,7 @@
     <None Include="Web References\User_RoleBLLservice\user_roleModel.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
@@ -724,10 +730,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_Privileges_TypeWebService_privileges_typeBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\Privileges_RoleWebService\</RelPath>
-      <UpdateFromURL>http://192.168.12.12:8081/WebService/privilege_roleBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/privilege_roleBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -822,6 +828,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_User_RoleBLLservice_user_roleBLLservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/v_privilegesBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\V_PrivilegesWebService\</RelPath>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/v_privilegesBLLservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WorkFlow_V_PrivilegesWebService_v_privilegesBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>

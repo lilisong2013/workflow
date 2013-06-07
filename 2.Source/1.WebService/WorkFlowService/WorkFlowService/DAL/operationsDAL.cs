@@ -328,6 +328,22 @@ namespace Saron.WorkFlowService.DAL
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
 
+        /// <summary>
+        /// 获得某系统中操作的Code数据列表
+        /// </summary>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetCodeListOfApp(int app_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select code from operations ");
+            strSql.Append(" where app_id=@app_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = app_id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
 
 		public DataSet GetList(int Top,string strWhere,string filedOrder)
 		{

@@ -348,6 +348,23 @@ namespace Saron.WorkFlowService.DAL
             parameters[1].Value = menuID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+        ///<summary>
+        ///获得某系统和页面元素的Code列表
+        /// </summary>
+        public DataSet GetCodeListOfMenuApp(int app_id, int menu_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select code from elements where");
+            strSql.Append(" app_id=@app_id and menu_id=@menu_id and deleted=0");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@menu_id",SqlDbType.Int,4)
+           };
+            parameters[0].Value = app_id;
+            parameters[1].Value = menu_id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+
+        }
         /// <summary>
         /// 获得某一菜单下的页面元素
         /// </summary>

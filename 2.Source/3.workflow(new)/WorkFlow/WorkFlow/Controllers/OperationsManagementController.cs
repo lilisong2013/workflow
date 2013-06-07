@@ -139,6 +139,8 @@ namespace WorkFlow.Controllers
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
 
+            WorkFlow.UsersWebService.usersModel codeModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            int appID = Convert.ToInt32(codeModel.app_id);
             int m_operationsId = Convert.ToInt32(collection["operationsId"].Trim());
             m_operationsModel = m_operationsBllService.GetModel(m_operationsId);
             string name = collection["operationsName"].Trim().ToString();
@@ -164,7 +166,20 @@ namespace WorkFlow.Controllers
                 {
                     operationsList.Remove(m_operationsModel.name);
                 }
-
+            }
+            DataSet codeds = m_operationsBllService.GetCodeListOfApp(appID);
+            ArrayList codeList = new ArrayList();
+            var codetotal = codeds.Tables[0].Rows.Count;
+            for(int i = 0; i < codetotal; i++)
+            {
+                codeList.Add(codeds.Tables[0].Rows[i][0].ToString());
+            }
+            for (int i = 0; i < total; i++)
+            { //修改后的操作名称和本身相同
+                if (m_operationsModel.code.ToString().Equals(collection["operationsCode"]))
+                {
+                    codeList.Remove(m_operationsModel.code);
+                }
             }
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
@@ -185,6 +200,13 @@ namespace WorkFlow.Controllers
                 if (operationListname.Equals(m_operationsModel.name.ToString()))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作名称!" });
+                }
+            }
+            foreach (string codename in codeList)
+            {
+                if (codename.Equals(m_operationsModel.code.ToString()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的代码名称!"});
                 }
             }
             //修改后的操作名称与数据库表中的操作名称不相同并且操作名称不是本身自己            
@@ -226,6 +248,8 @@ namespace WorkFlow.Controllers
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
 
+            WorkFlow.UsersWebService.usersModel m_codeModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+         
             string m_operationsName = collection["operationsName"].Trim();
             string m_operationsCode = collection["operationsCode"].Trim();
             if (m_operationsName.Length == 0)
@@ -252,6 +276,21 @@ namespace WorkFlow.Controllers
                 if (operationsname.Equals(collection["operationsName"].Trim()))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作名称!" });
+                }
+            }
+            //获取operations表中所有code的值
+            DataSet dscode = m_operationsBllService.GetCodeListOfApp(Convert.ToInt32(m_codeModel.app_id));
+            ArrayList codelist = new ArrayList();
+            var totalcode = dscode.Tables[0].Rows.Count;
+            for (int i = 0; i < totalcode; i++)
+            {
+                codelist.Add(dscode.Tables[0].Rows[i][0].ToString());
+            }
+            foreach (string codename in codelist)
+            {
+                if (codename.Equals(collection["operationsCode"].Trim()))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的操作编码!"});
                 }
             }
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();

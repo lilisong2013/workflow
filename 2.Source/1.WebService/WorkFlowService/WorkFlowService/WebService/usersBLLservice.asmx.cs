@@ -151,7 +151,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "根据登录名login得到一个实体对象")]
         public Saron.WorkFlowService.Model.usersModel GetModelByLogin(string login)
         {
-            return m_usersdal.GetModel(login);
+            return m_usersdal.GetModelByLogin(login);
         }
 
         /// <summary>

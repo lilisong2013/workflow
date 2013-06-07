@@ -2,6 +2,20 @@
 <wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
+      <s:element name="GetAppidByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAppidByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAppidByNameResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="Exists">
         <s:complexType>
           <s:sequence>
@@ -258,6 +272,12 @@
       </s:element>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="GetAppidByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAppidByName" />
+  </wsdl:message>
+  <wsdl:message name="GetAppidByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAppidByNameResponse" />
+  </wsdl:message>
   <wsdl:message name="ExistsSoapIn">
     <wsdl:part name="parameters" element="tns:Exists" />
   </wsdl:message>
@@ -349,6 +369,11 @@
     <wsdl:part name="parameters" element="tns:GetInValidAppCountResponse" />
   </wsdl:message>
   <wsdl:portType name="appsBLLserviceSoap">
+    <wsdl:operation name="GetAppidByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">由系统名称获得系统ID(返回-1表示系统不存在)</wsdl:documentation>
+      <wsdl:input message="tns:GetAppidByNameSoapIn" />
+      <wsdl:output message="tns:GetAppidByNameSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Exists">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在id为id的记录</wsdl:documentation>
       <wsdl:input message="tns:ExistsSoapIn" />
@@ -427,6 +452,15 @@
   </wsdl:portType>
   <wsdl:binding name="appsBLLserviceSoap" type="tns:appsBLLserviceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAppidByName">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAppidByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Exists">
       <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
       <wsdl:input>
@@ -565,6 +599,15 @@
   </wsdl:binding>
   <wsdl:binding name="appsBLLserviceSoap12" type="tns:appsBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAppidByName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAppidByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Exists">
       <soap12:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
       <wsdl:input>
