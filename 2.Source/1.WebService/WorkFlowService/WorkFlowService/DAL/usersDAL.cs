@@ -68,13 +68,72 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
-        /// （普通用户登录）是否存在用户名或密码
+        /// （系统管理员登录）是否存在管理员或密码(密码为明文)
+        /// </summary>
+        public bool ExistsSysAdmin(string login, string password,int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from users");
+            strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and admin=1 and deleted=0 and app_id=@app_id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40),
+					new SqlParameter("@password", SqlDbType.NVarChar,255),
+                    new SqlParameter("@app_id",SqlDbType.Int,4)
+            };
+            parameters[0].Value = login;
+            parameters[1].Value = password;
+            parameters[2].Value = appID;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// （系统管理员登录）是否存在管理员或密码（密码为密文）
+        /// </summary>
+        public bool ExistsSysAdminSecurity(string login, string password, int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from users");
+            strSql.Append(" where login=@login and password=@password and admin=1 and deleted=0 and app_id=@app_id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40),
+					new SqlParameter("@password", SqlDbType.NVarChar,255),
+                    new SqlParameter("@app_id",SqlDbType.Int,4)
+            };
+            parameters[0].Value = login;
+            parameters[1].Value = password;
+            parameters[2].Value = appID;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// （普通用户登录）是否存在用户名或密码（密码为明文）
         /// </summary>
         public bool ExistsSysUser(string login, string password,int appID)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from users");
             strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and app_id=@app_id and admin=0 and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40),
+					new SqlParameter("@password", SqlDbType.NVarChar,255),
+                    new SqlParameter("@app_id",SqlDbType.Int,4)};
+            parameters[0].Value = login;
+            parameters[1].Value = password;
+            parameters[2].Value = appID;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// （普通用户登录）是否存在用户名或密码（密码为密文）
+        /// </summary>
+        public bool ExistsSysUserSecurity(string login, string password, int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from users");
+            strSql.Append(" where login=@login and password=@password and app_id=@app_id and admin=0 and deleted=0 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
 					new SqlParameter("@password", SqlDbType.NVarChar,255),
@@ -446,6 +505,7 @@ namespace Saron.WorkFlowService.DAL
                 return null;
             }
         }
+        
         /// <summary>
         /// 得到一个user实体
         /// </summary>
@@ -567,6 +627,7 @@ namespace Saron.WorkFlowService.DAL
                 return null;
             }
         }
+        
         /// <summary>
         /// 得到一个user实体(系统管理员)
         /// </summary>
@@ -826,6 +887,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(),parameters);
         }
+        
         /// <summary>
         /// 得到一个user实体
         /// </summary>
@@ -1004,6 +1066,7 @@ namespace Saron.WorkFlowService.DAL
                 return Convert.ToInt32(obj);
             }
         }
+       
         /// <summary>
         /// 分页获取数据列表
         /// </summary>
