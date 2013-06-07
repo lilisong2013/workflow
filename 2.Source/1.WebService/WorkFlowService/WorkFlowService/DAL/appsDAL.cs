@@ -12,7 +12,34 @@ namespace Saron.WorkFlowService.DAL
     {
         public appsDAL()
         { }
+
         #region  Method
+
+        /// <summary>
+        /// 由系统名称获得系统ID
+        /// </summary>
+        /// <param name="appName"></param>
+        /// <returns></returns>
+        public int GetAppidByName(string appName)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id from apps ");
+            strSql.Append(" where name=@name  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@name", SqlDbType.NVarChar,80)
+            };
+            parameters[0].Value = appName;
+
+            int appID = -1;
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            if (obj != null)
+            {
+                appID = (int)obj;
+            }
+
+            return appID;
+        }
+
         /// <summary>
         /// 是否存在id号为appId的该记录
         /// </summary>

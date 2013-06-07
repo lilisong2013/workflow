@@ -18,7 +18,16 @@ namespace Saron.WorkFlowService.WebService
     public class appsBLLservice : System.Web.Services.WebService
     {
         private readonly Saron.WorkFlowService.DAL.appsDAL m_appsdal=new Saron.WorkFlowService.DAL.appsDAL();
-        
+
+        /// <summary>
+        /// 由系统名称获得系统ID
+        /// </summary>
+        [WebMethod(Description = "由系统名称获得系统ID(返回-1表示系统不存在)")]
+        public int GetAppidByName(string appName)
+        {
+            return m_appsdal.GetAppidByName(appName);
+        }
+
         /// <summary>
         /// 是否存在该记录
         /// </summary>

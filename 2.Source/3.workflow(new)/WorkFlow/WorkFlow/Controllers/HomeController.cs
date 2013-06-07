@@ -289,14 +289,14 @@ namespace WorkFlow.Controllers
             string m_newpassword2 = Request.Form["newpassword2"];
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
-            if (m_newpassword.Length == 0)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的新密码不能为空!" });
-            }
             if (m_oldpassword.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的原密码不能为空!" });
             }
+            if (m_newpassword.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的新密码不能为空!" });
+            }           
             if (m_newpassword2.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的确认密码不能为空!" });
@@ -305,11 +305,13 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "两次密码不一致!" });
             }
-
-            if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword) == false)
+            try
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原始密码不正确!" });
-                if(m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword))
+                /* if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword) == false)
+                 {
+                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原始密码不正确!" });
+                 }*/
+                if (m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword))
                 {
                     m_usersModel = m_usersBllService.GetModelByLogin(m_usersModel.login);
                     Session["user"] = m_usersModel;
@@ -320,7 +322,15 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码修改失败！" });
                 }
             }
-            return View();
+            catch (WebException ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "服务器连接失败!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+            }
         }
+
     }
 }

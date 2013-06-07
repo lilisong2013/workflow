@@ -137,7 +137,7 @@ AppUsers
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(s);%>
                             <input type="hidden" name="usersApp_id" id="usersApp_id" value=""/>
-                            <input type="hidden" name="usersInvalid" id="usersInvalid" value="true"/>
+                            <input type="hidden" name="usersInvalid" id="usersInvalid" value="false"/>
                             <input type="hidden" name="usersDeleted" id="usersDeleted" value="false" />
                             <input type="hidden" name="usersAdmin" id="usersAdmin" value="false"/>
                             <input type="hidden" name="usersCreated_by" id="usersCreated_by" value="<%=m_usersModel.id%>" />
