@@ -2,20 +2,6 @@
 <wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
-      <s:element name="Exists">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ExistsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="ExistsResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="Add">
         <s:complexType>
           <s:sequence>
@@ -67,6 +53,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="UpdateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -81,20 +68,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="idlist" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="DeleteListResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -109,122 +83,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:rolesModel" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetValidRolesList">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetValidRolesListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetValidRolesListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetDeletedRoles">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetDeletedRolesResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetDeletedRolesResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetDistinctRoles">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="rolename" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetDistinctRolesResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetDistinctRolesResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRolesList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRolesListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetRolesListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRolesTopList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="Top" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="filedOrder" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRolesTopListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetRolesTopListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAllRolesList">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAllRolesListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAllRolesListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -249,52 +108,8 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetRecordCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRecordCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetRecordCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetListByPage">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="orderby" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="startIndex" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="endIndex" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetListByPageResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetListByPageResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
     </s:schema>
   </wsdl:types>
-  <wsdl:message name="ExistsSoapIn">
-    <wsdl:part name="parameters" element="tns:Exists" />
-  </wsdl:message>
-  <wsdl:message name="ExistsSoapOut">
-    <wsdl:part name="parameters" element="tns:ExistsResponse" />
-  </wsdl:message>
   <wsdl:message name="AddSoapIn">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
@@ -310,17 +125,17 @@
   <wsdl:message name="UpdateSoapOut">
     <wsdl:part name="parameters" element="tns:UpdateResponse" />
   </wsdl:message>
+  <wsdl:message name="UpdateSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="DeleteSoapIn">
     <wsdl:part name="parameters" element="tns:Delete" />
   </wsdl:message>
   <wsdl:message name="DeleteSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteResponse" />
   </wsdl:message>
-  <wsdl:message name="DeleteListSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteList" />
-  </wsdl:message>
-  <wsdl:message name="DeleteListSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteListResponse" />
+  <wsdl:message name="DeleteSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetModelSoapIn">
     <wsdl:part name="parameters" element="tns:GetModel" />
@@ -328,41 +143,8 @@
   <wsdl:message name="GetModelSoapOut">
     <wsdl:part name="parameters" element="tns:GetModelResponse" />
   </wsdl:message>
-  <wsdl:message name="GetValidRolesListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetValidRolesList" />
-  </wsdl:message>
-  <wsdl:message name="GetValidRolesListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetValidRolesListResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetDeletedRolesSoapIn">
-    <wsdl:part name="parameters" element="tns:GetDeletedRoles" />
-  </wsdl:message>
-  <wsdl:message name="GetDeletedRolesSoapOut">
-    <wsdl:part name="parameters" element="tns:GetDeletedRolesResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetDistinctRolesSoapIn">
-    <wsdl:part name="parameters" element="tns:GetDistinctRoles" />
-  </wsdl:message>
-  <wsdl:message name="GetDistinctRolesSoapOut">
-    <wsdl:part name="parameters" element="tns:GetDistinctRolesResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetRolesListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetRolesList" />
-  </wsdl:message>
-  <wsdl:message name="GetRolesListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetRolesListResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetRolesTopListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetRolesTopList" />
-  </wsdl:message>
-  <wsdl:message name="GetRolesTopListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetRolesTopListResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAllRolesListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllRolesList" />
-  </wsdl:message>
-  <wsdl:message name="GetAllRolesListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllRolesListResponse" />
+  <wsdl:message name="GetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetAllRolesListOfAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetAllRolesListOfApp" />
@@ -370,24 +152,7 @@
   <wsdl:message name="GetAllRolesListOfAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllRolesListOfAppResponse" />
   </wsdl:message>
-  <wsdl:message name="GetRecordCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetRecordCount" />
-  </wsdl:message>
-  <wsdl:message name="GetRecordCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetRecordCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetListByPageSoapIn">
-    <wsdl:part name="parameters" element="tns:GetListByPage" />
-  </wsdl:message>
-  <wsdl:message name="GetListByPageSoapOut">
-    <wsdl:part name="parameters" element="tns:GetListByPageResponse" />
-  </wsdl:message>
   <wsdl:portType name="rolesBLLserviceSoap">
-    <wsdl:operation name="Exists">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在id为id的记录</wsdl:documentation>
-      <wsdl:input message="tns:ExistsSoapIn" />
-      <wsdl:output message="tns:ExistsSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="Add">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
@@ -403,73 +168,19 @@
       <wsdl:input message="tns:DeleteSoapIn" />
       <wsdl:output message="tns:DeleteSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除多条数据</wsdl:documentation>
-      <wsdl:input message="tns:DeleteListSoapIn" />
-      <wsdl:output message="tns:DeleteListSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetModel">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetValidRolesList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据Deleted标志显示有效内容</wsdl:documentation>
-      <wsdl:input message="tns:GetValidRolesListSoapIn" />
-      <wsdl:output message="tns:GetValidRolesListSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetDeletedRoles">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得deleted=false的角色名称</wsdl:documentation>
-      <wsdl:input message="tns:GetDeletedRolesSoapIn" />
-      <wsdl:output message="tns:GetDeletedRolesSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetDistinctRoles">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得deleted=false且rolename不能于name的角色名称</wsdl:documentation>
-      <wsdl:input message="tns:GetDistinctRolesSoapIn" />
-      <wsdl:output message="tns:GetDistinctRolesSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetRolesList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据where条件获得数据列表：strWhere（where条件）</wsdl:documentation>
-      <wsdl:input message="tns:GetRolesListSoapIn" />
-      <wsdl:output message="tns:GetRolesListSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetRolesTopList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）</wsdl:documentation>
-      <wsdl:input message="tns:GetRolesTopListSoapIn" />
-      <wsdl:output message="tns:GetRolesTopListSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAllRolesList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
-      <wsdl:input message="tns:GetAllRolesListSoapIn" />
-      <wsdl:output message="tns:GetAllRolesListSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllRolesListOfApp">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的数据列表</wsdl:documentation>
       <wsdl:input message="tns:GetAllRolesListOfAppSoapIn" />
       <wsdl:output message="tns:GetAllRolesListOfAppSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得记录总条数</wsdl:documentation>
-      <wsdl:input message="tns:GetRecordCountSoapIn" />
-      <wsdl:output message="tns:GetRecordCountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）</wsdl:documentation>
-      <wsdl:input message="tns:GetListByPageSoapIn" />
-      <wsdl:output message="tns:GetListByPageSoapOut" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="rolesBLLserviceSoap" type="tns:rolesBLLserviceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="Exists">
-      <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Add">
       <soap:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
@@ -484,6 +195,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -493,15 +205,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -511,60 +215,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetValidRolesList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetValidRolesList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetDeletedRoles">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetDeletedRoles" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetDistinctRoles">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetDistinctRoles" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetRolesList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetRolesList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetRolesTopList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetRolesTopList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllRolesList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetAllRolesList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -579,36 +230,9 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetListByPage" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="rolesBLLserviceSoap12" type="tns:rolesBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="Exists">
-      <soap12:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Add">
       <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
@@ -623,6 +247,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -632,15 +257,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -650,60 +267,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetValidRolesList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetValidRolesList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetDeletedRoles">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetDeletedRoles" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetDistinctRoles">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetDistinctRoles" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetRolesList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetRolesList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetRolesTopList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetRolesTopList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllRolesList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllRolesList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -718,31 +282,13 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetListByPage" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="rolesBLLservice">
     <wsdl:port name="rolesBLLserviceSoap" binding="tns:rolesBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx" />
+      <soap:address location="http://192.168.12.12:8081/WebService/rolesBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="rolesBLLserviceSoap12" binding="tns:rolesBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.12:8081/WebService/rolesBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
