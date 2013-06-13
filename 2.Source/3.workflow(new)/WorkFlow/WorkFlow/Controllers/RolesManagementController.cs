@@ -60,18 +60,19 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
 
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
 
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
             WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+           
 
 
-            m_SecurityContext.UserName = m_usersModel.login;
-            m_SecurityContext.PassWord = m_usersModel.password;
-            m_SecurityContext.AppID = (int)m_usersModel.app_id;
-            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+            //m_SecurityContext.UserName = m_usersModel.login;
+            //m_SecurityContext.PassWord = m_usersModel.password;
+            //m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            //m_rolesBllService.SecurityContextValue = m_SecurityContext;
             
             
             string m_rolesName = collection["rolesName"].Trim();

@@ -48,6 +48,8 @@ namespace WorkFlow.OperationsWebService {
         
         private System.Threading.SendOrPostCallback GetOperationsListOfAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetCodeListOfAppOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetOperationsTopListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllOperationsListOperationCompleted;
@@ -120,6 +122,9 @@ namespace WorkFlow.OperationsWebService {
         
         /// <remarks/>
         public event GetOperationsListOfAppCompletedEventHandler GetOperationsListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetCodeListOfAppCompletedEventHandler GetCodeListOfAppCompleted;
         
         /// <remarks/>
         public event GetOperationsTopListCompletedEventHandler GetOperationsTopListCompleted;
@@ -389,6 +394,35 @@ namespace WorkFlow.OperationsWebService {
             if ((this.GetOperationsListOfAppCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetOperationsListOfAppCompleted(this, new GetOperationsListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetCodeListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetCodeListOfApp(int app_id) {
+            object[] results = this.Invoke("GetCodeListOfApp", new object[] {
+                        app_id});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetCodeListOfAppAsync(int app_id) {
+            this.GetCodeListOfAppAsync(app_id, null);
+        }
+        
+        /// <remarks/>
+        public void GetCodeListOfAppAsync(int app_id, object userState) {
+            if ((this.GetCodeListOfAppOperationCompleted == null)) {
+                this.GetCodeListOfAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetCodeListOfAppOperationCompleted);
+            }
+            this.InvokeAsync("GetCodeListOfApp", new object[] {
+                        app_id}, this.GetCodeListOfAppOperationCompleted, userState);
+        }
+        
+        private void OnGetCodeListOfAppOperationCompleted(object arg) {
+            if ((this.GetCodeListOfAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetCodeListOfAppCompleted(this, new GetCodeListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -936,6 +970,32 @@ namespace WorkFlow.OperationsWebService {
         private object[] results;
         
         internal GetOperationsListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetCodeListOfAppCompletedEventHandler(object sender, GetCodeListOfAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetCodeListOfAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetCodeListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

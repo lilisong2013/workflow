@@ -77,6 +77,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="DeleteID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteIDResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="DeleteList">
         <s:complexType>
           <s:sequence>
@@ -166,17 +180,39 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetMenusListOfApp">
+      <s:element name="GetCodeParentOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCodeParentOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCodeParentOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllParentIdOfApp">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetMenusListOfAppResponse">
+      <s:element name="GetAllParentIdOfAppResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetMenusListOfAppResult">
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllParentIdOfAppResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -307,6 +343,12 @@
   <wsdl:message name="DeleteSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteResponse" />
   </wsdl:message>
+  <wsdl:message name="DeleteIDSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteID" />
+  </wsdl:message>
+  <wsdl:message name="DeleteIDSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteIDResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteListSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteList" />
   </wsdl:message>
@@ -337,11 +379,17 @@
   <wsdl:message name="GetAllMenusListSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllMenusListResponse" />
   </wsdl:message>
-  <wsdl:message name="GetMenusListOfAppSoapIn">
-    <wsdl:part name="parameters" element="tns:GetMenusListOfApp" />
+  <wsdl:message name="GetCodeParentOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCodeParentOfApp" />
   </wsdl:message>
-  <wsdl:message name="GetMenusListOfAppSoapOut">
-    <wsdl:part name="parameters" element="tns:GetMenusListOfAppResponse" />
+  <wsdl:message name="GetCodeParentOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCodeParentOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllParentIdOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllParentIdOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetAllParentIdOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllParentIdOfAppResponse" />
   </wsdl:message>
   <wsdl:message name="GetChildrenMenusSoapIn">
     <wsdl:part name="parameters" element="tns:GetChildrenMenus" />
@@ -394,6 +442,11 @@
       <wsdl:input message="tns:DeleteSoapIn" />
       <wsdl:output message="tns:DeleteSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="DeleteID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">令deleted=1的记录</wsdl:documentation>
+      <wsdl:input message="tns:DeleteIDSoapIn" />
+      <wsdl:output message="tns:DeleteIDSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="DeleteList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除多条数据</wsdl:documentation>
       <wsdl:input message="tns:DeleteListSoapIn" />
@@ -419,10 +472,15 @@
       <wsdl:input message="tns:GetAllMenusListSoapIn" />
       <wsdl:output message="tns:GetAllMenusListSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetMenusListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的菜单列表</wsdl:documentation>
-      <wsdl:input message="tns:GetMenusListOfAppSoapIn" />
-      <wsdl:output message="tns:GetMenusListOfAppSoapOut" />
+    <wsdl:operation name="GetCodeParentOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的code、parent_id</wsdl:documentation>
+      <wsdl:input message="tns:GetCodeParentOfAppSoapIn" />
+      <wsdl:output message="tns:GetCodeParentOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllParentIdOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得系统appid的id、parent_id</wsdl:documentation>
+      <wsdl:input message="tns:GetAllParentIdOfAppSoapIn" />
+      <wsdl:output message="tns:GetAllParentIdOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetChildrenMenus">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某菜单的子菜单</wsdl:documentation>
@@ -488,6 +546,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="DeleteID">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteList">
       <soap:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
       <wsdl:input>
@@ -533,8 +600,17 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetMenusListOfApp">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetMenusListOfApp" style="document" />
+    <wsdl:operation name="GetCodeParentOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetCodeParentOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllParentIdOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -626,6 +702,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="DeleteID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="DeleteList">
       <soap12:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
       <wsdl:input>
@@ -671,8 +756,17 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetMenusListOfApp">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetMenusListOfApp" style="document" />
+    <wsdl:operation name="GetCodeParentOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetCodeParentOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllParentIdOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

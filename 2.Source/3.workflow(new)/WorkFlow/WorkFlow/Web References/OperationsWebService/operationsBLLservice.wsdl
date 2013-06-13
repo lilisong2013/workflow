@@ -163,6 +163,27 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetCodeListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="app_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCodeListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCodeListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetOperationsTopList">
         <s:complexType>
           <s:sequence>
@@ -297,6 +318,12 @@
   <wsdl:message name="GetOperationsListOfAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetOperationsListOfAppResponse" />
   </wsdl:message>
+  <wsdl:message name="GetCodeListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCodeListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetCodeListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCodeListOfAppResponse" />
+  </wsdl:message>
   <wsdl:message name="GetOperationsTopListSoapIn">
     <wsdl:part name="parameters" element="tns:GetOperationsTopList" />
   </wsdl:message>
@@ -366,6 +393,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统中操作的数据列表</wsdl:documentation>
       <wsdl:input message="tns:GetOperationsListOfAppSoapIn" />
       <wsdl:output message="tns:GetOperationsListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCodeListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统中操作的Code数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetCodeListOfAppSoapIn" />
+      <wsdl:output message="tns:GetCodeListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetOperationsTopList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）</wsdl:documentation>
@@ -464,6 +496,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetOperationsListOfApp">
       <soap:operation soapAction="http://saron.workflowservice.org/GetOperationsListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCodeListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetCodeListOfApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -584,6 +625,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetOperationsListOfApp">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetOperationsListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCodeListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetCodeListOfApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
