@@ -133,14 +133,6 @@ EditPage
        <div class="controls">
        <input id="usersMail" name="usersMail" type="text" value="<%=ViewData["usersMail"]%>"/>
        </div>
-       </div>     
-       <div class="control-group span6 offset2">
-       <label class="control-label">是否管理员：</label>
-       <div class="controls">
-       <select id="usersAdmin" name="usersAdmin" width="140px">
-         <option id="usersInfo"></option>
-       </select>      
-       </div>
        </div>                             
        <div class="control-group span6 offset2">
        <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;</label>

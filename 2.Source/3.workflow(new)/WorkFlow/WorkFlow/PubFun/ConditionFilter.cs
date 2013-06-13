@@ -65,7 +65,7 @@ namespace Saron.Common.PubFun
         /// <returns></returns>
         public static bool IsPassWordTwo(string str_passWord)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(str_passWord, @"^[a-zA-Z0-9]+$");
+            return System.Text.RegularExpressions.Regex.IsMatch(str_passWord, @"^[0-9a-zA-Z]|[a-zA-Z0-9]{5,20}+$");
         }
         /// <summary>
         /// 验证邮件的格式（数字、字母、符号的组合@数字/字母.com/cn）

@@ -61,8 +61,19 @@ namespace WorkFlow.Controllers
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
 
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
             WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+            
+            
             string m_rolesName = collection["rolesName"].Trim();
             if (m_rolesName.Length == 0)
             {
@@ -92,8 +103,10 @@ namespace WorkFlow.Controllers
             m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
             m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
             m_rolesModel.remark = collection["rolesRemark"].Trim();
-            m_rolesBllService.Add(m_rolesModel);
-            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/RolesManagement/AppRoles" });
+
+            string msg = string.Empty;
+            m_rolesBllService.Add(m_rolesModel,out msg);
+            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！"+msg, toUrl = "/RolesManagement/AppRoles" });
         }
         
         /// <summary>

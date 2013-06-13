@@ -29,9 +29,37 @@ namespace Saron.WorkFlowService.DAL
 			parameters[0].Value = id;
 
 			return DbHelperSQL.Exists(strSql.ToString(),parameters);
-		}
-
-
+		}    
+        ///<summary>
+        ///parentId不为空，获得某系统的菜单编码,父菜单编码
+        /// </summary> 
+        public DataSet GetCodeParentOfApp(int app_id, int id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select code,parent_id from menus");
+            strSql.Append(" where app_id=@app_id and id=@id and deleted=0");
+            SqlParameter[] parameters = { 
+                            new SqlParameter("@app_id",SqlDbType.Int,4),
+                            new SqlParameter("@id",SqlDbType.Int,4)
+                                        };
+            parameters[0].Value = app_id;
+            parameters[1].Value = id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        ///<summary>
+        ///获得某系统的系统ID,parent_ID
+        /// </summary> 
+        public DataSet GetAllParentIdOfApp(int app_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,parent_id from menus");
+            strSql.Append(" where app_id=@app_id and deleted=0");
+            SqlParameter[] parameters = { 
+                            new SqlParameter("@app_id",SqlDbType.Int,4)                        
+                                        };
+            parameters[0].Value = app_id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>
@@ -173,7 +201,27 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		
+		///<summary>
+        ///删除记录，令delete=1
+        /// </summary>
+        public bool DeleteID(int id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update menus set deleted=1 where id=@id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = id;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         /// <summary>
 		/// 批量删除数据
 		/// </summary>
@@ -399,7 +447,6 @@ namespace Saron.WorkFlowService.DAL
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
-
 
 		/// <summary>
 		/// 获得前几行数据

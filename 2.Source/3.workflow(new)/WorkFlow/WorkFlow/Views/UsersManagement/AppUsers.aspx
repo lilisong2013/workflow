@@ -15,17 +15,7 @@ AppUsers
                     columns: [
                 { display: '登录名称', name: 'login', width: 80 },
                 { display: '用户姓名', name: 'name', width: 80 },
-                { display: '工号', name: 'employee_no', width: 80 },
-                { display: '是否有效', name: 'invalid', width: 80,
-                    render: function (record, rowindex, value, column) {
-                        if (!value) {
-                            return "<img src='../../images/grid-checkbox.gif' />";
-                        }
-                        else {
-                            return "<img src='../../images/grid-checkbox-checked.gif' />";
-                        }
-                    }
-                },
+                { display: '工号', name: 'employee_no', width: 80 },           
                 { display: '', width: 200,
                     render: function (row) {
                         var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/UsersManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a>';

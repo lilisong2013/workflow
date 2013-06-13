@@ -30,6 +30,8 @@ namespace WorkFlow.AppsWebService {
     [System.Web.Services.WebServiceBindingAttribute(Name="appsBLLserviceSoap", Namespace="http://saron.workflowservice.org/")]
     public partial class appsBLLservice : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
+        private System.Threading.SendOrPostCallback GetAppidByNameOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ExistsOperationCompleted;
         
         private System.Threading.SendOrPostCallback ExistsNameOperationCompleted;
@@ -99,6 +101,9 @@ namespace WorkFlow.AppsWebService {
         }
         
         /// <remarks/>
+        public event GetAppidByNameCompletedEventHandler GetAppidByNameCompleted;
+        
+        /// <remarks/>
         public event ExistsCompletedEventHandler ExistsCompleted;
         
         /// <remarks/>
@@ -142,6 +147,35 @@ namespace WorkFlow.AppsWebService {
         
         /// <remarks/>
         public event GetInValidAppCountCompletedEventHandler GetInValidAppCountCompleted;
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAppidByName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAppidByName(string appName) {
+            object[] results = this.Invoke("GetAppidByName", new object[] {
+                        appName});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAppidByNameAsync(string appName) {
+            this.GetAppidByNameAsync(appName, null);
+        }
+        
+        /// <remarks/>
+        public void GetAppidByNameAsync(string appName, object userState) {
+            if ((this.GetAppidByNameOperationCompleted == null)) {
+                this.GetAppidByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAppidByNameOperationCompleted);
+            }
+            this.InvokeAsync("GetAppidByName", new object[] {
+                        appName}, this.GetAppidByNameOperationCompleted, userState);
+        }
+        
+        private void OnGetAppidByNameOperationCompleted(object arg) {
+            if ((this.GetAppidByNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAppidByNameCompleted(this, new GetAppidByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Exists", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -762,6 +796,32 @@ namespace WorkFlow.AppsWebService {
             }
             set {
                 this.approval_atField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetAppidByNameCompletedEventHandler(object sender, GetAppidByNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAppidByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAppidByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }

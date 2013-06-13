@@ -56,17 +56,17 @@ UseRolesInfo
                  //用户角色被选中的项
                  for (var i = 0; i < epTotal; i++) {
                      var checkBoxID = $("#rolesprivilege" + i.toString()); //复选框ID
-                     alert(checkBoxID);
+                     //alert(checkBoxID);
                      if (checkBoxID.is(":checked")) {
-                         alert(checkBoxID.val() + "选中");
+                         //alert(checkBoxID.val() + "选中");
                          user_rolesStr += "rprivilegeID" + urTotal.toString() + ":'" + checkBoxID.val() + "',";
                          urTotal++;
                      } else {
-                         alert(checkBoxID.val() + "未选中");
+                        // alert(checkBoxID.val() + "未选中");
                      }
                  }
                  user_rolesStr += "ur_total:'" + urTotal + "',u_ID:'" + $("#usersID").val() + "'}";
-                 alert(user_rolesStr);
+                 //alert(user_rolesStr);
                  user_rolesData = eval("(" + user_rolesStr + ")");
                  $("#user_roles").ajaxForm({
                      success:ue_showResponse,//form提交响应成功后执行的回调函数                  
@@ -79,7 +79,7 @@ UseRolesInfo
          });
          //提交user_roles表单后执行的函数
          function ue_showResponse(responseText, statusText) {
-             alert("ok?");
+             //alert("ok?");
              $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
              $("#promptDIV").addClass(responseText.css);
              $("#promptDIV").html(responseText.message);
@@ -110,7 +110,7 @@ UseRolesInfo
       <label class="control-label">用户名称：</label>
        <div class="controls">
        <%WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"]; %>
-       <span class="input-xlarge uneditable-input"><%=m_userModel.login%></span>
+       <span class="input-xlarge uneditable-input"><%=ViewData["u_login"]%></span>
        <input id="usersID" name="usersID" type="hidden" value="<%=ViewData["u_ID"]%>" />
        </div>
       </div>
