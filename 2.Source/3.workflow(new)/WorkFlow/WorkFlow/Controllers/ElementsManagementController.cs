@@ -24,7 +24,21 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult GetElements_Apply()
         {
+            String msg = String.Empty;
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsService = new ElementsWebService.elementsBLLservice();
+            //WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
+
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+
+            m_SecurityContext.UserName = m_usersModel.name;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID =(int)m_usersModel.app_id;
+            m_elementsService.SecurityContextValue = m_SecurityContext;
+
             int appid = Convert.ToInt32(m_usersModel.app_id);
             //排序的字段名
             string sortname = Request.Params["sortname"];
@@ -34,9 +48,9 @@ namespace WorkFlow.Controllers
             int page = Convert.ToInt32(Request.Params["page"]);
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
-            WorkFlow.ElementsWebService.elementsBLLservice m_elementsService= new ElementsWebService.elementsBLLservice();
+           
 
-            DataSet ds = m_elementsService.GetElementsListOfApp(appid);
+            DataSet ds = m_elementsService.GetElementsListOfApp(appid,out msg);
 
             IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
             var total = ds.Tables[0].Rows.Count;
@@ -90,9 +104,10 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult DetailInfo(int id)
         {
+            String msg = String.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-            m_elementsModel = m_elementsBllService.GetModel(id);
+            m_elementsModel = m_elementsBllService.GetModel(id,out msg);
             ViewData["elementsName"] = m_elementsModel.name;
             ViewData["elementsCode"] = m_elementsModel.code;
             ViewData["elementsRemark"] = m_elementsModel.remark;
@@ -135,9 +150,10 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult ChangePage(int id)
         {
+            String msg = String.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-            if (m_elementsBllService.Delete(id))
+            if (m_elementsBllService.Delete(id,out msg))
             {
                 return RedirectToAction("AppElements");
             }
@@ -152,9 +168,10 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult EditPage(int id)
         {
+            String msg = String.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-            m_elementsModel = m_elementsBllService.GetModel(id);
+            m_elementsModel = m_elementsBllService.GetModel(id,out msg);
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
             m_elementsModel.updated_at = t;
@@ -184,6 +201,7 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult AddElements(FormCollection collection)
         {
+            string msg = string.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
 
@@ -220,7 +238,7 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="排序码不能为空!" });
             }
             int menuID = Convert.ToInt32(collection["MenusParent"]);
-            DataSet ds = m_elementsBllService.GetAllElementsListOfMenuApp(appID,menuID);
+            DataSet ds = m_elementsBllService.GetAllElementsListOfMenuApp(appID,menuID,out msg);
             ArrayList elementsList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
             for (int i = 0; i < total; i++)
@@ -234,16 +252,7 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
                 }
             }
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-          
-=======
-
->>>>>>> f0a66a7576bf886859626d293d818cb1b2851fa9
->>>>>>> 9a4398b2a3cde0b59e9fb70c8176d2894e78dcc5
-            DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID);
+            DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID,out msg);
             ArrayList codeList = new ArrayList();
             var codetotal = codeds.Tables[0].Rows.Count;
             for (int i = 0; i < codetotal; i++)
@@ -271,7 +280,7 @@ namespace WorkFlow.Controllers
             m_elementsModel.created_ip=collection["Created_ip"].Trim();
             try
             {
-                if (m_elementsBllService.Add(m_elementsModel) != 0)
+                if (m_elementsBllService.Add(m_elementsModel,out msg) != 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功", toUrl = "/ElementsManagement/AppElements" });
                 }
@@ -367,12 +376,14 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult EditElements(FormCollection collection)
         {
+           
+            String msg = String.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
 
             WorkFlow.UsersWebService.usersModel codeModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
            
-            m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()));
+            m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()),out msg);
             int appID = Convert.ToInt32(codeModel.app_id);
             int menuID = Convert.ToInt32(collection["elementsMenu_id"]);
 
@@ -401,7 +412,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
             }
-            DataSet ds = m_elementsBllService.GetNameList();
+            DataSet ds = m_elementsBllService.GetElementsListOfApp(appID,out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList elementsList = new ArrayList();
             for (int i = 0; i < total; i++)
@@ -415,7 +426,7 @@ namespace WorkFlow.Controllers
                     elementsList.Remove(m_elementsModel.name);
                 }
             }
-            DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID);
+            DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID,out msg);
             ArrayList codeList = new ArrayList();
             var codetotal = codeds.Tables[0].Rows.Count;
             for(int i = 0; i < codetotal; i++)
@@ -461,7 +472,7 @@ namespace WorkFlow.Controllers
             }
             try
             {
-                if (m_elementsBllService.Update(m_elementsModel))
+                if (m_elementsBllService.Update(m_elementsModel,out msg))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功!", toUrl = "/ElementsManagement/AppElements" });
                 }

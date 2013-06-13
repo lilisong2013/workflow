@@ -542,6 +542,7 @@
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
+    <Content Include="Views\RolesManagement\EditPageCon.aspx" />
     <Content Include="Views\Shared\appsadmin.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
     <None Include="Web References\AppsWebService\appsModel1.datasource">

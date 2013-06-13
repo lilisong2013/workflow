@@ -25,9 +25,20 @@ namespace WorkFlow.Controllers
                 return View();
             }        
         }
-
+        public ActionResult EditPageCon()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                return View();
+            }
+        }
         public ActionResult Role_Privileges()
         {
+            string msg = string.Empty;
             if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "Home");
@@ -36,11 +47,22 @@ namespace WorkFlow.Controllers
             {
                 WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
                 WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+                WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_rolesBllService.SecurityContextValue = m_SecurityContext;
 
                 int roleID = Convert.ToInt32(Request.Params[0].ToString());
 
                 try{
-                    m_rolesModel = m_rolesBllService.GetModel(roleID);
+                    m_rolesModel = m_rolesBllService.GetModel(roleID,out msg);
                 }catch(Exception ex)
                 {
                 }
@@ -82,12 +104,12 @@ namespace WorkFlow.Controllers
             }
             m_rolesModel.name = collection["rolesName"].Trim();
             //获得deleted=false的rolesName列表
-            DataSet ds = m_rolesBllService.GetDeletedRoles();
+            DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id);
             var total = ds.Tables[0].Rows.Count;
             ArrayList rolesList = new ArrayList();
             for (int i = 0; i < total; i++)
             {
-                rolesList.Add(ds.Tables[0].Rows[i][0].ToString());
+                rolesList.Add(ds.Tables[0].Rows[i][1].ToString());
             }
             foreach (string rolesname in rolesList)
             {
@@ -132,10 +154,22 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult ChangePage(int id)
         {
-       
-            WorkFlow.RolesWebService.rolesBLLservice m_rolesBLLService = new RolesWebService.rolesBLLservice();
+            string msg = string.Empty;
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
-            if (m_rolesBLLService.Delete(id))
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+           
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
+            if (m_rolesBllService.Delete(id, out msg))
             {
                
                 return RedirectToAction("AppRoles");
@@ -153,13 +187,20 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult EditPage(int id)
         {
+            string msg = string.Empty;
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
-            WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+           
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+           
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-            string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
-            DateTime t = Convert.ToDateTime(s);
-            string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress();
-            m_rolesModel = m_rolesBllService.GetModel(id);
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
+         
+            WorkFlow.RolesWebService.rolesModel m_rolesModel = m_rolesBllService.GetModel(id, out msg);
+
             ViewData["rolesId"] = m_rolesModel.id;
             ViewData["rolesName"] = m_rolesModel.name;
             ViewData["rolesRemark"] = m_rolesModel.remark;
@@ -202,10 +243,26 @@ namespace WorkFlow.Controllers
         /// <summary>
         public ActionResult EditRoles(FormCollection collection)
         {
+            string msg = string.Empty;
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+            WorkFlow.RolesWebService.rolesModel m_roleModel=(WorkFlow.RolesWebService.rolesModel)Session["role"];
+
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
             int id = Convert.ToInt32(collection["rolesId"].Trim());
-            m_rolesModel = m_rolesBllService.GetModel(id);
+            m_rolesModel = m_rolesBllService.GetModel(id,out msg);
+
             string name = collection["rolesName"].Trim();
             string invalid = collection["InvalidParent"].Trim();
             if (name.Length == 0)
@@ -217,12 +274,12 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
             }
             //获得deleted=false的rolesName列表
-            DataSet ds = m_rolesBllService.GetDeletedRoles();
+            DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id);
             var total = ds.Tables[0].Rows.Count;
             ArrayList rolesList = new ArrayList();
             for (int i = 0; i < total; i++)
             {
-                rolesList.Add(ds.Tables[0].Rows[i][0].ToString());
+                rolesList.Add(ds.Tables[0].Rows[i][1].ToString());
             }
             //如果是自己本身，角色名称修改后的名称和修改前的名称一样。
             for (int i = 0; i < total; i++)
@@ -234,7 +291,7 @@ namespace WorkFlow.Controllers
             }
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
-            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            //WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             m_rolesModel.name = collection["rolesName"].Trim();
             m_rolesModel.invalid = Convert.ToBoolean(collection["InvalidParent"].Trim());
             m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());
@@ -252,9 +309,13 @@ namespace WorkFlow.Controllers
             }
             try
             {
-                if (m_rolesBllService.Update(m_rolesModel))
+                if (m_rolesBllService.Update(m_rolesModel,out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改角色成功！", toUrl = "/RolesManagement/AppRoles" });
+                    m_roleModel = m_rolesBllService.GetModel(id,out msg);
+                    Session["role"] = m_roleModel.name;
+                    //m_usersModel = m_usersBllService.GetModelByID(Convert.ToInt32(collection["rolesId"].Trim()));
+                    //Session["user"] = m_usersModel.login;
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改角色成功！", toUrl = "/RolesManagement/EditPageCon" });
                 }
                 else
                 {
@@ -275,9 +336,22 @@ namespace WorkFlow.Controllers
         /// <returns></returns>     
         public ActionResult DetailInfo(int id)
         {
+            string msg = string.Empty;
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
-            m_rolesModel = m_rolesBllService.GetModel(id);
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+            
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
+            m_rolesModel = m_rolesBllService.GetModel(id,out msg);
             ViewData["rolesName"] = m_rolesModel.name;
             ViewData["rolesRemark"] = m_rolesModel.remark;
             ViewData["rolesInvalid"] = m_rolesModel.invalid;

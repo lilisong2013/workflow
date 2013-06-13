@@ -2,20 +2,6 @@
 <wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
-      <s:element name="Exists">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ExistsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="ExistsResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="Add">
         <s:complexType>
           <s:sequence>
@@ -47,9 +33,19 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="AddResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
       <s:element name="Update">
         <s:complexType>
           <s:sequence>
@@ -61,6 +57,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="UpdateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -75,20 +72,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="idlist" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="DeleteListResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -103,27 +87,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:elementsModel" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetElementsList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetElementsListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetElementsListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -145,6 +109,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -166,6 +131,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -188,63 +154,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetNameList">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetNameListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetNameListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetElementsTopList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="Top" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="filedOrder" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetElementsTopListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetElementsTopListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAllElementsList">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAllElementsListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAllElementsListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -267,60 +177,20 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRecordCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRecordCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetRecordCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetListByPage">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="orderby" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="startIndex" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="endIndex" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetListByPageResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetListByPageResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
     </s:schema>
   </wsdl:types>
-  <wsdl:message name="ExistsSoapIn">
-    <wsdl:part name="parameters" element="tns:Exists" />
-  </wsdl:message>
-  <wsdl:message name="ExistsSoapOut">
-    <wsdl:part name="parameters" element="tns:ExistsResponse" />
-  </wsdl:message>
   <wsdl:message name="AddSoapIn">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
   <wsdl:message name="AddSoapOut">
     <wsdl:part name="parameters" element="tns:AddResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="UpdateSoapIn">
     <wsdl:part name="parameters" element="tns:Update" />
@@ -328,17 +198,17 @@
   <wsdl:message name="UpdateSoapOut">
     <wsdl:part name="parameters" element="tns:UpdateResponse" />
   </wsdl:message>
+  <wsdl:message name="UpdateSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="DeleteSoapIn">
     <wsdl:part name="parameters" element="tns:Delete" />
   </wsdl:message>
   <wsdl:message name="DeleteSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteResponse" />
   </wsdl:message>
-  <wsdl:message name="DeleteListSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteList" />
-  </wsdl:message>
-  <wsdl:message name="DeleteListSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteListResponse" />
+  <wsdl:message name="DeleteSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetModelSoapIn">
     <wsdl:part name="parameters" element="tns:GetModel" />
@@ -346,11 +216,8 @@
   <wsdl:message name="GetModelSoapOut">
     <wsdl:part name="parameters" element="tns:GetModelResponse" />
   </wsdl:message>
-  <wsdl:message name="GetElementsListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetElementsList" />
-  </wsdl:message>
-  <wsdl:message name="GetElementsListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetElementsListResponse" />
+  <wsdl:message name="GetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetElementsListOfAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetElementsListOfApp" />
@@ -358,11 +225,17 @@
   <wsdl:message name="GetElementsListOfAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetElementsListOfAppResponse" />
   </wsdl:message>
+  <wsdl:message name="GetElementsListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetElementsListOfMenusSoapIn">
     <wsdl:part name="parameters" element="tns:GetElementsListOfMenus" />
   </wsdl:message>
   <wsdl:message name="GetElementsListOfMenusSoapOut">
     <wsdl:part name="parameters" element="tns:GetElementsListOfMenusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetElementsListOfMenusSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetCodeListOfMenuAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetCodeListOfMenuApp" />
@@ -370,23 +243,8 @@
   <wsdl:message name="GetCodeListOfMenuAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetCodeListOfMenuAppResponse" />
   </wsdl:message>
-  <wsdl:message name="GetNameListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetNameList" />
-  </wsdl:message>
-  <wsdl:message name="GetNameListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetNameListResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetElementsTopListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetElementsTopList" />
-  </wsdl:message>
-  <wsdl:message name="GetElementsTopListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetElementsTopListResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAllElementsListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllElementsList" />
-  </wsdl:message>
-  <wsdl:message name="GetAllElementsListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllElementsListResponse" />
+  <wsdl:message name="GetCodeListOfMenuAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetAllElementsListOfMenuAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetAllElementsListOfMenuApp" />
@@ -394,24 +252,10 @@
   <wsdl:message name="GetAllElementsListOfMenuAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllElementsListOfMenuAppResponse" />
   </wsdl:message>
-  <wsdl:message name="GetRecordCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetRecordCount" />
-  </wsdl:message>
-  <wsdl:message name="GetRecordCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetRecordCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetListByPageSoapIn">
-    <wsdl:part name="parameters" element="tns:GetListByPage" />
-  </wsdl:message>
-  <wsdl:message name="GetListByPageSoapOut">
-    <wsdl:part name="parameters" element="tns:GetListByPageResponse" />
+  <wsdl:message name="GetAllElementsListOfMenuAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:portType name="elementsBLLserviceSoap">
-    <wsdl:operation name="Exists">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在id为id的记录</wsdl:documentation>
-      <wsdl:input message="tns:ExistsSoapIn" />
-      <wsdl:output message="tns:ExistsSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="Add">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
@@ -427,20 +271,10 @@
       <wsdl:input message="tns:DeleteSoapIn" />
       <wsdl:output message="tns:DeleteSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除多条数据</wsdl:documentation>
-      <wsdl:input message="tns:DeleteListSoapIn" />
-      <wsdl:output message="tns:DeleteListSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetModel">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetElementsList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据where条件获得数据列表：strWhere（where条件）</wsdl:documentation>
-      <wsdl:input message="tns:GetElementsListSoapIn" />
-      <wsdl:output message="tns:GetElementsListSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetElementsListOfApp">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统ID获得数据列表:appid(where条件)</wsdl:documentation>
@@ -457,52 +291,19 @@
       <wsdl:input message="tns:GetCodeListOfMenuAppSoapIn" />
       <wsdl:output message="tns:GetCodeListOfMenuAppSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetNameList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有元素表中所有的Name的数据列表</wsdl:documentation>
-      <wsdl:input message="tns:GetNameListSoapIn" />
-      <wsdl:output message="tns:GetNameListSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetElementsTopList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）</wsdl:documentation>
-      <wsdl:input message="tns:GetElementsTopListSoapIn" />
-      <wsdl:output message="tns:GetElementsTopListSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAllElementsList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
-      <wsdl:input message="tns:GetAllElementsListSoapIn" />
-      <wsdl:output message="tns:GetAllElementsListSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetAllElementsListOfMenuApp">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
       <wsdl:input message="tns:GetAllElementsListOfMenuAppSoapIn" />
       <wsdl:output message="tns:GetAllElementsListOfMenuAppSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得记录总条数</wsdl:documentation>
-      <wsdl:input message="tns:GetRecordCountSoapIn" />
-      <wsdl:output message="tns:GetRecordCountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）</wsdl:documentation>
-      <wsdl:input message="tns:GetListByPageSoapIn" />
-      <wsdl:output message="tns:GetListByPageSoapOut" />
-    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="elementsBLLserviceSoap" type="tns:elementsBLLserviceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="Exists">
-      <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Add">
       <soap:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -512,6 +313,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -521,15 +323,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -539,15 +333,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetElementsList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetElementsList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -557,6 +343,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetElementsListOfApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:GetElementsListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -566,6 +353,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetElementsListOfMenus" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:GetElementsListOfMenusSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -575,33 +363,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetCodeListOfMenuApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetNameList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetNameList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetElementsTopList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetElementsTopList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllElementsList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetAllElementsList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:GetCodeListOfMenuAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -611,24 +373,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllElementsListOfMenuApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetListByPage" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:GetAllElementsListOfMenuAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -637,19 +382,11 @@
   </wsdl:binding>
   <wsdl:binding name="elementsBLLserviceSoap12" type="tns:elementsBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="Exists">
-      <soap12:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Add">
       <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -659,6 +396,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -668,15 +406,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -686,15 +416,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetElementsList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetElementsList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -704,6 +426,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetElementsListOfApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:GetElementsListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -713,6 +436,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetElementsListOfMenus" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:GetElementsListOfMenusSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -722,33 +446,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetCodeListOfMenuApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetNameList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetNameList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetElementsTopList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetElementsTopList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllElementsList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllElementsList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCodeListOfMenuAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -758,24 +456,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetAllElementsListOfMenuApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetListByPage" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAllElementsListOfMenuAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
