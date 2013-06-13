@@ -32,8 +32,6 @@ namespace WorkFlow.RolesWebService {
         
         private System.Threading.SendOrPostCallback ExistsOperationCompleted;
         
-        private SecurityContext securityContextValueField;
-        
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateOperationCompleted;
@@ -73,15 +71,6 @@ namespace WorkFlow.RolesWebService {
             }
             else {
                 this.useDefaultCredentialsSetExplicitly = true;
-            }
-        }
-        
-        public SecurityContext SecurityContextValue {
-            get {
-                return this.securityContextValueField;
-            }
-            set {
-                this.securityContextValueField = value;
             }
         }
         
@@ -184,12 +173,10 @@ namespace WorkFlow.RolesWebService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Add", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int Add(rolesModel model, out string msg) {
+        public int Add(rolesModel model) {
             object[] results = this.Invoke("Add", new object[] {
                         model});
-            msg = ((string)(results[1]));
             return ((int)(results[0]));
         }
         
@@ -615,66 +602,7 @@ namespace WorkFlow.RolesWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://saron.workflowservice.org/")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://saron.workflowservice.org/", IsNullable=false)]
-    public partial class SecurityContext : System.Web.Services.Protocols.SoapHeader {
-        
-        private string userNameField;
-        
-        private string passWordField;
-        
-        private int appIDField;
-        
-        private System.Xml.XmlAttribute[] anyAttrField;
-        
-        /// <remarks/>
-        public string UserName {
-            get {
-                return this.userNameField;
-            }
-            set {
-                this.userNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string PassWord {
-            get {
-                return this.passWordField;
-            }
-            set {
-                this.passWordField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public int AppID {
-            get {
-                return this.appIDField;
-            }
-            set {
-                this.appIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAnyAttributeAttribute()]
-        public System.Xml.XmlAttribute[] AnyAttr {
-            get {
-                return this.anyAttrField;
-            }
-            set {
-                this.anyAttrField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -877,14 +805,6 @@ namespace WorkFlow.RolesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
-            }
-        }
-        
-        /// <remarks/>
-        public string msg {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[1]));
             }
         }
     }
