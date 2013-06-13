@@ -102,6 +102,7 @@
     <Compile Include="Model\privileges_typeModel.cs" />
     <Compile Include="Model\privilege_roleModel.cs" />
     <Compile Include="Model\rolesModel.cs" />
+    <Compile Include="Model\SecurityContext.cs" />
     <Compile Include="Model\usersModel.cs" />
     <Compile Include="Model\user_roleModel.cs" />
     <Compile Include="Model\v_privilegesModel.cs" />
