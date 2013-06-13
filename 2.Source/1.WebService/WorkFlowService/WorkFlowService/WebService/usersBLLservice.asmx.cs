@@ -215,7 +215,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_usersdal.GetListByPage(strWhere, orderby, startIndex, endIndex);
         }
-
+    ///<summary>
+    ///修改密码
+    ///</summary>
+        [WebMethod(Description = "修改密码")]
+        public bool ModifyPassword(string login, string password)
+        {
+            return m_usersdal.ModifyPassword(login,password);
+        }
         #endregion  Method
 
         //外部系统使用接口

@@ -87,13 +87,19 @@
               
                 { display: '', width: 100,
                     render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/AppsManagement/' + toUrl + '?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/AppsManagement/ChangePage?id=' + row.id + '">删除</a>';
+                        var html = '<i class="icon-lock"></i><a href="/AppsManagement/' + toUrl + '?id=' + row.id + '">详情</a>';
                         return html;
                     }
-                }
+                },
+                 { display: '', width: 100,
+                     render: function (row) {
+                         var html = '<i class="icon-trash"></i><a href="/AppsManagement/ChangePage?id=' + row.id + '">删除</a>';
+                         return html;
+                     }
+                 }
                 ],
                     dataAction: 'server',
-                    width: '100%',
+                    width: '90%',
                     pageSizeOptions: [5, 10, 15, 20, ],
                     pageSize: 15,
                     height: '400',

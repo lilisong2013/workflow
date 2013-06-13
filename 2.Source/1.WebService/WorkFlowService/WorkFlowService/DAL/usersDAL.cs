@@ -880,7 +880,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select  id,login,password,name,employee_no,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id from users ");
-            strSql.Append(" where app_id=@app_id and deleted=0");
+            strSql.Append(" where app_id=@app_id and deleted=0 and admin=0");
             SqlParameter[] parameters = { 
                          new SqlParameter("@app_id",SqlDbType.Int,4)                            
             };
@@ -1092,8 +1092,33 @@ namespace Saron.WorkFlowService.DAL
             strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
             return DbHelperSQL.Query(strSql.ToString());
         }
-
-
+        ///<summary>
+        ///应用系统管理员修改密码
+        ///</summary>
+        ///<param name="login">应用系统管理员账号</param>
+        ///<param name="password">密码</param>
+        ///<returns></returns>
+        public bool ModifyPassword(string login,string password)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update users set ");
+            strSql.Append("password=dbo.f_tobase64(HASHBYTES('md5',CONVERT(nvarchar,@password)))");
+            strSql.Append("where login=@login");
+            SqlParameter[] parameters ={  
+                new SqlParameter("@password",SqlDbType.NVarChar,255),
+                new SqlParameter("@login",SqlDbType.NVarChar,40)};
+            parameters[0].Value = password;
+            parameters[1].Value = login;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion  Method
     }
 }

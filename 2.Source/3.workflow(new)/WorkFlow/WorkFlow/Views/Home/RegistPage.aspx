@@ -9,6 +9,10 @@
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
     
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
+        type="text/css" />
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <style type="text/css">
         .container{ min-width:700px;}
         .control-group .{}
@@ -24,33 +28,29 @@
         #userinfo .m-rightform{ position:relative; float:left;}
     </style>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var options = {
-                //beforeSubmit: showRequest,  // from提交前的响应的回调函数
-                success: showResponse,  // form提交响应成功后执行的回调函数
-                url: "/Home/RegistUser",
-                type: "POST",
-                dataType: "json"
-            };
+       <script type="text/javascript">
+           $(document).ready(function () {
+               var form = $("#registerUser");
+               form.submit(function () {
+                   $.post(form.attr("action"),
+                    form.serialize(),
+                    function (result, status) {
+                        //debugger
+                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").addClass(result.css);
+                        $("#promptDIV").html(result.message);
 
-            $("#submit").click(function () {
-                if (false) {
-                    return false;
-                } else {
-                    $("#appsRegist").ajaxForm(options);
-                }
-            });
+                        if (result.success) {
+                            location.href = result.toUrl;
+                        }
+                    },
+                    "JSON");
+                   return false;
 
-            function showResponse(responseText, statusText) {
-                //成功后执行的方法
-                //alert(responseText.Id + responseText.Name);
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass(responseText.css);
-                $("#promptDIV").html(responseText.message);
-            } 
-        });
+               });
+           });
     </script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
@@ -68,9 +68,9 @@
         <div id="promptDIV" class="row"></div>
         </div>
 
-        <form id="appsRegist" class="form-inline" method="post" action="">
+        <form id="registerUser" class="form-inline" method="post" action="/Home/RegistUser">
         <input type="reset" class="btn btn-primary pull-right" value="重置信息" />
-        <input id="submit" type="submit" class="btn btn-primary pull-right" value="提交申请" />     
+        <input  type="submit" class="btn btn-primary pull-right" value="提交申请" />     
         <div class="control-group"style="border-style:none" >
             <h3>系统信息</h3>
             <div class="m-group-topborder">
