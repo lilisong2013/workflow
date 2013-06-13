@@ -234,7 +234,7 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
                 }
             }
-          
+
             DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID);
             ArrayList codeList = new ArrayList();
             var codetotal = codeds.Tables[0].Rows.Count;
@@ -261,8 +261,23 @@ namespace WorkFlow.Controllers
             m_elementsModel.created_at=Convert.ToDateTime(collection["Created_at"].Trim());
             m_elementsModel.created_by = Convert.ToInt32(collection["Created_by"].Trim());
             m_elementsModel.created_ip=collection["Created_ip"].Trim();
-            m_elementsBllService.Add(m_elementsModel);
-            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功", toUrl = "/ElementsManagement/AppElements" });
+            try
+            {
+                if (m_elementsBllService.Add(m_elementsModel) != 0)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功", toUrl = "/ElementsManagement/AppElements" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="添加失败" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序出错!"});
+            }
+            
+          
         }
         ///<summary>
         ///获得系统ID的下拉列表框
@@ -436,14 +451,21 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的编码!"});
                 }
             }
-            if (m_elementsBllService.Update(m_elementsModel))
+            try
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功!", toUrl = "/ElementsManagement/AppElements" });
+                if (m_elementsBllService.Update(m_elementsModel))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功!", toUrl = "/ElementsManagement/AppElements" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="修改失败!"});
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("AppElements");
-            }
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+            }          
             
         }
         public class LoginResultDTO

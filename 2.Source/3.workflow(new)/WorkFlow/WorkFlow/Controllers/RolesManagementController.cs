@@ -66,13 +66,13 @@ namespace WorkFlow.Controllers
 
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
             WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-           
 
 
-            //m_SecurityContext.UserName = m_usersModel.login;
-            //m_SecurityContext.PassWord = m_usersModel.password;
-            //m_SecurityContext.AppID = (int)m_usersModel.app_id;
-            //m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
             
             
             string m_rolesName = collection["rolesName"].Trim();
@@ -106,8 +106,23 @@ namespace WorkFlow.Controllers
             m_rolesModel.remark = collection["rolesRemark"].Trim();
 
             string msg = string.Empty;
-            m_rolesBllService.Add(m_rolesModel,out msg);
-            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！"+msg, toUrl = "/RolesManagement/AppRoles" });
+            try
+            {
+                if (m_rolesBllService.Add(m_rolesModel, out msg) != 0)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "角色添加成功!" + msg, toUrl = "/RolesManagement/AppRoles" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="角色添加失败!"});
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+            }
+           
+            //return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！"+msg,  });
         }
         
         /// <summary>
@@ -235,15 +250,22 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的角色名称!" });
                 }
             }
-            if (m_rolesBllService.Update(m_rolesModel))
-            {             
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/RolesManagement/AppRoles" });           
-            }
-
-            else
+            try
             {
-                return RedirectToAction("AppRoles");
+                if (m_rolesBllService.Update(m_rolesModel))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改角色成功！", toUrl = "/RolesManagement/AppRoles" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="修改角色失败!"});                  
+                }
             }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+            }
+          
         }
         
         /// <summary>
