@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web.Services.Protocols;
 using Saron.WorkFlowService.Model;
 
 namespace Saron.WorkFlowService.WebService
@@ -20,6 +21,8 @@ namespace Saron.WorkFlowService.WebService
     {
         private readonly Saron.WorkFlowService.DAL.rolesDAL m_rolesDal = new Saron.WorkFlowService.DAL.rolesDAL();
 
+        public SecurityContext m_securityContext = new SecurityContext();
+
         #region  Method
         /// <summary>
         /// 是否存在该记录
@@ -30,13 +33,32 @@ namespace Saron.WorkFlowService.WebService
             return m_rolesDal.Exists(id);
         }
 
-        /// <summary>
-        /// 增加一条数据
-        /// </summary>
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "增加一条记录")]
-        public int Add(Saron.WorkFlowService.Model.rolesModel model)
+        public int Add(Saron.WorkFlowService.Model.rolesModel model,out string msg)
         {
-            return m_rolesDal.Add(model);
+            int result = 0;
+            //对webservice进行授权验证
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                result = -1;
+                //webservice用户未授权，msg提示信息
+                return result;
+            }
+
+            result = m_rolesDal.Add(model);
+
+            if (result == 0)
+            {
+                msg = "添加失败";
+            }
+            else
+            {
+                msg = "";
+            }
+
+            return result;
         }
 
         /// <summary>
