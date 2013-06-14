@@ -641,9 +641,7 @@
     <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\Shared\Infomation.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
@@ -652,35 +650,24 @@
     <Content Include="Views\UsersManagement\EditPage.aspx" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <Content Include="Views\Shared\Infomation.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
-    <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\User_RoleBLLservice\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
-    <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <None Include="Web References\User_RoleBLLservice\user_roleBLLservice.disco" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
@@ -688,7 +675,6 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.disco" />
     <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

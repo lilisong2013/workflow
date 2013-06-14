@@ -15,7 +15,8 @@ namespace Saron.WorkFlowService.DAL
 		{}
 		
         #region  Method
-		/// <summary>
+		
+        /// <summary>
 		/// 是否存在该记录
 		/// </summary>
 		public bool Exists(int id)
@@ -30,7 +31,6 @@ namespace Saron.WorkFlowService.DAL
 
 			return DbHelperSQL.Exists(strSql.ToString(),parameters);
 		}
-
 
 		/// <summary>
 		/// 增加一条数据
@@ -85,7 +85,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 更新一条数据
 		/// </summary>
 		public bool Update(Saron.WorkFlowService.Model.elementsModel model)
@@ -160,7 +161,7 @@ namespace Saron.WorkFlowService.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from elements ");
+            strSql.Append("update elements set deleted=1 ");
 			strSql.Append(" where id=@id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -177,7 +178,8 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 批量删除数据
 		/// </summary>
 		public bool DeleteList(string idlist )
@@ -195,7 +197,6 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-
 
 		/// <summary>
 		/// 得到一个对象实体
@@ -315,6 +316,7 @@ namespace Saron.WorkFlowService.DAL
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
+        
         ///<summary>
         ///获得某系统的元素数据列表
         /// </summary>
@@ -348,6 +350,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[1].Value = menuID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+        
         ///<summary>
         ///获得某系统和页面元素的Code列表
         /// </summary>
@@ -365,6 +368,7 @@ namespace Saron.WorkFlowService.DAL
             return DbHelperSQL.Query(strSql.ToString(), parameters);
 
         }
+        
         /// <summary>
         /// 获得某一菜单下的页面元素
         /// </summary>
@@ -392,8 +396,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select name from elements");
             return DbHelperSQL.Query(strSql.ToString());
         }
-		
-        
+
         /// 获得前几行数据
 		/// </summary>
 		public DataSet GetList(int Top,string strWhere,string filedOrder)
@@ -435,8 +438,7 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		
-        
+
         /// <summary>
 		/// 分页获取数据列表
 		/// </summary>
