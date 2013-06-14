@@ -295,12 +295,8 @@
                 onSelect: OnSelectMenusOfElements
             });
             eManagerTree = $("#eMyTree").ligerGetTreeManager();
-
+            
             //初始化ligerGrid
-            $("#eMyGrid").ligerGrid({
-                width: '99%',
-                height: '300'
-            });
             eManagerGrid = $("#eMyGrid").ligerGetGridManager();
 
             //切换Tab页面时重载mMyTree数据

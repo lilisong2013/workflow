@@ -93,7 +93,7 @@
                 },
                  { display: '', width: 100,
                      render: function (row) {
-                         var html = '<i class="icon-trash"></i><a href="/AppsManagement/ChangePage?id=' + row.id + '">删除</a>';
+                         var html = '<i class="icon-trash"></i><a href="#">删除</a>';
                          return html;
                      }
                  }

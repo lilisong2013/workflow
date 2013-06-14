@@ -31,10 +31,7 @@ namespace WorkFlow.Controllers
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
-            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-
-            m_SecurityContext.UserName = m_usersModel.name;
+            m_SecurityContext.UserName = m_usersModel.login;
             m_SecurityContext.PassWord = m_usersModel.password;
             m_SecurityContext.AppID =(int)m_usersModel.app_id;
             m_elementsService.SecurityContextValue = m_SecurityContext;
@@ -107,6 +104,14 @@ namespace WorkFlow.Controllers
             String msg = String.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID =(int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_SecurityContext;
+            
             m_elementsModel = m_elementsBllService.GetModel(id,out msg);
             ViewData["elementsName"] = m_elementsModel.name;
             ViewData["elementsCode"] = m_elementsModel.code;
@@ -152,7 +157,15 @@ namespace WorkFlow.Controllers
         {
             String msg = String.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
-            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            //WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID =(int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_SecurityContext;
+
             if (m_elementsBllService.Delete(id,out msg))
             {
                 return RedirectToAction("AppElements");
@@ -168,10 +181,19 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult EditPage(int id)
         {
-            String msg = String.Empty;
+            string msg = string.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
-            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-            m_elementsModel = m_elementsBllService.GetModel(id,out msg);
+            //WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext= new ElementsWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID =(int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_SecurityContext;
+
+            WorkFlow.ElementsWebService.elementsModel m_elementsModel = m_elementsBllService.GetModel(id, out msg);
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
             m_elementsModel.updated_at = t;
@@ -204,10 +226,19 @@ namespace WorkFlow.Controllers
             string msg = string.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
 
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
+
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID =(int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_SecurityContext;
+            
+        
+            
             int appID = Convert.ToInt32(m_usersModel.app_id);
             
             string str=Request.Form["MenusParent"];
@@ -237,6 +268,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="排序码不能为空!" });
             }
+           
             int menuID = Convert.ToInt32(collection["MenusParent"]);
             DataSet ds = m_elementsBllService.GetAllElementsListOfMenuApp(appID,menuID,out msg);
             ArrayList elementsList = new ArrayList();
@@ -347,19 +379,38 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
-
+            //获取Menu表中所有的id列表
             DataSet ds = m_menusBllService.GetAllMenusList();
+            //var IDtotal = ds.Tables[0].Rows.Count;
+            //int[] IDList=new int[IDtotal];
+            //for (int i = 0; i < IDtotal; i++)
+            //{
+            //    //IDlist.Add(ds.Tables[0].Rows[i][0]);
+            //    IDList[i] = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
+            //}
+            ////获取最低层的子菜单
+            //int count = 0;
+            //ArrayList childList = new ArrayList();
+            //for (int i = 0; i < IDtotal; i++)
+            //{
+            //    if (m_menusBllService.ExistsChildrenMenus(IDList[i]))
+            //    {
+            //        childList.Add(IDList[i]);
+            //        count++;
+            //    }
+            //}
             List<Saron.WorkFlow.Models.menusHelper> m_menuslist = new List<Saron.WorkFlow.Models.menusHelper>();
 
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
             {
+               
                 if (ds.Tables[0].Rows[i][5] == DBNull.Value)
                 {
                     m_menuslist.Add(new Saron.WorkFlow.Models.menusHelper { menusID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), menusName = ds.Tables[0].Rows[i][1].ToString(), menusLevel = 1, parentID = -1 });
                 }
                 else
-                {
-                    m_menuslist.Add(new Saron.WorkFlow.Models.menusHelper { menusID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), menusName = ds.Tables[0].Rows[i][1].ToString(), menusLevel = 1, parentID = Convert.ToInt32(ds.Tables[0].Rows[i][5]) });
+                {    
+                 m_menuslist.Add(new Saron.WorkFlow.Models.menusHelper { menusID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), menusName = ds.Tables[0].Rows[i][1].ToString(), menusLevel = 1, parentID = Convert.ToInt32(ds.Tables[0].Rows[i][5]) });
                 }
 
             }
@@ -378,13 +429,19 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult EditElements(FormCollection collection)
         {
-           
-            String msg = String.Empty;
+
+            string msg = string.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
 
             WorkFlow.UsersWebService.usersModel codeModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-           
+
+            m_SecurityContext.UserName = codeModel.login;
+            m_SecurityContext.PassWord = codeModel.password;
+            m_SecurityContext.AppID =(int)codeModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_SecurityContext;
+
             m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()),out msg);
             int appID = Convert.ToInt32(codeModel.app_id);
             int menuID = Convert.ToInt32(collection["elementsMenu_id"]);
