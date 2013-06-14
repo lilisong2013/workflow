@@ -105,6 +105,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -151,6 +152,9 @@
   </wsdl:message>
   <wsdl:message name="GetAllRolesListOfAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllRolesListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllRolesListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:portType name="rolesBLLserviceSoap">
     <wsdl:operation name="Add">
@@ -225,6 +229,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllRolesListOfApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:GetAllRolesListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -277,6 +282,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetAllRolesListOfApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:GetAllRolesListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

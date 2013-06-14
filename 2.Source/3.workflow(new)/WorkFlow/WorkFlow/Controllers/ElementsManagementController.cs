@@ -24,9 +24,9 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult GetElements_Apply()
         {
-            String msg = String.Empty;
+            string msg = string.Empty;
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsService = new ElementsWebService.elementsBLLservice();
-            //WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+            WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
             WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
@@ -39,7 +39,7 @@ namespace WorkFlow.Controllers
             m_SecurityContext.AppID =(int)m_usersModel.app_id;
             m_elementsService.SecurityContextValue = m_SecurityContext;
 
-            int appid = Convert.ToInt32(m_usersModel.app_id);
+            int AppID = Convert.ToInt32(m_usersModel.app_id);
             //排序的字段名
             string sortname = Request.Params["sortname"];
             //排序的方向
@@ -48,16 +48,16 @@ namespace WorkFlow.Controllers
             int page = Convert.ToInt32(Request.Params["page"]);
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
-           
 
-            DataSet ds = m_elementsService.GetElementsListOfApp(appid,out msg);
+
+            DataSet ds = m_elementsService.GetElementsListOfApp(AppID, out msg);
 
             IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
             var total = ds.Tables[0].Rows.Count;
             for (var i = 0; i < total; i++)
             {
-                WorkFlow.ElementsWebService.elementsModel m_elementsModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
-                PropertyInfo[] m_propertys = m_elementsModel.GetType().GetProperties();
+                WorkFlow.ElementsWebService.elementsModel m_elementModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
+                PropertyInfo[] m_propertys = m_elementModel.GetType().GetProperties();
                 foreach (PropertyInfo pi in m_propertys)
                 {
                     for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
@@ -67,14 +67,14 @@ namespace WorkFlow.Controllers
                         {
                             // 数据库NULL值单独处理 
                             if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-                                pi.SetValue(m_elementsModel, ds.Tables[0].Rows[i][j], null);
+                                pi.SetValue(m_elementModel, ds.Tables[0].Rows[i][j], null);
                             else
-                                pi.SetValue(m_elementsModel, null, null);
+                                pi.SetValue(m_elementModel, null, null);
                             break;
                         }
                     }
                 }
-                m_list.Add(m_elementsModel);
+                m_list.Add(m_elementModel);
             }
 
             //模拟排序操作
@@ -252,6 +252,7 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
                 }
             }
+
             DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID,out msg);
             ArrayList codeList = new ArrayList();
             var codetotal = codeds.Tables[0].Rows.Count;

@@ -80,6 +80,7 @@ namespace WorkFlow.Controllers
         /// <returns>成功,返回主页面</returns>
         public ActionResult AddRoles(FormCollection collection)
         {
+            string msg = string.Empty;
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
             WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
@@ -104,7 +105,7 @@ namespace WorkFlow.Controllers
             }
             m_rolesModel.name = collection["rolesName"].Trim();
             //获得deleted=false的rolesName列表
-            DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id);
+            DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList rolesList = new ArrayList();
             for (int i = 0; i < total; i++)
@@ -127,7 +128,7 @@ namespace WorkFlow.Controllers
             m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
             m_rolesModel.remark = collection["rolesRemark"].Trim();
 
-            string msg = string.Empty;
+        
             try
             {
                 if (m_rolesBllService.Add(m_rolesModel, out msg) != 0)
@@ -247,9 +248,11 @@ namespace WorkFlow.Controllers
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
             WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
             WorkFlow.RolesWebService.rolesModel m_roleModel=(WorkFlow.RolesWebService.rolesModel)Session["role"];
 
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
 
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
@@ -274,7 +277,7 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
             }
             //获得deleted=false的rolesName列表
-            DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id);
+            DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList rolesList = new ArrayList();
             for (int i = 0; i < total; i++)
@@ -372,6 +375,7 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult GetRoles_Apply()
         {
+            string msg = string.Empty;
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             int appID = Convert.ToInt32(m_usersModel.app_id);
             //排序的字段名
@@ -384,7 +388,7 @@ namespace WorkFlow.Controllers
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
             WorkFlow.RolesWebService.rolesBLLservice m_rolesService = new RolesWebService.rolesBLLservice();
-            DataSet ds = m_rolesService.GetAllRolesListOfApp(appID);
+            DataSet ds = m_rolesService.GetAllRolesListOfApp(appID,out msg);
             IList<WorkFlow.RolesWebService.rolesModel> m_list = new List<WorkFlow.RolesWebService.rolesModel>();
 
             var total = ds.Tables[0].Rows.Count;

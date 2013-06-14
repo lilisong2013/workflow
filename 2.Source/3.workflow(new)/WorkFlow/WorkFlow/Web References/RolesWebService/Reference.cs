@@ -229,10 +229,12 @@ namespace WorkFlow.RolesWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllRolesListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetAllRolesListOfApp(int appID) {
+        public System.Data.DataSet GetAllRolesListOfApp(int appID, out string msg) {
             object[] results = this.Invoke("GetAllRolesListOfApp", new object[] {
                         appID});
+            msg = ((string)(results[1]));
             return ((System.Data.DataSet)(results[0]));
         }
         
@@ -649,6 +651,14 @@ namespace WorkFlow.RolesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
             }
         }
     }

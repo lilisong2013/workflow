@@ -413,6 +413,7 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult GetRolesList()
         {
+            string msg = string.Empty;
             int m_usersID = Convert.ToInt32(Request.Params["usersID"]);//用户ID
             string strJson="{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
             WorkFlow.User_RoleBLLservice.user_roleBLLservice m_user_roleBllService = new User_RoleBLLservice.user_roleBLLservice();
@@ -425,7 +426,7 @@ namespace WorkFlow.Controllers
             DataSet ds = new DataSet();
             try
             {
-                ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id);
+                ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
             }
             catch (Exception ex)
             { }
