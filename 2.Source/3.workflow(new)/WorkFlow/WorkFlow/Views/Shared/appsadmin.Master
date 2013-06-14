@@ -1,0 +1,71 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head id="Head1" runat="server">
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../Scripts/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="../../bootstrap/js/bootstrap.js" type="text/javascript"></script>
+    
+    <link href="../../Css/blue.css" rel="stylesheet" type="text/css" />
+    <%--页面js--%>
+    <asp:ContentPlaceHolder ID="PageJS" runat="server" />
+
+</head>
+<body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">权限管理系统</a>
+          <div class="collapse nav-collapse">
+            <ul class="nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">综合管理<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#"></a></li>
+                  <li><a href="/UsersManagement/AppUsers">用户管理</a></li>
+                  <li><a href="/RolesManagement/AppRoles">角色管理</a></li>
+                  <li><a href="/PrivilegesManagement/AppPrivileges">权限管理</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/MenusManagement/AppMenus">菜单管理</a></li>
+                  <li><a href="/OperationsManagement/AppOperations">功能管理</a></li>
+                  <li><a href="/ElementsManagement/AppElements">元素管理</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%
+                    WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+                    if (m_usersModel.login == null)
+                    { %>
+                    请登录
+                <% }
+                    else
+                    {%>
+                    欢迎，<%=m_usersModel.login%>
+                    <%} %>
+                <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/Home/Login">退出</a></li>
+                  <li><a href="/Home/Login">重新登录</a></li> 
+                  <li><a href="/Home/AdminPass">密码修改</a></li>                                
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+</body>
+</html>

@@ -249,6 +249,7 @@ namespace WorkFlow.Controllers
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
             WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
 
+
             WorkFlow.RolesWebService.rolesModel m_roleModel=(WorkFlow.RolesWebService.rolesModel)Session["role"];
 
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
@@ -376,7 +377,16 @@ namespace WorkFlow.Controllers
         public ActionResult GetRoles_Apply()
         {
             string msg = string.Empty;
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();           
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
             int appID = Convert.ToInt32(m_usersModel.app_id);
             //排序的字段名
             string sortname = Request.Params["sortname"];
@@ -386,9 +396,11 @@ namespace WorkFlow.Controllers
             int page = Convert.ToInt32(Request.Params["page"]);
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
-
-            WorkFlow.RolesWebService.rolesBLLservice m_rolesService = new RolesWebService.rolesBLLservice();
-            DataSet ds = m_rolesService.GetAllRolesListOfApp(appID,out msg);
+            DataSet ds = m_rolesBllService.GetAllRolesListOfApp(appID, out msg);
+            if (ds == null)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="无权访问WebService！"});
+            }
             IList<WorkFlow.RolesWebService.rolesModel> m_list = new List<WorkFlow.RolesWebService.rolesModel>();
 
             var total = ds.Tables[0].Rows.Count;
