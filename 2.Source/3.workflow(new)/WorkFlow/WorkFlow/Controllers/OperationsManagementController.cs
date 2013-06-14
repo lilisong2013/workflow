@@ -209,16 +209,24 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的代码名称!"});
                 }
             }
-            //修改后的操作名称与数据库表中的操作名称不相同并且操作名称不是本身自己            
-            if (m_operationsBllService.Update(m_operationsModel))
+            try
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/OperationsManagement/AppOperations" });
-                // return RedirectToAction("AppOperations");
+                //修改后的操作名称与数据库表中的操作名称不相同并且操作名称不是本身自己            
+                if (m_operationsBllService.Update(m_operationsModel))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/OperationsManagement/AppOperations" });
+                    // return RedirectToAction("AppOperations");
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="修改失败!"});
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToAction("AppOperations");
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
             }
+          
         }
         ///<summary>
         ///删除数据库中指定记录的操作
@@ -306,8 +314,23 @@ namespace WorkFlow.Controllers
             m_operationsModel.created_at = t;
             m_operationsModel.created_by = m_usersModel.id;
             m_operationsModel.created_ip = Convert.ToString(collection["createdIP"].Trim());
-            m_operationsBllService.Add(m_operationsModel);
-            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/OperationsManagement/AppOperations" });
+            try
+            {
+                if (m_operationsBllService.Add(m_operationsModel) != 0)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "功能添加成功!", toUrl = "/OperationsManagement/AppOperations" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="添加功能失败!"});
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序出错!"});
+            }
+
+            //return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功！", toUrl = "/OperationsManagement/AppOperations" });
         }
     }
 }

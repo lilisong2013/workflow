@@ -208,8 +208,22 @@ namespace WorkFlow.Controllers
             m_usersModel.created_by = Convert.ToInt32(collection["usersCreated_by"].Trim());
             m_usersModel.created_ip = collection["usersCreated_ip"].Trim();
             m_usersModel.app_id = appID;
-            m_usersBllService.Add(m_usersModel);
-            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功!", toUrl = "/UsersManagement/AppUsers" });
+            try
+            {
+                if (m_usersBllService.Add(m_usersModel) != 0)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加用户成功!", toUrl = "/UsersManagement/AppUsers" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="添加用户失败!"});
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序出错!"});
+            }
+                    
         }
         ///<summary>
         ///获取数据表中ID的信息
@@ -355,14 +369,22 @@ namespace WorkFlow.Controllers
             m_usersModel.updated_by = m_userModel.id;
             m_usersModel.updated_ip = ipAddress;
             // m_usersModel.app_id = Convert.ToInt32(collection["usersApp_id"].Trim());
-            if (m_usersBllService.Update(m_usersModel))
+            try 
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功!", toUrl = "/UsersManagement/AppUsers" });
+                if (m_usersBllService.Update(m_usersModel))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改用户成功!", toUrl = "/UsersManagement/AppUsers" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="修改用户失败!"});
+                }
             }
-            else
+            catch (Exception ex) 
             {
-                return RedirectToAction("AppUsers");
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
             }
+          
         }
         ///<summary>
         ///给用户赋角色
@@ -391,6 +413,7 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult GetRolesList()
         {
+            string msg = string.Empty;
             int m_usersID = Convert.ToInt32(Request.Params["usersID"]);//用户ID
             string strJson="{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
             WorkFlow.User_RoleBLLservice.user_roleBLLservice m_user_roleBllService = new User_RoleBLLservice.user_roleBLLservice();
@@ -403,7 +426,7 @@ namespace WorkFlow.Controllers
             DataSet ds = new DataSet();
             try
             {
-                ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id);
+                ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
             }
             catch (Exception ex)
             { }

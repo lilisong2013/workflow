@@ -29,8 +29,7 @@
     <%--权限列表--%>
     <script type="text/javascript">
         var managerListGrid;
-        $(document).ready(function () {
-
+        $(document).ready(function () {          
             //定义ligerGrid
             $("#privilegesgrid").ligerGrid({
                 width: '99%',

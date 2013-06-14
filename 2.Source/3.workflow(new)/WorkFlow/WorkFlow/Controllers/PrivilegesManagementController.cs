@@ -343,12 +343,13 @@ namespace WorkFlow.Controllers
         //权限项目列表：元素
         public ActionResult GetElementOfItem()
         {
+            String msg = String.Empty;
             int menusID = Convert.ToInt32(Request.Params["menusID"]);//菜单ID
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new WorkFlow.ElementsWebService.elementsBLLservice();
             string data = "{Rows:[";
             try
             {
-                DataSet ds = m_elementsBllService.GetElementsListOfMenus(menusID);
+                DataSet ds = m_elementsBllService.GetElementsListOfMenus(menusID,out msg);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     string id = ds.Tables[0].Rows[i][0].ToString();
