@@ -252,7 +252,11 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
                 }
             }
+<<<<<<< HEAD
             DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID,out msg);
+=======
+            DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID);
+>>>>>>> 52d49ddbec753b9dd743017bfa2fd9596f9c5ae7
             ArrayList codeList = new ArrayList();
             var codetotal = codeds.Tables[0].Rows.Count;
             for (int i = 0; i < codetotal; i++)
