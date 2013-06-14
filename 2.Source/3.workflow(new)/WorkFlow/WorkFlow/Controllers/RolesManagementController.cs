@@ -248,11 +248,21 @@ namespace WorkFlow.Controllers
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
             WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+<<<<<<< HEAD
 
             WorkFlow.RolesWebService.rolesModel m_roleModel=(WorkFlow.RolesWebService.rolesModel)Session["role"];
 
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
 
+=======
+<<<<<<< HEAD
+            WorkFlow.RolesWebService.rolesModel m_roleModel=(WorkFlow.RolesWebService.rolesModel)Session["role"];
+
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+=======
+
+>>>>>>> 52d49ddbec753b9dd743017bfa2fd9596f9c5ae7
+>>>>>>> 577c5dccaf2c34a14e83f9986100eb9eed228bd8
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
 
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
