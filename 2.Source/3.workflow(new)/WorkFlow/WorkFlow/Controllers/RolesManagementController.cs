@@ -219,14 +219,18 @@ namespace WorkFlow.Controllers
 
         public ActionResult GetInvalidName()
         {
+            string[] invalidI=new string[2];
+            invalidI[0] = "false";
+            invalidI[1] = "true";
 
-            string[] invalid = new string[2];
-            invalid[0]="true";
-            invalid[1]="false";
+            string[] invalidN = new string[2];
+            invalidN[0] = "是";
+            invalidN[1] = "否";
+
             List<Saron.WorkFlow.Models.InvalidHelper> m_invalidlist=new List<Saron.WorkFlow.Models.InvalidHelper>();
             for (int i = 0; i < 2; i++)
             {
-                m_invalidlist.Add(new Saron.WorkFlow.Models.InvalidHelper { InvalidID=invalid[i].ToString(),InvalidName=invalid[i].ToString()});
+                m_invalidlist.Add(new Saron.WorkFlow.Models.InvalidHelper { InvalidID = invalidI[i].ToString(), InvalidName = invalidN[i].ToString() });
             }
             var dataJson = new
             {
@@ -250,14 +254,11 @@ namespace WorkFlow.Controllers
             WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
 
 
-            WorkFlow.RolesWebService.rolesModel m_roleModel=(WorkFlow.RolesWebService.rolesModel)Session["role"];
+            WorkFlow.RolesWebService.rolesModel m_roleModel=new WorkFlow.RolesWebService.rolesModel();
 
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
 
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-
-            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
 
             m_SecurityContext.UserName = m_usersModel.login;
             m_SecurityContext.PassWord = m_usersModel.password;
@@ -277,7 +278,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
             }
-            //获得deleted=false的rolesName列表
+            //获得deleted=false且应用系统ID为appid的rolesName列表
             DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList rolesList = new ArrayList();
@@ -396,7 +397,7 @@ namespace WorkFlow.Controllers
             int page = Convert.ToInt32(Request.Params["page"]);
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
-            DataSet ds = m_rolesBllService.GetAllRolesListOfApp(appID, out msg);
+            DataSet ds = m_rolesBllService.GetAllRolesListOfApp(appID,out msg);
             if (ds == null)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="无权访问WebService！"});

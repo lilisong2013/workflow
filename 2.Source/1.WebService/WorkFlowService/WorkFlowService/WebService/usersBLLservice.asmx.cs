@@ -111,6 +111,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_usersdal.Delete(id);
         }
+        ///<summary>
+        ///逻辑上删除一条数据
+        /// </summary>
+        [WebMethod(Description = "逻辑上删除一条id为id的记录")]
+        public bool LogicDelete(int id)
+        {
+            return m_usersdal.LogicDelete(id);
+        }
         /// <summary>
         /// 删除一条数据
         /// </summary>

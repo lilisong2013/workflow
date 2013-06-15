@@ -84,7 +84,7 @@
                 { display: '系统编码', name: 'code', width: 80 },
                 { display: '访问连接', name: 'url', width: 120 },
                 { display: '备注', name: 'remark', width: 200 },
-              
+
                 { display: '', width: 100,
                     render: function (row) {
                         var html = '<i class="icon-lock"></i><a href="/AppsManagement/' + toUrl + '?id=' + row.id + '">详情</a>';
@@ -93,11 +93,13 @@
                 },
                  { display: '', width: 100,
                      render: function (row) {
-                         var html = '<i class="icon-trash"></i><a href="#">删除</a>';
+                         var html = '<i class="icon-trash"></i><a href="/AppsManagement/ChangePage?id=' + row.id + '">删除</a>';
                          return html;
                      }
                  }
                 ],
+                    type: "POST",
+                    dataType: "json",
                     dataAction: 'server',
                     width: '90%',
                     pageSizeOptions: [5, 10, 15, 20, ],
