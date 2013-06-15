@@ -31,8 +31,21 @@ namespace Saron.WorkFlowService.DAL
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
+        ///<summary>
+        ///(应用系统apps表删除记录时判断user表中)是否存在系统应用ID为app_id的记录
+        /// </summary>
+        public bool ExistsAppofUser(int app_id)
+        {
 
-
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from users");
+            strSql.Append(" where app_id=@app_id");
+            SqlParameter[] parameters = { 
+                    new SqlParameter("@app_id",SqlDbType.Int,4)};
+            parameters[0].Value = app_id;
+                                    
+            return DbHelperSQL.Exists(strSql.ToString(),parameters);
+        }
         /// <summary>
         /// （用户登录）是否存在用户或密码
         /// </summary>
