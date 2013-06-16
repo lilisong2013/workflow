@@ -81,7 +81,41 @@ namespace WorkFlow.Controllers
             };
             return Json(gridData);
         }
+        //获取是否有效的列表
+        public ActionResult GetInvalidList()
+        {
+            int m_userID = Convert.ToInt32(Request.Params["userID"]);//用户ID
+            string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
 
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.usersModel userModel = new WorkFlow.UsersWebService.usersModel();    
+    
+            userModel= m_usersBllService.GetModelByID(m_userID);
+
+            string m_selected = string.Empty;
+            int total = 1;
+            int m_usersID = Convert.ToInt32(userModel.id);
+            string m_InvalidName ;
+
+            //判断角色中是否已经存在该权限
+            if (userModel.invalid == false)
+            {
+                m_selected = "true";
+                m_InvalidName = "是";
+            }
+            else
+            {
+                m_selected = "false";
+                m_InvalidName= "否";
+            }
+            strJson += "{id:'" +m_usersID+ "',";
+            strJson += "name:'" + m_InvalidName + "',";
+            strJson += "selected:'" + m_selected + "'},";
+   
+           
+        strJson += "],total:'" + total + "'}";
+        return Json(strJson);
+        }
         ///<summary>
         ///显示数据库中用户表的详细信息
         ///</summary>
@@ -117,13 +151,26 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+           
             m_usersModel = m_usersBllService.GetModelByID(id);
-            if (m_usersBllService.Delete(id))
-            {
-                return RedirectToAction("AppUsers");
+            try {
+                if (m_usersBllService.LogicDelete(id))
+                {
+                   
+                    return View();
+                 
+                }
+                else
+                {
+                    return RedirectToAction("AppUsers");
+                }           
             }
-            else
-                return View();
+            catch (Exception ex) 
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+            }
+           
+                
         }
         ///<summary>
         ///添加数据到数据库表中
@@ -288,9 +335,9 @@ namespace WorkFlow.Controllers
             string employeeno = collection["usersEmployee_no"].Trim();
             string phone = collection["usersMobile_phone"].Trim();
             string mail = collection["usersMail"].Trim();
-            // string appid = (collection["usersApp_id"].Trim());
-            //string admin = (collection["usersAdmin"].Trim());
-            string invalid = (collection["usersInvalid"].Trim());
+            
+            string invalid = Request.Params["invalidValue"];
+            
             if (login.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录名称不能为空!" });
@@ -323,14 +370,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件格式不正确!" });
             }
-            /*if (appid.Length == 0)
-             {
-                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="系统ID不能为空!" });
-             }*/
-            if (invalid.Length == 0 || invalid.Equals("请选择"))
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空!" });
-            }
+         
             DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID);
             ArrayList userList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
@@ -363,7 +403,8 @@ namespace WorkFlow.Controllers
             m_usersModel.mail = collection["usersMail"].Trim();
             m_usersModel.remark = collection["usersRemark"].Trim();
             m_usersModel.admin = false;
-            m_usersModel.invalid = Convert.ToBoolean(collection["usersInvalid"].Trim());
+            m_usersModel.invalid = Convert.ToBoolean(Request.Params["invalidValue"]);
+           
             m_usersModel.deleted = Convert.ToBoolean(collection["usersDeleted"].Trim());
             m_usersModel.updated_at = t;
             m_usersModel.updated_by = m_userModel.id;

@@ -125,6 +125,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="LogicDelete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogicDeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LogicDeleteResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="DeleteIdAndLogin">
         <s:complexType>
           <s:sequence>
@@ -434,6 +448,12 @@
   <wsdl:message name="DeleteSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteResponse" />
   </wsdl:message>
+  <wsdl:message name="LogicDeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:LogicDelete" />
+  </wsdl:message>
+  <wsdl:message name="LogicDeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:LogicDeleteResponse" />
+  </wsdl:message>
   <wsdl:message name="DeleteIdAndLoginSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteIdAndLogin" />
   </wsdl:message>
@@ -565,6 +585,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录</wsdl:documentation>
       <wsdl:input message="tns:DeleteSoapIn" />
       <wsdl:output message="tns:DeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LogicDelete">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">逻辑上删除一条id为id的记录</wsdl:documentation>
+      <wsdl:input message="tns:LogicDeleteSoapIn" />
+      <wsdl:output message="tns:LogicDeleteSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteIdAndLogin">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id，登录名为login的记录</wsdl:documentation>
@@ -705,6 +730,15 @@
     </wsdl:operation>
     <wsdl:operation name="Delete">
       <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogicDelete">
+      <soap:operation soapAction="http://saron.workflowservice.org/LogicDelete" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -915,6 +949,15 @@
     </wsdl:operation>
     <wsdl:operation name="Delete">
       <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogicDelete">
+      <soap12:operation soapAction="http://saron.workflowservice.org/LogicDelete" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

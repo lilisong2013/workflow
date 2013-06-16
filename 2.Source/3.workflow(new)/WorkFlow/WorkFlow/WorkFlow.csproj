@@ -653,6 +653,7 @@
     <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.disco" />
     <Content Include="Views\Shared\Infomation.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
+    <Content Include="Views\UsersManagement\ChangePage.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />

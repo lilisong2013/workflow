@@ -104,10 +104,10 @@ namespace Saron.WorkFlowService.WebService
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        [WebMethod(Description = "获得所有数据列表")]
-        public DataSet GetAllMenusList()
+        [WebMethod(Description = "获得某系统下所有数据列表")]
+        public DataSet GetAllMenusListofApp(int app_id)
         {
-            return GetMenusList("");
+            return m_menusDal.GetListOfApp(app_id);
         }
         ///<summary>
         ///获得某系统的Code、parent_id编码

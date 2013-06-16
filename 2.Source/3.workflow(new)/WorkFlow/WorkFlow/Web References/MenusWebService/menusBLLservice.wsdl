@@ -163,13 +163,17 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAllMenusList">
-        <s:complexType />
-      </s:element>
-      <s:element name="GetAllMenusListResponse">
+      <s:element name="GetAllMenusListofApp">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAllMenusListResult">
+            <s:element minOccurs="1" maxOccurs="1" name="app_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllMenusListofAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllMenusListofAppResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -373,11 +377,11 @@
   <wsdl:message name="GetMenusTopListSoapOut">
     <wsdl:part name="parameters" element="tns:GetMenusTopListResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAllMenusListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllMenusList" />
+  <wsdl:message name="GetAllMenusListofAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllMenusListofApp" />
   </wsdl:message>
-  <wsdl:message name="GetAllMenusListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllMenusListResponse" />
+  <wsdl:message name="GetAllMenusListofAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllMenusListofAppResponse" />
   </wsdl:message>
   <wsdl:message name="GetCodeParentOfAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetCodeParentOfApp" />
@@ -467,10 +471,10 @@
       <wsdl:input message="tns:GetMenusTopListSoapIn" />
       <wsdl:output message="tns:GetMenusTopListSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllMenusList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
-      <wsdl:input message="tns:GetAllMenusListSoapIn" />
-      <wsdl:output message="tns:GetAllMenusListSoapOut" />
+    <wsdl:operation name="GetAllMenusListofApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下所有数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetAllMenusListofAppSoapIn" />
+      <wsdl:output message="tns:GetAllMenusListofAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetCodeParentOfApp">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的code、parent_id</wsdl:documentation>
@@ -591,8 +595,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllMenusList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetAllMenusList" style="document" />
+    <wsdl:operation name="GetAllMenusListofApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllMenusListofApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -747,8 +751,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllMenusList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllMenusList" style="document" />
+    <wsdl:operation name="GetAllMenusListofApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllMenusListofApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

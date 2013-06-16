@@ -377,28 +377,15 @@ namespace WorkFlow.Controllers
         /// <returns>json数据</returns>
         public ActionResult GetMenusName()
         {
+            
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
             //获取Menu表中所有的id列表
-            DataSet ds = m_menusBllService.GetAllMenusList();
-            //var IDtotal = ds.Tables[0].Rows.Count;
-            //int[] IDList=new int[IDtotal];
-            //for (int i = 0; i < IDtotal; i++)
-            //{
-            //    //IDlist.Add(ds.Tables[0].Rows[i][0]);
-            //    IDList[i] = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
-            //}
-            ////获取最低层的子菜单
-            //int count = 0;
-            //ArrayList childList = new ArrayList();
-            //for (int i = 0; i < IDtotal; i++)
-            //{
-            //    if (m_menusBllService.ExistsChildrenMenus(IDList[i]))
-            //    {
-            //        childList.Add(IDList[i]);
-            //        count++;
-            //    }
-            //}
+            DataSet ds = m_menusBllService.GetAllMenusListofApp((int)m_usersModel.app_id);
+
+         
             List<Saron.WorkFlow.Models.menusHelper> m_menuslist = new List<Saron.WorkFlow.Models.menusHelper>();
 
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)

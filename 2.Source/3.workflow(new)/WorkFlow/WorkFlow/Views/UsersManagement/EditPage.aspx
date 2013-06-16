@@ -14,6 +14,13 @@ EditPage
     <script src="../../bootstrap/js/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
      <script type="text/javascript">
+         var userID;
+         $(document).ready(function () {
+             userID = $("#userID").val(); //用户ID
+             var inTotal = 0;//是否有效数量
+         });
+     </script>
+     <script type="text/javascript">
          $(document).ready(function () {
              var form = $("#Edit_Users");
              form.submit(function () {
@@ -34,64 +41,106 @@ EditPage
          });
    </script>
 
+  
+    <%--是否有效初始化--%>
     <script type="text/javascript">
         $(document).ready(function () {
-            BindAdminName();
-            $("#usersInfo").html("请选择");
-        });
-        function BindAdminName() {
             $.ajax({
-                type: "Post",
-                contentType: "application/json",
-                url: "/RolesManagement/GetInvalidName",
-                data: {}, //即使参数为空，也需要设置
-                dataType: 'JSON', //返回的类型为XML
-                success: function (result, status) {
-                    //成功后执行的方法
-                    try {
-                        if (status == "success") {
-                            for (var i = 0; i < result.Total; i++) {
-                                $("#usersAdmin").append("<option value='" + result.Rows[i].InvalidID + "'>" + result.Rows[i].InvalidName + "</option>");
-                            }
+                url: "/UsersManagement/GetInvalidList",
+                type: "POST",
+                dataType: "json",
+                data: { userid: userID },
+                success: function (responseText, statusText) {
+                    alert(responseText);
+                    var dataJson = eval("(" + responseText + ")");
+                    inTotal = parseInt(dataJson.total); //操作权限数量
+                    for (var i = 0; i < dataJson.total; i++) {
+                        $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
+                    }
+
+                    for (var i = 0; i < dataJson.total; i++) {
+                        if (dataJson.List[i].selected == "true") {
+                            $("#invalidValue" + i.toString()).prop("checked", true);
+                            alert($("#invalidValue").is(":checked"));
+                        } else {
+                            $("#invalidValue" + i.toString()).prop("checked", false);
+                            alert($("#invalidValue").is(":checked"));
                         }
-                    } catch (e) { }
+                    }
                 }
             });
-        }
-  </script>
+        });
+    </script>
 
-   <script type="text/javascript">
-       $(document).ready(function () {
-           BindInvalidName();
-           $("#invalidInfo").html("请选择");
-       });
-       function BindInvalidName() {
-           $.ajax({
-               type: "Post",
-               contentType: "application/json",
-               url: "/RolesManagement/GetInvalidName",
-               data: {}, //即使参数为空，也需要设置
-               dataType: 'JSON', //返回的类型为XML
-               success: function (result, status) {
-                   //成功后执行的方法
-                   try {
-                       if (status == "success") {
-                           for (var i = 0; i < result.Total; i++) {
-                               $("#usersInvalid").append("<option value='" + result.Rows[i].InvalidID + "'>" + result.Rows[i].InvalidName + "</option>");
-                           }
-                       }
-                   } catch (e) { }
-               }
-           });
-       }
-  </script>
+   
+	<script type="text/javascript">
 
+	    $(document).ready(function () {
+	        var usersData;
+	        var usersStr;
+	        $("#saveSubmit").click(function () {
+	            if (false) {
+	                return false;
+	            } else {
+	                usersStr = "{"; //JSON数据字符串
+
+	                //菜单权限中被选中的项          
+	                var checkBoxID = $("#invalidValue"); //复选框ID
+	                alert(checkBoxID.is(":checked"));
+	                if (checkBoxID.is(":checked")) {
+	                   // alert(checkBoxID.val() + "选中");
+	                    //usersStr += "uInvalidID" + upTotal.toString() + ":'" + checkBoxID.val() + "',";
+	                    // checkBoxID.prop("checked", true);
+
+	                } else {
+	                    //alert(checkBoxID.val() + "未选中");
+	                    // checkBoxID.prop("checked", false);
+	                }
+
+	                // usersStr = "'u_ID:'" + $("#userID").val() + "}";
+	                // alert(usersStr);
+
+	                usersData = eval("(" + usersStr + ")");
+
+	                $("#role_privileges").ajaxForm({
+	                    success: rp_showResponse,  // form提交响应成功后执行的回调函数
+	                    url: "/UsersManagement/EditUsers",
+	                    type: "POST",
+	                    dataType: "json",
+	                    data: usersData
+	                });
+	            }
+	        });
+
+
+	        //提交role_privileges表单后执行的函数
+	        function rp_showResponse(responseText, statusText) {
+	            alert(ok);
+	            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+	            $("#promptDIV").addClass(responseText.css);
+	            $("#promptDIV").html(responseText.message);
+	            if (result.success) {
+	                location.href = result.toUrl;
+	            }
+	        }
+	    });
+    </script>
+
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
+        });
+    </script>
+ 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户管理</h2></div>
 <div class="container">
  <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/UsersManagement/AppUsers">返回</a></li></ul>
+    <ul class="pager"><li class="next"><a href="/UsersManagement/AppUsers">返回</a></li></ul>  
  </div> 
 </div>
  <div class="container">
@@ -99,11 +148,12 @@ EditPage
    <div id="promptDIV" class="row"></div>
  </div>  
   <div class="tab-pane">
-   <form  id="Edit_Users" method="post" action="/UsersManagement/EditUsers" class="form-horizontal"> 
+   <form  id="Edit_Users" method="post" action="" class="form-horizontal"> 
        <div class="control-group span6 offset2">
        <label class="control-label">登录名称：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls"><input id="usersLogin" name="usersLogin" type="text" value="<%= ViewData["usersLogin"] %>" /></div>
-       </div>
+       <input id="userID" name="userID" type="hidden" value="<%=ViewData["usersId"] %>"/>
+      </div>
        <div class="control-group span6 offset2">
         <label class="control-label">登录密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
@@ -134,14 +184,15 @@ EditPage
        <input id="usersMail" name="usersMail" type="text" value="<%=ViewData["usersMail"]%>"/>
        </div>
        </div>                             
-       <div class="control-group span6 offset2">
+
+       <div class="control-group span6 offset2">      
        <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;</label>
-       <div class="controls">
-       <select id="usersInvalid" name="usersInvalid" width="140px">
-        <option id="invalidInfo"></option>
-       </select>
-       </div>                             
-       </div>                           
+       <div id="invalidList">
+      
+       </div>  
+      
+       </div> 
+                                 
        <div class="control-group span6 offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label> 
        <div class="controls">   
@@ -161,7 +212,7 @@ EditPage
        </div>
        </div>   
        <div class="control-group span6 offset3">
-       <input type="submit" value="修改" class="btn btn-primary span3" style="background-position:center"/>  
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" style="background-position:center"/>  
        </div>
    </form>
 </div>
