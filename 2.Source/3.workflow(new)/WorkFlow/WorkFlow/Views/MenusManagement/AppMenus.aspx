@@ -36,6 +36,7 @@
             //定义ligerGrid
             $("#menusgrid").ligerGrid({
                 width: '99%',
+                height: 400,
                 tree: { columnName: 'name' },
                 alternatingRow: false
             });
@@ -93,7 +94,7 @@
                 dataType: "json",
                 data: { menuID: menuid },
                 success: function (responseText, statusText) {
-                    GetMenusList();
+                    GetMenusList();//重载菜单数据列表
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                     $("#promptDIV").addClass(responseText.css);
                     $("#promptDIV").html(responseText.message);

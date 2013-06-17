@@ -96,17 +96,15 @@ namespace WorkFlow.Controllers
             int total = 1;
             int m_usersID = Convert.ToInt32(userModel.id);
             string m_InvalidName ;
-
+            m_InvalidName = "是";
             //判断角色中是否已经存在该权限
             if (userModel.invalid == false)
             {
-                m_selected = "true";
-                m_InvalidName = "是";
+                m_selected = "true";              
             }
             else
             {
-                m_selected = "false";
-                m_InvalidName= "否";
+                m_selected = "false";            
             }
             strJson += "{id:'" +m_usersID+ "',";
             strJson += "name:'" + m_InvalidName + "',";
@@ -184,6 +182,7 @@ namespace WorkFlow.Controllers
             int appID = Convert.ToInt32(m_userModel.app_id);
             string login = collection["usersLogin"].Trim();
             string password = collection["usersPassword"].Trim();
+            string passwordCon = collection["passwordcon"].Trim();
             string name = collection["usersName"].Trim();
             string employee_no = collection["usersEmployee_no"].Trim();
             string mobile_phone = collection["usersMobile_phone"].Trim();
@@ -191,15 +190,26 @@ namespace WorkFlow.Controllers
             if (login.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录名称不能为空!" });
-            }
-            
+            }         
             if (password.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码不能为空!" });
-            }
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码不能为空!" });
+            }         
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(password)==false)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "字母开头,字母和数字的组合,至少6位!" });
+            }
+            if (passwordCon.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码不能为空!" });
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsPassWord(passwordCon) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "字母开头,字母和数字的组合,至少6位!" });
+            }
+            if (password.Equals(passwordCon) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="登录密码和确认密码不一致!"});
             }
             if (name.Length == 0)
             {

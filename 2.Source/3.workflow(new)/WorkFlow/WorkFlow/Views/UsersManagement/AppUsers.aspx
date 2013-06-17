@@ -7,6 +7,10 @@ AppUsers
         type="text/css" />
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+ <%--   <script src="../../LigerUI/lib/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>--%>
+
     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript">
@@ -15,19 +19,29 @@ AppUsers
                     columns: [
                 { display: '登录名称', name: 'login', width: 80 },
                 { display: '用户姓名', name: 'name', width: 80 },
-                { display: '工号', name: 'employee_no', width: 80 },           
-                { display: '', width: 200,
+                { display: '工号', name: 'employee_no', width: 80 },
+                { display: '', width: 180,
                     render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/UsersManagement/ChangePage?id='+row.id+'">删除</a><i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a>';
+
+                        var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a>';
                         return html;
                     }
                 },
+                { display: '', width: 80,
+                    
+                    render: function (row) {
+
+                        var html = '<i class="icon-trash"></i><a  href="javascript:f_delete('+row.id+')">删除</a>';
+                        return html;
+                    }
+                  
+               },
                { display: '', width: 200,
-                     render: function (row) {
-                         var html = '<i class="icon-edit"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色设置</a>';
-                         return html;
-                     }
-                }
+                   render: function (row) {
+                       var html = '<i class="icon-edit"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色设置</a>';
+                       return html;
+                   }
+               }
                ],
                     dataAction: 'server',
                     width: '90%',
@@ -40,6 +54,24 @@ AppUsers
                 });
 
             });
+    </script>
+
+  <%--  <script type="text/javascript">
+        function test(id) {
+            alert(id);
+        }
+    </script>
+--%>
+    <script type="text/javascript">
+        function f_delete(id) {
+            alert(id);
+            $.ligerDialog.confirm('确定要删除吗ok?');
+            $.ligerDialog.confirm('确定要删除吗?', function (yes) {
+                $.ajax({
+                    url: '/UsersManagement/ChangePage?id=' + id
+                });
+            });
+        }
     </script>
 
     <script type="text/javascript">
@@ -94,6 +126,12 @@ AppUsers
                             <input type="password" name="usersPassword" id="usersPassword" class="input-prepend span4"/>                            
                         </div>
                     </div> 
+                     <div class="control-group span6 offset2">
+                            <label class="control-label" for="passwordcon">确认密码：</label>
+                            <div class="controls">
+                                <input name="passwordcon" id="passwordcon" type="password" class="input-prepend span4" />
+                            </div>
+                        </div>
                      <div class="control-group span6 offset2">
                         <label class="control-label" for="usersName">用户姓名：</label>
                         <div class="controls">
