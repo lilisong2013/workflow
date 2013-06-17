@@ -96,7 +96,7 @@ namespace Saron.WorkFlowService.WebService
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某菜单的子菜单列表")]
-        public DataSet GetChildrenMenus(int parentID,out string msg)
+        public DataSet GetChildrenMenus(int parentID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
@@ -104,11 +104,11 @@ namespace Saron.WorkFlowService.WebService
                 //webservice用户未授权，msg提示信息
                 return null;
             }
-
-<<<<<<< HEAD
+            return m_menusDal.GetChildrenMenusListOfApp(parentID); 
+        }
         /// <summary>
         /// 获得数据列表
-        /// </summary>
+        /// </summary>     
         [WebMethod(Description = "获得某系统下所有数据列表")]
         public DataSet GetAllMenusListofApp(int app_id)
         {
@@ -138,8 +138,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "获得某系统某菜单的子菜单")]
         public DataSet GetChildrenMenus(int parentID)
         {
-=======
->>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+
             return m_menusDal.GetChildrenMenusListOfApp(parentID);
         }
 
