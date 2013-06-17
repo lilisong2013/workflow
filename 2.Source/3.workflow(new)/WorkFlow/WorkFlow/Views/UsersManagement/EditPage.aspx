@@ -61,10 +61,11 @@ EditPage
                     for (var i = 0; i < dataJson.total; i++) {
                         if (dataJson.List[i].selected == "true") {
                             $("#invalidValue" + i.toString()).prop("checked", true);
-                            alert($("#invalidValue").is(":checked"));
+                            alert(dataJson.List[i].selected);
                         } else {
                             $("#invalidValue" + i.toString()).prop("checked", false);
-                            alert($("#invalidValue").is(":checked"));
+                            alert("???");
+                            alert(dataJson.List[i].selected);
                         }
                     }
                 }
