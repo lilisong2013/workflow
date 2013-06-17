@@ -368,7 +368,25 @@ namespace Saron.WorkFlowService.DAL
             return DbHelperSQL.Query(strSql.ToString(), parameters);
 
         }
-        
+
+        /// <summary>
+        /// 菜单下是否有页面元素
+        /// </summary>
+        /// <param name="menusID"></param>
+        /// <returns></returns>
+        public bool ExistsElementsOfMenus(int menusID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from elements ");
+            strSql.Append(" where menu_id=@menu_id and deleted=0");
+            SqlParameter[] parameters = {
+					new SqlParameter("@menu_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = menusID;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
         /// <summary>
         /// 获得某一菜单下的页面元素
         /// </summary>

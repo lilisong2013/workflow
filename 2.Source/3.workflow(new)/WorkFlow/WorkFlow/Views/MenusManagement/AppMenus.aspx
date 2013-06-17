@@ -20,27 +20,46 @@
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
+        });
+    </script>
+
     <%--在Grid中显示menus信息--%>
     <script type="text/javascript">
+        var managerListGrid;
         $(document).ready(function () {
-            var datas;
-            var dataJson;
+            //定义ligerGrid
+            $("#menusgrid").ligerGrid({
+                width: '99%',
+                tree: { columnName: 'name' },
+                alternatingRow: false
+            });
+            managerListGrid = $("#menusgrid").ligerGetGridManager();
 
+            GetMenusList(); //获取数据列表
+
+            $("#infoTab").click(function () {
+                GetMenusList(); //获取数据列表
+            });
+        });
+
+        function GetMenusList() {
             $.ajax({
                 url: "/MenusManagement/GetMenusList",
                 type: "POST",
                 dataType: "json",
                 data: {},
                 success: function (responseText, statusText) {
-                    datas = responseText; //获取到的菜单json格式字符串
-                    dataJson = eval("("+datas+")"); //将json字符串转化为json数据
-                    //显示菜单Grid
-                    $("#menusgrid").ligerGrid({
-                        data: dataJson,
-                        tree: { columnName: 'name' },
-                        checkbox: false,
-                        alternatingRow: false,
-                        autoCheckChildren: false,
+                    //alert(responseText);
+                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+
+                    //更新mygrid数据
+                    managerListGrid.setOptions({
                         columns: [{ display: '菜单名', name: 'name', width: 150, align: 'center' },
                                   { display: '菜单编码', name: 'code', width: 150, align: 'center' },
                                   { display: '菜单URL', name: 'url', width: 150, align: 'center' },
@@ -52,17 +71,35 @@
                                       }
                                   },
                                   { display: '', width: 100,
-                                       render: function (row) {
-                                           var html = '<i class="icon-trash"></i><a href="/MenusManagement/ChangePage?id=' + row.id + '">删除</a>';
-                                           return html;
-                                       }
-                                   }
-                                 ]
+                                      render: function (row) {
+                                          var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteMenu(' + row.id + ')">删除</a>';
+                                          return html;
+                                      }
+                                  }
+                                 ],
+                         data: dataJson
                     });
+                    managerListGrid.loadData();
                 }
             });
-        });
+        }
 
+        function DeleteMenu(id) {
+            //alert(id);
+            var menuid = id;
+            $.ajax({
+                url: "/MenusManagement/DeleteMenus",
+                type: "POST",
+                dataType: "json",
+                data: { menuID: menuid },
+                success: function (responseText, statusText) {
+                    GetMenusList();
+                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                    $("#promptDIV").addClass(responseText.css);
+                    $("#promptDIV").html(responseText.message);
+                }
+            });
+        }
     </script>
 
     <%--添加菜单选项卡：菜单树的显示与隐藏--%>
@@ -148,7 +185,7 @@
     </div>
     <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#AllMenus" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
+            <li class="active" id="infoTab"><a href="#AllMenus" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddMenus" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>

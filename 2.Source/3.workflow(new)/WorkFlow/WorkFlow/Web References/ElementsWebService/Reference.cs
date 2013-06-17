@@ -44,6 +44,8 @@ namespace WorkFlow.ElementsWebService {
         
         private System.Threading.SendOrPostCallback GetElementsListOfMenusOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsElementsOfMenusOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetCodeListOfMenuAppOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllElementsListOfMenuAppOperationCompleted;
@@ -112,6 +114,9 @@ namespace WorkFlow.ElementsWebService {
         
         /// <remarks/>
         public event GetElementsListOfMenusCompletedEventHandler GetElementsListOfMenusCompleted;
+        
+        /// <remarks/>
+        public event ExistsElementsOfMenusCompletedEventHandler ExistsElementsOfMenusCompleted;
         
         /// <remarks/>
         public event GetCodeListOfMenuAppCompletedEventHandler GetCodeListOfMenuAppCompleted;
@@ -307,6 +312,37 @@ namespace WorkFlow.ElementsWebService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsElementsOfMenus", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsElementsOfMenus(int menusID, out string msg) {
+            object[] results = this.Invoke("ExistsElementsOfMenus", new object[] {
+                        menusID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsElementsOfMenusAsync(int menusID) {
+            this.ExistsElementsOfMenusAsync(menusID, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsElementsOfMenusAsync(int menusID, object userState) {
+            if ((this.ExistsElementsOfMenusOperationCompleted == null)) {
+                this.ExistsElementsOfMenusOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsElementsOfMenusOperationCompleted);
+            }
+            this.InvokeAsync("ExistsElementsOfMenus", new object[] {
+                        menusID}, this.ExistsElementsOfMenusOperationCompleted, userState);
+        }
+        
+        private void OnExistsElementsOfMenusOperationCompleted(object arg) {
+            if ((this.ExistsElementsOfMenusCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsElementsOfMenusCompleted(this, new ExistsElementsOfMenusCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetCodeListOfMenuApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetCodeListOfMenuApp(int app_id, int menu_id, out string msg) {
             object[] results = this.Invoke("GetCodeListOfMenuApp", new object[] {
@@ -391,7 +427,7 @@ namespace WorkFlow.ElementsWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -848,6 +884,40 @@ namespace WorkFlow.ElementsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsElementsOfMenusCompletedEventHandler(object sender, ExistsElementsOfMenusCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsElementsOfMenusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsElementsOfMenusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
         

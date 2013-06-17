@@ -2,20 +2,6 @@
 <wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
-      <s:element name="Exists">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ExistsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="ExistsResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="Add">
         <s:complexType>
           <s:sequence>
@@ -46,9 +32,19 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="AddResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
       <s:element name="Update">
         <s:complexType>
           <s:sequence>
@@ -60,48 +56,22 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="UpdateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="Delete">
+      <s:element name="DeleteMenus">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="DeleteResponse">
+      <s:element name="DeleteMenusResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteID">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteIDResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="DeleteIDResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="idlist" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="DeleteListResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteMenusResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -116,6 +86,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:menusModel" />
+<<<<<<< HEAD
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -224,6 +195,9 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+=======
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -245,6 +219,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -266,6 +241,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -280,60 +256,53 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="ExistsChildrenMenusResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetRecordCount">
+      <s:element name="ExistsMenusCode">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetRecordCountResponse">
+      <s:element name="ExistsMenusCodeResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetRecordCountResult" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsMenusCodeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetListByPage">
+      <s:element name="ExistsMenusName">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="orderby" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="startIndex" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="endIndex" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="parentID" nillable="true" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetListByPageResponse">
+      <s:element name="ExistsMenusNameResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetListByPageResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsMenusNameResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
     </s:schema>
   </wsdl:types>
-  <wsdl:message name="ExistsSoapIn">
-    <wsdl:part name="parameters" element="tns:Exists" />
-  </wsdl:message>
-  <wsdl:message name="ExistsSoapOut">
-    <wsdl:part name="parameters" element="tns:ExistsResponse" />
-  </wsdl:message>
   <wsdl:message name="AddSoapIn">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
   <wsdl:message name="AddSoapOut">
     <wsdl:part name="parameters" element="tns:AddResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="UpdateSoapIn">
     <wsdl:part name="parameters" element="tns:Update" />
@@ -341,23 +310,17 @@
   <wsdl:message name="UpdateSoapOut">
     <wsdl:part name="parameters" element="tns:UpdateResponse" />
   </wsdl:message>
-  <wsdl:message name="DeleteSoapIn">
-    <wsdl:part name="parameters" element="tns:Delete" />
+  <wsdl:message name="UpdateSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
-  <wsdl:message name="DeleteSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteResponse" />
+  <wsdl:message name="DeleteMenusSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteMenus" />
   </wsdl:message>
-  <wsdl:message name="DeleteIDSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteID" />
+  <wsdl:message name="DeleteMenusSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteMenusResponse" />
   </wsdl:message>
-  <wsdl:message name="DeleteIDSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteIDResponse" />
-  </wsdl:message>
-  <wsdl:message name="DeleteListSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteList" />
-  </wsdl:message>
-  <wsdl:message name="DeleteListSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteListResponse" />
+  <wsdl:message name="DeleteMenusSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetModelSoapIn">
     <wsdl:part name="parameters" element="tns:GetModel" />
@@ -365,6 +328,7 @@
   <wsdl:message name="GetModelSoapOut">
     <wsdl:part name="parameters" element="tns:GetModelResponse" />
   </wsdl:message>
+<<<<<<< HEAD
   <wsdl:message name="GetMenusListSoapIn">
     <wsdl:part name="parameters" element="tns:GetMenusList" />
   </wsdl:message>
@@ -394,6 +358,10 @@
   </wsdl:message>
   <wsdl:message name="GetAllParentIdOfAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllParentIdOfAppResponse" />
+=======
+  <wsdl:message name="GetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
   </wsdl:message>
   <wsdl:message name="GetChildrenMenusSoapIn">
     <wsdl:part name="parameters" element="tns:GetChildrenMenus" />
@@ -401,11 +369,17 @@
   <wsdl:message name="GetChildrenMenusSoapOut">
     <wsdl:part name="parameters" element="tns:GetChildrenMenusResponse" />
   </wsdl:message>
+  <wsdl:message name="GetChildrenMenusSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetTopMenusListOfAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetTopMenusListOfApp" />
   </wsdl:message>
   <wsdl:message name="GetTopMenusListOfAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetTopMenusListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTopMenusListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="ExistsChildrenMenusSoapIn">
     <wsdl:part name="parameters" element="tns:ExistsChildrenMenus" />
@@ -413,54 +387,49 @@
   <wsdl:message name="ExistsChildrenMenusSoapOut">
     <wsdl:part name="parameters" element="tns:ExistsChildrenMenusResponse" />
   </wsdl:message>
-  <wsdl:message name="GetRecordCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetRecordCount" />
+  <wsdl:message name="ExistsChildrenMenusSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
-  <wsdl:message name="GetRecordCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetRecordCountResponse" />
+  <wsdl:message name="ExistsMenusCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsMenusCode" />
   </wsdl:message>
-  <wsdl:message name="GetListByPageSoapIn">
-    <wsdl:part name="parameters" element="tns:GetListByPage" />
+  <wsdl:message name="ExistsMenusCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsMenusCodeResponse" />
   </wsdl:message>
-  <wsdl:message name="GetListByPageSoapOut">
-    <wsdl:part name="parameters" element="tns:GetListByPageResponse" />
+  <wsdl:message name="ExistsMenusCodeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ExistsMenusNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsMenusName" />
+  </wsdl:message>
+  <wsdl:message name="ExistsMenusNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsMenusNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsMenusNameSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:portType name="menusBLLserviceSoap">
-    <wsdl:operation name="Exists">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在id为id的记录</wsdl:documentation>
-      <wsdl:input message="tns:ExistsSoapIn" />
-      <wsdl:output message="tns:ExistsSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="Add">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条菜单记录</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
       <wsdl:output message="tns:AddSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Update">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条菜单记录</wsdl:documentation>
       <wsdl:input message="tns:UpdateSoapIn" />
       <wsdl:output message="tns:UpdateSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="Delete">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录</wsdl:documentation>
-      <wsdl:input message="tns:DeleteSoapIn" />
-      <wsdl:output message="tns:DeleteSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="DeleteID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">令deleted=1的记录</wsdl:documentation>
-      <wsdl:input message="tns:DeleteIDSoapIn" />
-      <wsdl:output message="tns:DeleteIDSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除多条数据</wsdl:documentation>
-      <wsdl:input message="tns:DeleteListSoapIn" />
-      <wsdl:output message="tns:DeleteListSoapOut" />
+    <wsdl:operation name="DeleteMenus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除菜单主键为id的菜单记录</wsdl:documentation>
+      <wsdl:input message="tns:DeleteMenusSoapIn" />
+      <wsdl:output message="tns:DeleteMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModel">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
     </wsdl:operation>
+<<<<<<< HEAD
     <wsdl:operation name="GetMenusList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据where条件获得数据列表：strWhere（where条件）</wsdl:documentation>
       <wsdl:input message="tns:GetMenusListSoapIn" />
@@ -486,8 +455,10 @@
       <wsdl:input message="tns:GetAllParentIdOfAppSoapIn" />
       <wsdl:output message="tns:GetAllParentIdOfAppSoapOut" />
     </wsdl:operation>
+=======
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
     <wsdl:operation name="GetChildrenMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某菜单的子菜单</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某菜单的子菜单列表</wsdl:documentation>
       <wsdl:input message="tns:GetChildrenMenusSoapIn" />
       <wsdl:output message="tns:GetChildrenMenusSoapOut" />
     </wsdl:operation>
@@ -497,36 +468,28 @@
       <wsdl:output message="tns:GetTopMenusListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsChildrenMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">id为id的菜单是否存在子菜单记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单主键为parentId的菜单是否存在子菜单</wsdl:documentation>
       <wsdl:input message="tns:ExistsChildrenMenusSoapIn" />
       <wsdl:output message="tns:ExistsChildrenMenusSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得记录总条数</wsdl:documentation>
-      <wsdl:input message="tns:GetRecordCountSoapIn" />
-      <wsdl:output message="tns:GetRecordCountSoapOut" />
+    <wsdl:operation name="ExistsMenusCode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中菜单编码是否已经存在</wsdl:documentation>
+      <wsdl:input message="tns:ExistsMenusCodeSoapIn" />
+      <wsdl:output message="tns:ExistsMenusCodeSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）</wsdl:documentation>
-      <wsdl:input message="tns:GetListByPageSoapIn" />
-      <wsdl:output message="tns:GetListByPageSoapOut" />
+    <wsdl:operation name="ExistsMenusName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中同一父菜单下的子菜单名称是否已经存在</wsdl:documentation>
+      <wsdl:input message="tns:ExistsMenusNameSoapIn" />
+      <wsdl:output message="tns:ExistsMenusNameSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="menusBLLserviceSoap" type="tns:menusBLLserviceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="Exists">
-      <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Add">
       <soap:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -536,33 +499,17 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Delete">
-      <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+    <wsdl:operation name="DeleteMenus">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteMenus" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteID">
-      <soap:operation soapAction="http://saron.workflowservice.org/DeleteID" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:DeleteMenusSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -572,6 +519,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+<<<<<<< HEAD
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -617,6 +565,9 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+=======
+        <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -626,6 +577,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetChildrenMenus" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:GetChildrenMenusSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -635,6 +587,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetTopMenusListOfApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:GetTopMenusListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -644,24 +597,27 @@
       <soap:operation soapAction="http://saron.workflowservice.org/ExistsChildrenMenus" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:ExistsChildrenMenusSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
+    <wsdl:operation name="ExistsMenusCode">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsMenusCode" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:ExistsMenusCodeSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetListByPage" style="document" />
+    <wsdl:operation name="ExistsMenusName">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsMenusName" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:ExistsMenusNameSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -670,19 +626,11 @@
   </wsdl:binding>
   <wsdl:binding name="menusBLLserviceSoap12" type="tns:menusBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="Exists">
-      <soap12:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="Add">
       <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -692,33 +640,17 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Delete">
-      <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+    <wsdl:operation name="DeleteMenus">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteMenus" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteID">
-      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteID" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteMenusSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -728,6 +660,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+<<<<<<< HEAD
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -773,6 +706,9 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+=======
+        <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -782,6 +718,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetChildrenMenus" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:GetChildrenMenusSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -791,6 +728,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetTopMenusListOfApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:GetTopMenusListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -800,24 +738,27 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/ExistsChildrenMenus" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsChildrenMenusSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
+    <wsdl:operation name="ExistsMenusCode">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsMenusCode" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsMenusCodeSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetListByPage" style="document" />
+    <wsdl:operation name="ExistsMenusName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsMenusName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsMenusNameSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -826,10 +767,10 @@
   </wsdl:binding>
   <wsdl:service name="menusBLLservice">
     <wsdl:port name="menusBLLserviceSoap" binding="tns:menusBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/menusBLLservice.asmx" />
+      <soap:address location="http://192.168.12.12:8081/WebService/menusBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="menusBLLserviceSoap12" binding="tns:menusBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/menusBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.12:8081/WebService/menusBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
