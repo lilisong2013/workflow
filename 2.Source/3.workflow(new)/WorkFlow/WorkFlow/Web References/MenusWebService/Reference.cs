@@ -44,6 +44,10 @@ namespace WorkFlow.MenusWebService {
         
         private System.Threading.SendOrPostCallback GetModelOperationCompleted;
         
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
         private System.Threading.SendOrPostCallback GetMenusListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetMenusTopListOperationCompleted;
@@ -54,6 +58,11 @@ namespace WorkFlow.MenusWebService {
         
         private System.Threading.SendOrPostCallback GetAllParentIdOfAppOperationCompleted;
         
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
         private System.Threading.SendOrPostCallback GetChildrenMenusOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetTopMenusListOfAppOperationCompleted;
@@ -124,6 +133,10 @@ namespace WorkFlow.MenusWebService {
         public event GetModelCompletedEventHandler GetModelCompleted;
         
         /// <remarks/>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
         public event GetMenusListCompletedEventHandler GetMenusListCompleted;
         
         /// <remarks/>
@@ -139,6 +152,11 @@ namespace WorkFlow.MenusWebService {
         public event GetAllParentIdOfAppCompletedEventHandler GetAllParentIdOfAppCompleted;
         
         /// <remarks/>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
         public event GetChildrenMenusCompletedEventHandler GetChildrenMenusCompleted;
         
         /// <remarks/>
@@ -357,6 +375,10 @@ namespace WorkFlow.MenusWebService {
         }
         
         /// <remarks/>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetMenusList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetMenusList(string strWhere) {
             object[] results = this.Invoke("GetMenusList", new object[] {
@@ -508,6 +530,12 @@ namespace WorkFlow.MenusWebService {
         }
         
         /// <remarks/>
+<<<<<<< HEAD
+=======
+=======
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetChildrenMenus", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetChildrenMenus(int parentID) {
             object[] results = this.Invoke("GetChildrenMenus", new object[] {
@@ -1102,6 +1130,10 @@ namespace WorkFlow.MenusWebService {
                 return ((System.Data.DataSet)(this.results[0]));
             }
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
     }
     
     /// <remarks/>
@@ -1120,6 +1152,11 @@ namespace WorkFlow.MenusWebService {
                 base(exception, cancelled, userState) {
             this.results = results;
         }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
         
         /// <remarks/>
         public System.Data.DataSet Result {

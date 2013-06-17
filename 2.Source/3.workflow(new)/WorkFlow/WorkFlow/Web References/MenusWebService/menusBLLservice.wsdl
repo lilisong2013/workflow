@@ -116,6 +116,10 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:menusModel" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -224,6 +228,12 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+<<<<<<< HEAD
+=======
+=======
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -365,6 +375,10 @@
   <wsdl:message name="GetModelSoapOut">
     <wsdl:part name="parameters" element="tns:GetModelResponse" />
   </wsdl:message>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
   <wsdl:message name="GetMenusListSoapIn">
     <wsdl:part name="parameters" element="tns:GetMenusList" />
   </wsdl:message>
@@ -394,6 +408,13 @@
   </wsdl:message>
   <wsdl:message name="GetAllParentIdOfAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllParentIdOfAppResponse" />
+<<<<<<< HEAD
+=======
+=======
+  <wsdl:message name="GetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
   </wsdl:message>
   <wsdl:message name="GetChildrenMenusSoapIn">
     <wsdl:part name="parameters" element="tns:GetChildrenMenus" />
@@ -461,6 +482,10 @@
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
     </wsdl:operation>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
     <wsdl:operation name="GetMenusList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据where条件获得数据列表：strWhere（where条件）</wsdl:documentation>
       <wsdl:input message="tns:GetMenusListSoapIn" />
@@ -486,6 +511,11 @@
       <wsdl:input message="tns:GetAllParentIdOfAppSoapIn" />
       <wsdl:output message="tns:GetAllParentIdOfAppSoapOut" />
     </wsdl:operation>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
     <wsdl:operation name="GetChildrenMenus">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某菜单的子菜单</wsdl:documentation>
       <wsdl:input message="tns:GetChildrenMenusSoapIn" />
@@ -572,6 +602,10 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -617,6 +651,12 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+<<<<<<< HEAD
+=======
+=======
+        <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -728,6 +768,10 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -773,6 +817,12 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+<<<<<<< HEAD
+=======
+=======
+        <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+>>>>>>> 3ef7aa2c975e59aa1132ebbab22b483c634183f4
+>>>>>>> 75593da659b40401775bbb064f6a97fc721b9d1a
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
