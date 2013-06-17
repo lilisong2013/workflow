@@ -112,6 +112,70 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAllMenusListofApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="app_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllMenusListofAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllMenusListofAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCodeParentOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCodeParentOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCodeParentOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllParentIdOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllParentIdOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllParentIdOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetTopMenusListOfApp">
         <s:complexType>
           <s:sequence>
@@ -229,6 +293,24 @@
   <wsdl:message name="GetChildrenMenusSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetAllMenusListofAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllMenusListofApp" />
+  </wsdl:message>
+  <wsdl:message name="GetAllMenusListofAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllMenusListofAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCodeParentOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCodeParentOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetCodeParentOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCodeParentOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllParentIdOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllParentIdOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetAllParentIdOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllParentIdOfAppResponse" />
+  </wsdl:message>
   <wsdl:message name="GetTopMenusListOfAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetTopMenusListOfApp" />
   </wsdl:message>
@@ -290,6 +372,21 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某菜单的子菜单列表</wsdl:documentation>
       <wsdl:input message="tns:GetChildrenMenusSoapIn" />
       <wsdl:output message="tns:GetChildrenMenusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllMenusListofApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下所有数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetAllMenusListofAppSoapIn" />
+      <wsdl:output message="tns:GetAllMenusListofAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCodeParentOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的code、parent_id</wsdl:documentation>
+      <wsdl:input message="tns:GetCodeParentOfAppSoapIn" />
+      <wsdl:output message="tns:GetCodeParentOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllParentIdOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得系统appid的id、parent_id</wsdl:documentation>
+      <wsdl:input message="tns:GetAllParentIdOfAppSoapIn" />
+      <wsdl:output message="tns:GetAllParentIdOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetTopMenusListOfApp">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的顶级菜单</wsdl:documentation>
@@ -359,6 +456,33 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetChildrenMenusSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllMenusListofApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllMenusListofApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCodeParentOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetCodeParentOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllParentIdOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -457,6 +581,33 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAllMenusListofApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllMenusListofApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCodeParentOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetCodeParentOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllParentIdOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetTopMenusListOfApp">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetTopMenusListOfApp" style="document" />
       <wsdl:input>
@@ -500,10 +651,10 @@
   </wsdl:binding>
   <wsdl:service name="menusBLLservice">
     <wsdl:port name="menusBLLserviceSoap" binding="tns:menusBLLserviceSoap">
-      <soap:address location="http://192.168.12.12:8081/WebService/menusBLLservice.asmx" />
+      <soap:address location="http://192.168.11.103:8081/WebService/menusBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="menusBLLserviceSoap12" binding="tns:menusBLLserviceSoap12">
-      <soap12:address location="http://192.168.12.12:8081/WebService/menusBLLservice.asmx" />
+      <soap12:address location="http://192.168.11.103:8081/WebService/menusBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

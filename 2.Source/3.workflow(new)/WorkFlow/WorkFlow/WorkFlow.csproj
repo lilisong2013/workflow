@@ -652,6 +652,7 @@
     <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.disco" />
     <Content Include="Views\Shared\Infomation.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
+    <Content Include="Views\UsersManagement\ChangePage.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
@@ -698,10 +699,10 @@
     <Content Include="Views\Shared\secondsite.Master" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/elementsBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/elementsBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\ElementsWebService\</RelPath>
-      <UpdateFromURL>http://192.168.12.12:8081/WebService/elementsBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/elementsBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -786,10 +787,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_Init_StatusWebService_init_statusBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.12.12:8081/WebService/menusBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/menusBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\MenusWebService\</RelPath>
-      <UpdateFromURL>http://192.168.12.12:8081/WebService/menusBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/menusBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
