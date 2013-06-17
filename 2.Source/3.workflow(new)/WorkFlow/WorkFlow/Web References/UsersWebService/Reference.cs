@@ -44,6 +44,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback DeleteOperationCompleted;
         
+        private System.Threading.SendOrPostCallback LogicDeleteOperationCompleted;
+        
         private System.Threading.SendOrPostCallback DeleteIdAndLoginOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteListOperationCompleted;
@@ -71,6 +73,8 @@ namespace WorkFlow.UsersWebService {
         private System.Threading.SendOrPostCallback ModifyPasswordOperationCompleted;
         
         private System.Threading.SendOrPostCallback SysUserLoginValidatorOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ExistsAppofUserOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetUserModelByLoginOperationCompleted;
         
@@ -134,6 +138,9 @@ namespace WorkFlow.UsersWebService {
         public event DeleteCompletedEventHandler DeleteCompleted;
         
         /// <remarks/>
+        public event LogicDeleteCompletedEventHandler LogicDeleteCompleted;
+        
+        /// <remarks/>
         public event DeleteIdAndLoginCompletedEventHandler DeleteIdAndLoginCompleted;
         
         /// <remarks/>
@@ -174,6 +181,9 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public event SysUserLoginValidatorCompletedEventHandler SysUserLoginValidatorCompleted;
+        
+        /// <remarks/>
+        public event ExistsAppofUserCompletedEventHandler ExistsAppofUserCompleted;
         
         /// <remarks/>
         public event GetUserModelByLoginCompletedEventHandler GetUserModelByLoginCompleted;
@@ -384,6 +394,35 @@ namespace WorkFlow.UsersWebService {
             if ((this.DeleteCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteCompleted(this, new DeleteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/LogicDelete", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool LogicDelete(int id) {
+            object[] results = this.Invoke("LogicDelete", new object[] {
+                        id});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void LogicDeleteAsync(int id) {
+            this.LogicDeleteAsync(id, null);
+        }
+        
+        /// <remarks/>
+        public void LogicDeleteAsync(int id, object userState) {
+            if ((this.LogicDeleteOperationCompleted == null)) {
+                this.LogicDeleteOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLogicDeleteOperationCompleted);
+            }
+            this.InvokeAsync("LogicDelete", new object[] {
+                        id}, this.LogicDeleteOperationCompleted, userState);
+        }
+        
+        private void OnLogicDeleteOperationCompleted(object arg) {
+            if ((this.LogicDeleteCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LogicDeleteCompleted(this, new LogicDeleteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -806,6 +845,35 @@ namespace WorkFlow.UsersWebService {
             if ((this.SysUserLoginValidatorCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.SysUserLoginValidatorCompleted(this, new SysUserLoginValidatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsAppofUser", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsAppofUser(int app_id) {
+            object[] results = this.Invoke("ExistsAppofUser", new object[] {
+                        app_id});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsAppofUserAsync(int app_id) {
+            this.ExistsAppofUserAsync(app_id, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsAppofUserAsync(int app_id, object userState) {
+            if ((this.ExistsAppofUserOperationCompleted == null)) {
+                this.ExistsAppofUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsAppofUserOperationCompleted);
+            }
+            this.InvokeAsync("ExistsAppofUser", new object[] {
+                        app_id}, this.ExistsAppofUserOperationCompleted, userState);
+        }
+        
+        private void OnExistsAppofUserOperationCompleted(object arg) {
+            if ((this.ExistsAppofUserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsAppofUserCompleted(this, new ExistsAppofUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1271,6 +1339,32 @@ namespace WorkFlow.UsersWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void LogicDeleteCompletedEventHandler(object sender, LogicDeleteCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class LogicDeleteCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal LogicDeleteCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     public delegate void DeleteIdAndLoginCompletedEventHandler(object sender, DeleteIdAndLoginCompletedEventArgs e);
     
     /// <remarks/>
@@ -1620,6 +1714,32 @@ namespace WorkFlow.UsersWebService {
         private object[] results;
         
         internal SysUserLoginValidatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsAppofUserCompletedEventHandler(object sender, ExistsAppofUserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsAppofUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsAppofUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
