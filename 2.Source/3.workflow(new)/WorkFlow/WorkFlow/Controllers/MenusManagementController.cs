@@ -83,9 +83,12 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中菜单编码已经存在！" });
             }
 
-            if (m_elementsBllService.ExistsElementsOfMenus((int)m_menusModel.parent_id, out msg))
+            if (m_menusModel.parent_id != null)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "父菜单下存在页面元素，不允许添加子菜单！" });
+                if (m_elementsBllService.ExistsElementsOfMenus((int)m_menusModel.parent_id, out msg))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "父菜单下存在页面元素，不允许添加子菜单！" });
+                }
             }
 
             try
@@ -113,40 +116,13 @@ namespace WorkFlow.Controllers
 
         }
        
-        ///<summary>
-        ///删除菜单
-        /// </summary>
-        //public ActionResult ChangePage(int id)
-        //{
-        //    WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
-        //    WorkFlow.MenusWebService.menusModel m_menusModel = m_menusBllService.GetModel(id);
-        //    //如果有孩子节点
-        //    if (m_menusBllService.ExistsChildrenMenus(id) == true)
-        //    {
-        //        //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "本节点不是叶子节点，不能删除!" });
-        //        return RedirectToAction("AppMenus");
-        //    }
-        //    else
-        //    {
-        //        // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功!", toUrl = "/MenusManagement/AppMenus" });
-        //        if (m_menusBllService.DeleteID(id))
-        //        {
-        //            return RedirectToAction("AppMenus");
-        //        }
-        //        else
-        //        {
-        //            return RedirectToAction("AppMenus");
-        //        }
-        //    }
-           
-        //}
-       
         //删除菜单
         public ActionResult DeleteMenus()
         {
             int menusID = Convert.ToInt32(Request.Params["menuID"]);
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService=new ElementsWebService.elementsBLLservice();
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
@@ -163,26 +139,31 @@ namespace WorkFlow.Controllers
             {
                 if (m_menusBllService.ExistsChildrenMenus(menusID, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单存在子菜单，无法删除！" }, JsonRequestBehavior.AllowGet);
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单存在子菜单，无法删除！" });
                 }
 
                 if(m_elementsBllService.ExistsElementsOfMenus(menusID,out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单下存在页面元素，无法删除！" }, JsonRequestBehavior.AllowGet);
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单下存在页面元素，无法删除！" });
+                }
+
+                if (m_privilegesBllService.ExistsItemOfPrivilegesType(1, menusID,out msg))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单已创建权限，无法删除！" });
                 }
 
                 if (m_menusBllService.DeleteMenus(menusID, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "菜单删除成功！" }, JsonRequestBehavior.AllowGet);
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "菜单删除成功！" });
                 }
                 else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单删除失败！" }, JsonRequestBehavior.AllowGet);
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单删除失败！" });
                 }
             }
             catch(Exception ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败！" }, JsonRequestBehavior.AllowGet);
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败！" });
             }
         }
 

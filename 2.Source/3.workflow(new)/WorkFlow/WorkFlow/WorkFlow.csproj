@@ -534,7 +534,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Views\Home\RegistPageCon.aspx" />
-    <Content Include="Views\MenusManagement\AddMenuCon.aspx" />
     <Content Include="Views\MenusManagement\DetailInfo.aspx" />
     <Content Include="Views\OperationsManagement\AppOperations.aspx" />
     <Content Include="Views\OperationsManagement\DetailInfo.aspx" />

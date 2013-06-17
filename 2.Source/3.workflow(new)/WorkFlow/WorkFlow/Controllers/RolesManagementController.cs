@@ -462,11 +462,23 @@ namespace WorkFlow.Controllers
             string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
             WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             DataSet ds = new DataSet();
             try
             {
-                ds=m_privilegesBllService.GetListByPrivilegeType(3, (int)m_userModel.app_id);
+                ds=m_privilegesBllService.GetListByPrivilegeType(3, (int)m_usersModel.app_id,out msg);
             }
             catch (Exception ex)
             {
@@ -513,11 +525,23 @@ namespace WorkFlow.Controllers
             string strJson = "{List:[";
             WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             DataSet ds = new DataSet();
             try
             {
-                ds = m_privilegesBllService.GetListByPrivilegeType(1, (int)m_userModel.app_id);
+                ds = m_privilegesBllService.GetListByPrivilegeType(1, (int)m_usersModel.app_id,out msg);
             }
             catch (Exception ex)
             {
@@ -566,11 +590,23 @@ namespace WorkFlow.Controllers
             string strJson = "{List:[";
             WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             DataSet ds = new DataSet();
             try
             {
-                ds = m_privilegesBllService.GetListByPrivilegeType(2, (int)m_userModel.app_id);
+                ds = m_privilegesBllService.GetListByPrivilegeType(2, (int)m_usersModel.app_id,out msg);
             }
             catch (Exception ex)
             {
