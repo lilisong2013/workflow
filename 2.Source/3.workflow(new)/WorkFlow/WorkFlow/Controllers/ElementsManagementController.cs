@@ -348,7 +348,7 @@ namespace WorkFlow.Controllers
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
 
-            DataSet ds = m_menusBllService.GetAllMenusList();
+            DataSet ds = null;
             List<Saron.WorkFlow.Models.menusHelper> m_menuslist = new List<Saron.WorkFlow.Models.menusHelper>();
 
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)

@@ -192,11 +192,22 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new WorkFlow.MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new WorkFlow.MenusWebService.menusModel();
-            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.MenusWebService.SecurityContext m_securityContext = new MenusWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_menusBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             string data = "[";
             try
             {
-                DataSet ds = m_menusBllService.GetTopMenusListOfApp((int)m_userModel.app_id);
+                DataSet ds = m_menusBllService.GetTopMenusListOfApp((int)m_usersModel.app_id,out msg);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     string name = ds.Tables[0].Rows[i][1].ToString();
@@ -239,9 +250,21 @@ namespace WorkFlow.Controllers
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new WorkFlow.MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new WorkFlow.MenusWebService.menusModel();
 
-            if (m_menusBllService.ExistsChildrenMenus(parentId))
+            WorkFlow.UsersWebService.usersModel m_usersModel = (UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.MenusWebService.SecurityContext m_securityContext = new MenusWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_menusBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            if (m_menusBllService.ExistsChildrenMenus(parentId,out msg))
             {
-                DataSet ds = m_menusBllService.GetChildrenMenus(parentId);
+                DataSet ds = m_menusBllService.GetChildrenMenus(parentId,out msg);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     string name = ds.Tables[0].Rows[i][1].ToString();
@@ -250,7 +273,7 @@ namespace WorkFlow.Controllers
                     string url = ds.Tables[0].Rows[i][3].ToString();
                     string remark = ds.Tables[0].Rows[i][6].ToString();
                     string invalid = ds.Tables[0].Rows[i][7].ToString();
-                    if (m_menusBllService.ExistsChildrenMenus((int)ds.Tables[0].Rows[i][0]))
+                    if (m_menusBllService.ExistsChildrenMenus((int)ds.Tables[0].Rows[i][0],out msg))
                     {
                         if (i == ds.Tables[0].Rows.Count - 1)
                         {
@@ -416,6 +439,7 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
             }
         }
+       
         //判断项目(页面元素)是否已经创建权限
         public ActionResult ExistPrivilegeItemOfElements()
         {
@@ -438,7 +462,18 @@ namespace WorkFlow.Controllers
         public ActionResult ExistChildreMenus()
         {
             int menusID = Convert.ToInt32(Request.Params["menusID"]);//菜单ID
-            WorkFlow.MenusWebService.menusBLLservice m_menusWebService = new MenusWebService.menusBLLservice();
+            WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (UsersWebService.usersModel)Session["user"];
+            WorkFlow.MenusWebService.SecurityContext m_securityContext = new MenusWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_menusBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
             if (menusID == -1)
             {
@@ -447,7 +482,7 @@ namespace WorkFlow.Controllers
 
             try
             {
-                if (!m_menusWebService.ExistsChildrenMenus(menusID))
+                if (!m_menusBllService.ExistsChildrenMenus(menusID, out msg))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false });
                 }
@@ -507,6 +542,7 @@ namespace WorkFlow.Controllers
             data += "]}";
             return Json(data);
         }
+        
         /// <summary>
         /// 显示所选权限系统的详情
         /// </summary>
