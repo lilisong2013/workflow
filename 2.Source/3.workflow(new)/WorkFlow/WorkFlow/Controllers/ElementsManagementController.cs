@@ -380,7 +380,7 @@ namespace WorkFlow.Controllers
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
             WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
             //获取Menu表中所有的id列表
-            DataSet ds = m_menusBllService.GetAllMenusList();
+            DataSet ds = new DataSet();//m_menusBllService.GetAllMenusList();
             //var IDtotal = ds.Tables[0].Rows.Count;
             //int[] IDList=new int[IDtotal];
             //for (int i = 0; i < IDtotal; i++)

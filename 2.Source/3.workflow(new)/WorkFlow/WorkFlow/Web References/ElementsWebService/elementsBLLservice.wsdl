@@ -311,7 +311,7 @@
       <wsdl:output message="tns:GetElementsListOfMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsElementsOfMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某一菜单下的页面元素</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单下是否存在页面元素</wsdl:documentation>
       <wsdl:input message="tns:ExistsElementsOfMenusSoapIn" />
       <wsdl:output message="tns:ExistsElementsOfMenusSoapOut" />
     </wsdl:operation>

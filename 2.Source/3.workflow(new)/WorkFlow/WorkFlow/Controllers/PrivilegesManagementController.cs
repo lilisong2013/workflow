@@ -33,10 +33,21 @@ namespace WorkFlow.Controllers
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
 
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+
             string m_privilegeName=Request.Form["oPrivilegesName"].ToString();
 
             //权限名称是否存在
-            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id))
+            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,out msg))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
             }
@@ -52,7 +63,7 @@ namespace WorkFlow.Controllers
 
             try
             {
-                if (m_privilegesBllService.Add(m_privilegesModel) != 0)
+                if (m_privilegesBllService.Add(m_privilegesModel,out msg) != 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
                 }
@@ -76,10 +87,20 @@ namespace WorkFlow.Controllers
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
 
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             string m_privilegeName = Request.Form["mPrivilegesName"].ToString();
 
             //权限名称是否存在
-            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id))
+            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,out msg))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
             }
@@ -95,7 +116,7 @@ namespace WorkFlow.Controllers
 
             try
             {
-                if (m_privilegesBllService.Add(m_privilegesModel) != 0)
+                if (m_privilegesBllService.Add(m_privilegesModel,out msg) != 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
                 }
@@ -119,10 +140,20 @@ namespace WorkFlow.Controllers
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
 
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             string m_privilegeName = Request.Form["ePrivilegesName"].ToString();
 
             //权限名称是否存在
-            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id))
+            if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,out msg))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
             }
@@ -138,7 +169,7 @@ namespace WorkFlow.Controllers
 
             try
             {
-                if (m_privilegesBllService.Add(m_privilegesModel) != 0)
+                if (m_privilegesBllService.Add(m_privilegesModel,out msg) != 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
                 }
@@ -413,7 +444,19 @@ namespace WorkFlow.Controllers
 
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
 
-            if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID))
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+            
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            
+            if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID,out msg))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
             }
@@ -430,7 +473,19 @@ namespace WorkFlow.Controllers
 
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
 
-            if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID))
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID,out msg))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
             }
@@ -448,7 +503,19 @@ namespace WorkFlow.Controllers
 
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
 
-            if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID))
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID,out msg))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
             }
@@ -502,11 +569,23 @@ namespace WorkFlow.Controllers
         public ActionResult GetAllPrivilegesList()
         {
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             string data = "{Rows:[";
             try
             {
-                DataSet ds = m_privilegesBllService.GetAllListByAppID((int)m_userModel.app_id);
+                DataSet ds = m_privilegesBllService.GetAllListByAppID((int)m_usersModel.app_id,out msg);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     string id = ds.Tables[0].Rows[i][0].ToString();
@@ -551,7 +630,20 @@ namespace WorkFlow.Controllers
         public ActionResult DetailInfo(int id)
         {
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-            WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = m_privilegesBllService.GetModel(id);
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = m_privilegesBllService.GetModel(id,out msg);
             ViewData["name"] = m_privilegesModel.name;
             ViewData["privilegetype_id"] = m_privilegesModel.privilegetype_id;
             ViewData["privilegeitem_id"] = m_privilegesModel.privilegeitem_id;

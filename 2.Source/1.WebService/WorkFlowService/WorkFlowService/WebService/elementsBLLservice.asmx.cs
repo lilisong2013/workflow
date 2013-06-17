@@ -123,7 +123,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某一菜单下的页面元素")]
+        [WebMethod(Description = "菜单下是否存在页面元素")]
         public bool ExistsElementsOfMenus(int menusID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
