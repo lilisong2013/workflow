@@ -111,6 +111,14 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_usersdal.Delete(id);
         }
+        ///<summary>
+        ///逻辑上删除一条数据
+        /// </summary>
+        [WebMethod(Description = "逻辑上删除一条id为id的记录")]
+        public bool LogicDelete(int id)
+        {
+            return m_usersdal.LogicDelete(id);
+        }
         /// <summary>
         /// 删除一条数据
         /// </summary>
@@ -255,8 +263,14 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
         }
-
-
+        ///<summary>
+        ///(应用系统apps表删除记录时判断user表中)是否存在系统应用ID为app_id的记录
+        /// </summary>
+        [WebMethod(Description = "apps表删除记录时，首先判断user表中是否还有与此关联的记录")]
+        public bool ExistsAppofUser(int app_id)
+        {
+            return m_usersdal.ExistsAppofUser(app_id);
+        }
         /// <summary>
         /// 得到一个对象实体(普通用户)
         /// </summary>

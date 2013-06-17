@@ -152,7 +152,7 @@ namespace WorkFlow.Controllers
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(password)==false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码以字母开头，且为字母和数字的组合且至少为6位!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "字母开头,字母和数字的组合,至少6位!" });
             }
             if (name.Length == 0)
             {
@@ -418,14 +418,21 @@ namespace WorkFlow.Controllers
             string strJson="{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
             WorkFlow.User_RoleBLLservice.user_roleBLLservice m_user_roleBllService = new User_RoleBLLservice.user_roleBLLservice();
             WorkFlow.User_RoleBLLservice.user_roleModel m_user_roleModel = new User_RoleBLLservice.user_roleModel();
-          
+            
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
-           
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID =(int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
             DataSet ds = new DataSet();
             try
-            {
+            {   //？？
                 ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
             }
             catch (Exception ex)
@@ -448,12 +455,14 @@ namespace WorkFlow.Controllers
                 if (i < total - 1)
                 {
                     strJson += "{id:'" + m_rolesID + "',";
-                    strJson += "name:'" + m_rolesName + "'},";
+                    strJson += "name:'" + m_rolesName + "',";
+                    strJson += "selected:'" + m_selected + "'},";
                 }
                 else 
                 {
                     strJson += "{id:'"+m_rolesID+"',";
-                    strJson += "name:'" + m_rolesName + "'}";
+                    strJson += "name:'" + m_rolesName + "',";
+                    strJson += "selected:'" + m_selected + "'}";
                 }
             }
             strJson += "],total:'"+total+"'}";

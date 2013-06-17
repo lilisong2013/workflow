@@ -241,7 +241,7 @@
                     <label class="control-label">父菜单</label>
                     <div class="controls">
                         <select id="MenusParent" name="MenusParent" class="span4">
-                            <option id="menusInfo">顶级菜单</option>
+                            <option id="menusInfo"></option>
                         </select>
                     </div>
                 </div>

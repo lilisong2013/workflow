@@ -38,28 +38,37 @@ namespace WorkFlow.Controllers
         {
              WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
              WorkFlow.AppsWebService.appsModel m_appsModel =m_appsBllService.GetModel(id);
-             int userappid = m_appsModel.id;
-             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-              //获得ID为id的用户模型;
-              WorkFlow.UsersWebService.usersModel m_userModel = m_usersBllService.GetModelByAppAdmin(userappid);
-
-              int userid = m_userModel.id;
-
-              if (m_usersBllService.Delete(userid))
-              {
-               // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "确定删除?", toUrl = "/AppsManagement/BaseUserApps" });
-              }
-              if (m_appsBllService.Delete(id))
-              {
-                  //string datajson=Convert.ToString(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功!", toUrl = "/AppsManagement/BaseUserApps" });
-                  // return Json(datajson,JsonRequestBehavior.AllowGet);
-                  return RedirectToAction("BaseUserApps");
-              }
-              else
-              {
-                  return RedirectToAction("BaseUserApps");
-              }
              
+             int userappid = m_appsModel.id;
+             int userapp_id = id;
+             //获得ID为id的用户模型;
+             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+             try
+             {
+                 if (m_usersBllService.ExistsAppofUser(userapp_id))
+                 {   
+                     return RedirectToAction("BaseUserApps");
+                     //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "不能成功删除，存在与相关联的应用系统用户!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
+                 }
+                 else
+                 {
+                     if (m_appsBllService.Delete(id))
+                     {
+                         return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "成功删除！", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
+                        // return RedirectToAction("BaseUserApps");
+                     }
+                     else
+                     {
+                         return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "不能成功删除!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet); 
+                     }
+                 }
+             }
+             catch (Exception ex)
+             {
+                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
+             }
+           
         }
         //退出超级管理员界面
         public ActionResult QuitSys()

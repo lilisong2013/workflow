@@ -361,6 +361,20 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ExistsAppofUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="app_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsAppofUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsAppofUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetUserModelByLogin">
         <s:complexType>
           <s:sequence>
@@ -504,6 +518,12 @@
   <wsdl:message name="SysUserLoginValidatorSoapOut">
     <wsdl:part name="parameters" element="tns:SysUserLoginValidatorResponse" />
   </wsdl:message>
+  <wsdl:message name="ExistsAppofUserSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsAppofUser" />
+  </wsdl:message>
+  <wsdl:message name="ExistsAppofUserSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsAppofUserResponse" />
+  </wsdl:message>
   <wsdl:message name="GetUserModelByLoginSoapIn">
     <wsdl:part name="parameters" element="tns:GetUserModelByLogin" />
   </wsdl:message>
@@ -615,6 +635,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在用户名login且密码password的系统用户</wsdl:documentation>
       <wsdl:input message="tns:SysUserLoginValidatorSoapIn" />
       <wsdl:output message="tns:SysUserLoginValidatorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsAppofUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">apps表删除记录时，首先判断user表中是否还有与此关联的记录</wsdl:documentation>
+      <wsdl:input message="tns:ExistsAppofUserSoapIn" />
+      <wsdl:output message="tns:ExistsAppofUserSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetUserModelByLogin">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名login和系统ID得到一个实体对象（普通用户）</wsdl:documentation>
@@ -806,6 +831,15 @@
     </wsdl:operation>
     <wsdl:operation name="SysUserLoginValidator">
       <soap:operation soapAction="http://saron.workflowservice.org/SysUserLoginValidator" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsAppofUser">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsAppofUser" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1007,6 +1041,15 @@
     </wsdl:operation>
     <wsdl:operation name="SysUserLoginValidator">
       <soap12:operation soapAction="http://saron.workflowservice.org/SysUserLoginValidator" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsAppofUser">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsAppofUser" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

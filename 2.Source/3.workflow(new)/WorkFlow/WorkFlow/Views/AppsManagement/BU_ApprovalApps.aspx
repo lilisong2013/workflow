@@ -14,7 +14,7 @@
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        var form = $("#approvalApply1");
+        var form = $("#approvalApply");
         form.submit(function () {
             var appID = $("#appID").val();
             alert(appID);
@@ -90,7 +90,7 @@
     <% WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)ViewData["appInfo"];%>
     <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)ViewData["userInfo"];%>
     <div class="form-horizontal">
-    <form id="approvalApply" method="post" action="" class="form-horizontal">
+    <form  method="post" action="" class="form-horizontal">
        <table border="1" align="left" width="700">
          <tr>
          <td>系统名称：</td>

@@ -72,6 +72,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback SysUserLoginValidatorOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsAppofUserOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetUserModelByLoginOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
@@ -174,6 +176,9 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public event SysUserLoginValidatorCompletedEventHandler SysUserLoginValidatorCompleted;
+        
+        /// <remarks/>
+        public event ExistsAppofUserCompletedEventHandler ExistsAppofUserCompleted;
         
         /// <remarks/>
         public event GetUserModelByLoginCompletedEventHandler GetUserModelByLoginCompleted;
@@ -810,6 +815,35 @@ namespace WorkFlow.UsersWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsAppofUser", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsAppofUser(int app_id) {
+            object[] results = this.Invoke("ExistsAppofUser", new object[] {
+                        app_id});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsAppofUserAsync(int app_id) {
+            this.ExistsAppofUserAsync(app_id, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsAppofUserAsync(int app_id, object userState) {
+            if ((this.ExistsAppofUserOperationCompleted == null)) {
+                this.ExistsAppofUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsAppofUserOperationCompleted);
+            }
+            this.InvokeAsync("ExistsAppofUser", new object[] {
+                        app_id}, this.ExistsAppofUserOperationCompleted, userState);
+        }
+        
+        private void OnExistsAppofUserOperationCompleted(object arg) {
+            if ((this.ExistsAppofUserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsAppofUserCompleted(this, new ExistsAppofUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetUserModelByLogin", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public usersModel GetUserModelByLogin(string login, int appID) {
             object[] results = this.Invoke("GetUserModelByLogin", new object[] {
@@ -860,7 +894,7 @@ namespace WorkFlow.UsersWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1620,6 +1654,32 @@ namespace WorkFlow.UsersWebService {
         private object[] results;
         
         internal SysUserLoginValidatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsAppofUserCompletedEventHandler(object sender, ExistsAppofUserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsAppofUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsAppofUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
