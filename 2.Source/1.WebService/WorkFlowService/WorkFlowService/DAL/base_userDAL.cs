@@ -13,26 +13,11 @@ namespace Saron.WorkFlowService.DAL
         public base_userDAL()
         { }
         #region  Method
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        public bool Exists(int id)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select count(1) from base_user");
-            strSql.Append(" where id=@id");
-            SqlParameter[] parameters = {
-					new SqlParameter("@id", SqlDbType.Decimal)
-			};
-            parameters[0].Value = id;
-
-            return DbHelperSQL.Exists(strSql.ToString(), parameters);
-        }
 
         /// <summary>
-        /// （超级管理员登录）是否存在用户或密码
+        /// （超级管理员登录）是否存在超级管理员或密码(密码为明文)
         /// </summary>
-        public bool Exists(string login, string password)
+        public bool ExistsSuperAdmin(string login, string password)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from base_user");
@@ -47,59 +32,22 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
-        /// 增加一条数据
+        /// （超级管理员登录）是否存在管理员或密码（密码为密文）
         /// </summary>
-        public int Add(Saron.WorkFlowService.Model.base_userModel model)
+        public bool ExistsSuperAdminSecurity(string login, string password)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("insert into base_user(");
-            strSql.Append("login,password,name,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip)");
-            strSql.Append(" values (");
-            strSql.Append("@login,dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))),@name,@mobile_phone,@mail,@remark,@admin,@invalid,@deleted,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip)");
-            strSql.Append(";select @@IDENTITY");
+            strSql.Append("select count(1) from base_user");
+            strSql.Append(" where login=@login and password=@password ");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
-					new SqlParameter("@password", SqlDbType.NVarChar,255),
-					new SqlParameter("@name", SqlDbType.NVarChar,40),
-					new SqlParameter("@mobile_phone", SqlDbType.NVarChar,40),
-					new SqlParameter("@mail", SqlDbType.NVarChar,40),
-					new SqlParameter("@remark", SqlDbType.NVarChar,80),
-					new SqlParameter("@admin", SqlDbType.Bit,1),
-					new SqlParameter("@invalid", SqlDbType.Bit,1),
-					new SqlParameter("@deleted", SqlDbType.Bit,1),
-					new SqlParameter("@created_at", SqlDbType.DateTime),
-					new SqlParameter("@created_by", SqlDbType.Int,4),
-					new SqlParameter("@created_ip", SqlDbType.NVarChar,40),
-					new SqlParameter("@updated_at", SqlDbType.DateTime),
-					new SqlParameter("@updated_by", SqlDbType.Int,4),
-					new SqlParameter("@updated_ip", SqlDbType.NVarChar,40)};
-            parameters[0].Value = model.login;
-            parameters[1].Value = model.password;
-            parameters[2].Value = model.name;
-            parameters[3].Value = model.mobile_phone;
-            parameters[4].Value = model.mail;
-            parameters[5].Value = model.remark;
-            parameters[6].Value = model.admin;
-            parameters[7].Value = model.invalid;
-            parameters[8].Value = model.deleted;
-            parameters[9].Value = model.created_at;
-            parameters[10].Value = model.created_by;
-            parameters[11].Value = model.created_ip;
-            parameters[12].Value = model.updated_at;
-            parameters[13].Value = model.updated_by;
-            parameters[14].Value = model.updated_ip;
+					new SqlParameter("@password", SqlDbType.NVarChar,255)};
+            parameters[0].Value = login;
+            parameters[1].Value = password;
 
-            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
-            if (obj == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return Convert.ToInt32(obj);
-            }
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
-       
+
         /// <summary>
         /// 更新一条数据
         /// </summary>
@@ -196,51 +144,6 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
-
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        public bool Delete(int id)
-        {
-
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("delete from base_user ");
-            strSql.Append(" where id=@id");
-            SqlParameter[] parameters = {
-					new SqlParameter("@id", SqlDbType.Int,4)
-			};
-            parameters[0].Value = id;
-
-            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
-            if (rows > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        
-        /// <summary>
-        /// 批量删除数据
-        /// </summary>
-        public bool DeleteList(string idlist)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("delete from base_user ");
-            strSql.Append(" where id in (" + idlist + ")  ");
-            int rows = DbHelperSQL.ExecuteSql(strSql.ToString());
-            if (rows > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
 
         /// <summary>
         /// 得到一个base_user对象实体
@@ -462,89 +365,6 @@ namespace Saron.WorkFlowService.DAL
             {
                 return null;
             }
-        }
-
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        public DataSet GetList(string strWhere)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,login,password,name,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
-            strSql.Append(" FROM base_user ");
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            return DbHelperSQL.Query(strSql.ToString());
-        }
-
-        /// <summary>
-        /// 获得前几行数据
-        /// </summary>
-        public DataSet GetList(int Top, string strWhere, string filedOrder)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ");
-            if (Top > 0)
-            {
-                strSql.Append(" top " + Top.ToString());
-            }
-            strSql.Append(" id,login,password,name,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
-            strSql.Append(" FROM base_user ");
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            strSql.Append(" order by " + filedOrder);
-            return DbHelperSQL.Query(strSql.ToString());
-        }
-
-        /// <summary>
-        /// 获取记录总数
-        /// </summary>
-        public int GetRecordCount(string strWhere)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select count(1) FROM base_user ");
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            object obj = DbHelperSQL.GetSingle(strSql.ToString());
-            if (obj == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return Convert.ToInt32(obj);
-            }
-        }
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("SELECT * FROM ( ");
-            strSql.Append(" SELECT ROW_NUMBER() OVER (");
-            if (!string.IsNullOrEmpty(orderby.Trim()))
-            {
-                strSql.Append("order by T." + orderby);
-            }
-            else
-            {
-                strSql.Append("order by T.id desc");
-            }
-            strSql.Append(")AS Row, T.*  from base_user T ");
-            if (!string.IsNullOrEmpty(strWhere.Trim()))
-            {
-                strSql.Append(" WHERE " + strWhere);
-            }
-            strSql.Append(" ) TT");
-            strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
-            return DbHelperSQL.Query(strSql.ToString());
         }
 
         #endregion  Method

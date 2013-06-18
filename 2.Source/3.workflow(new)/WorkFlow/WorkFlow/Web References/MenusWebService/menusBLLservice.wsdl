@@ -130,49 +130,7 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetCodeParentOfApp">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetCodeParentOfAppResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetCodeParentOfAppResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAllParentIdOfApp">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="appId" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetAllParentIdOfAppResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAllParentIdOfAppResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -299,17 +257,8 @@
   <wsdl:message name="GetAllMenusListofAppSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllMenusListofAppResponse" />
   </wsdl:message>
-  <wsdl:message name="GetCodeParentOfAppSoapIn">
-    <wsdl:part name="parameters" element="tns:GetCodeParentOfApp" />
-  </wsdl:message>
-  <wsdl:message name="GetCodeParentOfAppSoapOut">
-    <wsdl:part name="parameters" element="tns:GetCodeParentOfAppResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetAllParentIdOfAppSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllParentIdOfApp" />
-  </wsdl:message>
-  <wsdl:message name="GetAllParentIdOfAppSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllParentIdOfAppResponse" />
+  <wsdl:message name="GetAllMenusListofAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetTopMenusListOfAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetTopMenusListOfApp" />
@@ -349,62 +298,52 @@
   </wsdl:message>
   <wsdl:portType name="menusBLLserviceSoap">
     <wsdl:operation name="Add">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条菜单记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条菜单记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
       <wsdl:output message="tns:AddSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Update">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条菜单记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条菜单记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:UpdateSoapIn" />
       <wsdl:output message="tns:UpdateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除菜单主键为id的菜单记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除菜单主键为id的菜单记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:DeleteMenusSoapIn" />
       <wsdl:output message="tns:DeleteMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModel">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetChildrenMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某菜单的子菜单列表</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某菜单的子菜单列表,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetChildrenMenusSoapIn" />
       <wsdl:output message="tns:GetChildrenMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllMenusListofApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下所有数据列表</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下所有菜单数据列表,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetAllMenusListofAppSoapIn" />
       <wsdl:output message="tns:GetAllMenusListofAppSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetCodeParentOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的code、parent_id</wsdl:documentation>
-      <wsdl:input message="tns:GetCodeParentOfAppSoapIn" />
-      <wsdl:output message="tns:GetCodeParentOfAppSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetAllParentIdOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得系统appid的id、parent_id</wsdl:documentation>
-      <wsdl:input message="tns:GetAllParentIdOfAppSoapIn" />
-      <wsdl:output message="tns:GetAllParentIdOfAppSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetTopMenusListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的顶级菜单</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的顶级菜单,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetTopMenusListOfAppSoapIn" />
       <wsdl:output message="tns:GetTopMenusListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsChildrenMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单主键为parentId的菜单是否存在子菜单</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单主键为parentId的菜单是否存在子菜单,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsChildrenMenusSoapIn" />
       <wsdl:output message="tns:ExistsChildrenMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsMenusCode">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中菜单编码是否已经存在</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中菜单编码是否已经存在,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsMenusCodeSoapIn" />
       <wsdl:output message="tns:ExistsMenusCodeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsMenusName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中同一父菜单下的子菜单名称是否已经存在</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中同一父菜单下的子菜单名称是否已经存在,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsMenusNameSoapIn" />
       <wsdl:output message="tns:ExistsMenusNameSoapOut" />
     </wsdl:operation>
@@ -465,24 +404,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllMenusListofApp" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetCodeParentOfApp">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetCodeParentOfApp" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllParentIdOfApp">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:GetAllMenusListofAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -585,24 +507,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/GetAllMenusListofApp" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetCodeParentOfApp">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetCodeParentOfApp" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetAllParentIdOfApp">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllParentIdOfApp" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAllMenusListofAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

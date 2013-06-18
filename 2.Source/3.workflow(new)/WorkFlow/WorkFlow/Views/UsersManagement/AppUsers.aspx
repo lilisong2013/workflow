@@ -5,12 +5,16 @@ AppUsers
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
         type="text/css" />
+
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="Stylesheet" type="text/css" />
+    <link href="../../LigerUI/lib/ligerUI/skins/Gray/css/all.css" rel="Stylesheet" type="text/css"/>
+
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
- <%--   <script src="../../LigerUI/lib/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>--%>
-
+    <script src="../../LigerUI/lib/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
+    
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript">
@@ -56,12 +60,6 @@ AppUsers
             });
     </script>
 
-  <%--  <script type="text/javascript">
-        function test(id) {
-            alert(id);
-        }
-    </script>
---%>
     <script type="text/javascript">
         function f_delete(id) {
             alert(id);

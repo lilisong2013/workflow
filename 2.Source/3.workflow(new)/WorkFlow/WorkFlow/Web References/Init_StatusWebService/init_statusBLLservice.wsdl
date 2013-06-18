@@ -62,34 +62,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="Delete">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="idlist" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="DeleteListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="DeleteListResult" type="s:boolean" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="GetModel">
         <s:complexType>
           <s:sequence>
@@ -125,29 +97,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetInit_StatusTopList">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="Top" type="s:int" />
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="filedOrder" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetInit_StatusTopListResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetInit_StatusTopListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="GetAllInit_StatusList">
         <s:complexType />
       </s:element>
@@ -155,44 +104,6 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAllInit_StatusListResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRecordCount">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetRecordCountResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="GetRecordCountResult" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetListByPage">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="orderby" type="s:string" />
-            <s:element minOccurs="1" maxOccurs="1" name="startIndex" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="endIndex" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetListByPageResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetListByPageResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -229,18 +140,6 @@
   <wsdl:message name="UpdateSoapOut">
     <wsdl:part name="parameters" element="tns:UpdateResponse" />
   </wsdl:message>
-  <wsdl:message name="DeleteSoapIn">
-    <wsdl:part name="parameters" element="tns:Delete" />
-  </wsdl:message>
-  <wsdl:message name="DeleteSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteResponse" />
-  </wsdl:message>
-  <wsdl:message name="DeleteListSoapIn">
-    <wsdl:part name="parameters" element="tns:DeleteList" />
-  </wsdl:message>
-  <wsdl:message name="DeleteListSoapOut">
-    <wsdl:part name="parameters" element="tns:DeleteListResponse" />
-  </wsdl:message>
   <wsdl:message name="GetModelSoapIn">
     <wsdl:part name="parameters" element="tns:GetModel" />
   </wsdl:message>
@@ -253,29 +152,11 @@
   <wsdl:message name="GetInit_StatusListSoapOut">
     <wsdl:part name="parameters" element="tns:GetInit_StatusListResponse" />
   </wsdl:message>
-  <wsdl:message name="GetInit_StatusTopListSoapIn">
-    <wsdl:part name="parameters" element="tns:GetInit_StatusTopList" />
-  </wsdl:message>
-  <wsdl:message name="GetInit_StatusTopListSoapOut">
-    <wsdl:part name="parameters" element="tns:GetInit_StatusTopListResponse" />
-  </wsdl:message>
   <wsdl:message name="GetAllInit_StatusListSoapIn">
     <wsdl:part name="parameters" element="tns:GetAllInit_StatusList" />
   </wsdl:message>
   <wsdl:message name="GetAllInit_StatusListSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllInit_StatusListResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetRecordCountSoapIn">
-    <wsdl:part name="parameters" element="tns:GetRecordCount" />
-  </wsdl:message>
-  <wsdl:message name="GetRecordCountSoapOut">
-    <wsdl:part name="parameters" element="tns:GetRecordCountResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetListByPageSoapIn">
-    <wsdl:part name="parameters" element="tns:GetListByPage" />
-  </wsdl:message>
-  <wsdl:message name="GetListByPageSoapOut">
-    <wsdl:part name="parameters" element="tns:GetListByPageResponse" />
   </wsdl:message>
   <wsdl:portType name="init_statusBLLserviceSoap">
     <wsdl:operation name="GetMaxId">
@@ -298,16 +179,6 @@
       <wsdl:input message="tns:UpdateSoapIn" />
       <wsdl:output message="tns:UpdateSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="Delete">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录</wsdl:documentation>
-      <wsdl:input message="tns:DeleteSoapIn" />
-      <wsdl:output message="tns:DeleteSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除多条数据</wsdl:documentation>
-      <wsdl:input message="tns:DeleteListSoapIn" />
-      <wsdl:output message="tns:DeleteListSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetModel">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
@@ -318,25 +189,10 @@
       <wsdl:input message="tns:GetInit_StatusListSoapIn" />
       <wsdl:output message="tns:GetInit_StatusListSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetInit_StatusTopList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）</wsdl:documentation>
-      <wsdl:input message="tns:GetInit_StatusTopListSoapIn" />
-      <wsdl:output message="tns:GetInit_StatusTopListSoapOut" />
-    </wsdl:operation>
     <wsdl:operation name="GetAllInit_StatusList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
       <wsdl:input message="tns:GetAllInit_StatusListSoapIn" />
       <wsdl:output message="tns:GetAllInit_StatusListSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得记录总条数</wsdl:documentation>
-      <wsdl:input message="tns:GetRecordCountSoapIn" />
-      <wsdl:output message="tns:GetRecordCountSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）</wsdl:documentation>
-      <wsdl:input message="tns:GetListByPageSoapIn" />
-      <wsdl:output message="tns:GetListByPageSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="init_statusBLLserviceSoap" type="tns:init_statusBLLserviceSoap">
@@ -377,24 +233,6 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Delete">
-      <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetModel">
       <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
@@ -413,35 +251,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetInit_StatusTopList">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetInit_StatusTopList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetAllInit_StatusList">
       <soap:operation soapAction="http://saron.workflowservice.org/GetAllInit_StatusList" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetListByPage" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -488,24 +299,6 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Delete">
-      <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="DeleteList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetModel">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
       <wsdl:input>
@@ -524,35 +317,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetInit_StatusTopList">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetInit_StatusTopList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
     <wsdl:operation name="GetAllInit_StatusList">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetAllInit_StatusList" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetRecordCount">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetRecordCount" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetListByPage">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetListByPage" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

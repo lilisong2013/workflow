@@ -67,7 +67,7 @@
                                   { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-lock"></i><a href="#">详情</a>';
+                                          var html = '<i class="icon-lock"></i><a href="/MenusManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                           return html;
                                       }
                                   },

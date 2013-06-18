@@ -48,10 +48,6 @@ namespace WorkFlow.Privileges_TypeWebService {
         
         private System.Threading.SendOrPostCallback GetAllPrivileges_typeListOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetRecordCountOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetListByPageOperationCompleted;
-        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -116,12 +112,6 @@ namespace WorkFlow.Privileges_TypeWebService {
         
         /// <remarks/>
         public event GetAllPrivileges_typeListCompletedEventHandler GetAllPrivileges_typeListCompleted;
-        
-        /// <remarks/>
-        public event GetRecordCountCompletedEventHandler GetRecordCountCompleted;
-        
-        /// <remarks/>
-        public event GetListByPageCompletedEventHandler GetListByPageCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Exists", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -387,70 +377,6 @@ namespace WorkFlow.Privileges_TypeWebService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetRecordCount", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetRecordCount(string strWhere) {
-            object[] results = this.Invoke("GetRecordCount", new object[] {
-                        strWhere});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetRecordCountAsync(string strWhere) {
-            this.GetRecordCountAsync(strWhere, null);
-        }
-        
-        /// <remarks/>
-        public void GetRecordCountAsync(string strWhere, object userState) {
-            if ((this.GetRecordCountOperationCompleted == null)) {
-                this.GetRecordCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRecordCountOperationCompleted);
-            }
-            this.InvokeAsync("GetRecordCount", new object[] {
-                        strWhere}, this.GetRecordCountOperationCompleted, userState);
-        }
-        
-        private void OnGetRecordCountOperationCompleted(object arg) {
-            if ((this.GetRecordCountCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetRecordCountCompleted(this, new GetRecordCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetListByPage", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex) {
-            object[] results = this.Invoke("GetListByPage", new object[] {
-                        strWhere,
-                        orderby,
-                        startIndex,
-                        endIndex});
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetListByPageAsync(string strWhere, string orderby, int startIndex, int endIndex) {
-            this.GetListByPageAsync(strWhere, orderby, startIndex, endIndex, null);
-        }
-        
-        /// <remarks/>
-        public void GetListByPageAsync(string strWhere, string orderby, int startIndex, int endIndex, object userState) {
-            if ((this.GetListByPageOperationCompleted == null)) {
-                this.GetListByPageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetListByPageOperationCompleted);
-            }
-            this.InvokeAsync("GetListByPage", new object[] {
-                        strWhere,
-                        orderby,
-                        startIndex,
-                        endIndex}, this.GetListByPageOperationCompleted, userState);
-        }
-        
-        private void OnGetListByPageOperationCompleted(object arg) {
-            if ((this.GetListByPageCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetListByPageCompleted(this, new GetListByPageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -470,7 +396,7 @@ namespace WorkFlow.Privileges_TypeWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -747,58 +673,6 @@ namespace WorkFlow.Privileges_TypeWebService {
         private object[] results;
         
         internal GetAllPrivileges_typeListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetRecordCountCompletedEventHandler(object sender, GetRecordCountCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetRecordCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetRecordCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetListByPageCompletedEventHandler(object sender, GetListByPageCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetListByPageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetListByPageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

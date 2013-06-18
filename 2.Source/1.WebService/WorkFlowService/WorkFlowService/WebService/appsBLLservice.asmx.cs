@@ -29,15 +29,6 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在id为id的记录")]
-        public bool Exists(int id)
-        {
-            return m_appsdal.Exists(id);
-        }
-
-        /// <summary>
         /// 是否存在系统名称为appName该记录
         /// </summary>
         [WebMethod(Description = "是否存在系统名称为appName该记录")]
@@ -134,23 +125,6 @@ namespace Saron.WorkFlowService.WebService
             return GetAppsList("invalid=0");
         }
 
-        /// <summary>
-        /// 获取记录总数
-        /// </summary>
-        [WebMethod(Description = "获得记录总条数")]
-        public int GetRecordCount(string strWhere)
-        {
-            return m_appsdal.GetRecordCount(strWhere);
-        }
-
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）")]
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-        {
-            return m_appsdal.GetListByPage(strWhere, orderby, startIndex, endIndex);
-        }
         ///<summary>
         ///统计下已审批系统的数量
         ///</summary>
@@ -159,6 +133,7 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_appsdal.GetValidAppCount();
         }
+
         ///<summary>
         ///统计下待审批系统的数量
         ///</summary>

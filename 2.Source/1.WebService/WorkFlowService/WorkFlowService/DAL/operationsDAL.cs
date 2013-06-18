@@ -168,6 +168,26 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
+
+
+        public bool DeleteOperations(int operation_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update operations set deleted=1 where id=@id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = operation_id;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 		
         /// <summary>
 		/// 批量删除数据
