@@ -45,13 +45,14 @@ EditPage
     <%--是否有效初始化--%>
     <script type="text/javascript">
         $(document).ready(function () {
+            
             $.ajax({
                 url: "/UsersManagement/GetInvalidList",
                 type: "POST",
                 dataType: "json",
                 data: { userid: userID },
                 success: function (responseText, statusText) {
-                    alert(responseText);
+                    //alert(responseText);
                     var dataJson = eval("(" + responseText + ")");
                     inTotal = parseInt(dataJson.total); //操作权限数量
                     for (var i = 0; i < dataJson.total; i++) {
@@ -61,10 +62,15 @@ EditPage
                     for (var i = 0; i < dataJson.total; i++) {
                         if (dataJson.List[i].selected == "true") {
                             $("#invalidValue" + i.toString()).prop("checked", true);
+                            alert("ok?");
+                            $("#invalidValue", dataJson.List[i].selected)
+                            alert(eval($("#invalidValue").val()));
                             alert(dataJson.List[i].selected);
                         } else {
                             $("#invalidValue" + i.toString()).prop("checked", false);
                             alert("???");
+                            $("#invalidValue", dataJson.List[i].selected)
+                            alert(eval($("#invalidValue").val()));
                             alert(dataJson.List[i].selected);
                         }
                     }
@@ -87,7 +93,7 @@ EditPage
 
 	                //菜单权限中被选中的项          
 	                var checkBoxID = $("#invalidValue"); //复选框ID
-	                alert(checkBoxID.is(":checked"));
+	                //alert(checkBoxID.is(":checked"));
 	                if (checkBoxID.is(":checked")) {
 	                   // alert(checkBoxID.val() + "选中");
 	                    //usersStr += "uInvalidID" + upTotal.toString() + ":'" + checkBoxID.val() + "',";
