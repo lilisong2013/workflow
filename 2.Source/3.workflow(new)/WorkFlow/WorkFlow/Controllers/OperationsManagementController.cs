@@ -341,7 +341,6 @@ namespace WorkFlow.Controllers
             }
             string m_operationsDescription = collection["operationsDescription"].Trim();
             string m_operationsRemark = collection["operationsRemark"].Trim();
-            string m_operationsInvalid = collection["operationsInvalid"].Trim();
             //获取operations表中所有name的值       
             DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
             var total = ds.Tables[0].Rows.Count;
@@ -380,8 +379,6 @@ namespace WorkFlow.Controllers
             m_operationsModel.description = collection["operationsDescription"].Trim();
             m_operationsModel.remark = collection["operationsRemark"].Trim();
             m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
-            m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
-            m_operationsModel.deleted = Convert.ToBoolean(collection["operationsDeleted"].Trim());
             m_operationsModel.created_at = t;
             m_operationsModel.created_by = m_usersModel.id;
             m_operationsModel.created_ip = Convert.ToString(collection["createdIP"].Trim());

@@ -163,8 +163,6 @@
                             <%DateTime t = Convert.ToDateTime(dt);%>
                           
                             <input type="hidden" name="rolesApp_id" id="rolesApp_id" value="<%=m_usersModel.app_id%>"/>
-                            <input type="hidden" name="rolesInvalid" id="rolesInvalid" value="true"/>
-                            <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="false" />
                             <input type="hidden" name="rolesCreated_by" id="rolesCreated_by" value="<%=m_usersModel.id%>" />
                             <input type="hidden" name="rolesCreated_ip" id="rolesCreated_ip" value="<%= ipAddress %>" />
                             <input type="hidden" name="rolesCreated_at" id="rolesCreated_at" value="<%=t %>"/>

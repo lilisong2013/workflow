@@ -306,9 +306,7 @@ namespace WorkFlow.Controllers
             m_elementsModel.initstatus_id = Convert.ToInt32(collection["StatusParent"].Trim());
             m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim());
             m_elementsModel.menu_id = Convert.ToInt32(collection["MenusParent"].Trim());
-            m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim());
-            m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim());
-            m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim());
+            m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim());       
             m_elementsModel.created_at=Convert.ToDateTime(collection["Created_at"].Trim());
             m_elementsModel.created_by = Convert.ToInt32(collection["Created_by"].Trim());
             m_elementsModel.created_ip=collection["Created_ip"].Trim();

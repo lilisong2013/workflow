@@ -157,9 +157,7 @@
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(s); %>
-                            <input type="hidden" name="operationsApp_id" id="operationsApp_id" value="<%=m_usersModel.app_id%>"/>
-                            <input type="hidden" name="operationsInvalid" id="operationsInvalid" value="true"/>
-                            <input type="hidden" name="operationsDeleted" id="operationsDeleted" value="false"/>
+                            <input type="hidden" name="operationsApp_id" id="operationsApp_id" value="<%=m_usersModel.app_id%>"/>                  
                             <input type="hidden" name="createdBy" id="createdBy" value="<%=m_usersModel.id%>" />
                             <input type="hidden" name="createdAt" id="createdAt" value="<%=t%>"/>
                             <input type="hidden" name="createdIP" id="createdIP" value="<%= ipAddress %>" />

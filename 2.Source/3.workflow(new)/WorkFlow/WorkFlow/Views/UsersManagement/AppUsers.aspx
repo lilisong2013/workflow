@@ -7,12 +7,14 @@ AppUsers
         type="text/css" />
 
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="Stylesheet" type="text/css" />
+    <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
     <link href="../../LigerUI/lib/ligerUI/skins/Gray/css/all.css" rel="Stylesheet" type="text/css"/>
 
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+  <%--  <script src="../../LigerUI/lib/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>--%>
     
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
@@ -55,6 +57,7 @@ AppUsers
                     url: '/UsersManagement/GetUsers_Apply',
                     rownumbers: true,
                     usePager: true
+                   
                 });
 
             });
@@ -63,14 +66,22 @@ AppUsers
     <script type="text/javascript">
         function f_delete(id) {
             alert(id);
-            $.ligerDialog.confirm('确定要删除吗ok?');
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 $.ajax({
-                    url: '/UsersManagement/ChangePage?id=' + id
+                   url: '/UsersManagement/ChangePage?id=' + id
+                   
                 });
+              
             });
+
+           // window.location.reload();
         }
     </script>
+    <script type="text/javascript">
+        // opener.location.reload();
+        setTimeout("window.location.reload()", 4000);
+    </script>
+  
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -162,9 +173,7 @@ AppUsers
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(s);%>
-                            <input type="hidden" name="usersApp_id" id="usersApp_id" value=""/>
-                            <input type="hidden" name="usersInvalid" id="usersInvalid" value="false"/>
-                            <input type="hidden" name="usersDeleted" id="usersDeleted" value="false" />
+                            <input type="hidden" name="usersApp_id" id="usersApp_id" value=""/>  
                             <input type="hidden" name="usersAdmin" id="usersAdmin" value="false"/>
                             <input type="hidden" name="usersCreated_by" id="usersCreated_by" value="<%=m_usersModel.id%>" />
                             <input type="hidden" name="usersCreated_ip" id="usersCreated_ip" value="<%=ipAddress%>" />

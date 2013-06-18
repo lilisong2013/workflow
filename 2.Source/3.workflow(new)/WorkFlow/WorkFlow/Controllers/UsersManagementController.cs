@@ -143,6 +143,14 @@ namespace WorkFlow.Controllers
             return View();
         }
         ///<summary>
+        ///删除记录确认反馈页面
+        /// </summary>
+        public ActionResult ChangePageCon()
+        {
+
+            return View();
+        }
+        ///<summary>
         ///删除ID号的记录
         ///</summary>
         public ActionResult ChangePage(int id)
@@ -154,9 +162,9 @@ namespace WorkFlow.Controllers
             try {
                 if (m_usersBllService.LogicDelete(id))
                 {
-                   
-                    return View();
-                 
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="删除成功!",toUrl="/UsersManagement/AppUsers"});
+                   // return RedirectToAction("/UsersManagement/ChangePageCon");
+                   // return Redirect("/UsersManagement/ChangePageCon");
                 }
                 else
                 {
@@ -259,8 +267,6 @@ namespace WorkFlow.Controllers
             m_usersModel.mail = collection["usersMail"].Trim();
             m_usersModel.remark = collection["usersRemark"].Trim();
             m_usersModel.admin = Convert.ToBoolean(collection["usersAdmin"].Trim());
-            m_usersModel.invalid = Convert.ToBoolean(collection["usersInvalid"].Trim());
-            m_usersModel.deleted = Convert.ToBoolean(collection["usersDeleted"].Trim());
             m_usersModel.created_at = Convert.ToDateTime(collection["usersCreated_at"].Trim());
             m_usersModel.created_by = Convert.ToInt32(collection["usersCreated_by"].Trim());
             m_usersModel.created_ip = collection["usersCreated_ip"].Trim();
