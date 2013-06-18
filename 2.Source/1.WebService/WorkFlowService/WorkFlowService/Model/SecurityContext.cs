@@ -130,7 +130,7 @@ namespace Saron.WorkFlowService.Model
         }
 
         /// <summary>
-        /// 超级管理员webservice授权判断
+        /// 超级管理员webservice授权判断（密码为密文）
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="passWord"></param>
@@ -145,6 +145,38 @@ namespace Saron.WorkFlowService.Model
             try
             {
                 if (m_base_userDal.ExistsSuperAdminSecurity(userName, passWord))
+                {
+                    return true;
+                }
+                else
+                {
+                    msg = "无权访问WebService!";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "数据库访问出错！";
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 超级管理员webservice授权判断（密码为明文）
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="passWord"></param>
+        /// <param name="appID"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public bool SuperAdminIsValidCK(string userName, string passWord, out string msg)
+        {
+            msg = "";
+            Saron.WorkFlowService.DAL.base_userDAL m_base_userDal = new DAL.base_userDAL();
+
+            try
+            {
+                if (m_base_userDal.ExistsSuperAdmin(userName, passWord))
                 {
                     return true;
                 }

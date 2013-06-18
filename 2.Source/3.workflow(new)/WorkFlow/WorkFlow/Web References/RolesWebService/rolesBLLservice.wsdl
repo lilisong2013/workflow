@@ -178,7 +178,7 @@
       <wsdl:output message="tns:GetModelSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllRolesListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的数据列表</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的角色数据列表</wsdl:documentation>
       <wsdl:input message="tns:GetAllRolesListOfAppSoapIn" />
       <wsdl:output message="tns:GetAllRolesListOfAppSoapOut" />
     </wsdl:operation>

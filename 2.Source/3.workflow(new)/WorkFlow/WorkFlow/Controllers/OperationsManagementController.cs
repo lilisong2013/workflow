@@ -18,6 +18,7 @@ namespace WorkFlow.Controllers
         {
             return View();
         }
+        
         /// <summary>
         /// 显示数据库中功能操作表的信息
         /// </summary>
@@ -36,8 +37,18 @@ namespace WorkFlow.Controllers
             //每页显示的记录数
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsService = new OperationsWebService.operationsBLLservice();
+
+            string msg = string.Empty;
+
+            WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_operationsService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
            // DataSet ds = m_operationsService.GetAllOperationsList();
-            DataSet ds = m_operationsService.GetOperationsListOfApp(appid);
+            DataSet ds = m_operationsService.GetOperationsListOfApp(appid,out msg);
             IList<WorkFlow.OperationsWebService.operationsModel> m_list = new List<WorkFlow.OperationsWebService.operationsModel>();
 
             var total = ds.Tables[0].Rows.Count;
@@ -84,6 +95,7 @@ namespace WorkFlow.Controllers
             };
             return Json(gridData);
         }
+        
         /// <summary>
         /// 显示所选系统的详情
         /// </summary>
@@ -93,7 +105,19 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
-            m_operationsModel = m_operationsBllService.GetModel(id);
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
+            WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_operationsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            m_operationsModel = m_operationsBllService.GetModel(id,out msg);
             ViewData["operationsName"] = m_operationsModel.name;
             ViewData["operationsCode"] = m_operationsModel.code;
             ViewData["operationsDescription"] = m_operationsModel.description;
@@ -109,6 +133,7 @@ namespace WorkFlow.Controllers
             ViewData["operationsUpdated_ip"] = m_operationsModel.updated_ip;
             return View();
         }
+        
         ///<summay>
         ///编辑数据库中指定记录的操作
         ///</summay>
@@ -118,7 +143,19 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
-            m_operationsModel = m_operationsBllService.GetModel(id);
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
+            WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_operationsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            m_operationsModel = m_operationsBllService.GetModel(id,out msg);
             ViewData["operationsId"] = m_operationsModel.id;
             ViewData["operationsName"] = m_operationsModel.name;
             ViewData["operationsCode"] = m_operationsModel.code;
@@ -129,6 +166,7 @@ namespace WorkFlow.Controllers
             ViewData["operationsInvalid"] = m_operationsModel.invalid;
             return View();
         }
+        
         ///<summay>
         ///编辑数据库中指定记录的操作
         ///</summay>
@@ -139,10 +177,20 @@ namespace WorkFlow.Controllers
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
 
-            WorkFlow.UsersWebService.usersModel codeModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-            int appID = Convert.ToInt32(codeModel.app_id);
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
+            WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_operationsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            int appID = Convert.ToInt32(m_usersModel.app_id);
             int m_operationsId = Convert.ToInt32(collection["operationsId"].Trim());
-            m_operationsModel = m_operationsBllService.GetModel(m_operationsId);
+            m_operationsModel = m_operationsBllService.GetModel(m_operationsId,out msg);
             string name = collection["operationsName"].Trim().ToString();
             string invalid = collection["operationsInvalid"].Trim();
             if (name.Length == 0)
@@ -153,7 +201,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空!" });
             }
-            DataSet ds = m_operationsBllService.GetOperationsNameList();
+            DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList operationsList = new ArrayList();
             for (int i = 0; i < total; i++)
@@ -167,7 +215,7 @@ namespace WorkFlow.Controllers
                     operationsList.Remove(m_operationsModel.name);
                 }
             }
-            DataSet codeds = m_operationsBllService.GetCodeListOfApp(appID);
+            DataSet codeds = m_operationsBllService.GetCodeListOfApp(appID,out msg);
             ArrayList codeList = new ArrayList();
             var codetotal = codeds.Tables[0].Rows.Count;
             for(int i = 0; i < codetotal; i++)
@@ -181,7 +229,7 @@ namespace WorkFlow.Controllers
                     codeList.Remove(m_operationsModel.code);
                 }
             }
-            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
 
@@ -212,7 +260,7 @@ namespace WorkFlow.Controllers
             try
             {
                 //修改后的操作名称与数据库表中的操作名称不相同并且操作名称不是本身自己            
-                if (m_operationsBllService.Update(m_operationsModel))
+                if (m_operationsBllService.Update(m_operationsModel,out msg))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/OperationsManagement/AppOperations" });
                     // return RedirectToAction("AppOperations");
@@ -228,6 +276,7 @@ namespace WorkFlow.Controllers
             }
           
         }
+        
         ///<summary>
         ///删除数据库中指定记录的操作
         ///</summary>
@@ -237,7 +286,19 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
-            if (m_operationsBllService.Delete(id))
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
+            WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_operationsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            if (m_operationsBllService.DeleteOperations(id,out msg))
             {
                 return RedirectToAction("AppOperations");
             }
@@ -246,6 +307,7 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
+        
         ///<summary>
         ///向数据库中添加记录的操作
         ///</summary>
@@ -256,7 +318,16 @@ namespace WorkFlow.Controllers
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
 
-            WorkFlow.UsersWebService.usersModel m_codeModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
+            WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_operationsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
          
             string m_operationsName = collection["operationsName"].Trim();
             string m_operationsCode = collection["operationsCode"].Trim();
@@ -272,7 +343,7 @@ namespace WorkFlow.Controllers
             string m_operationsRemark = collection["operationsRemark"].Trim();
             string m_operationsInvalid = collection["operationsInvalid"].Trim();
             //获取operations表中所有name的值       
-            DataSet ds = m_operationsBllService.GetOperationsNameList();
+            DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList operationsList = new ArrayList();
             for (int i = 0; i < total; i++)
@@ -287,7 +358,7 @@ namespace WorkFlow.Controllers
                 }
             }
             //获取operations表中所有code的值
-            DataSet dscode = m_operationsBllService.GetCodeListOfApp(Convert.ToInt32(m_codeModel.app_id));
+            DataSet dscode = m_operationsBllService.GetCodeListOfApp(Convert.ToInt32(m_usersModel.app_id), out msg);
             ArrayList codelist = new ArrayList();
             var totalcode = dscode.Tables[0].Rows.Count;
             for (int i = 0; i < totalcode; i++)
@@ -303,7 +374,7 @@ namespace WorkFlow.Controllers
             }
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
-            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
             m_operationsModel.name = collection["operationsName"].Trim();
             m_operationsModel.code = collection["operationsCode"].Trim();
             m_operationsModel.description = collection["operationsDescription"].Trim();
@@ -316,7 +387,7 @@ namespace WorkFlow.Controllers
             m_operationsModel.created_ip = Convert.ToString(collection["createdIP"].Trim());
             try
             {
-                if (m_operationsBllService.Add(m_operationsModel) != 0)
+                if (m_operationsBllService.Add(m_operationsModel,out msg) != 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "功能添加成功!", toUrl = "/OperationsManagement/AppOperations" });
                 }

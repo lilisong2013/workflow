@@ -30,33 +30,21 @@ namespace WorkFlow.OperationsWebService {
     [System.Web.Services.WebServiceBindingAttribute(Name="operationsBLLserviceSoap", Namespace="http://saron.workflowservice.org/")]
     public partial class operationsBLLservice : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
-        private System.Threading.SendOrPostCallback ExistsOperationCompleted;
+        private SecurityContext securityContextValueField;
         
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateOperationCompleted;
         
-        private System.Threading.SendOrPostCallback DeleteOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback DeleteListOperationCompleted;
+        private System.Threading.SendOrPostCallback DeleteOperationsOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetModelOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOperationsListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetOperationsNameListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetOperationsListOfAppOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetCodeListOfAppOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOperationsTopListOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetAllOperationsListOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetRecordCountOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetListByPageOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -69,6 +57,15 @@ namespace WorkFlow.OperationsWebService {
             }
             else {
                 this.useDefaultCredentialsSetExplicitly = true;
+            }
+        }
+        
+        public SecurityContext SecurityContextValue {
+            get {
+                return this.securityContextValueField;
+            }
+            set {
+                this.securityContextValueField = value;
             }
         }
         
@@ -97,25 +94,16 @@ namespace WorkFlow.OperationsWebService {
         }
         
         /// <remarks/>
-        public event ExistsCompletedEventHandler ExistsCompleted;
-        
-        /// <remarks/>
         public event AddCompletedEventHandler AddCompleted;
         
         /// <remarks/>
         public event UpdateCompletedEventHandler UpdateCompleted;
         
         /// <remarks/>
-        public event DeleteCompletedEventHandler DeleteCompleted;
-        
-        /// <remarks/>
-        public event DeleteListCompletedEventHandler DeleteListCompleted;
+        public event DeleteOperationsCompletedEventHandler DeleteOperationsCompleted;
         
         /// <remarks/>
         public event GetModelCompletedEventHandler GetModelCompleted;
-        
-        /// <remarks/>
-        public event GetOperationsListCompletedEventHandler GetOperationsListCompleted;
         
         /// <remarks/>
         public event GetOperationsNameListCompletedEventHandler GetOperationsNameListCompleted;
@@ -127,51 +115,12 @@ namespace WorkFlow.OperationsWebService {
         public event GetCodeListOfAppCompletedEventHandler GetCodeListOfAppCompleted;
         
         /// <remarks/>
-        public event GetOperationsTopListCompletedEventHandler GetOperationsTopListCompleted;
-        
-        /// <remarks/>
-        public event GetAllOperationsListCompletedEventHandler GetAllOperationsListCompleted;
-        
-        /// <remarks/>
-        public event GetRecordCountCompletedEventHandler GetRecordCountCompleted;
-        
-        /// <remarks/>
-        public event GetListByPageCompletedEventHandler GetListByPageCompleted;
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Exists", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Exists(int id) {
-            object[] results = this.Invoke("Exists", new object[] {
-                        id});
-            return ((bool)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void ExistsAsync(int id) {
-            this.ExistsAsync(id, null);
-        }
-        
-        /// <remarks/>
-        public void ExistsAsync(int id, object userState) {
-            if ((this.ExistsOperationCompleted == null)) {
-                this.ExistsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsOperationCompleted);
-            }
-            this.InvokeAsync("Exists", new object[] {
-                        id}, this.ExistsOperationCompleted, userState);
-        }
-        
-        private void OnExistsOperationCompleted(object arg) {
-            if ((this.ExistsCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.ExistsCompleted(this, new ExistsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Add", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int Add(operationsModel model) {
+        public int Add(operationsModel model, out string msg) {
             object[] results = this.Invoke("Add", new object[] {
                         model});
+            msg = ((string)(results[1]));
             return ((int)(results[0]));
         }
         
@@ -197,10 +146,12 @@ namespace WorkFlow.OperationsWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Update", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Update(operationsModel model) {
+        public bool Update(operationsModel model, out string msg) {
             object[] results = this.Invoke("Update", new object[] {
                         model});
+            msg = ((string)(results[1]));
             return ((bool)(results[0]));
         }
         
@@ -226,68 +177,43 @@ namespace WorkFlow.OperationsWebService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Delete", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Delete(int id) {
-            object[] results = this.Invoke("Delete", new object[] {
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/DeleteOperations", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool DeleteOperations(int id, out string msg) {
+            object[] results = this.Invoke("DeleteOperations", new object[] {
                         id});
+            msg = ((string)(results[1]));
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void DeleteAsync(int id) {
-            this.DeleteAsync(id, null);
+        public void DeleteOperationsAsync(int id) {
+            this.DeleteOperationsAsync(id, null);
         }
         
         /// <remarks/>
-        public void DeleteAsync(int id, object userState) {
-            if ((this.DeleteOperationCompleted == null)) {
-                this.DeleteOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteOperationCompleted);
+        public void DeleteOperationsAsync(int id, object userState) {
+            if ((this.DeleteOperationsOperationCompleted == null)) {
+                this.DeleteOperationsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteOperationsOperationCompleted);
             }
-            this.InvokeAsync("Delete", new object[] {
-                        id}, this.DeleteOperationCompleted, userState);
+            this.InvokeAsync("DeleteOperations", new object[] {
+                        id}, this.DeleteOperationsOperationCompleted, userState);
         }
         
-        private void OnDeleteOperationCompleted(object arg) {
-            if ((this.DeleteCompleted != null)) {
+        private void OnDeleteOperationsOperationCompleted(object arg) {
+            if ((this.DeleteOperationsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.DeleteCompleted(this, new DeleteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.DeleteOperationsCompleted(this, new DeleteOperationsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/DeleteList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool DeleteList(string idlist) {
-            object[] results = this.Invoke("DeleteList", new object[] {
-                        idlist});
-            return ((bool)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void DeleteListAsync(string idlist) {
-            this.DeleteListAsync(idlist, null);
-        }
-        
-        /// <remarks/>
-        public void DeleteListAsync(string idlist, object userState) {
-            if ((this.DeleteListOperationCompleted == null)) {
-                this.DeleteListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteListOperationCompleted);
-            }
-            this.InvokeAsync("DeleteList", new object[] {
-                        idlist}, this.DeleteListOperationCompleted, userState);
-        }
-        
-        private void OnDeleteListOperationCompleted(object arg) {
-            if ((this.DeleteListCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.DeleteListCompleted(this, new DeleteListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetModel", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public operationsModel GetModel(int id) {
+        public operationsModel GetModel(int id, out string msg) {
             object[] results = this.Invoke("GetModel", new object[] {
                         id});
+            msg = ((string)(results[1]));
             return ((operationsModel)(results[0]));
         }
         
@@ -313,38 +239,11 @@ namespace WorkFlow.OperationsWebService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOperationsList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetOperationsList(string strWhere) {
-            object[] results = this.Invoke("GetOperationsList", new object[] {
-                        strWhere});
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOperationsListAsync(string strWhere) {
-            this.GetOperationsListAsync(strWhere, null);
-        }
-        
-        /// <remarks/>
-        public void GetOperationsListAsync(string strWhere, object userState) {
-            if ((this.GetOperationsListOperationCompleted == null)) {
-                this.GetOperationsListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOperationsListOperationCompleted);
-            }
-            this.InvokeAsync("GetOperationsList", new object[] {
-                        strWhere}, this.GetOperationsListOperationCompleted, userState);
-        }
-        
-        private void OnGetOperationsListOperationCompleted(object arg) {
-            if ((this.GetOperationsListCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOperationsListCompleted(this, new GetOperationsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOperationsNameList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetOperationsNameList() {
+        public System.Data.DataSet GetOperationsNameList(out string msg) {
             object[] results = this.Invoke("GetOperationsNameList", new object[0]);
+            msg = ((string)(results[1]));
             return ((System.Data.DataSet)(results[0]));
         }
         
@@ -369,10 +268,12 @@ namespace WorkFlow.OperationsWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOperationsListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetOperationsListOfApp(int appID) {
+        public System.Data.DataSet GetOperationsListOfApp(int appID, out string msg) {
             object[] results = this.Invoke("GetOperationsListOfApp", new object[] {
                         appID});
+            msg = ((string)(results[1]));
             return ((System.Data.DataSet)(results[0]));
         }
         
@@ -398,10 +299,12 @@ namespace WorkFlow.OperationsWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetCodeListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetCodeListOfApp(int app_id) {
+        public System.Data.DataSet GetCodeListOfApp(int app_id, out string msg) {
             object[] results = this.Invoke("GetCodeListOfApp", new object[] {
                         app_id});
+            msg = ((string)(results[1]));
             return ((System.Data.DataSet)(results[0]));
         }
         
@@ -427,130 +330,6 @@ namespace WorkFlow.OperationsWebService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOperationsTopList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetOperationsTopList(int Top, string strWhere, string filedOrder) {
-            object[] results = this.Invoke("GetOperationsTopList", new object[] {
-                        Top,
-                        strWhere,
-                        filedOrder});
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOperationsTopListAsync(int Top, string strWhere, string filedOrder) {
-            this.GetOperationsTopListAsync(Top, strWhere, filedOrder, null);
-        }
-        
-        /// <remarks/>
-        public void GetOperationsTopListAsync(int Top, string strWhere, string filedOrder, object userState) {
-            if ((this.GetOperationsTopListOperationCompleted == null)) {
-                this.GetOperationsTopListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOperationsTopListOperationCompleted);
-            }
-            this.InvokeAsync("GetOperationsTopList", new object[] {
-                        Top,
-                        strWhere,
-                        filedOrder}, this.GetOperationsTopListOperationCompleted, userState);
-        }
-        
-        private void OnGetOperationsTopListOperationCompleted(object arg) {
-            if ((this.GetOperationsTopListCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOperationsTopListCompleted(this, new GetOperationsTopListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllOperationsList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetAllOperationsList() {
-            object[] results = this.Invoke("GetAllOperationsList", new object[0]);
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetAllOperationsListAsync() {
-            this.GetAllOperationsListAsync(null);
-        }
-        
-        /// <remarks/>
-        public void GetAllOperationsListAsync(object userState) {
-            if ((this.GetAllOperationsListOperationCompleted == null)) {
-                this.GetAllOperationsListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllOperationsListOperationCompleted);
-            }
-            this.InvokeAsync("GetAllOperationsList", new object[0], this.GetAllOperationsListOperationCompleted, userState);
-        }
-        
-        private void OnGetAllOperationsListOperationCompleted(object arg) {
-            if ((this.GetAllOperationsListCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAllOperationsListCompleted(this, new GetAllOperationsListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetRecordCount", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int GetRecordCount(string strWhere) {
-            object[] results = this.Invoke("GetRecordCount", new object[] {
-                        strWhere});
-            return ((int)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetRecordCountAsync(string strWhere) {
-            this.GetRecordCountAsync(strWhere, null);
-        }
-        
-        /// <remarks/>
-        public void GetRecordCountAsync(string strWhere, object userState) {
-            if ((this.GetRecordCountOperationCompleted == null)) {
-                this.GetRecordCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRecordCountOperationCompleted);
-            }
-            this.InvokeAsync("GetRecordCount", new object[] {
-                        strWhere}, this.GetRecordCountOperationCompleted, userState);
-        }
-        
-        private void OnGetRecordCountOperationCompleted(object arg) {
-            if ((this.GetRecordCountCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetRecordCountCompleted(this, new GetRecordCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetListByPage", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex) {
-            object[] results = this.Invoke("GetListByPage", new object[] {
-                        strWhere,
-                        orderby,
-                        startIndex,
-                        endIndex});
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetListByPageAsync(string strWhere, string orderby, int startIndex, int endIndex) {
-            this.GetListByPageAsync(strWhere, orderby, startIndex, endIndex, null);
-        }
-        
-        /// <remarks/>
-        public void GetListByPageAsync(string strWhere, string orderby, int startIndex, int endIndex, object userState) {
-            if ((this.GetListByPageOperationCompleted == null)) {
-                this.GetListByPageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetListByPageOperationCompleted);
-            }
-            this.InvokeAsync("GetListByPage", new object[] {
-                        strWhere,
-                        orderby,
-                        startIndex,
-                        endIndex}, this.GetListByPageOperationCompleted, userState);
-        }
-        
-        private void OnGetListByPageOperationCompleted(object arg) {
-            if ((this.GetListByPageCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetListByPageCompleted(this, new GetListByPageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -566,6 +345,65 @@ namespace WorkFlow.OperationsWebService {
                 return true;
             }
             return false;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://saron.workflowservice.org/")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace="http://saron.workflowservice.org/", IsNullable=false)]
+    public partial class SecurityContext : System.Web.Services.Protocols.SoapHeader {
+        
+        private string userNameField;
+        
+        private string passWordField;
+        
+        private int appIDField;
+        
+        private System.Xml.XmlAttribute[] anyAttrField;
+        
+        /// <remarks/>
+        public string UserName {
+            get {
+                return this.userNameField;
+            }
+            set {
+                this.userNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string PassWord {
+            get {
+                return this.passWordField;
+            }
+            set {
+                this.passWordField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int AppID {
+            get {
+                return this.appIDField;
+            }
+            set {
+                this.appIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAnyAttributeAttribute()]
+        public System.Xml.XmlAttribute[] AnyAttr {
+            get {
+                return this.anyAttrField;
+            }
+            set {
+                this.anyAttrField = value;
+            }
         }
     }
     
@@ -751,32 +589,6 @@ namespace WorkFlow.OperationsWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void ExistsCompletedEventHandler(object sender, ExistsCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class ExistsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal ExistsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public bool Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     public delegate void AddCompletedEventHandler(object sender, AddCompletedEventArgs e);
     
     /// <remarks/>
@@ -797,6 +609,14 @@ namespace WorkFlow.OperationsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
             }
         }
     }
@@ -825,21 +645,29 @@ namespace WorkFlow.OperationsWebService {
                 return ((bool)(this.results[0]));
             }
         }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
     }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void DeleteCompletedEventHandler(object sender, DeleteCompletedEventArgs e);
+    public delegate void DeleteOperationsCompletedEventHandler(object sender, DeleteOperationsCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class DeleteCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class DeleteOperationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal DeleteCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal DeleteOperationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -851,30 +679,12 @@ namespace WorkFlow.OperationsWebService {
                 return ((bool)(this.results[0]));
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void DeleteListCompletedEventHandler(object sender, DeleteListCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class DeleteListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal DeleteListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
         
         /// <remarks/>
-        public bool Result {
+        public string msg {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
+                return ((string)(this.results[1]));
             }
         }
     }
@@ -903,30 +713,12 @@ namespace WorkFlow.OperationsWebService {
                 return ((operationsModel)(this.results[0]));
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetOperationsListCompletedEventHandler(object sender, GetOperationsListCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOperationsListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOperationsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
         
         /// <remarks/>
-        public System.Data.DataSet Result {
+        public string msg {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
+                return ((string)(this.results[1]));
             }
         }
     }
@@ -955,6 +747,14 @@ namespace WorkFlow.OperationsWebService {
                 return ((System.Data.DataSet)(this.results[0]));
             }
         }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
     }
     
     /// <remarks/>
@@ -979,6 +779,14 @@ namespace WorkFlow.OperationsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
             }
         }
     }
@@ -1007,108 +815,12 @@ namespace WorkFlow.OperationsWebService {
                 return ((System.Data.DataSet)(this.results[0]));
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetOperationsTopListCompletedEventHandler(object sender, GetOperationsTopListCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOperationsTopListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOperationsTopListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
         
         /// <remarks/>
-        public System.Data.DataSet Result {
+        public string msg {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetAllOperationsListCompletedEventHandler(object sender, GetAllOperationsListCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAllOperationsListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetAllOperationsListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetRecordCountCompletedEventHandler(object sender, GetRecordCountCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetRecordCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetRecordCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public int Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((int)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetListByPageCompletedEventHandler(object sender, GetListByPageCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetListByPageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetListByPageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
+                return ((string)(this.results[1]));
             }
         }
     }
