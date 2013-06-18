@@ -280,11 +280,7 @@ namespace WorkFlow.Base_UserWebService {
     }
     
     /// <remarks/>
-<<<<<<< HEAD
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
-=======
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
->>>>>>> 27442cf4ea3b3f33ce501e3938d2849f7902242e
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -293,23 +289,13 @@ namespace WorkFlow.Base_UserWebService {
     public partial class SecurityContext : System.Web.Services.Protocols.SoapHeader {
         
         private string userNameField;
-<<<<<<< HEAD
-        
+
         private string passWordField;
         
         private int appIDField;
         
         private System.Xml.XmlAttribute[] anyAttrField;
         
-=======
-        
-        private string passWordField;
-        
-        private int appIDField;
-        
-        private System.Xml.XmlAttribute[] anyAttrField;
-        
->>>>>>> 27442cf4ea3b3f33ce501e3938d2849f7902242e
         /// <remarks/>
         public string UserName {
             get {
