@@ -235,6 +235,7 @@ namespace Saron.WorkFlowService.WebService
 
         //外部系统使用接口
         #region InterfaceMethod
+        
         /// <summary>
         /// （普通用户登录）是否存在用户名或密码
         /// </summary>
@@ -263,6 +264,7 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
         }
+        
         ///<summary>
         ///(应用系统apps表删除记录时判断user表中)是否存在系统应用ID为app_id的记录
         /// </summary>
@@ -271,6 +273,7 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_usersdal.ExistsAppofUser(app_id);
         }
+        
         /// <summary>
         /// 得到一个对象实体(普通用户)
         /// </summary>

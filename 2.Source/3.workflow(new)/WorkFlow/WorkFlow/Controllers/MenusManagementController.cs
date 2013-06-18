@@ -28,7 +28,6 @@ namespace WorkFlow.Controllers
         /// <summary>
         /// 添加菜单
         /// </summary>
-        /// <returns></returns>
         public ActionResult AddMenus()
         {
             WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
@@ -37,16 +36,22 @@ namespace WorkFlow.Controllers
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-            
-            WorkFlow.MenusWebService.SecurityContext m_securityContext = new MenusWebService.SecurityContext();
 
             string msg = string.Empty;
 
+            WorkFlow.MenusWebService.SecurityContext m_securityContext = new MenusWebService.SecurityContext();
             //SecurityContext实体对象赋值
             m_securityContext.UserName = m_usersModel.login;
             m_securityContext.PassWord = m_usersModel.password;
             m_securityContext.AppID = (int)m_usersModel.app_id;
             m_menusBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            WorkFlow.ElementsWebService.SecurityContext m_esecurityContext = new ElementsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_esecurityContext.UserName = m_usersModel.login;
+            m_esecurityContext.PassWord = m_usersModel.password;
+            m_esecurityContext.AppID = (int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_esecurityContext;//实例化 [SoapHeader("m_securityContext")]
             
             if (Request.Form["MenusName"] == "")
             {
@@ -87,7 +92,7 @@ namespace WorkFlow.Controllers
             {
                 if (m_elementsBllService.ExistsElementsOfMenus((int)m_menusModel.parent_id, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "父菜单下存在页面元素，不允许添加子菜单！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单下存在页面元素，不允许添加子菜单！" });
                 }
             }
 
@@ -126,15 +131,28 @@ namespace WorkFlow.Controllers
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
-            WorkFlow.MenusWebService.SecurityContext m_securityContext = new MenusWebService.SecurityContext();
-
             string msg = string.Empty;
 
+            WorkFlow.MenusWebService.SecurityContext m_msecurityContext = new MenusWebService.SecurityContext();
             //SecurityContext实体对象赋值
-            m_securityContext.UserName = m_usersModel.login;
-            m_securityContext.PassWord = m_usersModel.password;
-            m_securityContext.AppID = (int)m_usersModel.app_id;
-            m_menusBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            m_msecurityContext.UserName = m_usersModel.login;
+            m_msecurityContext.PassWord = m_usersModel.password;
+            m_msecurityContext.AppID = (int)m_usersModel.app_id;
+            m_menusBllService.SecurityContextValue = m_msecurityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            WorkFlow.PrivilegesWebService.SecurityContext m_psecurityContext = new PrivilegesWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_psecurityContext.UserName = m_usersModel.login;
+            m_psecurityContext.PassWord = m_usersModel.password;
+            m_psecurityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_psecurityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            WorkFlow.ElementsWebService.SecurityContext m_esecurityContext = new ElementsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_esecurityContext.UserName = m_usersModel.login;
+            m_esecurityContext.PassWord = m_usersModel.password;
+            m_esecurityContext.AppID = (int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_esecurityContext;//实例化 [SoapHeader("m_securityContext")]
             try
             {
                 if (m_menusBllService.ExistsChildrenMenus(menusID, out msg))
@@ -401,19 +419,37 @@ namespace WorkFlow.Controllers
         }
         
         //菜单详情
-        //public ActionResult DetailInfo(int id)
-        //{
-        //    WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
-        //    WorkFlow.MenusWebService.menusModel m_menusModel = m_menusBllService.GetModel(id);
-        //    ViewData["name"] = m_menusModel.name;
-        //    ViewData["code"] = m_menusModel.code;
-        //    ViewData["url"] = m_menusModel.url;
-        //    ViewData["app_id"] = m_menusModel.app_id;
-        //    ViewData["parent_id"] = m_menusModel.parent_id;
-        //    ViewData["remark"] = m_menusModel.remark;
-        //    ViewData["invalid"] = m_menusModel.invalid;
+        public ActionResult DetailInfo(int id)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
+            WorkFlow.MenusWebService.SecurityContext m_securityContext = new MenusWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_menusBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            WorkFlow.MenusWebService.menusModel m_menusModel = m_menusBllService.GetModel(id,out msg);
+
+            ViewData["name"] = m_menusModel.name;
+            ViewData["code"] = m_menusModel.code;
+            ViewData["url"] = m_menusModel.url;
+            ViewData["app_id"] = m_menusModel.app_id;
+            ViewData["parent_id"] = m_menusModel.parent_id;
+            ViewData["remark"] = m_menusModel.remark;
+            ViewData["invalid"] = m_menusModel.invalid;
            
-        //    return View();
-        //}
+            return View();
+        }
     }
 }

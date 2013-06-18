@@ -102,24 +102,6 @@ namespace Saron.WorkFlowService.WebService
             return GetPrivileges_typeList("");
         }
 
-        /// <summary>
-        /// 获取记录总数
-        /// </summary>
-        [WebMethod(Description = "获得记录总条数")]
-        public int GetRecordCount(string strWhere)
-        {
-            return m_privileges_typeDal.GetRecordCount(strWhere);
-        }
-       
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）")]
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-        {
-            return m_privileges_typeDal.GetListByPage(strWhere, orderby, startIndex, endIndex);
-        }
-
         #endregion  Method
     }
 }
