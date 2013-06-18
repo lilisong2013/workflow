@@ -55,6 +55,7 @@
                     //alert(responseText);
                     var dataprivilegejson = eval("(" + responseText + ")"); //将json字符串转化为json数据
                     //更新mygrid数据
+                    //alert(dataprivilegejson);
                     managerListGrid.setOptions({
                         columns: [
                             { display: '权限名称', name: 'name', width: 120 },

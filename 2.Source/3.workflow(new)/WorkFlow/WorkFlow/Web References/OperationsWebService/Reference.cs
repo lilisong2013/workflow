@@ -358,7 +358,7 @@ namespace WorkFlow.OperationsWebService {
     public partial class SecurityContext : System.Web.Services.Protocols.SoapHeader {
         
         private string userNameField;
-
+        
         private string passWordField;
         
         private int appIDField;
