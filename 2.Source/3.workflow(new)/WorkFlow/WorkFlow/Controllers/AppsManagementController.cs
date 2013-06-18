@@ -151,6 +151,15 @@ namespace WorkFlow.Controllers
 
             WorkFlow.Base_UserWebService.base_userBLLservice m_baseuserBllService = new Base_UserWebService.base_userBLLservice();
             WorkFlow.Base_UserWebService.base_userModel m_baseuserModel=(Base_UserWebService.base_userModel)Session["baseuser"];
+
+            string msg = string.Empty;
+
+            WorkFlow.Base_UserWebService.SecurityContext m_securityContext = new Base_UserWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_baseuserModel.login;
+            m_securityContext.PassWord = m_baseuserModel.password;
+            m_baseuserBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             if (m_newpassword.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="用户的新密码不能为空!"});
@@ -175,9 +184,9 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原密码不正确！" });
                 }
 
-                if (m_baseuserBllService.ModifyPassword(m_baseuserModel.login, m_newpassword))
+                if (m_baseuserBllService.ModifyPassword(m_baseuserModel.login, m_newpassword,out msg))
                 {
-                    m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_baseuserModel.login);
+                    m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_baseuserModel.login,out msg);
                     Session["baseuser"] = m_baseuserModel;
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功！", toUrl = "/AppsManagement/BU_AppsPassModifyCon" });
                 }

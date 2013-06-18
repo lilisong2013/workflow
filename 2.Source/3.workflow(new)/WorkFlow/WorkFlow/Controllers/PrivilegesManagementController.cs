@@ -357,10 +357,19 @@ namespace WorkFlow.Controllers
         {
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+            WorkFlow.OperationsWebService.SecurityContext m_SecurityContext = new OperationsWebService.SecurityContext();
+
+            m_SecurityContext.UserName = m_userModel.login;
+            m_SecurityContext.PassWord = m_userModel.password;
+            m_SecurityContext.AppID = (int)m_userModel.app_id;
+            m_operationsBllService.SecurityContextValue = m_SecurityContext;
+
             string data = "{Rows:[";
             try
             {
-                DataSet ds = m_operationsBllService.GetOperationsListOfApp((int)m_userModel.app_id);
+                DataSet ds = m_operationsBllService.GetOperationsListOfApp((int)m_userModel.app_id,out msg);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     string id = ds.Tables[0].Rows[i][0].ToString();

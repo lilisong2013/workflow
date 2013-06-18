@@ -67,6 +67,24 @@ namespace Saron.WorkFlowService.WebService
             return m_init_statusDal.GetModel(id);
         }
 
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        [WebMethod(Description = "根据where条件获得数据列表：strWhere（where条件）")]
+        public DataSet GetInit_StatusList(string strWhere)
+        {
+            return m_init_statusDal.GetList(strWhere);
+        }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        [WebMethod(Description = "获得所有数据列表")]
+        public DataSet GetAllInit_StatusList()
+        {
+            return GetInit_StatusList("");
+        }
+
         #endregion  Method
     }
 }

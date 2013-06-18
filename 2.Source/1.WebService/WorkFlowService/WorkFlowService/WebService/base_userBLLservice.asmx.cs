@@ -76,11 +76,12 @@ namespace Saron.WorkFlowService.WebService
         public base_userModel GetModelByLogin(string login,out string msg)
         {
             //对webservice进行授权验证,超级管理员才可访问
-            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            if (!m_securityContext.SuperAdminIsValidCK(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return null;
             }
+
             return m_base_userdal.GetModel(login);
         }
     }

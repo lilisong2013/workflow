@@ -382,8 +382,19 @@ namespace WorkFlow.Controllers
             WorkFlow.MenusWebService.menusModel m_menusModel = new MenusWebService.menusModel();
 
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
+            WorkFlow.MenusWebService.SecurityContext m_securityContext = new MenusWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_menusBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+
             //获取Menu表中所有的id列表
-            DataSet ds = m_menusBllService.GetAllMenusListofApp((int)m_usersModel.app_id);
+            DataSet ds = m_menusBllService.GetAllMenusListofApp((int)m_usersModel.app_id,out msg);
 
          
             List<Saron.WorkFlow.Models.menusHelper> m_menuslist = new List<Saron.WorkFlow.Models.menusHelper>();

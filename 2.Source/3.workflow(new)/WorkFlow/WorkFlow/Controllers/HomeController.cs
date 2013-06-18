@@ -104,11 +104,19 @@ namespace WorkFlow.Controllers
             WorkFlow.Base_UserWebService.base_userBLLservice m_baseuserBllService = new Base_UserWebService.base_userBLLservice();
             WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = new Base_UserWebService.base_userModel();
 
+            string msg = string.Empty;
+
+            WorkFlow.Base_UserWebService.SecurityContext m_securityContext = new Base_UserWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_loginName;
+            m_securityContext.PassWord = m_loginPassword;
+            m_baseuserBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             try
             {
                 if (m_baseuserBllService.LoginValidator(m_loginName, m_loginPassword))
                 {
-                    m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_loginName);
+                    m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_loginName,out msg);
                     Session["baseuser"] = m_baseuserModel;
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/AppsManagement/BaseUserApps" });
                 }

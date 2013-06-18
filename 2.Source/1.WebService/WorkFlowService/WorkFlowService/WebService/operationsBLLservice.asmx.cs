@@ -94,14 +94,19 @@ namespace Saron.WorkFlowService.WebService
             return m_operationsDal.GetModel(id);
         }
 
-        /////<summary>
-        ///// 获得operations表中所有的name列
-        ///// </summary>
-        //[WebMethod(Description = "获取operations表中所有的name字段的值")]
-        //public DataSet GetOperationsNameList()
-        //{
-        //    return m_operationsDal.GetNameList();
-        //}
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获取operations表中所有的name字段的值")]
+        public DataSet GetOperationsNameList(out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_operationsDal.GetNameList();
+        }
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统中操作的数据列表,<h4>（需要授权验证）</h4>")]
@@ -117,14 +122,19 @@ namespace Saron.WorkFlowService.WebService
             return m_operationsDal.GetOperationsListOfApp(appID);
         }
 
-        /////<summary>
-        /////获得某系统中操作的Code数据列表
-        ///// </summary>
-        //[WebMethod(Description = "获得某系统中操作的Code数据列表")]
-        //public DataSet GetCodeListOfApp(int app_id)
-        //{
-        //    return m_operationsDal.GetCodeListOfApp(app_id);
-        //}
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某系统中操作的Code数据列表")]
+        public DataSet GetCodeListOfApp(int app_id,out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_operationsDal.GetCodeListOfApp(app_id);
+        }
 
         #endregion  Method
     }
