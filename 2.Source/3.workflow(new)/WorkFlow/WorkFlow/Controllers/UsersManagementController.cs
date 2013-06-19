@@ -82,6 +82,31 @@ namespace WorkFlow.Controllers
              return Json(gridData);
          }
 
+        //删除一条用户信息
+        public ActionResult DeleteUser()
+        {
+            int userID = Convert.ToInt32(Request.Form["userID"]);
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.usersModel m_userModel=new WorkFlow.UsersWebService.usersModel();
+
+            m_userModel = m_usersBllService.GetModelByID(userID);
+            try
+            {
+                if (m_usersBllService.LogicDelete(userID))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/UsersManagement/AppUsers" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="删除失败!"});
+                }
+            }
+            catch (Exception ex) 
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+            }
+        }
+
         //获取用户列表(在grid中显示)
         public ActionResult GetUsers_Apply1()
         {
@@ -89,15 +114,6 @@ namespace WorkFlow.Controllers
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
            
             int appID = Convert.ToInt32(m_userModel.app_id);
-            ////排序的字段名
-            //string sortname = Request.Params["sortname"];
-            ////排序的方向
-            //string sortorder = Request.Params["sortorder"];
-            ////当前页
-            //int page = Convert.ToInt32(Request.Params["page"]);
-            ////每页显示的记录数
-            //int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
-
             string data = "{Rows:[";
             try
             {
@@ -105,19 +121,22 @@ namespace WorkFlow.Controllers
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 { 
                   string login=ds.Tables[0].Rows[i][1].ToString();
+                  string id = ds.Tables[0].Rows[i][0].ToString();
                   string name=ds.Tables[0].Rows[i][3].ToString();                 
                   string employee_no=ds.Tables[0].Rows[i][4].ToString();
                   if (i == ds.Tables[0].Rows.Count - 1)
                   {
-                      data += "{login:'" + login + "'";
+                      data += "{login:'" + login + "',";
+                      data += "id:'" + id + "',";
                       data += "name:'" + name + "',";
                       data += "employee_no:'" + employee_no + "'}";
                   }
                   else
                   {
-                      data += "{login:'" + login + "'";
+                      data += "{login:'" + login + "',";
+                      data += "id:'" + id + "',";
                       data += "name:'" + name + "',";
-                      data += "employee_no:'" + employee_no + "'}";
+                      data += "employee_no:'" + employee_no + "'},";
                   }
                 }
             }

@@ -20,6 +20,7 @@ namespace WorkFlow.V_PrivilegesWebService {
     using System.Web.Services.Protocols;
     using System.ComponentModel;
     using System.Xml.Serialization;
+    using System.Data;
     
     
     /// <remarks/>
@@ -32,6 +33,8 @@ namespace WorkFlow.V_PrivilegesWebService {
         private SecurityContext securityContextValueField;
         
         private System.Threading.SendOrPostCallback UserIsItemPrivilegeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetUserItemPrivilegeListOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -84,6 +87,9 @@ namespace WorkFlow.V_PrivilegesWebService {
         public event UserIsItemPrivilegeCompletedEventHandler UserIsItemPrivilegeCompleted;
         
         /// <remarks/>
+        public event GetUserItemPrivilegeListCompletedEventHandler GetUserItemPrivilegeListCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/UserIsItemPrivilege", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool UserIsItemPrivilege(int userID, string item_Code, string pt_Name, int appID, out string msg) {
@@ -117,6 +123,37 @@ namespace WorkFlow.V_PrivilegesWebService {
             if ((this.UserIsItemPrivilegeCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.UserIsItemPrivilegeCompleted(this, new UserIsItemPrivilegeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetUserItemPrivilegeList", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetUserItemPrivilegeList(int userID, out string msg) {
+            object[] results = this.Invoke("GetUserItemPrivilegeList", new object[] {
+                        userID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserItemPrivilegeListAsync(int userID) {
+            this.GetUserItemPrivilegeListAsync(userID, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserItemPrivilegeListAsync(int userID, object userState) {
+            if ((this.GetUserItemPrivilegeListOperationCompleted == null)) {
+                this.GetUserItemPrivilegeListOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserItemPrivilegeListOperationCompleted);
+            }
+            this.InvokeAsync("GetUserItemPrivilegeList", new object[] {
+                        userID}, this.GetUserItemPrivilegeListOperationCompleted, userState);
+        }
+        
+        private void OnGetUserItemPrivilegeListOperationCompleted(object arg) {
+            if ((this.GetUserItemPrivilegeListCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserItemPrivilegeListCompleted(this, new GetUserItemPrivilegeListCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -220,6 +257,40 @@ namespace WorkFlow.V_PrivilegesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetUserItemPrivilegeListCompletedEventHandler(object sender, GetUserItemPrivilegeListCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserItemPrivilegeListCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserItemPrivilegeListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
         

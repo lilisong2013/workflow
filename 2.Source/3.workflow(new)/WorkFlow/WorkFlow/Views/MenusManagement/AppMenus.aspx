@@ -86,7 +86,7 @@
         }
 
         function DeleteMenu(id) {
-            //alert(id);
+            alert(id);
             var menuid = id;
             $.ajax({
                 url: "/MenusManagement/DeleteMenus",

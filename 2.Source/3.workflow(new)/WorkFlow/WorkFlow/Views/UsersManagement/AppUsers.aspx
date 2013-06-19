@@ -2,24 +2,23 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 AppUsers
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-
+<asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
 
     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
 
     <%-- ligerUI核心文件--%>
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
-        type="text/css" />
-   <%-- <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-tree.css" rel="stylesheet"
-        type="text/css" />--%>
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    
-    <%--<link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="Stylesheet" type="text/css" />--%>
-    <%--<link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>--%>
- 
-   <%-- <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+
+    <%--LigerUI Dialog文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>
+   <%-- <link href="../../LigerUI/lib/ligerUI/skins/Gray/css/all.css" rel="stylesheet" type="text/css"/>--%>
+
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+  
     <%--隐藏提示信息--%>
     <script type="text/javascript">
         //隐藏提示信息
@@ -35,7 +34,7 @@ AppUsers
             $(document).ready(function () {
                 //定义ligerGrid;
                 $("#usersgrid").ligerGrid({
-                    width: '99%',
+                    width: '90%',
                     height: 400
                 });
                 managerListGrid = $("#usersgrid").ligerGetGridManager();
@@ -51,16 +50,16 @@ AppUsers
                     dataType: "json",
                     data: {},
                     success: function (responseText, statusText) {
-                        alert(responseText);
-                        //alert("ok???");
+                       // alert(responseText);
+                        
                         var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                        alert(dataJson);
+                       
                         //更新mygrid数据
                         managerListGrid.setOptions({
-                            columns: [
-                        { display: '登录名称', name: 'login', width: 80, align: 'center' },
-                        { display: '用户姓名', name: 'name', width: 80, align: 'center' },
-                        { display: '工号', name: 'employee_no', width: 80, align: 'center' },
+                         columns:[
+                        { display: '登录名称',name:'login', width: 80, align: 'center' },
+                        { display: '用户姓名',name:'name', width: 80, align: 'center' },
+                        { display: '工号',name:'employee_no', width: 80, align: 'center' },
                         { display: '', width: 180,
                             render: function (row) {
                                 var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a>';
@@ -69,7 +68,7 @@ AppUsers
                         },
                         { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-trash"></i><a  href="javascript:f_delete(' + row.id + ')">删除</a>';
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteUser('+row.id+')">删除</a>';
                                 return html;
                             }
                         },
@@ -80,7 +79,7 @@ AppUsers
                            }
                        }
                        ],
-                            data: dataJson
+                       data: dataJson
                         });
                         managerListGrid.loadData();
                     }
@@ -91,23 +90,27 @@ AppUsers
     </script>
 
     <script type="text/javascript">
-        function f_delete(id) {
+        function DeleteUser(id) {
+            alert("ok");
             alert(id);
             var userid = id;
+            //alert(userid);
+            alert("---??");
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
+                //return true;
                 $.ajax({
-                    url: '/UsersManagement/ChangePage?id=' + id,
+                    url: "/UsersManagement/DeleteUser",
                     type: "POST",
                     dataType: "json",
                     data: { userID: userid },
                     success: function (responseText, statusText) {
-                        GetUsersList(); //重新加载用户数据列表
+                        GetUsersList();
                         $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                         $("#promptDIV").addClass(responseText.css);
                         $("#promptDIV").html(responseText.message);
                     }
                 });
-            });
+            })
         }
     </script>
     <script type="text/javascript">
@@ -141,11 +144,11 @@ AppUsers
     </script>
 
 </asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户管理</h2></div>
 <div class="container">
         <ul class="nav nav-tabs">
-            <li class="active" id="#infoTab"><a href="#AllUsers" data-toogle="tab"><i class="icon-check"></i>全部</a></li>
+            <li class="active" id="#infoTab"><a href="#AllUsers" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddUsers" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
  </div>

@@ -29,6 +29,28 @@
         </s:sequence>
         <s:anyAttribute />
       </s:complexType>
+      <s:element name="GetUserItemPrivilegeList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserItemPrivilegeListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserItemPrivilegeListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="UserIsItemPrivilegeSoapIn">
@@ -40,11 +62,25 @@
   <wsdl:message name="UserIsItemPrivilegeSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetUserItemPrivilegeListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserItemPrivilegeList" />
+  </wsdl:message>
+  <wsdl:message name="GetUserItemPrivilegeListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserItemPrivilegeListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserItemPrivilegeListSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="v_privilegesBLLserviceSoap">
     <wsdl:operation name="UserIsItemPrivilege">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断用户是否有访问项目的权限（userID：用户ID，item_Code：项目编码，pt_Name：权限类型名称，appID：系统ID）</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断用户是否有访问项目的权限（userID：用户ID，item_Code：项目编码，pt_Name：权限类型名称，appID：系统ID）&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:UserIsItemPrivilegeSoapIn" />
       <wsdl:output message="tns:UserIsItemPrivilegeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserItemPrivilegeList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过用户主键id,获取所属用户的项目权限列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetUserItemPrivilegeListSoapIn" />
+      <wsdl:output message="tns:GetUserItemPrivilegeListSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="v_privilegesBLLserviceSoap" type="tns:v_privilegesBLLserviceSoap">
@@ -59,6 +95,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetUserItemPrivilegeList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetUserItemPrivilegeList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetUserItemPrivilegeListSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="v_privilegesBLLserviceSoap12" type="tns:v_privilegesBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -67,6 +113,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:UserIsItemPrivilegeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserItemPrivilegeList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetUserItemPrivilegeList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetUserItemPrivilegeListSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
