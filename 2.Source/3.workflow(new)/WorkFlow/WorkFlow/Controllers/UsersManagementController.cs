@@ -14,73 +14,6 @@ namespace WorkFlow.Controllers
         {
             return View();
         }
-        /// <summary>
-        /// 显示数据库用户表的所有信息
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult GetUsers_Apply()
-         {
-             WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-             int appID = Convert.ToInt32(m_userModel.app_id);
-             //排序的字段名
-             string sortname = Request.Params["sortname"];
-             //排序的方向
-             string sortorder = Request.Params["sortorder"];
-             //当前页
-             int page = Convert.ToInt32(Request.Params["page"]);
-             //每页显示的记录数
-             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
-             WorkFlow.UsersWebService.usersBLLservice m_usersService = new UsersWebService.usersBLLservice();
-             DataSet ds = m_usersService.GetAllUsersListOfApp(appID);
-             IList<WorkFlow.UsersWebService.usersModel> m_list = new List<WorkFlow.UsersWebService.usersModel>();
-             var total = ds.Tables[0].Rows.Count;
-             for (var i = 0; i < total; i++)
-             {
-                 WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Activator.CreateInstance(typeof(WorkFlow.UsersWebService.usersModel));
-                 PropertyInfo[] m_propertys = m_usersModel.GetType().GetProperties();
-                 foreach (PropertyInfo pi in m_propertys)
-                 {
-                     for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
-                     {
-                         // 属性与字段名称一致的进行赋值 
-                         if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
-                         {
-                             // 数据库NULL值单独处理 
-                             if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-                                 pi.SetValue(m_usersModel, ds.Tables[0].Rows[i][j], null);
-                             else
-                                 pi.SetValue(m_usersModel, null, null);
-                             break;
-                         }
-                     }
-                 }
-                 m_list.Add(m_usersModel);
-             }
-
-             //模拟排序操作
-             if (sortorder == "desc")
-                 m_list = m_list.OrderByDescending(c => c.id).ToList();
-             else
-                 m_list = m_list.OrderBy(c => c.id).ToList();
-
-             IList<WorkFlow.UsersWebService.usersModel> m_targetList = new List<WorkFlow.UsersWebService.usersModel>();
-             //模拟分页操作
-             for (var i = 0; i < total; i++)
-             {
-                 if (i >= (page - 1) * pagesize && i < page * pagesize)
-                 {
-                     m_targetList.Add(m_list[i]);
-                 }
-             }
-
-
-             var gridData = new
-             {
-                 Rows = m_targetList,
-                 Total = total
-             };
-             return Json(gridData);
-         }
 
         //删除一条用户信息
         public ActionResult DeleteUser()
@@ -108,7 +41,7 @@ namespace WorkFlow.Controllers
         }
 
         //获取用户列表(在grid中显示)
-        public ActionResult GetUsers_Apply1()
+        public ActionResult GetUsers_Apply()
         {
             WorkFlow.UsersWebService.usersBLLservice m_usersService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
@@ -145,56 +78,9 @@ namespace WorkFlow.Controllers
             }
             data += "]}";
             return Json(data);
-            //IList<WorkFlow.UsersWebService.usersModel> m_list = new List<WorkFlow.UsersWebService.usersModel>();
-            //var total = ds.Tables[0].Rows.Count;
-            //for (var i = 0; i < total; i++)
-            //{
-            //    WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Activator.CreateInstance(typeof(WorkFlow.UsersWebService.usersModel));
-            //    PropertyInfo[] m_propertys = m_usersModel.GetType().GetProperties();
-            //    foreach (PropertyInfo pi in m_propertys)
-            //    {
-            //        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
-            //        {
-            //            // 属性与字段名称一致的进行赋值 
-            //            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
-            //            {
-            //                // 数据库NULL值单独处理 
-            //                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-            //                    pi.SetValue(m_usersModel, ds.Tables[0].Rows[i][j], null);
-            //                else
-            //                    pi.SetValue(m_usersModel, null, null);
-            //                break;
-            //            }
-            //        }
-            //    }
-            //    m_list.Add(m_usersModel);
-            //}
-
-            ////模拟排序操作
-            //if (sortorder == "desc")
-            //    m_list = m_list.OrderByDescending(c => c.id).ToList();
-            //else
-            //    m_list = m_list.OrderBy(c => c.id).ToList();
-
-            //IList<WorkFlow.UsersWebService.usersModel> m_targetList = new List<WorkFlow.UsersWebService.usersModel>();
-            ////模拟分页操作
-            //for (var i = 0; i < total; i++)
-            //{
-            //    if (i >= (page - 1) * pagesize && i < page * pagesize)
-            //    {
-            //        m_targetList.Add(m_list[i]);
-            //    }
-            //}
-
-
-            //var gridData = new
-            //{
-            //    Rows = m_targetList,
-            //    Total = total
-            //};
-            //return Json(gridData);
+          
         }
-
+       
         //获取是否有效的列表
         public ActionResult GetInvalidList()
         {
@@ -222,7 +108,7 @@ namespace WorkFlow.Controllers
             }
             strJson += "{id:'" +m_usersID+ "',";
             strJson += "name:'" + m_InvalidName + "',";
-            strJson += "selected:'" + m_selected + "'},";
+            strJson += "selected:'" + m_selected + "'}";
    
            
         strJson += "],total:'" + total + "'}";
@@ -256,42 +142,35 @@ namespace WorkFlow.Controllers
             ViewData["usersApp_id"] = m_usersModel.app_id;
             return View();
         }
-        ///<summary>
-        ///删除记录确认反馈页面
-        /// </summary>
-        public ActionResult ChangePageCon()
-        {
-
-            return View();
-        }
+     
         ///<summary>
         ///删除ID号的记录
         ///</summary>
-        public ActionResult ChangePage(int id)
-        {
-            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-            WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+        /* public ActionResult ChangePage(int id)
+         {
+             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
            
-            m_usersModel = m_usersBllService.GetModelByID(id);
-            try {
-                if (m_usersBllService.LogicDelete(id))
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="删除成功!",toUrl="/UsersManagement/AppUsers"});
-                   // return RedirectToAction("/UsersManagement/ChangePageCon");
-                   // return Redirect("/UsersManagement/ChangePageCon");
-                }
-                else
-                {
-                    return RedirectToAction("AppUsers");
-                }           
-            }
-            catch (Exception ex) 
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
-            }
+             m_usersModel = m_usersBllService.GetModelByID(id);
+             try {
+                 if (m_usersBllService.LogicDelete(id))
+                 {
+                     return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="删除成功!",toUrl="/UsersManagement/AppUsers"});
+                    // return RedirectToAction("/UsersManagement/ChangePageCon");
+                    // return Redirect("/UsersManagement/ChangePageCon");
+                 }
+                 else
+                 {
+                     return RedirectToAction("AppUsers");
+                 }           
+             }
+             catch (Exception ex) 
+             {
+                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+             }
            
                 
-        }
+         }*/
         ///<summary>
         ///添加数据到数据库表中
         ///</summary>
@@ -446,6 +325,7 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult EditUsers(FormCollection collection)
         {
+            int m_ue_total = Convert.ToInt32(Request.Params["in_Total"]);//用户"是否有效"的数量
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
 
@@ -533,7 +413,15 @@ namespace WorkFlow.Controllers
             m_usersModel.mail = collection["usersMail"].Trim();
             m_usersModel.remark = collection["usersRemark"].Trim();
             m_usersModel.admin = false;
-            m_usersModel.invalid = Convert.ToBoolean(Request.Params["invalidValue"]);
+            if (m_ue_total == 1)
+            {
+                m_usersModel.invalid = false;
+            }
+            if (m_ue_total == 0)
+            {
+                m_usersModel.invalid = true;
+            }
+            //m_usersModel.invalid = Convert.ToBoolean(Request.Params["invalidValue"]);
            
             m_usersModel.deleted = Convert.ToBoolean(collection["usersDeleted"].Trim());
             m_usersModel.updated_at = t;

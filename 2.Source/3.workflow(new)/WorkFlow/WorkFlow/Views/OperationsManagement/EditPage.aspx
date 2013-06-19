@@ -3,63 +3,104 @@
 EditPage
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
-        type="text/css" />
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script> 
-    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
-    <script src="../../bootstrap/js/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
-
+  <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+  <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+  <script type="text/javascript">
+      var operationID;
+      $(document).ready(function () {
+          operationID = $("#operationID").val(); //用户ID
+          alert(operationID);
+      });
+      var opTotal = 0;//是否有效数量
+  </script>
+  <%--是否有效初始化--%>
   <script type="text/javascript">
       $(document).ready(function () {
-          var form = $("#Edit_Operations");
-          form.submit(function () {
-              $.post(form.attr("action"),
-                    form.serialize(),
-                    function (result, status) {
-                        //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(result.css);
-                        $("#promptDIV").html(result.message);
-
-                        if (result.success) {
-                            location.href = result.toUrl;
-                        }
-                    },
-                    "JSON");
-              return false;
+          $.ajax({
+              url: "/OperationsManagement/GetInvalidList",
+              type: "POST",
+              dataType: "json",
+              data: { operationid: operationID },
+              success: function (responseText, statusText) {
+                  alert(responseText);
+                  var dataJson = eval("(" + responseText + ")");
+                   alert(dataJson);
+                  opTotal = parseInt(dataJson.total); //操作权限数量
+                  for (var i = 0; i < dataJson.total; i++) {
+                      $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
+                  }
+                  for (var i = 0; i < dataJson.total; i++) {
+                      if (dataJson.List[i].selected == "true") {
+                          $("#invalidValue" + i.toString()).prop("checked", true);
+                          alert("ok?");
+                      } else {
+                          $("#invalidValue" + i.toString()).prop("checked", false);
+                         alert("???");
+                      }
+                  }
+              }
           });
-      });
-    </script>
+      }); 
+  </script>
+  <%--表单提交数据--%>
+  <script type="text/javascript">
+      var operationsData;
+      var operationsStr;
+      $("#saveSubmit").click(function () {
+          if (false) {
+              return false;
+          } else {
+              operationsStr = "{"; //JSON数据字符串
+              var oiTotal = 0; //操作有效的数量
+              alert("oodoos");
+              //操作"是否有效"中被选中的项 
+              for (var i = 0; i < 1; i++) {
+                  var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
+                  if (checkBoxID.is(":checked")) {
+                      alert(checkBoxID.val() + "选中");
+                      alert(checkBoxID.is(":checked"));
+                      operationsStr += "oInvalidID" + oiTotal.toString() + ":'" + checkBoxID.val() + "',";
+                      oiTotal++;
+                      //checkBoxID.prop("checked", true);
+                  } else {
+                      alert(checkBoxID.is(":checked"));
+                      alert(checkBoxID.val() + "未选中");
+                      //checkBoxID.prop("checked", false);
+                  }
+              }
+              operationsStr += "oi_Total:'" + oiTotal + "',u_ID:'" + $("#operationID").val() + "'}";
+              operationsData = eval("(" + operationsStr + ")");
+              $("#Edit_Operations").ajaxForm({
+                  success: ue_showResponse,  // form提交响应成功后执行的回调函数
+                  url: "/OperationsManagement/EditOperations",
+                  type: "POST",
+                  dataType: "json",
+                  data: operationsData
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            BindInvalidName();
-            $("#InvalidInfo").html("请选择");
+              });
+          }
         });
-        function BindInvalidName() {
-            $.ajax({
-                type: "Post",
-                contentType: "application/json",
-                url: "/RolesManagement/GetInvalidName",
-                data: {}, //即使参数为空，也需要设置
-                dataType: 'JSON', //返回的类型为XML
-                success: function (result, status) {
-                    //成功后执行的方法
-                    try {
-                        if (status == "success") {
-                            for (var i = 0; i < result.Total; i++) {
-                                $("#operationsInvalid").append("<option value='" + result.Rows[i].InvalidID + "'>" + result.Rows[i].InvalidName + "</option>");
-                            }
-                        }
-                    } catch (e) { }
-                }
-            });
-        }
+          function ue_showResponse(responseText, statusText) {
+              alert("ok????");
+              $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+              $("#promptDIV").addClass(responseText.css);
+              $("#promptDIV").html(responseText.message);
+              if (result.success) {
+                  location.href = result.toUrl;
+              }
+          }
+
+      });
   </script>
 
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
+        });
+    </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container"><h2>功能管理</h2></div>
@@ -77,11 +118,12 @@ EditPage
      <div id="promptDIV" class="row"></div>
     </div>   
     <div class="tab-pane">
-      <form  id="Edit_Operations" method="post" action="/OperationsManagement/EditOperations" class="form-horizontal">           
+      <form  id="Edit_Operations" method="post" action="" class="form-horizontal">           
        <div class="control-group span6 offset2">
        <label class="control-label">操作名称：</label>
        <div class="controls">
        <input id="operationsName" name="operationsName" type="text" value="<%=ViewData["operationsName"]%>" />
+       <input id="operationID" name="operationID" type="hidden" value="<%=ViewData["operationsId"]%>"/>
        </div>
        </div>
        <div class="control-group span6 offset2">
@@ -91,12 +133,10 @@ EditPage
        </div>
        </div>
        <div class="control-group span6 offset2">
-       <label class="control-label">是否有效：</label>
-       <div class="controls">
-       <select id="operationsInvalid" name="operationsInvalid" width="140px">
-        <option id="InvalidInfo"></option>
-       </select>
-       </div>
+       <label class="control-label">是否有效：</label>     
+        <div id="invalidList">
+        
+        </div>   
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label">操作描述：</label>
@@ -120,7 +160,7 @@ EditPage
        </div>
        </div>
        <div class="control-group span6 offset3">
-       <input type="submit" value="修改" class="btn btn-primary span3" />  
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" />  
        </div>    
     </form>
     </div>

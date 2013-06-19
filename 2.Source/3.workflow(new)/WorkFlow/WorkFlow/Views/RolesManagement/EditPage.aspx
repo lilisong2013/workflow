@@ -2,70 +2,109 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 EditPage
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
-        type="text/css" />
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-
-    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
-  
+<asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">  
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
-    <script src="../../bootstrap/js/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+
     <script type="text/javascript">
+        var rolesID;
         $(document).ready(function () {
-            var i = $("#rolesInvalid").attr("value");
-            $("[name = rb]:checkbox").attr("checked", true);
+            rolesID = $("#rolesID").val(); //角色ID
+            //alert(rolesID);
+        });
+        var riTotal = 0; //是否有效数量
+    </script>
+   <%--是否有效初始化--%>
+   <script type="text/javascript">
+       $(document).ready(function () {
+           
+           $.ajax({
+               url: "/RolesManagement/GetInvalidList",
+               type: "POST",
+               dataType: "json",
+               data: { rolesId: rolesID },
+               success: function (responseText, statusText) {
+                 alert(responseText);
+                   var dataJson = eval("(" + responseText + ")");
+                  alert(dataJson);
+                   riTotal = parseInt(dataJson.total); //用户有效数量
+                   for (var i = 0; i < dataJson.total; i++) {
+                       $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
+                   }
+                   for (var i = 0; i < dataJson.total; i++) {
+                       if (dataJson.List[i].selected == 'true') {
+                           $("#invalidValue" + i.toString()).prop("checked", true);
+                           //alert("ok??");
+                       } else {
+                           $("#invalidValue" + i.toString()).prop("checked", false);
+                       }
+                   }
+               }
+
+           });
+       });
+   </script>
+   <%--表单提交数据--%>
+   <script type="text/javascript">
+       $(document).ready(function () {
+           var rolesData;
+           var rolesStr;
+           $("#saveSubmit").click(function () {
+               if (false) {
+                   return false;
+               } else {
+                   rolesStr = "{"; //JSON数据字符串
+                   var rvTotal = 0; //角色有效的数量
+                  // alert(rvTotal);
+                   //角色"是否有效"中被选中的项
+                   for (var i = 0; i < 1; i++) {
+                       var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
+                       //alert(checkBoxID);
+                       if (checkBoxID.is(":checked")) {
+                           //alert(checkBoxID.val() + "选中");
+                           rolesStr += "rInvalidID" + rvTotal.toString() + ":'" + checkBoxID.val() + "',";
+                           rvTotal++;
+                          // checkBoxID.prop("checked", true);
+                       } else {
+                           //alert(checkBoxID.is(":checked"));
+                          // alert(checkBoxID.val() + "未选中");
+                          // checkBoxID.prop("checked", false);
+                       }
+                   }
+                   rolesStr += "rv_Total:'" + rvTotal + "',u_ID:'" + $("#rolesID").val() + "'}";
+                   //alert(rolesStr);
+                   rolesData = eval("(" + rolesStr + ")");
+                   //alert(rolesData);
+                   $("#Edit_Roles").ajaxForm({
+                       success: ri_showResponse, //form提交相应成功后执行的回调函数
+                       url: "/RolesManagement/EditRoles",
+                       type: "POST",
+                       dataType: "json",
+                       data: rolesData
+                   });
+               }
+           });
+           //提交role表单后执行的函数
+           function ri_showResponse(responseText, statusText) {
+               //alert("ok?????");
+               $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+               $("#promptDIV").addClass(responseText.css);
+               $("#promptDIV").html(responseText.message);
+               if (result.success) {
+                   location.href = result.toUrl;
+               }
+           }
+       });
+   </script>
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
         });
     </script>
-     <script type="text/javascript">
-         $(document).ready(function () {
-             var form = $("#Edit_Roles");
-             form.submit(function () {
-                 $.post(form.attr("action"),
-                    form.serialize(),
-                    function (result, status) {
-                        //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(result.css);
-                        $("#promptDIV").html(result.message);
-
-                        if (result.success) {
-                            location.href = result.toUrl;
-                        }
-                    },
-                    "JSON");
-                 return false;
-             });
-         });
-    </script>
-
-  <script type="text/javascript">
-      $(document).ready(function () {
-          BindInvalidName();
-          $("#InvalidInfo").html("请选择");
-      });
-      function BindInvalidName() {
-          $.ajax({
-              type: "Post",
-              contentType: "application/json",
-              url: "/RolesManagement/GetInvalidName",
-              data: {}, //即使参数为空，也需要设置
-              dataType: 'JSON', //返回的类型为XML
-              success: function (result, status) {
-                  //成功后执行的方法
-                  try {
-                      if (status == "success") {
-                          for (var i = 0; i < result.Total; i++) {
-                              $("#InvalidParent").append("<option value='" + result.Rows[i].InvalidID + "'>" + result.Rows[i].InvalidName + "</option>");
-                          }
-                      }
-                  } catch (e) { }
-              }
-          });
-      }
-  </script>
+   
 
    
 
@@ -82,26 +121,25 @@ EditPage
    <div id="promptDIV" class="row"></div>
   </div>  
    <div class="tab-pane">
-   <form  id="Edit_Roles" method="post" action="/RolesManagement/EditRoles" class="form-horizontal"> 
+   <form  id="Edit_Roles" method="post" action="" class="form-horizontal"> 
        <div class="control-group span6 offset2">
        <label class="control-label">角色名称：</label>
        <div class="controls">
        <input id="rolesName" name="rolesName" type="text" value="<%=ViewData["rolesName"] %>" />
+       <input id="rolesID" name="rolesID" type="hidden" value="<%=ViewData["rolesId"]%>"/>
        </div>
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label">是否有效：</label>
-       <div class="controls">
-       <select id="InvalidParent" name="InvalidParent" width="140px">
-        <option id="InvalidInfo"></option>
-       </select>
+       <div id="invalidList">
        </div>
+
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
        <textarea id="rolesRemark" name="rolesRemark" cols="5" rows="4"><%=ViewData["rolesRemark"]%></textarea>      
-        <input type="hidden" name="rolesId" id="rolesId" value="<%=ViewData["rolesId"]%>"/>
+<%--        <input type="hidden" name="rolesId" id="rolesId" value="<%=ViewData["rolesId"]%>"/>--%>
         <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="<%=ViewData["rolesDeleted"]%>" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
         <%string  s = DateTime.Now.ToString() +"."+ System.DateTime.Now.Millisecond.ToString(); %>
@@ -110,14 +148,11 @@ EditPage
         <input type="hidden" name="rolesApp_id" id="rolesApp_id" value="<%=m_usersModel.app_id %>"/>
         <input type="hidden" name="rolesCreated_at" id="rolesCreated_at" value="<%=t%>" />
         <input type="hidden" name="rolesCreated_by" id="rolesCreated_by" value="<%=m_usersModel.id%>" />       
-        <input type="hidden" name="rolesCreated_ip" id="rolesCreated_ip" value="<%= ipAddress %>" />
-        <input type="hidden" name="rolesUpdated_at" id="rolesUpdated_at"/>
-        <input type="hidden" name="rolesUpdated_by" id="rolesUpdated_by" />
-        <input type="hidden" name="rolesUpdated_ip" id="rolesUpdated_ip" />
+        <input type="hidden" name="rolesCreated_ip" id="rolesCreated_ip" value="<%= ipAddress %>" /> 
         </div> 
        </div>
        <div class="control-group span6 offset3">
-       <input type="submit" value="修改" class="btn btn-primary span3" />  
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" />  
        </div>
    </form>
 </div>

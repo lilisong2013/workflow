@@ -3,16 +3,48 @@
 EditPage
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-   <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet"
-        type="text/css" />
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-
-    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script> 
-    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
-    <script src="../../bootstrap/js/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
-      <script type="text/javascript">
+   <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+   <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+   <%--ID初始化--%>
+   <script type="text/javascript">
+       var elementID;
+        $(document).ready(function () {
+            elementID = $("#elementID").val(); //角色ID
+           alert(elementID);
+        });
+        var eiTotal = 0; //是否有效数量
+    </script>
+   <%--是否有效初始化--%>
+   <script type="text/javascript">
+       $(document).ready(function () {
+           alert("ok???");
+           $.ajax({
+               url: "/ElementsManagement/GetInvalidList",
+               type: "POST",
+               dataType: "json",
+               data: { elementsId: elementID },
+               success: function (responseText, statusText) {
+                   alert(responseText);
+                   var dataJson = eval("(" + responseText + ")");
+                   alert(dataJson);
+                   eiTotal = parseInt(dataJson.total); //元素有效数量
+                   for (var i = 0; i < dataJson.total; i++) {
+                       $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
+                   }
+                   for (var i = 0; i < dataJson.total; i++) {
+                       if (dataJson.List[i].selected == 'true') {
+                           $("#invalidValue" + i.toString()).prop("checked", true);
+                           alert("ok");
+                       }
+                       else {
+                           $("#invalidValue" + i.toString()).prop("checked", false);
+                       }
+                   }
+               }
+           });
+       });
+   </script>
+     <%-- <script type="text/javascript">
           $(document).ready(function () {
               var form = $("#Edit_Elements");
               form.submit(function () {
@@ -32,9 +64,9 @@ EditPage
                   return false;
               });
           });
-    </script>
+    </script>--%>
 
-<script type="text/javascript">
+     <%--  <script type="text/javascript">
     $(document).ready(function () {
         BindInvalidName();
         $("#elementsInfo").html("请选择");
@@ -58,7 +90,7 @@ EditPage
             }
         });
     }
-  </script>
+  </script>--%>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -82,6 +114,7 @@ EditPage
        <label class="control-label">元素名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <input id="elementsName" name="elementsName" type="text" value="<%=ViewData["elementsName"]%>" />
+       <input id="elementID" name="elementID" type="hidden" value="<%=ViewData["elementsId"]%>"/>
        </div>
        </div>
        <div class="control-group span6 offset2">
@@ -110,18 +143,15 @@ EditPage
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-       <div class="controls"> 
-       <select id="elementsInvalid" name="elementsInvalid" width="140px">
-        <option id="elementsInfo"></option>
-       </select>
-       </div>   
+       <div id="invalidList">
+       </div>
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label"> 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    
        <div class="controls">
        <textarea id="elementsRemark" name="elementsRemark" cols="5" rows="4"><%=ViewData["elementsRemark"]%></textarea>
        </div>   
-        <input type="hidden" name="elementsId" id="elementsId" value="<%=ViewData["elementsId"]%>"/>
+        
         <input type="hidden" name="elementsDeleted" id="elementsDeleted" value="<%=ViewData["elementsDeleted"]%>" />
         <input type="hidden" name="elementsCreated_at" id="elementsCreated_at" value="<%=t%>" />
         <input type="hidden" name="elementsCreated_by" id="elementsCreated_by" value="<%=m_usersModel.id%>" />  

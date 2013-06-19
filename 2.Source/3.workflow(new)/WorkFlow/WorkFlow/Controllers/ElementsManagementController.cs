@@ -37,63 +37,94 @@ namespace WorkFlow.Controllers
             m_elementsService.SecurityContextValue = m_SecurityContext;
 
             int AppID = Convert.ToInt32(m_usersModel.app_id);
-            //排序的字段名
-            string sortname = Request.Params["sortname"];
-            //排序的方向
-            string sortorder = Request.Params["sortorder"];
-            //当前页
-            int page = Convert.ToInt32(Request.Params["page"]);
-            //每页显示的记录数
-            int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+            ////排序的字段名
+            //string sortname = Request.Params["sortname"];
+            ////排序的方向
+            //string sortorder = Request.Params["sortorder"];
+            ////当前页
+            //int page = Convert.ToInt32(Request.Params["page"]);
+            ////每页显示的记录数
+            //int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
 
             DataSet ds = m_elementsService.GetElementsListOfApp(AppID, out msg);
-
-            IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
-            var total = ds.Tables[0].Rows.Count;
-            for (var i = 0; i < total; i++)
+            string data = "{Rows:[";
+            if (ds == null)
             {
-                WorkFlow.ElementsWebService.elementsModel m_elementModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
-                PropertyInfo[] m_propertys = m_elementModel.GetType().GetProperties();
-                foreach (PropertyInfo pi in m_propertys)
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
+            }
+            else
+            {
+                try
                 {
-                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        // 属性与字段名称一致的进行赋值 
-                        if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                        string name = ds.Tables[0].Rows[i][1].ToString();
+                        string id = ds.Tables[0].Rows[i][0].ToString();
+                        string code = ds.Tables[0].Rows[i][2].ToString();
+                        if (i == ds.Tables[0].Rows.Count - 1)
                         {
-                            // 数据库NULL值单独处理 
-                            if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-                                pi.SetValue(m_elementModel, ds.Tables[0].Rows[i][j], null);
-                            else
-                                pi.SetValue(m_elementModel, null, null);
-                            break;
+                            data += "{name:'" + name + "',";
+                            data += "id:'" + id + "',";
+                            data += "code :'" + code+ "'}";
+                        }
+                        else
+                        {
+                            data += "{name:'" + name + "',";
+                            data += "id:'" + id + "',";
+                            data += "code:'" +code + "'},";
                         }
                     }
                 }
-                m_list.Add(m_elementModel);
+                catch (Exception ex) { }
+                data += "]}";
+                return Json(data);
             }
+            //IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
+            //var total = ds.Tables[0].Rows.Count;
+            //for (var i = 0; i < total; i++)
+            //{
+            //    WorkFlow.ElementsWebService.elementsModel m_elementModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
+            //    PropertyInfo[] m_propertys = m_elementModel.GetType().GetProperties();
+            //    foreach (PropertyInfo pi in m_propertys)
+            //    {
+            //        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+            //        {
+            //            // 属性与字段名称一致的进行赋值 
+            //            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+            //            {
+            //                // 数据库NULL值单独处理 
+            //                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+            //                    pi.SetValue(m_elementModel, ds.Tables[0].Rows[i][j], null);
+            //                else
+            //                    pi.SetValue(m_elementModel, null, null);
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    m_list.Add(m_elementModel);
+            //}
 
-            //模拟排序操作
-            if (sortorder == "desc")
-                m_list = m_list.OrderByDescending(c => c.id).ToList();
-            else
-                m_list = m_list.OrderBy(c => c.id).ToList();
-            IList<WorkFlow.ElementsWebService.elementsModel> m_targetList = new List<WorkFlow.ElementsWebService.elementsModel>();
-            //模拟分页操作
-            for (var i = 0; i < total; i++)
-            {
-                if (i >= (page - 1) * pagesize && i < page * pagesize)
-                {
-                    m_targetList.Add(m_list[i]);
-                }
-            }
-            var gridData = new
-            {
-                Rows = m_targetList,
-                Total = total
-            };
-            return Json(gridData);
+            ////模拟排序操作
+            //if (sortorder == "desc")
+            //    m_list = m_list.OrderByDescending(c => c.id).ToList();
+            //else
+            //    m_list = m_list.OrderBy(c => c.id).ToList();
+            //IList<WorkFlow.ElementsWebService.elementsModel> m_targetList = new List<WorkFlow.ElementsWebService.elementsModel>();
+            ////模拟分页操作
+            //for (var i = 0; i < total; i++)
+            //{
+            //    if (i >= (page - 1) * pagesize && i < page * pagesize)
+            //    {
+            //        m_targetList.Add(m_list[i]);
+            //    }
+            //}
+            //var gridData = new
+            //{
+            //    Rows = m_targetList,
+            //    Total = total
+            //};
+            //return Json(gridData);
         }
         /// <summary>
         /// 显示元素操作的详细信息
@@ -174,6 +205,73 @@ namespace WorkFlow.Controllers
             {
                 return View();
             }          
+        }
+        //删除一条记录
+        public ActionResult DeleteElement()
+        {
+            string msg = string.Empty;
+            int elementID = Convert.ToInt32(Request.Form["elementID"]);
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_SecurityContext;
+
+            try {
+                if (m_elementsBllService.Delete(elementID, out msg))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/ElementsManagement/AppElements" });
+                }
+                else 
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+                }
+            }
+            catch (Exception ex) 
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+            }
+
+        }
+        //获取是否有效的列表
+        public ActionResult GetInvalidList()
+        {
+            string msg = string.Empty;
+            int m_elementID = Convert.ToInt32(Request.Params["elementID"]);//元素ID
+            string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
+            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_SecurityContext;
+
+            WorkFlow.ElementsWebService.elementsModel m_elementModel = m_elementsBllService.GetModel(m_elementID,out msg);
+            string m_selected = string.Empty;
+            int total = 1;
+            string m_InvalidName = "是";
+            int m_elementsID = m_elementID;
+            //判断"元素"中是否有效
+            if (m_elementModel.invalid == false)
+            {
+                m_selected = "true";
+            }
+            else {
+                m_selected = "false";
+            }
+            strJson += "{id:'" + m_elementsID + "',";
+            strJson += "name:'" + m_InvalidName + "',";
+            strJson += "selected:'" + m_selected + "'}";
+
+            strJson += "],total:'" + total + "'}";
+            return Json(strJson);
         }
         ///<summary>
         ///编辑元素的详细信息

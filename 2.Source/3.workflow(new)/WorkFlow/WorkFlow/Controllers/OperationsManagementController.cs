@@ -23,79 +23,135 @@ namespace WorkFlow.Controllers
         /// 显示数据库中功能操作表的信息
         /// </summary>
         /// <param name="id">系统的ID</param>
-        /// <returns></returns>
+        /// <returns></returns>    
+   
         public ActionResult GetOperations_Apply()
         {
-            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-            int appid = Convert.ToInt32(m_usersModel.app_id);
-            //排序的字段名
-            string sortname = Request.Params["sortname"];
-            //排序的方向
-            string sortorder = Request.Params["sortorder"];
-            //当前页
-            int page = Convert.ToInt32(Request.Params["page"]);
-            //每页显示的记录数
-            int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
-            WorkFlow.OperationsWebService.operationsBLLservice m_operationsService = new OperationsWebService.operationsBLLservice();
-
             string msg = string.Empty;
-
+           
+            WorkFlow.OperationsWebService.operationsBLLservice m_operationsService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+           
             //SecurityContext实体对象赋值
             m_securityContext.UserName = m_usersModel.login;
             m_securityContext.PassWord = m_usersModel.password;
             m_securityContext.AppID = (int)m_usersModel.app_id;
             m_operationsService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
-
-           // DataSet ds = m_operationsService.GetAllOperationsList();
-            DataSet ds = m_operationsService.GetOperationsListOfApp(appid,out msg);
-            IList<WorkFlow.OperationsWebService.operationsModel> m_list = new List<WorkFlow.OperationsWebService.operationsModel>();
-
-            var total = ds.Tables[0].Rows.Count;
-            for (var i = 0; i < total; i++)
-            {
-                WorkFlow.OperationsWebService.operationsModel m_operationsModel = (WorkFlow.OperationsWebService.operationsModel)Activator.CreateInstance(typeof(WorkFlow.OperationsWebService.operationsModel));
-                PropertyInfo[] m_propertys = m_operationsModel.GetType().GetProperties();
-                foreach (PropertyInfo pi in m_propertys)
+            
+            int appid = Convert.ToInt32(m_usersModel.app_id);
+            string data = "{Rows:[";
+            try {
+                DataSet ds = m_operationsService.GetOperationsListOfApp(appid, out msg);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
-                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                    string name = ds.Tables[0].Rows[i][1].ToString();
+                    string id = ds.Tables[0].Rows[i][0].ToString();
+                    string code = ds.Tables[0].Rows[i][2].ToString();
+                    string description = ds.Tables[0].Rows[i][3].ToString();
+                    string remark = ds.Tables[0].Rows[i][4].ToString();
+                    if (i == ds.Tables[0].Rows.Count - 1)
                     {
-                        //属性与字段名称一致的进行赋值
-                        if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
-                        {
-                            //数据库NULL值单独处理
-                            if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-                                pi.SetValue(m_operationsModel, ds.Tables[0].Rows[i][j], null);
-                            else
-                                pi.SetValue(m_operationsModel, null, null);
-                            break;
-                        }
+                        data += "{name:'" + name + "',";
+                        data += "id:'" + id + "',";
+                        data += "code:'" + code + "',";
+                        data += "description:'" + description + "',";
+                        data += "remark:'" + remark + "'}";
+                    }
+                    else 
+                    {
+                        data += "{name:'" + name + "',";
+                        data += "id:'" + id + "',";
+                        data += "code:'" + code + "',";
+                        data += "description:'" + description + "',";
+                        data += "remark:'" + remark + "'},";
                     }
                 }
-                m_list.Add(m_operationsModel);
             }
-            //模拟排序操作
-            if (sortorder == "desc")
-                m_list = m_list.OrderByDescending(c => c.id).ToList();
-            else
-                m_list = m_list.OrderBy(c => c.id).ToList();
-            IList<WorkFlow.OperationsWebService.operationsModel> m_targetList = new List<WorkFlow.OperationsWebService.operationsModel>();
-            //模拟分页操作
-            for (var i = 0; i < total; i++)
+            catch (Exception ex) 
             {
-                if (i >= (page - 1) * pagesize && i < page * pagesize)
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+            }
+            data += "]}";
+            return Json(data);
+          
+        }
+        //删除一条记录
+        public ActionResult DeleteOperation()
+        {
+            string msg = string.Empty;
+            int operationID = Convert.ToInt32(Request.Form["operationID"]);
+            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+            WorkFlow.OperationsWebService.SecurityContext m_SecurityContext = new OperationsWebService.SecurityContext();
+
+            WorkFlow.OperationsWebService.operationsModel m_operationModel = new OperationsWebService.operationsModel();
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_operationsBllService.SecurityContextValue = m_SecurityContext;
+
+            //m_operationModel = m_operationsBllService.GetModel(operationID,out msg);
+            try {
+                if (m_operationsBllService.DeleteOperations(operationID, out msg))
                 {
-                    m_targetList.Add(m_list[i]);
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/OperationsManagement/AppOperations" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="删除失败!"});
                 }
             }
-            var gridData = new
+            catch (Exception ex)
             {
-                Rows = m_targetList,
-                Total = total
-            };
-            return Json(gridData);
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+            }
         }
-        
+
+        //获取是否有效的列表
+        public ActionResult GetInvalidList()
+        {
+            string msg = string.Empty;
+            int m_operationID = Convert.ToInt32(Request.Params["operationID"]);//用户ID
+            string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
+
+            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+            
+            WorkFlow.OperationsWebService.SecurityContext m_SecurityContext = new OperationsWebService.SecurityContext();
+            
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_operationsBllService.SecurityContextValue = m_SecurityContext;
+            WorkFlow.OperationsWebService.operationsModel operationsModel = m_operationsBllService.GetModel(m_operationID,out msg);
+            string m_selected = string.Empty;
+            int total = 1;
+            int m_operationsID = m_operationID;
+            string m_InvalidName;
+            m_InvalidName = "是";
+            //判断操作中是否有效
+            if (operationsModel.invalid==false)
+            {
+                m_selected = "true";
+            }
+            else 
+            {
+                m_selected = "false";
+            }
+
+            strJson += "{id:'" + m_operationsID + "',";
+            strJson += "name:'" + m_InvalidName + "',";
+            strJson += "selected:'" + m_selected + "'}";
+
+
+            strJson += "],total:'" + total + "'}";
+            return Json(strJson);
+          
+        }
         /// <summary>
         /// 显示所选系统的详情
         /// </summary>
@@ -174,13 +230,14 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult EditOperations(FormCollection collection)
         {
+           
+            int m_oi_total = Convert.ToInt32(Request.Params["oi_Total"]);//功能"是否有效"的数量
+            string msg = string.Empty;
             WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
             WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-
-            string msg = string.Empty;
-
+        
             WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
             //SecurityContext实体对象赋值
             m_securityContext.UserName = m_usersModel.login;
@@ -192,15 +249,12 @@ namespace WorkFlow.Controllers
             int m_operationsId = Convert.ToInt32(collection["operationsId"].Trim());
             m_operationsModel = m_operationsBllService.GetModel(m_operationsId,out msg);
             string name = collection["operationsName"].Trim().ToString();
-            string invalid = collection["operationsInvalid"].Trim();
+            //string invalid = collection["operationsInvalid"].Trim();
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
             }
-            if (invalid.Length == 0 || invalid.Equals("请选择"))
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "是否有效不能为空!" });
-            }
+          
             DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList operationsList = new ArrayList();
@@ -239,7 +293,15 @@ namespace WorkFlow.Controllers
             m_operationsModel.deleted = Convert.ToBoolean(collection["operationsDeleted"]);
             m_operationsModel.remark = collection["operationsRemark"].Trim();
             m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
-            m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
+            if (m_oi_total == 1)
+            {
+                m_operationsModel.invalid = false;
+            }
+            if (m_oi_total == 0)
+            {
+                m_operationsModel.invalid = true;
+            }
+          // m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
             m_operationsModel.updated_at = t;
             m_operationsModel.updated_by = m_usersModel.id;
             m_operationsModel.updated_ip = collection["operationsCreated_ip"].Trim();

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/appsadmin.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 AppUsers
 </asp:Content>
@@ -45,7 +45,7 @@ AppUsers
             });
             function GetUsersList() {
                 $.ajax({
-                    url: "/UsersManagement/GetUsers_Apply1",
+                    url: "/UsersManagement/GetUsers_Apply",
                     type: "POST",
                     dataType: "json",
                     data: {},
@@ -91,11 +91,8 @@ AppUsers
 
     <script type="text/javascript">
         function DeleteUser(id) {
-            alert("ok");
-            alert(id);
-            var userid = id;
-            //alert(userid);
-            alert("---??");
+            //alert(id);
+            var userid = id;           
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 //return true;
                 $.ajax({
@@ -113,13 +110,7 @@ AppUsers
             })
         }
     </script>
-    <script type="text/javascript">
-        // opener.location.reload();
-        //setTimeout("window.location.reload()", 4000);
-        // window.location.reload();
-    </script>
   
-
     <script type="text/javascript">
         $(document).ready(function () {
             var form = $("#add_Users");

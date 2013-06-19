@@ -22,13 +22,14 @@ UseRolesInfo
               dataType: "json",
               data: { usersid: usersID },
               success: function (responseText, statusText) {
-                 // alert(responseText);
+                  //alert(responseText);
                   var dataJson = eval("(" + responseText + ")");
+                 // alert(dataJson);
                   epTotal = parseInt(dataJson.total); //角色数量
                   for (var i = 0; i < dataJson.total; i++) {
                       $("#rolesList").append("<label class='checkbox span2'><input id='rolesprivilege" + i + "' type='checkbox' value='" + dataJson.List[i].id + "'/>" + dataJson.List[i].name + "</label>");
                   }
-                 // alert($("#rolesprivilege").val());
+                  // alert($("#rolesprivilege").val());
                   for (var i = 0; i < dataJson.total; i++) {
                       if (dataJson.List[i].selected == "true") {
                           $("#rolesprivilege" + i.toString()).prop("checked", true);
@@ -56,17 +57,17 @@ UseRolesInfo
                  //用户角色被选中的项
                  for (var i = 0; i < epTotal; i++) {
                      var checkBoxID = $("#rolesprivilege" + i.toString()); //复选框ID
-                     //alert(checkBoxID);
+                    // alert(checkBoxID);
                      if (checkBoxID.is(":checked")) {
-                         //alert(checkBoxID.val() + "选中");
+                       // alert(checkBoxID.val() + "选中");
                          user_rolesStr += "rprivilegeID" + urTotal.toString() + ":'" + checkBoxID.val() + "',";
                          urTotal++;
                      } else {
-                        // alert(checkBoxID.val() + "未选中");
+                      // alert(checkBoxID.val() + "未选中");
                      }
                  }
                  user_rolesStr += "ur_total:'" + urTotal + "',u_ID:'" + $("#usersID").val() + "'}";
-                 //alert(user_rolesStr);
+                // alert(user_rolesStr);
                  user_rolesData = eval("(" + user_rolesStr + ")");
                  $("#user_roles").ajaxForm({
                      success:ue_showResponse,//form提交响应成功后执行的回调函数                  

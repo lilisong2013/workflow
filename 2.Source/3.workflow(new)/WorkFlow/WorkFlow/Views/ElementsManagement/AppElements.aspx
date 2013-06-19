@@ -5,48 +5,103 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
+  
     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
 
     <%-- ligerUI核心文件--%>
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
-        type="text/css" />
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-tree.css" rel="stylesheet"
-        type="text/css" />
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-tree.css" rel="stylesheet" type="text/css" />        
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
 
+    <%--LigerUI Dialog文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>
+   <%-- <link href="../../LigerUI/lib/ligerUI/skins/Gray/css/all.css" rel="stylesheet" type="text/css"/>--%>
+
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+  
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
+        });
+    </script>
     <%--在Grid中显示Element信息--%>
-     <script type="text/javascript">
-         $(document).ready(function () {
-             $("#AllElements").ligerGrid({
-                 columns: [
-                { display: '元素名称', name: 'name', width: 100 },
-                { display: '元素编码', name: 'code', width: 100 },               
-                { display: '', width: 260,
-                    render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/ElementsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-trash"></i><a href="/ElementsManagement/ChangePage?id=' + row.id + '">删除</a><i class="icon-edit"></i><a href="/ElementsManagement/EditPage?id=' + row.id + '">编辑</a>';
-                        return html;
-                    }
-                }
-                ],
-                 dataAction: 'server',
-                 width: '90%',
-                 pageSizeOptions: [5, 10, 15, 20, 25, 50],
-                 pageSize: 15,
-                 height: '400',
-                 url: '/ElementsManagement/GetElements_Apply',
-                 rownumbers: true,
-                 usePager: true
+    <script type="text/javascript">
+        var managerListGrid;
+        $(document).ready(function () {
+            //定义ligerGrid;
+            $("#elementgrid").ligerGrid({
+                width: '90%',
+                height: 400
+            });
+            managerListGrid = $("#elementgrid").ligerGetGridManager();
+            GetElementsList(); //获取元素数据列表
+        });
+        function GetElementsList() {
+        $.ajax({
+            url: "/ElementsManagement/GetElements_Apply",
+            type: "POST",
+            dataType: "json",
+            data: {},
+            success: function (responseText, statusText) {
+                // alert(responseText);
+                var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                //更新mygrid数据
+                managerListGrid.setOptions({
+                    columns: [
+                        { display: '元素名称', name: 'name', width:100, align: 'center' },
+                        { display: '元素编码', name: 'code', width:100, align: 'center' },
+                        { display: '', width: 180,
+                            render: function (row) {
+                                var html = '<i class="icon-lock"></i><a href="/ElementsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-edit"></i><a href="/ElementsManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 80,
+                            render: function (row) {
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteElement(' + row.id + ')">删除</a>';
+                                return html;
+                            }
+                        }
+                       ],
+                    data: dataJson
+                });
+                managerListGrid.loadData();
+            }       
+        });
+        }
+    </script>
+   <%--删除信息确认函数--%>
+    <script type="text/javascript">
+     function DeleteElement(id) {
+         alert(id);
+         var elementsId = id;
+         $.ligerDialog.confirm('确定要删除吗?', function (yes) {
+             //return true;
+             $.ajax({
+                 url: "/ElementsManagement/DeleteElement",
+                 type: "POST",
+                 dataType: "json",
+                 data: { elementID: elementsId },
+                 success: function (responseText, statusText) {
+                     GetElementsList();
+                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                     $("#promptDIV").addClass(responseText.css);
+                     $("#promptDIV").html(responseText.message);
+                 }
              });
-
-         });
+         })
+     }
  </script>
+     
 
- <script type="text/javascript">
+    <script type="text/javascript">
      $(document).ready(function () {
          BindStatus();
          $("#StatusInfo").html("请选择");
@@ -73,7 +128,7 @@
      }
  </script>
 
- <script type="text/javascript">
+    <script type="text/javascript">
      $(document).ready(function () {
          BindMenuName();
          $("#MenuInfo").html("请选择");
@@ -100,7 +155,7 @@
      }
  </script>
 
-     <%--添加菜单选项卡：菜单树的显示与隐藏--%>
+    <%--添加菜单选项卡：菜单树的显示与隐藏--%>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#selectMenus").hide();
@@ -171,12 +226,12 @@
             }
         });
     </script>
-
-           <script type="text/javascript">
+    <%--添加菜单提示--%>
+    <script type="text/javascript">
                $(document).ready(function () {
                    var form = $("#add_Menus");
-                   form.submit(function () {                  
-                   $.post(form.attr("action"),
+                   form.submit(function () {
+                       $.post(form.attr("action"),
                     form.serialize(),
                     function (result, status) {
                         //debugger
@@ -189,8 +244,8 @@
                         }
                     },
                     "JSON");
-                           return false;
-               
+                       return false;
+
                    });
                });
     </script>
@@ -202,7 +257,7 @@
     <div class="container"><h2>元素管理</h2></div>
     <div class="container">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#AllElements" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
+            <li class="active" id="#infoTab"><a href="#AllElements" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddElements" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
@@ -214,7 +269,11 @@
      <div id="promptDIV" class="row"></div>
      </div>
    <div class="tab-content">
-     <div class="tab-pane active" id="AllElements"> </div>  
+     <%--查看所有元素--%>
+     <div class="tab-pane active" id="AllElements">
+     <div id="elementgrid"></div>
+     </div>  
+     <%--添加元素--%>
      <div class="tab-pane" id="AddElements">
             <form id="add_Menus" class="form-horizontal" method="post" action="/ElementsManagement/AddElements">
                 <div class="control-group span6 offset2">
