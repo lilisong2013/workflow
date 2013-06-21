@@ -68,7 +68,21 @@ namespace Saron.WorkFlowService.DAL
             }
         }
 
-
+        /// <summary>
+        /// 获取系统权限列表
+        /// </summary>
+        public DataSet GetPrivilegeListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select p_id,p_name,pt_id,pt_name,pt_code,item_name,item_code,item_id,app_id ");
+            strSql.Append(" FROM v_privileges ");
+            strSql.Append(" where app_id=@app_id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
 		
 		#endregion  Method
     }

@@ -29,7 +29,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "判断用户是否有访问项目的权限（userID：用户ID，item_Code：项目编码，pt_Name：权限类型名称，appID：系统ID）<h4>（需要授权验证，普通用户）</h4>")]
         public bool UserIsItemPrivilege(int userID, string item_Code, string pt_Name, int appID, out string msg)
         {
-            //对webservice进行授权验证
+            //对webservice进行授权验证，普通用户访问
             if (!m_securityContext.UserIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
             {
                 //webservice用户未授权，msg提示信息
@@ -62,7 +62,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "通过用户主键id,获取所属用户的项目权限列表，<h4>（需要授权验证，普通用户）</h4>")]
         public DataSet GetUserItemPrivilegeList(int userID, out string msg)
         {
-            //对webservice进行授权验证,系统管理员才可访问
+            //对webservice进行授权验证,普通用户才可访问
             if (!m_securityContext.UserIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
             {
                 //webservice用户未授权，msg提示信息
@@ -70,6 +70,20 @@ namespace Saron.WorkFlowService.WebService
             }
 
             return m_v_users_exDal.GetPrivilegesListOfUser(userID);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某系统的所有权限列表，<h4>（需要授权验证，普通用户）</h4>")]
+        public DataSet GetAllListByAppID(int appID, out string msg)
+        {
+            //对webservice进行授权验证,普通用户才可访问
+            if (!m_securityContext.UserIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_v_privilegesDal.GetPrivilegeListOfApp(appID);
         }
     }
 }
