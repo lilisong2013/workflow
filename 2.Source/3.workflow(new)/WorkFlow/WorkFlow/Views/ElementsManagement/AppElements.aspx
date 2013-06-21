@@ -79,8 +79,8 @@
     </script>
    <%--删除信息确认函数--%>
     <script type="text/javascript">
-     function DeleteElement(id) {
-         alert(id);
+        function DeleteElement(id) {
+         //alert(id);
          var elementsId = id;
          $.ligerDialog.confirm('确定要删除吗?', function (yes) {
              //return true;

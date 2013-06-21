@@ -9,7 +9,7 @@ EditPage
       var operationID;
       $(document).ready(function () {
           operationID = $("#operationID").val(); //用户ID
-          alert(operationID);
+          //alert(operationID);
       });
       var opTotal = 0;//是否有效数量
   </script>
@@ -22,9 +22,9 @@ EditPage
               dataType: "json",
               data: { operationid: operationID },
               success: function (responseText, statusText) {
-                  alert(responseText);
+                  //alert(responseText);
                   var dataJson = eval("(" + responseText + ")");
-                   alert(dataJson);
+                   //alert(dataJson);
                   opTotal = parseInt(dataJson.total); //操作权限数量
                   for (var i = 0; i < dataJson.total; i++) {
                       $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
@@ -32,10 +32,10 @@ EditPage
                   for (var i = 0; i < dataJson.total; i++) {
                       if (dataJson.List[i].selected == "true") {
                           $("#invalidValue" + i.toString()).prop("checked", true);
-                          alert("ok?");
+                         // alert("ok?");
                       } else {
                           $("#invalidValue" + i.toString()).prop("checked", false);
-                         alert("???");
+                         //alert("???");
                       }
                   }
               }
@@ -44,6 +44,7 @@ EditPage
   </script>
   <%--表单提交数据--%>
   <script type="text/javascript">
+     $(document).ready(function(){
       var operationsData;
       var operationsStr;
       $("#saveSubmit").click(function () {
@@ -51,20 +52,19 @@ EditPage
               return false;
           } else {
               operationsStr = "{"; //JSON数据字符串
-              var oiTotal = 0; //操作有效的数量
-              alert("oodoos");
+              var oiTotal = 0; //操作有效的数量              
               //操作"是否有效"中被选中的项 
               for (var i = 0; i < 1; i++) {
                   var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
                   if (checkBoxID.is(":checked")) {
-                      alert(checkBoxID.val() + "选中");
-                      alert(checkBoxID.is(":checked"));
+                      //alert(checkBoxID.val() + "选中");
+                      //alert(checkBoxID.is(":checked"));
                       operationsStr += "oInvalidID" + oiTotal.toString() + ":'" + checkBoxID.val() + "',";
                       oiTotal++;
                       //checkBoxID.prop("checked", true);
                   } else {
-                      alert(checkBoxID.is(":checked"));
-                      alert(checkBoxID.val() + "未选中");
+                      //alert(checkBoxID.is(":checked"));
+                      //alert(checkBoxID.val() + "未选中");
                       //checkBoxID.prop("checked", false);
                   }
               }
@@ -81,7 +81,7 @@ EditPage
           }
         });
           function ue_showResponse(responseText, statusText) {
-              alert("ok????");
+              //alert("ok????");
               $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
               $("#promptDIV").addClass(responseText.css);
               $("#promptDIV").html(responseText.message);

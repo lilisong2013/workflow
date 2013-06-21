@@ -24,9 +24,9 @@ EditPage
                dataType: "json",
                data: { rolesId: rolesID },
                success: function (responseText, statusText) {
-                 alert(responseText);
+                 //alert(responseText);
                    var dataJson = eval("(" + responseText + ")");
-                  alert(dataJson);
+                 // alert(dataJson);
                    riTotal = parseInt(dataJson.total); //用户有效数量
                    for (var i = 0; i < dataJson.total; i++) {
                        $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");

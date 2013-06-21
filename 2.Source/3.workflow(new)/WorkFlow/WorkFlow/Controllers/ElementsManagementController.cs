@@ -210,7 +210,7 @@ namespace WorkFlow.Controllers
         public ActionResult DeleteElement()
         {
             string msg = string.Empty;
-            int elementID = Convert.ToInt32(Request.Form["elementID"]);
+            int elementID = Convert.ToInt32(Request.Form["elementsID"]);
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
 
@@ -525,6 +525,7 @@ namespace WorkFlow.Controllers
         {
 
             string msg = string.Empty;
+            int m_ev_Total = Convert.ToInt32(Request.Params["ev_Total"]);
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
             WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
@@ -544,7 +545,7 @@ namespace WorkFlow.Controllers
             string code = collection["elementsCode"].Trim();
             string Initstatus_id = collection["elementsInitstatus_id"].Trim();
             string Menu_id = collection["elementsMenu_id"].Trim();
-            string invalid = collection["elementsInvalid"].Trim();
+            //string invalid = collection["elementsInvalid"].Trim();
             if (name.Length == 0)
             {      
                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
@@ -561,10 +562,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="页面ID不能为空!"});
             }
-            if (invalid.Length == 0 || invalid.Equals("请选择"))
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
-            }
+          
             DataSet ds = m_elementsBllService.GetElementsListOfApp(appID,out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList elementsList = new ArrayList();
@@ -604,7 +602,15 @@ namespace WorkFlow.Controllers
             m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim().ToString());
             m_elementsModel.menu_id = Convert.ToInt32(collection["elementsMenu_id"].Trim().ToString());
             m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim().ToString());
-            m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim().ToString());
+            if (m_ev_Total == 1)
+            {
+                m_elementsModel.invalid = false;
+            }
+            if (m_ev_Total == 0)
+            {
+                m_elementsModel.invalid = true;
+            }
+           // m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim().ToString());
             m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim().ToString());
             m_elementsModel.updated_at = t;
             m_elementsModel.updated_by = Convert.ToInt32(m_usersModel.id);

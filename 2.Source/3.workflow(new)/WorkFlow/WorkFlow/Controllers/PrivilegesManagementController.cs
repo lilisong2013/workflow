@@ -406,9 +406,17 @@ namespace WorkFlow.Controllers
         //权限项目列表：元素
         public ActionResult GetElementOfItem()
         {
-            String msg = String.Empty;
+            string msg = string.Empty;
             int menusID = Convert.ToInt32(Request.Params["menusID"]);//菜单ID
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new WorkFlow.ElementsWebService.elementsBLLservice();
+            WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_elementsBllService.SecurityContextValue = m_SecurityContext;
+
             string data = "{Rows:[";
             try
             {

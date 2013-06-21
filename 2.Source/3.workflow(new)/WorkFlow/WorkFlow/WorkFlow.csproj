@@ -520,7 +520,6 @@
     <Content Include="Views\AppsManagement\BU_AppsInfo.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsPassModify.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsPassModifyCon.aspx" />
-    <Content Include="Views\ElementsManagement\AppElements2.aspx" />
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
@@ -543,7 +542,6 @@
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
-    <Content Include="Views\RolesManagement\EditPageCon.aspx" />
     <Content Include="Views\Shared\appsadmin.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
     <None Include="Web References\AppsWebService\appsModel1.datasource">

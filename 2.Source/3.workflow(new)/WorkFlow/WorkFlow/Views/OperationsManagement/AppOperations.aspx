@@ -49,7 +49,7 @@
                  dataType: "json",
                  data: {},
                  success: function (responseText, statusText) {
-                    alert(responseText);
+                    //alert(responseText);
 
                      var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
 

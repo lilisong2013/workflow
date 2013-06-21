@@ -44,7 +44,7 @@
         function GetRolesList() {
 
             $.ajax({
-                url: "/RolesManagement/GetRoles_Apply1",
+                url: "/RolesManagement/GetRoles_Apply",
                 type: "POST",
                 dataType: "json",
                 data: {},
