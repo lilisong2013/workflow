@@ -13,8 +13,8 @@
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
+    <script type="text/javascript">
+     $(document).ready(function () {
         var options = {
             //beforeSubmit: showRequest,  // from提交前的响应的回调函数
             success: showResponse,  // form提交响应成功后执行的回调函数

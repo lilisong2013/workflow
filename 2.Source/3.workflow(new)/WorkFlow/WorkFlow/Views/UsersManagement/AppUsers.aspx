@@ -19,6 +19,7 @@ AppUsers
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
   
+    
     <%--隐藏提示信息--%>
     <script type="text/javascript">
         //隐藏提示信息
@@ -28,8 +29,8 @@ AppUsers
         });
     </script>
 
-     <%--在Grid中显示user信息--%>
-        <script type="text/javascript">
+    <%--在Grid中显示user信息--%>
+    <script type="text/javascript">
             var managerListGrid;
             $(document).ready(function () {
                 //定义ligerGrid;

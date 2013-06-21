@@ -60,25 +60,25 @@ EditPage
 	                //用户"是否有效"中被选中的项 
 	                for (var i = 0; i < 1; i++) {
 	                    var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
-	                   // alert(checkBoxID);
+	                    // alert(checkBoxID);
 	                    if (checkBoxID.is(":checked")) {
-	                       // alert(checkBoxID.val() + "选中");
+	                        // alert(checkBoxID.val() + "选中");
 	                        //alert(checkBoxID.is(":checked"));
 	                        usersStr += "uInvalidID" + uiTotal.toString() + ":'" + checkBoxID.val() + "',";
 	                        uiTotal++;
 	                        checkBoxID.prop("checked", true);
 	                    } else {
 	                        //alert(checkBoxID.is(":checked"));
-	                       // alert(checkBoxID.val() + "未选中");
+	                        // alert(checkBoxID.val() + "未选中");
 	                        checkBoxID.prop("checked", false);
 	                    }
 	                }
 
-	                usersStr += "in_Total:'"+uiTotal+"',u_ID:'" + $("#userID").val() + "'}";
-	               // alert(usersStr);
+	                usersStr += "in_Total:'" + uiTotal + "',u_ID:'" + $("#userID").val() + "'}";
+	                // alert(usersStr);
 
 	                usersData = eval("(" + usersStr + ")");
-	               // alert(usersData);
+	                // alert(usersData);
 	                $("#Edit_Users").ajaxForm({
 	                    success: ue_showResponse,  // form提交响应成功后执行的回调函数
 	                    url: "/UsersManagement/EditUsers",
@@ -92,12 +92,11 @@ EditPage
 
 	        //提交role_privileges表单后执行的函数
 	        function ue_showResponse(responseText, statusText) {
-	            //alert("ok????");
 	            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
 	            $("#promptDIV").addClass(responseText.css);
 	            $("#promptDIV").html(responseText.message);
-	            if (result.success) {
-	                location.href = result.toUrl;
+	            if (responseText.success) {
+	                location.href = responseText.toUrl;
 	            }
 	        }
 	    });

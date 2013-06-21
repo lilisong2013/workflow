@@ -84,8 +84,8 @@ UseRolesInfo
              $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
              $("#promptDIV").addClass(responseText.css);
              $("#promptDIV").html(responseText.message);
-             if (result.success) {
-                 location.href = result.toUrl;
+             if (responseText.success) {
+                 location.href = responseText.toUrl;
              }
          }
      });

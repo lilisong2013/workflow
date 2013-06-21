@@ -228,7 +228,7 @@ namespace WorkFlow.Controllers
 
             if (m_appsBllService.Update(m_appsModel))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "系统：" + m_appsModel.name + "，已经可以使用！", toUrl = "/AppsManagement/BU_ApprovalAppsCon" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "系统：" + m_appsModel.name + "，已经可以使用！", toUrl = "/AppsManagement/BaseUserApps" });
                 
             }
             else

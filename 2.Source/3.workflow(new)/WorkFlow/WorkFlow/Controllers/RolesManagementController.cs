@@ -397,7 +397,7 @@ namespace WorkFlow.Controllers
                     Session["role"] = m_roleModel.name;
                     //m_usersModel = m_usersBllService.GetModelByID(Convert.ToInt32(collection["rolesId"].Trim()));
                     //Session["user"] = m_usersModel.login;
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改角色成功！", toUrl = "/RolesManagement/EditPageCon" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改角色成功！", toUrl = "/RolesManagement/AppRoles" });
                 }
                 else
                 {
