@@ -149,7 +149,7 @@ namespace WorkFlow.Controllers
         }
         
         /// <summary>
-        /// 删除一条内容为系统好为id的信息
+        /// 删除一条内容为系统编号为id的信息
         /// </summary>
         /// <param name="id">系统id号</param>
         /// <returns></returns>
@@ -180,7 +180,79 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
-        
+        //删除一条记录
+        public ActionResult DeleteRole()
+        {
+            string msg = string.Empty;
+            int roleID = Convert.ToInt32(Request.Form["roleID"]);
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
+            try
+            {
+                if (m_rolesBllService.Delete(roleID, out msg))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/RolesManagement/AppRoles" });
+                }
+                else
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="程序异常!"});
+            }
+        }
+        //获取是否有效的列表
+        public ActionResult GetInvalidList()
+        {
+            string msg = string.Empty;
+
+            int m_roleID = Convert.ToInt32(Request.Params["rolesID"]);//用户ID
+            string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
+
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();          
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID =(int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
+            WorkFlow.RolesWebService.rolesModel m_roleModel = m_rolesBllService.GetModel(m_roleID,out msg);
+
+            string m_selected = string.Empty;
+            int total = 1;
+            int m_rolesID = m_roleID;
+            string m_InvalidName;
+            m_InvalidName = "是";
+            //判断角色中是否已经存在该权限
+            if (m_roleModel.invalid==false)
+            {
+                m_selected = "true";
+            }
+            else
+            {
+                m_selected = "false";
+            }
+            strJson += "{id:'" + m_rolesID + "',";
+            strJson += "name:'" + m_InvalidName + "',";
+            strJson += "selected:'" + m_selected + "'}";
+
+
+            strJson += "],total:'" + total + "'}";
+            return Json(strJson);
+        }
         /// <summary>
         /// 获取ID的数据表详情
         /// </summary>
@@ -248,6 +320,7 @@ namespace WorkFlow.Controllers
         /// <summary>
         public ActionResult EditRoles(FormCollection collection)
         {
+            int m_ri_total = Convert.ToInt32(Request.Params["rv_Total"]);//角色"是否有效"的数量
             string msg = string.Empty;
             WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
             WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
@@ -269,15 +342,12 @@ namespace WorkFlow.Controllers
             m_rolesModel = m_rolesBllService.GetModel(id,out msg);
 
             string name = collection["rolesName"].Trim();
-            string invalid = collection["InvalidParent"].Trim();
+            
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "角色名称不能为空！" });
             }
-            if (invalid.Length == 0 || invalid.Equals("请选择"))
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="是否有效不能为空!"});
-            }
+          
             //获得deleted=false且应用系统ID为appid的rolesName列表
             DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
             var total = ds.Tables[0].Rows.Count;
@@ -296,9 +366,16 @@ namespace WorkFlow.Controllers
             }
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
-            //WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             m_rolesModel.name = collection["rolesName"].Trim();
-            m_rolesModel.invalid = Convert.ToBoolean(collection["InvalidParent"].Trim());
+            if (m_ri_total == 1)
+            {
+                m_rolesModel.invalid = false;
+            }
+            if (m_ri_total == 0)
+            {
+                m_rolesModel.invalid = true;
+            }
+            //m_rolesModel.invalid = Convert.ToBoolean(collection["InvalidParent"].Trim());
             m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());
             m_rolesModel.remark = collection["rolesRemark"].Trim();
             m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
@@ -370,7 +447,55 @@ namespace WorkFlow.Controllers
             ViewData["rolesApp_id"] = m_rolesModel.app_id;
             return View();
         }
-        
+
+        public ActionResult GetRoles_Apply1()
+        {
+            string msg = string.Empty;
+            WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+            WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_rolesBllService.SecurityContextValue = m_SecurityContext;
+
+            int appID = Convert.ToInt32(m_usersModel.app_id);
+            DataSet ds = m_rolesBllService.GetAllRolesListOfApp(appID, out msg);
+            string data = "{Rows:[";
+            if (ds == null)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
+            }
+            else
+            {
+                try {
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        string name = ds.Tables[0].Rows[i][1].ToString();
+                        string id = ds.Tables[0].Rows[i][0].ToString();
+                        string remark = ds.Tables[0].Rows[i][2].ToString();
+                        if (i == ds.Tables[0].Rows.Count - 1)
+                        {
+                            data += "{name:'" + name + "',";
+                            data += "id:'" + id + "',";
+                            data += "remark:'" + remark + "'}";
+                        }
+                        else
+                        {
+                            data += "{name:'" + name + "',";
+                            data += "id:'" + id + "',";
+                            data += "remark:'" + remark + "'},";
+                        }
+                    }
+                }
+                catch (Exception ex) { }
+                data += "]}";
+                return Json(data);
+            }
+
+        }
         /// <summary>
         /// 显示系统的详细的信息
         /// </summary>

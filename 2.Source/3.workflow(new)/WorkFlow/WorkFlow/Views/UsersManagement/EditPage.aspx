@@ -3,49 +3,21 @@
 EditPage
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
-        type="text/css" />
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
 
-    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
-  
     <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
-    <script src="../../bootstrap/js/jquery-1.9.1.min.js" type="text/javascript"></script>
-    <script src="../../bootstrap/js/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+
      <script type="text/javascript">
          var userID;
          $(document).ready(function () {
              userID = $("#userID").val(); //用户ID
-             var inTotal = 0;//是否有效数量
          });
+         var inTotal = 0; //是否有效数量
      </script>
-     <script type="text/javascript">
-         $(document).ready(function () {
-             var form = $("#Edit_Users");
-             form.submit(function () {
-                 $.post(form.attr("action"),
-                    form.serialize(),
-                    function (result, status) {
-                        //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(result.css);
-                        $("#promptDIV").html(result.message);
-                        if (result.success) {
-                            location.href = result.toUrl;
-                        }
-                    },
-                    "JSON");
-                 return false;
-             });
-         });
-   </script>
-
-  
+ 
     <%--是否有效初始化--%>
     <script type="text/javascript">
         $(document).ready(function () {
-            
             $.ajax({
                 url: "/UsersManagement/GetInvalidList",
                 type: "POST",
@@ -54,24 +26,18 @@ EditPage
                 success: function (responseText, statusText) {
                     //alert(responseText);
                     var dataJson = eval("(" + responseText + ")");
+                    //alert(dataJson);
                     inTotal = parseInt(dataJson.total); //操作权限数量
                     for (var i = 0; i < dataJson.total; i++) {
                         $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
                     }
-
                     for (var i = 0; i < dataJson.total; i++) {
                         if (dataJson.List[i].selected == "true") {
                             $("#invalidValue" + i.toString()).prop("checked", true);
-                            alert("ok?");
-                            $("#invalidValue", dataJson.List[i].selected)
-                            alert(eval($("#invalidValue").val()));
-                            alert(dataJson.List[i].selected);
+                            //alert("ok?");
                         } else {
                             $("#invalidValue" + i.toString()).prop("checked", false);
-                            alert("???");
-                            $("#invalidValue", dataJson.List[i].selected)
-                            alert(eval($("#invalidValue").val()));
-                            alert(dataJson.List[i].selected);
+                            //alert("???");
                         }
                     }
                 }
@@ -79,9 +45,8 @@ EditPage
         });
     </script>
 
-   
+   <%--表单提交数据--%>
 	<script type="text/javascript">
-
 	    $(document).ready(function () {
 	        var usersData;
 	        var usersStr;
@@ -90,27 +55,32 @@ EditPage
 	                return false;
 	            } else {
 	                usersStr = "{"; //JSON数据字符串
-
-	                //菜单权限中被选中的项          
-	                var checkBoxID = $("#invalidValue"); //复选框ID
-	                //alert(checkBoxID.is(":checked"));
-	                if (checkBoxID.is(":checked")) {
-	                   // alert(checkBoxID.val() + "选中");
-	                    //usersStr += "uInvalidID" + upTotal.toString() + ":'" + checkBoxID.val() + "',";
-	                    // checkBoxID.prop("checked", true);
-
-	                } else {
-	                    //alert(checkBoxID.val() + "未选中");
-	                    // checkBoxID.prop("checked", false);
+	                var uiTotal = 0; //用户有效的数量
+	                //alert(uiTotal);
+	                //用户"是否有效"中被选中的项 
+	                for (var i = 0; i < 1; i++) {
+	                    var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
+	                   // alert(checkBoxID);
+	                    if (checkBoxID.is(":checked")) {
+	                       // alert(checkBoxID.val() + "选中");
+	                        //alert(checkBoxID.is(":checked"));
+	                        usersStr += "uInvalidID" + uiTotal.toString() + ":'" + checkBoxID.val() + "',";
+	                        uiTotal++;
+	                        checkBoxID.prop("checked", true);
+	                    } else {
+	                        //alert(checkBoxID.is(":checked"));
+	                       // alert(checkBoxID.val() + "未选中");
+	                        checkBoxID.prop("checked", false);
+	                    }
 	                }
 
-	                // usersStr = "'u_ID:'" + $("#userID").val() + "}";
-	                // alert(usersStr);
+	                usersStr += "in_Total:'"+uiTotal+"',u_ID:'" + $("#userID").val() + "'}";
+	               // alert(usersStr);
 
 	                usersData = eval("(" + usersStr + ")");
-
-	                $("#role_privileges").ajaxForm({
-	                    success: rp_showResponse,  // form提交响应成功后执行的回调函数
+	               // alert(usersData);
+	                $("#Edit_Users").ajaxForm({
+	                    success: ue_showResponse,  // form提交响应成功后执行的回调函数
 	                    url: "/UsersManagement/EditUsers",
 	                    type: "POST",
 	                    dataType: "json",
@@ -121,8 +91,8 @@ EditPage
 
 
 	        //提交role_privileges表单后执行的函数
-	        function rp_showResponse(responseText, statusText) {
-	            alert(ok);
+	        function ue_showResponse(responseText, statusText) {
+	            //alert("ok????");
 	            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
 	            $("#promptDIV").addClass(responseText.css);
 	            $("#promptDIV").html(responseText.message);
@@ -153,7 +123,8 @@ EditPage
  <div class="container">
    <%--操作提示DIV--%>
    <div id="promptDIV" class="row"></div>
- </div>  
+ </div> 
+  
   <div class="tab-pane">
    <form  id="Edit_Users" method="post" action="" class="form-horizontal"> 
        <div class="control-group span6 offset2">
@@ -196,8 +167,7 @@ EditPage
        <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;</label>
        <div id="invalidList">
       
-       </div>  
-      
+       </div>      
        </div> 
                                  
        <div class="control-group span6 offset2">
