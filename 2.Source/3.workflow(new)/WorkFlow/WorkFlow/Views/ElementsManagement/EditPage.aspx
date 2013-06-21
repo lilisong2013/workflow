@@ -7,10 +7,10 @@ EditPage
    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
    <%--ID初始化--%>
    <script type="text/javascript">
-       var elementID;
+       var elementsID;
         $(document).ready(function () {
-            elementID = $("#elementID").val(); //角色ID
-           alert(elementID);
+            elementsID = $("#elementsID").val(); //角色ID
+           alert(elementsID);
         });
         var eiTotal = 0; //是否有效数量
     </script>
@@ -22,8 +22,11 @@ EditPage
                url: "/ElementsManagement/GetInvalidList",
                type: "POST",
                dataType: "json",
-               data: { elementsId: elementID },
-               success: function (responseText, statusText) {
+               data: { elementsId: elementsID },
+               success: function (responseText, 
+               
+               
+               ) {
                    alert(responseText);
                    var dataJson = eval("(" + responseText + ")");
                    alert(dataJson);
@@ -42,6 +45,57 @@ EditPage
                    }
                }
            });
+       });
+   </script>
+   <%--表单提交数据--%>
+   <script type="text/javascript">
+       $(document).ready(function () {
+           var elementsData;
+           var elementsStr;
+           $("#saveSubmit").click(function () {
+
+               if (false) {
+                   return false;
+               } else {
+                   elementsStr = "{"; //JSON数据字符串
+                   var evTotal = 0; //元素有效的数量
+                   alert(evTotal);
+                   //元素"是否有效"中被选中的项
+                   for (var i = 0; i < 1; i++) {
+                       if (checkBoxID.is(":checked")) {
+                           //alert(checkBoxID.val() + "选中");
+                           elementsStr += "eInvalidID" + evTotal.toString() + ":'" + checkBoxID.val() + "',";
+                           evTotal++;
+                           // checkBoxID.prop("checked", true);
+                       } else {
+                           //alert(checkBoxID.is(":checked"));
+                            alert(checkBoxID.val() + "未选中");
+                           // checkBoxID.prop("checked", false);
+                       }
+                    }
+                    elementsStr += "ev_Total:'" + evTotal + "',u_ID:'" + $("#elementsID").val() + "'}";
+                    //alert(rolesStr);
+                    elementsData = eval("(" + elementsStr + ")");
+                    //alert(rolesData);
+                    $("#Edit_Elements").ajaxForm({
+                        success: ri_showResponse, //form提交相应成功后执行的回调函数
+                        url: "/ElementsManagement/EditElements",
+                        type: "POST",
+                        dataType: "json",
+                        data: elementsData
+                    });
+               }
+            });
+            //提交element表单后执行的函数
+            function ri_showResponse(responseText, statusText) {
+                alert("ok?????");
+                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                $("#promptDIV").addClass(responseText.css);
+                $("#promptDIV").html(responseText.message);
+                if (result.success) {
+                    location.href = result.toUrl;
+                }
+            }
        });
    </script>
      <%-- <script type="text/javascript">
@@ -109,12 +163,12 @@ EditPage
    <div id="promptDIV" class="row"></div>
    </div>  
      <div class="tab-pane">
-      <form  id="Edit_Elements" method="post" action="/ElementsManagement/EditElements" class="form-horizontal">           
+      <form  id="Edit_Elements" method="post" action="" class="form-horizontal">           
        <div class="control-group span6 offset2">       
        <label class="control-label">元素名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <input id="elementsName" name="elementsName" type="text" value="<%=ViewData["elementsName"]%>" />
-       <input id="elementID" name="elementID" type="hidden" value="<%=ViewData["elementsId"]%>"/>
+       <input id="elementsID" name="elementsID" type="hidden" value="<%=ViewData["elementsId"]%>"/>
        </div>
        </div>
        <div class="control-group span6 offset2">
@@ -162,7 +216,7 @@ EditPage
         <input type="hidden" name="elementsUpdated_ip" id="elementsUpdated_ip"/>
        </div>
        <div class="control-group span6 offset3" style="background-position:center">
-       <input type="submit" value="修改" class="btn btn-primary  span3" />  
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary  span3" />  
        </div>    
     </form>
     </div> 

@@ -241,7 +241,7 @@ namespace WorkFlow.Controllers
         public ActionResult GetInvalidList()
         {
             string msg = string.Empty;
-            int m_elementID = Convert.ToInt32(Request.Params["elementID"]);//元素ID
+            int m_elementID = Convert.ToInt32(Request.Params["elementsID"]);//元素ID
             string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
             WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
             WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();

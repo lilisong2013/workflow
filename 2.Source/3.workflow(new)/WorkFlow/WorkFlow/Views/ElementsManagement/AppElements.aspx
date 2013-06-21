@@ -88,7 +88,7 @@
                  url: "/ElementsManagement/DeleteElement",
                  type: "POST",
                  dataType: "json",
-                 data: { elementID: elementsId },
+                 data: { elementsID: elementsId },
                  success: function (responseText, statusText) {
                      GetElementsList();
                      $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
