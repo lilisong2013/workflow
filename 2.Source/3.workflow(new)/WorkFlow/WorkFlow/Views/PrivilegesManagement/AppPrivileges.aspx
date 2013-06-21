@@ -298,6 +298,10 @@
             eManagerTree = $("#eMyTree").ligerGetTreeManager();
             
             //初始化ligerGrid
+            $("#eMyGrid").ligerGrid({
+                width: '99%',
+                height: '300'
+            });
             eManagerGrid = $("#eMyGrid").ligerGetGridManager();
 
             //切换Tab页面时重载mMyTree数据
@@ -331,7 +335,7 @@
 
             //清空eMyGrid的数据
             eManagerGrid.setOptions({
-                data: { },
+                data: { }
             });
             //重载eMyGrid数据
             eManagerGrid.loadData();
@@ -375,6 +379,7 @@
 
         //加载表格eMyGrid的数据
         function BindElementsList(pageID) {
+            //alert(pageID);
             $.ajax({
                 url: "/PrivilegesManagement/GetElementOfItem",
                 type: "POST",
