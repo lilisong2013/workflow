@@ -82,15 +82,16 @@
   <%--删除确认函数--%>
      <script type="text/javascript">
          function DeleteRole(id) {
-             alert(id);
+             //alert(id);
              var roleid = id;
              $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                  //return true;
+                 if (yes) { 
                  $.ajax({
                      url: "/RolesManagement/DeleteRole",
                      type: "POST",
                      dataType: "json",
-                     data: {roleID: roleid },
+                     data: { roleID: roleid },
                      success: function (responseText, statusText) {
                          GetRolesList();
                          $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
@@ -98,7 +99,8 @@
                          $("#promptDIV").html(responseText.message);
                      }
                  });
-             })
+             }
+           })
          }
     </script>
   <%--添加角色确认信息--%>

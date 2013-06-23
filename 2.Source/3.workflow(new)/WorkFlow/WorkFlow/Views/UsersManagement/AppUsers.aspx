@@ -93,9 +93,10 @@ AppUsers
     <script type="text/javascript">
         function DeleteUser(id) {
             //alert(id);
-            var userid = id;           
+            var userid = id;
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 //return true;
+                if (yes) { 
                 $.ajax({
                     url: "/UsersManagement/DeleteUser",
                     type: "POST",
@@ -108,6 +109,7 @@ AppUsers
                         $("#promptDIV").html(responseText.message);
                     }
                 });
+            }
             })
         }
     </script>

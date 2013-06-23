@@ -87,11 +87,12 @@
             var operationid = id;
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 //return true;
+                if (yes) {
                 $.ajax({
                     url: "/OperationsManagement/DeleteOperation",
                     type: "POST",
                     dataType: "json",
-                    data: { operationID:operationid},
+                    data: { operationID: operationid },
                     success: function (responseText, statusText) {
                         GetOperationsList();
                         $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
@@ -99,7 +100,8 @@
                         $("#promptDIV").html(responseText.message);
                     }
                 });
-            })
+             }
+          })
         }
     </script>
     <%--添加操作--%>

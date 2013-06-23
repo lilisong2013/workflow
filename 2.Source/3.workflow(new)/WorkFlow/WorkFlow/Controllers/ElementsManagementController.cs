@@ -334,17 +334,11 @@ namespace WorkFlow.Controllers
             m_SecurityContext.PassWord = m_usersModel.password;
             m_SecurityContext.AppID =(int)m_usersModel.app_id;
             m_elementsBllService.SecurityContextValue = m_SecurityContext;
-            
-        
-            
-            int appID = Convert.ToInt32(m_usersModel.app_id);
-            
-            string str=Request.Form["MenusParent"];
+    
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
-            string  initstatusid = (collection["StatusParent"].Trim());
-            //string  menuid = (collection["MenuParent"].Trim());
-            string menuid = Request.Form["MenusParent"];
+            string  initstatusid = (collection["StatusParent"].Trim());         
+            string menuid = Request.Form["eElementPage"];    
             string  seqno =(collection["elementsSeqno"].Trim());
             if (name.Length == 0)
             {
@@ -358,16 +352,17 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "初始化状态不能为空!" });
             }
-            if (menuid.Length == 0||menuid.Equals("顶级菜单"))
+            if (menuid.Length == 0 || menuid.Equals("-1"))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "父菜单不能为空!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空" });
             }
             if (seqno.Length== 0) 
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="排序码不能为空!" });
             }
-           
-            int menuID = Convert.ToInt32(collection["MenusParent"]);
+
+            int appID = Convert.ToInt32(m_usersModel.app_id);
+            int menuID = Convert.ToInt32(collection["eElementPage"]);
             DataSet ds = m_elementsBllService.GetAllElementsListOfMenuApp(appID,menuID,out msg);
             ArrayList elementsList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
@@ -403,7 +398,7 @@ namespace WorkFlow.Controllers
             m_elementsModel.remark = collection["elementsRemark"].Trim();
             m_elementsModel.initstatus_id = Convert.ToInt32(collection["StatusParent"].Trim());
             m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim());
-            m_elementsModel.menu_id = Convert.ToInt32(collection["MenusParent"].Trim());
+            m_elementsModel.menu_id = Convert.ToInt32(collection["eElementPage"].Trim());
             m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim());       
             m_elementsModel.created_at=Convert.ToDateTime(collection["Created_at"].Trim());
             m_elementsModel.created_by = Convert.ToInt32(collection["Created_by"].Trim());
@@ -568,7 +563,7 @@ namespace WorkFlow.Controllers
             ArrayList elementsList = new ArrayList();
             for (int i = 0; i < total; i++)
             {
-                elementsList.Add(ds.Tables[0].Rows[i][0].ToString());
+                elementsList.Add(ds.Tables[0].Rows[i][1].ToString());
             }
             for (int i = 0; i < total; i++)
             {  //修改后的名称和原名称相同          

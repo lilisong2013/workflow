@@ -84,6 +84,7 @@
          var elementsId = id;
          $.ligerDialog.confirm('确定要删除吗?', function (yes) {
              //return true;
+             if (yes) {
              $.ajax({
                  url: "/ElementsManagement/DeleteElement",
                  type: "POST",
@@ -96,11 +97,13 @@
                      $("#promptDIV").html(responseText.message);
                  }
              });
-         })
+         }
+
+       })
      }
  </script>
      
-
+    <%--初始化状态选择操作--%>
     <script type="text/javascript">
      $(document).ready(function () {
          BindStatus();
@@ -128,35 +131,8 @@
      }
  </script>
 
-    <script type="text/javascript">
-     $(document).ready(function () {
-         BindMenuName();
-         $("#MenuInfo").html("请选择");
-     });
-     function BindMenuName() {
-         $.ajax({
-             type: "Post",
-             contentType: "application/json",
-             url: "/ElementsManagement/GetMenusName",
-             data: {}, //即使参数为空，也需要设置
-             dataType: 'JSON', //返回的类型为XML
-             success: function (result, status) {
-                 //成功后执行的方法
-                 try {
-                     if (status == "success") {
-                         for (var i = 0; i < result.Total; i++) {
-                             $("#MenuParent").append("<option value='" + result.Rows[i].menusID + "'>" + result.Rows[i].menusName + "</option>");
-                         }
-                     }
-                 } catch (e)
-               { }
-             }
-         });
-     }
- </script>
-
     <%--添加菜单选项卡：菜单树的显示与隐藏--%>
-    <script type="text/javascript">
+ <%--   <script type="text/javascript">
         $(document).ready(function () {
             $("#selectMenus").hide();
 
@@ -169,10 +145,104 @@
                 }
             });
         });
-    </script>
-
-    <%--菜单树的数据显示--%>
+    </script>--%>
+    <%--添加元素的菜单树(数据)--%>
     <script type="text/javascript">
+        var eManagerTree;
+        //var eManagerGrid;
+        $(document).ready(function () {
+            $("#eMyTree").hide(); //初始化隐藏eMyTree树
+            //初始化ligerTree
+            $("#eMyTree").ligerTree({
+                checkbox: false,
+                textFieldName: 'name',
+                onSelect: OnSelectMenusOfElements
+            });
+            eManagerTree = $("#eMyTree").ligerGetTreeManager();
+
+            //切换Tab页面时重载mMyTree数据
+            $("#elementsTab").click(function () {
+                BindMenusListOfElements(); //mMyTree绑定数据
+            });
+
+            //下拉列表控件的点击事件
+            $("#eElementPage").click(function () {
+                if ($("#eMyTree").is(":hidden")) {
+                    $("#eMyTree").show();
+                } else {
+                    $("#eMyTree").hide();
+                }
+            });
+
+        });
+      //选择元素所在页面后重载eMyGrid数据
+        function OnSelectMenusOfElements(note) {
+            //alert(note.data.id);
+            $.ajax({
+                url: "/PrivilegesManagement/ExistChildreMenus",
+                type: "POST",
+                dataType: "json",
+                data: { menusID: note.data.id },
+                success: function (responseText, statusText) {
+                    //alert(responseText.success);
+                    if (responseText.success) {
+                        $("#eElementPageInfo").val("-1");
+                        $("#eElementPageInfo").html("选择页面");
+                    } else {
+                        $("#eElementPageInfo").val(note.data.id);
+                        $("#eElementPageInfo").html(note.data.name);
+                        BindElementsList(note.data.id);
+                    }
+                }
+            });
+        }
+   //加载eMyTree树的数据
+   function BindMenusListOfElements() {
+       //alert("BindMenusListOfElements???--");
+       $.ajax({
+           url: "/PrivilegesManagement/GetMenusOfItem",
+           type: "POST",
+           dataType: "json",
+           data: {},
+           success: function (responseText, statusText) {
+               //alert(responseText);
+               var dataMenusJson = eval(responseText); //将json字符串转化为json数据
+               eManagerTree.clear();
+               eManagerTree.setData(dataMenusJson);
+               eManagerTree.loadData();
+           }
+       });
+   }
+   //加载表格eMyGrid的数据
+   function BindElementsList(pageID) {
+       //alert(pageID);
+      // alert("BindElementsList???ok---");
+       $.ajax({
+           url: "/PrivilegesManagement/GetElementOfItem",
+           type: "POST",
+           dataType: "json",
+           data: { menusID: pageID },
+           success: function (responseText, statusText) {
+               //alert(responseText);
+               var dataElementsJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+               //更新eMyGrid数据
+               eManagerGrid.setOptions({
+                   columns: [
+                            { display: '页面元素名称', name: 'name', width: 120 },
+                            { display: '页面元素编码', name: 'code', width: 120 },
+                            { display: '备注信息', name: 'remark', width: 180 }
+                            ],
+                   data: dataElementsJson,
+                   onSelectRow: OnSelectElements//进一步确认是否优化？
+               });
+               //重载oMyGrid数据
+               eManagerGrid.loadData();
+           }
+       });
+   }
+    </script>
+   <%--菜单树的数据显示--%>
+   <%-- <script type="text/javascript">
         $(document).ready(function () {
             var datas;
             var dataJson;
@@ -186,8 +256,13 @@
                     datas = responseText; //获取到的菜单json格式字符串
                     dataJson = eval(datas); //将json字符串转化为json数据
                     //显示菜单树
-                    $("#tree1").ligerTree({ data: dataJson, checkbox: false, textFieldName: 'name', onSelect: onSelect });
-                }
+                    $("#tree1").ligerTree({
+                     data: dataJson,
+                     checkbox: false,
+                     textFieldName: 'name',
+                     onSelect: onSelect
+                    });
+               }
             });
             //选择节点将父菜单信息赋给menusInfo
             function onSelect(note) {
@@ -195,10 +270,59 @@
                 $("#menusInfo").html(note.data.name);
             }
         });        
+    </script>--%>
+
+    <%--添加页面元素权限(按钮点击)--%>
+    <script type="text/javascript">
+        $(document).ready(function () {           
+            var e_options = {
+                beforeSubmit: e_showRequest,  // from提交前的响应的回调函数
+                success: e_showResponse,  // form提交响应成功后执行的回调函数
+                url: "/ElementsManagement/AddElements",
+                type: "POST",
+                dataType: "json"
+            };
+
+            $("#eSubmit").click(function () {
+                if (false) {
+                    return false;
+                } else {
+                    $("#add_Elements").ajaxForm(e_options);
+                }
+            });
+
+            //提交add_Elements表单前执行的函数
+            function e_showRequest() {
+               // alert("e_showRequest");
+                var elementsName = $.trim($("#elementsName").val()); //权限名称
+                //var elementID = $("#ePrivilegesItem").val(); //元素ID
+                //alert(oPrivilegesName);
+                if (elementsName == "") {
+                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                    $("#promptDIV").addClass("p-errorDIV");
+                    $("#promptDIV").html("元素名称不能为空");
+
+                    return false;
+                }
+
+            }
+
+            //提交add_Elements表单后执行的函数
+            function e_showResponse(responseText, statusText) {
+                //alert("e_showResponse");
+                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                $("#promptDIV").addClass(responseText.css);
+                $("#promptDIV").html(responseText.message);
+                if (responseText.success) {
+                    location.href = responseText.toUrl;
+                }
+            }
+        });
+       
     </script>
 
-    <%--添加菜单--%>
-    <script type="text/javascript">
+   <%--添加菜单--%>
+   <%--  <script type="text/javascript">
         $(document).ready(function () {
             var options = {
                 //beforeSubmit: showRequest,  // from提交前的响应的回调函数
@@ -225,9 +349,9 @@
                 $("#promptDIV").html(responseText.message);
             }
         });
-    </script>
-    <%--添加菜单提示--%>
-    <script type="text/javascript">
+    </script>--%>
+   <%--添加菜单提示--%>
+   <%-- <script type="text/javascript">
                $(document).ready(function () {
                    var form = $("#add_Menus");
                    form.submit(function () {
@@ -248,7 +372,7 @@
 
                    });
                });
-    </script>
+    </script>--%>
 
 </asp:Content>
 
@@ -258,7 +382,7 @@
     <div class="container">
         <ul class="nav nav-tabs">
             <li class="active" id="#infoTab"><a href="#AllElements" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
-            <li><a href="#AddElements" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
+            <li id="elementsTab"><a href="#AddElements"  data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
     </div>
       <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
@@ -275,7 +399,7 @@
      </div>  
      <%--添加元素--%>
      <div class="tab-pane" id="AddElements">
-            <form id="add_Menus" class="form-horizontal" method="post" action="/ElementsManagement/AddElements">
+            <form id="add_Elements" class="form-horizontal" method="post" action="">
                 <div class="control-group span6 offset2">
                     <label class="control-label">页面元素名称</label>
                     <div class="controls">
@@ -296,19 +420,22 @@
                         </select>
                     </div>
                 </div>
-                <div class="control-group span6 offset2">
-                    <label class="control-label">父菜单</label>
+
+                 <div class="control-group span6 offset2">
+                    <label class="control-label">所在页面</label>
                     <div class="controls">
-                        <select id="MenusParent" name="MenusParent" class="span4">
-                            <option id="menusInfo"></option>
+                        <select id="eElementPage" name="eElementPage" class="span4">
+                            <option id="eElementPageInfo" value="-1">选择页面</option>
                         </select>
                     </div>
                 </div>
-                <div id="selectMenus" class="control-group span6 offset2">
-                    <div class="controls">
-                        <ul id="tree1"></ul>
+                <div class="control-group span6 offset2">
+                    <div class="controls span9">
+                        <div id="eMyTree"></div>
                     </div>
                 </div>
+           
+
                 <div class="control-group span6 offset2">
                     <label class="control-label">排序码</label>
                     <div class="controls">
@@ -328,7 +455,7 @@
                 </div>
               <div class="control-group span6 offset3">
                   <div class="controls">
-                     <input type="submit" value="添加" class="btn btn-primary  span1" /> 
+                     <input  id="eSubmit" type="submit" value="添加" class="btn btn-primary  span1" /> 
                      &nbsp;&nbsp;&nbsp;
                      <input type="reset" value="重置"  class="btn btn-primary  span1" />
                   </div>
