@@ -153,7 +153,7 @@
   </wsdl:message>
   <wsdl:portType name="base_userBLLserviceSoap">
     <wsdl:operation name="LoginValidator">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在用户名login且密码password的超级管理员,&lt;h4&gt;（无需授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">（超级管理员登录验证）是否存在用户名login且密码password的超级管理员,&lt;h4&gt;（无需授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:LoginValidatorSoapIn" />
       <wsdl:output message="tns:LoginValidatorSoapOut" />
     </wsdl:operation>

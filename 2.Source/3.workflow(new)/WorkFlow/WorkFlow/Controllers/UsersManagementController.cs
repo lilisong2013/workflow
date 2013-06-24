@@ -22,10 +22,22 @@ namespace WorkFlow.Controllers
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_userModel=new WorkFlow.UsersWebService.usersModel();
 
-            m_userModel = m_usersBllService.GetModelByID(userID);
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
+            WorkFlow.UsersWebService.SecurityContext m_securityContext = new UsersWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_usersBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            //m_userModel = m_usersBllService.GetModelByID(userID,out msg);
+            
             try
             {
-                if (m_usersBllService.LogicDelete(userID))
+                if (m_usersBllService.LogicDelete(userID,out msg))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/UsersManagement/AppUsers" });
                 }

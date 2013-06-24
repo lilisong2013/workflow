@@ -26,7 +26,7 @@ namespace Saron.WorkFlowService.WebService
         #region  Method
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "增加一条菜单记录,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "增加一条菜单记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public int Add(Saron.WorkFlowService.Model.menusModel model,out string msg)
         {
             int result = 0;
@@ -53,7 +53,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "更新一条菜单记录,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "更新一条菜单记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool Update(Saron.WorkFlowService.Model.menusModel model,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -67,7 +67,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "删除菜单主键为id的菜单记录,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "删除菜单主键为id的菜单记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool DeleteMenus(int id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -81,7 +81,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据主键id得到一个实体对象,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，系统管理员）</h4>")]
         public Saron.WorkFlowService.Model.menusModel GetModel(int id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -95,7 +95,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某菜单的子菜单列表,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "获得某菜单的子菜单列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetChildrenMenus(int parentID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -109,7 +109,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某系统下所有菜单数据列表,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "获得某系统下所有菜单数据列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetAllMenusListofApp(int app_id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -123,7 +123,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某系统的顶级菜单,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "获得某系统的顶级菜单，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetTopMenusListOfApp(int appID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -137,7 +137,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "菜单主键为parentId的菜单是否存在子菜单,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "菜单主键为parentId的菜单是否存在子菜单，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsChildrenMenus(int parentId, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -150,7 +150,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "系统中菜单编码是否已经存在,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "系统中菜单编码是否已经存在，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsMenusCode(string code, int appID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -164,7 +164,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "系统中同一父菜单下的子菜单名称是否已经存在,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "系统中同一父菜单下的子菜单名称是否已经存在，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsMenusName(string name, int? parentID,int appID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问

@@ -26,7 +26,7 @@ namespace Saron.WorkFlowService.WebService
         #region  Method
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "增加一条记录")]
+        [WebMethod(Description = "增加一条记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public int Add(Saron.WorkFlowService.Model.elementsModel model, out string msg)
         {
             int result = 0;
@@ -53,7 +53,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "更新一条记录")]
+        [WebMethod(Description = "更新一条记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool Update(Saron.WorkFlowService.Model.elementsModel model, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -67,7 +67,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "删除id为id的记录")]
+        [WebMethod(Description = "删除id为id的记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool Delete(int id, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -81,7 +81,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据主键id得到一个实体对象")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，系统管理员）</h4>")]
         public Saron.WorkFlowService.Model.elementsModel GetModel(int id, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -95,7 +95,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据系统ID获得数据列表:appid(where条件)")]
+        [WebMethod(Description = "根据系统ID获得数据列表:appid(where条件)，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetElementsListOfApp(int appID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -109,7 +109,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某一菜单下的页面元素")]
+        [WebMethod(Description = "获得某一菜单下的页面元素，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetElementsListOfMenus(int menusID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -123,7 +123,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "菜单下是否存在页面元素")]
+        [WebMethod(Description = "菜单下是否存在页面元素，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsElementsOfMenus(int menusID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -137,7 +137,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某菜单下的页面元素的Code列表")]
+        [WebMethod(Description = "获得某菜单下的页面元素的Code列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetCodeListOfMenuApp(int app_id, int menu_id, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -151,7 +151,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得所有数据列表")]
+        [WebMethod(Description = "获得所有数据列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetAllElementsListOfMenuApp(int appID, int menuID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问

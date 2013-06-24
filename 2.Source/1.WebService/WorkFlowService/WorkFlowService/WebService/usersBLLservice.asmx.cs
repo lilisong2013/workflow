@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web.Services.Protocols;
 using Saron.WorkFlowService.Model;
+
 namespace Saron.WorkFlowService.WebService
 {
     /// <summary>
@@ -19,30 +21,30 @@ namespace Saron.WorkFlowService.WebService
     {
         private readonly Saron.WorkFlowService.DAL.usersDAL m_usersdal = new Saron.WorkFlowService.DAL.usersDAL();
 
-        #region  Method
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在id为id，登录名为login的记录")]
-        public bool Exists(int id, string login)
-        {
-            return m_usersdal.Exists(id, login);
-        }
+        public SecurityContext m_securityContext = new SecurityContext();
 
-        /// <summary>
-        /// （系统管理员登录）是否存在管理员或密码
-        /// </summary>
-        [WebMethod(Description = "是否存在系统管理员login且密码password的系统管理员")]
+        #region  Method
+
+        [WebMethod(Description = "（系统管理员登录）是否存在系统管理员login且密码password的系统管理员,<h4>（无需授权验证）</h4>")]
         public bool SysAdminLoginValidator(string login,string password)
         {
+            string msg="";
+            if (m_securityContext.AdminIsValidCK(login, password, out msg))
+            {
+                return false;
+            }
+
             bool flag = m_usersdal.ExistsSysAdmin(login, password);
+            
             if (flag)
             {
                 Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();
                 Saron.WorkFlowService.Model.appsModel m_appModel = new appsModel();
                 Saron.WorkFlowService.DAL.appsDAL m_appDal=new DAL.appsDAL();
-                m_userModel = GetModelByLogin(login);
-                m_appModel = m_appDal.GetModel((int)m_userModel.app_id);
+                
+                m_userModel = m_usersdal.GetModelByLogin(login);//根据系统管理员登录名login得到一个实体对象
+                m_appModel = m_appDal.GetModel((int)m_userModel.app_id);//根据系统ID得到一个系统实体对象
+
                 if (m_appModel.invalid)
                 {
                     return false;
@@ -58,32 +60,36 @@ namespace Saron.WorkFlowService.WebService
             }
         }
 
-        
-      
-        /// <summary>
-        /// 是否存在该用户
-        /// </summary>
-        [WebMethod(Description = "系统ID为appId是否存在登录名为login的记录")]
-        public bool ExistsLoginAndAppID(string login,int? appId)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "是否存在login为login且app_id为appID的普通用户记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool ExistsLoginAndAppID(string login, int? appId,out string msg)
         {
-            return m_usersdal.ExistsLogin(login,appId);
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_usersdal.ExistsLogin(login, appId);
         }
 
-        /// <summary>
-        /// 是否存在该用户
-        /// </summary>
-        [WebMethod(Description = "是否存在登录名为login的记录")]
+        [WebMethod(Description = "是否存在登录名为login的系统管理员记录,<h4>（无需授权验证）</h4>")]
         public bool ExistsLogin(string login)
         {
             return m_usersdal.ExistsLogin(login);
         }
 
-        /// <summary>
-        /// 增加一条数据
-        /// </summary>
-        [WebMethod(Description = "增加一条记录")]
-        public int Add(Saron.WorkFlowService.Model.usersModel model)
+        [WebMethod(Description = "增加一条系统管理员记录,<h4>（无需授权验证）</h4>")]
+        public int AddSysAdmin(Saron.WorkFlowService.Model.usersModel model)
         {
+            //添加的实体对象的系统管理员login在表中已经存在
+            //或者添加的实体对象不是系统管理员，都无法添加实体对象到数据库的users表中
+            if (!model.admin)
+            {
+                return -1;
+            }
+
             if (!ExistsLogin(model.login))
             {
                 return m_usersdal.Add(model);
@@ -94,57 +100,81 @@ namespace Saron.WorkFlowService.WebService
             }
         }
 
-        /// <summary>
-        /// 更新一条数据
-        /// </summary>
-        [WebMethod(Description = "更新一条记录")]
-        public bool Update(Saron.WorkFlowService.Model.usersModel model)
-        {
-            return m_usersdal.Update(model);
-        }
-
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        [WebMethod(Description = "删除id为id的记录")]
-        public bool Delete(int id)
-        {
-            return m_usersdal.Delete(id);
-        }
-        ///<summary>
-        ///逻辑上删除一条数据
-        /// </summary>
-        [WebMethod(Description = "逻辑上删除一条id为id的记录")]
-        public bool LogicDelete(int id)
-        {
-            return m_usersdal.LogicDelete(id);
-        }
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        [WebMethod(Description = "删除id为id，登录名为login的记录")]
+        [WebMethod(Description = "删除id为id，登录名为login的记录,<h4>（无需授权验证）</h4>")]
         public bool DeleteIdAndLogin(int id, string login)
         {
             return m_usersdal.Delete(id, login);
         }
-        
-        /// <summary>
-        /// 删除多条数据
-        /// </summary>
-        [WebMethod(Description = "删除多条数据")]
-        public bool DeleteList(string idlist)
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "增加一条普通用户记录记录，<h4>（需要授权验证，系统管理员）")]
+        public int AddSysUser(Saron.WorkFlowService.Model.usersModel model, out string msg)
         {
-            return m_usersdal.DeleteList(idlist);
+            int result = 0;
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                result = -1;
+                //webservice用户未授权，msg提示信息
+                return result;
+            }
+
+            result = m_usersdal.Add(model);
+
+            if (result == 0)
+            {
+                msg = "添加失败";
+            }
+            else
+            {
+                msg = "";
+            }
+
+            return result;
         }
 
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        [WebMethod(Description = "根据主键id得到一个实体对象")]
-        public Saron.WorkFlowService.Model.usersModel GetModelByID(int id)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "系统管理员更新一条记录")]
+        public bool AdminUpdate(Saron.WorkFlowService.Model.usersModel model,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_usersdal.Update(model);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "逻辑上删除一条id为id的记录")]
+        public bool LogicDelete(int id,out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_usersdal.LogicDelete(id);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据主键id得到一个实体对象")]
+        public Saron.WorkFlowService.Model.usersModel GetModelByID(int id,out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
             return m_usersdal.GetModel(id);
         }
+        
         ///<summary>
         ///根据appid获得一个用户对象实体
         /// </summary>
@@ -153,135 +183,143 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_usersdal.GetModelByAppAdmin(appid);
         }
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        [WebMethod(Description = "根据登录名login得到一个实体对象")]
-        public Saron.WorkFlowService.Model.usersModel GetModelByLogin(string login)
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据系统管理员登录名login得到一个实体对象，<h4>（需要授权验证，系统管理员）</h4>")]
+        public Saron.WorkFlowService.Model.usersModel GetModelByLogin(string login,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
             return m_usersdal.GetModelByLogin(login);
         }
 
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据系统ID得到一个实体对象")]
-        public Saron.WorkFlowService.Model.usersModel GetModelByAppID(int appID)
+        public Saron.WorkFlowService.Model.usersModel GetModelByAppID(int appID,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
             return m_usersdal.GetModelByAppID(appID);
         }
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "根据where条件获得数据列表：strWhere（where条件）")]
-        public DataSet GetUsersList(string strWhere)
-        {
-            return m_usersdal.GetUsersList(strWhere);
-        }
-        /// <summary>
-        /// 获得前几行数据
-        /// </summary>
-        [WebMethod(Description = "获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）")]
-        public DataSet GetUsersTopList(int Top, string strWhere, string filedOrder)
-        {
-            return m_usersdal.GetUsersList(Top, strWhere, filedOrder);
-        }
+        ///// <summary>
+        ///// 获得数据列表
+        ///// </summary>
+        //[WebMethod(Description = "根据where条件获得数据列表：strWhere（where条件）")]
+        //public DataSet GetUsersList(string strWhere)
+        //{
+        //    return m_usersdal.GetUsersList(strWhere);
+        //}
+        
         
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "获得所有数据列表")]
-        public DataSet GetAllUsersList()
-        {
-            return GetUsersList("");
-        }
+        ///// <summary>
+        ///// 获得数据列表
+        ///// </summary>
+        //[WebMethod(Description = "获得所有数据列表")]
+        //public DataSet GetAllUsersList()
+        //{
+        //    return GetUsersList("");
+        //}
 
-        /// <summary>
-        /// 获得某系统的数据列表
-        /// </summary>
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得所有数据列表")]
-        public DataSet GetAllUsersListOfApp(int appID)
+        public DataSet GetAllUsersListOfApp(int appID,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
             return m_usersdal.GetAllUsersListOfApp(appID);
         }
-        /// <summary>
-        /// 获得记录总数
-        /// </summary>
-        [WebMethod(Description = "获得记录总条数")]
-        public int GetRecordCount(string strWhere)
-        {
-            return m_usersdal.GetRecordCount(strWhere);
-        }
-        
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）")]
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-        {
-            return m_usersdal.GetListByPage(strWhere, orderby, startIndex, endIndex);
-        }
-    ///<summary>
-    ///修改密码
-    ///</summary>
+
+        ///// <summary>
+        ///// 获得记录总数
+        ///// </summary>
+        //[WebMethod(Description = "获得记录总条数")]
+        //public int GetRecordCount(string strWhere)
+        //{
+        //    return m_usersdal.GetRecordCount(strWhere);
+        //}
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "修改密码")]
-        public bool ModifyPassword(string login, string password)
+        public bool ModifyPassword(string login, string password,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
             return m_usersdal.ModifyPassword(login,password);
         }
+
         #endregion  Method
 
         //外部系统使用接口
         #region InterfaceMethod
         
-        /// <summary>
-        /// （普通用户登录）是否存在用户名或密码
-        /// </summary>
-        [WebMethod(Description = "是否存在用户名login且密码password的系统用户")]
-        public bool SysUserLoginValidator(string login, string password, int appID)
-        {
-            bool flag = m_usersdal.ExistsSysUser(login, password, appID);
-            if (flag)
-            {
-                Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();
-                Saron.WorkFlowService.Model.appsModel m_appModel = new appsModel();
-                Saron.WorkFlowService.DAL.appsDAL m_appDal = new DAL.appsDAL();
-                m_userModel = GetUserModelByLogin(login,appID);
-                m_appModel = m_appDal.GetModel((int)m_userModel.app_id);
-                if (m_appModel.invalid)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
+        ///// <summary>
+        ///// （普通用户登录）是否存在用户名或密码
+        ///// </summary>
+        //[WebMethod(Description = "是否存在用户名login且密码password的系统用户")]
+        //public bool SysUserLoginValidator(string login, string password, int appID)
+        //{
+        //    bool flag = m_usersdal.ExistsSysUser(login, password, appID);
+        //    if (flag)
+        //    {
+        //        Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();
+        //        Saron.WorkFlowService.Model.appsModel m_appModel = new appsModel();
+        //        Saron.WorkFlowService.DAL.appsDAL m_appDal = new DAL.appsDAL();
+        //        m_userModel = GetUserModelByLogin(login,appID);
+        //        m_appModel = m_appDal.GetModel((int)m_userModel.app_id);
+        //        if (m_appModel.invalid)
+        //        {
+        //            return false;
+        //        }
+        //        else
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
         
-        ///<summary>
-        ///(应用系统apps表删除记录时判断user表中)是否存在系统应用ID为app_id的记录
-        /// </summary>
-        [WebMethod(Description = "apps表删除记录时，首先判断user表中是否还有与此关联的记录")]
-        public bool ExistsAppofUser(int app_id)
-        {
-            return m_usersdal.ExistsAppofUser(app_id);
-        }
+        /////<summary>
+        /////(应用系统apps表删除记录时判断user表中)是否存在系统应用ID为app_id的记录
+        ///// </summary>
+        //[WebMethod(Description = "apps表删除记录时，首先判断user表中是否还有与此关联的记录")]
+        //public bool ExistsAppofUser(int app_id)
+        //{
+        //    return m_usersdal.ExistsAppofUser(app_id);
+        //}
         
-        /// <summary>
-        /// 得到一个对象实体(普通用户)
-        /// </summary>
-        [WebMethod(Description = "根据登录名login和系统ID得到一个实体对象（普通用户）")]
-        public Saron.WorkFlowService.Model.usersModel GetUserModelByLogin(string login,int appID)
-        {
-            return m_usersdal.GetModel(login,appID);
-        }
+        ///// <summary>
+        ///// 得到一个对象实体(普通用户)
+        ///// </summary>
+        //[WebMethod(Description = "根据登录名login和系统ID得到一个实体对象（普通用户）")]
+        //public Saron.WorkFlowService.Model.usersModel GetUserModelByLogin(string login,int appID)
+        //{
+        //    return m_usersdal.GetModel(login,appID);
+        //}
         #endregion
     }
 }

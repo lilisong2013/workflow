@@ -15,6 +15,7 @@ namespace Saron.WorkFlowService.DAL
 		{}
 
         #region  Method
+        
         /// <summary>
         /// 是否存在该记录
         /// </summary>
@@ -31,6 +32,7 @@ namespace Saron.WorkFlowService.DAL
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
+        
         ///<summary>
         ///(应用系统apps表删除记录时判断user表中)是否存在系统应用ID为app_id的记录
         /// </summary>
@@ -46,6 +48,7 @@ namespace Saron.WorkFlowService.DAL
                                     
             return DbHelperSQL.Exists(strSql.ToString(),parameters);
         }
+        
         /// <summary>
         /// （用户登录）是否存在用户或密码
         /// </summary>
@@ -63,8 +66,9 @@ namespace Saron.WorkFlowService.DAL
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
 
+
         /// <summary>
-        /// （系统管理员登录）是否存在管理员或密码
+        /// （系统管理员登录）是否存在管理员或密码(密码为明文)
         /// </summary>
         public bool ExistsSysAdmin(string login, string password)
         {
@@ -73,29 +77,10 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and admin=1 and deleted=0 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
-					new SqlParameter("@password", SqlDbType.NVarChar,255)};
-            parameters[0].Value = login;
-            parameters[1].Value = password;
-
-            return DbHelperSQL.Exists(strSql.ToString(), parameters);
-        }
-
-        /// <summary>
-        /// （系统管理员登录）是否存在管理员或密码(密码为明文)
-        /// </summary>
-        public bool ExistsSysAdmin(string login, string password,int appID)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select count(1) from users");
-            strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and admin=1 and deleted=0 and app_id=@app_id ");
-            SqlParameter[] parameters = {
-					new SqlParameter("@login", SqlDbType.NVarChar,40),
-					new SqlParameter("@password", SqlDbType.NVarChar,255),
-                    new SqlParameter("@app_id",SqlDbType.Int,4)
+					new SqlParameter("@password", SqlDbType.NVarChar,255)
             };
             parameters[0].Value = login;
             parameters[1].Value = password;
-            parameters[2].Value = appID;
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
@@ -103,19 +88,17 @@ namespace Saron.WorkFlowService.DAL
         /// <summary>
         /// （系统管理员登录）是否存在管理员或密码（密码为密文）
         /// </summary>
-        public bool ExistsSysAdminSecurity(string login, string password, int appID)
+        public bool ExistsSysAdminSecurity(string login, string password)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from users");
-            strSql.Append(" where login=@login and password=@password and admin=1 and deleted=0 and app_id=@app_id ");
+            strSql.Append(" where login=@login and password=@password and admin=1 and deleted=0 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
-					new SqlParameter("@password", SqlDbType.NVarChar,255),
-                    new SqlParameter("@app_id",SqlDbType.Int,4)
+					new SqlParameter("@password", SqlDbType.NVarChar,255)
             };
             parameters[0].Value = login;
             parameters[1].Value = password;
-            parameters[2].Value = appID;
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
@@ -159,16 +142,16 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
-        /// 是否存在该用户
+        /// 是否存在该普通用户
         /// </summary>
-        /// <param name="login">登录名</param>
+        /// <param name="login">普通用户登录名</param>
         /// <param name="appId">系统ID</param>
         /// <returns>存在true，不存在false</returns>
         public bool ExistsLogin(string login,int? appId)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from users");
-            strSql.Append(" where login=@login and deleted=0 and app_id=@appId");
+            strSql.Append(" where login=@login and deleted=0 and admin=0 and app_id=@appId");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
                     new SqlParameter("@appId", SqlDbType.Int,4)};
@@ -179,15 +162,15 @@ namespace Saron.WorkFlowService.DAL
 
 
         /// <summary>
-        /// 是否存在该用户
+        /// 是否存在该系统管理员
         /// </summary>
-        /// <param name="login">登录名</param>
+        /// <param name="login">系统管理员登录名</param>
         /// <returns>存在true，不存在false</returns>
         public bool ExistsLogin(string login)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from users");
-            strSql.Append(" where login=@login and deleted=0");
+            strSql.Append(" where login=@login and deleted=0 and admin=1 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40)};
             parameters[0].Value = login;
@@ -351,6 +334,7 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+        
         ///<summary>
         ///逻辑上删除一条记录
         /// </summary>
@@ -358,7 +342,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update users  set deleted=1");
-            strSql.Append(" where id=@id");
+            strSql.Append(" where id=@id and admin=0 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
 			};
@@ -382,7 +366,7 @@ namespace Saron.WorkFlowService.DAL
 
             StringBuilder strSql = new StringBuilder();
             strSql.Append("delete from users ");
-            strSql.Append(" where id=@id and login=@login ");
+            strSql.Append(" where id=@id and login=@login and admin=1 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4),
 					new SqlParameter("@login", SqlDbType.NVarChar,40)			};
@@ -1127,6 +1111,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
             return DbHelperSQL.Query(strSql.ToString());
         }
+        
         ///<summary>
         ///应用系统管理员修改密码
         ///</summary>
@@ -1154,6 +1139,7 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+        
         #endregion  Method
     }
 }

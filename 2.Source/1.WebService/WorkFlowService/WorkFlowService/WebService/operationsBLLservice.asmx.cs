@@ -26,7 +26,7 @@ namespace Saron.WorkFlowService.WebService
         #region  Method
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "增加一条操作记录,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "增加一条操作记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public int Add(Saron.WorkFlowService.Model.operationsModel model,out string msg)
         {
             int result = 0;
@@ -53,7 +53,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "更新一条操作记录,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "更新一条操作记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool Update(Saron.WorkFlowService.Model.operationsModel model,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -67,7 +67,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "删除操作主键为id的记录,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "删除操作主键为id的记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool DeleteOperations(int id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -81,7 +81,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据主键id得到一个实体对象,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，系统管理员）</h4>")]
         public Saron.WorkFlowService.Model.operationsModel GetModel(int id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -95,7 +95,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获取operations表中所有的name字段的值")]
+        [WebMethod(Description = "获取operations表中所有的name字段的值，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetOperationsNameList(out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -109,7 +109,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某系统中操作的数据列表,<h4>（需要授权验证）</h4>")]
+        [WebMethod(Description = "获得某系统中操作的数据列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetOperationsListOfApp(int appID,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -123,7 +123,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某系统中操作的Code数据列表")]
+        [WebMethod(Description = "获得某系统中操作的Code数据列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetCodeListOfApp(int app_id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
