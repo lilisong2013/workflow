@@ -1085,6 +1085,29 @@ namespace Saron.WorkFlowService.DAL
                 return Convert.ToInt32(obj);
             }
         }
+
+
+        public int GetUserIDByLogin(string login,int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id from users ");
+            strSql.Append(" where login=@login and app_id=@app_id and admin=0 and deleted=0  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,80),
+                    new SqlParameter("@app_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = login;
+            parameters[1].Value = appID;
+
+            int userID = -1;
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            if (obj != null)
+            {
+                userID = (int)obj;
+            }
+
+            return userID;
+        }
        
         /// <summary>
         /// 分页获取数据列表

@@ -29,34 +29,26 @@ namespace Saron.WorkFlowService.WebService
         public bool SysAdminLoginValidator(string login,string password)
         {
             string msg="";
-            if (m_securityContext.AdminIsValidCK(login, password, out msg))
+            if (!m_securityContext.AdminIsValidCK(login, password, out msg))
             {
                 return false;
             }
-
-            bool flag = m_usersdal.ExistsSysAdmin(login, password);
             
-            if (flag)
-            {
-                Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();
-                Saron.WorkFlowService.Model.appsModel m_appModel = new appsModel();
-                Saron.WorkFlowService.DAL.appsDAL m_appDal=new DAL.appsDAL();
-                
-                m_userModel = m_usersdal.GetModelByLogin(login);//根据系统管理员登录名login得到一个实体对象
-                m_appModel = m_appDal.GetModel((int)m_userModel.app_id);//根据系统ID得到一个系统实体对象
 
-                if (m_appModel.invalid)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+            Saron.WorkFlowService.Model.usersModel m_userModel = new usersModel();
+            Saron.WorkFlowService.Model.appsModel m_appModel = new appsModel();
+            Saron.WorkFlowService.DAL.appsDAL m_appDal=new DAL.appsDAL();
+                
+            m_userModel = m_usersdal.GetModelByLogin(login);//根据系统管理员登录名login得到一个实体对象
+            m_appModel = m_appDal.GetModel((int)m_userModel.app_id);//根据系统ID得到一个系统实体对象
+
+            if (m_appModel.invalid)
+            {
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 

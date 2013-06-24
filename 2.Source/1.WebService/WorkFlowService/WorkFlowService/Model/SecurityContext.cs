@@ -130,7 +130,7 @@ namespace Saron.WorkFlowService.Model
         }
 
         /// <summary>
-        /// 普通用户webservice授权判断
+        /// 普通用户webservice授权判断（密码为密文）
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="passWord"></param>
@@ -145,6 +145,38 @@ namespace Saron.WorkFlowService.Model
             try
             {
                 if (m_userDal.ExistsSysUserSecurity(userName, passWord, appID))
+                {
+                    return true;
+                }
+                else
+                {
+                    msg = "无权访问WebService!";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "数据库访问出错！";
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 普通用户webservice授权判断（密码为明文）
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="passWord"></param>
+        /// <param name="appID"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public bool UserIsValidCK(string userName, string passWord, int appID, out string msg)
+        {
+            msg = "";
+            Saron.WorkFlowService.DAL.usersDAL m_userDal = new DAL.usersDAL();
+
+            try
+            {
+                if (m_userDal.ExistsSysUser(userName, passWord, appID))
                 {
                     return true;
                 }
@@ -221,6 +253,21 @@ namespace Saron.WorkFlowService.Model
             catch (Exception ex)
             {
                 msg = "数据库访问出错！";
+                return false;
+            }
+        }
+
+        //非用户验证
+        public bool AnyOneIsValidCK(string userName, string passWord, out string msg)
+        {
+            msg = "";
+            if (userName == "saron" && passWord == "123")
+            {
+                return true;
+            }
+            else
+            {
+                msg = "无权访问WebService!";
                 return false;
             }
         }
