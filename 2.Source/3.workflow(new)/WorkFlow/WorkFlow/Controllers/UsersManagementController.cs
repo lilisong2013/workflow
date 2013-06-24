@@ -55,14 +55,23 @@ namespace WorkFlow.Controllers
         //获取用户列表(在grid中显示)
         public ActionResult GetUsers_Apply()
         {
+            string msg = string.Empty;
             WorkFlow.UsersWebService.usersBLLservice m_usersService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
+
+
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-           
+
+            m_SecurityContext.UserName = m_userModel.login;
+            m_SecurityContext.PassWord = m_userModel.password;
+            m_SecurityContext.AppID = (int)m_userModel.app_id;
+            m_usersService.SecurityContextValue = m_SecurityContext;
+
             int appID = Convert.ToInt32(m_userModel.app_id);
             string data = "{Rows:[";
             try
             {
-                DataSet ds = m_usersService.GetAllUsersListOfApp(appID);
+                DataSet ds = m_usersService.GetAllUsersListOfApp(appID,out msg);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 { 
                   string login=ds.Tables[0].Rows[i][1].ToString();
@@ -96,13 +105,17 @@ namespace WorkFlow.Controllers
         //获取是否有效的列表
         public ActionResult GetInvalidList()
         {
+            string msg = string.Empty;
             int m_userID = Convert.ToInt32(Request.Params["userID"]);//用户ID
             string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
 
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
             WorkFlow.UsersWebService.usersModel userModel = new WorkFlow.UsersWebService.usersModel();    
-    
-            userModel= m_usersBllService.GetModelByID(m_userID);
+   
+            userModel= m_usersBllService.GetModelByID(m_userID,out msg);
 
             string m_selected = string.Empty;
             int total = 1;
@@ -133,9 +146,18 @@ namespace WorkFlow.Controllers
         ///<return>返回所有信息</return>
         public ActionResult DetailInfo(int id)
         {
+            string msg = string.Empty;
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
-            m_usersModel = m_usersBllService.GetModelByID(id);
+            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
+            
+            WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            m_SecurityContext.UserName = m_userModel.login;
+            m_SecurityContext.PassWord = m_userModel.password;
+            m_SecurityContext.AppID = (int)m_userModel.app_id;
+            m_usersBllService.SecurityContextValue = m_SecurityContext;
+
+            m_usersModel = m_usersBllService.GetModelByID(id,out msg);
             ViewData["usersLogin"] = m_usersModel.login;
             ViewData["usersName"] = m_usersModel.name;
             ViewData["usersEmployee_no"] = m_usersModel.employee_no;
@@ -156,42 +178,24 @@ namespace WorkFlow.Controllers
         }
      
         ///<summary>
-        ///删除ID号的记录
-        ///</summary>
-        /* public ActionResult ChangePage(int id)
-         {
-             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
-           
-             m_usersModel = m_usersBllService.GetModelByID(id);
-             try {
-                 if (m_usersBllService.LogicDelete(id))
-                 {
-                     return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="删除成功!",toUrl="/UsersManagement/AppUsers"});
-                    // return RedirectToAction("/UsersManagement/ChangePageCon");
-                    // return Redirect("/UsersManagement/ChangePageCon");
-                 }
-                 else
-                 {
-                     return RedirectToAction("AppUsers");
-                 }           
-             }
-             catch (Exception ex) 
-             {
-                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
-             }
-           
-                
-         }*/
-        ///<summary>
         ///添加数据到数据库表中
         ///</summary>
         public ActionResult AddUsers(FormCollection collection)
         {
+            string msg = string.Empty;
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
+
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
 
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_userModel.login;
+            m_SecurityContext.PassWord = m_userModel.password;
+            m_SecurityContext.AppID = (int)m_userModel.app_id;
+            m_usersBllService.SecurityContextValue = m_SecurityContext;
+
+
             int appID = Convert.ToInt32(m_userModel.app_id);
             string login = collection["usersLogin"].Trim();
             string password = collection["usersPassword"].Trim();
@@ -248,7 +252,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件格式不正确!" });
             }
-            DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID);
+            DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID,out msg);
             ArrayList usersList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
             for (int i = 0; i < total; i++)
@@ -300,16 +304,23 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult EditPage(int id)
         {
+            string msg = string.Empty;
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
 
-            WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
+            WorkFlow.UsersWebService.usersModel m_userModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+            m_SecurityContext.UserName = m_userModel.login;
+            m_SecurityContext.PassWord = m_userModel.password;
+            m_SecurityContext.AppID = (int)m_userModel.app_id;
+            m_usersBllService.SecurityContextValue = m_SecurityContext;
+            
             int appID =Convert.ToInt32(m_userModel.app_id);
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
             string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress();
  
-            m_usersModel = m_usersBllService.GetModelByID(id);
+            m_usersModel = m_usersBllService.GetModelByID(id,out msg);
             ViewData["usersId"] = id;
             ViewData["usersLogin"] = m_usersModel.login;
             ViewData["usersName"] = m_usersModel.name;
@@ -337,19 +348,25 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult EditUsers(FormCollection collection)
         {
+            string msg = string.Empty;
             int m_ue_total = Convert.ToInt32(Request.Params["in_Total"]);//用户"是否有效"的数量
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
 
-            WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
+            WorkFlow.UsersWebService.usersModel m_userModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+            m_SecurityContext.UserName = m_userModel.login;
+            m_SecurityContext.PassWord = m_userModel.password;
+            m_SecurityContext.AppID = (int)m_userModel.app_id;
+            m_usersBllService.SecurityContextValue = m_SecurityContext;
+
             int appID = Convert.ToInt32(m_userModel.app_id);
-
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
             string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress();
 
             int id = Convert.ToInt32(collection["usersId"]);
-            m_usersModel = m_usersBllService.GetModelByID(id);
+            m_usersModel = m_usersBllService.GetModelByID(id,out msg);
             string login = collection["usersLogin"].Trim();
             //string pass=Request.Form["usersPassword"];
             string pass = collection["usersPassword"].Trim();
@@ -393,7 +410,7 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件格式不正确!" });
             }
          
-            DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID);
+            DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID,out msg);
             ArrayList userList = new ArrayList();
             var total = ds.Tables[0].Rows.Count;
             //将数据库中登录名称放到ArrayList中。
@@ -463,14 +480,22 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult UserRoles(int id)
         {
-            
+            string msg = string.Empty;
                 WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
                 WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
-                m_usersModel = m_usersBllService.GetModelByID(id);
+                WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
+                
+                WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+               
+                m_SecurityContext.UserName = m_userModel.login;
+                m_SecurityContext.PassWord = m_userModel.password;
+                m_SecurityContext.AppID = (int)m_userModel.app_id;
+                m_usersBllService.SecurityContextValue = m_SecurityContext;
+
                 int usersID = Convert.ToInt32(Request.Params[0].ToString());
                 try
                 {
-                    m_usersModel = m_usersBllService.GetModelByID(usersID);
+                    m_usersModel = m_usersBllService.GetModelByID(usersID,out msg);
                 }
                 catch (Exception ex) { }
                 ViewData["u_ID"] = m_usersModel.id;

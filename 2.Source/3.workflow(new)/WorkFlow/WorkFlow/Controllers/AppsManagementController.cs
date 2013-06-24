@@ -91,6 +91,7 @@ namespace WorkFlow.Controllers
         //系统审批页面
         public ActionResult BU_ApprovalApps(int id)
         {
+            string msg = string.Empty;
             if (Session["baseuser"] == null)
             {
                 return RedirectToAction("Login", "Home");
@@ -101,9 +102,16 @@ namespace WorkFlow.Controllers
                 WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
                 WorkFlow.UsersWebService.usersBLLservice m_userBllService=new UsersWebService.usersBLLservice();
                 WorkFlow.UsersWebService.usersModel m_userModel=new UsersWebService.usersModel();
+                WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_userBllService.SecurityContextValue = m_SecurityContext;
 
                 m_appsModel = m_appsBllService.GetModel(id);
-                m_userModel = m_userBllService.GetModelByAppID(m_appsModel.id);
+                m_userModel = m_userBllService.GetModelByAppID(m_appsModel.id,out msg);
                 ViewData["appInfo"] = m_appsModel;//系统信息
                 ViewData["userInfo"] = m_userModel;//用户信息
 
@@ -134,13 +142,7 @@ namespace WorkFlow.Controllers
             }
         }
 
-        //public ActionResult  ApprovalAppsJSON(int id)
-        //{
-        //    workflow.AppsWebService.appsModel m_appsModel=new AppsWebService.appsModel();
-        //    workflow.AppsWebService.appsBLLservice m_appsWebService = new AppsWebService.appsBLLservice();
-        //    m_appsModel = m_appsWebService.GetModel(id);
-        //    return RedirectToAction("BU_ApprovalApps",Json(m_appsModel));
-        //}
+     
 
         //修改超级管理员密码
         public ActionResult ModifyAdminPassword()

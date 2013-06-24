@@ -516,7 +516,6 @@
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Views\AppsManagement\BaseUserApps.aspx" />
     <Content Include="Views\AppsManagement\BU_ApprovalApps.aspx" />
-    <Content Include="Views\AppsManagement\BU_ApprovalAppsCon.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsInfo.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsPassModify.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsPassModifyCon.aspx" />
