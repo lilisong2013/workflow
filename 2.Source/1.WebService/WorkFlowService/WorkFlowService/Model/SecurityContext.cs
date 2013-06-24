@@ -67,7 +67,7 @@ namespace Saron.WorkFlowService.Model
 
         #region 方法
         /// <summary>
-        /// 管理员webservice授权判断
+        /// 管理员webservice授权判断（密码为密文）
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="passWord"></param>
@@ -81,7 +81,7 @@ namespace Saron.WorkFlowService.Model
 
             try
             {
-                if (m_userDal.ExistsSysAdminSecurity(userName, passWord, appID))
+                if (m_userDal.ExistsSysAdminSecurity(userName, passWord))
                 {
                     return true;
                 }
@@ -91,6 +91,38 @@ namespace Saron.WorkFlowService.Model
                     return false;
                 }
             }catch(Exception ex)
+            {
+                msg = "数据库访问出错！";
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 管理员webservice授权判断(密码为明文)
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="passWord"></param>
+        /// <param name="appID"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public bool AdminIsValidCK(string userName, string passWord, out string msg)
+        {
+            msg = "";
+            Saron.WorkFlowService.DAL.usersDAL m_userDal = new DAL.usersDAL();
+
+            try
+            {
+                if (m_userDal.ExistsSysAdmin(userName, passWord))
+                {
+                    return true;
+                }
+                else
+                {
+                    msg = "无权访问WebService!";
+                    return false;
+                }
+            }
+            catch (Exception ex)
             {
                 msg = "数据库访问出错！";
                 return false;

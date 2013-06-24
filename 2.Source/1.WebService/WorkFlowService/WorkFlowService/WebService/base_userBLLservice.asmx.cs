@@ -23,7 +23,7 @@ namespace Saron.WorkFlowService.WebService
         public SecurityContext m_securityContext = new SecurityContext();
 
 
-        [WebMethod(Description = "是否存在用户名login且密码password的超级管理员,<h4>（无需授权验证）</h4>")]
+        [WebMethod(Description = "（超级管理员登录验证）是否存在用户名login且密码password的超级管理员,<h4>（无需授权验证）</h4>")]
         public bool LoginValidator(string login, string password)
         {
             return m_base_userdal.ExistsSuperAdmin(login, password);

@@ -241,42 +241,42 @@
   </wsdl:message>
   <wsdl:portType name="privilegesBLLserviceSoap">
     <wsdl:operation name="ExistsItemOfPrivilegesType">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">某种权限类型下某权限项目的权限是否已经存在</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">某种权限类型下某权限项目的权限是否已经存在，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsItemOfPrivilegesTypeSoapIn" />
       <wsdl:output message="tns:ExistsItemOfPrivilegesTypeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsPrivilegeName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统ID为appID的系统中是否存在privilegeName的权限名称</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统ID为appID的系统中是否存在privilegeName的权限名称，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsPrivilegeNameSoapIn" />
       <wsdl:output message="tns:ExistsPrivilegeNameSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Add">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
       <wsdl:output message="tns:AddSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Update">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:UpdateSoapIn" />
       <wsdl:output message="tns:UpdateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Delete">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:DeleteSoapIn" />
       <wsdl:output message="tns:DeleteSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModel">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllListByAppID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限列表</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetAllListByAppIDSoapIn" />
       <wsdl:output message="tns:GetAllListByAppIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetListByPrivilegeType">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某种权限类型下的权限列表</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某种权限类型下的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetListByPrivilegeTypeSoapIn" />
       <wsdl:output message="tns:GetListByPrivilegeTypeSoapOut" />
     </wsdl:operation>

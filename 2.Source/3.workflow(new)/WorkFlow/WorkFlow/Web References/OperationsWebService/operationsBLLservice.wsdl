@@ -218,37 +218,37 @@
   </wsdl:message>
   <wsdl:portType name="operationsBLLserviceSoap">
     <wsdl:operation name="Add">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条操作记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条操作记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
       <wsdl:output message="tns:AddSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Update">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条操作记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条操作记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:UpdateSoapIn" />
       <wsdl:output message="tns:UpdateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteOperations">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除操作主键为id的记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除操作主键为id的记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:DeleteOperationsSoapIn" />
       <wsdl:output message="tns:DeleteOperationsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModel">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetOperationsNameList">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取operations表中所有的name字段的值</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取operations表中所有的name字段的值，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetOperationsNameListSoapIn" />
       <wsdl:output message="tns:GetOperationsNameListSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetOperationsListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统中操作的数据列表,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统中操作的数据列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetOperationsListOfAppSoapIn" />
       <wsdl:output message="tns:GetOperationsListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetCodeListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统中操作的Code数据列表</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统中操作的Code数据列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetCodeListOfAppSoapIn" />
       <wsdl:output message="tns:GetCodeListOfAppSoapOut" />
     </wsdl:operation>

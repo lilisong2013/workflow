@@ -26,7 +26,7 @@ namespace Saron.WorkFlowService.WebService
         #region  Method
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "某种权限类型下某权限项目的权限是否已经存在")]
+        [WebMethod(Description = "某种权限类型下某权限项目的权限是否已经存在，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsItemOfPrivilegesType(int privilegesTypeID, int privilegesItemID,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -40,7 +40,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "系统ID为appID的系统中是否存在privilegeName的权限名称")]
+        [WebMethod(Description = "系统ID为appID的系统中是否存在privilegeName的权限名称，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsPrivilegeName(string privilegeName, int appID,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -54,7 +54,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "增加一条记录")]
+        [WebMethod(Description = "增加一条记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public int Add(Saron.WorkFlowService.Model.privilegesModel model,out string msg)
         {
             int result = 0;
@@ -81,7 +81,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "更新一条记录")]
+        [WebMethod(Description = "更新一条记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool Update(Saron.WorkFlowService.Model.privilegesModel model,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -95,7 +95,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "删除id为id的记录")]
+        [WebMethod(Description = "删除id为id的记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool Delete(int id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -109,7 +109,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据主键id得到一个实体对象")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，系统管理员）</h4>")]
         public Saron.WorkFlowService.Model.privilegesModel GetModel(int id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -123,7 +123,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某系统的所有权限列表")]
+        [WebMethod(Description = "获得某系统的所有权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetAllListByAppID(int appID,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -137,7 +137,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某系统某种权限类型下的权限列表")]
+        [WebMethod(Description = "获得某系统某种权限类型下的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetListByPrivilegeType(int privilegeTypeID, int appID,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问

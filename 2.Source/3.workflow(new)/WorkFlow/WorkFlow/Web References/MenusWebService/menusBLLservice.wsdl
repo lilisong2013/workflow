@@ -298,52 +298,52 @@
   </wsdl:message>
   <wsdl:portType name="menusBLLserviceSoap">
     <wsdl:operation name="Add">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条菜单记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条菜单记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
       <wsdl:output message="tns:AddSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Update">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条菜单记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条菜单记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:UpdateSoapIn" />
       <wsdl:output message="tns:UpdateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除菜单主键为id的菜单记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除菜单主键为id的菜单记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:DeleteMenusSoapIn" />
       <wsdl:output message="tns:DeleteMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModel">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetChildrenMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某菜单的子菜单列表,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某菜单的子菜单列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetChildrenMenusSoapIn" />
       <wsdl:output message="tns:GetChildrenMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllMenusListofApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下所有菜单数据列表,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下所有菜单数据列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetAllMenusListofAppSoapIn" />
       <wsdl:output message="tns:GetAllMenusListofAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetTopMenusListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的顶级菜单,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的顶级菜单，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetTopMenusListOfAppSoapIn" />
       <wsdl:output message="tns:GetTopMenusListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsChildrenMenus">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单主键为parentId的菜单是否存在子菜单,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单主键为parentId的菜单是否存在子菜单，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsChildrenMenusSoapIn" />
       <wsdl:output message="tns:ExistsChildrenMenusSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsMenusCode">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中菜单编码是否已经存在,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中菜单编码是否已经存在，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsMenusCodeSoapIn" />
       <wsdl:output message="tns:ExistsMenusCodeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsMenusName">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中同一父菜单下的子菜单名称是否已经存在,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统中同一父菜单下的子菜单名称是否已经存在，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsMenusNameSoapIn" />
       <wsdl:output message="tns:ExistsMenusNameSoapOut" />
     </wsdl:operation>
