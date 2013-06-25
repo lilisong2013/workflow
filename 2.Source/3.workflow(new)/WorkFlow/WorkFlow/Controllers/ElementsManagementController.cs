@@ -425,22 +425,22 @@ namespace WorkFlow.Controllers
         ///获得系统ID的下拉列表框
         /// </summary>
         /// <returns>json数据</returns>
-        public ActionResult GetAppId()
-        {
-            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-            DataSet ds = m_appsBllService.GetAllAppsList();
-            List<Saron.WorkFlow.Models.AppIDHelper> m_appidlist = new List<Saron.WorkFlow.Models.AppIDHelper>();
-            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-            {
-                m_appidlist.Add(new Saron.WorkFlow.Models.AppIDHelper { AppID=Convert.ToInt32(ds.Tables[0].Rows[i][0]) });
-            }
-            var dataJson=new{
-            Rows=m_appidlist,
-            Total=ds.Tables[0].Rows.Count
-            };
-            return Json(dataJson,JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult GetAppId()
+        //{
+        //    WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+        //    WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+        //    DataSet ds = m_appsBllService.GetAllAppsList();
+        //    List<Saron.WorkFlow.Models.AppIDHelper> m_appidlist = new List<Saron.WorkFlow.Models.AppIDHelper>();
+        //    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        //    {
+        //        m_appidlist.Add(new Saron.WorkFlow.Models.AppIDHelper { AppID=Convert.ToInt32(ds.Tables[0].Rows[i][0]) });
+        //    }
+        //    var dataJson=new{
+        //    Rows=m_appidlist,
+        //    Total=ds.Tables[0].Rows.Count
+        //    };
+        //    return Json(dataJson,JsonRequestBehavior.AllowGet);
+        //}
         ///<summary>
         ///获得初始化状态的下拉列表
         /// </summary>

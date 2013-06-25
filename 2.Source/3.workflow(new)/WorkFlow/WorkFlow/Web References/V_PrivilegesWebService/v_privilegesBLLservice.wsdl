@@ -51,17 +51,17 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAllListByAppID">
+      <s:element name="GetAllPrivilegesListByAppID">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAllListByAppIDResponse">
+      <s:element name="GetAllPrivilegesListByAppIDResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAllListByAppIDResult">
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllPrivilegesListByAppIDResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -69,6 +69,54 @@
                 </s:sequence>
               </s:complexType>
             </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAppIDByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAppIDByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetAppIDByNameResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSysUserIDByLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userLogin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSysUserIDByLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetSysUserIDByLoginResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SysUserLoginValidator">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SysUserLoginValidatorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SysUserLoginValidatorResult" type="s:boolean" />
             <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
@@ -93,13 +141,40 @@
   <wsdl:message name="GetUserItemPrivilegeListSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
-  <wsdl:message name="GetAllListByAppIDSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllListByAppID" />
+  <wsdl:message name="GetAllPrivilegesListByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllPrivilegesListByAppID" />
   </wsdl:message>
-  <wsdl:message name="GetAllListByAppIDSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllListByAppIDResponse" />
+  <wsdl:message name="GetAllPrivilegesListByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllPrivilegesListByAppIDResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAllListByAppIDSecurityContext">
+  <wsdl:message name="GetAllPrivilegesListByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetAppIDByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAppIDByName" />
+  </wsdl:message>
+  <wsdl:message name="GetAppIDByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAppIDByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAppIDByNameSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetSysUserIDByLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSysUserIDByLogin" />
+  </wsdl:message>
+  <wsdl:message name="GetSysUserIDByLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSysUserIDByLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSysUserIDByLoginSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="SysUserLoginValidatorSoapIn">
+    <wsdl:part name="parameters" element="tns:SysUserLoginValidator" />
+  </wsdl:message>
+  <wsdl:message name="SysUserLoginValidatorSoapOut">
+    <wsdl:part name="parameters" element="tns:SysUserLoginValidatorResponse" />
+  </wsdl:message>
+  <wsdl:message name="SysUserLoginValidatorSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:portType name="v_privilegesBLLserviceSoap">
@@ -113,10 +188,25 @@
       <wsdl:input message="tns:GetUserItemPrivilegeListSoapIn" />
       <wsdl:output message="tns:GetUserItemPrivilegeListSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllListByAppID">
+    <wsdl:operation name="GetAllPrivilegesListByAppID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
-      <wsdl:input message="tns:GetAllListByAppIDSoapIn" />
-      <wsdl:output message="tns:GetAllListByAppIDSoapOut" />
+      <wsdl:input message="tns:GetAllPrivilegesListByAppIDSoapIn" />
+      <wsdl:output message="tns:GetAllPrivilegesListByAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAppIDByName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过系统名称获得系统ID，&lt;h4&gt;（需要授权验证，自定义用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetAppIDByNameSoapIn" />
+      <wsdl:output message="tns:GetAppIDByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSysUserIDByLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过普通用户登录名获得系统普通用户ID，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetSysUserIDByLoginSoapIn" />
+      <wsdl:output message="tns:GetSysUserIDByLoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SysUserLoginValidator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统用户是否存在，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:SysUserLoginValidatorSoapIn" />
+      <wsdl:output message="tns:SysUserLoginValidatorSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="v_privilegesBLLserviceSoap" type="tns:v_privilegesBLLserviceSoap">
@@ -141,11 +231,41 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllListByAppID">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetAllListByAppID" style="document" />
+    <wsdl:operation name="GetAllPrivilegesListByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllPrivilegesListByAppID" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-        <soap:header message="tns:GetAllListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+        <soap:header message="tns:GetAllPrivilegesListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppIDByName">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAppIDByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetAppIDByNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSysUserIDByLogin">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetSysUserIDByLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetSysUserIDByLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SysUserLoginValidator">
+      <soap:operation soapAction="http://saron.workflowservice.org/SysUserLoginValidator" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SysUserLoginValidatorSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -174,11 +294,41 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllListByAppID">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllListByAppID" style="document" />
+    <wsdl:operation name="GetAllPrivilegesListByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllPrivilegesListByAppID" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-        <soap12:header message="tns:GetAllListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+        <soap12:header message="tns:GetAllPrivilegesListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppIDByName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAppIDByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAppIDByNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSysUserIDByLogin">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetSysUserIDByLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetSysUserIDByLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SysUserLoginValidator">
+      <soap12:operation soapAction="http://saron.workflowservice.org/SysUserLoginValidator" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SysUserLoginValidatorSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

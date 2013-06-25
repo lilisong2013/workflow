@@ -14,34 +14,26 @@
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-     $(document).ready(function () {
-        var options = {
-            //beforeSubmit: showRequest,  // from提交前的响应的回调函数
-            success: showResponse,  // form提交响应成功后执行的回调函数
-            url: "/AppsManagement/ModifyAdminPassword",
-            type: "POST",
-            dataType: "json"
-        };
+        $(document).ready(function () {
+            var options = {
+                //beforeSubmit: showRequest,  // from提交前的响应的回调函数
+                success: showResponse,  // form提交响应成功后执行的回调函数
+                url: "/AppsManagement/InvalidAppsCount",
+                type: "POST",
+                dataType: "json"
+            };
 
-        $("#submit").click(function () {
-            if ($.trim($("#oldpassword").val()).length == 0 || $.trim($("#newpassword").val()).length == 0) {
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass("p-warningDIV");
-                $("#promptDIV").html("原密码或新密码不能为空！");
+            $.ajax(options);
 
-                return false;
-            } else {
-                $("#modifypassword").ajaxForm(options);
-            }
         });
-    });
 
     function showResponse(responseText, statusText) {
         //成功后执行的方法
-        //alert(responseText.Id + responseText.Name);
-        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-        $("#promptDIV").addClass(responseText.css);
-        $("#promptDIV").html(responseText.message);
+        //alert(responseText);
+        var dataJson = eval("(" + responseText + ")");
+
+        $("#invalidTab").append("（" + dataJson.invalidCount + "）");  //待审批
+        $("#validTab").append("（" + dataJson.validCount + "）"); //已审批
 
         return false;
     } 
@@ -139,9 +131,8 @@
 </div>
 <div class="container">
     <ul class="nav nav-tabs">
-    <%WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new WorkFlow.AppsWebService.appsBLLservice(); %>
-            <li class="active"><a id="validTab" href="#Apps_valid" data-toggle="tab">已审批系统(<%=m_appsBllService.GetValidAppCount() %>)</a></li>
-            <li><a id="invalidTab" href="#Apps_Invalid" data-toggle="tab">待审批系统(<%=m_appsBllService.GetInValidAppCount()%>)</a></li>             
+            <li class="active"><a id="validTab" href="#Apps_valid" data-toggle="tab">已审批系统</a></li>
+            <li><a id="invalidTab" href="#Apps_Invalid" data-toggle="tab">待审批系统</a></li>             
      </ul>
         <div class="tab-content">
             <%--系统中运行中的系统--%>

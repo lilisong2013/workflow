@@ -5,9 +5,8 @@ RegistPageCon
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<%WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new WorkFlow.UsersWebService.usersBLLservice(); %>
-<%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];%>
-<center><h4><font color="red">欢迎<%=m_usersModel.login%>!,注册成功.</font></h4></center>
+
+<center><h4><font color="red">欢迎!,注册成功.</font></h4></center>
 <div class="container">
     <ul class="pager">
        <li class="next">

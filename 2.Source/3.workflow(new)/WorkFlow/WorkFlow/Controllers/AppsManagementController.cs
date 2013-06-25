@@ -22,6 +22,7 @@ namespace WorkFlow.Controllers
         {
              return View();
         }
+        
         public ActionResult ReturnBaseUserApps()
         {
             if (Session["baseuser"] == null)
@@ -33,43 +34,57 @@ namespace WorkFlow.Controllers
                 return RedirectToAction("BaseUserApps");
             }
         }
+        
         //删除ID为id的应用系统管理员
         public ActionResult ChangePage(int id)
         {
-             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-             WorkFlow.AppsWebService.appsModel m_appsModel =m_appsBllService.GetModel(id);
+            #region 注释
+            //WorkFlow.Base_UserWebService.base_userModel m_base_usersModel=(WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
+             //WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+
+             //string msg = string.Empty;
+             //WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+             //m_securityContext.UserName = m_base_usersModel.login;
+             //m_securityContext.PassWord = m_base_usersModel.password;
+             //m_appsBllService.SecurityContextValue = m_securityContext;
+
+             //WorkFlow.AppsWebService.appsModel m_appsModel =m_appsBllService.GetModel(id,out msg);
              
-             int userappid = m_appsModel.id;
-             int userapp_id = id;
-             //获得ID为id的用户模型;
-             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
-             try
-             {
-                 if (m_usersBllService.ExistsAppofUser(userapp_id))
-                 {   
-                     return RedirectToAction("BaseUserApps");
-                     //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "不能成功删除，存在与相关联的应用系统用户!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
-                 }
-                 else
-                 {
-                     if (m_appsBllService.Delete(id))
-                     {
-                         return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "成功删除！", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
-                        // return RedirectToAction("BaseUserApps");
-                     }
-                     else
-                     {
-                         return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "不能成功删除!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet); 
-                     }
-                 }
-             }
-             catch (Exception ex)
-             {
-                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
-             }
-           
+             //int userappid = m_appsModel.id;
+             //int userapp_id = id;
+             ////获得ID为id的用户模型;
+             //WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+             //WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+             //try
+             //{
+             //    if (m_usersBllService.ExistsAppofUser(userapp_id))
+             //    {   
+             //        return RedirectToAction("BaseUserApps");
+             //        //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "不能成功删除，存在与相关联的应用系统用户!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
+             //    }
+             //    else
+             //    {
+             //        if (m_appsBllService.Delete(id))
+             //        {
+             //            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "成功删除！", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
+             //           // return RedirectToAction("BaseUserApps");
+             //        }
+             //        else
+             //        {
+             //            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "不能成功删除!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet); 
+             //        }
+             //    }
+             //}
+             //catch (Exception ex)
+             //{
+             //    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
+            //}
+            #endregion
+
+            return RedirectToAction("BaseUserApps");
+
         }
+        
         //退出超级管理员界面
         public ActionResult QuitSys()
         {
@@ -88,10 +103,10 @@ namespace WorkFlow.Controllers
         {
             return View();
         }
+       
         //系统审批页面
         public ActionResult BU_ApprovalApps(int id)
         {
-            string msg = string.Empty;
             if (Session["baseuser"] == null)
             {
                 return RedirectToAction("Login", "Home");
@@ -100,18 +115,32 @@ namespace WorkFlow.Controllers
             {
                 WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
                 WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-                WorkFlow.UsersWebService.usersBLLservice m_userBllService=new UsersWebService.usersBLLservice();
-                WorkFlow.UsersWebService.usersModel m_userModel=new UsersWebService.usersModel();
-                WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
+                
+                WorkFlow.UsersWebService.usersBLLservice m_userBllService = new UsersWebService.usersBLLservice();
+                WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
+                
+                WorkFlow.Base_UserWebService.base_userModel m_base_usersModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
+                
+                #region 超级管理员用户授权
+                WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
 
-                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-                m_SecurityContext.UserName = m_usersModel.login;
-                m_SecurityContext.PassWord = m_usersModel.password;
-                m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_userBllService.SecurityContextValue = m_SecurityContext;
+                string msg = string.Empty;
 
-                m_appsModel = m_appsBllService.GetModel(id);
-                m_userModel = m_userBllService.GetModelByAppID(m_appsModel.id,out msg);
+               
+                ma_SecurityContext.UserName = m_base_usersModel.login;
+                ma_SecurityContext.PassWord = m_base_usersModel.password;
+                m_appsBllService.SecurityContextValue = ma_SecurityContext;
+
+                WorkFlow.UsersWebService.SecurityContext mu_SecurityContext = new UsersWebService.SecurityContext();
+
+                mu_SecurityContext.UserName = m_base_usersModel.login;
+                mu_SecurityContext.PassWord = m_base_usersModel.password;
+                m_userBllService.SecurityContextValue = mu_SecurityContext;
+                #endregion
+
+                m_appsModel = m_appsBllService.GetModel(id,out msg);//webservice方法需要超级管理员权限
+                m_userModel = m_userBllService.GetAdminModelByAppID(m_appsModel.id, out msg);//webservice方法需要超级管理员权限
+                
                 ViewData["appInfo"] = m_appsModel;//系统信息
                 ViewData["userInfo"] = m_userModel;//用户信息
 
@@ -130,11 +159,32 @@ namespace WorkFlow.Controllers
             {
                 WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
                 WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                
                 WorkFlow.UsersWebService.usersBLLservice m_userBllService = new UsersWebService.usersBLLservice();
                 WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
 
-                m_appsModel = m_appsBllService.GetModel(id);
-                m_userModel = m_userBllService.GetModelByAppID(m_appsModel.id);
+                WorkFlow.Base_UserWebService.base_userModel m_base_usersModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
+
+                #region 超级管理员用户授权
+                WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
+
+                string msg = string.Empty;
+
+
+                ma_SecurityContext.UserName = m_base_usersModel.login;
+                ma_SecurityContext.PassWord = m_base_usersModel.password;
+                m_appsBllService.SecurityContextValue = ma_SecurityContext;
+
+                WorkFlow.UsersWebService.SecurityContext mu_SecurityContext = new UsersWebService.SecurityContext();
+
+                mu_SecurityContext.UserName = m_base_usersModel.login;
+                mu_SecurityContext.PassWord = m_base_usersModel.password;
+                m_userBllService.SecurityContextValue = mu_SecurityContext;
+                #endregion
+
+                m_appsModel = m_appsBllService.GetModel(id, out msg);//webservice方法需要超级管理员权限
+                m_userModel = m_userBllService.GetAdminModelByAppID(m_appsModel.id, out msg);//webservice方法需要超级管理员权限
+                
                 ViewData["appInfo"] = m_appsModel;//系统信息
                 ViewData["userInfo"] = m_userModel;//用户信息
 
@@ -151,8 +201,9 @@ namespace WorkFlow.Controllers
             string m_newpassword = Request.Form["newpassword"];
             string m_newpassword2 = Request.Form["newpassword2"];
 
+            #region 超级管理员用户授权
             WorkFlow.Base_UserWebService.base_userBLLservice m_baseuserBllService = new Base_UserWebService.base_userBLLservice();
-            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel=(Base_UserWebService.base_userModel)Session["baseuser"];
+            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
 
             string msg = string.Empty;
 
@@ -161,34 +212,36 @@ namespace WorkFlow.Controllers
             m_securityContext.UserName = m_baseuserModel.login;
             m_securityContext.PassWord = m_baseuserModel.password;
             m_baseuserBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            #endregion
 
             if (m_newpassword.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="用户的新密码不能为空!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的新密码不能为空!" });
             }
             if (m_oldpassword.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="用户的原密码不能为空!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的原密码不能为空!" });
             }
             if (m_newpassword2.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="用户的确认密码不能为空!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的确认密码不能为空!" });
             }
             if (m_newpassword != m_newpassword2)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false,css ="p-errorDIV", message = "两次密码不一致！" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "两次密码不一致！" });
             }
 
             try
             {
-                if (!m_baseuserBllService.LoginValidator(m_baseuserModel.login, m_oldpassword))
+                //密码验证
+                if (!m_baseuserBllService.LoginValidator(m_baseuserModel.login, m_oldpassword,out msg))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原密码不正确！" });
                 }
 
-                if (m_baseuserBllService.ModifyPassword(m_baseuserModel.login, m_newpassword,out msg))
+                if (m_baseuserBllService.ModifyPassword(m_baseuserModel.login, m_newpassword, out msg))
                 {
-                    m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_baseuserModel.login,out msg);
+                    m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_baseuserModel.login, out msg);
                     Session["baseuser"] = m_baseuserModel;
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功！", toUrl = "/AppsManagement/BU_AppsPassModifyCon" });
                 }
@@ -197,16 +250,16 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码修改失败！" });
                 }
             }
-            catch(WebException ex)
+            catch (WebException ex)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "服务器连接失败！" });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常！" });
             }
 
-            
+
         }
 
         //批准系统申请
@@ -217,39 +270,64 @@ namespace WorkFlow.Controllers
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
             WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
 
+            #region 超级管理员用户授权
+            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
+
+            string msg = string.Empty;
+
+            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_baseuserModel.login;
+            m_securityContext.PassWord = m_baseuserModel.password;
+            m_appsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            #endregion
+
             try
             {
-                m_appsModel = m_appsBllService.GetModel(Convert.ToInt32(appid));
+                m_appsModel = m_appsBllService.GetModel(Convert.ToInt32(appid),out msg);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统出错！" });
             }
 
             m_appsModel.invalid = false;
 
-            if (m_appsBllService.Update(m_appsModel))
+            if (m_appsBllService.SuperAdminUpdateApp(m_appsModel,out msg))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "系统：" + m_appsModel.name + "，已经可以使用！", toUrl = "/AppsManagement/BaseUserApps" });
-                
+
             }
             else
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统：" + m_appsModel.name + "，审批失败！" });
             }
-          
+
         }
 
 
         public DataSet ValidAppsDataset()
         {
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+
+            #region 超级管理员用户授权
+            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
+
+            string msg = string.Empty;
+
+            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_baseuserModel.login;
+            m_securityContext.PassWord = m_baseuserModel.password;
+            m_appsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            #endregion
+
             DataSet ds = new DataSet();
             try
             {
-                ds = m_appsBllService.GetValidAppsList();
+                ds = m_appsBllService.GetValidAppsList(out msg);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ds = null;
             }
@@ -260,10 +338,23 @@ namespace WorkFlow.Controllers
         public DataSet InvalidAppsDataset()
         {
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+
+            #region 超级管理员用户授权
+            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
+
+            string msg = string.Empty;
+
+            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_baseuserModel.login;
+            m_securityContext.PassWord = m_baseuserModel.password;
+            m_appsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            #endregion
+
             DataSet ds = new DataSet();
             try
             {
-                ds = m_appsBllService.GetInvalidAppsList();
+                ds = m_appsBllService.GetInvalidAppsList(out msg);
             }
             catch (Exception ex)
             {
@@ -285,6 +376,11 @@ namespace WorkFlow.Controllers
             int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
             DataSet ds = ValidAppsDataset();
+
+            if (ds == null)
+            {
+                return Json("");
+            }
 
             IList<WorkFlow.AppsWebService.appsModel> m_list = new List<WorkFlow.AppsWebService.appsModel>();
 
@@ -350,6 +446,11 @@ namespace WorkFlow.Controllers
 
             DataSet ds = InvalidAppsDataset();
 
+            if (ds == null)
+            {
+                return Json("");
+            }
+
             IList<WorkFlow.AppsWebService.appsModel> m_list = new List<WorkFlow.AppsWebService.appsModel>();
 
             var total = ds.Tables[0].Rows.Count;
@@ -400,28 +501,38 @@ namespace WorkFlow.Controllers
             };
             return Json(gridData);
         }
+        
         ///<summary>
-        ///统计已审批的系统数量
+        ///统计已审批、待审批的系统数量
         ///</summary>
-        ///<returns></returns>
-        public int InvalidAppsCount()
+        public ActionResult InvalidAppsCount()
         {
-            int invalidCount;
+            int invalidCount = 0;//待审批系统数量
+            int validCount = 0;//已审批系统数量
             WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-            invalidCount=m_appsBllService.GetInValidAppCount();
-            return invalidCount;
-        }
-        ///<summary>
-        ///统计待审批的系统数量
-        ///</summary>
-        public int ValidAppsCount()
-        {
-            int validCount;
-            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-            validCount = m_appsBllService.GetValidAppCount();
-            return validCount;
+            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
+            
+            #region 超级管理员用户授权
+            string msg = string.Empty;
+
+            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_baseuserModel.login;
+            m_securityContext.PassWord = m_baseuserModel.password;
+            m_appsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            #endregion
+
+            try
+            {
+                invalidCount = m_appsBllService.GetInValidAppCount(out msg);
+                validCount = m_appsBllService.GetValidAppCount(out msg);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return Json("{invalidCount:'" + invalidCount + "',validCount:'" + validCount + "'}");
         }
     }
 }

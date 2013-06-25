@@ -42,7 +42,7 @@
       <Value Profile="(Default)">http://192.168.11.103:8081/WebService/base_userBLLservice.asmx</Value>
     </Setting>
     <Setting Name="WorkFlow_Privileges_RoleWebService_privilege_roleBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.12.3:8083/WebService/privilege_roleBLLservice.asmx</Value>
+      <Value Profile="(Default)">http://192.168.11.103:8083/WebService/privilege_roleBLLservice.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

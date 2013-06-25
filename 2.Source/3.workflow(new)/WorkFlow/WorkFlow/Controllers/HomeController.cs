@@ -19,6 +19,7 @@ namespace WorkFlow.Controllers
         {
             return View();
         }
+
         public ActionResult AdminPass()
         {
             return View();
@@ -51,7 +52,6 @@ namespace WorkFlow.Controllers
         }
         public ActionResult RegistPageCon()
         {
-
             return View();
         }
         /// <summary>
@@ -67,11 +67,19 @@ namespace WorkFlow.Controllers
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
 
+            string msg = string.Empty;
+
+            WorkFlow.UsersWebService.SecurityContext m_securityContext = new UsersWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_loginName;
+            m_securityContext.PassWord = m_loginPassword;
+            m_usersBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
             try
             {
-                if (m_usersBllService.SysAdminLoginValidator(m_loginName, m_loginPassword))
+                if (m_usersBllService.SysAdminLoginValidator(m_loginName, m_loginPassword,out msg))
                 {
-                    m_usersModel = m_usersBllService.GetModelByLogin(m_loginName);
+                    m_usersModel = m_usersBllService.GetUserModelByLoginCK(m_loginName,out msg);
                     Session["user"] = m_usersModel;
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/Home/Index" });
                 }
@@ -114,9 +122,9 @@ namespace WorkFlow.Controllers
 
             try
             {
-                if (m_baseuserBllService.LoginValidator(m_loginName, m_loginPassword))
+                if (m_baseuserBllService.LoginValidator(m_loginName, m_loginPassword,out msg))
                 {
-                    m_baseuserModel = m_baseuserBllService.GetModelByLogin(m_loginName,out msg);
+                    m_baseuserModel = m_baseuserBllService.GetModelByLoginCK(m_loginName,out msg);
                     Session["baseuser"] = m_baseuserModel;
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/AppsManagement/BaseUserApps" });
                 }
@@ -149,6 +157,18 @@ namespace WorkFlow.Controllers
             WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
             WorkFlow.UsersWebService.usersBLLservice m_usersBllservice = new UsersWebService.usersBLLservice();
 
+            string msg = string.Empty;
+
+            WorkFlow.AppsWebService.SecurityContext m_a_securityContext = new AppsWebService.SecurityContext();
+            m_a_securityContext.UserName = "saron";
+            m_a_securityContext.PassWord = "123";
+            m_appsBllservice.SecurityContextValue = m_a_securityContext;
+
+            WorkFlow.UsersWebService.SecurityContext m_u_securityContext = new UsersWebService.SecurityContext();
+            m_u_securityContext.UserName = "saron";
+            m_u_securityContext.PassWord = "123";
+            m_usersBllservice.SecurityContextValue = m_u_securityContext;
+
             //对象m_appsModel赋值
             m_appsModel.name = Request.Form["appsName"].Trim();
             m_appsModel.code = Request.Form["appsCode"].Trim();
@@ -176,7 +196,7 @@ namespace WorkFlow.Controllers
             m_userModel.mail = Request.Form["userMail"].Trim();
             m_userModel.remark = Request.Form["userRemark"].Trim();
             m_userModel.admin = true;
-            m_userModel.invalid = true;
+            m_userModel.invalid = false;
             m_userModel.deleted = false;
             m_userModel.created_at = DateTime.Now;
             m_userModel.created_by = -1;
@@ -230,7 +250,7 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮箱格式输入不正确!" });
             }
             //系统是否存在
-            if (m_appsBllservice.ExistsName(m_appsModel.name))
+            if (m_appsBllservice.ExistsAppName(m_appsModel.name,out msg))
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统名称已经存在！" });
             }
@@ -238,11 +258,11 @@ namespace WorkFlow.Controllers
             int appsID = 0;//系统的ID
             try
             {
-                appsID = m_appsBllservice.Add(m_appsModel);//系统添加成功后的ID
+                appsID = m_appsBllservice.Add(m_appsModel,out msg);//系统添加成功后的ID
             }
             catch (Exception ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败2" + ex.ToString() });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败" + ex.ToString() });
             }
 
             if (appsID == -1)
@@ -256,27 +276,25 @@ namespace WorkFlow.Controllers
 
                 try
                 {
-                    int flag = m_usersBllservice.Add(m_userModel);
+                    int flag = m_usersBllservice.AddSysAdmin(m_userModel,out msg);
                     if (flag == 0)
                     {
-                        m_appsBllservice.Delete(appsID);//删除申请的系统记录
+                        m_appsBllservice.Delete(appsID,out msg);//删除申请的系统记录
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户添加失败！" });
                     }
                     else if (flag == -1)
                     {
-                        m_appsBllservice.Delete(appsID);//删除申请的系统记录
+                        m_appsBllservice.Delete(appsID,out msg);//删除申请的系统记录
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户登录名称已经存在" });
                     }
                     else
                     {
-                        m_userModel = m_usersBllservice.GetModelByLogin(m_userModel.login);
-                        Session["user"] = m_userModel;
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "注册成功！系统名称为：" + m_appsModel.name + "，管理员名称：" + m_userModel.name, toUrl = "/Home/RegistPageCon" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = m_appsModel.name, toUrl = "/Home/RegistPageCon" });
                     }
                 }
                 catch (Exception ex)
                 {
-                    m_appsBllservice.Delete(appsID);//删除申请的系统记录
+                    m_appsBllservice.Delete(appsID,out msg);//删除申请的系统记录
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败4" + ex.ToString() });
                 }
             }
@@ -285,11 +303,11 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败5" });
             }
         }
+        
+        
         /// <summary>
         /// 应用管理员修改密码
         /// </summary>
-        /// <param name="collection"></param>
-        /// <returns></returns>
         public ActionResult ModifyAdminPass(FormCollection collection)
         {
             string m_oldpassword = Request.Form["oldpassword"];
@@ -297,6 +315,14 @@ namespace WorkFlow.Controllers
             string m_newpassword2 = Request.Form["newpassword2"];
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+            WorkFlow.UsersWebService.SecurityContext m_u_securityContext = new UsersWebService.SecurityContext();
+            m_u_securityContext.UserName = m_usersModel.login;
+            m_u_securityContext.PassWord = m_usersModel.password;
+            m_u_securityContext.AppID = (int)m_usersModel.app_id;
+            m_usersBllService.SecurityContextValue = m_u_securityContext;
+
             if (m_oldpassword.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的原密码不能为空!" });
@@ -304,7 +330,7 @@ namespace WorkFlow.Controllers
             if (m_newpassword.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的新密码不能为空!" });
-            }           
+            }
             if (m_newpassword2.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的确认密码不能为空!" });
@@ -315,13 +341,13 @@ namespace WorkFlow.Controllers
             }
             try
             {
-                if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword) == false)
-                 {
-                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原始密码不正确!" });
-                 }
-                if (m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword)==true)
+                if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword,out msg) == false)
                 {
-                    m_usersModel = m_usersBllService.GetModelByLogin(m_usersModel.login);
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原始密码不正确!" });
+                }
+                if (m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword,out msg) == true)
+                {
+                    m_usersModel = m_usersBllService.GetUserModelByLogin(m_usersModel.login,out msg);
                     Session["user"] = m_usersModel;
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功!", toUrl = "/Home/AdminPassCon" });
                 }
@@ -336,7 +362,7 @@ namespace WorkFlow.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
             }
         }
 

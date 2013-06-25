@@ -69,12 +69,7 @@ namespace Saron.WorkFlowService.Model
         /// <summary>
         /// 管理员webservice授权判断（密码为密文）
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="passWord"></param>
-        /// <param name="appID"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
-        public bool AdminIsValid(string userName, string passWord, int appID, out string msg)
+        public bool AdminIsValid(string userName, string passWord, out string msg)
         {
             msg = "";
             Saron.WorkFlowService.DAL.usersDAL m_userDal = new DAL.usersDAL();
@@ -100,11 +95,6 @@ namespace Saron.WorkFlowService.Model
         /// <summary>
         /// 管理员webservice授权判断(密码为明文)
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="passWord"></param>
-        /// <param name="appID"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         public bool AdminIsValidCK(string userName, string passWord, out string msg)
         {
             msg = "";
@@ -132,11 +122,6 @@ namespace Saron.WorkFlowService.Model
         /// <summary>
         /// 普通用户webservice授权判断（密码为密文）
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="passWord"></param>
-        /// <param name="appID"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         public bool UserIsValid(string userName, string passWord, int appID, out string msg)
         {
             msg = "";
@@ -164,11 +149,6 @@ namespace Saron.WorkFlowService.Model
         /// <summary>
         /// 普通用户webservice授权判断（密码为明文）
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="passWord"></param>
-        /// <param name="appID"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         public bool UserIsValidCK(string userName, string passWord, int appID, out string msg)
         {
             msg = "";
@@ -196,11 +176,6 @@ namespace Saron.WorkFlowService.Model
         /// <summary>
         /// 超级管理员webservice授权判断（密码为密文）
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="passWord"></param>
-        /// <param name="appID"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         public bool SuperAdminIsValid(string userName, string passWord, out string msg)
         {
             msg = "";
@@ -228,11 +203,6 @@ namespace Saron.WorkFlowService.Model
         /// <summary>
         /// 超级管理员webservice授权判断（密码为明文）
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="passWord"></param>
-        /// <param name="appID"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         public bool SuperAdminIsValidCK(string userName, string passWord, out string msg)
         {
             msg = "";
@@ -257,7 +227,9 @@ namespace Saron.WorkFlowService.Model
             }
         }
 
-        //非用户验证
+        /// <summary>
+        /// 自定义用户（非系统用户）
+        /// </summary>
         public bool AnyOneIsValidCK(string userName, string passWord, out string msg)
         {
             msg = "";

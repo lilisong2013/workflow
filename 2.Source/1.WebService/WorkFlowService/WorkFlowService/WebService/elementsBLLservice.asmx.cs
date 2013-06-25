@@ -31,7 +31,7 @@ namespace Saron.WorkFlowService.WebService
         {
             int result = 0;
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 result = -1;
                 //webservice用户未授权，msg提示信息
@@ -57,7 +57,7 @@ namespace Saron.WorkFlowService.WebService
         public bool Update(Saron.WorkFlowService.Model.elementsModel model, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return false;
@@ -71,7 +71,7 @@ namespace Saron.WorkFlowService.WebService
         public bool Delete(int id, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return false;
@@ -85,7 +85,7 @@ namespace Saron.WorkFlowService.WebService
         public Saron.WorkFlowService.Model.elementsModel GetModel(int id, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return null;
@@ -99,7 +99,7 @@ namespace Saron.WorkFlowService.WebService
         public DataSet GetElementsListOfApp(int appID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return null;
@@ -113,7 +113,7 @@ namespace Saron.WorkFlowService.WebService
         public DataSet GetElementsListOfMenus(int menusID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return null;
@@ -127,7 +127,7 @@ namespace Saron.WorkFlowService.WebService
         public bool ExistsElementsOfMenus(int menusID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return false;
@@ -141,7 +141,7 @@ namespace Saron.WorkFlowService.WebService
         public DataSet GetCodeListOfMenuApp(int app_id, int menu_id, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return null;
@@ -155,7 +155,7 @@ namespace Saron.WorkFlowService.WebService
         public DataSet GetAllElementsListOfMenuApp(int appID, int menuID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return null;

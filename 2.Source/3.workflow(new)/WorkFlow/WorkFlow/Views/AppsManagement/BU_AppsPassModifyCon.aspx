@@ -6,9 +6,7 @@ BU_AppsPassModifyCon
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
-  <%WorkFlow.Base_UserWebService.base_userBLLservice m_base_userBllService = new WorkFlow.Base_UserWebService.base_userBLLservice(); %>
-  <%WorkFlow.Base_UserWebService.base_userModel m_base_userModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
-  <center><h4><font color="red">欢迎<%=m_base_userModel.login%>!,密码修改成功!</font></h4></center> 
+  <center><h4><font color="red">密码修改成功!</font></h4></center> 
  
  <div class="container">
     <ul class="pager">

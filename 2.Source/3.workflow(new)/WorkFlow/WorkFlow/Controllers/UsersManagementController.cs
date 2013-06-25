@@ -182,19 +182,19 @@ namespace WorkFlow.Controllers
         ///</summary>
         public ActionResult AddUsers(FormCollection collection)
         {
+            WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+
+            #region 系统管理员授权
             string msg = string.Empty;
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
-
-            WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
-
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
             m_SecurityContext.UserName = m_userModel.login;
             m_SecurityContext.PassWord = m_userModel.password;
             m_SecurityContext.AppID = (int)m_userModel.app_id;
             m_usersBllService.SecurityContextValue = m_SecurityContext;
-
+            #endregion
 
             int appID = Convert.ToInt32(m_userModel.app_id);
             string login = collection["usersLogin"].Trim();
@@ -282,7 +282,7 @@ namespace WorkFlow.Controllers
             m_usersModel.app_id = appID;
             try
             {
-                if (m_usersBllService.Add(m_usersModel) != 0)
+                if (m_usersBllService.AddSysUser(m_usersModel,out msg) != 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加用户成功!", toUrl = "/UsersManagement/AppUsers" });
                 }
@@ -304,17 +304,21 @@ namespace WorkFlow.Controllers
         ///<returns></returns>
         public ActionResult EditPage(int id)
         {
-            string msg = string.Empty;
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+            
+            #region 系统管理员授权
             WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
-
             WorkFlow.UsersWebService.usersModel m_userModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            string msg = string.Empty;
+
             m_SecurityContext.UserName = m_userModel.login;
             m_SecurityContext.PassWord = m_userModel.password;
             m_SecurityContext.AppID = (int)m_userModel.app_id;
             m_usersBllService.SecurityContextValue = m_SecurityContext;
-            
+            #endregion
+
             int appID =Convert.ToInt32(m_userModel.app_id);
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
@@ -348,17 +352,20 @@ namespace WorkFlow.Controllers
         /// <returns></returns>
         public ActionResult EditUsers(FormCollection collection)
         {
-            string msg = string.Empty;
             int m_ue_total = Convert.ToInt32(Request.Params["in_Total"]);//用户"是否有效"的数量
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
-            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
 
+            #region 系统管理员授权
+            string msg = string.Empty;
+            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
             WorkFlow.UsersWebService.usersModel m_userModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+            
             m_SecurityContext.UserName = m_userModel.login;
             m_SecurityContext.PassWord = m_userModel.password;
             m_SecurityContext.AppID = (int)m_userModel.app_id;
             m_usersBllService.SecurityContextValue = m_SecurityContext;
+            #endregion
 
             int appID = Convert.ToInt32(m_userModel.app_id);
             string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
@@ -459,7 +466,7 @@ namespace WorkFlow.Controllers
             // m_usersModel.app_id = Convert.ToInt32(collection["usersApp_id"].Trim());
             try 
             {
-                if (m_usersBllService.Update(m_usersModel))
+                if (m_usersBllService.AdminUpdate(m_usersModel,out msg))
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改用户成功!", toUrl = "/UsersManagement/AppUsers" });
                 }

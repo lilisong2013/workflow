@@ -533,14 +533,17 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="Views\Home\RegistPageCon.aspx" />
+    <Content Include="Views\MenusManagement\AppMenus.aspx" />
     <Content Include="Views\MenusManagement\DetailInfo.aspx" />
     <Content Include="Views\OperationsManagement\AppOperations.aspx" />
     <Content Include="Views\OperationsManagement\DetailInfo.aspx" />
     <Content Include="Views\OperationsManagement\EditPage.aspx" />
+    <Content Include="Views\PrivilegesManagement\AppPrivileges.aspx" />
     <Content Include="Views\PrivilegesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
     <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
+    <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\Shared\appsadmin.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
     <None Include="Web References\AppsWebService\appsModel1.datasource">
@@ -627,16 +630,13 @@
     <Content Include="Views\Home\RegistPage.aspx" />
     <None Include="Web References\AppsWebService\appsBLLservice.disco" />
     <None Include="Web References\Base_UserWebService\base_userBLLservice.disco" />
-    <Content Include="Views\MenusManagement\AppMenus.aspx" />
     <None Include="Web References\MenusWebService\menusBLLservice.disco" />
-    <Content Include="Views\PrivilegesManagement\AppPrivileges.aspx" />
     <None Include="Web References\PrivilegesWebService\privilegesBLLservice.disco" />
     <None Include="Web References\Privileges_TypeWebService\privileges_typeBLLservice.disco" />
     <None Include="Web References\ElementsWebService\elementsBLLservice.disco" />
     <None Include="Web References\RolesWebService\rolesBLLservice.disco" />
     <None Include="Web References\OperationsWebService\operationsBLLservice.disco" />
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
-    <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
     <None Include="Web References\User_RoleBLLservice\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -861,7 +861,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2672</DevelopmentServerPort>
+          <DevelopmentServerPort>5805</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

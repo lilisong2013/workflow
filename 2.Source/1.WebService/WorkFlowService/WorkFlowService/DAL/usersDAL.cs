@@ -358,6 +358,7 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+        
         /// <summary>       
         /// 删除一条数据
         /// </summary>
@@ -532,11 +533,11 @@ namespace Saron.WorkFlowService.DAL
         ///<param name="admin">admin</param>
         ///<param name="invalid">invalid</param>
         /// <returns>userModel</returns> 
-        public Saron.WorkFlowService.Model.usersModel GetModelByAppAdmin(int app_id)
+        public Saron.WorkFlowService.Model.usersModel GetAdminModelByAppID(int app_id)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,login,password,name,employee_no,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id from users ");
-            strSql.Append(" where app_id=@app_id and admin='1' and invalid='1'");
+            strSql.Append(" where app_id=@app_id and admin=1 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};
@@ -917,7 +918,7 @@ namespace Saron.WorkFlowService.DAL
 
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select  top 1 id,login,password,name,employee_no,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id from users ");
-            strSql.Append(" where app_id=@app_id and deleted=0");
+            strSql.Append(" where app_id=@app_id and deleted=0 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.NVarChar,40)
 			};

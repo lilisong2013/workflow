@@ -328,6 +328,30 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 获得无效数据列表
+        /// </summary>
+        public DataSet GetInvalidAppsList()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,url,remark,invalid,created_at,created_ip,updated_at,updated_by,updated_ip,apply_at,approval_at ");
+            strSql.Append(" FROM apps where invalid=1 ");
+
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        /// <summary>
+        /// 获得有效数据列表
+        /// </summary>
+        public DataSet GetValidAppsList()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,url,remark,invalid,created_at,created_ip,updated_at,updated_by,updated_ip,apply_at,approval_at ");
+            strSql.Append(" FROM apps where invalid=0 ");
+
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        /// <summary>
         /// 获得前几行数据
         /// </summary>
         public DataSet GetList(int Top, string strWhere, string filedOrder)

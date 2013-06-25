@@ -14,6 +14,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="LoginValidatorResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -92,6 +93,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetModelByLoginCK">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByLoginCKResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelByLoginCKResult" type="tns:base_userModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetModelByLogin">
         <s:complexType>
           <s:sequence>
@@ -142,6 +158,15 @@
   <wsdl:message name="GetModelSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetModelByLoginCKSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelByLoginCK" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginCKSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelByLoginCKResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginCKSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetModelByLoginSoapIn">
     <wsdl:part name="parameters" element="tns:GetModelByLogin" />
   </wsdl:message>
@@ -171,6 +196,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLoginCK">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名login得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetModelByLoginCKSoapIn" />
+      <wsdl:output message="tns:GetModelByLoginCKSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModelByLogin">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名login得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
@@ -214,6 +244,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLoginCK">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModelByLoginCK" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelByLoginCKSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -266,6 +306,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLoginCK">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModelByLoginCK" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelByLoginCKSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

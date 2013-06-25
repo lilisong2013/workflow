@@ -36,7 +36,13 @@ namespace WorkFlow.V_PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetUserItemPrivilegeListOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAllListByAppIDOperationCompleted;
+        private System.Threading.SendOrPostCallback GetAllPrivilegesListByAppIDOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAppIDByNameOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetSysUserIDByLoginOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SysUserLoginValidatorOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -92,7 +98,16 @@ namespace WorkFlow.V_PrivilegesWebService {
         public event GetUserItemPrivilegeListCompletedEventHandler GetUserItemPrivilegeListCompleted;
         
         /// <remarks/>
-        public event GetAllListByAppIDCompletedEventHandler GetAllListByAppIDCompleted;
+        public event GetAllPrivilegesListByAppIDCompletedEventHandler GetAllPrivilegesListByAppIDCompleted;
+        
+        /// <remarks/>
+        public event GetAppIDByNameCompletedEventHandler GetAppIDByNameCompleted;
+        
+        /// <remarks/>
+        public event GetSysUserIDByLoginCompletedEventHandler GetSysUserIDByLoginCompleted;
+        
+        /// <remarks/>
+        public event SysUserLoginValidatorCompletedEventHandler SysUserLoginValidatorCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -164,32 +179,131 @@ namespace WorkFlow.V_PrivilegesWebService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllListByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetAllListByAppID(int appID, out string msg) {
-            object[] results = this.Invoke("GetAllListByAppID", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllPrivilegesListByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllPrivilegesListByAppID(int appID, out string msg) {
+            object[] results = this.Invoke("GetAllPrivilegesListByAppID", new object[] {
                         appID});
             msg = ((string)(results[1]));
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAllListByAppIDAsync(int appID) {
-            this.GetAllListByAppIDAsync(appID, null);
+        public void GetAllPrivilegesListByAppIDAsync(int appID) {
+            this.GetAllPrivilegesListByAppIDAsync(appID, null);
         }
         
         /// <remarks/>
-        public void GetAllListByAppIDAsync(int appID, object userState) {
-            if ((this.GetAllListByAppIDOperationCompleted == null)) {
-                this.GetAllListByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllListByAppIDOperationCompleted);
+        public void GetAllPrivilegesListByAppIDAsync(int appID, object userState) {
+            if ((this.GetAllPrivilegesListByAppIDOperationCompleted == null)) {
+                this.GetAllPrivilegesListByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllPrivilegesListByAppIDOperationCompleted);
             }
-            this.InvokeAsync("GetAllListByAppID", new object[] {
-                        appID}, this.GetAllListByAppIDOperationCompleted, userState);
+            this.InvokeAsync("GetAllPrivilegesListByAppID", new object[] {
+                        appID}, this.GetAllPrivilegesListByAppIDOperationCompleted, userState);
         }
         
-        private void OnGetAllListByAppIDOperationCompleted(object arg) {
-            if ((this.GetAllListByAppIDCompleted != null)) {
+        private void OnGetAllPrivilegesListByAppIDOperationCompleted(object arg) {
+            if ((this.GetAllPrivilegesListByAppIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAllListByAppIDCompleted(this, new GetAllListByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetAllPrivilegesListByAppIDCompleted(this, new GetAllPrivilegesListByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAppIDByName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetAppIDByName(string appName, out string msg) {
+            object[] results = this.Invoke("GetAppIDByName", new object[] {
+                        appName});
+            msg = ((string)(results[1]));
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAppIDByNameAsync(string appName) {
+            this.GetAppIDByNameAsync(appName, null);
+        }
+        
+        /// <remarks/>
+        public void GetAppIDByNameAsync(string appName, object userState) {
+            if ((this.GetAppIDByNameOperationCompleted == null)) {
+                this.GetAppIDByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAppIDByNameOperationCompleted);
+            }
+            this.InvokeAsync("GetAppIDByName", new object[] {
+                        appName}, this.GetAppIDByNameOperationCompleted, userState);
+        }
+        
+        private void OnGetAppIDByNameOperationCompleted(object arg) {
+            if ((this.GetAppIDByNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAppIDByNameCompleted(this, new GetAppIDByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetSysUserIDByLogin", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetSysUserIDByLogin(string userLogin, int appID, out string msg) {
+            object[] results = this.Invoke("GetSysUserIDByLogin", new object[] {
+                        userLogin,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetSysUserIDByLoginAsync(string userLogin, int appID) {
+            this.GetSysUserIDByLoginAsync(userLogin, appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetSysUserIDByLoginAsync(string userLogin, int appID, object userState) {
+            if ((this.GetSysUserIDByLoginOperationCompleted == null)) {
+                this.GetSysUserIDByLoginOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetSysUserIDByLoginOperationCompleted);
+            }
+            this.InvokeAsync("GetSysUserIDByLogin", new object[] {
+                        userLogin,
+                        appID}, this.GetSysUserIDByLoginOperationCompleted, userState);
+        }
+        
+        private void OnGetSysUserIDByLoginOperationCompleted(object arg) {
+            if ((this.GetSysUserIDByLoginCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetSysUserIDByLoginCompleted(this, new GetSysUserIDByLoginCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/SysUserLoginValidator", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool SysUserLoginValidator(string userName, string password, int appID, out string msg) {
+            object[] results = this.Invoke("SysUserLoginValidator", new object[] {
+                        userName,
+                        password,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SysUserLoginValidatorAsync(string userName, string password, int appID) {
+            this.SysUserLoginValidatorAsync(userName, password, appID, null);
+        }
+        
+        /// <remarks/>
+        public void SysUserLoginValidatorAsync(string userName, string password, int appID, object userState) {
+            if ((this.SysUserLoginValidatorOperationCompleted == null)) {
+                this.SysUserLoginValidatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSysUserLoginValidatorOperationCompleted);
+            }
+            this.InvokeAsync("SysUserLoginValidator", new object[] {
+                        userName,
+                        password,
+                        appID}, this.SysUserLoginValidatorOperationCompleted, userState);
+        }
+        
+        private void OnSysUserLoginValidatorOperationCompleted(object arg) {
+            if ((this.SysUserLoginValidatorCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SysUserLoginValidatorCompleted(this, new SysUserLoginValidatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -341,17 +455,17 @@ namespace WorkFlow.V_PrivilegesWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetAllListByAppIDCompletedEventHandler(object sender, GetAllListByAppIDCompletedEventArgs e);
+    public delegate void GetAllPrivilegesListByAppIDCompletedEventHandler(object sender, GetAllPrivilegesListByAppIDCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAllListByAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetAllPrivilegesListByAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetAllListByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetAllPrivilegesListByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -361,6 +475,108 @@ namespace WorkFlow.V_PrivilegesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetAppIDByNameCompletedEventHandler(object sender, GetAppIDByNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAppIDByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAppIDByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetSysUserIDByLoginCompletedEventHandler(object sender, GetSysUserIDByLoginCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetSysUserIDByLoginCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetSysUserIDByLoginCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void SysUserLoginValidatorCompletedEventHandler(object sender, SysUserLoginValidatorCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SysUserLoginValidatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SysUserLoginValidatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
         
