@@ -105,17 +105,23 @@ namespace WorkFlow.Controllers
         //获取是否有效的列表
         public ActionResult GetInvalidList()
         {
-            string msg = string.Empty;
             int m_userID = Convert.ToInt32(Request.Params["userID"]);//用户ID
             string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
 
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
-
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-            WorkFlow.UsersWebService.usersModel userModel = new WorkFlow.UsersWebService.usersModel();    
-   
-            userModel= m_usersBllService.GetModelByID(m_userID,out msg);
+            WorkFlow.UsersWebService.usersModel userModel = new WorkFlow.UsersWebService.usersModel();
+
+            #region 系统管理员授权
+            string msg = string.Empty;
+            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_usersBllService.SecurityContextValue = m_SecurityContext;
+            #endregion
+
+            userModel = m_usersBllService.GetModelByID(m_userID,out msg);
 
             string m_selected = string.Empty;
             int total = 1;
@@ -136,8 +142,8 @@ namespace WorkFlow.Controllers
             strJson += "selected:'" + m_selected + "'}";
    
            
-        strJson += "],total:'" + total + "'}";
-        return Json(strJson);
+            strJson += "],total:'" + total + "'}";
+            return Json(strJson);
         }
         ///<summary>
         ///显示数据库中用户表的详细信息

@@ -69,6 +69,12 @@
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteRole('+row.id+')">删除</a>';
                                 return html;
                             }
+                        },
+                        { display: '', width: 200,
+                            render: function (row) {
+                                var html = '<i class="icon-lock"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
+                                return html;
+                            }
                         }                    
                        ],
                         data: dataJson
