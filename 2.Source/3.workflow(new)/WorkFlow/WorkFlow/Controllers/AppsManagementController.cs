@@ -36,53 +36,118 @@ namespace WorkFlow.Controllers
         }
         
         //删除ID为id的应用系统管理员
-        public ActionResult ChangePage(int id)
+        public ActionResult DeleteApp()
         {
+            int appID = Convert.ToInt32(Request.Params["appID"]);
             #region 注释
-            //WorkFlow.Base_UserWebService.base_userModel m_base_usersModel=(WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
-             //WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.Base_UserWebService.base_userModel m_base_usersModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
+            
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+            
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
 
-             //string msg = string.Empty;
-             //WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
-             //m_securityContext.UserName = m_base_usersModel.login;
-             //m_securityContext.PassWord = m_base_usersModel.password;
-             //m_appsBllService.SecurityContextValue = m_securityContext;
+            #region 超级管理员授权
+            string msg = string.Empty;
+            
+            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+            m_securityContext.UserName = m_base_usersModel.login;
+            m_securityContext.PassWord = m_base_usersModel.password;
+            m_appsBllService.SecurityContextValue = m_securityContext;
 
-             //WorkFlow.AppsWebService.appsModel m_appsModel =m_appsBllService.GetModel(id,out msg);
-             
-             //int userappid = m_appsModel.id;
-             //int userapp_id = id;
-             ////获得ID为id的用户模型;
-             //WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-             //WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
-             //try
-             //{
-             //    if (m_usersBllService.ExistsAppofUser(userapp_id))
-             //    {   
-             //        return RedirectToAction("BaseUserApps");
-             //        //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "不能成功删除，存在与相关联的应用系统用户!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
-             //    }
-             //    else
-             //    {
-             //        if (m_appsBllService.Delete(id))
-             //        {
-             //            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "成功删除！", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
-             //           // return RedirectToAction("BaseUserApps");
-             //        }
-             //        else
-             //        {
-             //            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "不能成功删除!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet); 
-             //        }
-             //    }
-             //}
-             //catch (Exception ex)
-             //{
-             //    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!", toUrl = "/AppsManagement/BaseUserApps" }, JsonRequestBehavior.AllowGet);
-            //}
+            WorkFlow.UsersWebService.SecurityContext mu_securityContext = new UsersWebService.SecurityContext();
+            mu_securityContext.UserName = m_base_usersModel.login;
+            mu_securityContext.PassWord = m_base_usersModel.password;
+            m_usersBllService.SecurityContextValue = mu_securityContext;
             #endregion
 
-            return RedirectToAction("BaseUserApps");
+            try
+            {
+                m_appsModel = m_appsBllService.GetModel(appID, out msg);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "发生异常！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+            }
 
+            if (m_appsModel == null)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false });
+            }
+
+            try
+            {
+                m_usersModel = m_usersBllService.GetAdminModelByAppID(m_appsModel.id, out msg);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "发生异常！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (m_usersModel == null)
+            {
+                try
+                {
+                    if (msg == "")
+                    {
+                        if (m_appsBllService.DeleteApp(m_appsModel.id, out msg))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    else
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "发生异常！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            bool flag = false;
+
+            try
+            {
+                flag = m_usersBllService.DeleteAdminByAppID(m_appsModel.id, out msg);
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "发生异常！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (!flag)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+            }
+
+            flag = false;
+
+            try
+            {
+                flag = m_appsBllService.DeleteApp(m_appsModel.id, out msg);
+
+                if (flag)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+                }
+                else 
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "发生异常！", toUrl = "" }, JsonRequestBehavior.AllowGet);
+            }
+
+            #endregion
         }
         
         //退出超级管理员界面
@@ -305,201 +370,118 @@ namespace WorkFlow.Controllers
 
         }
 
-
-        public DataSet ValidAppsDataset()
-        {
-            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-
-            #region 超级管理员用户授权
-            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
-
-            string msg = string.Empty;
-
-            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
-            //SecurityContext实体对象赋值
-            m_securityContext.UserName = m_baseuserModel.login;
-            m_securityContext.PassWord = m_baseuserModel.password;
-            m_appsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
-            #endregion
-
-            DataSet ds = new DataSet();
-            try
-            {
-                ds = m_appsBllService.GetValidAppsList(out msg);
-            }
-            catch (Exception ex)
-            {
-                ds = null;
-            }
-
-            return ds;
-        }
-
-        public DataSet InvalidAppsDataset()
-        {
-            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-
-            #region 超级管理员用户授权
-            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
-
-            string msg = string.Empty;
-
-            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
-            //SecurityContext实体对象赋值
-            m_securityContext.UserName = m_baseuserModel.login;
-            m_securityContext.PassWord = m_baseuserModel.password;
-            m_appsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
-            #endregion
-
-            DataSet ds = new DataSet();
-            try
-            {
-                ds = m_appsBllService.GetInvalidAppsList(out msg);
-            }
-            catch (Exception ex)
-            {
-                ds = null;
-            }
-
-            return ds;
-        }
-
+        //获得已审批系统数据列表的json字符串格式
         public JsonResult AppsValidDSToJSON()
         {
-            //排序的字段名
-            string sortname = Request.Params["sortname"];
-            //排序的方向
-            string sortorder = Request.Params["sortorder"];
-            //当前页
-            int page = Convert.ToInt32(Request.Params["page"]);
-            //每页显示的记录数
-            int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
 
-            DataSet ds = ValidAppsDataset();
+            #region 超级管理员用户授权
+            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
 
-            if (ds == null)
+            string msg = string.Empty;
+
+            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_baseuserModel.login;
+            m_securityContext.PassWord = m_baseuserModel.password;
+            m_appsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            #endregion
+
+            string data = "{Rows:[";
+            try
             {
-                return Json("");
-            }
-
-            IList<WorkFlow.AppsWebService.appsModel> m_list = new List<WorkFlow.AppsWebService.appsModel>();
-
-            var total = ds.Tables[0].Rows.Count;
-            for (var i = 0; i < total; i++)
-            {
-                WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)Activator.CreateInstance(typeof(WorkFlow.AppsWebService.appsModel));
-                PropertyInfo[] m_propertys = m_appsModel.GetType().GetProperties();
-                foreach (PropertyInfo pi in m_propertys)
+                DataSet ds = m_appsBllService.GetValidAppsList(out msg);
+                if (ds != null)
                 {
-                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        // 属性与字段名称一致的进行赋值 
-                        if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                        string id = ds.Tables[0].Rows[i][0].ToString();
+                        string name = ds.Tables[0].Rows[i][1].ToString();
+                        string code = ds.Tables[0].Rows[i][2].ToString();
+                        string url = ds.Tables[0].Rows[i][3].ToString();
+                        string remark = ds.Tables[0].Rows[i][4].ToString();
+                        if (i == ds.Tables[0].Rows.Count - 1)
                         {
-                            // 数据库NULL值单独处理 
-                            if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-                                pi.SetValue(m_appsModel, ds.Tables[0].Rows[i][j], null);
-                            else
-                                pi.SetValue(m_appsModel, null, null);
-                            break;
+                            data += "{name:'" + name + "',";
+                            data += "id:'" + id + "',";
+                            data += "code:'" + code + "',";
+                            data += "url:'" + url + "',";
+                            data += "remark:'" + remark + "'}";
+                        }
+                        else
+                        {
+                            data += "{name:'" + name + "',";
+                            data += "id:'" + id + "',";
+                            data += "code:'" + code + "',";
+                            data += "url:'" + url + "',";
+                            data += "remark:'" + remark + "'},";
                         }
                     }
                 }
-                m_list.Add(m_appsModel);
+            }
+            catch (Exception ex)
+            {
             }
 
-            //模拟排序操作
-            if (sortorder == "desc")
-                m_list = m_list.OrderByDescending(c => c.id).ToList();
-            else
-                m_list = m_list.OrderBy(c => c.id).ToList();
-
-            IList<WorkFlow.AppsWebService.appsModel> m_targetList = new List<WorkFlow.AppsWebService.appsModel>();
-            //模拟分页操作
-            for (var i = 0; i < total; i++)
-            {
-                if (i >= (page - 1) * pagesize && i < page * pagesize)
-                {
-                    m_targetList.Add(m_list[i]);
-                }
-            }
-
-
-            var gridData = new
-            {
-                Rows = m_targetList,
-                Total = total
-            };
-            return Json(gridData);
+            data += "]}";
+            return Json(data);
         }
 
+        //获得未审批系统数据列表的json字符串格式
         public JsonResult AppsInvalidDSToJSON()
         {
-            //排序的字段名
-            string sortname = Request.Params["sortname"];
-            //排序的方向
-            string sortorder = Request.Params["sortorder"];
-            //当前页
-            int page = Convert.ToInt32(Request.Params["page"]);
-            //每页显示的记录数
-            int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
 
-            DataSet ds = InvalidAppsDataset();
+            #region 超级管理员用户授权
+            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (Base_UserWebService.base_userModel)Session["baseuser"];
 
-            if (ds == null)
+            string msg = string.Empty;
+
+            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_baseuserModel.login;
+            m_securityContext.PassWord = m_baseuserModel.password;
+            m_appsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            #endregion
+
+            string data = "{Rows:[";
+            try
             {
-                return Json("");
-            }
-
-            IList<WorkFlow.AppsWebService.appsModel> m_list = new List<WorkFlow.AppsWebService.appsModel>();
-
-            var total = ds.Tables[0].Rows.Count;
-            for (var i = 0; i < total; i++)
-            {
-                WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)Activator.CreateInstance(typeof(WorkFlow.AppsWebService.appsModel));
-                PropertyInfo[] m_propertys = m_appsModel.GetType().GetProperties();
-                foreach (PropertyInfo pi in m_propertys)
+                DataSet ds = m_appsBllService.GetInvalidAppsList(out msg);
+                if (ds != null)
                 {
-                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
-                        // 属性与字段名称一致的进行赋值 
-                        if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                        string id = ds.Tables[0].Rows[i][0].ToString();
+                        string name = ds.Tables[0].Rows[i][1].ToString();
+                        string code = ds.Tables[0].Rows[i][2].ToString();
+                        string url = ds.Tables[0].Rows[i][3].ToString();
+                        string remark = ds.Tables[0].Rows[i][4].ToString();
+                        if (i == ds.Tables[0].Rows.Count - 1)
                         {
-                            // 数据库NULL值单独处理 
-                            if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-                                pi.SetValue(m_appsModel, ds.Tables[0].Rows[i][j], null);
-                            else
-                                pi.SetValue(m_appsModel, null, null);
-                            break;
+                            data += "{name:'" + name + "',";
+                            data += "id:'" + id + "',";
+                            data += "code:'" + code + "',";
+                            data += "url:'" + url + "',";
+                            data += "remark:'" + remark + "'}";
+                        }
+                        else
+                        {
+                            data += "{name:'" + name + "',";
+                            data += "id:'" + id + "',";
+                            data += "code:'" + code + "',";
+                            data += "url:'" + url + "',";
+                            data += "remark:'" + remark + "'},";
                         }
                     }
                 }
-                m_list.Add(m_appsModel);
+            }
+            catch (Exception ex)
+            {
             }
 
-            //模拟排序操作
-            if (sortorder == "desc")
-                m_list = m_list.OrderByDescending(c => c.id).ToList();
-            else
-                m_list = m_list.OrderBy(c => c.id).ToList();
-
-            IList<WorkFlow.AppsWebService.appsModel> m_targetList = new List<WorkFlow.AppsWebService.appsModel>();
-            //模拟分页操作
-            for (var i = 0; i < total; i++)
-            {
-                if (i >= (page - 1) * pagesize && i < page * pagesize)
-                {
-                    m_targetList.Add(m_list[i]);
-                }
-            }
-
-
-            var gridData = new
-            {
-                Rows = m_targetList,
-                Total = total
-            };
-            return Json(gridData);
+            data += "]}";
+            return Json(data);
         }
         
         ///<summary>

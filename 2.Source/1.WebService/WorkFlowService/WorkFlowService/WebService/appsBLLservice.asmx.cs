@@ -87,6 +87,19 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "删除id为id的记录，<h4>（需要授权验证，超级管理员用户）</h4>")]
+        public bool DeleteApp(int id, out string msg)
+        {
+            //是否有权限访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+
+            return m_appsdal.Delete(id);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，超级管理员用户）</h4>")]
         public Saron.WorkFlowService.Model.appsModel GetModel(int id,out string msg)
         {

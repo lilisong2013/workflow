@@ -98,6 +98,20 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "通过系统主键删除系统管理员信息,<h4>（需授权验证，超级管理员用户）</h4>")]
+        public bool DeleteAdminByAppID(int appID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_usersdal.DeleteAdminByAppID(appID);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "是否存在login为login且app_id为appID的普通用户记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsLoginAndAppID(string login, int? appId,out string msg)
         {

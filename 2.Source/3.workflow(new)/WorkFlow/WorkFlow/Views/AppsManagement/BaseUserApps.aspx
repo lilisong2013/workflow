@@ -13,97 +13,150 @@
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
 
+    <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
         $(document).ready(function () {
-            var options = {
-                //beforeSubmit: showRequest,  // from提交前的响应的回调函数
-                success: showResponse,  // form提交响应成功后执行的回调函数
-                url: "/AppsManagement/InvalidAppsCount",
-                type: "POST",
-                dataType: "json"
-            };
-
-            $.ajax(options);
-
+            ShowAppsCount();//显示待审批、已审批系统的数量
         });
+
+    function ShowAppsCount() {
+        var options = {
+            //beforeSubmit: showRequest,  // from提交前的响应的回调函数
+            success: showResponse,  // form提交响应成功后执行的回调函数
+            url: "/AppsManagement/InvalidAppsCount",
+            type: "POST",
+            dataType: "json"
+        };
+
+        $.ajax(options);
+    }
 
     function showResponse(responseText, statusText) {
         //成功后执行的方法
         //alert(responseText);
         var dataJson = eval("(" + responseText + ")");
 
-        $("#invalidTab").append("（" + dataJson.invalidCount + "）");  //待审批
-        $("#validTab").append("（" + dataJson.validCount + "）"); //已审批
+        $("#invalidTab").html("已审批系统（" + dataJson.invalidCount + "）");  //待审批
+        $("#validTab").html("待审批系统（" + dataJson.validCount + "）"); //已审批
 
         return false;
     } 
     </script>
 
     <script type="text/javascript">
+        var managerValidGrid;
+        var managerInvalidGrid;
         $(document).ready(function () {
-            var gridID;
-            var urlstr;
-            var toUrl;
-            gridID = $("#validgrid");
-            urlstr = "/AppsManagement/AppsValidDSToJSON";
-            toUrl = "BU_AppsInfo";
-            BindGrid();
+            //定义已审批系统ligerGrid
+            $("#validgrid").ligerGrid({
+                width: '99%',
+                height: 400
+            });
+            managerValidGrid = $("#validgrid").ligerGetGridManager();
 
-            //切换“已审批系统”标签
+            //定义待审批系统ligerGrid
+            $("#invalidGrid").ligerGrid({
+                width: '99%',
+                height: 400
+            });
+            managerInvalidGrid = $("#invalidGrid").ligerGetGridManager();
+
+            GetValidAppsList(); //初始化页面，获取数据列表
+
             $("#validTab").click(function () {
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").html("");
-                gridID = $("#validgrid");
-                urlstr = "/AppsManagement/AppsValidDSToJSON";
-                toUrl = "BU_AppsInfo";
-                BindGrid();
+                GetValidAppsList(); //切换选项卡，获取数据列表
+                ShowAppsCount(); //显示待审批、已审批系统的数量
             });
 
-            //切换“待审批系统”标签
             $("#invalidTab").click(function () {
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").html("");
-                gridID = $("#invalidGrid");
-                urlstr = "/AppsManagement/AppsInvalidDSToJSON";
-                toUrl = "BU_ApprovalApps";
-                BindGrid();
+                GetInvalidAppsList(); //切换选项卡，获取数据列表
+                ShowAppsCount(); //显示待审批、已审批系统的数量
             });
-
-            function BindGrid() {
-                gridID.ligerGrid({
-                    columns: [
-                { display: '系统名称', name: 'name', width: 80 },
-                { display: '系统编码', name: 'code', width: 80 },
-                { display: '访问连接', name: 'url', width: 120 },
-                { display: '备注', name: 'remark', width: 200 },
-
-                { display: '', width: 100,
-                    render: function (row) {
-                        var html = '<i class="icon-lock"></i><a href="/AppsManagement/' + toUrl + '?id=' + row.id + '">详情</a>';
-                        return html;
-                    }
-                },
-                 { display: '', width: 100,
-                     render: function (row) {
-                         var html = '<i class="icon-trash"></i><a href="/AppsManagement/ChangePage?id=' + row.id + '">删除</a>';
-                         return html;
-                     }
-                 }
-                ],
-                    type: "POST",
-                    dataType: "json",
-                    dataAction: 'server',
-                    width: '90%',
-                    pageSizeOptions: [5, 10, 15, 20, ],
-                    pageSize: 15,
-                    height: '400',
-                    url: urlstr,
-                    rownumbers: true,
-                    usePager: true
-                });
-            }
         });
 
+        function GetValidAppsList() {
+            $.ajax({
+                url: "/AppsManagement/AppsValidDSToJSON",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    
+                    //更新mygrid数据
+                    managerValidGrid.setOptions({
+                        columns: [{ display: '系统名称', name: 'name', width: 150, align: 'center' },
+                                  { display: '系统编码', name: 'code', width: 150, align: 'center' },
+                                  { display: '访问连接', name: 'url', width: 150, align: 'center' },
+                                  { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
+                                  { display: '', width: 100,
+                                      render: function (row) {
+                                          var html = '<i class="icon-lock"></i><a href="/AppsManagement/BU_AppsInfo?id=' + row.id + '">详情</a>';
+                                          return html;
+                                      }
+                                  }
+                                 ],
+                        data: dataJson
+                    });
+                    managerValidGrid.loadData();
+                }
+            });
+        }
+
+        function GetInvalidAppsList() {
+            $.ajax({
+                url: "/AppsManagement/AppsInvalidDSToJSON",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+
+                    //更新mygrid数据
+                    managerInvalidGrid.setOptions({
+                        columns: [{ display: '系统名称', name: 'name', width: 150, align: 'center' },
+                                  { display: '系统编码', name: 'code', width: 150, align: 'center' },
+                                  { display: '访问连接', name: 'url', width: 150, align: 'center' },
+                                  { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
+                                  { display: '', width: 100,
+                                      render: function (row) {
+                                          var html = '<i class="icon-lock"></i><a href="/AppsManagement/BU_ApprovalApps?id=' + row.id + '">详情</a>';
+                                          return html;
+                                      }
+                                  },
+                                  { display: '', width: 100,
+                                      render: function (row) {
+                                          var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteApp(' + row.id + ')">删除</a>';
+                                          return html;
+                                      }
+                                  }
+                                 ],
+                        data: dataJson
+                    });
+                    managerInvalidGrid.loadData();
+                }
+            });
+        }
+
+
+        function DeleteApp(appid) {
+            //alert(appid);
+            $.ajax({
+                url: "/AppsManagement/DeleteApp",
+                type: "POST",
+                dataType: "json",
+                data: { appID: appid },
+                success: function (responseText, statusText) {
+                    GetInvalidAppsList(); //重载待审批系统数据列表
+                    ShowAppsCount(); //显示待审批、已审批系统的数量
+                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                    $("#promptDIV").addClass(responseText.css);
+                    $("#promptDIV").html(responseText.message);
+                }
+            });
+        }
     </script>
 </asp:Content>
 
@@ -129,7 +182,7 @@
         <div id="promptDIV" class="row"></div>
     </div>
 </div>
-<div class="container">
+<div class="container" style="margin-top:16px;">
     <ul class="nav nav-tabs">
             <li class="active"><a id="validTab" href="#Apps_valid" data-toggle="tab">已审批系统</a></li>
             <li><a id="invalidTab" href="#Apps_Invalid" data-toggle="tab">待审批系统</a></li>             
@@ -137,7 +190,7 @@
         <div class="tab-content">
             <%--系统中运行中的系统--%>
             <div class="tab-pane active" id="Apps_valid">
-                <div id="validgrid"><%=m_baseuserModel.password %></div>
+                <div id="validgrid"></div>
             </div>
 
             <%--审批中的系统申请--%>

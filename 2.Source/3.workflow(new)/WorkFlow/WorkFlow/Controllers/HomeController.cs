@@ -20,9 +20,19 @@ namespace WorkFlow.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 修改系统管理员密码页面
+        /// </summary>
         public ActionResult AdminPass()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult AdminLogin()
@@ -34,6 +44,7 @@ namespace WorkFlow.Controllers
         {
             return View();
         }
+        
         public ActionResult Index()
         {
             if (Session["user"] == null)
@@ -45,15 +56,31 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
+        
         public ActionResult AdminPassCon()
         {
-
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
         }
+        
         public ActionResult RegistPageCon()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
         }
+        
         /// <summary>
         /// 系统管理员登录
         /// </summary>

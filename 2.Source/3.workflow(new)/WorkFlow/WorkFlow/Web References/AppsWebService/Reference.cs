@@ -40,6 +40,8 @@ namespace WorkFlow.AppsWebService {
         
         private System.Threading.SendOrPostCallback DeleteOperationCompleted;
         
+        private System.Threading.SendOrPostCallback DeleteAppOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetModelOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetInvalidAppsListOperationCompleted;
@@ -108,6 +110,9 @@ namespace WorkFlow.AppsWebService {
         
         /// <remarks/>
         public event DeleteCompletedEventHandler DeleteCompleted;
+        
+        /// <remarks/>
+        public event DeleteAppCompletedEventHandler DeleteAppCompleted;
         
         /// <remarks/>
         public event GetModelCompletedEventHandler GetModelCompleted;
@@ -245,6 +250,37 @@ namespace WorkFlow.AppsWebService {
             if ((this.DeleteCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteCompleted(this, new DeleteCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/DeleteApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool DeleteApp(int id, out string msg) {
+            object[] results = this.Invoke("DeleteApp", new object[] {
+                        id});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void DeleteAppAsync(int id) {
+            this.DeleteAppAsync(id, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAppAsync(int id, object userState) {
+            if ((this.DeleteAppOperationCompleted == null)) {
+                this.DeleteAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAppOperationCompleted);
+            }
+            this.InvokeAsync("DeleteApp", new object[] {
+                        id}, this.DeleteAppOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAppOperationCompleted(object arg) {
+            if ((this.DeleteAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAppCompleted(this, new DeleteAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -757,6 +793,40 @@ namespace WorkFlow.AppsWebService {
         private object[] results;
         
         internal DeleteCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void DeleteAppCompletedEventHandler(object sender, DeleteAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class DeleteAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal DeleteAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

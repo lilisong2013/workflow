@@ -145,6 +145,7 @@ namespace WorkFlow.Controllers
             strJson += "],total:'" + total + "'}";
             return Json(strJson);
         }
+        
         ///<summary>
         ///显示数据库中用户表的详细信息
         ///</summary>
@@ -303,6 +304,7 @@ namespace WorkFlow.Controllers
             }
                     
         }
+       
         ///<summary>
         ///获取数据表中ID的信息
         ///</summary>
@@ -352,6 +354,7 @@ namespace WorkFlow.Controllers
             //ViewData["usersApp_id"] = m_appsModel.id;
             return View();
         }
+       
         ///<summary>
         ///编辑数据表中的信息
         /// </summary>
@@ -487,6 +490,7 @@ namespace WorkFlow.Controllers
             }
           
         }
+       
         ///<summary>
         ///给用户赋角色
         ///</summary>
@@ -516,6 +520,7 @@ namespace WorkFlow.Controllers
                 return View();
                       
         }
+        
         ///<summary>
         ///获取角色类型的权限列表
         /// </summary>
@@ -577,6 +582,7 @@ namespace WorkFlow.Controllers
             strJson += "],total:'"+total+"'}";
             return Json(strJson);
         }
+        
         ///<summary>
         ///添加用户角色
         ///</summary>

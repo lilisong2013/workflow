@@ -94,6 +94,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="DeleteAdminByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAdminByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteAdminByAppIDResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="ExistsLoginAndAppID">
         <s:complexType>
           <s:sequence>
@@ -300,6 +315,15 @@
   <wsdl:message name="DeleteIdAndLoginSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteIdAndLoginResponse" />
   </wsdl:message>
+  <wsdl:message name="DeleteAdminByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAdminByAppID" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAdminByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAdminByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAdminByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="ExistsLoginAndAppIDSoapIn">
     <wsdl:part name="parameters" element="tns:ExistsLoginAndAppID" />
   </wsdl:message>
@@ -420,6 +444,11 @@
       <wsdl:input message="tns:DeleteIdAndLoginSoapIn" />
       <wsdl:output message="tns:DeleteIdAndLoginSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="DeleteAdminByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过系统主键删除系统管理员信息,&lt;h4&gt;（需授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAdminByAppIDSoapIn" />
+      <wsdl:output message="tns:DeleteAdminByAppIDSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="ExistsLoginAndAppID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在login为login且app_id为appID的普通用户记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsLoginAndAppIDSoapIn" />
@@ -511,6 +540,16 @@
       <soap:operation soapAction="http://saron.workflowservice.org/DeleteIdAndLogin" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdminByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteAdminByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteAdminByAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -662,6 +701,16 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/DeleteIdAndLogin" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdminByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteAdminByAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteAdminByAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

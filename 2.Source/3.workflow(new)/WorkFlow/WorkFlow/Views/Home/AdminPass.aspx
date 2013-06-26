@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/secondsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 AdminPass
 </asp:Content>
@@ -10,6 +10,16 @@ AdminPass
         type="text/css" />
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+    
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
+        });
+    </script>
+    
     <script type="text/javascript">
         $(document).ready(function () {
             var form = $("#modifyAdminPass");
@@ -34,19 +44,7 @@ AdminPass
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
- <div class="container"><h3 class="span3">应用管理员密码管理</h3></div>
- <div class="container">
-   <div class="btn-group pull-right">
-     <div class="btn btn-large btn-info">欢迎:<%=m_usersModel.login%></div>
-     <div class="btn btn-large btn-info dropdown-toggle" data-toggle="dropdown">
-       <span class="caret"></span>
-     </div>
-      <ul class="dropdown-menu">
-        <li><a href="/UsersManagement/AppUsers">返回上页</a></li>
-        <li><a href="/Home/Login">重新登录</a></li>
-      </ul>
-   </div>
- </div>
+ <div class="container"><h2 class="span5">应用系统管理员密码修改</h2></div>
 
  <div class="container">
   <%--操作提示DIV--%>
@@ -54,7 +52,7 @@ AdminPass
  </div>
 
  <%--修改应用管理员密码--%>
- <div class="tab-pane">
+ <div class="container" style="margin-top:16px;">
    <form id="modifyAdminPass" method="post" action="/Home/ModifyAdminPass" class="form-horizontal">
     <div class="control-group">
       <label class="control-label" for="oldpassword">原密码:</label>

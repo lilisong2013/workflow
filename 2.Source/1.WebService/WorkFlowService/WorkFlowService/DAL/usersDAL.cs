@@ -334,6 +334,30 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+
+        /// <summary>
+        /// 通过系统ID删除一条数据
+        /// </summary>
+        public bool DeleteAdminByAppID(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from users ");
+            strSql.Append(" where app_id=@app_id and admin=1 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)		
+            };
+            parameters[0].Value = appID;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         
         ///<summary>
         ///逻辑上删除一条记录
