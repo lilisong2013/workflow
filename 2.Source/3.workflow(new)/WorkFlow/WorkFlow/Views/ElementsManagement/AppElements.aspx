@@ -17,8 +17,8 @@
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
 
     <%--LigerUI Dialog文件--%>
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>
-   <%-- <link href="../../LigerUI/lib/ligerUI/skins/Gray/css/all.css" rel="stylesheet" type="text/css"/>--%>
+  <%--  <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
 
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
@@ -379,7 +379,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container"><h2>元素管理</h2></div>
+
     <div class="container">
+     <%--操作提示DIV--%>
+     <div id="promptDIV" class="row"></div>
+     </div>
+
+    <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
             <li class="active" id="#infoTab"><a href="#AllElements" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li id="elementsTab"><a href="#AddElements"  data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
@@ -388,10 +394,7 @@
       <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
       <% string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
       <% DateTime t = Convert.ToDateTime(s); %>
-     <div class="container">
-     <%--操作提示DIV--%>
-     <div id="promptDIV" class="row"></div>
-     </div>
+     
    <div class="tab-content">
      <%--查看所有元素--%>
      <div class="tab-pane active" id="AllElements">

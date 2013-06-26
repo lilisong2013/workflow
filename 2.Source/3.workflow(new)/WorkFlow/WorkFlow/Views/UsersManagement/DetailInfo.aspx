@@ -8,7 +8,7 @@ DetailInfo
         <div class="container">
         <div class="row-fluid">
             <ul class="pager"><li class="next"><a href="/UsersManagement/AppUsers">返回</a></li></ul>
-        </div>
+        </div>     
         <div class="row-fluid"><h2>登录名称：<%=ViewData["usersLogin"]%></h2></div>
         <div class="row-fluid">用户姓名：<%=ViewData["usersName"]%></div>
         <div class="row-fluid">工号：<%=ViewData["usersEmployee_no"]%></div>

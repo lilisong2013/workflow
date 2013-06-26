@@ -145,6 +145,7 @@ namespace WorkFlow.Controllers
             strJson += "],total:'" + total + "'}";
             return Json(strJson);
         }
+        
         ///<summary>
         ///显示数据库中用户表的详细信息
         ///</summary>
@@ -220,7 +221,7 @@ namespace WorkFlow.Controllers
             }         
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(password)==false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "字母开头,字母和数字的组合,至少6位!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码以字母开头,字母和数字的组成,至少6位!" });
             }
             if (passwordCon.Length == 0)
             {
@@ -228,7 +229,7 @@ namespace WorkFlow.Controllers
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(passwordCon) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "字母开头,字母和数字的组合,至少6位!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码以字母开头,字母和数字的组合,至少6位!" });
             }
             if (password.Equals(passwordCon) == false)
             {
@@ -303,6 +304,7 @@ namespace WorkFlow.Controllers
             }
                     
         }
+       
         ///<summary>
         ///获取数据表中ID的信息
         ///</summary>
@@ -352,6 +354,7 @@ namespace WorkFlow.Controllers
             //ViewData["usersApp_id"] = m_appsModel.id;
             return View();
         }
+       
         ///<summary>
         ///编辑数据表中的信息
         /// </summary>
@@ -487,6 +490,7 @@ namespace WorkFlow.Controllers
             }
           
         }
+       
         ///<summary>
         ///给用户赋角色
         ///</summary>
@@ -516,6 +520,7 @@ namespace WorkFlow.Controllers
                 return View();
                       
         }
+        
         ///<summary>
         ///获取角色类型的权限列表
         /// </summary>
@@ -577,6 +582,7 @@ namespace WorkFlow.Controllers
             strJson += "],total:'"+total+"'}";
             return Json(strJson);
         }
+        
         ///<summary>
         ///添加用户角色
         ///</summary>

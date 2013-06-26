@@ -88,6 +88,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="DeleteApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteAppResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetModel">
         <s:complexType>
           <s:sequence>
@@ -199,6 +214,15 @@
   <wsdl:message name="DeleteSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="DeleteAppSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteApp" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAppSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetModelSoapIn">
     <wsdl:part name="parameters" element="tns:GetModel" />
   </wsdl:message>
@@ -265,6 +289,11 @@
       <wsdl:input message="tns:DeleteSoapIn" />
       <wsdl:output message="tns:DeleteSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="DeleteApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAppSoapIn" />
+      <wsdl:output message="tns:DeleteAppSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetModel">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
@@ -328,6 +357,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -421,6 +460,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/appsadmin.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 AppUsers
 </asp:Content>
@@ -13,8 +13,8 @@ AppUsers
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
 
     <%--LigerUI Dialog文件--%>
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>
-   <%-- <link href="../../LigerUI/lib/ligerUI/skins/Gray/css/all.css" rel="stylesheet" type="text/css"/>--%>
+   <%-- <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
 
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
@@ -139,17 +139,21 @@ AppUsers
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-<div class="container"><h2>用户管理</h2></div>
-<div class="container">
+
+    <div class="container"><h2>用户管理</h2></div>
+
+    <div class="container">
+      <%--操作提示DIV--%>
+      <div id="promptDIV" class="row"></div>
+    </div>
+
+    <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
             <li class="active" id="#infoTab"><a href="#AllUsers" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddUsers" data-toggle="tab"><i class="icon-adjust"></i>添加</a></li>
         </ul>
- </div>
-  <div class="container">
-  <%--操作提示DIV--%>
-  <div id="promptDIV" class="row"></div>
-  </div>
+    </div>
+  
   <div class="tab-content"> 
        <%--查看所有用户--%>
        <div class="tab-pane active" id="AllUsers">

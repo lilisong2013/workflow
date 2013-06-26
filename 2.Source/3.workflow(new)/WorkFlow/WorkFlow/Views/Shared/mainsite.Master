@@ -53,7 +53,8 @@
                 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="/Home/Login">退出</a></li>
-                  <li><a href="/Home/Login">重新登录</a></li>                                 
+                  <li><a href="/Home/Login">重新登录</a></li>
+                  <li><a href="/Home/AdminPass">修改密码</a></li>                                 
                 </ul>
               </li>
             </ul>

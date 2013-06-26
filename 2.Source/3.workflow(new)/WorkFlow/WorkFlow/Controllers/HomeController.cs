@@ -20,9 +20,19 @@ namespace WorkFlow.Controllers
             return View();
         }
 
+        /// <summary>
+        /// 修改系统管理员密码页面
+        /// </summary>
         public ActionResult AdminPass()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult AdminLogin()
@@ -34,6 +44,7 @@ namespace WorkFlow.Controllers
         {
             return View();
         }
+        
         public ActionResult Index()
         {
             if (Session["user"] == null)
@@ -45,15 +56,31 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
+        
         public ActionResult AdminPassCon()
         {
-
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
         }
+        
         public ActionResult RegistPageCon()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
         }
+        
         /// <summary>
         /// 系统管理员登录
         /// </summary>
@@ -219,11 +246,19 @@ namespace WorkFlow.Controllers
             }
             if (m_userModel.password == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码不能为空!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码不能为空!" });
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsPassWord(m_userModel.password) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="登录密码应字母开头，字母和数字组合，至少8位!"});
             }
             if (Request.Form["userPassword2"].Trim() == "")
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码不能为空!" });
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsPassWord(Request.Form["userPassword2"]) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码应字母开头，字母和数字组合，至少8位!" });
             }
             if (m_userModel.password != Request.Form["userPassword2"].Trim())
             {
@@ -325,15 +360,23 @@ namespace WorkFlow.Controllers
 
             if (m_oldpassword.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的原密码不能为空!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原密码不能为空!" });
+            }
+            if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword, out msg) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原始密码不正确!" });
             }
             if (m_newpassword.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的新密码不能为空!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "新密码不能为空!" });
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsPassWord(m_newpassword) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "新密码以字母开头，字母和数字的组合，至少为6位!" });
             }
             if (m_newpassword2.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户的确认密码不能为空!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码不能为空!" });
             }
             if (m_newpassword != m_newpassword2)
             {
@@ -341,15 +384,12 @@ namespace WorkFlow.Controllers
             }
             try
             {
-                if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword,out msg) == false)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原始密码不正确!" });
-                }
+               
                 if (m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword,out msg) == true)
                 {
                     m_usersModel = m_usersBllService.GetUserModelByLogin(m_usersModel.login,out msg);
                     Session["user"] = m_usersModel;
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功!", toUrl = "/Home/AdminPassCon" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功!", toUrl = "/Home/Login" });
                 }
                 else
                 {

@@ -40,6 +40,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback DeleteIdAndLoginOperationCompleted;
         
+        private System.Threading.SendOrPostCallback DeleteAdminByAppIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ExistsLoginAndAppIDOperationCompleted;
         
         private System.Threading.SendOrPostCallback AddSysUserOperationCompleted;
@@ -120,6 +122,9 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public event DeleteIdAndLoginCompletedEventHandler DeleteIdAndLoginCompleted;
+        
+        /// <remarks/>
+        public event DeleteAdminByAppIDCompletedEventHandler DeleteAdminByAppIDCompleted;
         
         /// <remarks/>
         public event ExistsLoginAndAppIDCompletedEventHandler ExistsLoginAndAppIDCompleted;
@@ -276,6 +281,37 @@ namespace WorkFlow.UsersWebService {
             if ((this.DeleteIdAndLoginCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteIdAndLoginCompleted(this, new DeleteIdAndLoginCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/DeleteAdminByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool DeleteAdminByAppID(int appID, out string msg) {
+            object[] results = this.Invoke("DeleteAdminByAppID", new object[] {
+                        appID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void DeleteAdminByAppIDAsync(int appID) {
+            this.DeleteAdminByAppIDAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteAdminByAppIDAsync(int appID, object userState) {
+            if ((this.DeleteAdminByAppIDOperationCompleted == null)) {
+                this.DeleteAdminByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteAdminByAppIDOperationCompleted);
+            }
+            this.InvokeAsync("DeleteAdminByAppID", new object[] {
+                        appID}, this.DeleteAdminByAppIDOperationCompleted, userState);
+        }
+        
+        private void OnDeleteAdminByAppIDOperationCompleted(object arg) {
+            if ((this.DeleteAdminByAppIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteAdminByAppIDCompleted(this, new DeleteAdminByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1054,6 +1090,40 @@ namespace WorkFlow.UsersWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void DeleteAdminByAppIDCompletedEventHandler(object sender, DeleteAdminByAppIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class DeleteAdminByAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal DeleteAdminByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
             }
         }
     }
