@@ -10,10 +10,10 @@ RegistPageCon
 <div class="container">
     <ul class="pager">
        <li class="next">
-         <a href="/Home/RegistPage">返回上页&rarr;</a>
+         <a href="/Home/RegistPage">&rarr;返回上页</a>
        </li>
         <li class="next">
-            <a href="/Home/Login">退出&rarr;</a>
+            <a href="/Home/Login">&rarr;退出</a>
         </li>
     </ul>
 </div>

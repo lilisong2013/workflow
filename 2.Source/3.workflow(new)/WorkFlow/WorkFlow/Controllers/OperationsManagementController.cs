@@ -448,7 +448,7 @@ namespace WorkFlow.Controllers
             {
                 if (m_operationsBllService.Add(m_operationsModel,out msg) != 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-errorDIV", message = "功能添加成功!", toUrl = "/OperationsManagement/AppOperations" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "功能添加成功!", toUrl = "/OperationsManagement/AppOperations" });
                 }
                 else
                 {

@@ -12,7 +12,10 @@
         type="text/css" />
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-
+    
+     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
     <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -143,19 +146,25 @@
 
         function DeleteApp(appid) {
             //alert(appid);
-            $.ajax({
-                url: "/AppsManagement/DeleteApp",
-                type: "POST",
-                dataType: "json",
-                data: { appID: appid },
-                success: function (responseText, statusText) {
-                    GetInvalidAppsList(); //重载待审批系统数据列表
-                    ShowAppsCount(); //显示待审批、已审批系统的数量
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass(responseText.css);
-                    $("#promptDIV").html(responseText.message);
+            var app_id = appid;
+            $.ligerDialog.confirm('确认要删除吗?', function (yes) {
+                if (yes) {
+                    $.ajax({
+                        url: "/AppsManagement/DeleteApp",
+                        type: "POST",
+                        dataType: "json",
+                        data: { appID: appid },
+                        success: function (responseText, statusText) {
+                            GetInvalidAppsList(); //重载待审批系统数据列表
+                            ShowAppsCount(); //显示待审批、已审批系统的数量
+                            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                            $("#promptDIV").addClass(responseText.css);
+                            $("#promptDIV").html(responseText.message);
+                        }
+                    });
                 }
             });
+          
         }
     </script>
 </asp:Content>

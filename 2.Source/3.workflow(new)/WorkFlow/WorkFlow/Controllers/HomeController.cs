@@ -71,14 +71,7 @@ namespace WorkFlow.Controllers
         
         public ActionResult RegistPageCon()
         {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
         
         /// <summary>

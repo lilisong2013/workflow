@@ -68,6 +68,14 @@
 
 <div class="container">
     <% WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
+  <div class="container">
+    <ul class="pager">
+        <li class="next">
+            <a href="/AppsManagement/ReturnBaseUserApps">返回</a>
+        </li>
+    </ul>
+ </div>
+
     <div class="row">
         <h2 class="span3">系统审批</h2>
         <div class="btn-group pull-right">
@@ -140,13 +148,7 @@
      </form>
     </div>
 </div>
-<div class="container">
-    <ul class="pager">
-        <li class="next">
-            <a href="/AppsManagement/ReturnBaseUserApps">返回 &rarr;</a>
-        </li>
-    </ul>
-</div>
+
 
 </asp:Content>
 

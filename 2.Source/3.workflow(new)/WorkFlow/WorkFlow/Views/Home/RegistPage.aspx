@@ -45,9 +45,9 @@
            });
 
            function showResponse(responseText, statusText) {
-               //alert(responseText.success);
+               //alert(responseText.toUrl);
                if (!responseText.success) {
-                   $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                   $("#promptDIV").removeClass("p^-warningDIV p-successDIV p-errorDIV");
                    $("#promptDIV").addClass(responseText.css);
                    $("#promptDIV").html(responseText.message);
                } else {
