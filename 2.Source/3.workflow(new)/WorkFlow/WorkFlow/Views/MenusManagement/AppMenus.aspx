@@ -121,28 +121,43 @@
 
     <%--菜单树的数据显示--%>
     <script type="text/javascript">
+        var MenuManagerTree;
         $(document).ready(function () {
-            var datas;
-            var dataJson;
+            //初始化ligerTree
+            $("#tree1").ligerTree({
+                checkbox: false,
+                textFieldName: 'name',
+                onSelect: OnSelect
+            });
+            eManagerTree = $("#tree1").ligerGetTreeManager();
 
+            GetMenusTreeList();//绑定菜单树数据并展示
+        });
+
+        //选择节点将父菜单信息赋给menusInfo
+        function OnSelect(note) {
+            //alert(note.data.id);
+            $("#menusInfo").val(note.data.id);
+            $("#menusInfo").html(note.data.name);
+        }
+
+        //获得菜单列表的树形菜单json数据格式，并展示
+        function GetMenusTreeList() {
             $.ajax({
                 url: "/MenusManagement/GetMenus",
                 type: "POST",
                 dataType: "json",
                 data: {},
                 success: function (responseText, statusText) {
-                    datas = responseText;//获取到的菜单json格式字符串
-                    dataJson = eval(datas); //将json字符串转化为json数据
-                    //显示菜单树
-                    $("#tree1").ligerTree({ data: dataJson, checkbox: false,textFieldName:'name' , onSelect: onSelect });
+                    //datas = responseText; //获取到的菜单json格式字符串
+                    var dataJson = eval(responseText); //将json字符串转化为json数据
+                    
+                    eManagerTree.clear();
+                    eManagerTree.setData(dataJson);
+                    eManagerTree.loadData();
                 }
             });
-            //选择节点将父菜单信息赋给menusInfo
-            function onSelect(note) {
-                $("#menusInfo").val(note.data.id);
-                $("#menusInfo").html(note.data.name);
-            }
-        });        
+        }      
     </script>
 
     <%--添加菜单--%>
@@ -168,6 +183,7 @@
             function showResponse(responseText, statusText) {
                 //成功后执行的方法
                 //alert(responseText.Id + responseText.Name);
+                GetMenusTreeList(); //绑定菜单树数据并展示
                 $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                 $("#promptDIV").addClass(responseText.css);
                 $("#promptDIV").html(responseText.message);
