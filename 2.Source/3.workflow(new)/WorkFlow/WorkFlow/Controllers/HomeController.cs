@@ -243,7 +243,7 @@ namespace WorkFlow.Controllers
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(m_userModel.password) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="登录密码应字母开头，字母和数字组合，至少8位!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="登录密码应字母开头，字母和数字组合，至少6位!"});
             }
             if (Request.Form["userPassword2"].Trim() == "")
             {
@@ -251,7 +251,7 @@ namespace WorkFlow.Controllers
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(Request.Form["userPassword2"]) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码应字母开头，字母和数字组合，至少8位!" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码应字母开头，字母和数字组合，至少6位!" });
             }
             if (m_userModel.password != Request.Form["userPassword2"].Trim())
             {
