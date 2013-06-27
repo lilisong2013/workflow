@@ -20,6 +20,7 @@ namespace Saron.WorkFlowService.WebService
     public class usersBLLservice : System.Web.Services.WebService
     {
         private readonly Saron.WorkFlowService.DAL.usersDAL m_usersdal = new Saron.WorkFlowService.DAL.usersDAL();
+        private readonly Saron.WorkFlowService.DAL.user_roleDAL m_user_roledal = new DAL.user_roleDAL();
 
         public SecurityContext m_securityContext = new SecurityContext();
 
@@ -174,6 +175,11 @@ namespace Saron.WorkFlowService.WebService
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            if (m_user_roledal.DeleteByUserID(id) == 0)
+            {
                 return false;
             }
 

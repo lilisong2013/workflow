@@ -16,7 +16,13 @@
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
-    
+    <%--LigerUI Dialog文件--%>
+    <%--<link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
+
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+  
     <%--隐藏提示信息--%>
     <script type="text/javascript">
         //隐藏提示信息
@@ -58,16 +64,29 @@
                     //alert(dataprivilegejson);
                     managerListGrid.setOptions({
                         columns: [
-                            { display: '权限名称', name: 'name', width: 120 },
-                            { display: '权限类型', name: 'privilegetype_id', width: 120 },
-                            { display: '权限项目', name: 'privilegeitem_id', width: 160 },
-                            { display: '备注信息', name: 'remark', width: 180 },
+                            { display: '权限名称', name: 'name', width: 80 },
+                            { display: '权限类型', name: 'privilegetype_id', width: 80 },
+                            { display: '权限项目', name: 'privilegeitem_id', width: 80 },
+                            { display: '备注信息', name: 'remark', width: 100 },
                             { display: '', width: 100,
                                 render: function (row) {
                                     var html = '<i class="icon-lock"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                     return html;
                                 }
+                            },
+                            { display: '', width: 100,
+                                render: function (row) {
+                                    var html = '<i class="icon-lock"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 100,
+                                render: function (row) {
+                                    var html = '<i class="icon-lock"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    return html;
+                                }
                             }
+                         
                             ],
                         data: dataprivilegejson
                     });
@@ -77,7 +96,32 @@
             });
         }
     </script>
-    
+    <%--删除提示信息的函数--%>
+    <script type="text/javascript">
+        function DeletePrivileges(id) {
+         //alert(id);
+         var privilegeid = id;
+         $.ligerDialog.confirm('确定要删除吗?', function (yes) {
+             if (yes) {
+               $.ajax({
+                   url: "/PrivilegesManagement/DeletePrivileges",
+                   type: "POST",
+                   dataType: "json",
+                   data: { privilegeID: privilegeid },
+                   success: function (responseText, statusText) {
+                       GetPrivilegeList();
+                       $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                       $("#promptDIV").addClass(responseText.css);
+                       $("#promptDIV").html(responseText.message);
+                   }
+               });
+
+           }
+
+       }); 
+
+     }
+    </script>
     <%--添加操作权限(数据)--%>
     <script type="text/javascript">
         var oManagerGrid;
@@ -118,10 +162,10 @@
                     //更新oMyGrid数据
                     oManagerGrid.setOptions({
                         columns: [
-                            { display: '操作名称', name: 'name', width: 120 },
-                            { display: '操作编码', name: 'code', width: 120 },
-                            { display: '操作描述', name: 'description', width: 160 },
-                            { display: '备注信息', name: 'remark', width: 180 }
+                            { display: '操作名称', name: 'name', width: 80 },
+                            { display: '操作编码', name: 'code', width: 80 },
+                            { display: '操作描述', name: 'description', width: 80 },
+                            { display: '备注信息', name: 'remark', width: 100 }
                             ],
                         data: dataOperationsJson,
                         onSelectRow: OnSelectOperations
@@ -391,9 +435,9 @@
                     //更新eMyGrid数据
                     eManagerGrid.setOptions({
                         columns: [
-                            { display: '页面元素名称', name: 'name', width: 120 },
-                            { display: '页面元素编码', name: 'code', width: 120 },
-                            { display: '备注信息', name: 'remark', width: 180 }
+                            { display: '页面元素名称', name: 'name', width: 80 },
+                            { display: '页面元素编码', name: 'code', width: 80 },
+                            { display: '备注信息', name: 'remark', width: 100 }
                             ],
                         data: dataElementsJson,
                         onSelectRow: OnSelectElements

@@ -19,7 +19,12 @@
 
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-    
+    <%--LigerUI Dialog文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
+
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+  
     <%--隐藏提示信息--%>
     <script type="text/javascript">
         //隐藏提示信息
@@ -61,16 +66,22 @@
 
                     //更新mygrid数据
                     managerListGrid.setOptions({
-                        columns: [{ display: '菜单名', name: 'name', width: 150, align: 'center' },
-                                  { display: '菜单编码', name: 'code', width: 150, align: 'center' },
-                                  { display: '菜单URL', name: 'url', width: 150, align: 'center' },
-                                  { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
+                        columns: [{ display: '菜单名', name: 'name', width: 80, align: 'center' },
+                                  { display: '菜单编码', name: 'code', width: 80, align: 'center' },
+                                  { display: '菜单URL', name: 'url', width: 80, align: 'center' },
+                                  { display: '备注信息', name: 'remark', width: 100, type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
                                           var html = '<i class="icon-lock"></i><a href="/MenusManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                           return html;
                                       }
                                   },
+                                  { display: '', width: 100,
+                                       render: function (row) {
+                                           var html = '<i class="icon-lock"></i><a href="/MenusManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                           return html;
+                                       }
+                                   },
                                   { display: '', width: 100,
                                       render: function (row) {
                                           var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteMenu(' + row.id + ')">删除</a>';
@@ -88,18 +99,24 @@
         function DeleteMenu(id) {
             //alert(id);
             var menuid = id;
-            $.ajax({
-                url: "/MenusManagement/DeleteMenus",
-                type: "POST",
-                dataType: "json",
-                data: { menuID: menuid },
-                success: function (responseText, statusText) {
-                    GetMenusList();//重载菜单数据列表
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass(responseText.css);
-                    $("#promptDIV").html(responseText.message);
+            $.ligerDialog.confirm('确定要删除吗?', function (yes) {
+
+                if (yes) {
+                    $.ajax({
+                        url: "/MenusManagement/DeleteMenus",
+                        type: "POST",
+                        dataType: "json",
+                        data: { menuID: menuid },
+                        success: function (responseText, statusText) {
+                            GetMenusList(); //重载菜单数据列表
+                            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                            $("#promptDIV").addClass(responseText.css);
+                            $("#promptDIV").html(responseText.message);
+                        }
+                    });
                 }
             });
+          
         }
     </script>
 

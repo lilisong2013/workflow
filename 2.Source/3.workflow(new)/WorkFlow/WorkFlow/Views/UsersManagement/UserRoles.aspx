@@ -101,6 +101,11 @@ UseRolesInfo
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户角色管理</h2></div>
+
+  <div class="row-fluid">
+    <ul class="pager"><li class="next"><a href="/UsersManagement/AppUsers">返回</a></li></ul>
+  </div>  
+
   <div class="container">
   <%--操作提示DIV--%>
   <div id="promptDIV" class="row"></div>

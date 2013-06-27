@@ -98,7 +98,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "删除id为id的记录，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool Delete(int id,out string msg)
         {
-            //对webservice进行授权验证,系统管理员才可访问
+           //对webservice进行授权验证,系统管理员才可访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息

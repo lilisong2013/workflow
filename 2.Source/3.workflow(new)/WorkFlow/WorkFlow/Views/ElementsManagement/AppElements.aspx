@@ -57,13 +57,19 @@
                     columns: [
                         { display: '元素名称', name: 'name', width:100, align: 'center' },
                         { display: '元素编码', name: 'code', width:100, align: 'center' },
-                        { display: '', width: 180,
+                        { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-lock"></i><a href="/ElementsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-edit"></i><a href="/ElementsManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                var html = '<i class="icon-lock"></i><a href="/ElementsManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-edit"></i><a href="/ElementsManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteElement(' + row.id + ')">删除</a>';
                                 return html;
@@ -154,6 +160,7 @@
             $("#eMyTree").hide(); //初始化隐藏eMyTree树
             //初始化ligerTree
             $("#eMyTree").ligerTree({
+                
                 checkbox: false,
                 textFieldName: 'name',
                 onSelect: OnSelectMenusOfElements

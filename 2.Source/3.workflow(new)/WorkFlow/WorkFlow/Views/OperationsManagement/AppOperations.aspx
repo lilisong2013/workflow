@@ -59,14 +59,14 @@
                         { display: '操作名称', name: 'name', width: 80, align: 'center' },
                         { display: '操作编码', name: 'code', width: 80, align: 'center' },
                         { display: '操作描述', name: 'description', width: 80, align: 'center' },
-                        { display: '备注', name: 'remark', width: 180 ,align:'center'},     
-                        { display: '', width: 180,
+                        { display: '备注', name: 'remark', width: 100 ,align:'center'},     
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-lock"></i><a href="/OperationsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-edit"></i><a href="/OperationsManagement/EditPage?id=' + row.id + '">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteOperation('+ row.id+')">删除</a>';
                                 return html;

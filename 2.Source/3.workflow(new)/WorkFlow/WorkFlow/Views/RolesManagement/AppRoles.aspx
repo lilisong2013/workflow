@@ -57,21 +57,27 @@
                     //更新mygrid数据
                     managerListGrid.setOptions({
                         columns: [
-                        { display: '角色名称', name: 'name', width: 150, align: 'center' },
-                        { display: '角色备注', name: 'remark', width:180, align: 'center' },
-                        { display: '', width: 180,
+                        { display: '角色名称', name: 'name', width: 100, align: 'center' },
+                        { display: '角色备注', name: 'remark', width:100, align: 'center' },
+                        { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-lock"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-edit"></i><a href="/RolesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                var html = '<i class="icon-lock"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
+                             render: function (row) {
+                                 var html = '<i class="icon-edit"></i><a href="/RolesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                 return html;
+                             }
+                         },
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteRole('+row.id+')">删除</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 200,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-lock"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
                                 return html;
