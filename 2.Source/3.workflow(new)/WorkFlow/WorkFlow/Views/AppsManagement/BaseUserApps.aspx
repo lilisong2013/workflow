@@ -39,8 +39,8 @@
         //alert(responseText);
         var dataJson = eval("(" + responseText + ")");
 
-        $("#invalidTab").html("已审批系统（" + dataJson.invalidCount + "）");  //待审批
-        $("#validTab").html("待审批系统（" + dataJson.validCount + "）"); //已审批
+        $("#invalidTab").html("待审批系统（" + dataJson.invalidCount + "）");  //待审批
+        $("#validTab").html("已审批系统（" + dataJson.validCount + "）"); //已审批
 
         return false;
     } 
