@@ -20,6 +20,7 @@ namespace Saron.WorkFlowService.WebService
     public class privilegesBLLservice : System.Web.Services.WebService
     {
         private readonly Saron.WorkFlowService.DAL.privilegesDAL m_privilegesDal = new Saron.WorkFlowService.DAL.privilegesDAL();
+        private readonly Saron.WorkFlowService.DAL.privilege_roleDAL m_privilege_roledal = new DAL.privilege_roleDAL();
 
         public SecurityContext m_securityContext = new SecurityContext();
 
@@ -105,7 +106,22 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
 
-            return m_privilegesDal.Delete(id);
+            int privilege_roleCount=m_privilege_roledal.Privilege_RoleCountByPrivilegeID(id);
+            if (privilege_roleCount > 0)
+            {
+                if (m_privilege_roledal.DeleteByPrivilegeID(id) == privilege_roleCount)
+                {
+                    return m_privilegesDal.Delete(id);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return m_privilegesDal.Delete(id);
+            }
         }
 
         [SoapHeader("m_securityContext")]

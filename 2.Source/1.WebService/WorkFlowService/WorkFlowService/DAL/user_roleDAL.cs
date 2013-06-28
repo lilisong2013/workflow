@@ -280,6 +280,26 @@ namespace Saron.WorkFlowService.DAL
             int count = (int)DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             return count;
         }
+
+        /// <summary>
+        /// 某用户角色对应多少个用户
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <returns></returns>
+        public int User_RoleCountByRoleID(int role_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from user_role ");
+            strSql.Append(" where role_id=@role_id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@user_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = role_id;
+
+            int count = (int)DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            return count;
+        }
+        
         /// <summary>
         /// 按照user_id批量删除
         /// </summary>
@@ -294,6 +314,25 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@user_id", SqlDbType.Int,4)
             };
             parameters[0].Value = user_id;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            return rows;
+        }
+
+        /// <summary>
+        /// 按照role_id批量删除
+        /// </summary>
+        /// <param name="user_id">用户ID</param>
+        /// <returns></returns>
+        public int DeleteByRoleID(int role_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from user_role ");
+            strSql.Append(" where role_id=@role_id  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@role_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = role_id;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             return rows;
