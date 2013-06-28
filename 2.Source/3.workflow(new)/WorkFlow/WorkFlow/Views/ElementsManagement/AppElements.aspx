@@ -17,7 +17,7 @@
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
 
     <%--LigerUI Dialog文件--%>
-  <%--  <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>--%>
+
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
 
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
@@ -137,21 +137,7 @@
      }
  </script>
 
-    <%--添加菜单选项卡：菜单树的显示与隐藏--%>
- <%--   <script type="text/javascript">
-        $(document).ready(function () {
-            $("#selectMenus").hide();
-
-            $("#MenusParent").click(function () {
-                if ($("#selectMenus").is(":hidden")) {
-                    $("#selectMenus").show();
-                }
-                else {
-                    $("#selectMenus").hide();
-                }
-            });
-        });
-    </script>--%>
+ 
     <%--添加元素的菜单树(数据)--%>
     <script type="text/javascript">
         var eManagerTree;
@@ -248,36 +234,7 @@
        });
    }
     </script>
-   <%--菜单树的数据显示--%>
-   <%-- <script type="text/javascript">
-        $(document).ready(function () {
-            var datas;
-            var dataJson;
-
-            $.ajax({
-                url: "/MenusManagement/GetMenus",
-                type: "POST",
-                dataType: "json",
-                data: {},
-                success: function (responseText, statusText) {
-                    datas = responseText; //获取到的菜单json格式字符串
-                    dataJson = eval(datas); //将json字符串转化为json数据
-                    //显示菜单树
-                    $("#tree1").ligerTree({
-                     data: dataJson,
-                     checkbox: false,
-                     textFieldName: 'name',
-                     onSelect: onSelect
-                    });
-               }
-            });
-            //选择节点将父菜单信息赋给menusInfo
-            function onSelect(note) {
-                $("#menusInfo").val(note.data.id);
-                $("#menusInfo").html(note.data.name);
-            }
-        });        
-    </script>--%>
+ 
 
     <%--添加页面元素权限(按钮点击)--%>
     <script type="text/javascript">
@@ -328,58 +285,7 @@
        
     </script>
 
-   <%--添加菜单--%>
-   <%--  <script type="text/javascript">
-        $(document).ready(function () {
-            var options = {
-                //beforeSubmit: showRequest,  // from提交前的响应的回调函数
-                success: showResponse,  // form提交响应成功后执行的回调函数
-                url: "/MenusManagement/AddMenus",
-                type: "POST",
-                dataType: "json"
-            };
-
-            $("#submit").click(function () {
-                if (false) {
-
-                    return false;
-                } else {
-                    $("#add_Menus").ajaxForm(options);
-                }
-            });
-
-            function showResponse(responseText, statusText) {
-                //成功后执行的方法
-                //alert(responseText.Id + responseText.Name);
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass(responseText.css);
-                $("#promptDIV").html(responseText.message);
-            }
-        });
-    </script>--%>
-   <%--添加菜单提示--%>
-   <%-- <script type="text/javascript">
-               $(document).ready(function () {
-                   var form = $("#add_Menus");
-                   form.submit(function () {
-                       $.post(form.attr("action"),
-                    form.serialize(),
-                    function (result, status) {
-                        //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(result.css);
-                        $("#promptDIV").html(result.message);
-
-                        if (result.success) {
-                            location.href = result.toUrl;
-                        }
-                    },
-                    "JSON");
-                       return false;
-
-                   });
-               });
-    </script>--%>
+ 
 
 </asp:Content>
 

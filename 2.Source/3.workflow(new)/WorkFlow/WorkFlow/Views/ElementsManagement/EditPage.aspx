@@ -5,6 +5,28 @@ EditPage
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+
+    <%-- ligerUI核心文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-tree.css" rel="stylesheet" type="text/css" />        
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
+
+    <%--LigerUI Dialog文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
+        });
+    </script>
+
    <%--ID初始化--%>
    <script type="text/javascript">
        var elementsID;
@@ -44,6 +66,101 @@ EditPage
            });
        });
    </script>
+
+    <%--添加元素的菜单树(数据)--%>
+    <script type="text/javascript">
+        var eManagerTree;
+        //var eManagerGrid;
+        $(document).ready(function () {
+            //alert("EditPage---??");
+            $("#eMyTree").hide(); //初始化隐藏eMyTree树
+            //初始化ligerTree
+            $("#eMyTree").ligerTree({
+                checkbox: false,
+                textFieldName: 'name',
+                onSelect: OnSelectMenusOfElements
+            });
+            eManagerTree = $("#eMyTree").ligerGetTreeManager();
+            BindMenusListOfElements(); //mMyTree绑定数据
+       
+            //下拉列表控件的点击事件
+            $("#eElementPage").click(function () {
+                if ($("#eMyTree").is(":hidden")) {
+                    $("#eMyTree").show();
+                } else {
+                    $("#eMyTree").hide();
+                }
+            });
+
+        });
+        //选择元素所在页面后重载eMyGrid数据
+        function OnSelectMenusOfElements(note) {
+            //alert(note.data.id);
+            $.ajax({
+                url: "/PrivilegesManagement/ExistChildreMenus",
+                type: "POST",
+                dataType: "json",
+                data: {elementsID: note.data.id },
+                success: function (responseText, statusText) {
+                    //alert(responseText.success);
+                    if (responseText.success) {
+                        $("#eElementPageInfo").val("-1");
+                        $("#eElementPageInfo").html("选择页面");
+                    } else {
+                        $("#eElementPageInfo").val(note.data.id);
+                        $("#eElementPageInfo").html(note.data.name);
+                        BindElementsList(note.data.id);
+                    }
+                }
+            });
+        }
+        //加载eMyTree树的数据
+        function BindMenusListOfElements() {
+            //alert("BindMenusListOfElements???--");
+            $.ajax({
+                url: "/PrivilegesManagement/GetMenusOfItem",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataMenusJson = eval(responseText); //将json字符串转化为json数据
+                    eManagerTree.clear();
+                    eManagerTree.setData(dataMenusJson);
+                    eManagerTree.loadData();
+                }
+            });
+        }
+        //加载表格eMyGrid的数据
+        function BindElementsList(pageID) {
+            //alert(pageID);
+            // alert("BindElementsList???ok---");
+            $.ajax({
+                url: "/PrivilegesManagement/GetElementOfItem",
+                type: "POST",
+                dataType: "json",
+                data: {elementsID: pageID },
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataElementsJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //更新eMyGrid数据
+                    eManagerGrid.setOptions({
+                        columns: [
+                            { display: '页面元素名称', name: 'name', width: 120 },
+                            { display: '页面元素编码', name: 'code', width: 120 },
+                            { display: '备注信息', name: 'remark', width: 180 }
+                            ],
+                        data: dataElementsJson,
+                        onSelectRow: OnSelectElements//进一步确认是否优化？
+                    });
+                    //重载oMyGrid数据
+                    eManagerGrid.loadData();
+                }
+            });
+        }
+    </script>
+
+
    <%--表单提交数据--%>
    <script type="text/javascript">
        $(document).ready(function () {
@@ -105,53 +222,7 @@ EditPage
             $("#promptDIV").html("");
         });
     </script>
-     <%-- <script type="text/javascript">
-          $(document).ready(function () {
-              var form = $("#Edit_Elements");
-              form.submit(function () {
-                  $.post(form.attr("action"),
-                    form.serialize(),
-                    function (result, status) {
-                        //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(result.css);
-                        $("#promptDIV").html(result.message);
 
-                        if (result.success) {
-                            location.href = result.toUrl;
-                        }
-                    },
-                    "JSON");
-                  return false;
-              });
-          });
-    </script>--%>
-
-     <%--  <script type="text/javascript">
-    $(document).ready(function () {
-        BindInvalidName();
-        $("#elementsInfo").html("请选择");
-    });
-    function BindInvalidName() {
-        $.ajax({
-            type: "Post",
-            contentType: "application/json",
-            url: "/RolesManagement/GetInvalidName",
-            data: {}, //即使参数为空，也需要设置
-            dataType: 'JSON', //返回的类型为XML
-            success: function (result, status) {
-                //成功后执行的方法
-                try {
-                    if (status == "success") {
-                        for (var i = 0; i < result.Total; i++) {
-                            $("#elementsInvalid").append("<option value='" + result.Rows[i].InvalidID + "'>" + result.Rows[i].InvalidName + "</option>");
-                        }
-                    }
-                } catch (e) { }
-            }
-        });
-    }
-  </script>--%>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -171,46 +242,58 @@ EditPage
    </div>  
      <div class="tab-pane">
       <form  id="Edit_Elements" method="post" action="" class="form-horizontal">           
-       <div class="control-group span6 offset2">       
+       <div class="control-group span5 offset2">       
        <label class="control-label">元素名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsName" name="elementsName" type="text" value="<%=ViewData["elementsName"]%>" />
+       <input id="elementsName" name="elementsName" type="text" value="<%=ViewData["elementsName"]%>" class="input-prepend span5"/>
        <input id="elementsID" name="elementsID" type="hidden" value="<%=ViewData["elementsId"]%>"/>
        </div>
        </div>
-       <div class="control-group span6 offset2">
+       <div class="control-group span5 offset2">
        <label class="control-label">元素编码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsCode" name="elementsCode" type="text" value="<%=ViewData["elementsCode"]%>" />
+       <input id="elementsCode" name="elementsCode" type="text" value="<%=ViewData["elementsCode"]%>" class="input-prepend span5"/>
        </div>
        </div>
-       <div class="control-group span6 offset2">
-       <label class="control-label">初始状态ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+       <div class="control-group span5 offset2">
+       <label class="control-label">初始状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsInitstatus_id" name="elementsInitstatus_id" type="text" value="<%=ViewData["elementsInitstatus_id"]%>" />
+       <label class="uneditable-input span5" ><%=ViewData["elementsInitstatus_id"]%></label>
+       <input type="hidden" id="elementsInitstatus_id" name="elementsInitstatus_id" value="<%=ViewData["elementsInitstatus_id"]%>"/>
        </div>
        </div>
-       <div class="control-group span6 offset2">
+       <div class="control-group span5 offset2">
        <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsSeqno" name="elementsSeqno" type="text" value="<%=ViewData["elementsSeqno"]%>" />
+       <input id="elementsSeqno" name="elementsSeqno" type="text" value="<%=ViewData["elementsSeqno"]%>" class="input-prepend span5"/>
        </div>
        </div>
-       <div class="control-group span6 offset2">
-       <label class="control-label">页面ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-       <div class="controls">
+       <div class="control-group span5 offset2">
+       <label class="control-label">所在页面：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+         <div class="controls">
+         <select id="eElementPage" name="eElementPage" class="span5">
+           <option id="eElementPageInfo" value="-1">选择页面</option>
+         </select>
+         </div>
+     <%--  <div class="controls">
        <input id="elementsMenu_id" name="elementsMenu_id" type="text" value="<%=ViewData["elementsMenu_id"]%>"/>
-       </div> 
+       </div> --%>
        </div>
-       <div class="control-group span6 offset2">
+       <div class="control-group span5 offset2">
+         <div class="controls span5">
+          <div id="eMyTree"></div>
+         </div>
+       </div>
+
+       <div class="control-group span5 offset2">
        <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div id="invalidList">
        </div>
        </div>
-       <div class="control-group span6 offset2">
+       <div class="control-group span5 offset2">
        <label class="control-label"> 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    
        <div class="controls">
-       <textarea id="elementsRemark" name="elementsRemark" cols="5" rows="4"><%=ViewData["elementsRemark"]%></textarea>
+       <textarea id="elementsRemark" name="elementsRemark" cols="5" rows="4" class="span5"><%=ViewData["elementsRemark"]%></textarea>
        </div>   
         
         <input type="hidden" name="elementsDeleted" id="elementsDeleted" value="<%=ViewData["elementsDeleted"]%>" />
@@ -222,8 +305,8 @@ EditPage
         <input type="hidden" name="elementsUpdated_by" id="elementsUpdated_by"/>
         <input type="hidden" name="elementsUpdated_ip" id="elementsUpdated_ip"/>
        </div>
-       <div class="control-group span6 offset3" style="background-position:center">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary  span3" />  
+       <div class="control-group span5 offset3" >
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary  span6" />  
        </div>    
     </form>
     </div> 

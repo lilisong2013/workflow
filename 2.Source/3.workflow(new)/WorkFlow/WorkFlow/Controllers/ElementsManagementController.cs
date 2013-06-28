@@ -301,7 +301,18 @@ namespace WorkFlow.Controllers
             ViewData["elementsName"] = m_elementsModel.name;
             ViewData["elementsCode"] = m_elementsModel.code;
             ViewData["elementsRemark"] = m_elementsModel.remark;
-            ViewData["elementsInitstatus_id"] = m_elementsModel.initstatus_id;
+            if (m_elementsModel.initstatus_id == 1)
+            {
+                ViewData["elementsInitstatus_id"] ="可见";
+            }
+            if (m_elementsModel.initstatus_id == 2)
+            {
+                ViewData["elementsInitstatus_id"] = "不可见";
+            }
+            if (m_elementsModel.initstatus_id == 3)
+            {
+                ViewData["elementsInitstatus_id"] = "无效";
+            }
             ViewData["elementsSeqno"] = m_elementsModel.seqno;
             ViewData["elementsMenu_id"] = m_elementsModel.menu_id;
             ViewData["elementsApp_id"] = m_elementsModel.app_id;
@@ -347,6 +358,10 @@ namespace WorkFlow.Controllers
             if (code.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码不能空!" });
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsCode(code)==false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="元素编码以字母开头!"});
             }
             if (initstatusid.Length == 0 || initstatusid.Equals("请选择"))
             {
@@ -421,26 +436,7 @@ namespace WorkFlow.Controllers
             
           
         }
-        ///<summary>
-        ///获得系统ID的下拉列表框
-        /// </summary>
-        /// <returns>json数据</returns>
-        //public ActionResult GetAppId()
-        //{
-        //    WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-        //    WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
-        //    DataSet ds = m_appsBllService.GetAllAppsList();
-        //    List<Saron.WorkFlow.Models.AppIDHelper> m_appidlist = new List<Saron.WorkFlow.Models.AppIDHelper>();
-        //    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-        //    {
-        //        m_appidlist.Add(new Saron.WorkFlow.Models.AppIDHelper { AppID=Convert.ToInt32(ds.Tables[0].Rows[i][0]) });
-        //    }
-        //    var dataJson=new{
-        //    Rows=m_appidlist,
-        //    Total=ds.Tables[0].Rows.Count
-        //    };
-        //    return Json(dataJson,JsonRequestBehavior.AllowGet);
-        //}
+
         ///<summary>
         ///获得初始化状态的下拉列表
         /// </summary>
@@ -539,8 +535,9 @@ namespace WorkFlow.Controllers
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
             string Initstatus_id = collection["elementsInitstatus_id"].Trim();
-            string Menu_id = collection["elementsMenu_id"].Trim();
-            //string invalid = collection["elementsInvalid"].Trim();
+            string Menu_id = Request.Form["eElementPage"];
+      
+     
             if (name.Length == 0)
             {      
                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
@@ -549,15 +546,22 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="元素编码不能空!"});
             }
+            if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码以字母开头!" });
+            }
             if (Initstatus_id.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="初始化状态码不能为空!"});
             }
             if (Menu_id.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="页面ID不能为空!"});
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空!" });
             }
-          
+            if (Menu_id.Equals("选择页面")||Convert.ToInt32(Menu_id)==-1)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "请选择所在页面!" });
+            }
             DataSet ds = m_elementsBllService.GetElementsListOfApp(appID,out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList elementsList = new ArrayList();
@@ -593,9 +597,20 @@ namespace WorkFlow.Controllers
             m_elementsModel.name = collection["elementsName"].Trim();
             m_elementsModel.code = collection["elementsCode"].Trim();
             m_elementsModel.remark = collection["elementsRemark"].Trim();
-            m_elementsModel.initstatus_id = Convert.ToInt32(collection["elementsInitstatus_id"].Trim().ToString());
+            if (collection["elementsInitstatus_id"].Trim().ToString() == "可见")
+            {
+                m_elementsModel.initstatus_id = 1;
+            }
+            if (collection["elementsInitstatus_id"].Trim().ToString() == "不可见")
+            {
+                m_elementsModel.initstatus_id = 2;
+            }
+            if (collection["elementsInitstatus_id"].Trim().ToString() == "无效")
+            {
+                m_elementsModel.initstatus_id = 3;
+            }
             m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim().ToString());
-            m_elementsModel.menu_id = Convert.ToInt32(collection["elementsMenu_id"].Trim().ToString());
+            m_elementsModel.menu_id = Convert.ToInt32(Request.Form["eElementPage"]);
             m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim().ToString());
             if (m_ev_Total == 1)
             {
@@ -605,7 +620,7 @@ namespace WorkFlow.Controllers
             {
                 m_elementsModel.invalid = true;
             }
-           // m_elementsModel.invalid = Convert.ToBoolean(collection["elementsInvalid"].Trim().ToString());
+
             m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim().ToString());
             m_elementsModel.updated_at = t;
             m_elementsModel.updated_by = Convert.ToInt32(m_usersModel.id);

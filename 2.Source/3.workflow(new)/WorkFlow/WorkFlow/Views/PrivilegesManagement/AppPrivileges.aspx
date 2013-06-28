@@ -35,7 +35,7 @@
     <%--权限列表--%>
     <script type="text/javascript">
         var managerListGrid;
-        $(document).ready(function () {          
+        $(document).ready(function () {
             //定义ligerGrid
             $("#privilegesgrid").ligerGrid({
                 width: '99%',
@@ -86,7 +86,7 @@
                                     return html;
                                 }
                             }
-                         
+
                             ],
                         data: dataprivilegejson
                     });
@@ -99,28 +99,28 @@
     <%--删除提示信息的函数--%>
     <script type="text/javascript">
         function DeletePrivileges(id) {
-         //alert(id);
-         var privilegeid = id;
-         $.ligerDialog.confirm('确定要删除吗?', function (yes) {
-             if (yes) {
-               $.ajax({
-                   url: "/PrivilegesManagement/DeletePrivileges",
-                   type: "POST",
-                   dataType: "json",
-                   data: { privilegeID: privilegeid },
-                   success: function (responseText, statusText) {
-                       GetPrivilegeList();
-                       $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                       $("#promptDIV").addClass(responseText.css);
-                       $("#promptDIV").html(responseText.message);
-                   }
-               });
+            //alert(id);
+            var privilegeid = id;
+            $.ligerDialog.confirm('确定要删除吗?', function (yes) {
+                if (yes) {
+                    $.ajax({
+                        url: "/PrivilegesManagement/DeletePrivileges",
+                        type: "POST",
+                        dataType: "json",
+                        data: { privilegeID: privilegeid },
+                        success: function (responseText, statusText) {
+                            GetPrivilegeList();
+                            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                            $("#promptDIV").addClass(responseText.css);
+                            $("#promptDIV").html(responseText.message);
+                        }
+                    });
 
-           }
+                }
 
-       }); 
+            });
 
-     }
+        }
     </script>
     <%--添加操作权限(数据)--%>
     <script type="text/javascript">
@@ -340,7 +340,7 @@
                 onSelect: OnSelectMenusOfElements
             });
             eManagerTree = $("#eMyTree").ligerGetTreeManager();
-            
+
             //初始化ligerGrid
             $("#eMyGrid").ligerGrid({
                 width: '99%',
@@ -379,7 +379,7 @@
 
             //清空eMyGrid的数据
             eManagerGrid.setOptions({
-                data: { }
+                data: {}
             });
             //重载eMyGrid数据
             eManagerGrid.loadData();
@@ -428,7 +428,7 @@
                 url: "/PrivilegesManagement/GetElementOfItem",
                 type: "POST",
                 dataType: "json",
-                data: {menusID:pageID},
+                data: { menusID: pageID },
                 success: function (responseText, statusText) {
                     //alert(responseText);
                     var dataElementsJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
@@ -470,7 +470,7 @@
 
             //提交add_MenusPrivileges表单前执行的函数
             function e_showRequest() {
-                var ePrivilegesName = $.trim($("#ePrivilegesName").val());//权限名称
+                var ePrivilegesName = $.trim($("#ePrivilegesName").val()); //权限名称
                 var elementID = $("#ePrivilegesItem").val(); //元素ID
                 //alert(oPrivilegesName);
                 if (ePrivilegesName == "") {
@@ -509,7 +509,7 @@
                 url: "/PrivilegesManagement/ExistPrivilegeItemOfOperations",
                 type: "POST",
                 dataType: "json",
-                data: {operationsID: rowdata.id },
+                data: { operationsID: rowdata.id },
                 success: function (responseText, statusText) {
                     if (responseText.success) {
                         $("#oPrivilegesItemInfo").val(rowdata.id);
