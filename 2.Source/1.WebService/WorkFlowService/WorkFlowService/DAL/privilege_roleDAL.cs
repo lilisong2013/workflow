@@ -51,6 +51,25 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 某权限对应多少个角色
+        /// </summary>
+        /// <param name="role_id"></param>
+        /// <returns></returns>
+        public int Privilege_RoleCountByPrivilegeID(int privilege_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from privilege_role ");
+            strSql.Append(" where privilege_id=@privilege_id  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@privilege_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = privilege_id;
+
+            int count = (int)DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            return count;
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         public bool Add(Saron.WorkFlowService.Model.privilege_roleModel model)
@@ -122,6 +141,23 @@ namespace Saron.WorkFlowService.DAL
             return rows;
         }
 
+        /// <summary>
+        /// 按照privilege_id批量删除
+        /// </summary>
+        /// <param name="role_id">角色ID</param>
+        /// <returns></returns>
+        public int DeleteByPrivilegeID(int privilege_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from privilege_role ");
+            strSql.Append(" where privilege_id=@privilege_id  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@privilege_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = privilege_id;
 
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            return rows;
+        }
     }
 }

@@ -178,12 +178,22 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
 
-            if (m_user_roledal.DeleteByUserID(id) == 0)
+            int user_roleCount = m_user_roledal.User_RoleCountByUserID(id);
+            if (user_roleCount > 0)
             {
-                return false;
+                if (m_user_roledal.DeleteByUserID(id) == user_roleCount)
+                {
+                    return m_usersdal.LogicDelete(id); ;
+                }
+                else
+                {
+                    return false;
+                }
             }
-
-            return m_usersdal.LogicDelete(id);
+            else
+            {
+                return m_usersdal.LogicDelete(id); ;
+            }
         }
 
         [SoapHeader("m_securityContext")]
