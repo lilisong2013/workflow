@@ -609,20 +609,55 @@ namespace WorkFlow.Controllers
                     string id = ds.Tables[0].Rows[i][0].ToString();
                     string name = ds.Tables[0].Rows[i][1].ToString();
                     string privilegetype_id = null;
+                    string privilegeitem_id=null;
                     if (Convert.ToInt32(ds.Tables[0].Rows[i][2].ToString()) == 1)
                     {
                          privilegetype_id = "菜单";
+                         WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+                         WorkFlow.MenusWebService.SecurityContext m_MSecurity = new MenusWebService.SecurityContext();
+
+                         m_MSecurity.UserName = m_usersModel.login;
+                         m_MSecurity.PassWord = m_usersModel.password;
+                         m_MSecurity.AppID = (int)m_usersModel.app_id;
+                         m_menusBllService.SecurityContextValue = m_MSecurity;
+
+                         DataSet dsM = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
+
+                         privilegeitem_id = dsM.Tables[0].Rows[0][0].ToString();
                     }
                     if (Convert.ToInt32(ds.Tables[0].Rows[i][2].ToString()) == 2)
                     {
                          privilegetype_id = "页面元素";
+
+                         WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+                         WorkFlow.ElementsWebService.SecurityContext m_ESecurity = new ElementsWebService.SecurityContext();
+
+                         m_ESecurity.UserName = m_usersModel.login;
+                         m_ESecurity.PassWord = m_usersModel.password;
+                         m_ESecurity.AppID = (int)m_usersModel.app_id;
+                         m_elementsBllService.SecurityContextValue = m_ESecurity;
+
+                         DataSet dsE = m_elementsBllService.GetElementsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
+                        
+                         privilegeitem_id = dsE.Tables[0].Rows[0][0].ToString();
                     }
                     if (Convert.ToInt32(ds.Tables[0].Rows[i][2].ToString()) == 3)
                     {
                          privilegetype_id = "操作";
+
+                         WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+                         WorkFlow.OperationsWebService.SecurityContext m_OSecurity = new OperationsWebService.SecurityContext();
+
+                         m_OSecurity.UserName = m_usersModel.login;
+                         m_OSecurity.PassWord = m_usersModel.password;
+                         m_OSecurity.AppID = (int)m_usersModel.app_id;
+                         m_operationsBllService.SecurityContextValue = m_OSecurity;
+
+                         DataSet dsO = m_operationsBllService.GetOperationsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
+                         privilegeitem_id = dsO.Tables[0].Rows[0][0].ToString();
                     }
-                    //string privilegetype_id = ds.Tables[0].Rows[i][2].ToString();
-                    string privilegeitem_id = ds.Tables[0].Rows[i][3].ToString();
+                   
+                  
                     string remark = ds.Tables[0].Rows[i][4].ToString();
                     string invalid = ds.Tables[0].Rows[i][5].ToString();
                     if (i == ds.Tables[0].Rows.Count - 1)
@@ -652,7 +687,7 @@ namespace WorkFlow.Controllers
             data += "]}";
             return Json(data);
         }
-        
+       
         /// <summary>
         /// 显示所选权限系统的详情
         /// </summary>
@@ -733,19 +768,50 @@ namespace WorkFlow.Controllers
             if (m_privilegeModel.privilegetype_id == 1)
             {
                 ViewData["privilegeType_id"] ="菜单";
+                WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+                WorkFlow.MenusWebService.SecurityContext m_MSecurity = new MenusWebService.SecurityContext();
+
+                m_MSecurity.UserName = m_usersModel.login;
+                m_MSecurity.PassWord = m_usersModel.password;
+                m_MSecurity.AppID = (int)m_usersModel.app_id;
+                m_menusBllService.SecurityContextValue = m_MSecurity;
+
+                DataSet dsM = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(m_privilegeModel.privilegeitem_id), out msg);
+                ViewData["privilegeItem_id"] = (dsM.Tables[0].Rows[0][0].ToString());
+               
             }
             if (m_privilegeModel.privilegetype_id == 2)
             {
                 ViewData["privilegeType_id"] = "页面元素";
+                WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+                WorkFlow.ElementsWebService.SecurityContext m_ESecurity = new ElementsWebService.SecurityContext();
+
+                m_ESecurity.UserName = m_usersModel.login;
+                m_ESecurity.PassWord = m_usersModel.password;
+                m_ESecurity.AppID = (int)m_usersModel.app_id;
+                m_elementsBllService.SecurityContextValue = m_ESecurity;
+
+                DataSet dsE = m_elementsBllService.GetElementsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(m_privilegeModel.privilegeitem_id), out msg);
+                ViewData["privilegeItem_id"] = (dsE.Tables[0].Rows[0][0].ToString());
             }
             if (m_privilegeModel.privilegetype_id == 3)
             {
                 ViewData["privilegeType_id"] = "操作";
+                WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+                WorkFlow.OperationsWebService.SecurityContext m_OSecurity = new OperationsWebService.SecurityContext();
+
+                m_OSecurity.UserName = m_usersModel.login;
+                m_OSecurity.PassWord = m_usersModel.password;
+                m_OSecurity.AppID = (int)m_usersModel.app_id;
+                m_operationsBllService.SecurityContextValue = m_OSecurity;
+
+                DataSet dsO = m_operationsBllService.GetOperationsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(m_privilegeModel.privilegeitem_id), out msg);
+                ViewData["privilegeItem_id"]= (dsO.Tables[0].Rows[0][0].ToString());
             }
             ViewData["privilegeId"] = m_privilegeModel.id;
             ViewData["privilegeName"] = m_privilegeModel.name;
             //ViewData["privilegeType_id"] = m_privilegeModel.privilegetype_id;
-            ViewData["privilegeItem_id"] = m_privilegeModel.privilegeitem_id;
+            ViewData["privilegeItem_id1"] = m_privilegeModel.privilegeitem_id;
             ViewData["privilegeRemark"] = m_privilegeModel.remark;
             ViewData["privilegeApp_id"] = m_privilegeModel.app_id;
             ViewData["privilegeInvalid"] = m_privilegeModel.invalid;
@@ -841,7 +907,48 @@ namespace WorkFlow.Controllers
 
             m_privilegesModel.name = collection["privilegeName"];
             m_privilegesModel.privilegetype_id = Convert.ToInt32(collection["privilegeType_id"]);
-            m_privilegesModel.privilegeitem_id = Convert.ToInt32(collection["privilegeitem_id"]);
+
+            //if (Convert.ToInt32(collection["privilegeType_id"])==1)
+            //{
+            //    WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+            //    WorkFlow.MenusWebService.SecurityContext m_MSecurity = new MenusWebService.SecurityContext();
+
+            //    m_MSecurity.UserName = m_usersModel.login;
+            //    m_MSecurity.PassWord = m_usersModel.password;
+            //    m_MSecurity.AppID = (int)m_usersModel.app_id;
+            //    m_menusBllService.SecurityContextValue = m_MSecurity;
+
+            //    DataSet dsM = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(collection["privilegeitem_id"]),out msg);
+            //    m_privilegesModel.privilegeitem_id =Convert.ToInt32(dsM.Tables[0].Rows[0][0].ToString());
+            //}
+            //if (Convert.ToInt32(collection["privilegeType_id"]) == 2)
+            //{
+            //    WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+            //    WorkFlow.ElementsWebService.SecurityContext m_ESecurity = new ElementsWebService.SecurityContext();
+
+            //    m_ESecurity.UserName = m_usersModel.login;
+            //    m_ESecurity.PassWord = m_usersModel.password;
+            //    m_ESecurity.AppID = (int)m_usersModel.app_id;
+            //    m_elementsBllService.SecurityContextValue = m_ESecurity;
+
+            //    DataSet dsE = m_elementsBllService.GetElementsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(collection["privilegeitem_id"]),out msg);
+            //    m_privilegesModel.privilegeitem_id = Convert.ToInt32(dsE.Tables[0].Rows[0][0].ToString());
+            
+            //}
+            //if (Convert.ToInt32(collection["privilegeType_id"]) == 3)
+            //{
+            //    WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+            //    WorkFlow.OperationsWebService.SecurityContext m_OSecurity = new OperationsWebService.SecurityContext();
+
+            //    m_OSecurity.UserName = m_usersModel.login;
+            //    m_OSecurity.PassWord = m_usersModel.password;
+            //    m_OSecurity.AppID = (int)m_usersModel.app_id;
+            //    m_operationsBllService.SecurityContextValue = m_OSecurity;
+
+            //    DataSet dsO = m_operationsBllService.GetOperationsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(collection["privilegeitem_id"]),out msg);
+            //    m_privilegesModel.privilegeitem_id = Convert.ToInt32(dsO.Tables[0].Rows[0][0].ToString());
+            //}
+            m_privilegesModel.privilegeitem_id = Convert.ToInt32(collection["privilegeItem_id1"]);
             m_privilegesModel.remark = collection["privilegeRemark"];
             m_privilegesModel.app_id = Convert.ToInt32(collection["privilegeApp_id"]);
             if (m_pi_total == 1)

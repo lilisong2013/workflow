@@ -38,8 +38,8 @@
         $(document).ready(function () {
             //定义ligerGrid
             $("#privilegesgrid").ligerGrid({
-                width: '60%',
-                height: '200'
+                width: '99%',
+                height: '400'
             });
             managerListGrid = $("#privilegesgrid").ligerGetGridManager();
 
@@ -88,7 +88,11 @@
                             }
 
                             ],
-                        data: dataprivilegejson
+                        data: dataprivilegejson,
+                        groupColumnName: 'privilegetype_id',
+                        groupRender: function (privilegetype_id, groupdata) {
+                            return '权限类型:' + privilegetype_id + '(count=' + groupdata.length+')';
+                        }
                     });
                     managerListGrid.loadData();
 
@@ -129,8 +133,8 @@
             $("#oMyGrid").hide(); //初始化隐藏eMyGride表格
             //初始化ligerGrid
             $("#oMyGrid").ligerGrid({
-                width: '60%',
-                height: '200'
+                width: '99%',
+                height: '300'
             });
             oManagerGrid = $("#oMyGrid").ligerGetGridManager();
 
@@ -343,8 +347,8 @@
 
             //初始化ligerGrid
             $("#eMyGrid").ligerGrid({
-                width: '60%',
-                height: '200'
+                width: '99%',
+                height: '300'
             });
             eManagerGrid = $("#eMyGrid").ligerGetGridManager();
 
@@ -588,45 +592,13 @@
     </div>
 
     <%--Tab标签--%>
-   <%-- <div class="container" style="margin-top:16px;">
+    <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
             <li class="active" id="infoTab"><a href="#AllPrivileges" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li id="menusTab"><a href="#AddMenusPrivileges" data-toggle="tab"><i class="icon-plus"></i>菜单</a></li>
             <li id="operationsTab"><a href="#AddOperationsPrivileges" data-toggle="tab"><i class="icon-plus"></i>操作</a></li>
             <li id="elementsTab"><a href="#AddElementsPrivileges" data-toggle="tab"><i class="icon-plus"></i>页面元素</a></li>
         </ul>
-    </div>--%>
-   
-    <div class="control-group" style="height:300">
-     <div class="page-header">
-      <h3>菜单</h3>
-     </div>
-    <ul class="nav nav-tabs">
-     <li class="active" id="infoTab"><a href="#AllPrivileges" data-toggle="tab"><i class="icon-check"></i>全部菜单</a></li>
-     <li id="menusTab"><a href="#AddMenusPrivileges" data-toggle="tab"><i class="icon-plus"></i>菜单</a></li>
-    </ul>
-    </div>
-    <br />
-   
-    <div class="control-group" style="height:300">
-     <div class="page-header">
-      <h3>操作</h3>
-     </div>
-    <ul class="nav nav-tabs">
-    <li  class="active" id="infoTab"><a href="#AllPrivileges" data-toggle="tab"><i class="icon-check"></i>全部操作</a></li>
-    <li id="operationsTab"><a href="#AddOperationsPrivileges" data-toggle="tab"><i class="icon-plus"></i>操作</a></li>
-    </ul>
-    </div>
-    <br />
-   
-    <div class="control-group" style="height:300">
-     <div class="page-header">
-      <h3>元素</h3>
-     </div>
-    <ul class="nav nav-tabs">
-     <li class="active" id="infoTab"><a href="#AllPrivileges" data-toggle="tab"><i class="icon-check"></i>全部元素</a></li>
-     <li id="elementsTab"><a href="#AddElementsPrivileges" data-toggle="tab"><i class="icon-plus"></i>页面元素</a></li>
-    </ul>
     </div>
 
     <div class="tab-content">

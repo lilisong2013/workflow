@@ -62,7 +62,10 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单编码不能为空" });
             }
-
+            if (Saron.Common.PubFun.ConditionFilter.IsCode(Request.Form["MenusCode"]) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="编码以字母开头!"});
+            }
             m_menusModel.name = Request.Form["MenusName"];
             m_menusModel.code = Request.Form["MenusCode"];
             m_menusModel.url = Request.Form["MenusUrl"];
@@ -551,10 +554,18 @@ namespace WorkFlow.Controllers
             int m_menusId = Convert.ToInt32(collection["menusId"].Trim());
             m_menusModel = m_menusBllService.GetModel(m_menusId,out msg);
             string name = collection["menusName"].Trim().ToString();
-
+            string code = collection["menuCode"].Trim().ToString();
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单名称不能为空!" });
+            }
+            if (code.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="菜单编码不能为空!"});
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false) 
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="编码以字母开头!"});
             }
             DataSet ds = m_menusBllService.GetAllMenusListofApp(appID,out msg);
             var total = ds.Tables[0].Rows.Count;

@@ -109,6 +109,20 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据app_id和id获取operations表中的name字段的值，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetOperationsNameOfAppID(int appID,int ID,out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_operationsDal.GetOperationsNameOfAppID(appID,ID);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统中操作的数据列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetOperationsListOfApp(int appID,out string msg)
         {

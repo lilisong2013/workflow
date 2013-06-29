@@ -46,6 +46,8 @@ namespace WorkFlow.MenusWebService {
         
         private System.Threading.SendOrPostCallback GetTopMenusListOfAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetMenuNameOfAppIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ExistsChildrenMenusOperationCompleted;
         
         private System.Threading.SendOrPostCallback ExistsMenusCodeOperationCompleted;
@@ -119,6 +121,9 @@ namespace WorkFlow.MenusWebService {
         
         /// <remarks/>
         public event GetTopMenusListOfAppCompletedEventHandler GetTopMenusListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetMenuNameOfAppIDCompletedEventHandler GetMenuNameOfAppIDCompleted;
         
         /// <remarks/>
         public event ExistsChildrenMenusCompletedEventHandler ExistsChildrenMenusCompleted;
@@ -348,6 +353,39 @@ namespace WorkFlow.MenusWebService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetMenuNameOfAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetMenuNameOfAppID(int appID, int ID, out string msg) {
+            object[] results = this.Invoke("GetMenuNameOfAppID", new object[] {
+                        appID,
+                        ID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetMenuNameOfAppIDAsync(int appID, int ID) {
+            this.GetMenuNameOfAppIDAsync(appID, ID, null);
+        }
+        
+        /// <remarks/>
+        public void GetMenuNameOfAppIDAsync(int appID, int ID, object userState) {
+            if ((this.GetMenuNameOfAppIDOperationCompleted == null)) {
+                this.GetMenuNameOfAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMenuNameOfAppIDOperationCompleted);
+            }
+            this.InvokeAsync("GetMenuNameOfAppID", new object[] {
+                        appID,
+                        ID}, this.GetMenuNameOfAppIDOperationCompleted, userState);
+        }
+        
+        private void OnGetMenuNameOfAppIDOperationCompleted(object arg) {
+            if ((this.GetMenuNameOfAppIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetMenuNameOfAppIDCompleted(this, new GetMenuNameOfAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsChildrenMenus", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool ExistsChildrenMenus(int parentId, out string msg) {
             object[] results = this.Invoke("ExistsChildrenMenus", new object[] {
@@ -465,7 +503,7 @@ namespace WorkFlow.MenusWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -524,7 +562,7 @@ namespace WorkFlow.MenusWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -933,6 +971,40 @@ namespace WorkFlow.MenusWebService {
         private object[] results;
         
         internal GetTopMenusListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetMenuNameOfAppIDCompletedEventHandler(object sender, GetMenuNameOfAppIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetMenuNameOfAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetMenuNameOfAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

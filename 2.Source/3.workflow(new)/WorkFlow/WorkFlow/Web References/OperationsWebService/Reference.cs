@@ -42,6 +42,8 @@ namespace WorkFlow.OperationsWebService {
         
         private System.Threading.SendOrPostCallback GetOperationsNameListOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetOperationsNameOfAppIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetOperationsListOfAppOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetCodeListOfAppOperationCompleted;
@@ -107,6 +109,9 @@ namespace WorkFlow.OperationsWebService {
         
         /// <remarks/>
         public event GetOperationsNameListCompletedEventHandler GetOperationsNameListCompleted;
+        
+        /// <remarks/>
+        public event GetOperationsNameOfAppIDCompletedEventHandler GetOperationsNameOfAppIDCompleted;
         
         /// <remarks/>
         public event GetOperationsListOfAppCompletedEventHandler GetOperationsListOfAppCompleted;
@@ -269,6 +274,39 @@ namespace WorkFlow.OperationsWebService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOperationsNameOfAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetOperationsNameOfAppID(int appID, int ID, out string msg) {
+            object[] results = this.Invoke("GetOperationsNameOfAppID", new object[] {
+                        appID,
+                        ID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetOperationsNameOfAppIDAsync(int appID, int ID) {
+            this.GetOperationsNameOfAppIDAsync(appID, ID, null);
+        }
+        
+        /// <remarks/>
+        public void GetOperationsNameOfAppIDAsync(int appID, int ID, object userState) {
+            if ((this.GetOperationsNameOfAppIDOperationCompleted == null)) {
+                this.GetOperationsNameOfAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOperationsNameOfAppIDOperationCompleted);
+            }
+            this.InvokeAsync("GetOperationsNameOfAppID", new object[] {
+                        appID,
+                        ID}, this.GetOperationsNameOfAppIDOperationCompleted, userState);
+        }
+        
+        private void OnGetOperationsNameOfAppIDOperationCompleted(object arg) {
+            if ((this.GetOperationsNameOfAppIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetOperationsNameOfAppIDCompleted(this, new GetOperationsNameOfAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOperationsListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetOperationsListOfApp(int appID, out string msg) {
             object[] results = this.Invoke("GetOperationsListOfApp", new object[] {
@@ -349,7 +387,7 @@ namespace WorkFlow.OperationsWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -408,7 +446,7 @@ namespace WorkFlow.OperationsWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.233")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -736,6 +774,40 @@ namespace WorkFlow.OperationsWebService {
         private object[] results;
         
         internal GetOperationsNameListCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetOperationsNameOfAppIDCompletedEventHandler(object sender, GetOperationsNameOfAppIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetOperationsNameOfAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetOperationsNameOfAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

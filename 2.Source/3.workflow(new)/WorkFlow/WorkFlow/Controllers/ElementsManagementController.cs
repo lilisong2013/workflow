@@ -530,7 +530,7 @@ namespace WorkFlow.Controllers
 
             m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()),out msg);
             int appID = Convert.ToInt32(codeModel.app_id);
-            int menuID = Convert.ToInt32(collection["elementsMenu_id"]);
+            int menuID = Convert.ToInt32(Request.Form["eElementPage"]);
 
             string name = collection["elementsName"].Trim();
             string code = collection["elementsCode"].Trim();
@@ -562,6 +562,7 @@ namespace WorkFlow.Controllers
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "请选择所在页面!" });
             }
+            //判断元素名称重名处理操作
             DataSet ds = m_elementsBllService.GetElementsListOfApp(appID,out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList elementsList = new ArrayList();
@@ -576,6 +577,7 @@ namespace WorkFlow.Controllers
                     elementsList.Remove(m_elementsModel.name);
                 }
             }
+            //判断元素编码重名处理操作
             DataSet codeds = m_elementsBllService.GetCodeListOfMenuApp(appID,menuID,out msg);
             ArrayList codeList = new ArrayList();
             var codetotal = codeds.Tables[0].Rows.Count;
@@ -590,6 +592,7 @@ namespace WorkFlow.Controllers
                     codeList.Remove(m_elementsModel.code);
                 }
             }
+
             String s = DateTime.Now.ToString() + "." + DateTime.Now.Millisecond.ToString();
             DateTime t = Convert.ToDateTime(s);
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
@@ -625,6 +628,7 @@ namespace WorkFlow.Controllers
             m_elementsModel.updated_at = t;
             m_elementsModel.updated_by = Convert.ToInt32(m_usersModel.id);
             m_elementsModel.updated_ip = collection["elementsCreated_ip"].Trim();
+
             foreach (string elementsName in elementsList)
             {//如果修改后的名称与数据表中的名称相同
                 if (elementsName.Equals(m_elementsModel.name.ToString()))

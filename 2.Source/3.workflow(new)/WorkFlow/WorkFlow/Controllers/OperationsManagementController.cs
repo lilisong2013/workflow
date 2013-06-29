@@ -249,12 +249,20 @@ namespace WorkFlow.Controllers
             int m_operationsId = Convert.ToInt32(collection["operationsId"].Trim());
             m_operationsModel = m_operationsBllService.GetModel(m_operationsId,out msg);
             string name = collection["operationsName"].Trim().ToString();
+            string code = collection["operationsCode"].Trim().ToString();
             //string invalid = collection["operationsInvalid"].Trim();
             if (name.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
             }
-          
+            if (code.Length == 0)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="操作编码不能为空!"});
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="编码以字母开头!"});
+            }
             DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
             var total = ds.Tables[0].Rows.Count;
             ArrayList operationsList = new ArrayList();
@@ -400,6 +408,10 @@ namespace WorkFlow.Controllers
             if (m_operationsCode.Length == 0)
             {
                 return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="操作编码不能为空!"});
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsCode(m_operationsCode) == false)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="操作编码以字母开头!"});
             }
             string m_operationsDescription = collection["operationsDescription"].Trim();
             string m_operationsRemark = collection["operationsRemark"].Trim();

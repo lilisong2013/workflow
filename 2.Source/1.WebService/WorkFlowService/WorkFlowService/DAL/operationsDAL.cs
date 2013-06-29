@@ -347,6 +347,25 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+        /// <summary>
+        /// 获得某系统中且为系统ID为id的操作名称
+        /// </summary>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetOperationsNameOfAppID(int appID,int id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name");
+            strSql.Append(" FROM operations ");
+            strSql.Append(" where app_id=@app_id and id=@id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@id",SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            parameters[1].Value = id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
 
         /// <summary>
         /// 获得某系统中操作的Code数据列表

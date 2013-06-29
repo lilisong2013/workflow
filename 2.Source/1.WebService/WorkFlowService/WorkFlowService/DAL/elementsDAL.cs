@@ -334,6 +334,24 @@ namespace Saron.WorkFlowService.DAL
         }
 
         ///<summary>
+        ///获得某系统且系统ID为id的元素名称
+        /// </summary>
+        public DataSet GetElementsNameOfAppID(int appID,int id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name");
+            strSql.Append(" FROM elements ");
+            strSql.Append("where app_id=@app_id and id=@id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@id",SqlDbType.Int,4)
+           };
+            parameters[0].Value = appID;
+            parameters[1].Value = id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
+        ///<summary>
         ///获得某系统和页面元素列表
         /// </summary>
         public DataSet GetAllElementsListOfMenuApp(int appID, int menuID)

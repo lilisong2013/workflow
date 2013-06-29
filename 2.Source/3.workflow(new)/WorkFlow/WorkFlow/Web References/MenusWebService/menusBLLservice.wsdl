@@ -156,6 +156,29 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetMenuNameOfAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMenuNameOfAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMenuNameOfAppIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="ExistsChildrenMenus">
         <s:complexType>
           <s:sequence>
@@ -269,6 +292,15 @@
   <wsdl:message name="GetTopMenusListOfAppSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetMenuNameOfAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMenuNameOfAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuNameOfAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMenuNameOfAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuNameOfAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="ExistsChildrenMenusSoapIn">
     <wsdl:part name="parameters" element="tns:ExistsChildrenMenus" />
   </wsdl:message>
@@ -331,6 +363,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的顶级菜单，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetTopMenusListOfAppSoapIn" />
       <wsdl:output message="tns:GetTopMenusListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuNameOfAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据appID和ID获得某系统的菜单名称，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetMenuNameOfAppIDSoapIn" />
+      <wsdl:output message="tns:GetMenuNameOfAppIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsChildrenMenus">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单主键为parentId的菜单是否存在子菜单，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -415,6 +452,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetTopMenusListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuNameOfAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetMenuNameOfAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetMenuNameOfAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -518,6 +565,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetTopMenusListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuNameOfAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetMenuNameOfAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetMenuNameOfAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
