@@ -89,9 +89,10 @@
 
                             ],
                         data: dataprivilegejson,
+                        alternatingRow:true,  
                         groupColumnName: 'privilegetype_id',
                         groupRender: function (privilegetype_id, groupdata) {
-                            return '权限类型:' + privilegetype_id + '(count=' + groupdata.length+')';
+                            return '<font color="Green" face="verdana" size="4"><b>权限类型:' + privilegetype_id + '(' + groupdata.length + ')' + '</b></font>';
                         }
                     });
                     managerListGrid.loadData();
