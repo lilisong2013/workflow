@@ -16,7 +16,14 @@ namespace WorkFlow.Controllers
 
         public ActionResult AppOperations()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                return View();
+            }
         }
         /// <summary>
         /// 显示数据库中功能操作表的信息

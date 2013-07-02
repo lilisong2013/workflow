@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-AppUsers
+    权限管理系统/用户管理
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
 
