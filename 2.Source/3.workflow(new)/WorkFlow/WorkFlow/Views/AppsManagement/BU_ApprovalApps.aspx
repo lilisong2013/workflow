@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/secondsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    BU_ApprovalApps
+    权限管理系统/系统审批
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">

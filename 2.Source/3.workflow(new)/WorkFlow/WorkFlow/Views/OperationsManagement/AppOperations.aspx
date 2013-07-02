@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    AppOperations
+    权限管理系统/操作管理
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
