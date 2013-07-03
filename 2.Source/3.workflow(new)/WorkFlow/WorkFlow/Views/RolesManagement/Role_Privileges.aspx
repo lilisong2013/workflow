@@ -7,6 +7,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+    
+    <%--页面标题--%>
+    <script type="text/javascript">
+        var titleUrl = "/Home/GetPageTitle";
+        var PageName = "角色权限";
+    </script>
+    <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         var roleID;

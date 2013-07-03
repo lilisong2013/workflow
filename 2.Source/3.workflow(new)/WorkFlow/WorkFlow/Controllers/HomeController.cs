@@ -399,5 +399,16 @@ namespace WorkFlow.Controllers
             }
         }
 
+
+        /// <summary>
+        /// 获取页面的标题
+        /// </summary>
+        public ActionResult GetPageTitle()
+        {
+            string pageName = "权限管理系统 | ";
+            pageName += Request.Params["pageName"];
+            return Json("{pageName:'" + pageName + "'}");
+        }
+
     }
 }

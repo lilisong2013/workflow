@@ -1,10 +1,18 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    权限管理系统/操作编辑
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
   <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
   <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+
+  <%--页面标题--%>
+    <script type="text/javascript">
+        var titleUrl = "/Home/GetPageTitle";
+        var PageName = "操作编辑";
+    </script>
+    <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+
   <script type="text/javascript">
       var operationID;
       $(document).ready(function () {
