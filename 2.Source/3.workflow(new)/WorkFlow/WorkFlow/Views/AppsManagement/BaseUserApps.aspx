@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/secondsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    权限管理系统/系统总览
+    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
@@ -16,6 +16,14 @@
      <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+
+    <%--页面标题--%>
+    <script type="text/javascript">
+        var titleUrl = "/Home/GetPageTitle";
+        var PageName = "系统总览";
+    </script>
+    <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+
     <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
         $(document).ready(function () {

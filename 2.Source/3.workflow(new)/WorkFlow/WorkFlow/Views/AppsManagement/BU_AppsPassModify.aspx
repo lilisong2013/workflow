@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/secondsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    权限管理系统/超级管理员密码修改
+   
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
@@ -10,6 +10,14 @@
         type="text/css" />
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+
+    <%--页面标题--%>
+    <script type="text/javascript">
+        var titleUrl = "/Home/GetPageTitle";
+        var PageName = "密码修改";
+    </script>
+    <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+
      <script type="text/javascript">
          $(document).ready(function () {
              var form = $("#modifyAppsPass");

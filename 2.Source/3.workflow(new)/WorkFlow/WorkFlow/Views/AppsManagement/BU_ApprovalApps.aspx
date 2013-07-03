@@ -12,6 +12,14 @@
         type="text/css" />
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+
+    <%--页面标题--%>
+    <script type="text/javascript">
+        var titleUrl = "/Home/GetPageTitle";
+        var PageName = "系统审批";
+    </script>
+    <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         var form = $("#approvalApply");

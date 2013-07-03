@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    权限管理系统/用户管理
+    
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
 
@@ -19,7 +19,13 @@
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
   
-    
+    <%--页面标题--%>
+    <script type="text/javascript">
+        var titleUrl = "/Home/GetPageTitle";
+        var PageName = "用户管理";
+    </script>
+    <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+
     <%--隐藏提示信息--%>
     <script type="text/javascript">
         //隐藏提示信息
