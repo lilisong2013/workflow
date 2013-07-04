@@ -77,19 +77,19 @@
                             { display: '备注信息', name: 'remark', width: 100 },
                             { display: '', width: 100,
                                 render: function (row) {
-                                    var html = '<i class="icon-lock"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                    var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 100,
                                 render: function (row) {
-                                    var html = '<i class="icon-lock"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 100,
                                 render: function (row) {
-                                    var html = '<i class="icon-lock"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
                                     return html;
                                 }
                             }

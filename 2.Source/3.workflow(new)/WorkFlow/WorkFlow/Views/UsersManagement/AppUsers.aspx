@@ -69,7 +69,7 @@
                         { display: '工号',name:'employee_no', width: 100, align: 'center' },
                         { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                var html = '<i class="icon-list"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                 return html;
                             }
                         },

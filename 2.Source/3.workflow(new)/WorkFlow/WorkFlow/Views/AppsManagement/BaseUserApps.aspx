@@ -103,7 +103,7 @@
                                   { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-lock"></i><a href="/AppsManagement/BU_AppsInfo?id=' + row.id + '">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="/AppsManagement/BU_AppsInfo?id=' + row.id + '">详情</a>';
                                           return html;
                                       }
                                   }
@@ -133,7 +133,7 @@
                                   { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-lock"></i><a href="/AppsManagement/BU_ApprovalApps?id=' + row.id + '">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="/AppsManagement/BU_ApprovalApps?id=' + row.id + '">详情</a>';
                                           return html;
                                       }
                                   },

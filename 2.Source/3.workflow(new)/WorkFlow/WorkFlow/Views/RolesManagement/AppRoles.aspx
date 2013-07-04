@@ -68,7 +68,7 @@
                         { display: '角色备注', name: 'remark', width:100, align: 'center' },
                         { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-lock"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                var html = '<i class="icon-list"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                 return html;
                             }
                         },
@@ -86,7 +86,7 @@
                         },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-lock"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
+                                var html = '<i class="icon-user"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
                                 return html;
                             }
                         }                    

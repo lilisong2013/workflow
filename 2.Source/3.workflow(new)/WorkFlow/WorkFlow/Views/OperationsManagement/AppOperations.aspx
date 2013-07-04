@@ -69,7 +69,12 @@
                         { display: '备注', name: 'remark', width: 100 ,align:'center'},     
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-lock"></i><a href="/OperationsManagement/DetailInfo?id=' + row.id + '">详情</a><i class="icon-edit"></i><a href="/OperationsManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                var html = '<i class="icon-list"></i><a href="/OperationsManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                return html;
+                            }
+                        }, { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-edit"></i><a href="/OperationsManagement/EditPage?id=' + row.id + '">编辑</a>';
                                 return html;
                             }
                         },
