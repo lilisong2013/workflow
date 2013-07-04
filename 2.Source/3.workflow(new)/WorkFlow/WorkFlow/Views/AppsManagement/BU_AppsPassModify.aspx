@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/secondsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/supersite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
    
 </asp:Content>
@@ -49,17 +49,7 @@
     <% WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
     <div class="row">
         <h2 class="span4">修改超级管理员密码</h2>
-        <div class="btn-group pull-right">
-            <div class="btn btn-large btn-info">欢迎：<%=m_baseuserModel.login %></div>
-            <div class="btn btn-large btn-info dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-            </div>
-            <ul class="dropdown-menu">
-                <li><a href="/AppsManagement/QuitSys">退出</a></li>
-                <li><a href="/AppsManagement/LoginAgain">重新登录</a></li>
-                <li><a href="/AppsManagement/BU_AppsPassModify">修改密码</a></li>
-            </ul>
-        </div>
+      
     </div>
     <div class="container">
          <%--操作提示DIV--%>
