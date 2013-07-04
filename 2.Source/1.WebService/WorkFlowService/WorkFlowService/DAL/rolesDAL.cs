@@ -163,7 +163,7 @@ namespace Saron.WorkFlowService.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-            strSql.Append("update roles set deleted='True'");
+            strSql.Append("update roles set deleted=1 ");
 			strSql.Append(" where id=@id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)

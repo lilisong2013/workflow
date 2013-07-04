@@ -614,6 +614,7 @@ namespace WorkFlow.Controllers
                 m_menusModel = m_menusBllService.GetModel(m_menusId, out msg);
                 string name = collection["menusName"].Trim().ToString();
                 string code = collection["menuCode"].Trim().ToString();
+                string parentMenu = Request.Form["MenusParent"];
                 if (name.Length == 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单名称不能为空!" });
@@ -625,6 +626,10 @@ namespace WorkFlow.Controllers
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "编码以字母开头!" });
+                }
+                if (Convert.ToInt32(parentMenu)==-1)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "请选择所在父菜单页面!" });
                 }
                 DataSet ds = m_menusBllService.GetAllMenusListofApp(appID, out msg);
                 var total = ds.Tables[0].Rows.Count;
@@ -649,7 +654,7 @@ namespace WorkFlow.Controllers
                 m_menusModel.code = collection["menuCode"];
                 m_menusModel.url = collection["menuUrl"];
                 m_menusModel.app_id = Convert.ToInt32(collection["menuApp_id"]);
-                //m_menusModel.parent_id = collection["menuParent_id"];
+                m_menusModel.parent_id = Convert.ToInt32(Request.Form["MenusParent"]);
                 m_menusModel.remark = collection["menuRemark"];
                 if (m_mi_total == 1)
                 {

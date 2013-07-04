@@ -111,7 +111,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
- <div class="container"><h2>功能管理</h2></div>
+ <div class="container"><h2>操作管理</h2></div>
    <div class="container">
      <div class="row-fluid">
        <ul class="pager"><li class="next"><a href="/OperationsManagement/AppOperations">返回</a></li></ul>

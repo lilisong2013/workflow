@@ -157,12 +157,7 @@ namespace WorkFlow.Controllers
 
         public ActionResult DeleteRole()
         {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
+           
                 string msg = string.Empty;
                 int roleID = Convert.ToInt32(Request.Form["roleID"]);
                 WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
@@ -177,11 +172,11 @@ namespace WorkFlow.Controllers
 
                 try
                 {
-                    if (m_rolesBllService.Delete(roleID, out msg))
+                    if (m_rolesBllService.Delete(roleID, out msg)==true)
                     {
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/RolesManagement/AppRoles" });
                     }
-                    else
+                    else 
                     {
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
                     }
@@ -190,8 +185,7 @@ namespace WorkFlow.Controllers
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
                 }
-            }
-          
+           
         }
         //获取是否有效的列表
         public ActionResult GetInvalidList()

@@ -378,7 +378,7 @@ namespace WorkFlow.Controllers
                 {
                     if (codename.Equals(m_operationsModel.code.ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的代码名称!" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作编码!" });
                     }
                 }
                 try
