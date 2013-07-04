@@ -32,7 +32,7 @@
                   <li><a href="/PrivilegesManagement/AppPrivileges">权限管理</a></li>
                   <li class="divider"></li>
                   <li><a href="/MenusManagement/AppMenus">菜单管理</a></li>
-                  <li><a href="/OperationsManagement/AppOperations">功能管理</a></li>
+                  <li><a href="/OperationsManagement/AppOperations">操作管理</a></li>
                   <li><a href="/ElementsManagement/AppElements">元素管理</a></li>
                 </ul>
               </li>

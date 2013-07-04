@@ -16,10 +16,10 @@
 <div class="container">
     <ul class="pager">
        <li class="next">
-         <a href="/Home/RegistPage">&rarr;返回上页</a>
+         <a href="/Home/RegistPage">&lt;&lt;&nbsp;返回上页</a>
        </li>
         <li class="next">
-            <a href="/Home/Login">&rarr;退出</a>
+            <a href="/Home/Login">退出&nbsp;&gt;&gt;</a>
         </li>
     </ul>
 </div>

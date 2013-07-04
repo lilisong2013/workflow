@@ -17,7 +17,9 @@ namespace WorkFlow.Controllers
 
         public ActionResult Login()
         {
-            return View();
+           
+                return View();
+           
         }
 
         /// <summary>
@@ -37,7 +39,9 @@ namespace WorkFlow.Controllers
 
         public ActionResult AdminLogin()
         {
-            return View();
+
+                return View();
+     
         }
 
         public ActionResult RegistPage()
@@ -47,14 +51,10 @@ namespace WorkFlow.Controllers
         
         public ActionResult Index()
         {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-            else
-            {
+            
+           
                 return View();
-            }
+           
         }
         
         public ActionResult AdminPassCon()
@@ -81,41 +81,45 @@ namespace WorkFlow.Controllers
         [HttpPost]
         public ActionResult LoginValidation()
         {
-            string m_loginName = Request.Form["loginName"];
-            string m_loginPassword = Request.Form["loginPassword"];
+          
+            
+                string m_loginName = Request.Form["loginName"];
+                string m_loginPassword = Request.Form["loginPassword"];
 
-            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-            WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+                WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+                WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
 
-            string msg = string.Empty;
+                string msg = string.Empty;
 
-            WorkFlow.UsersWebService.SecurityContext m_securityContext = new UsersWebService.SecurityContext();
-            //SecurityContext实体对象赋值
-            m_securityContext.UserName = m_loginName;
-            m_securityContext.PassWord = m_loginPassword;
-            m_usersBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                WorkFlow.UsersWebService.SecurityContext m_securityContext = new UsersWebService.SecurityContext();
+                //SecurityContext实体对象赋值
+                m_securityContext.UserName = m_loginName;
+                m_securityContext.PassWord = m_loginPassword;
+                m_usersBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
-            try
-            {
-                if (m_usersBllService.SysAdminLoginValidator(m_loginName, m_loginPassword,out msg))
+                try
                 {
-                    m_usersModel = m_usersBllService.GetUserModelByLoginCK(m_loginName,out msg);
-                    Session["user"] = m_usersModel;
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/Home/Index" });
+                    if (m_usersBllService.SysAdminLoginValidator(m_loginName, m_loginPassword, out msg))
+                    {
+                        m_usersModel = m_usersBllService.GetUserModelByLoginCK(m_loginName, out msg);
+                        Session["user"] = m_usersModel;
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/Home/Index" });
+                    }
+                    else
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
+                    }
                 }
-                else
+                catch (WebException ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
                 }
-            }
-            catch (WebException ex)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
-            }
-            catch (Exception ex)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
-            }
+                catch (Exception ex)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
+                }
+           
+     
         }
 
 
@@ -126,41 +130,44 @@ namespace WorkFlow.Controllers
         /// <returns>通过，进入超级管理员页面</returns>
         public ActionResult AdminLoginValidation()
         {
-            string m_loginName = Request.Form["loginName"];
-            string m_loginPassword = Request.Form["loginPassword"];
+           
+                string m_loginName = Request.Form["loginName"];
+                string m_loginPassword = Request.Form["loginPassword"];
 
-            WorkFlow.Base_UserWebService.base_userBLLservice m_baseuserBllService = new Base_UserWebService.base_userBLLservice();
-            WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = new Base_UserWebService.base_userModel();
+                WorkFlow.Base_UserWebService.base_userBLLservice m_baseuserBllService = new Base_UserWebService.base_userBLLservice();
+                WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = new Base_UserWebService.base_userModel();
 
-            string msg = string.Empty;
+                string msg = string.Empty;
 
-            WorkFlow.Base_UserWebService.SecurityContext m_securityContext = new Base_UserWebService.SecurityContext();
-            //SecurityContext实体对象赋值
-            m_securityContext.UserName = m_loginName;
-            m_securityContext.PassWord = m_loginPassword;
-            m_baseuserBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                WorkFlow.Base_UserWebService.SecurityContext m_securityContext = new Base_UserWebService.SecurityContext();
+                //SecurityContext实体对象赋值
+                m_securityContext.UserName = m_loginName;
+                m_securityContext.PassWord = m_loginPassword;
+                m_baseuserBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
-            try
-            {
-                if (m_baseuserBllService.LoginValidator(m_loginName, m_loginPassword,out msg))
+                try
                 {
-                    m_baseuserModel = m_baseuserBllService.GetModelByLoginCK(m_loginName,out msg);
-                    Session["baseuser"] = m_baseuserModel;
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/AppsManagement/BaseUserApps" });
+                    if (m_baseuserBllService.LoginValidator(m_loginName, m_loginPassword, out msg))
+                    {
+                        m_baseuserModel = m_baseuserBllService.GetModelByLoginCK(m_loginName, out msg);
+                        Session["baseuser"] = m_baseuserModel;
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/AppsManagement/BaseUserApps" });
+                    }
+                    else
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
+                    }
                 }
-                else
+                catch (WebException ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
                 }
-            }
-            catch (WebException ex)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
-            }
-            catch (Exception ex)
-            {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
-            }
+                catch (Exception ex)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
+                }
+            
+           
         }
 
         /// <summary>

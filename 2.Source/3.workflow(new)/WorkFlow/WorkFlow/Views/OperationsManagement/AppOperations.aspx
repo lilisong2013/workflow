@@ -153,7 +153,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="container"><h2>功能管理</h2></div>
+    <div class="container"><h2>操作管理</h2></div>
 
     <div class="container">
         <%--操作提示DIV--%>

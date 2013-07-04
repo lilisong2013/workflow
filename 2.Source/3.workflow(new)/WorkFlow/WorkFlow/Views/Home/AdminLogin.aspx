@@ -79,10 +79,7 @@
                         </div>
 
                         <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" /> 下次自动登录
-                            </label>
-                            <input id="submit" type="submit" class="btn btn-primary" value="登录" />
+                        <center><input id="submit" type="submit" class="btn btn-primary" value="登录" /></center>
                         </div>
                     </form>
                 </div>
