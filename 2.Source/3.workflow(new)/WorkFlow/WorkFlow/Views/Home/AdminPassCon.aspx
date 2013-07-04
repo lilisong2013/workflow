@@ -13,15 +13,18 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <%WorkFlow.UsersWebService.usersBLLservice m_usersBllService=new WorkFlow.UsersWebService.usersBLLservice();%>
  <%WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"]; %>
- <center><h4><font color="red">欢迎<%=m_usersModel.login%>!,密码修改成功!</font></h4></center>
+ <center><h4><font color="red">欢迎<%=m_usersModel.login%>!密码修改成功!</font></h4></center>
  <div class="container">
     <ul class="pager">
+
+    <li class="next">
+            <a href="/Home/Login">&gt;&gt;&nbsp;重新登录</a>
+    </li>
+       
        <li class="next">
-         <a href="/Home/AdminPass">返回上页&rarr;</a>
+         <a href="/Home/AdminPass">&lt;&lt;&nbsp;返回上页</a>
        </li>
-        <li class="next">
-            <a href="/Home/Login">重新登录 &rarr;</a>
-        </li>
+        
     </ul>
 </div>
 </asp:Content>

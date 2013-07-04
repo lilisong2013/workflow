@@ -64,22 +64,22 @@
                         //更新mygrid数据
                         managerListGrid.setOptions({
                          columns:[
-                        { display: '登录名称',name:'login', width: 100, align: 'center' },
-                        { display: '用户姓名',name:'name', width: 100, align: 'center' },
-                        { display: '工号',name:'employee_no', width: 100, align: 'center' },
-                        { display: '', width: 80,
+                        { display: '登录名称',name:'login',  align: 'center' },
+                        { display: '用户姓名',name:'name', align: 'center' },
+                        { display: '工号',name:'employee_no',  align: 'center' },
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteUser('+row.id+')">删除</a>';
                                 return html;

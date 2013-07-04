@@ -12,15 +12,17 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
-<center><h4><font color="red">欢迎!,注册成功.</font></h4></center>
+<center><h4><font color="red">欢迎!注册成功.</font></h4></center>
 <div class="container">
     <ul class="pager">
+      <li class="next">
+            <a href="/Home/Login">退出&nbsp;&gt;&gt;</a>
+        </li>
+
        <li class="next">
          <a href="/Home/RegistPage">&lt;&lt;&nbsp;返回上页</a>
        </li>
-        <li class="next">
-            <a href="/Home/Login">退出&nbsp;&gt;&gt;</a>
-        </li>
+      
     </ul>
 </div>
 </asp:Content>

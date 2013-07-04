@@ -64,21 +64,21 @@
                     //更新mygrid数据
                     managerListGrid.setOptions({
                         columns: [
-                        { display: '角色名称', name: 'name', width: 100, align: 'center' },
-                        { display: '角色备注', name: 'remark', width:100, align: 'center' },
-                        { display: '', width: 80,
+                        { display: '角色名称', name: 'name', align: 'center' },
+                        { display: '角色备注', name: 'remark', align: 'center' },
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                              render: function (row) {
                                  var html = '<i class="icon-edit"></i><a href="/RolesManagement/EditPage?id=' + row.id + '">编辑</a>';
                                  return html;
                              }
                          },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteRole('+row.id+')">删除</a>';
                                 return html;

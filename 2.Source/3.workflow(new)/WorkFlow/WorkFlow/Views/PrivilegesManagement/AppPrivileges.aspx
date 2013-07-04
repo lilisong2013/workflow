@@ -71,10 +71,10 @@
                     //alert(dataprivilegejson);
                     managerListGrid.setOptions({
                         columns: [
-                            { display: '权限名称', name: 'name', width: 80 },
-                            { display: '权限类型', name: 'privilegetype_id', width: 80 },
-                            { display: '权限项目', name: 'privilegeitem_id', width: 80 },
-                            { display: '备注信息', name: 'remark', width: 100 },
+                            { display: '权限名称', name: 'name'},
+                            { display: '权限类型', name: 'privilegetype_id' },
+                            { display: '权限项目', name: 'privilegeitem_id'},
+                            { display: '备注信息', name: 'remark'},
                             { display: '', width: 100,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';

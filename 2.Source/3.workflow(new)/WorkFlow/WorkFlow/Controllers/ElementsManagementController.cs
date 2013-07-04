@@ -438,7 +438,10 @@ namespace WorkFlow.Controllers
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "排序码不能为空!" });
                 }
-
+                if (Saron.Common.PubFun.ConditionFilter.IsNumber(seqno) == false)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="排序码只能是数字!" });
+                }
                 int appID = Convert.ToInt32(m_usersModel.app_id);
                 int menuID = Convert.ToInt32(collection["eElementPage"]);
                 DataSet ds = m_elementsBllService.GetAllElementsListOfMenuApp(appID, menuID, out msg);

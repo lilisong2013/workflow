@@ -73,10 +73,10 @@
 
                     //更新mygrid数据
                     managerListGrid.setOptions({
-                        columns: [{ display: '菜单名', name: 'name', width: 80, align: 'center' },
-                                  { display: '菜单编码', name: 'code', width: 80, align: 'center' },
-                                  { display: '菜单URL', name: 'url', width: 80, align: 'center' },
-                                  { display: '备注信息', name: 'remark', width: 100, type: 'int', align: 'center' },
+                        columns: [{ display: '菜单名', name: 'name', align: 'center' },
+                                  { display: '菜单编码', name: 'code', align: 'center' },
+                                  { display: '菜单URL', name: 'url', align: 'center' },
+                                  { display: '备注信息', name: 'remark', type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
                                           var html = '<i class="icon-list"></i><a href="/MenusManagement/DetailInfo?id=' + row.id + '">详情</a>';

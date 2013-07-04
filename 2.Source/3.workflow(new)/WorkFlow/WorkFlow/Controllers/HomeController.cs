@@ -389,7 +389,7 @@ namespace WorkFlow.Controllers
                 {
                     m_usersModel = m_usersBllService.GetUserModelByLogin(m_usersModel.login,out msg);
                     Session["user"] = m_usersModel;
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "密码修改成功!", toUrl = "/Home/Login" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", toUrl = "/Home/AdminPassCon" });
                 }
                 else
                 {

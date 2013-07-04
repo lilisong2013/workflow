@@ -63,10 +63,10 @@
                      //更新mygrid数据
                      managerListGrid.setOptions({
                          columns: [
-                        { display: '操作名称', name: 'name', width: 80, align: 'center' },
-                        { display: '操作编码', name: 'code', width: 80, align: 'center' },
-                        { display: '操作描述', name: 'description', width: 80, align: 'center' },
-                        { display: '备注', name: 'remark', width: 100 ,align:'center'},     
+                        { display: '操作名称', name: 'name', align: 'center' },
+                        { display: '操作编码', name: 'code', align: 'center' },
+                        { display: '操作描述', name: 'description',align: 'center' },
+                        { display: '备注', name: 'remark',align:'center'},     
                         { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="/OperationsManagement/DetailInfo?id=' + row.id + '">详情</a>';

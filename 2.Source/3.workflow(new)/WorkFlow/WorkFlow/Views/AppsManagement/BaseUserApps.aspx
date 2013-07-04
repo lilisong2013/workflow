@@ -97,10 +97,10 @@
                     
                     //更新mygrid数据
                     managerValidGrid.setOptions({
-                        columns: [{ display: '系统名称', name: 'name', width: 150, align: 'center' },
-                                  { display: '系统编码', name: 'code', width: 150, align: 'center' },
-                                  { display: '访问连接', name: 'url', width: 150, align: 'center' },
-                                  { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
+                        columns: [{ display: '系统名称', name: 'name', align: 'center' },
+                                  { display: '系统编码', name: 'code',  align: 'center' },
+                                  { display: '访问连接', name: 'url',  align: 'center' },
+                                  { display: '备注信息', name: 'remark', type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
                                           var html = '<i class="icon-list"></i><a href="/AppsManagement/BU_AppsInfo?id=' + row.id + '">详情</a>';
