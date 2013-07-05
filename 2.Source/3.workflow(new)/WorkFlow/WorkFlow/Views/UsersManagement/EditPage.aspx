@@ -141,7 +141,8 @@
        <div class="control-group span6 offset2">
         <label class="control-label">登录密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
-        <input id="usersPassword" name="usersPassword" type="password" value="<%= ViewData["usersPassword"]%>"/> 
+        <input id="usersPassword" name="usersPassword" type="password" /> 
+       <%-- <input id="Password1" name="usersPassword" type="password" value="<%= ViewData["usersPassword"]%>"/> --%>
         </div>
        </div> 
 

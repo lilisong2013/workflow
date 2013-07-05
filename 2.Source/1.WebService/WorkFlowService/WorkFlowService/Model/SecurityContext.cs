@@ -226,8 +226,32 @@ namespace Saron.WorkFlowService.Model
                 return false;
             }
         }
-
         /// <summary>
+        /// 普通用户webservice授权判断（密码为明文）
+        /// </summary>
+        public bool OrdinaryIsValidCK(string userName, string password, out string msg)
+        {
+            msg = "";
+            Saron.WorkFlowService.DAL.usersDAL m_userDal = new DAL.usersDAL();
+            try
+            {
+                if (m_userDal.ExistsOrdinaryUser(userName, password))
+                {
+                    return true;
+                }
+                else
+                {
+                    msg = "无权访问WebService";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "数据库访问出错!";
+                return false;
+            }
+        }
+        /// <summary>       
         /// 自定义用户（非系统用户）
         /// </summary>
         public bool AnyOneIsValidCK(string userName, string passWord, out string msg)

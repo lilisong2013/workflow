@@ -461,12 +461,21 @@ namespace WorkFlow.Controllers
                 }
                 if (pass.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码不能为空!" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码不能为空!" });
+                }
+                if (Saron.Common.PubFun.ConditionFilter.IsPassWord(pass))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="登录密码必须以字母开头，字母和数字组合，至少为6位!"});
                 }
                 if (passcon.Length == 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="确认密码不能为空!"});
                 }
+                if (Saron.Common.PubFun.ConditionFilter.IsPassWord(passcon))
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="确认密码必须以字母开头，字母和数字组合，至少为6位!"});
+                }
+               
                 if (name.Length == 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户姓名不能为空!" });

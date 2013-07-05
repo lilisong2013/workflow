@@ -15,7 +15,24 @@ namespace Saron.WorkFlowService.DAL
 		{}
 
         #region  Method
-        
+
+
+        ///<summary>
+        ///(普通用户)是否存在普通用户或密码(密码为明文)
+        /// </summary>
+        public bool ExistsOrdinaryUser(string login, string password)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from user");
+            strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and admin=0 and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40),
+					new SqlParameter("@password", SqlDbType.NVarChar,255)};
+            parameters[0].Value = login;
+            parameters[1].Value = password;
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
         /// <summary>
         /// 是否存在该记录
         /// </summary>
