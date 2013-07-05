@@ -229,13 +229,14 @@ namespace Saron.WorkFlowService.Model
         /// <summary>
         /// 普通用户webservice授权判断（密码为明文）
         /// </summary>
-        public bool OrdinaryIsValidCK(string userName, string password, out string msg)
+        public bool OrdinaryIsValidCK(string userName, string password,int appID, out string msg)
         {
             msg = "";
             Saron.WorkFlowService.DAL.usersDAL m_userDal = new DAL.usersDAL();
             try
             {
-                if (m_userDal.ExistsOrdinaryUser(userName, password))
+                if (m_userDal.ExistsOrdinaryUser(userName, password,appID))
+                //if(m_userDal.ExistsSysUserSecurity(userName,password,appID))
                 {
                     return true;
                 }

@@ -198,27 +198,29 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/OLoginValidator", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool OLoginValidator(string login, string password, out string msg) {
+        public bool OLoginValidator(string login, string password, int appID, out string msg) {
             object[] results = this.Invoke("OLoginValidator", new object[] {
                         login,
-                        password});
+                        password,
+                        appID});
             msg = ((string)(results[1]));
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void OLoginValidatorAsync(string login, string password) {
-            this.OLoginValidatorAsync(login, password, null);
+        public void OLoginValidatorAsync(string login, string password, int appID) {
+            this.OLoginValidatorAsync(login, password, appID, null);
         }
         
         /// <remarks/>
-        public void OLoginValidatorAsync(string login, string password, object userState) {
+        public void OLoginValidatorAsync(string login, string password, int appID, object userState) {
             if ((this.OLoginValidatorOperationCompleted == null)) {
                 this.OLoginValidatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnOLoginValidatorOperationCompleted);
             }
             this.InvokeAsync("OLoginValidator", new object[] {
                         login,
-                        password}, this.OLoginValidatorOperationCompleted, userState);
+                        password,
+                        appID}, this.OLoginValidatorOperationCompleted, userState);
         }
         
         private void OnOLoginValidatorOperationCompleted(object arg) {

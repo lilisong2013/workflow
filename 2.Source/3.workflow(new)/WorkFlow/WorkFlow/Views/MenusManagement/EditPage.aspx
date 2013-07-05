@@ -229,7 +229,17 @@
        </div>
        </div>
 
-        <div class="control-group span6 offset2">
+       <div class="control-group span6 offset2">
+       <label class="control-label">父菜单：</label>
+
+
+       <div class="controls">
+       <label class="uneditable-input"><%=ViewData["menuParrent_id1"]%></label>   
+       <input type="hidden" id="menuParent_id" name="menuParent_id" value="<%=ViewData["menuParent_id"]%>"/>
+       </div>
+      </div>
+
+       <%-- <div class="control-group span6 offset2">
                     <label class="control-label">父菜单:</label>
                     <div class="controls">
                         <select id="MenusParent" name="MenusParent" >
@@ -241,7 +251,7 @@
                     <div class="controls">
                         <ul id="tree1"></ul>
                     </div>
-            </div>
+            </div>--%>
 
        <div class="control-group span6 offset2">
        <label class="control-label">是否有效：</label>
