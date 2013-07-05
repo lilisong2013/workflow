@@ -142,72 +142,6 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetMListByAppID">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetMListByAppIDResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetMListByAppIDResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOpListByAppID">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetOpListByAppIDResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetOpListByAppIDResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetElListByAppID">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="GetElListByAppIDResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetElListByAppIDResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
       <s:element name="GetListByPrivilegeType">
         <s:complexType>
           <s:sequence>
@@ -296,33 +230,6 @@
   <wsdl:message name="GetAllListByAppIDSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
-  <wsdl:message name="GetMListByAppIDSoapIn">
-    <wsdl:part name="parameters" element="tns:GetMListByAppID" />
-  </wsdl:message>
-  <wsdl:message name="GetMListByAppIDSoapOut">
-    <wsdl:part name="parameters" element="tns:GetMListByAppIDResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetMListByAppIDSecurityContext">
-    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
-  </wsdl:message>
-  <wsdl:message name="GetOpListByAppIDSoapIn">
-    <wsdl:part name="parameters" element="tns:GetOpListByAppID" />
-  </wsdl:message>
-  <wsdl:message name="GetOpListByAppIDSoapOut">
-    <wsdl:part name="parameters" element="tns:GetOpListByAppIDResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetOpListByAppIDSecurityContext">
-    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
-  </wsdl:message>
-  <wsdl:message name="GetElListByAppIDSoapIn">
-    <wsdl:part name="parameters" element="tns:GetElListByAppID" />
-  </wsdl:message>
-  <wsdl:message name="GetElListByAppIDSoapOut">
-    <wsdl:part name="parameters" element="tns:GetElListByAppIDResponse" />
-  </wsdl:message>
-  <wsdl:message name="GetElListByAppIDSecurityContext">
-    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
-  </wsdl:message>
   <wsdl:message name="GetListByPrivilegeTypeSoapIn">
     <wsdl:part name="parameters" element="tns:GetListByPrivilegeType" />
   </wsdl:message>
@@ -367,21 +274,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetAllListByAppIDSoapIn" />
       <wsdl:output message="tns:GetAllListByAppIDSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetMListByAppID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限下菜单列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
-      <wsdl:input message="tns:GetMListByAppIDSoapIn" />
-      <wsdl:output message="tns:GetMListByAppIDSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetOpListByAppID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限下操作列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
-      <wsdl:input message="tns:GetOpListByAppIDSoapIn" />
-      <wsdl:output message="tns:GetOpListByAppIDSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="GetElListByAppID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限下元素列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
-      <wsdl:input message="tns:GetElListByAppIDSoapIn" />
-      <wsdl:output message="tns:GetElListByAppIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetListByPrivilegeType">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某种权限类型下的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -456,36 +348,6 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetAllListByAppIDSecurityContext" part="SecurityContext" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetMListByAppID">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetMListByAppID" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-        <soap:header message="tns:GetMListByAppIDSecurityContext" part="SecurityContext" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOpListByAppID">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetOpListByAppID" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-        <soap:header message="tns:GetOpListByAppIDSecurityContext" part="SecurityContext" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetElListByAppID">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetElListByAppID" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-        <soap:header message="tns:GetElListByAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -569,36 +431,6 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetAllListByAppIDSecurityContext" part="SecurityContext" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetMListByAppID">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetMListByAppID" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-        <soap12:header message="tns:GetMListByAppIDSecurityContext" part="SecurityContext" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetOpListByAppID">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetOpListByAppID" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-        <soap12:header message="tns:GetOpListByAppIDSecurityContext" part="SecurityContext" use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="GetElListByAppID">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetElListByAppID" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-        <soap12:header message="tns:GetElListByAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

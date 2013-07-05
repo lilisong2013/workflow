@@ -32,6 +32,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback SysAdminLoginValidatorOperationCompleted;
         
+        private System.Threading.SendOrPostCallback OLoginValidatorOperationCompleted;
+        
         private SecurityContext securityContextValueField;
         
         private System.Threading.SendOrPostCallback ExistsLoginOperationCompleted;
@@ -115,6 +117,9 @@ namespace WorkFlow.UsersWebService {
         public event SysAdminLoginValidatorCompletedEventHandler SysAdminLoginValidatorCompleted;
         
         /// <remarks/>
+        public event OLoginValidatorCompletedEventHandler OLoginValidatorCompleted;
+        
+        /// <remarks/>
         public event ExistsLoginCompletedEventHandler ExistsLoginCompleted;
         
         /// <remarks/>
@@ -188,6 +193,40 @@ namespace WorkFlow.UsersWebService {
             if ((this.SysAdminLoginValidatorCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.SysAdminLoginValidatorCompleted(this, new SysAdminLoginValidatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/OLoginValidator", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool OLoginValidator(string login, string password, int appID, out string msg) {
+            object[] results = this.Invoke("OLoginValidator", new object[] {
+                        login,
+                        password,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void OLoginValidatorAsync(string login, string password, int appID) {
+            this.OLoginValidatorAsync(login, password, appID, null);
+        }
+        
+        /// <remarks/>
+        public void OLoginValidatorAsync(string login, string password, int appID, object userState) {
+            if ((this.OLoginValidatorOperationCompleted == null)) {
+                this.OLoginValidatorOperationCompleted = new System.Threading.SendOrPostCallback(this.OnOLoginValidatorOperationCompleted);
+            }
+            this.InvokeAsync("OLoginValidator", new object[] {
+                        login,
+                        password,
+                        appID}, this.OLoginValidatorOperationCompleted, userState);
+        }
+        
+        private void OnOLoginValidatorOperationCompleted(object arg) {
+            if ((this.OLoginValidatorCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.OLoginValidatorCompleted(this, new OLoginValidatorCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -979,6 +1018,40 @@ namespace WorkFlow.UsersWebService {
         private object[] results;
         
         internal SysAdminLoginValidatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void OLoginValidatorCompletedEventHandler(object sender, OLoginValidatorCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class OLoginValidatorCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal OLoginValidatorCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

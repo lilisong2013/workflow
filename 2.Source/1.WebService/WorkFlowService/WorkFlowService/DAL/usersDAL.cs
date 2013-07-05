@@ -20,16 +20,18 @@ namespace Saron.WorkFlowService.DAL
         ///<summary>
         ///(普通用户)是否存在普通用户或密码(密码为明文)
         /// </summary>
-        public bool ExistsOrdinaryUser(string login, string password)
+        public bool ExistsOrdinaryUser(string login, string password,int app_id)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from user");
-            strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and admin=0 and deleted=0 ");
+            strSql.Append(" where login=@login and password=@password and app_id=@app_id and admin=0 and deleted=0 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
-					new SqlParameter("@password", SqlDbType.NVarChar,255)};
+					new SqlParameter("@password", SqlDbType.NVarChar,255),
+                    new SqlParameter("@app_id",SqlDbType.Int,4)};
             parameters[0].Value = login;
             parameters[1].Value = password;
+            parameters[2].Value = app_id;
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
 

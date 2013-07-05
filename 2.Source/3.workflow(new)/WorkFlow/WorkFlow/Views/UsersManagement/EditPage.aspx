@@ -139,17 +139,22 @@
        <input id="userID" name="userID" type="hidden" value="<%=ViewData["usersId"] %>"/>
       </div>
        <div class="control-group span6 offset2">
-        <label class="control-label">登录密码：&nbsp;&nbsp;&nbsp;</label>
+        <label class="control-label">原始密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
-        <input id="usersPassword" name="usersPassword" type="password" /> 
-       <%-- <input id="Password1" name="usersPassword" type="password" value="<%= ViewData["usersPassword"]%>"/> --%>
+        <input id="oldPassword" name="oldPassword" type="password" />     
+        </div>
+       </div> 
+       <div class="control-group span6 offset2">
+        <label class="control-label">新密码：&nbsp;&nbsp;&nbsp;</label>
+        <div class="controls">
+        <input id="newPassword" name="newPassword" type="password" /> 
         </div>
        </div> 
 
         <div class="control-group span6 offset2">
         <label class="control-label">确认密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
-        <input id="usersPasswordCon" name="usersPasswordCon" type="password"/> 
+        <input id="PasswordCon" name="PasswordCon" type="password"/> 
         </div>
        </div>
           

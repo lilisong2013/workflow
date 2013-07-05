@@ -52,9 +52,9 @@ namespace Saron.WorkFlowService.WebService
             }
         }
         [WebMethod(Description = "（普通用户）是否存在系统管理员login且密码password的系统管理员,<h4>（无需授权验证）</h4>")]
-        public bool OLoginValidator(string login, string password, out string msg)
+        public bool OLoginValidator(string login, string password,int appID, out string msg)
         {
-            if (!m_securityContext.OrdinaryIsValidCK(login, password, out msg))
+            if (!m_securityContext.OrdinaryIsValidCK(login, password,appID, out msg))
             {
                 return false;
             }
