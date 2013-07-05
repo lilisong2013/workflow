@@ -447,6 +447,7 @@ namespace WorkFlow.Controllers
                 string login = collection["usersLogin"].Trim();
                 //string pass=Request.Form["usersPassword"];
                 string pass = collection["usersPassword"].Trim();
+                string passcon = collection["usersPasswordCon"].Trim();
                 string name = collection["usersName"].Trim();
                 string employeeno = collection["usersEmployee_no"].Trim();
                 string phone = collection["usersMobile_phone"].Trim();
@@ -461,6 +462,10 @@ namespace WorkFlow.Controllers
                 if (pass.Length == 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码不能为空!" });
+                }
+                if (passcon.Length == 0)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="确认密码不能为空!"});
                 }
                 if (name.Length == 0)
                 {
