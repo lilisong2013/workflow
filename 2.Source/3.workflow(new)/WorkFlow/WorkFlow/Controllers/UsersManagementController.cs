@@ -520,6 +520,14 @@ namespace WorkFlow.Controllers
               
                 if (npass.Length != 0)
                 {
+                    if (Saron.Common.PubFun.ConditionFilter.IsPassWord(npass) == false)
+                    {  
+                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="新密码以字母开头，字母和数字的组合，至少6位!"});
+                    }
+                    if (Saron.Common.PubFun.ConditionFilter.IsPassWord(passcon) == false)
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码以字母开头，字母和数字的组合，至少6位!" });
+                    }
                     m_usersModel.password = Request.Form["newPassword"];
                     m_usersModel.name = collection["usersName"].Trim();
                     m_usersModel.employee_no = collection["usersEmployee_no"].Trim();
