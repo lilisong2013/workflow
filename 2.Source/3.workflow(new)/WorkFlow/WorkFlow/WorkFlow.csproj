@@ -536,7 +536,6 @@
     <Content Include="Views\Home\RegistPageCon.aspx" />
     <Content Include="Views\MenusManagement\AppMenus.aspx" />
     <Content Include="Views\MenusManagement\DetailInfo.aspx" />
-    <Content Include="Views\MenusManagement\EditPage2.aspx" />
     <Content Include="Views\MenusManagement\EditPage.aspx" />
     <Content Include="Views\OperationsManagement\AppOperations.aspx" />
     <Content Include="Views\OperationsManagement\DetailInfo.aspx" />
@@ -742,10 +741,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_Privileges_RoleWebService1_privilege_roleBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.12.34:8081/WebService/rolesBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\RolesWebService\</RelPath>
-      <UpdateFromURL>http://192.168.12.34:8081/WebService/rolesBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/rolesBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -819,10 +818,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_OperationsWebService_operationsBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.12.34:8081/WebService/user_roleBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/user_roleBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\User_RoleBLLservice\</RelPath>
-      <UpdateFromURL>http://192.168.12.34:8081/WebService/user_roleBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/user_roleBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
