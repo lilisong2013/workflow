@@ -417,5 +417,34 @@ namespace WorkFlow.Controllers
             return Json("{pageName:'" + pageName + "'}");
         }
 
+
+        public ActionResult GetSysTitle()
+        {
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+            WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+            WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+
+            #region 系统管理员授权
+            string msg = string.Empty;
+            WorkFlow.AppsWebService.SecurityContext m_securityContext = new AppsWebService.SecurityContext();
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_appsBllService.SecurityContextValue = m_securityContext;
+            #endregion
+
+            try
+            {
+                m_appsModel = m_appsBllService.AdminGetModel((int)m_usersModel.app_id, out msg);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            string appName = m_appsModel.name;
+            return Json("{appName:'" + appName + "'}");
+        }
+
     }
 }

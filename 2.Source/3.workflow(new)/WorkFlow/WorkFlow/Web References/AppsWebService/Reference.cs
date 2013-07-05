@@ -44,6 +44,8 @@ namespace WorkFlow.AppsWebService {
         
         private System.Threading.SendOrPostCallback GetModelOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AdminGetModelOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetInvalidAppsListOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetValidAppsListOperationCompleted;
@@ -116,6 +118,9 @@ namespace WorkFlow.AppsWebService {
         
         /// <remarks/>
         public event GetModelCompletedEventHandler GetModelCompleted;
+        
+        /// <remarks/>
+        public event AdminGetModelCompletedEventHandler AdminGetModelCompleted;
         
         /// <remarks/>
         public event GetInvalidAppsListCompletedEventHandler GetInvalidAppsListCompleted;
@@ -312,6 +317,37 @@ namespace WorkFlow.AppsWebService {
             if ((this.GetModelCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetModelCompleted(this, new GetModelCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/AdminGetModel", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public appsModel AdminGetModel(int id, out string msg) {
+            object[] results = this.Invoke("AdminGetModel", new object[] {
+                        id});
+            msg = ((string)(results[1]));
+            return ((appsModel)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AdminGetModelAsync(int id) {
+            this.AdminGetModelAsync(id, null);
+        }
+        
+        /// <remarks/>
+        public void AdminGetModelAsync(int id, object userState) {
+            if ((this.AdminGetModelOperationCompleted == null)) {
+                this.AdminGetModelOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAdminGetModelOperationCompleted);
+            }
+            this.InvokeAsync("AdminGetModel", new object[] {
+                        id}, this.AdminGetModelOperationCompleted, userState);
+        }
+        
+        private void OnAdminGetModelOperationCompleted(object arg) {
+            if ((this.AdminGetModelCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AdminGetModelCompleted(this, new AdminGetModelCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -861,6 +897,40 @@ namespace WorkFlow.AppsWebService {
         private object[] results;
         
         internal GetModelCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public appsModel Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((appsModel)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void AdminGetModelCompletedEventHandler(object sender, AdminGetModelCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AdminGetModelCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AdminGetModelCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

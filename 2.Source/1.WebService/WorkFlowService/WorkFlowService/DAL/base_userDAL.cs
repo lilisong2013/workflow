@@ -30,7 +30,7 @@ namespace Saron.WorkFlowService.DAL
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
-
+      
         /// <summary>
         /// （超级管理员登录）是否存在管理员或密码（密码为密文）
         /// </summary>
