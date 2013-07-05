@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web.Services.Protocols;
 using Saron.WorkFlowService.Model;
+
 namespace Saron.WorkFlowService.WebService
 {
     /// <summary>
@@ -18,32 +20,36 @@ namespace Saron.WorkFlowService.WebService
     public class appsBLLservice : System.Web.Services.WebService
     {
         private readonly Saron.WorkFlowService.DAL.appsDAL m_appsdal=new Saron.WorkFlowService.DAL.appsDAL();
-        
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在id为id的记录")]
-        public bool Exists(int id)
-        {
-            return m_appsdal.Exists(id);
-        }
 
-        /// <summary>
-        /// 是否存在系统名称为appName该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在系统名称为appName该记录")]
-        public bool ExistsName(string appName)
+        public SecurityContext m_securityContext = new SecurityContext();
+
+        #region Method
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "是否存在系统名称为appName该记录，<h4>（需要授权验证，自定义用户）</h4>")]
+        public bool ExistsAppName(string appName,out string msg)
         {
+            //是否有权限访问
+            if (!m_securityContext.AnyOneIsValidCK(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+
             return m_appsdal.ExistsName(appName);
         }
 
-        /// <summary>
-        /// 增加一条数据
-        /// </summary>
-        [WebMethod(Description = "增加一条记录")]
-        public int Add(Saron.WorkFlowService.Model.appsModel model)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "增加一条系统记录（返回0添加失败，返回-1系统已经存在，不等于0或-1为记录ID），<h4>（需要授权验证，自定义用户）</h4>")]
+        public int Add(Saron.WorkFlowService.Model.appsModel model,out string msg)
         {
-            if (!ExistsName(model.name))
+            int result = 0;
+            //是否有权限访问
+            if (!m_securityContext.AnyOneIsValidCK(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return result;
+            }
+
+            if (!m_appsdal.ExistsName(model.name))
             {
                 return m_appsdal.Add(model);
             }
@@ -53,94 +59,111 @@ namespace Saron.WorkFlowService.WebService
             }
         }
 
-        /// <summary>
-        /// 更新一条数据
-        /// </summary>
-        [WebMethod(Description = "更新一条记录")]
-        public bool Update(Saron.WorkFlowService.Model.appsModel model)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "更新一条系统记录，<h4>（需要授权验证，超级管理员用户）</h4>")]
+        public bool SuperAdminUpdateApp(Saron.WorkFlowService.Model.appsModel model,out string msg)
         {
+            //对webservice进行授权验证,超级管理员才可访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
             return m_appsdal.Update(model);
         }
 
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        [WebMethod(Description = "删除id为id的记录")]
-        public bool Delete(int id)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "删除id为id的记录，<h4>（需要授权验证，自定义用户）</h4>")]
+        public bool Delete(int id,out string msg)
         {
+            //是否有权限访问
+            if (!m_securityContext.AnyOneIsValidCK(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+
             return m_appsdal.Delete(id);
         }
 
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        [WebMethod(Description = "根据主键id得到一个实体对象")]
-        public Saron.WorkFlowService.Model.appsModel GetModel(int id)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "删除id为id的记录，<h4>（需要授权验证，超级管理员用户）</h4>")]
+        public bool DeleteApp(int id, out string msg)
         {
+            //是否有权限访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+
+            return m_appsdal.Delete(id);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，超级管理员用户）</h4>")]
+        public Saron.WorkFlowService.Model.appsModel GetModel(int id,out string msg)
+        {
+            //是否有权限访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
             return m_appsdal.GetModel(id);
         }
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "根据where条件获得数据列表：strWhere（where条件）")]
-        public DataSet GetAppsList(string strWhere)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得有效系统数据列表，<h4>（需要授权验证，超级管理员用户）</h4>")]
+        public DataSet GetInvalidAppsList(out string msg)
         {
-            return m_appsdal.GetList(strWhere);
+            //是否有权限访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+
+            return m_appsdal.GetInvalidAppsList();
         }
 
-        /// <summary>
-        /// 获得前几行数据
-        /// </summary>
-        [WebMethod(Description = "获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）")]
-        public DataSet GetAppsTopList(int Top, string strWhere, string filedOrder)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得无效系统数据列表，<h4>（需要授权验证，超级管理员用户）</h4>")]
+        public DataSet GetValidAppsList(out string msg)
         {
-            return m_appsdal.GetList(Top, strWhere, filedOrder);
+            //是否有权限访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            return m_appsdal.GetValidAppsList();
         }
 
-        /// <summary>
-        /// 获得所有系统数据列表
-        /// </summary>
-        [WebMethod(Description = "获得所有数据列表")]
-        public DataSet GetAllAppsList()
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "统计下已审批系统的数量，<h4>（需要授权验证，超级管理员用户）</h4>")]
+        public int GetValidAppCount(out string msg)
         {
-            return GetAppsList("");
+            int result = -1;
+            //是否有权限访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return result;
+            }
+
+            return m_appsdal.GetValidAppCount();
         }
 
-        /// <summary>
-        /// 获得有效系统数据列表
-        /// </summary>
-        [WebMethod(Description = "获得有效系统数据列表")]
-        public DataSet GetInvalidAppsList()
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "统计下已审批系统的数量，<h4>（需要授权验证，超级管理员用户）</h4>")]
+        public int GetInValidAppCount(out string msg)
         {
-            return GetAppsList("invalid=1");
+            int result = -1;
+            //是否有权限访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return result;
+            }
+
+            return m_appsdal.GetInValidAppCount();
         }
 
-        /// <summary>
-        /// 获得无效系统数据列表
-        /// </summary>
-        [WebMethod(Description = "获得无效系统数据列表")]
-        public DataSet GetValidAppsList()
-        {
-            return GetAppsList("invalid=0");
-        }
-
-        /// <summary>
-        /// 获取记录总数
-        /// </summary>
-        [WebMethod(Description = "获得记录总条数")]
-        public int GetRecordCount(string strWhere)
-        {
-            return m_appsdal.GetRecordCount(strWhere);
-        }
-
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）")]
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-        {
-            return m_appsdal.GetListByPage(strWhere, orderby, startIndex, endIndex);
-        }
+        #endregion
     }
 }

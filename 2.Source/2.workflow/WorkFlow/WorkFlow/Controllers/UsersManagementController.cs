@@ -12,7 +12,15 @@ namespace WorkFlow.Controllers
     {
         public ActionResult AppUsers()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                return View();
+            }
+           
         }
         /// <summary>
         /// 显示数据库用户表的所有信息

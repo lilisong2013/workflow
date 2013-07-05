@@ -16,7 +16,14 @@ namespace WorkFlow.Controllers
 
         public ActionResult AppElements()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                return View();
+            }
         }
         /// <summary>
         /// 获取数据库中Elements表中所有有效的数据

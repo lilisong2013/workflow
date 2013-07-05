@@ -30,6 +30,44 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Exists(strSql.ToString(),parameters);
 		}
 
+        /// <summary>
+        /// 某种权限类型下某种权限项目的权限是否已经存在
+        /// </summary>
+        public bool ExistsItemOfPrivilegesType(int privilegesTypeID,int privilegesItemID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from privileges");
+            strSql.Append(" where privilegetype_id=@privilegetype_id and privilegeitem_id=@privilegeitem_id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@privilegetype_id", SqlDbType.Int,4),
+                    new SqlParameter("@privilegeitem_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = privilegesTypeID;
+            parameters[1].Value = privilegesItemID;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// 某系统中是否存在权限名称
+        /// </summary>
+        /// <param name="privilegeName">权限名称</param>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public bool ExistsPrivilegesName(string privilegeName,int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from privileges");
+            strSql.Append(" where name=@name and app_id=@app_id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@name", SqlDbType.NVarChar,80),
+                    new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = privilegeName;
+            parameters[1].Value = appID;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
 
 		/// <summary>
 		/// 增加一条数据
@@ -78,6 +116,7 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
+
 		/// <summary>
 		/// 更新一条数据
 		/// </summary>
@@ -158,7 +197,8 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 批量删除数据
 		/// </summary>
 		public bool DeleteList(string idlist )
@@ -278,6 +318,90 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetAllListByAppID(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM privileges ");
+            strSql.Append(" where app_id=@app_id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        /// <summary>
+        /// 获得菜单数据列表
+        /// </summary>
+        public DataSet GetMeListByAppID(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM privileges ");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=1");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+    
+            return DbHelperSQL.Query(strSql.ToString(),parameters);
+        }
+        /// <summary>
+        /// 获得操作数据列表
+        /// </summary>
+        public DataSet GetOpListByAppID(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM privileges ");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=2");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        /// <summary>
+        /// 获得元素数据列表
+        /// </summary>
+        public DataSet GetElListByAppID(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM privileges ");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=3");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        /// <summary>
+        /// 获得某种权限类型下的权限列表
+        /// </summary>
+        /// <param name="privilegeTypeID">权限类型ID</param>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetListByPrivilegeType(int privilegeTypeID, int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM privileges ");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=@privilegetype_id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@privilegetype_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            parameters[1].Value = privilegeTypeID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
 		/// <summary>
 		/// 获得前几行数据
 		/// </summary>
@@ -320,7 +444,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 分页获取数据列表
 		/// </summary>
 		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)

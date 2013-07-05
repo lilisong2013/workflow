@@ -15,7 +15,8 @@ namespace Saron.WorkFlowService.DAL
 		{}
 		
         #region  Method
-		/// <summary>
+		
+        /// <summary>
 		/// 是否存在该记录
 		/// </summary>
 		public bool Exists(int id)
@@ -30,7 +31,6 @@ namespace Saron.WorkFlowService.DAL
 
 			return DbHelperSQL.Exists(strSql.ToString(),parameters);
 		}
-
 
 		/// <summary>
 		/// 增加一条数据
@@ -85,7 +85,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 更新一条数据
 		/// </summary>
 		public bool Update(Saron.WorkFlowService.Model.elementsModel model)
@@ -160,7 +161,7 @@ namespace Saron.WorkFlowService.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from elements ");
+            strSql.Append("update elements set deleted=1 ");
 			strSql.Append(" where id=@id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -177,7 +178,8 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 批量删除数据
 		/// </summary>
 		public bool DeleteList(string idlist )
@@ -195,7 +197,6 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-
 
 		/// <summary>
 		/// 得到一个对象实体
@@ -315,6 +316,113 @@ namespace Saron.WorkFlowService.DAL
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
+        
+        ///<summary>
+        ///获得某系统的元素数据列表
+        /// </summary>
+        public DataSet GetElementsListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM elements ");
+            strSql.Append("where app_id=@app_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)            
+           };
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
+        ///<summary>
+        ///获得某系统且系统ID为id的元素名称
+        /// </summary>
+        public DataSet GetElementsNameOfAppID(int appID,int id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name");
+            strSql.Append(" FROM elements ");
+            strSql.Append("where app_id=@app_id and id=@id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@id",SqlDbType.Int,4)
+           };
+            parameters[0].Value = appID;
+            parameters[1].Value = id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
+        ///<summary>
+        ///获得某系统和页面元素列表
+        /// </summary>
+        public DataSet GetAllElementsListOfMenuApp(int appID, int menuID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM elements ");
+            strSql.Append("where app_id=@app_id and menu_id=@menu_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@menu_id",SqlDbType.Int,4)
+           };
+            parameters[0].Value = appID;
+            parameters[1].Value = menuID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        
+        ///<summary>
+        ///获得某系统和页面元素的Code列表
+        /// </summary>
+        public DataSet GetCodeListOfMenuApp(int app_id, int menu_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select code from elements where");
+            strSql.Append(" app_id=@app_id and menu_id=@menu_id and deleted=0");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@menu_id",SqlDbType.Int,4)
+           };
+            parameters[0].Value = app_id;
+            parameters[1].Value = menu_id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+
+        }
+
+        /// <summary>
+        /// 菜单下是否有页面元素
+        /// </summary>
+        /// <param name="menusID"></param>
+        /// <returns></returns>
+        public bool ExistsElementsOfMenus(int menusID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from elements ");
+            strSql.Append(" where menu_id=@menu_id and deleted=0");
+            SqlParameter[] parameters = {
+					new SqlParameter("@menu_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = menusID;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// 获得某一菜单下的页面元素
+        /// </summary>
+        /// <param name="menusID"></param>
+        /// <returns></returns>
+        public DataSet GetElementsLisOfMenus(int menusID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM elements ");
+            strSql.Append(" where menu_id=@menu_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@menu_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = menusID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        
         ///<summary>
         ///获得Name数据列表
         /// </summary>
@@ -324,7 +432,8 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select name from elements");
             return DbHelperSQL.Query(strSql.ToString());
         }
-		/// 获得前几行数据
+
+        /// 获得前几行数据
 		/// </summary>
 		public DataSet GetList(int Top,string strWhere,string filedOrder)
 		{
@@ -365,7 +474,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+
+        /// <summary>
 		/// 分页获取数据列表
 		/// </summary>
 		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)

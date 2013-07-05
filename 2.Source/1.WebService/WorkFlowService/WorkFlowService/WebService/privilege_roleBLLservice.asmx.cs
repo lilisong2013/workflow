@@ -30,6 +30,15 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
+        /// 某角色存在多少个权限
+        /// </summary>
+        [WebMethod(Description = "角色role_id的权限个数")]
+        public int Privilege_RoleCountByRoleID(int role_id)
+        {
+            return m_privilege_roleDal.Privilege_RoleCountByRoleID(role_id);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         [WebMethod(Description = "增加一条记录")]
@@ -46,5 +55,24 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_privilege_roleDal.Delete(role_id, privilege_id);
         }
+
+        /// <summary>
+        /// 按照role_id批量删除
+        /// </summary>
+        [WebMethod(Description = "删除角色id为role_id的所有权限")]
+        public bool DeleteByRoleID(int role_id)
+        {
+            int rpCount = Privilege_RoleCountByRoleID(role_id);
+            int deleteRp = m_privilege_roleDal.DeleteByRoleID(role_id);
+            if (deleteRp < rpCount)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
     }
 }

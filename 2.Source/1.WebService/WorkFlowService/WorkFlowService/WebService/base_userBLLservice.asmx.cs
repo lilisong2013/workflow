@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using Saron.WorkFlowService.Model;
+using System.Web.Services.Protocols;
 namespace Saron.WorkFlowService.WebService
 {
     /// <summary>
@@ -19,130 +20,90 @@ namespace Saron.WorkFlowService.WebService
     {
         private readonly Saron.WorkFlowService.DAL.base_userDAL m_base_userdal = new Saron.WorkFlowService.DAL.base_userDAL();
 
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在id为id的记录")]
-        public bool Exists(int id)
+        public SecurityContext m_securityContext = new SecurityContext();
+
+
+        [WebMethod(Description = "（超级管理员登录验证）是否存在用户名login且密码password的超级管理员,<h4>（无需授权验证）</h4>")]
+        public bool LoginValidator(string login, string password,out string msg)
         {
-            return m_base_userdal.Exists(id);
+            if (!m_securityContext.SuperAdminIsValidCK(login, password, out msg))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
-        /// <summary>
-        /// （超级管理员登录）是否存在用户或密码
-        /// </summary>
-        [WebMethod(Description = "是否存在用户名login且密码password的超级管理员")]
-        public bool LoginValidator(string login, string password)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "更新一条超级管理员记录,<h4>（需要授权验证）</h4>")]
+        public bool Update(base_userModel model,out string msg)
         {
-            return m_base_userdal.Exists(login, password);
-        }
+            //对webservice进行授权验证,超级管理员才可访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
 
-        /// <summary>
-        /// 增加一条数据
-        /// </summary>
-        [WebMethod(Description = "增加一条记录")]
-        public int Add(base_userModel model)
-        {
-            return m_base_userdal.Add(model);
-        }
-
-        /// <summary>
-        /// 更新一条数据
-        /// </summary>
-        [WebMethod(Description = "更新一条记录")]
-        public bool Update(base_userModel model)
-        {
             return m_base_userdal.Update(model);
         }
 
-        /// <summary>
-        /// 修改密码
-        /// </summary>
-        [WebMethod(Description = "修改密码")]
-        public bool ModifyPassword(string login, string password)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "修改超级管理员密码,<h4>（需要授权验证）</h4>")]
+        public bool ModifyPassword(string login, string password,out string msg)
         {
+            //对webservice进行授权验证,超级管理员才可访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
             return m_base_userdal.ModifyPassword(login, password);
         }
 
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        [WebMethod(Description = "删除id为id的记录")]
-        public bool Delete(int id)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据主键id得到一个实体对象,<h4>（需要授权验证）</h4>")]
+        public base_userModel GetModel(int id,out string msg)
         {
-            return m_base_userdal.Delete(id);
-        }
+            //对webservice进行授权验证,超级管理员才可访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
 
-        /// <summary>
-        /// 删除多条数据
-        /// </summary>
-        [WebMethod(Description = "删除多条数据")]
-        public bool DeleteList(string idlist)
-        {
-            return m_base_userdal.DeleteList(idlist);
-        }
-
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        [WebMethod(Description = "根据主键id得到一个实体对象")]
-        public base_userModel GetModel(int id)
-        {
             return m_base_userdal.GetModel(id);
         }
 
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        [WebMethod(Description = "根据登录名login得到一个实体对象")]
-        public base_userModel GetModelByLogin(string login)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据登录名login得到一个实体对象,<h4>（需要授权验证）</h4>")]
+        public base_userModel GetModelByLoginCK(string login,out string msg)
         {
+            //对webservice进行授权验证,超级管理员才可访问
+            if (!m_securityContext.SuperAdminIsValidCK(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
             return m_base_userdal.GetModel(login);
         }
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "根据where条件获得数据列表：strWhere（where条件）")]
-        public DataSet GetBase_UserList(string strWhere)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据登录名login得到一个实体对象,<h4>（需要授权验证）</h4>")]
+        public base_userModel GetModelByLogin(string login, out string msg)
         {
-            return m_base_userdal.GetList(strWhere);
-        }
+            //对webservice进行授权验证,超级管理员才可访问(密码为密文)
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
 
-        /// <summary>
-        /// 获得前几行数据
-        /// </summary>
-        [WebMethod(Description = "获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）")]
-        public DataSet GetBase_UserTopList(int Top, string strWhere, string filedOrder)
-        {
-            return m_base_userdal.GetList(Top, strWhere, filedOrder);
-        }
-
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "获得所有数据列表")]
-        public DataSet GetAllBase_UserList()
-        {
-            return GetBase_UserList("");
-        }
-
-        /// <summary>
-        /// 获取记录总数
-        /// </summary>
-        [WebMethod(Description = "获得记录总条数")]
-        public int GetRecordCount(string strWhere)
-        {
-            return m_base_userdal.GetRecordCount(strWhere);
-        }
-
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）")]
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-        {
-            return m_base_userdal.GetListByPage(strWhere, orderby, startIndex, endIndex);
+            return m_base_userdal.GetModel(login);
         }
     }
 }

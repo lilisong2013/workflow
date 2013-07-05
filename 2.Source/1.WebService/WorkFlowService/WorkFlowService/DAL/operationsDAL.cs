@@ -168,7 +168,28 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		/// <summary>
+
+
+        public bool DeleteOperations(int operation_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update operations set deleted=1 where id=@id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = operation_id;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+		
+        /// <summary>
 		/// 批量删除数据
 		/// </summary>
 		public bool DeleteList(string idlist )
@@ -298,6 +319,7 @@ namespace Saron.WorkFlowService.DAL
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
+
         ///<summary>
 		/// 获得数据库中name的数据列表
 		/// </summary>
@@ -307,6 +329,61 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select name from operations");
             return DbHelperSQL.Query(strSql.ToString());
         }
+
+        /// <summary>
+        /// 获得某系统中操作的数据列表
+        /// </summary>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetOperationsListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,description,remark,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM operations ");
+            strSql.Append(" where app_id=@app_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        /// <summary>
+        /// 获得某系统中且为系统ID为id的操作名称
+        /// </summary>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetOperationsNameOfAppID(int appID,int id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name");
+            strSql.Append(" FROM operations ");
+            strSql.Append(" where app_id=@app_id and id=@id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@id",SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            parameters[1].Value = id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
+        /// 获得某系统中操作的Code数据列表
+        /// </summary>
+        /// <param name="appID">系统ID</param>
+        /// <returns></returns>
+        public DataSet GetCodeListOfApp(int app_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select code from operations ");
+            strSql.Append(" where app_id=@app_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = app_id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
 		public DataSet GetList(int Top,string strWhere,string filedOrder)
 		{
 			StringBuilder strSql=new StringBuilder();
