@@ -292,7 +292,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select count(*) from user_role ");
             strSql.Append(" where role_id=@role_id");
             SqlParameter[] parameters = {
-					new SqlParameter("@user_id", SqlDbType.Int,4)
+					new SqlParameter("@role_id", SqlDbType.Int,4)
             };
             parameters[0].Value = role_id;
 
