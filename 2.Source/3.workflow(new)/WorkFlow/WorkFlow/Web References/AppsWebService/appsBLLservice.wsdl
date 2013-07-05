@@ -118,6 +118,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="AdminGetModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdminGetModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AdminGetModelResult" type="tns:appsModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetInvalidAppsList">
         <s:complexType />
       </s:element>
@@ -232,6 +247,15 @@
   <wsdl:message name="GetModelSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="AdminGetModelSoapIn">
+    <wsdl:part name="parameters" element="tns:AdminGetModel" />
+  </wsdl:message>
+  <wsdl:message name="AdminGetModelSoapOut">
+    <wsdl:part name="parameters" element="tns:AdminGetModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="AdminGetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetInvalidAppsListSoapIn">
     <wsdl:part name="parameters" element="tns:GetInvalidAppsList" />
   </wsdl:message>
@@ -298,6 +322,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetModelSoapIn" />
       <wsdl:output message="tns:GetModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AdminGetModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AdminGetModelSoapIn" />
+      <wsdl:output message="tns:AdminGetModelSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetInvalidAppsList">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得有效系统数据列表，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -377,6 +406,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminGetModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/AdminGetModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AdminGetModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -480,6 +519,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminGetModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AdminGetModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AdminGetModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

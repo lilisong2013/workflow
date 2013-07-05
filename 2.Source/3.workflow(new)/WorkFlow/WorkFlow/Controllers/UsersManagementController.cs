@@ -445,9 +445,10 @@ namespace WorkFlow.Controllers
                 int id = Convert.ToInt32(collection["usersId"]);
                 m_usersModel = m_usersBllService.GetModelByID(id, out msg);
                 string login = collection["usersLogin"].Trim();
-                string opass = Request.Form["oldPassword"];
+  
                 string npass = Request.Form["newPassword"];
                 string passcon = Request.Form["PasswordCon"];
+                string passvalue=m_usersModel.password;
                 string name = collection["usersName"].Trim();
                 string employeeno = collection["usersEmployee_no"].Trim();
                 string phone = collection["usersMobile_phone"].Trim();
@@ -460,18 +461,6 @@ namespace WorkFlow.Controllers
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录名称不能为空!" });
                 }
 
-                if (npass.Length == 0)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "新密码不能为空!" });
-                }
-                if (Saron.Common.PubFun.ConditionFilter.IsPassWord(npass) == false)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="新密码必须以字母开头，且字母数字组合，至少为6位!"});
-                }
-                if (passcon.Length == 0)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="确认密码不能为空!"});
-                }
                 if (npass != passcon)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="新密码和确认密码不一致!"});
@@ -527,30 +516,32 @@ namespace WorkFlow.Controllers
                     }
                 }
                 m_usersModel.login = collection["usersLogin"].Trim();
-                m_usersModel.password = Request.Form["newPassword"];
-                m_usersModel.name = collection["usersName"].Trim();
-                m_usersModel.employee_no = collection["usersEmployee_no"].Trim();
-                m_usersModel.mobile_phone = collection["usersMobile_phone"].Trim();
-                m_usersModel.mail = collection["usersMail"].Trim();
-                m_usersModel.remark = collection["usersRemark"].Trim();
-                m_usersModel.admin = false;
-                if (m_ue_total == 1)
-                {
-                    m_usersModel.invalid = false;
-                }
-                if (m_ue_total == 0)
-                {
-                    m_usersModel.invalid = true;
-                }
-                //m_usersModel.invalid = Convert.ToBoolean(Request.Params["invalidValue"]);
 
-                m_usersModel.deleted = Convert.ToBoolean(collection["usersDeleted"].Trim());
-                m_usersModel.updated_at = t;
-                m_usersModel.updated_by = m_userModel.id;
-                m_usersModel.updated_ip = ipAddress;
-                // m_usersModel.app_id = Convert.ToInt32(collection["usersApp_id"].Trim());
-                try
+              
+                if (npass.Length != 0)
                 {
+                    m_usersModel.password = Request.Form["newPassword"];
+                    m_usersModel.name = collection["usersName"].Trim();
+                    m_usersModel.employee_no = collection["usersEmployee_no"].Trim();
+                    m_usersModel.mobile_phone = collection["usersMobile_phone"].Trim();
+                    m_usersModel.mail = collection["usersMail"].Trim();
+                    m_usersModel.remark = collection["usersRemark"].Trim();
+                    m_usersModel.admin = false;
+                    if (m_ue_total == 1)
+                    {
+                        m_usersModel.invalid = false;
+                    }
+                    if (m_ue_total == 0)
+                    {
+                        m_usersModel.invalid = true;
+                    }
+                  
+                    m_usersModel.deleted = Convert.ToBoolean(collection["usersDeleted"].Trim());
+                    m_usersModel.updated_at = t;
+                    m_usersModel.updated_by = m_userModel.id;
+                    m_usersModel.updated_ip = ipAddress;
+                    try
+                    {
                     if (m_usersBllService.AdminUpdate(m_usersModel, out msg))
                     {
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改用户成功!", toUrl = "/UsersManagement/AppUsers" });
@@ -559,15 +550,56 @@ namespace WorkFlow.Controllers
                     {
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改用户失败!" });
                     }
+                  }
+                 catch (Exception ex)
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    }
+               
                 }
-                catch (Exception ex)
+              //新密码为空，不修改，保持原来密码。
+                else 
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    m_usersModel.password = passvalue;
+                   // m_usersModel.password = Request.Form["newPassword"];
+                    m_usersModel.name = collection["usersName"].Trim();
+                    m_usersModel.employee_no = collection["usersEmployee_no"].Trim();
+                    m_usersModel.mobile_phone = collection["usersMobile_phone"].Trim();
+                    m_usersModel.mail = collection["usersMail"].Trim();
+                    m_usersModel.remark = collection["usersRemark"].Trim();
+                    m_usersModel.admin = false;
+                    if (m_ue_total == 1)
+                    {
+                        m_usersModel.invalid = false;
+                    }
+                    if (m_ue_total == 0)
+                    {
+                        m_usersModel.invalid = true;
+                    }
+
+                    m_usersModel.deleted = Convert.ToBoolean(collection["usersDeleted"].Trim());
+                    m_usersModel.updated_at = t;
+                    m_usersModel.updated_by = m_userModel.id;
+                    m_usersModel.updated_ip = ipAddress;
+                    try
+                    {
+                        if (m_usersBllService.AdminUpdatePass(m_usersModel, out msg))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改用户成功!", toUrl = "/UsersManagement/AppUsers" });
+                        }
+                        else
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改用户失败!" });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    }
                 }
           
+
             }
-           
-          
         }
        
         ///<summary>

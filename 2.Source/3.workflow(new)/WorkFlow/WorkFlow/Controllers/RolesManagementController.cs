@@ -172,13 +172,13 @@ namespace WorkFlow.Controllers
 
                 try
                 {
-                    if (m_rolesBllService.Delete(roleID, out msg)==true)
+                    if (m_rolesBllService.Delete(roleID, out msg))
                     {
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/RolesManagement/AppRoles" });
                     }
                     else 
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = msg });
                     }
                 }
                 catch (Exception ex)

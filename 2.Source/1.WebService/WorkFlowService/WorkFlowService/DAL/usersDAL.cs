@@ -330,6 +330,80 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public bool UpdateUserPass(Saron.WorkFlowService.Model.usersModel model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update users set ");
+            strSql.Append("login=@login,");
+            strSql.Append("password=@password,");
+            strSql.Append("name=@name,");
+            strSql.Append("employee_no=@employee_no,");
+            strSql.Append("mobile_phone=@mobile_phone,");
+            strSql.Append("mail=@mail,");
+            strSql.Append("remark=@remark,");
+            strSql.Append("admin=@admin,");
+            strSql.Append("invalid=@invalid,");
+            strSql.Append("deleted=@deleted,");
+            strSql.Append("created_at=@created_at,");
+            strSql.Append("created_by=@created_by,");
+            strSql.Append("created_ip=@created_ip,");
+            strSql.Append("updated_at=@updated_at,");
+            strSql.Append("updated_by=@updated_by,");
+            strSql.Append("updated_ip=@updated_ip,");
+            strSql.Append("app_id=@app_id");
+            strSql.Append(" where id=@id");
+            SqlParameter[] parameters = { 
+                    new SqlParameter("@login", SqlDbType.NVarChar,40),
+					new SqlParameter("@password", SqlDbType.NVarChar,255),
+					new SqlParameter("@name", SqlDbType.NVarChar,40),
+					new SqlParameter("@employee_no", SqlDbType.NVarChar,40),
+					new SqlParameter("@mobile_phone", SqlDbType.NVarChar,40),
+					new SqlParameter("@mail", SqlDbType.NVarChar,40),
+					new SqlParameter("@remark", SqlDbType.NVarChar,80),
+					new SqlParameter("@admin", SqlDbType.Bit,1),
+					new SqlParameter("@invalid", SqlDbType.Bit,1),
+					new SqlParameter("@deleted", SqlDbType.Bit,1),
+					new SqlParameter("@created_at", SqlDbType.DateTime),
+					new SqlParameter("@created_by", SqlDbType.Int,4),
+					new SqlParameter("@created_ip", SqlDbType.NVarChar,40),
+					new SqlParameter("@updated_at", SqlDbType.DateTime),
+					new SqlParameter("@updated_by", SqlDbType.Int,4),
+					new SqlParameter("@updated_ip", SqlDbType.NVarChar,40),
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+					new SqlParameter("@id", SqlDbType.Int,4)
+					};
+            parameters[0].Value = model.login;
+            parameters[1].Value = model.password;
+            parameters[2].Value = model.name;
+            parameters[3].Value = model.employee_no;
+            parameters[4].Value = model.mobile_phone;
+            parameters[5].Value = model.mail;
+            parameters[6].Value = model.remark;
+            parameters[7].Value = model.admin;
+            parameters[8].Value = model.invalid;
+            parameters[9].Value = model.deleted;
+            parameters[10].Value = model.created_at;
+            parameters[11].Value = model.created_by;
+            parameters[12].Value = model.created_ip;
+            parameters[13].Value = model.updated_at;
+            parameters[14].Value = model.updated_by;
+            parameters[15].Value = model.updated_ip;
+            parameters[16].Value = model.app_id;
+            parameters[17].Value = model.id;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 删除一条数据
         /// </summary>
         public bool Delete(int id)
