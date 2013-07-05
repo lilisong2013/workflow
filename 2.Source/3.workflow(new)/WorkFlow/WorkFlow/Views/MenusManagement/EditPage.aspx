@@ -239,20 +239,6 @@
        </div>
       </div>
 
-       <%-- <div class="control-group span6 offset2">
-                    <label class="control-label">父菜单:</label>
-                    <div class="controls">
-                        <select id="MenusParent" name="MenusParent" >
-                            <option id="menusInfo" value="-1">顶级菜单</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="selectMenus" class="control-group span6 offset2">
-                    <div class="controls">
-                        <ul id="tree1"></ul>
-                    </div>
-            </div>--%>
-
        <div class="control-group span6 offset2">
        <label class="control-label">是否有效：</label>
        <div id="invalidList">

@@ -115,7 +115,7 @@ namespace WorkFlow.Controllers
 
                     if (addFlag != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功", toUrl = "/MenusManagement/AppMenus" });
                     }
                     else
                     {
@@ -520,7 +520,7 @@ namespace WorkFlow.Controllers
                 ViewData["menuApp_id"] = m_menusModel.app_id;
                 if (m_menusModel.parent_id.ToString().Length == 0)
                 {
-                    ViewData["menuParent_id"] = "顶级菜单";
+                    ViewData["menuParent_id"] = m_menusModel.parent_id;
                     
                     ViewData["menuParrent_id1"] = "顶级菜单";
                 }
@@ -635,49 +635,156 @@ namespace WorkFlow.Controllers
                 }
               
                 DataSet ds = m_menusBllService.GetAllMenusListofApp(appID, out msg);
-                var total = ds.Tables[0].Rows.Count;
-                ArrayList menusList = new ArrayList();
-                for (int i = 0; i < total; i++)
-                {
-                    menusList.Add(ds.Tables[0].Rows[i][1].ToString());
-                }
-                for (int i = 0; i < total; i++)
-                {
-                    //修改后的菜单名称和本身相同
-                    if (m_menusModel.name.ToString().Equals(collection["menusName"]))
+                if (m_menusModel.parent_id.ToString().Length == 0)
+                {//修改的如果是顶级父菜单
+                    
+                    var total = ds.Tables[0].Rows.Count;
+                    ArrayList codeList = new ArrayList();
+                    ArrayList menusList = new ArrayList();
+
+                    DataSet menuds = m_menusBllService.GetTopMenusListOfApp(appID, out msg);
+                    
+                    for (int i = 0; i < menuds.Tables[0].Rows.Count; i++)
                     {
-                        menusList.Remove(m_menusModel.name);
+                        menusList.Add(menuds.Tables[0].Rows[i][1]);
                     }
+                    for (int i = 0; i < total; i++)
+                    {
+                        codeList.Add(ds.Tables[0].Rows[i][2].ToString());
+                    }
+
+                    for (int i = 0; i < menuds.Tables[0].Rows.Count; i++)
+                    {//修改后的菜单名称和本身相同
+                        if (m_menusModel.name.ToString().Equals(collection["menusName"]))
+                        {
+                            menusList.Remove(m_menusModel.name);
+                        }
+                    }
+                    for (int i = 0; i < total; i++)
+                    {
+                        //修改后的菜单编码和本身相同
+                        if (m_menusModel.code.ToString().Equals(collection["menuCode"]))
+                        {
+                            codeList.Remove(m_menusModel.code);
+                        }
+                    }
+
+                    string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
+                    DateTime t = Convert.ToDateTime(s);
+
+                    m_menusModel.name = collection["menusName"];
+                    m_menusModel.code = collection["menuCode"];
+                    m_menusModel.url = collection["menuUrl"];
+                    m_menusModel.app_id = Convert.ToInt32(collection["menuApp_id"]);
+                    if (m_menusModel.parent_id.ToString().Length != 0)
+                    {
+                        m_menusModel.parent_id = Convert.ToInt32(collection["menuParent_id"]);
+                    }
+                    m_menusModel.remark = collection["menuRemark"];
+                    if (m_mi_total == 1)
+                    {
+                        m_menusModel.invalid = false;
+                    }
+                    if (m_mi_total == 0)
+                    {
+                        m_menusModel.invalid = true;
+                    }
+                  
+                    m_menusModel.updated_at = t;
+                    m_menusModel.updated_by = m_usersModel.id;
+                    m_menusModel.updated_ip = collection["menuCreated_ip"].Trim();
+                    foreach (string menuListname in menusList)
+                    {
+                        if (menuListname.Equals(m_menusModel.name.ToString()))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单名称!" });
+                        }
+                    }
+
+                    foreach (string codeListname in codeList)
+                    {
+                        if (codeListname.Equals(m_menusModel.code.ToString()))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单编码!" });
+                        }
+                    }
+
                 }
 
-                string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
-                DateTime t = Convert.ToDateTime(s);
-
-                m_menusModel.name = collection["menusName"];
-                m_menusModel.code = collection["menuCode"];
-                m_menusModel.url = collection["menuUrl"];
-                m_menusModel.app_id = Convert.ToInt32(collection["menuApp_id"]);
-                m_menusModel.parent_id = Convert.ToInt32(collection["menuParent_id"]);
-                m_menusModel.remark = collection["menuRemark"];
-                if (m_mi_total == 1)
+                else
                 {
-                    m_menusModel.invalid = false;
-                }
-                if (m_mi_total == 0)
-                {
-                    m_menusModel.invalid = true;
-                }
-                //m_menusModel.invalid = Convert.ToBoolean(collection["menuInvalid"]);
-                m_menusModel.updated_at = t;
-                m_menusModel.updated_by = m_usersModel.id;
-                m_menusModel.updated_ip = collection["menuCreated_ip"].Trim();
-                foreach (string menuListname in menusList)
-                {
-                    if (menuListname.Equals(m_menusModel.name.ToString()))
+                    //修改的如果不是顶级父菜单
+                    DataSet menuds = m_menusBllService.GetMenuNameOfAppParent(appID, (int)m_menusModel.parent_id, out msg);
+                    var total = ds.Tables[0].Rows.Count;
+                    ArrayList menusList = new ArrayList();
+                    ArrayList codeList = new ArrayList();
+                    for (int i = 0; i < menuds.Tables[0].Rows.Count; i++)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单名称!" });
+                        menusList.Add(menuds.Tables[0].Rows[i][0].ToString());
                     }
+                    for (int i = 0; i < total; i++)
+                    {
+                        codeList.Add(ds.Tables[0].Rows[i][2].ToString());
+                    }
+                    for (int i = 0; i < menuds.Tables[0].Rows.Count; i++)
+                    {//修改后的菜单名称和本身相同
+                        if (m_menusModel.name.ToString().Equals(collection["menusName"]))
+                        {
+                            menusList.Remove(m_menusModel.name);
+                        }
+                    }
+                    for (int i = 0; i < total; i++)
+                    {
+                        //修改后的菜单编码和本身相同
+                        if (m_menusModel.code.ToString().Equals(collection["menuCode"]))
+                        {
+                            codeList.Remove(m_menusModel.code);
+                        }
+                    }
+
+                    string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
+                    DateTime t = Convert.ToDateTime(s);
+
+                    m_menusModel.name = collection["menusName"];
+                    m_menusModel.code = collection["menuCode"];
+                    m_menusModel.url = collection["menuUrl"];
+                    m_menusModel.app_id = Convert.ToInt32(collection["menuApp_id"]);
+                    if (m_menusModel.parent_id.ToString().Length != 0)
+                    {
+                        m_menusModel.parent_id = Convert.ToInt32(collection["menuParent_id"]);
+                    }
+                    m_menusModel.remark = collection["menuRemark"];
+                    if (m_mi_total == 1)
+                    {
+                        m_menusModel.invalid = false;
+                    }
+                    if (m_mi_total == 0)
+                    {
+                        m_menusModel.invalid = true;
+                    }
+                    //m_menusModel.invalid = Convert.ToBoolean(collection["menuInvalid"]);
+                    m_menusModel.updated_at = t;
+                    m_menusModel.updated_by = m_usersModel.id;
+                    m_menusModel.updated_ip = collection["menuCreated_ip"].Trim();
+                    foreach (string menuListname in menusList)
+                    {
+                        if (menuListname.Equals(m_menusModel.name.ToString()))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单名称!" });
+                        }
+                    }
+
+                    foreach (string codeListname in codeList)
+                    {
+                        if (codeListname.Equals(m_menusModel.code.ToString()))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单编码!" });
+                        }
+                    }
+               
                 }
+                
+               
                 try
                 {
 

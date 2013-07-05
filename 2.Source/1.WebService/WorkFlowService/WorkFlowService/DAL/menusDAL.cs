@@ -453,6 +453,27 @@ namespace Saron.WorkFlowService.DAL
             parameters[1].Value = Id;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+
+        /// <summary>
+        /// 获得系统菜单名称
+        /// </summary>
+        /// <param name="appId">应用系统ID</param>
+        /// <returns></returns>
+        public DataSet GetMenuNameOfAppParent(int appId, int parentId)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name");
+            strSql.Append(" FROM menus ");
+            strSql.Append(" where app_id=@app_id and parent_id=@parent_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@parent_id",SqlDbType.Int,4)
+			};
+            parameters[0].Value = appId;
+            parameters[1].Value = parentId;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
         /// <summary>
         /// 获得系统某菜单的子菜单
         /// </summary>

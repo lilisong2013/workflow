@@ -72,7 +72,7 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegesBllService.Add(m_privilegesModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！", toUrl = "/PrivilegesManagement/AppPrivileges" });
                     }
                     else
                     {
@@ -133,7 +133,7 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegesBllService.Add(m_privilegesModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！",toUrl = "/PrivilegesManagement/AppPrivileges" });
                     }
                     else
                     {
@@ -194,7 +194,7 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegesBllService.Add(m_privilegesModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！", toUrl = "/PrivilegesManagement/AppPrivileges" });
                     }
                     else
                     {

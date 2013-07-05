@@ -179,6 +179,29 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetMenuNameOfAppParent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="parentID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMenuNameOfAppParentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMenuNameOfAppParentResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="ExistsChildrenMenus">
         <s:complexType>
           <s:sequence>
@@ -301,6 +324,15 @@
   <wsdl:message name="GetMenuNameOfAppIDSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetMenuNameOfAppParentSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMenuNameOfAppParent" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuNameOfAppParentSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMenuNameOfAppParentResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuNameOfAppParentSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="ExistsChildrenMenusSoapIn">
     <wsdl:part name="parameters" element="tns:ExistsChildrenMenus" />
   </wsdl:message>
@@ -368,6 +400,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据appID和ID获得某系统的菜单名称，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetMenuNameOfAppIDSoapIn" />
       <wsdl:output message="tns:GetMenuNameOfAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuNameOfAppParent">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据appID和parentId获得某系统的菜单名称,&lt;h4&gt;(需要授权验证,系统管理员)&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetMenuNameOfAppParentSoapIn" />
+      <wsdl:output message="tns:GetMenuNameOfAppParentSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistsChildrenMenus">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单主键为parentId的菜单是否存在子菜单，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -462,6 +499,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetMenuNameOfAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuNameOfAppParent">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetMenuNameOfAppParent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetMenuNameOfAppParentSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -575,6 +622,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetMenuNameOfAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuNameOfAppParent">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetMenuNameOfAppParent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetMenuNameOfAppParentSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
