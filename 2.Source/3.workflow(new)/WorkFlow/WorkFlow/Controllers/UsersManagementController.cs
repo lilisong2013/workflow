@@ -459,14 +459,7 @@ namespace WorkFlow.Controllers
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录名称不能为空!" });
                 }
-                if (opass.Length == 0)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原密码不能为空!" });
-                }
-                if (m_usersBllService.OLoginValidator(m_usersModel.login, opass, (int)m_usersModel.app_id, out msg)==false)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原密码不正确!" });
-                }
+
                 if (npass.Length == 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "新密码不能为空!" });
@@ -479,11 +472,11 @@ namespace WorkFlow.Controllers
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="确认密码不能为空!"});
                 }
-
                 if (npass != passcon)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="新密码和确认密码不一致!"});
                 }
+
                 if (name.Length == 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户姓名不能为空!" });
@@ -534,7 +527,7 @@ namespace WorkFlow.Controllers
                     }
                 }
                 m_usersModel.login = collection["usersLogin"].Trim();
-                m_usersModel.password = collection["usersPassword"].Trim();
+                m_usersModel.password = Request.Form["newPassword"];
                 m_usersModel.name = collection["usersName"].Trim();
                 m_usersModel.employee_no = collection["usersEmployee_no"].Trim();
                 m_usersModel.mobile_phone = collection["usersMobile_phone"].Trim();

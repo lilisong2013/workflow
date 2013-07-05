@@ -137,13 +137,7 @@
        <label class="control-label">登录名称：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls"><input id="usersLogin" name="usersLogin" type="text" value="<%= ViewData["usersLogin"] %>" /></div>
        <input id="userID" name="userID" type="hidden" value="<%=ViewData["usersId"] %>"/>
-      </div>
-       <div class="control-group span6 offset2">
-        <label class="control-label">原始密码：&nbsp;&nbsp;&nbsp;</label>
-        <div class="controls">
-        <input id="oldPassword" name="oldPassword" type="password" />     
-        </div>
-       </div> 
+      </div>    
        <div class="control-group span6 offset2">
         <label class="control-label">新密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">

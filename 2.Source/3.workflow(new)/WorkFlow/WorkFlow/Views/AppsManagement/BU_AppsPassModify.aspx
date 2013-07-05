@@ -49,7 +49,11 @@
     <% WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
     <div class="row">
         <h2 class="span4">修改超级管理员密码</h2>
-      
+       <ul class="pager">
+       <li class="next">
+        <a href="/AppsManagement/BaseUserApps">&lt;&lt;&nbsp;返回上页</a>
+       </li>
+       </ul>
     </div>
     <div class="container">
          <%--操作提示DIV--%>
