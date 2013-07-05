@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
+      <s:element name="Exists">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Add">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:privileges_typeModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="privileges_typeModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:privileges_typeModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idlist" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteListResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:privileges_typeModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrivileges_typeList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrivileges_typeListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPrivileges_typeListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrivileges_typeTopList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Top" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="strWhere" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="filedOrder" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPrivileges_typeTopListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPrivileges_typeTopListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllPrivileges_typeList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetAllPrivileges_typeListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllPrivileges_typeListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExistsSoapIn">
+    <wsdl:part name="parameters" element="tns:Exists" />
+  </wsdl:message>
+  <wsdl:message name="ExistsSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSoapIn">
+    <wsdl:part name="parameters" element="tns:Add" />
+  </wsdl:message>
+  <wsdl:message name="AddSoapOut">
+    <wsdl:part name="parameters" element="tns:AddResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:Update" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:Delete" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteListSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteList" />
+  </wsdl:message>
+  <wsdl:message name="DeleteListSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModel" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPrivileges_typeListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPrivileges_typeList" />
+  </wsdl:message>
+  <wsdl:message name="GetPrivileges_typeListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPrivileges_typeListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPrivileges_typeTopListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPrivileges_typeTopList" />
+  </wsdl:message>
+  <wsdl:message name="GetPrivileges_typeTopListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPrivileges_typeTopListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllPrivileges_typeListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllPrivileges_typeList" />
+  </wsdl:message>
+  <wsdl:message name="GetAllPrivileges_typeListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllPrivileges_typeListResponse" />
+  </wsdl:message>
+  <wsdl:portType name="privileges_typeBLLserviceSoap">
+    <wsdl:operation name="Exists">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在id为id的记录</wsdl:documentation>
+      <wsdl:input message="tns:ExistsSoapIn" />
+      <wsdl:output message="tns:ExistsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
+      <wsdl:input message="tns:AddSoapIn" />
+      <wsdl:output message="tns:AddSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条记录</wsdl:documentation>
+      <wsdl:input message="tns:UpdateSoapIn" />
+      <wsdl:output message="tns:UpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录</wsdl:documentation>
+      <wsdl:input message="tns:DeleteSoapIn" />
+      <wsdl:output message="tns:DeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除多条数据</wsdl:documentation>
+      <wsdl:input message="tns:DeleteListSoapIn" />
+      <wsdl:output message="tns:DeleteListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
+      <wsdl:input message="tns:GetModelSoapIn" />
+      <wsdl:output message="tns:GetModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrivileges_typeList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据where条件获得数据列表：strWhere（where条件）</wsdl:documentation>
+      <wsdl:input message="tns:GetPrivileges_typeListSoapIn" />
+      <wsdl:output message="tns:GetPrivileges_typeListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPrivileges_typeTopList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）</wsdl:documentation>
+      <wsdl:input message="tns:GetPrivileges_typeTopListSoapIn" />
+      <wsdl:output message="tns:GetPrivileges_typeTopListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPrivileges_typeList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetAllPrivileges_typeListSoapIn" />
+      <wsdl:output message="tns:GetAllPrivileges_typeListSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="privileges_typeBLLserviceSoap" type="tns:privileges_typeBLLserviceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Exists">
+      <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <soap:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteList">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrivileges_typeList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetPrivileges_typeList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrivileges_typeTopList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetPrivileges_typeTopList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPrivileges_typeList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllPrivileges_typeList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="privileges_typeBLLserviceSoap12" type="tns:privileges_typeBLLserviceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Exists">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrivileges_typeList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetPrivileges_typeList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPrivileges_typeTopList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetPrivileges_typeTopList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllPrivileges_typeList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllPrivileges_typeList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="privileges_typeBLLservice">
+    <wsdl:port name="privileges_typeBLLserviceSoap" binding="tns:privileges_typeBLLserviceSoap">
+      <soap:address location="http://192.168.11.103:8081/WebService/privileges_typeBLLservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="privileges_typeBLLserviceSoap12" binding="tns:privileges_typeBLLserviceSoap12">
+      <soap12:address location="http://192.168.11.103:8081/WebService/privileges_typeBLLservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

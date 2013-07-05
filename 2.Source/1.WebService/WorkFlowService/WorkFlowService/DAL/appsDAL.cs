@@ -12,7 +12,34 @@ namespace Saron.WorkFlowService.DAL
     {
         public appsDAL()
         { }
+
         #region  Method
+
+        /// <summary>
+        /// 由系统名称获得系统ID
+        /// </summary>
+        /// <param name="appName"></param>
+        /// <returns></returns>
+        public int GetAppidByName(string appName)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id from apps ");
+            strSql.Append(" where name=@name  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@name", SqlDbType.NVarChar,80)
+            };
+            parameters[0].Value = appName;
+
+            int appID = -1;
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            if (obj != null)
+            {
+                appID = (int)obj;
+            }
+
+            return appID;
+        }
+
         /// <summary>
         /// 是否存在id号为appId的该记录
         /// </summary>
@@ -301,6 +328,30 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 获得无效数据列表
+        /// </summary>
+        public DataSet GetInvalidAppsList()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,url,remark,invalid,created_at,created_ip,updated_at,updated_by,updated_ip,apply_at,approval_at ");
+            strSql.Append(" FROM apps where invalid=1 ");
+
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        /// <summary>
+        /// 获得有效数据列表
+        /// </summary>
+        public DataSet GetValidAppsList()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,url,remark,invalid,created_at,created_ip,updated_at,updated_by,updated_ip,apply_at,approval_at ");
+            strSql.Append(" FROM apps where invalid=0 ");
+
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        /// <summary>
         /// 获得前几行数据
         /// </summary>
         public DataSet GetList(int Top, string strWhere, string filedOrder)
@@ -368,8 +419,40 @@ namespace Saron.WorkFlowService.DAL
             strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
             return DbHelperSQL.Query(strSql.ToString());
         }
-
-
+        ///<summary>
+        ///统计下已审批系统的个数
+        ///</summary>
+        public int GetValidAppCount()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from apps where invalid='false'");
+            Object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
+        ///<summary>
+        ///统计下待审批系统的个数
+        ///</summary>
+        public int GetInValidAppCount()
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from apps where invalid='true'");
+            Object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
         #endregion  Method
     }
 }

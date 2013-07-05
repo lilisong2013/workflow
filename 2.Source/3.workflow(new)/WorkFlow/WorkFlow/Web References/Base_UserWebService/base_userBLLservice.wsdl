@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
+      <s:element name="LoginValidator">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginValidatorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LoginValidatorResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:base_userModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="base_userModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mobile_phone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mail" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="admin" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="invalid" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="deleted" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_at" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_by" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="created_ip" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_at" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_by" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="updated_ip" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="UpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="ModifyPassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModifyPasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ModifyPasswordResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:base_userModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByLoginCK">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByLoginCKResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelByLoginCKResult" type="tns:base_userModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelByLoginResult" type="tns:base_userModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="LoginValidatorSoapIn">
+    <wsdl:part name="parameters" element="tns:LoginValidator" />
+  </wsdl:message>
+  <wsdl:message name="LoginValidatorSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginValidatorResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:Update" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ModifyPasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:ModifyPassword" />
+  </wsdl:message>
+  <wsdl:message name="ModifyPasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:ModifyPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModifyPasswordSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModel" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginCKSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelByLoginCK" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginCKSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelByLoginCKResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginCKSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelByLogin" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelByLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByLoginSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:portType name="base_userBLLserviceSoap">
+    <wsdl:operation name="LoginValidator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">（超级管理员登录验证）是否存在用户名login且密码password的超级管理员,&lt;h4&gt;（无需授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:LoginValidatorSoapIn" />
+      <wsdl:output message="tns:LoginValidatorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条超级管理员记录,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:UpdateSoapIn" />
+      <wsdl:output message="tns:UpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ModifyPassword">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改超级管理员密码,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ModifyPasswordSoapIn" />
+      <wsdl:output message="tns:ModifyPasswordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetModelSoapIn" />
+      <wsdl:output message="tns:GetModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLoginCK">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名login得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetModelByLoginCKSoapIn" />
+      <wsdl:output message="tns:GetModelByLoginCKSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名login得到一个实体对象,&lt;h4&gt;（需要授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetModelByLoginSoapIn" />
+      <wsdl:output message="tns:GetModelByLoginSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="base_userBLLserviceSoap" type="tns:base_userBLLserviceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LoginValidator">
+      <soap:operation soapAction="http://saron.workflowservice.org/LoginValidator" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyPassword">
+      <soap:operation soapAction="http://saron.workflowservice.org/ModifyPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ModifyPasswordSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLoginCK">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModelByLoginCK" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelByLoginCKSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLogin">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModelByLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelByLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="base_userBLLserviceSoap12" type="tns:base_userBLLserviceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LoginValidator">
+      <soap12:operation soapAction="http://saron.workflowservice.org/LoginValidator" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyPassword">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ModifyPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ModifyPasswordSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLoginCK">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModelByLoginCK" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelByLoginCKSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByLogin">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModelByLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelByLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="base_userBLLservice">
+    <wsdl:port name="base_userBLLserviceSoap" binding="tns:base_userBLLserviceSoap">
+      <soap:address location="http://192.168.11.103:8081/WebService/base_userBLLservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="base_userBLLserviceSoap12" binding="tns:base_userBLLserviceSoap12">
+      <soap12:address location="http://192.168.11.103:8081/WebService/base_userBLLservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

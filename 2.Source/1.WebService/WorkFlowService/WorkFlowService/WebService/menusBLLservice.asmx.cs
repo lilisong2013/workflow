@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web.Services.Protocols;
 using Saron.WorkFlowService.Model;
 
 namespace Saron.WorkFlowService.WebService
@@ -20,143 +21,186 @@ namespace Saron.WorkFlowService.WebService
     {
         private readonly Saron.WorkFlowService.DAL.menusDAL m_menusDal = new Saron.WorkFlowService.DAL.menusDAL();
 
+        public SecurityContext m_securityContext = new SecurityContext();
+
         #region  Method
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在id为id的记录")]
-        public bool Exists(int id)
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "增加一条菜单记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public int Add(Saron.WorkFlowService.Model.menusModel model,out string msg)
         {
-            return m_menusDal.Exists(id);
+            int result = 0;
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                result = -1;
+                //webservice用户未授权，msg提示信息
+                return result;
+            }
+
+            result = m_menusDal.Add(model);
+
+            if (result == 0)
+            {
+                msg = "添加失败";
+            }
+            else
+            {
+                msg = "";
+            }
+
+            return result;
         }
 
-        /// <summary>
-        /// 增加一条数据
-        /// </summary>
-        [WebMethod(Description = "增加一条记录")]
-        public int Add(Saron.WorkFlowService.Model.menusModel model)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "更新一条菜单记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool Update(Saron.WorkFlowService.Model.menusModel model,out string msg)
         {
-            return m_menusDal.Add(model);
-        }
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
 
-        /// <summary>
-        /// 更新一条数据
-        /// </summary>
-        [WebMethod(Description = "更新一条记录")]
-        public bool Update(Saron.WorkFlowService.Model.menusModel model)
-        {
             return m_menusDal.Update(model);
         }
 
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        [WebMethod(Description = "删除id为id的记录")]
-        public bool Delete(int id)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "删除菜单主键为id的菜单记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool DeleteMenus(int id,out string msg)
         {
-            return m_menusDal.Delete(id);
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_menusDal.DeleteMenus(id);
         }
 
-
-        /// <summary>
-        /// 批量删除数据
-        /// </summary>
-        [WebMethod(Description = "删除多条数据")]
-        public bool DeleteList(string idlist)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，系统管理员）</h4>")]
+        public Saron.WorkFlowService.Model.menusModel GetModel(int id,out string msg)
         {
-            return m_menusDal.DeleteList(idlist);
-        }
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
 
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        [WebMethod(Description = "根据主键id得到一个实体对象")]
-        public Saron.WorkFlowService.Model.menusModel GetModel(int id)
-        {
             return m_menusDal.GetModel(id);
         }
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "根据where条件获得数据列表：strWhere（where条件）")]
-        public DataSet GetMenusList(string strWhere)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某菜单的子菜单列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetChildrenMenus(int parentID, out string msg)
         {
-            return m_menusDal.GetList(strWhere);
-        }
-        
-        /// <summary>
-        /// 获得前几行数据
-        /// </summary>
-        [WebMethod(Description = "获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）")]
-        public DataSet GetMenusTopList(int Top, string strWhere, string filedOrder)
-        {
-            return m_menusDal.GetList(Top, strWhere, filedOrder);
-        }
-        
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "获得所有数据列表")]
-        public DataSet GetAllMenusList()
-        {
-            return GetMenusList("");
-        }
-
-        /// <summary>
-        /// 获得某系统的菜单列表
-        /// </summary>
-        [WebMethod(Description = "获得某系统的菜单列表")]
-        public DataSet GetMenusListOfApp(int appId)
-        {
-            return m_menusDal.GetListOfApp(appId);
-        }
-
-        /// <summary>
-        /// 获得某系统某菜单的子菜单
-        /// </summary>
-        [WebMethod(Description = "获得某系统某菜单的子菜单")]
-        public DataSet GetChildrenMenus(int parentID)
-        {
             return m_menusDal.GetChildrenMenusListOfApp(parentID);
         }
 
-        /// <summary>
-        /// 获得某系统的顶级菜单
-        /// </summary>
-        [WebMethod(Description = "获得某系统的顶级菜单")]
-        public DataSet GetTopMenusListOfApp(int appID)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某系统下所有菜单数据列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetAllMenusListofApp(int app_id,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_menusDal.GetListOfApp(app_id);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某系统的顶级菜单，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetTopMenusListOfApp(int appID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
             return m_menusDal.GetTopMenusListOfApp(appID);
         }
 
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "id为id的菜单是否存在子菜单记录")]
-        public bool ExistsChildrenMenus(int parentId)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据appID和ID获得某系统的菜单名称，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetMenuNameOfAppID(int appID,int ID,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_menusDal.GetMenuNameOfAppID(appID,ID);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "菜单主键为parentId的菜单是否存在子菜单，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool ExistsChildrenMenus(int parentId, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
             return m_menusDal.ExistsChildrenMenus(parentId);
         }
 
-        /// <summary>
-        /// 获取记录总数
-        /// </summary>
-        [WebMethod(Description = "获得记录总条数")]
-        public int GetRecordCount(string strWhere)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "系统中菜单编码是否已经存在，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool ExistsMenusCode(string code, int appID, out string msg)
         {
-            return m_menusDal.GetRecordCount(strWhere);
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_menusDal.ExistsMenusCode(code, appID);
         }
-        
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）")]
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "系统中同一父菜单下的子菜单名称是否已经存在，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool ExistsMenusName(string name, int? parentID,int appID, out string msg)
         {
-            return m_menusDal.GetListByPage(strWhere, orderby, startIndex, endIndex);
-        }
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            bool flag = false;
+
+            if (parentID != null)
+            {
+                flag = m_menusDal.ExistsMenusName(name, parentID);
+            }
+            else
+            {
+                flag = m_menusDal.ExistsTopMenusName(name,appID);
+            }
+
+            return flag;
+        }    
 
         #endregion  Method
     }

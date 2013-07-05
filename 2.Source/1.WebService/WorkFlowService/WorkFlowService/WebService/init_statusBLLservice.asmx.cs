@@ -59,24 +59,6 @@ namespace Saron.WorkFlowService.WebService
         }
 
         /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        [WebMethod(Description = "删除id为id的记录")]
-        public bool Delete(int id)
-        {
-            return m_init_statusDal.Delete(id);
-        }
-        
-        /// <summary>
-        /// 批量删除数据
-        /// </summary>
-        [WebMethod(Description = "删除多条数据")]
-        public bool DeleteList(string idlist)
-        {
-            return m_init_statusDal.DeleteList(idlist);
-        }
-
-        /// <summary>
         /// 得到一个对象实体
         /// </summary>
         [WebMethod(Description = "根据主键id得到一个实体对象")]
@@ -93,15 +75,6 @@ namespace Saron.WorkFlowService.WebService
         {
             return m_init_statusDal.GetList(strWhere);
         }
-        /// <summary>
-        /// 获得前几行数据
-        /// </summary>
-        [WebMethod(Description = "获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）")]
-        public DataSet GetInit_StatusTopList(int Top, string strWhere, string filedOrder)
-        {
-            return m_init_statusDal.GetList(Top, strWhere, filedOrder);
-        }
-        
 
         /// <summary>
         /// 获得数据列表
@@ -110,23 +83,6 @@ namespace Saron.WorkFlowService.WebService
         public DataSet GetAllInit_StatusList()
         {
             return GetInit_StatusList("");
-        }
-
-        /// <summary>
-        /// 获取记录总数
-        /// </summary>
-        [WebMethod(Description = "获得记录总条数")]
-        public int GetRecordCount(string strWhere)
-        {
-            return m_init_statusDal.GetRecordCount(strWhere);
-        }
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）")]
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-        {
-            return m_init_statusDal.GetListByPage(strWhere, orderby, startIndex, endIndex);
         }
 
         #endregion  Method

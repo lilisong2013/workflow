@@ -1,0 +1,56 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="../../Scripts/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="../../bootstrap/js/bootstrap.js" type="text/javascript"></script>
+    
+    <link href="../../Css/blue.css" rel="stylesheet" type="text/css" />
+    
+    <%--页面js--%>
+    <asp:ContentPlaceHolder ID="PageJS" runat="server" />
+</head>
+<body>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">权限管理系统</a>
+          <div class="collapse nav-collapse">   
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%
+                    WorkFlow.Base_UserWebService.base_userModel m_base_userModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
+                    if (m_base_userModel.login== null)
+                    { %>
+                    请登录
+                <% }
+                    else
+                    {%>
+                    欢迎，<%=m_base_userModel.login%>
+                    <%} %>
+                <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/Home/Login">退出</a></li>
+                  <li><a href="/Home/AdminLogin">重新登录</a></li>
+                  <li><a href="/AppsManagement/BU_AppsPassModify">修改密码</a></li>                                 
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+</body>
+</html>

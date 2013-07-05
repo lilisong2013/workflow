@@ -15,7 +15,8 @@ namespace Saron.WorkFlowService.DAL
         public rolesDAL()
 		{}
 		#region  Method
-		/// <summary>
+		
+        /// <summary>
 		/// 是否存在该记录
 		/// </summary>
 		public bool Exists(int id)
@@ -30,6 +31,7 @@ namespace Saron.WorkFlowService.DAL
 
 			return DbHelperSQL.Exists(strSql.ToString(),parameters);
 		}
+        
         /// <summary>
         /// deleted=false的角色名称集
         /// </summary>
@@ -39,6 +41,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select name from roles where deleted='false'");
             return DbHelperSQL.Query(strSql.ToString());
         }
+        
         /// <summary>
         /// deleted=false且rolename=name的角色名称集
         /// </summary>
@@ -50,7 +53,8 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("select name from roles where deleted='false' and name!='"+rolesname+"'");
             return DbHelperSQL.Query(strSql.ToString());
         }
-		/// <summary>
+		
+        /// <summary>
 		/// 增加一条数据
 		/// </summary>
 		public int Add(Saron.WorkFlowService.Model.rolesModel model)
@@ -159,7 +163,7 @@ namespace Saron.WorkFlowService.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-            strSql.Append("update roles set deleted='True'");
+            strSql.Append("update roles set deleted=1 ");
 			strSql.Append(" where id=@id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -176,7 +180,8 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 批量删除数据
 		/// </summary>
 		public bool DeleteList(string idlist )
@@ -194,7 +199,6 @@ namespace Saron.WorkFlowService.DAL
 				return false;
 			}
 		}
-
 
 		/// <summary>
 		/// 得到一个对象实体
@@ -283,6 +287,7 @@ namespace Saron.WorkFlowService.DAL
 				return null;
 			}
 		}
+        
         /// <summary>
         /// 获得有效数据列表
         /// </summary>
@@ -308,8 +313,23 @@ namespace Saron.WorkFlowService.DAL
 		
 			return DbHelperSQL.Query(strSql.ToString());
 		}
-
-		/// <summary>
+        
+        ///<summary>
+        ///获得某系统数据列表
+        /// </summary>
+        public DataSet GetAllRolesListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
+            strSql.Append(" FROM roles where app_id=@app_id and deleted=0 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+		
+        /// <summary>
 		/// 获得前几行数据
 		/// </summary>
 		public DataSet GetRolesList(int Top,string strWhere,string filedOrder)
@@ -351,7 +371,8 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		/// <summary>
+		
+        /// <summary>
 		/// 分页获取数据列表
 		/// </summary>
 		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)

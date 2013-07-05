@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
+      <s:element name="ExistsItemOfPrivilegesType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="privilegesTypeID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="privilegesItemID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsItemOfPrivilegesTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsItemOfPrivilegesTypeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="ExistsPrivilegeName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="privilegeName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsPrivilegeNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsPrivilegeNameResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Add">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:privilegesModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="privilegesModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="privilegetype_id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="privilegeitem_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="app_id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="invalid" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_at" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_by" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="created_ip" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_at" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_by" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="updated_ip" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:privilegesModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:privilegesModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllListByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllListByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllListByAppIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListByPrivilegeType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="privilegeTypeID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListByPrivilegeTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListByPrivilegeTypeResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExistsItemOfPrivilegesTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsItemOfPrivilegesType" />
+  </wsdl:message>
+  <wsdl:message name="ExistsItemOfPrivilegesTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsItemOfPrivilegesTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsItemOfPrivilegesTypeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ExistsPrivilegeNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsPrivilegeName" />
+  </wsdl:message>
+  <wsdl:message name="ExistsPrivilegeNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsPrivilegeNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsPrivilegeNameSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddSoapIn">
+    <wsdl:part name="parameters" element="tns:Add" />
+  </wsdl:message>
+  <wsdl:message name="AddSoapOut">
+    <wsdl:part name="parameters" element="tns:AddResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:Update" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:Delete" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModel" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetAllListByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllListByAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetAllListByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllListByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllListByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetListByPrivilegeTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListByPrivilegeType" />
+  </wsdl:message>
+  <wsdl:message name="GetListByPrivilegeTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListByPrivilegeTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListByPrivilegeTypeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:portType name="privilegesBLLserviceSoap">
+    <wsdl:operation name="ExistsItemOfPrivilegesType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">某种权限类型下某权限项目的权限是否已经存在，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsItemOfPrivilegesTypeSoapIn" />
+      <wsdl:output message="tns:ExistsItemOfPrivilegesTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsPrivilegeName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统ID为appID的系统中是否存在privilegeName的权限名称，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsPrivilegeNameSoapIn" />
+      <wsdl:output message="tns:ExistsPrivilegeNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddSoapIn" />
+      <wsdl:output message="tns:AddSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:UpdateSoapIn" />
+      <wsdl:output message="tns:UpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteSoapIn" />
+      <wsdl:output message="tns:DeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetModelSoapIn" />
+      <wsdl:output message="tns:GetModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllListByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetAllListByAppIDSoapIn" />
+      <wsdl:output message="tns:GetAllListByAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListByPrivilegeType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某种权限类型下的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetListByPrivilegeTypeSoapIn" />
+      <wsdl:output message="tns:GetListByPrivilegeTypeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="privilegesBLLserviceSoap" type="tns:privilegesBLLserviceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExistsItemOfPrivilegesType">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsItemOfPrivilegesType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsItemOfPrivilegesTypeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsPrivilegeName">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsPrivilegeName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsPrivilegeNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <soap:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllListByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllListByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetAllListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListByPrivilegeType">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetListByPrivilegeType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetListByPrivilegeTypeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="privilegesBLLserviceSoap12" type="tns:privilegesBLLserviceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExistsItemOfPrivilegesType">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsItemOfPrivilegesType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsItemOfPrivilegesTypeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsPrivilegeName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsPrivilegeName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsPrivilegeNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllListByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllListByAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAllListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListByPrivilegeType">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetListByPrivilegeType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetListByPrivilegeTypeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="privilegesBLLservice">
+    <wsdl:port name="privilegesBLLserviceSoap" binding="tns:privilegesBLLserviceSoap">
+      <soap:address location="http://192.168.11.103:8081/WebService/privilegesBLLservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="privilegesBLLserviceSoap12" binding="tns:privilegesBLLserviceSoap12">
+      <soap12:address location="http://192.168.11.103:8081/WebService/privilegesBLLservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web.Services.Protocols;
 using Saron.WorkFlowService.Model;
 
 namespace Saron.WorkFlowService.WebService
@@ -19,125 +20,121 @@ namespace Saron.WorkFlowService.WebService
     public class rolesBLLservice : System.Web.Services.WebService
     {
         private readonly Saron.WorkFlowService.DAL.rolesDAL m_rolesDal = new Saron.WorkFlowService.DAL.rolesDAL();
+        private readonly Saron.WorkFlowService.DAL.privilege_roleDAL m_privilege_roledal = new DAL.privilege_roleDAL();
+        private readonly Saron.WorkFlowService.DAL.user_roleDAL m_user_roledal = new DAL.user_roleDAL();
+
+        public SecurityContext m_securityContext = new SecurityContext();
 
         #region  Method
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在id为id的记录")]
-        public bool Exists(int id)
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "增加一条记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public int Add(Saron.WorkFlowService.Model.rolesModel model,out string msg)
         {
-            return m_rolesDal.Exists(id);
+            int result = 0;
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                result = -1;
+                //webservice用户未授权，msg提示信息
+                return result;
+            }
+
+            result = m_rolesDal.Add(model);
+
+            if (result == 0)
+            {
+                msg = "添加失败";
+            }
+            else
+            {
+                msg = "";
+            }
+
+            return result;
         }
 
-        /// <summary>
-        /// 增加一条数据
-        /// </summary>
-        [WebMethod(Description = "增加一条记录")]
-        public int Add(Saron.WorkFlowService.Model.rolesModel model)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "更新一条记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool Update(Saron.WorkFlowService.Model.rolesModel model,out string msg)
         {
-            return m_rolesDal.Add(model);
-        }
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
 
-        /// <summary>
-        /// 更新一条数据
-        /// </summary>
-        [WebMethod(Description = "更新一条记录")]
-        public bool Update(Saron.WorkFlowService.Model.rolesModel model)
-        {
             return m_rolesDal.Update(model);
         }
 
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        [WebMethod(Description = "删除id为id的记录")]
-        public bool Delete(int id)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "删除id为id的记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool Delete(int id,out string msg)
         {
-            return m_rolesDal.Delete(id);
-        }
-        /// <summary>
-        ///  批量删除数据
-        /// </summary>
-        [WebMethod(Description = "删除多条数据")]
-        public bool DeleteList(string idlist)
-        {
-            return m_rolesDal.DeleteList(idlist);
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            int privilege_roleCount = m_privilege_roledal.Privilege_RoleCountByRoleID(id);
+            int user_roleCount = m_user_roledal.User_RoleCountByRoleID(id);
+            if (privilege_roleCount > 0 || user_roleCount > 0)
+            {
+                if (privilege_roleCount > 0)
+                {
+                    if (m_privilege_roledal.DeleteByRoleID(id) != privilege_roleCount)
+                    {
+                        return false;
+                    }
+                }
+
+                if (user_roleCount > 0)
+                {
+                    if (m_user_roledal.DeleteByRoleID(id) != user_roleCount)
+                    {
+                        return false;
+                    }
+                }
+
+                return m_rolesDal.Delete(id);
+            }
+            else
+            {
+                return m_rolesDal.Delete(id);
+            }
+
+            
         }
 
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        [WebMethod(Description = "根据主键id得到一个实体对象")]
-        public Saron.WorkFlowService.Model.rolesModel GetModel(int id)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，系统管理员）</h4>")]
+        public Saron.WorkFlowService.Model.rolesModel GetModel(int id,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
             return m_rolesDal.GetModel(id);
         }
-        /// <summary>
-        /// 获得有效数据列表
-        /// </summary>
-        [WebMethod(Description = "根据Deleted标志显示有效内容")]
-        public DataSet GetValidRolesList()
-        {
-            return m_rolesDal.GetValidRolesList();
-        }
-        /// <summary>
-        /// （用户注册）获得deleted=false的角色名称
-        /// </summary>
-        [WebMethod(Description = "获得deleted=false的角色名称")]
-        public DataSet GetDeletedRoles()
-        {
-            return m_rolesDal.DeletedRolesName();
-        }
-        /// <summary>
-        /// （用户注册）获得deleted=false且rolename不能于name的角色名称
-        /// </summary>
-        [WebMethod(Description = "获得deleted=false且rolename不能于name的角色名称")]
-        public DataSet GetDistinctRoles(string rolename)
-        {
-            return m_rolesDal.DistinctRolesName(rolename);
-        }
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "根据where条件获得数据列表：strWhere（where条件）")]
-        public DataSet GetRolesList(string strWhere)
-        {
-            return m_rolesDal.GetRolesList(strWhere);
-        }
-        /// <summary>
-        /// 获得前几行数据
-        /// </summary>
-        [WebMethod(Description = "获得前几行数据：top（前top行），strWhere（where条件），filedOrder（排序）")]
-        public DataSet GetRolesTopList(int Top, string strWhere, string filedOrder)
-        {
-            return m_rolesDal.GetRolesList(Top, strWhere, filedOrder);
-        }
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        [WebMethod(Description = "获得所有数据列表")]
-        public DataSet GetAllRolesList()
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某应用系统的角色数据列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetAllRolesListOfApp(int appID,out string msg)
         {
-            return GetRolesList("");
-        }
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
 
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "获得记录总条数")]
-        public int GetRecordCount(string strWhere)
-        {
-            return m_rolesDal.GetRecordCount(strWhere);
-        }
-        /// <summary>
-        /// 分页获取数据列表
-        /// </summary>
-        [WebMethod(Description = "分页获取数据列表：strWhere（where条件），orderby（排序方式），startIndex（开头索引），endIndex（结尾索引）")]
-        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-        {
-            return m_rolesDal.GetListByPage(strWhere, orderby, startIndex, endIndex);
+            return m_rolesDal.GetAllRolesListOfApp(appID);
         }
 
         #endregion  Method

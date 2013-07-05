@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
+      <s:element name="SysAdminLoginValidator">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SysAdminLoginValidatorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SysAdminLoginValidatorResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsLoginResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="AddSysAdmin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:usersModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="usersModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="employee_no" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mobile_phone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mail" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="admin" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="invalid" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="deleted" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_at" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_by" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="created_ip" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_at" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_by" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="updated_ip" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="app_id" nillable="true" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddSysAdminResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddSysAdminResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteIdAndLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteIdAndLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteIdAndLoginResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAdminByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAdminByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteAdminByAppIDResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsLoginAndAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appId" nillable="true" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsLoginAndAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsLoginAndAppIDResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddSysUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:usersModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddSysUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddSysUserResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdminUpdate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:usersModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdminUpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AdminUpdateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogicDelete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogicDeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LogicDeleteResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelByIDResult" type="tns:usersModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAdminModelByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appid" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAdminModelByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAdminModelByAppIDResult" type="tns:usersModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserModelByLoginCK">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserModelByLoginCKResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserModelByLoginCKResult" type="tns:usersModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserModelByLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserModelByLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserModelByLoginResult" type="tns:usersModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelByAppIDResult" type="tns:usersModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllUsersListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllUsersListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllUsersListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModifyPassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="login" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ModifyPasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ModifyPasswordResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SysAdminLoginValidatorSoapIn">
+    <wsdl:part name="parameters" element="tns:SysAdminLoginValidator" />
+  </wsdl:message>
+  <wsdl:message name="SysAdminLoginValidatorSoapOut">
+    <wsdl:part name="parameters" element="tns:SysAdminLoginValidatorResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsLogin" />
+  </wsdl:message>
+  <wsdl:message name="ExistsLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsLoginSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddSysAdminSoapIn">
+    <wsdl:part name="parameters" element="tns:AddSysAdmin" />
+  </wsdl:message>
+  <wsdl:message name="AddSysAdminSoapOut">
+    <wsdl:part name="parameters" element="tns:AddSysAdminResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSysAdminSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="DeleteIdAndLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteIdAndLogin" />
+  </wsdl:message>
+  <wsdl:message name="DeleteIdAndLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteIdAndLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAdminByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteAdminByAppID" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAdminByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAdminByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAdminByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ExistsLoginAndAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsLoginAndAppID" />
+  </wsdl:message>
+  <wsdl:message name="ExistsLoginAndAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsLoginAndAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsLoginAndAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddSysUserSoapIn">
+    <wsdl:part name="parameters" element="tns:AddSysUser" />
+  </wsdl:message>
+  <wsdl:message name="AddSysUserSoapOut">
+    <wsdl:part name="parameters" element="tns:AddSysUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSysUserSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AdminUpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:AdminUpdate" />
+  </wsdl:message>
+  <wsdl:message name="AdminUpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:AdminUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="AdminUpdateSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="LogicDeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:LogicDelete" />
+  </wsdl:message>
+  <wsdl:message name="LogicDeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:LogicDeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="LogicDeleteSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelByID" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetAdminModelByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAdminModelByAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetAdminModelByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAdminModelByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAdminModelByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetUserModelByLoginCKSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserModelByLoginCK" />
+  </wsdl:message>
+  <wsdl:message name="GetUserModelByLoginCKSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserModelByLoginCKResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserModelByLoginCKSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetUserModelByLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserModelByLogin" />
+  </wsdl:message>
+  <wsdl:message name="GetUserModelByLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserModelByLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserModelByLoginSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelByAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetAllUsersListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllUsersListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetAllUsersListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllUsersListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllUsersListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ModifyPasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:ModifyPassword" />
+  </wsdl:message>
+  <wsdl:message name="ModifyPasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:ModifyPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="ModifyPasswordSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:portType name="usersBLLserviceSoap">
+    <wsdl:operation name="SysAdminLoginValidator">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">（系统管理员登录）是否存在系统管理员login且密码password的系统管理员,&lt;h4&gt;（无需授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:SysAdminLoginValidatorSoapIn" />
+      <wsdl:output message="tns:SysAdminLoginValidatorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在登录名为login的系统管理员记录,&lt;h4&gt;（需授权验证,自定义用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsLoginSoapIn" />
+      <wsdl:output message="tns:ExistsLoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSysAdmin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条系统管理员记录,&lt;h4&gt;（需授权验证,自定义用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddSysAdminSoapIn" />
+      <wsdl:output message="tns:AddSysAdminSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteIdAndLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id，登录名为login的记录,&lt;h4&gt;（无需授权验证）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteIdAndLoginSoapIn" />
+      <wsdl:output message="tns:DeleteIdAndLoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdminByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过系统主键删除系统管理员信息,&lt;h4&gt;（需授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAdminByAppIDSoapIn" />
+      <wsdl:output message="tns:DeleteAdminByAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsLoginAndAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在login为login且app_id为appID的普通用户记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsLoginAndAppIDSoapIn" />
+      <wsdl:output message="tns:ExistsLoginAndAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSysUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条普通用户记录记录，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
+      <wsdl:input message="tns:AddSysUserSoapIn" />
+      <wsdl:output message="tns:AddSysUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统管理员更新一条记录，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
+      <wsdl:input message="tns:AdminUpdateSoapIn" />
+      <wsdl:output message="tns:AdminUpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LogicDelete">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">逻辑上删除一条id为id的记录</wsdl:documentation>
+      <wsdl:input message="tns:LogicDeleteSoapIn" />
+      <wsdl:output message="tns:LogicDeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
+      <wsdl:input message="tns:GetModelByIDSoapIn" />
+      <wsdl:output message="tns:GetModelByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAdminModelByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据应用系统主键appid获得系统管理员实体对象，&lt;h4&gt;（需要授权验证,超级管理员用户）</wsdl:documentation>
+      <wsdl:input message="tns:GetAdminModelByAppIDSoapIn" />
+      <wsdl:output message="tns:GetAdminModelByAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserModelByLoginCK">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统管理员登录名login得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetUserModelByLoginCKSoapIn" />
+      <wsdl:output message="tns:GetUserModelByLoginCKSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserModelByLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统管理员登录名login得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetUserModelByLoginSoapIn" />
+      <wsdl:output message="tns:GetUserModelByLoginSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统ID得到一个实体对象</wsdl:documentation>
+      <wsdl:input message="tns:GetModelByAppIDSoapIn" />
+      <wsdl:output message="tns:GetModelByAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得所有数据列表</wsdl:documentation>
+      <wsdl:input message="tns:GetAllUsersListOfAppSoapIn" />
+      <wsdl:output message="tns:GetAllUsersListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ModifyPassword">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改密码</wsdl:documentation>
+      <wsdl:input message="tns:ModifyPasswordSoapIn" />
+      <wsdl:output message="tns:ModifyPasswordSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="usersBLLserviceSoap" type="tns:usersBLLserviceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SysAdminLoginValidator">
+      <soap:operation soapAction="http://saron.workflowservice.org/SysAdminLoginValidator" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsLogin">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSysAdmin">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddSysAdmin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddSysAdminSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteIdAndLogin">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteIdAndLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdminByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteAdminByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteAdminByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsLoginAndAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsLoginAndAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsLoginAndAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSysUser">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddSysUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddSysUserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdate">
+      <soap:operation soapAction="http://saron.workflowservice.org/AdminUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AdminUpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogicDelete">
+      <soap:operation soapAction="http://saron.workflowservice.org/LogicDelete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LogicDeleteSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModelByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdminModelByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAdminModelByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetAdminModelByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserModelByLoginCK">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetUserModelByLoginCK" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetUserModelByLoginCKSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserModelByLogin">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetUserModelByLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetUserModelByLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModelByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllUsersListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetAllUsersListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyPassword">
+      <soap:operation soapAction="http://saron.workflowservice.org/ModifyPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ModifyPasswordSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="usersBLLserviceSoap12" type="tns:usersBLLserviceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SysAdminLoginValidator">
+      <soap12:operation soapAction="http://saron.workflowservice.org/SysAdminLoginValidator" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsLogin">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSysAdmin">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddSysAdmin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddSysAdminSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteIdAndLogin">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteIdAndLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdminByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteAdminByAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteAdminByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsLoginAndAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsLoginAndAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsLoginAndAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSysUser">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddSysUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddSysUserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdate">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AdminUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AdminUpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogicDelete">
+      <soap12:operation soapAction="http://saron.workflowservice.org/LogicDelete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LogicDeleteSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModelByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAdminModelByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAdminModelByAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAdminModelByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserModelByLoginCK">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetUserModelByLoginCK" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetUserModelByLoginCKSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserModelByLogin">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetUserModelByLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetUserModelByLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModelByAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllUsersListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAllUsersListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ModifyPassword">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ModifyPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ModifyPasswordSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="usersBLLservice">
+    <wsdl:port name="usersBLLserviceSoap" binding="tns:usersBLLserviceSoap">
+      <soap:address location="http://192.168.11.103:8081/WebService/usersBLLservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="usersBLLserviceSoap12" binding="tns:usersBLLserviceSoap12">
+      <soap12:address location="http://192.168.11.103:8081/WebService/usersBLLservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

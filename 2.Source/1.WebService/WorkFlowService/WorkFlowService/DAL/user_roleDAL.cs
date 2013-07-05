@@ -14,22 +14,23 @@ namespace Saron.WorkFlowService.DAL
         public user_roleDAL()
 		{}
 		#region  Method
-		/// <summary>
-		/// 是否存在该记录
-		/// </summary>
-		public bool Exists(int id)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select count(1) from user_role");
-			strSql.Append(" where id=@id");
-			SqlParameter[] parameters = {
-					new SqlParameter("@id", SqlDbType.Int,4)
+        /// <summary>
+        /// 是否存在用户id为user_id,角色id为role_id的记录
+        /// </summary>
+        public bool Exists(int user_id, int role_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from user_role");
+            strSql.Append(" where user_id=@user_id and role_id=@role_id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@user_id", SqlDbType.Int,4),
+                    new SqlParameter("@role_id",SqlDbType.Int,4)
 			};
-			parameters[0].Value = id;
+            parameters[0].Value = user_id;
+            parameters[1].Value = role_id;
 
-			return DbHelperSQL.Exists(strSql.ToString(),parameters);
-		}
-
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
 
 		/// <summary>
 		/// 增加一条数据
@@ -261,6 +262,81 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
+        /// <summary>
+        /// 某用户存在多少个角色
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <returns></returns>
+        public int User_RoleCountByUserID(int user_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from user_role ");
+            strSql.Append(" where user_id=@user_id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@user_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value =user_id;
+
+            int count = (int)DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            return count;
+        }
+
+        /// <summary>
+        /// 某用户角色对应多少个用户
+        /// </summary>
+        /// <param name="user_id"></param>
+        /// <returns></returns>
+        public int User_RoleCountByRoleID(int role_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from user_role ");
+            strSql.Append(" where role_id=@role_id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@role_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = role_id;
+
+            int count = (int)DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            return count;
+        }
+        
+        /// <summary>
+        /// 按照user_id批量删除
+        /// </summary>
+        /// <param name="user_id">用户ID</param>
+        /// <returns></returns>
+        public int DeleteByUserID(int user_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from user_role ");
+            strSql.Append(" where user_id=@user_id  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@user_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = user_id;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            return rows;
+        }
+
+        /// <summary>
+        /// 按照role_id批量删除
+        /// </summary>
+        /// <param name="user_id">用户ID</param>
+        /// <returns></returns>
+        public int DeleteByRoleID(int role_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from user_role ");
+            strSql.Append(" where role_id=@role_id  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@role_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = role_id;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            return rows;
+        }
 
 		#endregion  Method
     }
