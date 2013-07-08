@@ -45,8 +45,8 @@
         $(document).ready(function () {
             //定义ligerGrid
             $("#privilegesgrid").ligerGrid({
-                width: '99%',
-                height: '400'
+                width: '90%',
+                height: '200'
             });
             managerListGrid = $("#privilegesgrid").ligerGetGridManager();
 
@@ -71,23 +71,21 @@
                     //alert(dataprivilegejson);
                     managerListGrid.setOptions({
                         columns: [
-                            { display: '权限名称', name: 'name'},
-                            { display: '权限类型', name: 'privilegetype_id' },
-                            { display: '权限项目', name: 'privilegeitem_id'},
-                            { display: '备注信息', name: 'remark'},
-                            { display: '', width: 100,
+                            { display: '权限名称', name: 'name' },
+                            { display: '权限项目', name: 'privilegeitem_id' },
+                            { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
                                     return html;
                                 }
                             },
-                            { display: '', width: 100,
+                            { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
                                     return html;
                                 }
                             },
-                            { display: '', width: 100,
+                            { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
                                     return html;
@@ -96,17 +94,205 @@
 
                             ],
                         data: dataprivilegejson,
-                        alternatingRow:true,  
-                        groupColumnName: 'privilegetype_id',
-                        groupRender: function (privilegetype_id, groupdata) {
-                            return '<font color="Green" face="verdana" size="4"><b>权限类型:' + privilegetype_id + '(' + groupdata.length + ')' + '</b></font>';
-                        }
+                        alternatingRow: true
                     });
                     managerListGrid.loadData();
 
                 }
             });
         }
+    </script>
+    <%--菜单权限列表--%>
+    <script type="text/javascript">
+        var MmanagerListGrid;
+        $(document).ready(function () {
+            //alert("Mprivilegesgrid");
+            //定义ligerGrid
+            $("#Mprivilegesgrid").ligerGrid({
+                width: '90%',
+                height: '400'
+            });
+            MmanagerListGrid = $("#Mprivilegesgrid").ligerGetGridManager();
+
+            GetMPrivilegesList(); //获取数据列表
+
+            $("#MinfoTab").click(function () {
+                GetMPrivilegesList(); //获取数据列表
+            });
+
+        });
+
+        function GetMPrivilegesList() {
+            $.ajax({
+                url: "/PrivilegesManagement/GetMPrivilegesList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataprivilegejson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //更新mygrid数据
+                    //alert(dataprivilegejson);
+                    MmanagerListGrid.setOptions({
+                        columns: [
+                            { display: '权限名称', name: 'name',width:200 },
+                            { display: '权限项目', name: 'privilegeitem_id',width:200 },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    return html;
+                                }
+                            }
+
+                            ],
+                        data: dataprivilegejson,
+                        alternatingRow: true
+                    });
+                    MmanagerListGrid.loadData();
+
+                }
+            });
+        }
+    </script>
+    <%--元素权限列表--%>
+    <script type="text/javascript">
+        var EmanagerListGrid;
+        $(document).ready(function () {
+            // alert("Eprivilegesgrid");
+            //定义ligerGrid
+            $("#Eprivilegesgrid").ligerGrid({
+                width: '90%',
+                height: '400'
+            });
+            EmanagerListGrid = $("#Eprivilegesgrid").ligerGetGridManager();
+
+            GetEPrivilegesList(); //获取数据列表
+
+            $("#EinfoTab").click(function () {
+                GetMPrivilegesList(); //获取数据列表
+            });
+
+        });
+
+        function GetEPrivilegesList() {
+            $.ajax({
+                url: "/PrivilegesManagement/GetEPrivilegesList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataprivilegejson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //更新mygrid数据
+                    //alert(dataprivilegejson);
+                    EmanagerListGrid.setOptions({
+                        columns: [
+                            { display: '权限名称', name: 'name',width:200},
+                            { display: '权限项目', name: 'privilegeitem_id',width:200},
+                                  { display: '', width: 60,
+                                      render: function (row) {
+                                          var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                          return html;
+                                      }
+                                  },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    return html;
+                                }
+                            }
+
+                            ],
+                        data: dataprivilegejson,
+                        alternatingRow: true
+                    });
+                    EmanagerListGrid.loadData();
+
+                }
+            });
+        }
+    </script>
+    <%--操作权限列表--%>
+     <script type="text/javascript">
+         var OmanagerListGrid;
+         $(document).ready(function () {
+             // alert("Eprivilegesgrid");
+             //定义ligerGrid
+             $("#Oprivilegesgrid").ligerGrid({
+                 width: '90%',
+                 height: '400'
+             });
+             OmanagerListGrid = $("#Oprivilegesgrid").ligerGetGridManager();
+
+             GetOPrivilegesList(); //获取数据列表
+
+             $("#OinfoTab").click(function () {
+                 GetMPrivilegesList(); //获取数据列表
+             });
+
+         });
+
+         function GetOPrivilegesList() {
+             $.ajax({
+                 url: "/PrivilegesManagement/GetOPrivilegesList",
+                 type: "POST",
+                 dataType: "json",
+                 data: {},
+                 success: function (responseText, statusText) {
+                     //alert(responseText);
+                     var dataprivilegejson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                     //更新mygrid数据
+                     //alert(dataprivilegejson);
+                     OmanagerListGrid.setOptions({
+                         columns: [
+                            { display: '权限名称', name: 'name',width:200},
+                            { display: '权限项目', name: 'privilegeitem_id',width:200},
+                                  { display: '', width: 60,
+                                      render: function (row) {
+                                          var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                          return html;
+                                      }
+                                  },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    return html;
+                                }
+                            }
+
+                            ],
+                         data: dataprivilegejson,
+                         alternatingRow: true
+                     });
+                     OmanagerListGrid.loadData();
+
+                 }
+             });
+         }
     </script>
     <%--删除提示信息的函数--%>
     <script type="text/javascript">
@@ -125,6 +311,9 @@
                             $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                             $("#promptDIV").addClass(responseText.css);
                             $("#promptDIV").html(responseText.message);
+                            if (responseText.success) {
+                                location.href = responseText.toUrl;
+                            }
                         }
                     });
 
@@ -610,21 +799,45 @@
 
     <%--Tab标签--%>
     <div class="container" style="margin-top:16px;">
-        <ul class="nav nav-tabs">
-            <li class="active" id="infoTab"><a href="#AllPrivileges" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
+                
+    <div class="tabbable">
+    
+    <ul class="nav nav-tabs">                 
+            <li class="active"><a href="#AllPrivileges" data-toggle="tab">全部</a></li>           
             <li id="menusTab"><a href="#AddMenusPrivileges" data-toggle="tab"><i class="icon-plus"></i>菜单</a></li>
             <li id="operationsTab"><a href="#AddOperationsPrivileges" data-toggle="tab"><i class="icon-plus"></i>操作</a></li>
             <li id="elementsTab"><a href="#AddElementsPrivileges" data-toggle="tab"><i class="icon-plus"></i>页面元素</a></li>
-        </ul>
-    </div>
-
+    </ul>
+   
     <div class="tab-content">
-       
-        <%--查看所有权限--%>
-        <div class="tab-pane active" id="AllPrivileges">
-            <div id="privilegesgrid"></div> 
-        </div>
-        
+
+             <div class="tab-pane active" id="AllPrivileges">
+              <div class="tabbable tabs-left">
+              <ul class="nav nav-tabs">
+               <li class="active"><a href="#MPrivileges" data-toggle="tab">菜单权限</a></li>
+               <li><a href="#OPrivileges" data-toggle="tab">操作权限</a></li>
+               <li><a href="#EPrivileges" data-toggle="tab">页面元素</a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active" id="MPrivileges">
+                   <div id="Mprivilegesgrid"></div> 
+                </div>
+
+                <div class="tab-pane" id="OPrivileges">
+                    <div id="Oprivilegesgrid"></div> 
+                </div>
+
+                <div class="tab-pane" id="EPrivileges">
+                    <div id="Eprivilegesgrid"></div> 
+                </div>
+               
+               </div> 
+
+              </div>
+               
+           
+             </div>
+     
         <%--添加菜单权限--%>
         <div class="tab-pane" id="AddMenusPrivileges">
             <form id="add_MenusPrivileges" class="form-horizontal" method="post" action="">
@@ -757,6 +970,9 @@
                 </div>
             </form>
         </div>
+    </div>
+     
+    </div>
 
     </div>
 </asp:Content>

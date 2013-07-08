@@ -326,17 +326,18 @@ namespace Saron.WorkFlowService.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM privileges ");
-            strSql.Append(" where app_id=@app_id ");
+            strSql.Append(" where app_id=@app_id");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};
             parameters[0].Value = appID;
+      
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
         /// <summary>
-        /// 获得菜单数据列表
+        /// 获得各种类型的数据列表
         /// </summary>
-        public DataSet GetMeListByAppID(int appID)
+        public DataSet GetMListByAppTypeID(int appID)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
@@ -346,9 +347,10 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};
             parameters[0].Value = appID;
-    
-            return DbHelperSQL.Query(strSql.ToString(),parameters);
+       
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+      
         /// <summary>
         /// 获得操作数据列表
         /// </summary>
@@ -357,7 +359,7 @@ namespace Saron.WorkFlowService.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM privileges ");
-            strSql.Append(" where app_id=@app_id and privilegetype_id=2");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=3");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};
@@ -373,7 +375,7 @@ namespace Saron.WorkFlowService.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM privileges ");
-            strSql.Append(" where app_id=@app_id and privilegetype_id=3");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=2");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};

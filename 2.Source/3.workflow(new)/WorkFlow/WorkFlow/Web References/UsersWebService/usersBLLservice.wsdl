@@ -512,12 +512,12 @@
       <wsdl:output message="tns:AddSysUserSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AdminUpdate">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统管理员更新一条记录，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统管理员更新一条记录(密码为密文，且普通用户修改密码不为空，需要修改信息)，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
       <wsdl:input message="tns:AdminUpdateSoapIn" />
       <wsdl:output message="tns:AdminUpdateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AdminUpdatePass">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统管理员更新一条记录，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统管理员更新一条记录(密码为明文，且普通用户修改密码为空，保存原密码不变，其他信息修改)，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
       <wsdl:input message="tns:AdminUpdatePassSoapIn" />
       <wsdl:output message="tns:AdminUpdatePassSoapOut" />
     </wsdl:operation>
