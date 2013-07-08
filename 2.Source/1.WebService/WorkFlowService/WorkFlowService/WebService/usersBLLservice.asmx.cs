@@ -165,7 +165,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "系统管理员更新一条记录，<h4>（需要授权验证，系统管理员）")]
+        [WebMethod(Description = "系统管理员更新一条记录(密码为密文，且普通用户修改密码不为空，需要修改信息)，<h4>（需要授权验证，系统管理员）")]
         public bool AdminUpdate(Saron.WorkFlowService.Model.usersModel model,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -179,7 +179,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "系统管理员更新一条记录，<h4>（需要授权验证，系统管理员）")]
+        [WebMethod(Description = "系统管理员更新一条记录(密码为明文，且普通用户修改密码为空，保存原密码不变，其他信息修改)，<h4>（需要授权验证，系统管理员）")]
         public bool AdminUpdatePass(Saron.WorkFlowService.Model.usersModel model, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
