@@ -96,6 +96,10 @@
     <Compile Include="DAL\v_users_exDAL.cs" />
     <Compile Include="Model\base_userModel.cs" />
     <Compile Include="Model\elementsModel.cs" />
+    <Compile Include="Model\flowsModel.cs" />
+    <Compile Include="Model\flowstep_typeModel.cs" />
+    <Compile Include="Model\flow_processingModel.cs" />
+    <Compile Include="Model\flow_usersModel.cs" />
     <Compile Include="Model\init_statusModel.cs" />
     <Compile Include="Model\menusModel.cs" />
     <Compile Include="Model\operationsModel.cs" />
@@ -104,6 +108,8 @@
     <Compile Include="Model\privilege_roleModel.cs" />
     <Compile Include="Model\rolesModel.cs" />
     <Compile Include="Model\SecurityContext.cs" />
+    <Compile Include="Model\stepsModel.cs" />
+    <Compile Include="Model\step_actionModel.cs" />
     <Compile Include="Model\usersModel.cs" />
     <Compile Include="Model\user_roleModel.cs" />
     <Compile Include="Model\v_privilegesModel.cs" />
