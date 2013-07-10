@@ -101,6 +101,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\Flowstep_TypeWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\Init_StatusWebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -574,6 +579,11 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="Web References\Flowstep_TypeWebService\flowstep_typeBLLservice.wsdl" />
+    <None Include="Web References\Flowstep_TypeWebService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.wsdl" />
     <None Include="Web References\Init_StatusWebService\init_statusModel.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -657,6 +667,7 @@
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
+    <None Include="Web References\Flowstep_TypeWebService\flowstep_typeBLLservice.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -709,6 +720,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_ElementsWebService_elementsBLLservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/flowstep_typeBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Flowstep_TypeWebService\</RelPath>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/flowstep_typeBLLservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WorkFlow_Flowstep_TypeWebService_flowstep_typeBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/privilegesBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>

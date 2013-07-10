@@ -7,7 +7,7 @@ using System.Web.Services;
 using System.Web.Services.Protocols;
 using Saron.WorkFlowService.Model;
 
-namespace WorkFlowService.WebService
+namespace Saron.WorkFlowService.WebService
 {
     /// <summary>
     /// flowstep_typeBLLservice 的摘要说明
