@@ -520,6 +520,7 @@
     <Content Include="Views\AppsManagement\BU_AppsInfo.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsPassModify.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsPassModifyCon.aspx" />
+    <Content Include="Views\CodesManagement\AppCodes.aspx" />
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
@@ -548,7 +549,6 @@
     <Content Include="Views\RolesManagement\EditPage.aspx" />
     <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
     <Content Include="Views\Shared\supersite.Master" />
-    <Content Include="Views\Shared\flowsite.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
     <None Include="Web References\AppsWebService\appsModel1.datasource">
       <DependentUpon>Reference.map</DependentUpon>
