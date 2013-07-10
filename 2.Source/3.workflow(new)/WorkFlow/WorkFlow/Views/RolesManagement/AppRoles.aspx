@@ -57,10 +57,10 @@
                 dataType: "json",
                 data: {},
                 success: function (responseText, statusText) {
-                    // alert(responseText);
-
+                    //alert(responseText);
+                    
                     var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-
+                   // alert(dataJson);
                     //更新mygrid数据
                     managerListGrid.setOptions({
                         columns: [
@@ -73,14 +73,14 @@
                             }
                         },
                         { display: '', width: 100,
-                             render: function (row) {
-                                 var html = '<i class="icon-edit"></i><a href="/RolesManagement/EditPage?id=' + row.id + '">编辑</a>';
-                                 return html;
-                             }
-                         },
+                            render: function (row) {
+                                var html = '<i class="icon-edit"></i><a href="/RolesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                return html;
+                            }
+                        },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteRole('+row.id+')">删除</a>';
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteRole(' + row.id + ')">删除</a>';
                                 return html;
                             }
                         },
@@ -89,7 +89,7 @@
                                 var html = '<i class="icon-user"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
                                 return html;
                             }
-                        }                    
+                        }
                        ],
                         data: dataJson
                     });

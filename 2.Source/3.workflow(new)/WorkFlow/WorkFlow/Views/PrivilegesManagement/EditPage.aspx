@@ -141,7 +141,8 @@
        <div class="control-group span6 offset2">
        <label class="control-label">权限项目：</label>
        <div class="controls">
-       <input id="privilegeItem_id" name="privilegeItem_id" type="text" value="<%=ViewData["privilegeItem_id"] %>" />   
+       <label class="uneditable-input" width="200px"><%=ViewData["privilegeItem_id"] %></label>
+      <%-- <input id="privilegeItem_id" name="privilegeItem_id" type="text" value="<%=ViewData["privilegeItem_id"] %>" />  --%> 
        <input type="hidden" id="privilegeItem_id1" name="privilegeItem_id1" value="<%=ViewData["privilegeItem_id1"]%>"/>
        </div>
        </div>

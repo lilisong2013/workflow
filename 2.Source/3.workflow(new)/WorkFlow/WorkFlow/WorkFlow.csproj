@@ -532,6 +532,7 @@
     <Content Include="Views\AppsManagement\BU_AppsPassModify.aspx" />
     <Content Include="Views\AppsManagement\BU_AppsPassModifyCon.aspx" />
     <Content Include="Views\CodesManagement\AppCodes.aspx" />
+    <Content Include="Views\CodesManagement\AppCodes2.aspx" />
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
