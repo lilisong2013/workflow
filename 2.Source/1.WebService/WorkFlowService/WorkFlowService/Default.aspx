@@ -67,6 +67,10 @@
     <a href="WebService/elementsBLLservice.asmx">页面元素WebService/elementsBLLservice.asmx</a>
     <br />
     <a href="WebService/v_privilegesBLLservice.asmx">权限项目视图WebService/v_privilegesBLLservice.asmx</a>
+    <br />
+    <a href="WebService/flowstep_typeBLLservice.asmx">流程步骤类型代码WebService/flowstep_typeBLLservice.asmx</a>
+    <br />
+    <a href="WebService/step_actionBLLservice.asmx">流程处理结果代码WebService/step_actionBLLservice.asmx</a>
     </form>
 </body>
 </html>
