@@ -172,5 +172,15 @@ namespace WorkFlow.Properties {
                 return ((string)(this["WorkFlow_Step_ActionWebService_step_actionBLLservice"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/flowstep_typeBLLservice.asmx")]
+        public string WorkFlow_Flowstep_TypeWebService_flowstep_typeBLLservice {
+            get {
+                return ((string)(this["WorkFlow_Flowstep_TypeWebService_flowstep_typeBLLservice"]));
+            }
+        }
     }
 }
