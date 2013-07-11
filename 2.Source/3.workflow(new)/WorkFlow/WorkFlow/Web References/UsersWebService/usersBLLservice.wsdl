@@ -155,6 +155,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="AdminUpdatePass">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:usersModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdminUpdatePassResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AdminUpdatePassResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="LogicDelete">
         <s:complexType>
           <s:sequence>
@@ -351,6 +366,15 @@
   <wsdl:message name="AdminUpdateSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="AdminUpdatePassSoapIn">
+    <wsdl:part name="parameters" element="tns:AdminUpdatePass" />
+  </wsdl:message>
+  <wsdl:message name="AdminUpdatePassSoapOut">
+    <wsdl:part name="parameters" element="tns:AdminUpdatePassResponse" />
+  </wsdl:message>
+  <wsdl:message name="AdminUpdatePassSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="LogicDeleteSoapIn">
     <wsdl:part name="parameters" element="tns:LogicDelete" />
   </wsdl:message>
@@ -460,9 +484,14 @@
       <wsdl:output message="tns:AddSysUserSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AdminUpdate">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统管理员更新一条记录，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统管理员更新一条记录(密码为密文，且普通用户修改密码不为空，需要修改信息)，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
       <wsdl:input message="tns:AdminUpdateSoapIn" />
       <wsdl:output message="tns:AdminUpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdatePass">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统管理员更新一条记录(密码为明文，且普通用户修改密码为空，保存原密码不变，其他信息修改)，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
+      <wsdl:input message="tns:AdminUpdatePassSoapIn" />
+      <wsdl:output message="tns:AdminUpdatePassSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="LogicDelete">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">逻辑上删除一条id为id的记录</wsdl:documentation>
@@ -580,6 +609,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:AdminUpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdatePass">
+      <soap:operation soapAction="http://saron.workflowservice.org/AdminUpdatePass" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AdminUpdatePassSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -741,6 +780,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:AdminUpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdatePass">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AdminUpdatePass" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AdminUpdatePassSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -83,23 +83,8 @@ namespace Saron.WorkFlowService.WebService
             int user_roleCount = m_user_roledal.User_RoleCountByRoleID(id);
             if (privilege_roleCount > 0 || user_roleCount > 0)
             {
-                if (privilege_roleCount > 0)
-                {
-                    if (m_privilege_roledal.DeleteByRoleID(id) != privilege_roleCount)
-                    {
-                        return false;
-                    }
-                }
-
-                if (user_roleCount > 0)
-                {
-                    if (m_user_roledal.DeleteByRoleID(id) != user_roleCount)
-                    {
-                        return false;
-                    }
-                }
-
-                return m_rolesDal.Delete(id);
+                msg = "角色已经分配权限或者被用户使用，无法删除";
+                return false;
             }
             else
             {

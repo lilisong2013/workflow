@@ -51,18 +51,18 @@ namespace Saron.WorkFlowService.WebService
                 return true;
             }
         }
-        [WebMethod(Description = "（普通用户）是否存在系统管理员login且密码password的系统管理员,<h4>（无需授权验证）</h4>")]
-        public bool OLoginValidator(string login, string password, out string msg)
-        {
-            if (!m_securityContext.OrdinaryIsValidCK(login, password, out msg))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        //[WebMethod(Description = "（普通用户）是否存在系统管理员login且密码password的系统管理员,<h4>（无需授权验证）</h4>")]
+        //public bool OLoginValidator(string login, string password,int appID, out string msg)
+        //{
+        //    if (!m_securityContext.OrdinaryIsValidCK(login, password,appID, out msg))
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }
+        //}
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "是否存在登录名为login的系统管理员记录,<h4>（需授权验证,自定义用户）</h4>")]
         public bool ExistsLogin(string login,out string msg)
@@ -165,7 +165,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "系统管理员更新一条记录，<h4>（需要授权验证，系统管理员）")]
+        [WebMethod(Description = "系统管理员更新一条记录(密码为密文，且普通用户修改密码不为空，需要修改信息)，<h4>（需要授权验证，系统管理员）")]
         public bool AdminUpdate(Saron.WorkFlowService.Model.usersModel model,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -176,6 +176,20 @@ namespace Saron.WorkFlowService.WebService
             }
 
             return m_usersdal.Update(model);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "系统管理员更新一条记录(密码为明文，且普通用户修改密码为空，保存原密码不变，其他信息修改)，<h4>（需要授权验证，系统管理员）")]
+        public bool AdminUpdatePass(Saron.WorkFlowService.Model.usersModel model, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_usersdal.UpdateUserPass(model);
         }
 
         [SoapHeader("m_securityContext")]

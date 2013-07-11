@@ -112,6 +112,18 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public Saron.WorkFlowService.Model.appsModel AdminGetModel(int id, out string msg)
+        {
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            return m_appsdal.GetModel(id);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得有效系统数据列表，<h4>（需要授权验证，超级管理员用户）</h4>")]
         public DataSet GetInvalidAppsList(out string msg)
         {
