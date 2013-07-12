@@ -107,6 +107,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\FlowsWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\Init_StatusWebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -538,6 +543,7 @@
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
     <Content Include="Views\FlowsManagement\AppFlows.aspx" />
+    <Content Include="Views\FlowsManagement\DetailInfo.aspx" />
     <Content Include="Views\Home\AdminLogin.aspx" />
     <Content Include="Views\Home\AdminPass.aspx" />
     <Content Include="Views\Home\AdminPassCon.aspx" />
@@ -589,6 +595,11 @@
     </None>
     <None Include="Web References\Flowstep_TypeWebService\flowstep_typeBLLservice.wsdl" />
     <None Include="Web References\Flowstep_TypeWebService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\FlowsWebService\flowsBLLservice.wsdl" />
+    <None Include="Web References\FlowsWebService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -682,6 +693,7 @@
     <Content Include="Views\UsersManagement\UserRoles.aspx" />
     <None Include="Web References\Step_ActionWebService\step_actionBLLservice.disco" />
     <None Include="Web References\Flowstep_TypeWebService\flowstep_typeBLLservice.disco" />
+    <None Include="Web References\FlowsWebService\flowsBLLservice.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -734,6 +746,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_ElementsWebService_elementsBLLservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/flowsBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\FlowsWebService\</RelPath>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/flowsBLLservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WorkFlow_FlowsWebService_flowsBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/flowstep_typeBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
