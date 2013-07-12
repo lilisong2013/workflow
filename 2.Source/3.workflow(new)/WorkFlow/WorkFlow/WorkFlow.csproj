@@ -64,6 +64,7 @@
     <Compile Include="Controllers\AppsManagementController.cs" />
     <Compile Include="Controllers\CodesManagementController.cs" />
     <Compile Include="Controllers\ElementsManagementController.cs" />
+    <Compile Include="Controllers\FlowsManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenusManagementController.cs" />
     <Compile Include="Controllers\OperationsManagementController.cs" />
@@ -536,6 +537,7 @@
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
+    <Content Include="Views\FlowsManagement\AppFlows.aspx" />
     <Content Include="Views\Home\AdminLogin.aspx" />
     <Content Include="Views\Home\AdminPass.aspx" />
     <Content Include="Views\Home\AdminPassCon.aspx" />
