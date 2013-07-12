@@ -68,6 +68,7 @@
     </Content>
     <Content Include="WebService\base_userBLLservice.asmx" />
     <Content Include="WebService\elementsBLLservice.asmx" />
+    <Content Include="WebService\flowsBLLservice.asmx" />
     <Content Include="WebService\flowstep_typeBLLservice.asmx" />
     <Content Include="WebService\init_statusBLLservice.asmx" />
     <Content Include="WebService\menusBLLservice.asmx" />
@@ -84,6 +85,7 @@
   <ItemGroup>
     <Compile Include="DAL\base_userDAL.cs" />
     <Compile Include="DAL\elementsDAL.cs" />
+    <Compile Include="DAL\flowsDAL.cs" />
     <Compile Include="DAL\flowstep_typeDAL.cs" />
     <Compile Include="DAL\init_statusDAL.cs" />
     <Compile Include="DAL\menusDAL.cs" />
@@ -142,6 +144,10 @@
     </Compile>
     <Compile Include="WebService\elementsBLLservice.asmx.cs">
       <DependentUpon>elementsBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\flowsBLLservice.asmx.cs">
+      <DependentUpon>flowsBLLservice.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WebService\flowstep_typeBLLservice.asmx.cs">
