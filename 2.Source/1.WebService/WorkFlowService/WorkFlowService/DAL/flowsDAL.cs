@@ -40,11 +40,11 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into flows(");
-            strSql.Append("id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id)");
+            strSql.Append("name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id)");
             strSql.Append(" values (");
-            strSql.Append("@id,@name,@remark,@invalid,@deleted,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip,@app_id)");
+            strSql.Append("@name,@remark,@invalid,@deleted,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip,@app_id)");
+            strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
-					new SqlParameter("@id", SqlDbType.Int,4),
 					new SqlParameter("@name", SqlDbType.NVarChar,100),
 					new SqlParameter("@remark", SqlDbType.NVarChar,200),
 					new SqlParameter("@invalid", SqlDbType.Bit,1),
@@ -55,19 +55,19 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@updated_at", SqlDbType.DateTime),
 					new SqlParameter("@updated_by", SqlDbType.Int,4),
 					new SqlParameter("@updated_ip", SqlDbType.NVarChar,40),
-					new SqlParameter("@app_id", SqlDbType.Int,4)};
-            parameters[0].Value = model.id;
-            parameters[1].Value = model.name;
-            parameters[2].Value = model.remark;
-            parameters[3].Value = model.invalid;
-            parameters[4].Value = model.deleted;
-            parameters[5].Value = model.created_at;
-            parameters[6].Value = model.created_by;
-            parameters[7].Value = model.created_ip;
-            parameters[8].Value = model.updated_at;
-            parameters[9].Value = model.updated_by;
-            parameters[10].Value = model.updated_ip;
-            parameters[11].Value = model.app_id;
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = model.name;
+            parameters[1].Value = model.remark;
+            parameters[2].Value = model.invalid;
+            parameters[3].Value = model.deleted;
+            parameters[4].Value = model.created_at;
+            parameters[5].Value = model.created_by;
+            parameters[6].Value = model.created_ip;
+            parameters[7].Value = model.updated_at;
+            parameters[8].Value = model.updated_by;
+            parameters[9].Value = model.updated_ip;
+            parameters[10].Value = model.app_id;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
