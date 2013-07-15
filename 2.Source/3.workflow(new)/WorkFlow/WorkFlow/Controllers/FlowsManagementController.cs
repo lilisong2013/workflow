@@ -127,7 +127,6 @@ namespace WorkFlow.Controllers
                     }
                 }
 
-                //m_flowsModel.id = 8;
                 m_flowsModel.name=collection["flowsName"];
                 m_flowsModel.remark = collection["flowsRemark"];
                 m_flowsModel.created_by =(int)m_usersModel.id;
@@ -261,6 +260,142 @@ namespace WorkFlow.Controllers
                 ViewData["flowsUpdated_ip"] = m_flowsModel.updated_ip;
                 ViewData["flowsApp_id"] = m_flowsModel.app_id;
                 return View();
+            }
+        }
+        //获取是否有效列表
+        public ActionResult GetInvalidList()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
+                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_flowsBllService.SecurityContextValue = m_SecurityContext;
+
+                int m_flowID = Convert.ToInt32(Request.Params["flowsID"]);//流程ID
+                string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
+
+                WorkFlow.FlowsWebService.flowsModel m_flowModel = m_flowsBllService.GetFlowModel(m_flowID,out msg);
+
+                string m_selected = string.Empty;
+                int total = 1;
+                int m_flowsID = m_flowID;
+                string m_InvalidName;
+                m_InvalidName="是";
+                //判断角色中是否已经存在该权限
+                if (m_flowModel.invalid == false)
+                {
+                    m_selected = "true";
+                }
+                else
+                {
+                    m_selected = "false";
+                }
+                strJson += "{id:'"+m_flowsID+"',";
+                strJson += "name:'"+m_InvalidName+"',";
+                strJson += "selected:'"+m_selected+"'}";
+
+                strJson += "],total:'"+total+"'}";
+                return Json(strJson);
+            }
+        }
+        //编辑流程信息
+        public ActionResult EditFlow(FormCollection collection)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                int m_fi_total = Convert.ToInt32(Request.Params["fv_Total"]);//流程"是否有效"的数量
+
+                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
+                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                string msg = string.Empty;
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_flowsBllService.SecurityContextValue = m_SecurityContext;
+
+                int id = Convert.ToInt32(collection["flowsId"].Trim());
+
+                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
+
+                string name=collection["flowsName"].Trim();
+                if (name.Length == 0)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="流程名称不能为空!"});
+                }
+               //获得deleted=false且应用系统ID为appid的flowsName列表
+                DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id,out msg);
+                var total = ds.Tables[0].Rows.Count;
+                ArrayList flowsList = new ArrayList();
+                for (int i = 0; i < total; i++)
+                {
+                    flowsList.Add(ds.Tables[0].Rows[i][1].ToString());
+                }
+                //如果是自己本身，流程名称修改前和修改后的名称一样
+                for (int i = 0; i < total; i++)
+                {
+                    if (m_flowsModel.name.ToString().Equals(collection["flowsName"].Trim().ToString()))
+                    {
+                        flowsList.Remove(m_flowsModel.name);
+                    }
+                }
+                string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
+                DateTime t = Convert.ToDateTime(s);
+                m_flowsModel.name=collection["flowsName"].Trim();
+                if(m_fi_total == 1)
+                {
+                    m_flowsModel.invalid = false;
+                }
+                if (m_fi_total == 0)
+                {
+                    m_flowsModel.invalid = true;
+                }
+                m_flowsModel.deleted = Convert.ToBoolean(collection["flowsDeleted"].Trim());
+                m_flowsModel.remark=collection["flowsRemark"].Trim();
+                m_flowsModel.app_id = Convert.ToInt32(collection["flowsApp_id"].Trim());
+                m_flowsModel.updated_at = t;
+                m_flowsModel.updated_by = Convert.ToInt32(m_usersModel.id);
+                m_flowsModel.updated_ip = collection["flowsCreated_ip"].Trim();
+                foreach (string flowsname in flowsList)
+                {
+                    if (flowsname.Equals(collection["flowsName"].Trim()))
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的流程名称!"});
+                    }
+                }
+                try 
+                {
+                    if (m_flowsBllService.UpdateFlow(m_flowsModel, out msg))
+                    {
+                        m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
+                        Session["flow"] = m_flowsModel.name;
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改流程成功!", toUrl = "/FlowsManagement/AppFlows" });
+                    }
+                    else
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="修改流程失败!"});
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+                }
             }
         }
     }
