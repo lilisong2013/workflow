@@ -127,7 +127,6 @@ namespace WorkFlow.Controllers
                     }
                 }
 
-                //m_flowsModel.id = 8;
                 m_flowsModel.name=collection["flowsName"];
                 m_flowsModel.remark = collection["flowsRemark"];
                 m_flowsModel.created_by =(int)m_usersModel.id;
