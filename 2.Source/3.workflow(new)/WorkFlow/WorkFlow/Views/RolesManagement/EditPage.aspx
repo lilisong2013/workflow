@@ -146,7 +146,7 @@
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
        <textarea id="rolesRemark" name="rolesRemark" cols="5" rows="4"><%=ViewData["rolesRemark"]%></textarea>      
-<%--        <input type="hidden" name="rolesId" id="rolesId" value="<%=ViewData["rolesId"]%>"/>--%>
+
         <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="<%=ViewData["rolesDeleted"]%>" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
         <%string  s = DateTime.Now.ToString() +"."+ System.DateTime.Now.Millisecond.ToString(); %>

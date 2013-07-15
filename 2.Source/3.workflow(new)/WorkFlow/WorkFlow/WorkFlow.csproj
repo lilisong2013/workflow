@@ -544,6 +544,7 @@
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
     <Content Include="Views\FlowsManagement\AppFlows.aspx" />
     <Content Include="Views\FlowsManagement\DetailInfo.aspx" />
+    <Content Include="Views\FlowsManagement\EditPage.aspx" />
     <Content Include="Views\Home\AdminLogin.aspx" />
     <Content Include="Views\Home\AdminPass.aspx" />
     <Content Include="Views\Home\AdminPassCon.aspx" />

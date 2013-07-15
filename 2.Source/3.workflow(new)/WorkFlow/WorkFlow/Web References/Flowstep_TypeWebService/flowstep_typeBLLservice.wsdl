@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
+      <s:element name="GetFlowStep_TypeList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetFlowStep_TypeListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlowStep_TypeListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetFlowStep_TypeListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowStep_TypeList" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStep_TypeListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowStep_TypeListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStep_TypeListSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:portType name="flowstep_typeBLLserviceSoap">
+    <wsdl:operation name="GetFlowStep_TypeList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"> 获得流程步骤类型代码数据列表，&lt;h4&gt;（需要授权验证，管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowStep_TypeListSoapIn" />
+      <wsdl:output message="tns:GetFlowStep_TypeListSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="flowstep_typeBLLserviceSoap" type="tns:flowstep_typeBLLserviceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetFlowStep_TypeList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowStep_TypeList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFlowStep_TypeListSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="flowstep_typeBLLserviceSoap12" type="tns:flowstep_typeBLLserviceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetFlowStep_TypeList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowStep_TypeList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFlowStep_TypeListSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="flowstep_typeBLLservice">
+    <wsdl:port name="flowstep_typeBLLserviceSoap" binding="tns:flowstep_typeBLLserviceSoap">
+      <soap:address location="http://192.168.11.103:8081/WebService/flowstep_typeBLLservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="flowstep_typeBLLserviceSoap12" binding="tns:flowstep_typeBLLserviceSoap12">
+      <soap12:address location="http://192.168.11.103:8081/WebService/flowstep_typeBLLservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
