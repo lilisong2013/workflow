@@ -59,8 +59,9 @@
                    //更新mygrid数据
                    managerListGrid.setOptions({
                        columns: [
-                    { display: '流程名称', name: 'name', align: 'center' },
-                    { display: '流程备注', name: 'remark', align: 'center' },
+                    {display:'流程ID',name:'id',width:80},
+                    { display: '流程名称', name: 'name',width:400 },
+                    { display: '流程备注', name: 'remark'},
                     { display: '', width: 100,
                         render: function (row) {
                             var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '">详情</a>';
@@ -79,8 +80,11 @@
                                 return html;
                             }
                         }
+                     
                     ],
-                       data: dataJson
+                      data: dataJson,
+                      usePage:true
+                     
                    });
                    managerListGrid.loadData();
                }

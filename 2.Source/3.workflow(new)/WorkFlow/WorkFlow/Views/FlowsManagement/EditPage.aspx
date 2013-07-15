@@ -101,6 +101,14 @@
            }
        });
    </script>
+   
+   <%--跳转到上一页--%>
+   <script type="text/javascript">
+       function go() { 
+       alert("返回!");
+       window.history.back(-1);
+   }
+   </script> 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>流程管理</h2></div>
