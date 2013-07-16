@@ -30,6 +30,7 @@
             $("#promptDIV").html("");
         });
     </script>
+  
    <%--在Grid中显示flows信息--%>
     <script type="text/javascript">
        var managerListGrid;
@@ -39,7 +40,14 @@
                width: '90%',
                height: 400
            });
+
            managerListGrid = $("#flowsgrid").ligerGetGridManager();
+           window.onload = function () {
+               alert(managerListGrid.get('page'));
+               alert(managerListGrid.options.page);
+               alert(managerListGrid.options.newPage);
+           }
+           
            GetFlowList(); //获取流程数据列表
            $("#infoTab").click(function () {
                GetFlowList(); //获取流程数据列表
@@ -59,18 +67,18 @@
                    //更新mygrid数据
                    managerListGrid.setOptions({
                        columns: [
-                    {display:'流程ID',name:'id',width:80},
+                    {display:'流程ID',name:'id',width:60},
                     { display: '流程名称', name: 'name',width:400 },
                     { display: '流程备注', name: 'remark'},
                     { display: '', width: 100,
                         render: function (row) {
-                            var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                            var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" target="_blank">详情</a>';
                             return html;
                         }
                     },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id=' + row.id + '" target="_blank">编辑</a>';
                                 return html;
                             }
                         },
@@ -83,8 +91,10 @@
                      
                     ],
                       data: dataJson,
-                      usePage:true
-                     
+                      usePager:true,
+                      pageParmName: 'page',
+                      rownumbers:true
+                      
                    });
                    managerListGrid.loadData();
                }
@@ -92,7 +102,7 @@
        }
 
    </script>
-
+ 
     <%--删除确认函数--%>
     <script type="text/javascript">
       function DeleteFlow(id)
