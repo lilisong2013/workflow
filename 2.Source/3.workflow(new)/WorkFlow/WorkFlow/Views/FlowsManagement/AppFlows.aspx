@@ -37,17 +37,18 @@
        $(document).ready(function () {
            //定义ligerGrid;
            $("#flowsgrid").ligerGrid({
-               width: '90%',
+               width: '99%',
                height: 400
            });
 
            managerListGrid = $("#flowsgrid").ligerGetGridManager();
            window.onload = function () {
-               alert(managerListGrid.get('page'));
-               alert(managerListGrid.options.page);
-               alert(managerListGrid.options.newPage);
+               //               alert(managerListGrid.get('page'));
+               //               alert(managerListGrid.options.page);
+               //               alert(managerListGrid.options.newPage);
+
            }
-           
+
            GetFlowList(); //获取流程数据列表
            $("#infoTab").click(function () {
                GetFlowList(); //获取流程数据列表
@@ -68,20 +69,21 @@
                    managerListGrid.setOptions({
                        columns: [
                     {display:'流程ID',name:'id',width:60},
-                    { display: '流程名称', name: 'name',width:400 },
-                    { display: '流程备注', name: 'remark'},
+                    { display: '流程名称', name: 'name',width:800 },
+                   
                     { display: '', width: 100,
                         render: function (row) {
-                            var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" target="_blank">详情</a>';
+                            var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" >详情</a>';                         
                             return html;
                         }
-                    },
+                    },            
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id=' + row.id + '" target="_blank">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id=' + row.id + '">编辑</a>';
                                 return html;
                             }
                         },
+                       
                         { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
@@ -91,9 +93,25 @@
                      
                     ],
                       data: dataJson,
-                      usePager:true,
-                      pageParmName: 'page',
-                      rownumbers:true
+                      newPage: 3,
+                      onToNext: function (element) {
+                          alert("next");
+
+                          alert(managerListGrid.get('page'));
+
+                      },
+                      onToPrev: function (element) {
+                          alert("Prev");
+                          alert(managerListGrid.get('page'));
+                      },
+                      onToFirst: function (element) {
+                          alert("First");
+                          alert(managerListGrid.get('page'));
+                      },
+                      onToLast: function (element) {
+                          alert("Last");
+                          alert(managerListGrid.get('page'));
+                      }
                       
                    });
                    managerListGrid.loadData();
@@ -102,31 +120,67 @@
        }
 
    </script>
- 
-    <%--删除确认函数--%>
+    <%--编辑确认函数--%>
     <script type="text/javascript">
-      function DeleteFlow(id)
-      {
-        //alert(id);
-        var flowid=id;
-        $.ligerDialog.confirm("确定要删除信息?",function(yes){
-          if(yes)
-           {
-             $.ajax({
-               url:"/FlowsManagement/DeleteFlows",
-               type:"POST",
-               dataType: "json",
-               data: { flowID:flowid},
-               success: function (responseText, statusText) {
-                    GetFlowList();
+        function EditPage(id) {
+            var flowid = id;
+            var Count = managerListGrid.get('page');
+            alert("id:" + id);
+            alert("Count:" + managerListGrid.get('page'));
+            $.ajax({
+                url: "/FlowsManagement/EditPage1",
+                type: "POST",
+                dataType: "json",
+                data: { flowID: flowid, pageCount: Count },
+                success: function (responseText, statusText) {
+
                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                     $("#promptDIV").addClass(responseText.css);
                     $("#promptDIV").html(responseText.message);
-                 }
-             });
-           }
-        });
-      }
+                    if (responseText.success) {
+                        location.href = responseText.toUrl;
+                    }
+                }
+            });
+        }
+    </script>
+    <%--详情确认函数--%>
+    <script type="text/javascript">
+        function DetailConfirm(id) {
+            var flowid = id;
+            var Count = managerListGrid.get('page');
+            alert("id:"+id);
+            alert("Count:" + managerListGrid.get('page'));
+            $.ajax({
+                 url: "/FlowsManagement/DetailConfirm",
+                 type: "POST",
+                 dataType:"json",
+                 data: { flowID: flowid, pageCount: Count }
+            });
+        }
+    </script>
+    <%--删除确认函数--%>
+    <script type="text/javascript">
+        function DeleteFlow(id) {
+            //alert(id);
+            var flowid = id;
+            $.ligerDialog.confirm("确定要删除信息?", function (yes) {
+                if (yes) {
+                    $.ajax({
+                        url: "/FlowsManagement/DeleteFlows",
+                        type: "POST",
+                        dataType: "json",
+                        data: { flowID: flowid },
+                        success: function (responseText, statusText) {
+                            GetFlowList();
+                            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                            $("#promptDIV").addClass(responseText.css);
+                            $("#promptDIV").html(responseText.message);
+                        }
+                    });
+                }
+            });
+        }
     </script>
     <%--添加流程确认信息--%>
     <script type="text/javascript">
