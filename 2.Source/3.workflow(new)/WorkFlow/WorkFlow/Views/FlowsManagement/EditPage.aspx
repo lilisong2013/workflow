@@ -95,26 +95,20 @@
                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                $("#promptDIV").addClass(responseText.css);
                $("#promptDIV").html(responseText.message);
-               if (responseText.success) {
-                   location.href = responseText.toUrl;
-               }
+//               if (responseText.success) {
+//                   location.href = responseText.toUrl;
+//               }
            }
        });
    </script>
    
-   <%--跳转到上一页--%>
-   <script type="text/javascript">
-       function go() { 
-       alert("返回!");
-       window.history.back(-1);
-   }
-   </script> 
+ 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>流程管理</h2></div>
 <div class="container">
  <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlows">返回</a></li></ul>
+    <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlowsPage?pageCount=<%=ViewData["flowsEditCount"]%>">返回</a></li></ul>
  </div> 
 </div>
 <div class="container">
