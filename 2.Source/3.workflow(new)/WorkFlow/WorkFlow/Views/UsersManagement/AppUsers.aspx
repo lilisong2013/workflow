@@ -63,7 +63,8 @@
                        
                         //更新mygrid数据
                         managerListGrid.setOptions({
-                         columns:[
+                            columns: [
+                        { display: '用户ID', name: 'id',width:80,align: 'center' },
                         { display: '登录名称',name:'login',  align: 'center' },
                         { display: '用户姓名',name:'name', align: 'center' },
                         { display: '工号',name:'employee_no',  align: 'center' },

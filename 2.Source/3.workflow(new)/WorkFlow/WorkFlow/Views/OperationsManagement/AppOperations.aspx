@@ -63,6 +63,7 @@
                      //更新mygrid数据
                      managerListGrid.setOptions({
                          columns: [
+                        { display: '操作ID', name: 'id',width:80,align: 'center' },
                         { display: '操作名称', name: 'name', align: 'center' },
                         { display: '操作编码', name: 'code', align: 'center' },
                         { display: '操作描述', name: 'description',align: 'center' },

@@ -64,6 +64,7 @@
                     //更新mygrid数据
                     managerListGrid.setOptions({
                         columns: [
+                        { display: '角色ID', name: 'id',width:80,align: 'center' },
                         { display: '角色名称', name: 'name', align: 'center' },
                         { display: '角色备注', name: 'remark', align: 'center' },
                         { display: '', width: 100,
