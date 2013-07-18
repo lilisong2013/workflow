@@ -8,6 +8,10 @@
     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
     
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-tree.css" rel="stylesheet"
+        type="text/css" />
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
     <%--页面标题--%>
     <script type="text/javascript">
         var titleUrl = "/Home/GetPageTitle";
@@ -26,9 +30,9 @@
         var epTotal = 0;//页面元素权限数量
 
     </script>
-   
+    <script src="../../LigerUI/lib/json2.js" type="text/javascript"></script>
     <%--菜单权限初始化--%>
-    <script type="text/javascript">
+    <%--<script type="text/javascript">
         $(document).ready(function () {
             $.ajax({
                 url: "/RolesManagement/GetMunusPrivilegeList",
@@ -55,6 +59,53 @@
                 }
             });
         });
+    </script>--%>
+    <script type="text/javascript">
+        var managerMenuTree;
+        //var dataJson=[{name:'个人信息',id:'1',children:[{name:'信息编辑',id:'2'},{name:'密码修改',id:'3'}]},{name:'数据分析',id:'4'}];
+        $(document).ready(function () {
+            managerMenuTree = $("#menusList").ligerTree({
+                checkbox: true,
+                autoCheckboxEven: true,
+                textFieldName: 'name',
+                idFieldName: 'menuID',
+                parentIDFieldName: 'parentID'
+            });
+
+            //给menusList填充数据
+            GetMenusList();
+
+            $("#myButton").click(function () {
+                getChecked();
+            });
+        });
+        
+        function GetMenusList() {
+            $.ajax({
+                url: "/RolesManagement/GetMenuPrivilegeTree",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    alert(responseText);
+                    var dataMenusJson = eval(responseText);
+                    managerMenuTree.clear();
+                    managerMenuTree.setData(dataMenusJson);
+                    managerMenuTree.loadData();
+                }
+            });
+        }
+
+        function getChecked() {
+            var notes = managerMenuTree.getChecked();
+            var text = "";
+            for (var i = 0; i < notes.length; i++) {
+                alert(JSON2.stringify(managerMenuTree.getData()));
+                text += notes[i].data.id + ",";
+            }
+            alert('选择的节点数：' + text);
+        }
+
     </script>
 
     <%--操作权限初始化--%>
@@ -129,18 +180,15 @@
                     var rpTotal = 0; //角色权限的数量
                     //alert(rpTotal);
 
+                    var notes = managerMenuTree.getChecked(); //菜单树中被选中的菜单
                     //菜单权限中被选中的项
-                    for (var i = 0; i < mpTotal; i++) {
-                        var checkBoxID = $("#menusprivilege" + i.toString()); //复选框ID
-                        //alert(checkBoxID);
-                        if (checkBoxID.is(":checked")) {
-                            //alert(checkBoxID.val() + "选中");
-                            role_privilegesStr += "rprivilegeID" + rpTotal.toString() + ":'" + checkBoxID.val() + "',";
-                            rpTotal++;
-                        } else {
-                            //alert(checkBoxID.val() + "未选中");
-                        }
+                    for (var i = 0; i < notes.length; i++) {
+                        //alert(checkBoxID.val() + "选中");
+                        role_privilegesStr += "rprivilegeID" + rpTotal.toString() + ":'" + notes[i].data.id + "',";
+                        rpTotal++;
                     }
+
+                    alert(role_privilegesStr);
                     //操作权限中被选中的项
                     for (var i = 0; i < mpTotal; i++) {
                         var checkBoxID = $("#operationsprivilege" + i.toString()); //复选框ID
@@ -225,7 +273,10 @@
                     <h3>菜单</h3>
                 </div>
                 <div id="menusList">
-                   
+
+                </div>
+                <div class="btn btn-primary" id="myButton">
+                节点
                 </div>
             </div>
 
