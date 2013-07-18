@@ -181,14 +181,15 @@
                     //alert(rpTotal);
 
                     var notes = managerMenuTree.getChecked(); //菜单树中被选中的菜单
+                    //alert(notes.length);
                     //菜单权限中被选中的项
                     for (var i = 0; i < notes.length; i++) {
-                        //alert(checkBoxID.val() + "选中");
+                        //alert(notes[i].data.id);
                         role_privilegesStr += "rprivilegeID" + rpTotal.toString() + ":'" + notes[i].data.id + "',";
                         rpTotal++;
                     }
 
-                    alert(role_privilegesStr);
+                    //alert(role_privilegesStr);
                     //操作权限中被选中的项
                     for (var i = 0; i < mpTotal; i++) {
                         var checkBoxID = $("#operationsprivilege" + i.toString()); //复选框ID
@@ -210,7 +211,7 @@
                         }
                     }
                     role_privilegesStr += "rp_total: '" + rpTotal + "',r_ID:'" + $("#roleID").val() + "' }";
-                    //alert(role_privilegesStr);
+                    alert(role_privilegesStr);
                     role_privilegesData = eval("(" + role_privilegesStr + ")");
                     $("#role_privileges").ajaxForm({
                         success: rp_showResponse,  // form提交响应成功后执行的回调函数

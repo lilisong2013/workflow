@@ -340,7 +340,7 @@ namespace Saron.WorkFlowService.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,code,description,remark,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM operations ");
-            strSql.Append(" where app_id=@app_id and deleted=0 ");
+            strSql.Append(" where app_id=@app_id and deleted=0 order by id desc ");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};
