@@ -179,7 +179,9 @@ namespace WorkFlow.Controllers
             {
                 var id = Convert.ToInt32(Request.Form["flowID"]);
                 var count = Convert.ToInt32(Request.Form["pageCount"]);
-                Session["pageCount"] = count;
+                var size = Convert.ToInt32(Request.Form["SizeCount"]);
+                Session["pageCount"] =count;
+                Session["SizeCount"] =size;
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
 
@@ -192,6 +194,7 @@ namespace WorkFlow.Controllers
 
                 WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
                 ViewData["flowsPageCount"] = count;
+                ViewData["flowsSizeCount"] = size;
                 ViewData["flowsName"] = m_flowsModel.name;
                 ViewData["flowsRemark"] = m_flowsModel.remark;
                 ViewData["flowsInvalid"] = m_flowsModel.invalid;
@@ -232,6 +235,7 @@ namespace WorkFlow.Controllers
                 WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
 
                 ViewData["flowsPageCount"] = Convert.ToInt32(Session["pageCount"]);
+                ViewData["flowsSizeCount"] = Convert.ToInt32(Session["SizeCount"]);
                 ViewData["flowsName"] = m_flowsModel.name;
                 ViewData["flowsRemark"] = m_flowsModel.remark;
                 ViewData["flowsInvalid"] = m_flowsModel.invalid;
@@ -309,6 +313,7 @@ namespace WorkFlow.Controllers
                 WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
 
                 ViewData["flowsEditCount"] = Convert.ToInt32(Session["EditPageCount"]);
+                ViewData["flowsEditSize"] = Convert.ToInt32(Session["EditSizeCount"]);
                 ViewData["flowsID"] = m_flowsModel.id;
                 ViewData["flowsName"] = m_flowsModel.name;
                 ViewData["flowsRemark"] = m_flowsModel.remark;
@@ -336,7 +341,9 @@ namespace WorkFlow.Controllers
 
                 int id = Convert.ToInt32(Request.Form["flowID"]);
                 var count = Convert.ToInt32(Request.Form["pageCount"]);
-                Session["EditPageCount"] = count;
+                var size = Convert.ToInt32(Request.Form["SizeCount"]);
+                Session["EditPageCount"] =count;
+                Session["EditSizeCount"] =size;
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
 
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
@@ -351,7 +358,8 @@ namespace WorkFlow.Controllers
 
                 WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
 
-                ViewData["flowsEditCount"] = count;
+                ViewData["flowsEditCount"] =count;
+                ViewData["flowsEditSize"] =size;
                 ViewData["flowsID"] = m_flowsModel.id;
                 ViewData["flowsName"] = m_flowsModel.name;
                 ViewData["flowsRemark"] = m_flowsModel.remark;

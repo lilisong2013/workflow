@@ -13,7 +13,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container">
         <div class="row-fluid">         
-            <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlowsPage?pageCount=<%=ViewData["flowsPageCount"]%>">返回</a></li></ul>          
+            <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlowsPage?pageCount=<%=ViewData["flowsPageCount"]%>&pageSize=<%=ViewData["flowsSizeCount"]%>">返回</a></li></ul>          
         </div>
         
         <div class="row-fluid"><h2>流程名称：<%=ViewData["flowsName"]%></h2>
@@ -28,6 +28,6 @@
         <div class="row-fluid">记录更新时间：<%=ViewData["flowsUpdated_at"]%></div>
         <div class="row-fluid">记录更新用户：<%=ViewData["flowsUpdated_by"]%></div>
         <div class="row-fluid">记录更新IP：<%=ViewData["flowsUpdated_ip"]%></div>
-       
+        <div class="row-fluid">Size：<%=ViewData["flowsSizeCount"]%></div>
   </div>
 </asp:Content>

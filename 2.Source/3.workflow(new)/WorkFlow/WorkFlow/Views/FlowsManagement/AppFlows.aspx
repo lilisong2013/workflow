@@ -33,78 +33,109 @@
   
    <%--在Grid中显示flows信息--%>
     <script type="text/javascript">
-       var managerListGrid;
-       $(document).ready(function () {
-           //定义ligerGrid;
-           $("#flowsgrid").ligerGrid({
-               width: '99%',
-               height: 400
-           });
+        var managerListGrid;
+        $(document).ready(function () {
+            //定义ligerGrid;
+            $("#flowsgrid").ligerGrid({
+                width: '99%',
+                height: 400
+            });
 
-           managerListGrid = $("#flowsgrid").ligerGetGridManager();
-        
-           GetFlowList(); //获取流程数据列表
-           $("#infoTab").click(function () {
-               GetFlowList(); //获取流程数据列表
-           });
-       });
-       function GetFlowList() {
+            managerListGrid = $("#flowsgrid").ligerGetGridManager();
 
-           $.ajax({
-               url: "/FlowsManagement/GetFlowList",
-               type: "POST",
-               dataType: "json",
-               data: {},
-               success: function (responseText, statusText) {
-                  //alert(responseText);
-                   var dataJson = eval("(" + responseText + ")");
-                  // alert(dataJson);
-                   //更新mygrid数据
-                   managerListGrid.setOptions({
-                       columns: [
-                    {display:'流程ID',name:'id',width:60},
-                    { display: '流程名称', name: 'name',width:800 },
+            GetFlowList(); //获取流程数据列表
+            $("#infoTab").click(function () {
+                GetFlowList(); //获取流程数据列表
+            });
+        });
+        function GetFlowList() {
+
+            $.ajax({
+                url: "/FlowsManagement/GetFlowList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataJson = eval("(" + responseText + ")");
+                    // alert(dataJson);
+                    //更新mygrid数据
+                    managerListGrid.setOptions({
+                        columns: [
+                    { display: '流程ID', name: 'id', width: 60 },
+                    { display: '流程名称', name: 'name', width: 800 },
                     { display: '', width: 100,
-                         render: function (row) {
-                             var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" onclick="DetailConfirmCon(' + row.id + ');">详情</a>';
-                             return html;
-                         }
-                     },             
-                       { display: '', width: 100,
-                           render: function (row) {
-                               var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id='+row.id+'" onclick="EditPageCon('+row.id+')">编辑</a>';
-                               return html;
-                           }
-                       },
-                        { display: '', width: 100,
-                            render: function (row) {
-                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
-                                return html;
-                            }
+                        render: function (row) {
+                            var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" onclick="DetailConfirmCon(' + row.id + ');">详情</a>';
+                            return html;
                         }
-                     
+                    },
+                    { display: '', width: 100,
+                        render: function (row) {
+                            var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id=' + row.id + '" onclick="EditPageCon(' + row.id + ')">编辑</a>';
+                            return html;
+                        }
+                    },
+                    { display: '', width: 100,
+                        render: function (row) {
+                            var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
+                            return html;
+                        }
+                    }
                     ],
-                      data: dataJson
-                                           
-                   });
-                   managerListGrid.loadData();
-               }
-           });
+                    data: dataJson,
+                    where:f_function()                     
+                    });
+                    managerListGrid.loadData();
+                }
+            });
+       
+        }
+        function f_function() {
+            alert("----");
+        }
+   </script>
+   <script type="text/javascript">
+       function f_search() {
+           alert("aaaa");
+           //managerListGrid.options.data = $.extend(true, {}, data);
+           alert("bbb");
+           //managerListGrid.options.data = $.extend(true, {}, data);
+           //alert($.extend(true, {}, data));
+           alert("cbb");
+           managerListGrid.loadData(f_getWhere());
        }
+   </script>
+   <script type="text/javascript">
+       function f_getWhere() {
+           alert("cccc");
+           if (!managerListGrid) return null;
+           alert("ddd");
+           var clause = function (rowdata, rowindex) {
 
+               var key = $("#txtKey").val();
+         
+               return rowdata.name.indexof(key) > -1;
+           };
+           return clause;
+       }
    </script>
     <%--编辑确认函数--%>
     <script type="text/javascript">
         function EditPageCon(id) {
             var flowid = id;
             var Count = managerListGrid.get('page');
-            //alert("id:" + id);
+            var Size = managerListGrid.get('pageSize');
+            // alert("id:" + id);
             //alert("Count:" + managerListGrid.get('page'));
+            //alert("pageSize:" + managerListGrid.get('pageSize'));
+//            alert(managerListGrid.get('pageSize'));
+//            alert(managerListGrid.get('total'));
             $.ajax({
                 url: "/FlowsManagement/EditPageCon",
                 type: "POST",
                 dataType: "json",
-                data: { flowID: flowid, pageCount: Count }
+                data: { flowID: flowid, pageCount: Count, SizeCount: Size}
 
             });
         }
@@ -114,13 +145,16 @@
         function DetailConfirmCon(id) {
             var flowid = id;
             var Count = managerListGrid.get('page');
+            var Size=managerListGrid.get('pageSize');
             //alert("id:"+id);
             //alert("Count:" + managerListGrid.get('page'));
+            //alert(managerListGrid.get('pageSize'));
+            //alert(managerListGrid.get('total'));
             $.ajax({
-                 url: "/FlowsManagement/DetailConfirmCon",
-                 type: "POST",
-                 dataType:"json",
-                 data: { flowID: flowid, pageCount: Count }
+                url: "/FlowsManagement/DetailConfirmCon",
+                type: "POST",
+                dataType: "json",
+                data: { flowID: flowid, pageCount: Count, SizeCount:Size}
             });
         }
     </script>
@@ -187,7 +221,10 @@
         <%--操作提示DIV--%>
        <div id="promptDIV" class="row"></div>
     </div>
-
+    <div >
+      流程名称:<input id="txtKey" type="text"/>
+      <input  id="btnOK" type="button" value="查询" onclick="f_search()"/>
+    </div>
      <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
             <li class="active" id="#infoTab"><a href="#AllFlows" data-toggle="tab"><i class="icon-check"></i>全部</a></li>

@@ -108,7 +108,7 @@
 <div class="container"><h2>流程管理</h2></div>
 <div class="container">
  <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlowsPage?pageCount=<%=ViewData["flowsEditCount"]%>">返回</a></li></ul>
+    <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlowsPage?pageCount=<%=ViewData["flowsEditCount"]%>&sizeCount=<%=ViewData["flowsEditSize"]%>">返回</a></li></ul>
  </div> 
 </div>
 <div class="container">

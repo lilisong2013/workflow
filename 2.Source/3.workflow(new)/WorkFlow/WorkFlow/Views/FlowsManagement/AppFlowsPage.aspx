@@ -47,11 +47,19 @@
    <%--在Grid中显示flows信息--%>
     <script type="text/javascript">
         var flag = top.window.location.href;
+        //alert(flag);
         var count1 = flag.split("?");
         var count2 = count1[1];
-        var count3 = count2.split("=");
-        var count4 = count3[1];
-        //alert("pagecount:" + count4);
+
+        var count3= count2.split("&");
+
+        var count30 = count3[0].split("=");
+        var count31 = count3[1].split("=");
+        var count40 = count30[1];
+        var count41 = count31[1];
+        alert(count30[1]);
+        alert(count31[1]);
+
         var managerListGrid;
         $(document).ready(function () {
             //定义ligerGrid;
@@ -107,7 +115,8 @@
 
                     ],
                         data: dataJson,
-                        newPage:count4
+                        newPage:count40,
+                        pageSize:count41
 
                     });
 
@@ -122,13 +131,14 @@
         function EditPageCon(id) {
             var flowid = id;
             var Count = managerListGrid.get('page');
+            var Size = managerListGrid.get('pageSize');
             //alert("id:" + id);
             //alert("Count:" + managerListGrid.get('page'));
             $.ajax({
                 url: "/FlowsManagement/EditPageCon",
                 type: "POST",
                 dataType: "json",
-                data: { flowID: flowid, pageCount: Count }
+                data: { flowID: flowid, pageCount: Count,SizeCount: Size }
 
             });
         }
@@ -138,13 +148,14 @@
         function DetailConfirm(id) {
             var flowid = id;
             var Count = managerListGrid.get('page');
+            var Size = managerListGrid.get('pageSize');
             //alert("id:" + id);
             //alert("Count:" + Count);           
             $.ajax({
                 url: "/FlowsManagement/DetailConfirmCon",
                 type: "POST",
                 dataType: "json",
-                data: { flowID: flowid, pageCount: Count }
+                data: { flowID: flowid, pageCount:Count,SizeCount:Size }
             });        
         }
     </script>
