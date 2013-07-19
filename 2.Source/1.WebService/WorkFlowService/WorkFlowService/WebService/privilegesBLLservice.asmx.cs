@@ -22,6 +22,8 @@ namespace Saron.WorkFlowService.WebService
         private readonly Saron.WorkFlowService.DAL.privilegesDAL m_privilegesDal = new Saron.WorkFlowService.DAL.privilegesDAL();
         private readonly Saron.WorkFlowService.DAL.privilege_roleDAL m_privilege_roledal = new DAL.privilege_roleDAL();
 
+        private readonly Saron.WorkFlowService.DAL.v_menu_privilegesDAL m_v_menu_privilegesdal = new DAL.v_menu_privilegesDAL();
+
         public SecurityContext m_securityContext = new SecurityContext();
 
         #region  Method
@@ -151,6 +153,7 @@ namespace Saron.WorkFlowService.WebService
 
             return m_privilegesDal.GetAllListByAppID(appID);
         }
+        
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统的所有菜单列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetMListByAppTypeID(int appID,out string msg)
@@ -164,6 +167,7 @@ namespace Saron.WorkFlowService.WebService
 
             return m_privilegesDal.GetMListByAppTypeID(appID);
         }
+        
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统的所有元素列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetElListByAppID(int appID,out string msg)
@@ -175,6 +179,7 @@ namespace Saron.WorkFlowService.WebService
             }
             return m_privilegesDal.GetElListByAppID(appID);
         }
+        
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统的所有操作列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetOpListByAppID(int appID,out string msg)
@@ -186,6 +191,7 @@ namespace Saron.WorkFlowService.WebService
             }
             return m_privilegesDal.GetOpListByAppID(appID);
         }
+        
         ////[SoapHeader("m_securityContext")]
         //[WebMethod(Description = "获得某系统某类型的所有权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
         //public DataSet GetAllListByAppTypeID(int appID, int privilegetype_id)
@@ -214,6 +220,33 @@ namespace Saron.WorkFlowService.WebService
             return m_privilegesDal.GetListByPrivilegeType(privilegeTypeID, appID);
         }
 
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某系统菜单权限的顶级菜单权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetTopMenuPrivilegeListOfApp(int appID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_v_menu_privilegesdal.GetTopMenuPrivilegeListOfApp(appID);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某系统菜单权限的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetMenuPrivilegeListOfApp(int appID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_v_menu_privilegesdal.GetMenuPrivilegeListOfApp(appID);
+        }
         #endregion  Method
     }
 }

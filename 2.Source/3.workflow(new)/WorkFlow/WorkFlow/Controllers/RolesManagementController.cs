@@ -859,5 +859,66 @@ namespace WorkFlow.Controllers
     
        
         }
+
+
+        public ActionResult GetMenuPrivilegeTree()
+        {
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+            WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+            string msg = string.Empty;
+
+            #region webservice方法授权验证
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_usersModel.login;
+            m_securityContext.PassWord = m_usersModel.password;
+            m_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            #endregion
+
+            DataSet ds = new DataSet();
+            try
+            {
+                ds = m_privilegesBllService.GetMenuPrivilegeListOfApp((int)m_usersModel.app_id, out msg);
+            }
+            catch (Exception ex)
+            {
+                return Json("{success:false,message:'" + msg + "'}");
+            }
+
+            if (ds.Tables[0].Rows.Count == 0)
+            {
+                return Json("[]");
+            }
+
+            string datajson = "[";
+            int total = ds.Tables[0].Rows.Count;
+            for (int i = 0; i <total; i++)
+            {
+                string m_privilegeID = ds.Tables[0].Rows[i][0].ToString();//权限ID
+                string m_privilegeName = ds.Tables[0].Rows[i][1].ToString();//权限名称
+                string m_menuID =ds.Tables[0].Rows[i][7].ToString();//菜单ID
+                string m_parentID = ds.Tables[0].Rows[i][8].ToString();//菜单ID
+
+                if (i < total - 1)
+                {
+                    datajson += "{id:'" + m_privilegeID + "',";
+                    datajson += "name:'" + m_privilegeName + "',";
+                    datajson += "menuID:'" + m_menuID + "',";
+                    datajson += "parentID:'" + m_parentID + "'},";
+                }
+                else
+                {
+                    datajson += "{id:'" + m_privilegeID + "',";
+                    datajson += "name:'" + m_privilegeName + "',";
+                    datajson += "menuID:'" + m_menuID + "',";
+                    datajson += "parentID:'" + m_parentID + "'}]";
+                }
+            }
+
+            return Json(datajson);
+        }
     }
 }
