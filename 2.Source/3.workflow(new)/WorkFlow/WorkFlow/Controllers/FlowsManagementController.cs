@@ -166,43 +166,8 @@ namespace WorkFlow.Controllers
                 }
             }
         }
-        //流程的详细信息
-        public ActionResult DetailInfo(int id)
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Home", "Login");
-            }
-            else
-            {
-                //var id = Convert.ToInt32(Request.Form["flowID"]);
-                var count = Convert.ToInt32(Request.Form["pageCount"]);
-                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
-                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-                string msg = string.Empty;
-                m_SecurityContext.UserName = m_usersModel.login;
-                m_SecurityContext.PassWord = m_usersModel.password;
-                m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_flowsBllService.SecurityContextValue = m_SecurityContext;
-
-                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
-                ViewData["flowsPageCount"] = count;
-                ViewData["flowsName"] = m_flowsModel.name;
-                ViewData["flowsRemark"] = m_flowsModel.remark;
-                ViewData["flowsInvalid"] = m_flowsModel.invalid;
-                ViewData["flowsDeleted"] = m_flowsModel.deleted;
-                ViewData["flowsCreated_at"] = m_flowsModel.created_at;
-                ViewData["flowsCreated_by"] = m_flowsModel.created_by;
-                ViewData["flowsCreated_ip"] = m_flowsModel.created_ip;
-                ViewData["flowsUpdated_at"] = m_flowsModel.updated_at;
-                ViewData["flowsUpdated_by"] = m_flowsModel.updated_by;
-                ViewData["flowsUpdated_ip"] = m_flowsModel.updated_ip;
-                ViewData["flowsApp_id"] = m_flowsModel.app_id;
-                return View();
-            }
-        }
+   
+        //流程的详情
         public ActionResult DetailConfirmCon()
         {
 
@@ -243,7 +208,8 @@ namespace WorkFlow.Controllers
 
 
         }
-        public ActionResult DetailConfirm(int id)
+        //流程的跳转详情
+        public ActionResult DetailInfo(int id)
         {
             if (Session["user"] == null)
             {

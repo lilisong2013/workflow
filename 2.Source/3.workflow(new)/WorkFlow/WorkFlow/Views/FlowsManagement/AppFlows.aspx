@@ -66,7 +66,7 @@
                     { display: '流程名称', name: 'name',width:800 },
                     { display: '', width: 100,
                          render: function (row) {
-                             var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailConfirm?id='+row.id+'" onclick="DetailConfirmCon('+row.id+ ');">详情</a>';
+                             var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" onclick="DetailConfirmCon(' + row.id + ');">详情</a>';
                              return html;
                          }
                      },             
