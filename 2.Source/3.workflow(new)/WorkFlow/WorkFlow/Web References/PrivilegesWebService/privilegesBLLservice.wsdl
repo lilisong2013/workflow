@@ -231,6 +231,50 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetTopMenuPrivilegeListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTopMenuPrivilegeListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTopMenuPrivilegeListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMenuPrivilegeListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMenuPrivilegeListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMenuPrivilegeListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="ExistsItemOfPrivilegesTypeSoapIn">
@@ -332,6 +376,24 @@
   <wsdl:message name="GetListByPrivilegeTypeSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetTopMenuPrivilegeListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTopMenuPrivilegeListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetTopMenuPrivilegeListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTopMenuPrivilegeListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTopMenuPrivilegeListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuPrivilegeListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMenuPrivilegeListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuPrivilegeListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMenuPrivilegeListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuPrivilegeListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="privilegesBLLserviceSoap">
     <wsdl:operation name="ExistsItemOfPrivilegesType">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">某种权限类型下某权限项目的权限是否已经存在，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -387,6 +449,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统某种权限类型下的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetListByPrivilegeTypeSoapIn" />
       <wsdl:output message="tns:GetListByPrivilegeTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTopMenuPrivilegeListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的顶级菜单权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetTopMenuPrivilegeListOfAppSoapIn" />
+      <wsdl:output message="tns:GetTopMenuPrivilegeListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuPrivilegeListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetMenuPrivilegeListOfAppSoapIn" />
+      <wsdl:output message="tns:GetMenuPrivilegeListOfAppSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="privilegesBLLserviceSoap" type="tns:privilegesBLLserviceSoap">
@@ -501,6 +573,26 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetTopMenuPrivilegeListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetTopMenuPrivilegeListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetTopMenuPrivilegeListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuPrivilegeListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetMenuPrivilegeListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetMenuPrivilegeListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="privilegesBLLserviceSoap12" type="tns:privilegesBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -609,6 +701,26 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetListByPrivilegeTypeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTopMenuPrivilegeListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetTopMenuPrivilegeListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetTopMenuPrivilegeListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuPrivilegeListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetMenuPrivilegeListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetMenuPrivilegeListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
