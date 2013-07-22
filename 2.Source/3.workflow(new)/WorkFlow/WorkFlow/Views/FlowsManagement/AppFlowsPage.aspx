@@ -4,9 +4,11 @@
 </asp:Content>
 <%--本页用到的CSS/JS--%>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-   
+
+   <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+
     <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
@@ -15,6 +17,12 @@
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+    <%--LigerUI ToolBar文件--%>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+   <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
    <%--页面标题--%>
    <script type="text/javascript">
        var titleUrl = "/Home/GetPageTitle";
@@ -30,24 +38,12 @@
             $("#promptDIV").html("");
         });
     </script>
-   
-   <script type="text/javascript">
-       var flowsPageCount;
-       
-       $(document).ready(function () {
-//           flowsPageCount = $("#flowsPageCount").val(); //当前是第几页
-//           var flag = top.window.location.href;
-//           var count1 = flag.split("?");
-//           var count2 = count1[1];
-//           var count3 = count2.split("=");
-//           var count4 = count3[1];
-//           alert("pagecount:"+count4);
-       });
-   </script>
+  
    <%--在Grid中显示flows信息--%>
     <script type="text/javascript">
+       
+       //获取当前是第几页和每页有几条记录
         var flag = top.window.location.href;
-        //alert(flag);
         var count1 = flag.split("?");
         var count2 = count1[1];
 
@@ -57,25 +53,24 @@
         var count31 = count3[1].split("=");
         var count40 = count30[1];
         var count41 = count31[1];
-        alert(count30[1]);
-        alert(count31[1]);
+        //alert(count30[1]);
+        //alert(count31[1]);
 
         var managerListGrid;
+        var dataJson;
         $(document).ready(function () {
             //定义ligerGrid;
-           
-            $("#flowsgrid").ligerGrid({
-                width: '99%',
-                height: 400
-            });
-
-            managerListGrid = $("#flowsgrid").ligerGetGridManager();
-
-
+            //去掉  大于小于包括,并改变顺序
+            $.ligerDefaults.Filter.operators['string'] =
+            $.ligerDefaults.Filter.operators['text'] =
+            ["like", "equal", "notequal", "startwith", "endwith"];
+            
             GetFlowList(); //获取流程数据列表
+
             $("#infoTab").click(function () {
                 GetFlowList(); //获取流程数据列表
-            });
+            });         
+         
         });
         function GetFlowList() {
 
@@ -86,23 +81,26 @@
                 data: {},
                 success: function (responseText, statusText) {
                     //alert(responseText);
-                    var dataJson = eval("(" + responseText + ")");
+                    dataJson = eval("(" + responseText + ")");
                     // alert(dataJson);
                     //更新mygrid数据
-                    managerListGrid.setOptions({
-                        columns: [
-                    { display: '流程ID', name: 'id', width: 60 },
-                    { display: '流程名称', name: 'name', width: 800 },
-
-                      { display: '', width: 100,
+                    window['g'] = $("#flowsgrid").ligerGrid({
+                    width: '99%',
+                    height: 400,
+                    checkbox: false,
+                    columns: [
+                    { display: '流程ID', name: 'id',align:'left'},
+                    { display: '流程名称', name: 'name',align:'left'},
+                    { display: '备注', name: 'remark', align: 'left' },
+                    { display: '', width: 100,
                           render: function (row) {
-                              var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" onclick="DetailConfirm(' + row.id + ')">详情</a>';
+                              var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" onclick="DetailConfirm(' + row.id + ');">详情</a>';
                               return html;
                           }
                       }, 
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id='+row.id+'" onclick="EditPageCon('+row.id+')">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id='+row.id+'" onclick="EditPageCon('+row.id+');">编辑</a>';
                                 return html;
                             }
                         },
@@ -116,11 +114,18 @@
                     ],
                         data: dataJson,
                         newPage:count40,
-                        pageSize:count41
-
+                        pageSize:count41,
+                        toolbar: { items: [{ text: '高级自定义查询:', click: itemclick, icon: 'search2'}] }
                     });
 
-                    managerListGrid.loadData();
+                    g.loadData();
+                    $("#flowsgrid").ligerGetGridManager().loadData();
+
+                            function itemclick() {
+                                g.options.data = dataJson;
+                                g.showFilter();
+                            }
+
                 }
             });
         }
@@ -130,10 +135,11 @@
     <script type="text/javascript">
         function EditPageCon(id) {
             var flowid = id;
-            var Count = managerListGrid.get('page');
-            var Size = managerListGrid.get('pageSize');
+            var Count = g.get('page');
+            var Size = g.get('pageSize');
             //alert("id:" + id);
-            //alert("Count:" + managerListGrid.get('page'));
+            //alert("Count:" + g.get('page'));
+            //alert("Size:"+g.get('pageSize'));
             $.ajax({
                 url: "/FlowsManagement/EditPageCon",
                 type: "POST",
@@ -147,10 +153,11 @@
     <script type="text/javascript">
         function DetailConfirm(id) {
             var flowid = id;
-            var Count = managerListGrid.get('page');
-            var Size = managerListGrid.get('pageSize');
+            var Count = g.get('page');
+            var Size = g.get('pageSize');
             //alert("id:" + id);
-            //alert("Count:" + Count);           
+            //alert("Count:" + Count);
+            //alert("Size:"+Size);           
             $.ajax({
                 url: "/FlowsManagement/DetailConfirmCon",
                 type: "POST",
@@ -176,6 +183,9 @@
                             $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                             $("#promptDIV").addClass(responseText.css);
                             $("#promptDIV").html(responseText.message);
+                            if (responseText.success) {
+                                location.href = responseText.toUrl;
+                            }
                         }
                     });
                 }

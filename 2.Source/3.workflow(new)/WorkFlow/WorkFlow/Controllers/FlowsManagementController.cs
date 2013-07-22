@@ -119,11 +119,12 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_flowsBllService.SecurityContextValue = m_SecurityContext;
 
-                string flowsName = collection["flowsName"];
+                string flowsName = collection["flowsName"].Trim();
                 if (flowsName.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="流程名称不能为空!"});
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="流程名称不能为空?!--"});
                 }
+
                 //m_flowsModel.name=collection["flowsName"];
                 //获得deleted=false且应用系统ID为app_id的flowsName列表
                 DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id,out msg);
@@ -136,7 +137,7 @@ namespace WorkFlow.Controllers
                 {
                     if (flownamelist.Equals(collection["flowsName"].Trim()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="流程名称已经存在!"});
+                        return Json(new Saron.WorkFlow.Models.InformationModel {success = false, css = "p-errorDIV", message = "流程名称已经存在!" });
                     }
                 }
 
@@ -220,8 +221,11 @@ namespace WorkFlow.Controllers
             }
             else
             {
-               
-                
+
+                //var ID = Convert.ToInt32(Request.Form["flowID"]);
+                //var count = Convert.ToInt32(Request.Form["pageCount"]);
+                //var size = Convert.ToInt32(Request.Form["SizeCount"]);
+
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
 
@@ -232,7 +236,7 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_flowsBllService.SecurityContextValue = m_SecurityContext;
 
-                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
+                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
 
                 ViewData["flowsPageCount"] = Convert.ToInt32(Session["pageCount"]);
                 ViewData["flowsSizeCount"] = Convert.ToInt32(Session["SizeCount"]);
