@@ -14,9 +14,19 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="ExistsResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
       <s:element name="Privilege_RoleCountByRoleID">
         <s:complexType>
           <s:sequence>
@@ -88,6 +98,9 @@
   <wsdl:message name="ExistsSoapOut">
     <wsdl:part name="parameters" element="tns:ExistsResponse" />
   </wsdl:message>
+  <wsdl:message name="ExistsSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="Privilege_RoleCountByRoleIDSoapIn">
     <wsdl:part name="parameters" element="tns:Privilege_RoleCountByRoleID" />
   </wsdl:message>
@@ -114,7 +127,7 @@
   </wsdl:message>
   <wsdl:portType name="privilege_roleBLLserviceSoap">
     <wsdl:operation name="Exists">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在角色id为role_id，权限id为privilege_id的记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在角色id为role_id，权限id为privilege_id的记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsSoapIn" />
       <wsdl:output message="tns:ExistsSoapOut" />
     </wsdl:operation>
@@ -145,6 +158,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:ExistsSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -193,6 +207,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Exists" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

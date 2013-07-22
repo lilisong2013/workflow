@@ -62,8 +62,10 @@
     </script>--%>
     <script type="text/javascript">
         var managerMenuTree;
+        var roleID;
         //var dataJson=[{name:'个人信息',id:'1',children:[{name:'信息编辑',id:'2'},{name:'密码修改',id:'3'}]},{name:'数据分析',id:'4'}];
         $(document).ready(function () {
+            roleID = $("#roleID").val();
             managerMenuTree = $("#menusList").ligerTree({
                 checkbox: true,
                 autoCheckboxEven: true,
@@ -74,10 +76,6 @@
 
             //给menusList填充数据
             GetMenusList();
-
-            $("#myButton").click(function () {
-                getChecked();
-            });
         });
         
         function GetMenusList() {
@@ -85,7 +83,7 @@
                 url: "/RolesManagement/GetMenuPrivilegeTree",
                 type: "POST",
                 dataType: "json",
-                data: {},
+                data: {roleID:roleID},
                 success: function (responseText, statusText) {
                     alert(responseText);
                     var dataMenusJson = eval(responseText);

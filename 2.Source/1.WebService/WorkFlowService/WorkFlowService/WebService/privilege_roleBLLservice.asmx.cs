@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web.Services.Protocols;
 using Saron.WorkFlowService.Model;
 
 namespace Saron.WorkFlowService.WebService
@@ -20,12 +21,21 @@ namespace Saron.WorkFlowService.WebService
     {
         private readonly Saron.WorkFlowService.DAL.privilege_roleDAL m_privilege_roleDal = new Saron.WorkFlowService.DAL.privilege_roleDAL();
 
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在角色id为role_id，权限id为privilege_id的记录")]
-        public bool Exists(int role_id, int privilege_id)
+        public SecurityContext m_securityContext = new SecurityContext();
+
+        #region Method
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "是否存在角色id为role_id，权限id为privilege_id的记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool Exists(int role_id, int privilege_id,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
             return m_privilege_roleDal.Exists(role_id, privilege_id);
         }
 
@@ -74,5 +84,6 @@ namespace Saron.WorkFlowService.WebService
             }
         }
 
+        #endregion
     }
 }

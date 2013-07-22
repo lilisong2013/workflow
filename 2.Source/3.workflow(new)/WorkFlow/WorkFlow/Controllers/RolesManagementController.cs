@@ -621,14 +621,22 @@ namespace WorkFlow.Controllers
                 WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
 
                 WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+                WorkFlow.Privileges_RoleWebService.SecurityContext m_PR_securityContext = new Privileges_RoleWebService.SecurityContext();
 
                 string msg = string.Empty;
 
+                #region webservice方法授权
                 //SecurityContext实体对象赋值
                 m_securityContext.UserName = m_usersModel.login;
                 m_securityContext.PassWord = m_usersModel.password;
                 m_securityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+                m_PR_securityContext.UserName = m_usersModel.login;
+                m_PR_securityContext.PassWord = m_usersModel.password;
+                m_PR_securityContext.AppID = (int)m_usersModel.app_id;
+                m_privilege_roleBllService.SecurityContextValue = m_PR_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                #endregion
 
                 DataSet ds = new DataSet();
                 try
@@ -646,7 +654,7 @@ namespace WorkFlow.Controllers
                     string m_selected = string.Empty;
 
                     //判断角色中是否已经存在该权限
-                    if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID))
+                    if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID,out msg))
                     {
                         m_selected = "true";
                     }
@@ -692,14 +700,22 @@ namespace WorkFlow.Controllers
                 WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
 
                 WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+                WorkFlow.Privileges_RoleWebService.SecurityContext m_PR_securityContext = new Privileges_RoleWebService.SecurityContext();
 
                 string msg = string.Empty;
 
+                #region webservice方法授权
                 //SecurityContext实体对象赋值
                 m_securityContext.UserName = m_usersModel.login;
                 m_securityContext.PassWord = m_usersModel.password;
                 m_securityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+                m_PR_securityContext.UserName = m_usersModel.login;
+                m_PR_securityContext.PassWord = m_usersModel.password;
+                m_PR_securityContext.AppID = (int)m_usersModel.app_id;
+                m_privilege_roleBllService.SecurityContextValue = m_PR_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                #endregion
 
                 DataSet ds = new DataSet();
                 try
@@ -719,7 +735,7 @@ namespace WorkFlow.Controllers
                     string m_selected = string.Empty;
 
                     //判断角色中是否已经存在该权限
-                    if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID))
+                    if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID,out msg))
                     {
                         m_selected = "true";
                     }
@@ -765,14 +781,22 @@ namespace WorkFlow.Controllers
                 WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
 
                 WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+                WorkFlow.Privileges_RoleWebService.SecurityContext m_PR_securityContext = new Privileges_RoleWebService.SecurityContext();
 
                 string msg = string.Empty;
 
+                #region webservice方法授权
                 //SecurityContext实体对象赋值
                 m_securityContext.UserName = m_usersModel.login;
                 m_securityContext.PassWord = m_usersModel.password;
                 m_securityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+                m_PR_securityContext.UserName = m_usersModel.login;
+                m_PR_securityContext.PassWord = m_usersModel.password;
+                m_PR_securityContext.AppID = (int)m_usersModel.app_id;
+                m_privilege_roleBllService.SecurityContextValue = m_PR_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                #endregion
 
                 DataSet ds = new DataSet();
                 try
@@ -790,7 +814,7 @@ namespace WorkFlow.Controllers
                     string m_selected = string.Empty;
 
                     //判断角色中是否已经存在该权限
-                    if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID))
+                    if (m_privilege_roleBllService.Exists(m_roleID, m_privilegeID,out msg))
                     {
                         m_selected = "true";
                     }
@@ -864,9 +888,12 @@ namespace WorkFlow.Controllers
         public ActionResult GetMenuPrivilegeTree()
         {
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
 
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+            
             WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+            WorkFlow.Privileges_RoleWebService.SecurityContext m_PR_securityContext = new Privileges_RoleWebService.SecurityContext();
 
             string msg = string.Empty;
 
@@ -876,7 +903,14 @@ namespace WorkFlow.Controllers
             m_securityContext.PassWord = m_usersModel.password;
             m_securityContext.AppID = (int)m_usersModel.app_id;
             m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+            m_PR_securityContext.UserName = m_usersModel.login;
+            m_PR_securityContext.PassWord = m_usersModel.password;
+            m_PR_securityContext.AppID = (int)m_usersModel.app_id;
+            m_privilege_roleBllService.SecurityContextValue = m_PR_securityContext;//实例化 [SoapHeader("m_securityContext")]
             #endregion
+
+            int roleID = Convert.ToInt32(Request.Params["roleID"]);//角色ID
 
             DataSet ds = new DataSet();
             try
@@ -900,25 +934,43 @@ namespace WorkFlow.Controllers
                 string m_privilegeID = ds.Tables[0].Rows[i][0].ToString();//权限ID
                 string m_privilegeName = ds.Tables[0].Rows[i][1].ToString();//权限名称
                 string m_menuID =ds.Tables[0].Rows[i][7].ToString();//菜单ID
-                string m_parentID = ds.Tables[0].Rows[i][8].ToString();//菜单ID
+                string m_parentID = ds.Tables[0].Rows[i][8].ToString();//父菜单ID
 
                 if (i < total - 1)
                 {
                     datajson += "{id:'" + m_privilegeID + "',";
                     datajson += "name:'" + m_privilegeName + "',";
                     datajson += "menuID:'" + m_menuID + "',";
-                    datajson += "parentID:'" + m_parentID + "'},";
+                    datajson += "parentID:'" + m_parentID + "',";
+
+                    if (m_privilege_roleBllService.Exists(roleID, Convert.ToInt32(m_privilegeID), out msg))
+                    {
+                        datajson += "ischecked:true,";
+                    }
+                    else
+                    {
+                        datajson += "ischecked:false,";
+                    }
                 }
                 else
                 {
                     datajson += "{id:'" + m_privilegeID + "',";
                     datajson += "name:'" + m_privilegeName + "',";
                     datajson += "menuID:'" + m_menuID + "',";
-                    datajson += "parentID:'" + m_parentID + "'}]";
+                    datajson += "parentID:'" + m_parentID + "',";
+
+                    if (m_privilege_roleBllService.Exists(roleID, Convert.ToInt32(m_privilegeID), out msg))
+                    {
+                        datajson += "ischecked:true}]";
+                    }
+                    else
+                    {
+                        datajson += "ischecked:false}]";
+                    }
                 }
             }
 
-            return Json(datajson);
+            return Json("[{id:'1',name:'nihao',menuID:'1',parentID:'',ischecked:true}]");
         }
     }
 }
