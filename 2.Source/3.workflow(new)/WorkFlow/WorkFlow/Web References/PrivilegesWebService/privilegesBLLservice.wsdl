@@ -275,6 +275,36 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ParentMenuIDOfMenuPrivilege">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="menuprivilegeID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ParentMenuIDOfMenuPrivilegeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ParentMenuIDOfMenuPrivilegeResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMenuPrivilegeIDByMenuID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="menuID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMenuPrivilegeIDByMenuIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetMenuPrivilegeIDByMenuIDResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="ExistsItemOfPrivilegesTypeSoapIn">
@@ -394,6 +424,24 @@
   <wsdl:message name="GetMenuPrivilegeListOfAppSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="ParentMenuIDOfMenuPrivilegeSoapIn">
+    <wsdl:part name="parameters" element="tns:ParentMenuIDOfMenuPrivilege" />
+  </wsdl:message>
+  <wsdl:message name="ParentMenuIDOfMenuPrivilegeSoapOut">
+    <wsdl:part name="parameters" element="tns:ParentMenuIDOfMenuPrivilegeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ParentMenuIDOfMenuPrivilegeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuPrivilegeIDByMenuIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMenuPrivilegeIDByMenuID" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuPrivilegeIDByMenuIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMenuPrivilegeIDByMenuIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMenuPrivilegeIDByMenuIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="privilegesBLLserviceSoap">
     <wsdl:operation name="ExistsItemOfPrivilegesType">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">某种权限类型下某权限项目的权限是否已经存在，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -459,6 +507,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetMenuPrivilegeListOfAppSoapIn" />
       <wsdl:output message="tns:GetMenuPrivilegeListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ParentMenuIDOfMenuPrivilege">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">菜单权限对应菜单的父菜单ID，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ParentMenuIDOfMenuPrivilegeSoapIn" />
+      <wsdl:output message="tns:ParentMenuIDOfMenuPrivilegeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuPrivilegeIDByMenuID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据菜单ID获取菜单权限ID，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetMenuPrivilegeIDByMenuIDSoapIn" />
+      <wsdl:output message="tns:GetMenuPrivilegeIDByMenuIDSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="privilegesBLLserviceSoap" type="tns:privilegesBLLserviceSoap">
@@ -593,6 +651,26 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ParentMenuIDOfMenuPrivilege">
+      <soap:operation soapAction="http://saron.workflowservice.org/ParentMenuIDOfMenuPrivilege" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ParentMenuIDOfMenuPrivilegeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuPrivilegeIDByMenuID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetMenuPrivilegeIDByMenuID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetMenuPrivilegeIDByMenuIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="privilegesBLLserviceSoap12" type="tns:privilegesBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -721,6 +799,26 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetMenuPrivilegeListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ParentMenuIDOfMenuPrivilege">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ParentMenuIDOfMenuPrivilege" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ParentMenuIDOfMenuPrivilegeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMenuPrivilegeIDByMenuID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetMenuPrivilegeIDByMenuID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetMenuPrivilegeIDByMenuIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

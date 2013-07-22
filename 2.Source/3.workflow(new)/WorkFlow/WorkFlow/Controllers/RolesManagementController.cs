@@ -517,8 +517,6 @@ namespace WorkFlow.Controllers
                     return Json(data);
                 }
             }
-         
-
         }
         ///// <summary>
         ///// 显示系统的详细的信息
@@ -842,7 +840,7 @@ namespace WorkFlow.Controllers
            
         }
 
-        //添加角色权限
+        //编辑角色权限
         public ActionResult AddRolePrivileges()
         {
             if (Session["user"] == null)
@@ -851,26 +849,95 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                int m_rp_total = Convert.ToInt32(Request.Params["rp_total"]);//角色权限数量
+                int m_rmp_total = Convert.ToInt32(Request.Params["mpTotal"]);//角色菜单权限数量
+                int m_rop_total = Convert.ToInt32(Request.Params["opTotal"]);//角色操作权限数量
+                int m_rep_total = Convert.ToInt32(Request.Params["epTotal"]);//角色元素权限数量
                 int m_roleID = Convert.ToInt32(Request.Params["r_ID"]);//角色ID
+
                 WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
                 WorkFlow.Privileges_RoleWebService.privilege_roleModel m_privilege_roleModel = new Privileges_RoleWebService.privilege_roleModel();
-                WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllservice = new PrivilegesWebService.privilegesBLLservice();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                WorkFlow.Privileges_RoleWebService.SecurityContext m_PR_securityContext = new Privileges_RoleWebService.SecurityContext();
+                WorkFlow.PrivilegesWebService.SecurityContext m_p_securityContext = new PrivilegesWebService.SecurityContext();
+
+                string msg = string.Empty;
+
+                #region webservice方法授权验证
+                
+                //SecurityContext实体对象赋值
+                m_PR_securityContext.UserName = m_usersModel.login;
+                m_PR_securityContext.PassWord = m_usersModel.password;
+                m_PR_securityContext.AppID = (int)m_usersModel.app_id;
+                m_privilege_roleBllService.SecurityContextValue = m_PR_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+                m_p_securityContext.UserName = m_usersModel.login;
+                m_p_securityContext.PassWord = m_usersModel.password;
+                m_p_securityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllservice.SecurityContextValue = m_p_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                
+                #endregion
 
                 try
                 {
-                    if (m_privilege_roleBllService.DeleteByRoleID(m_roleID))//删除角色下的权限
+                    if (m_privilege_roleBllService.DeleteByRoleID(m_roleID, out msg))//删除角色下的权限
                     {
-                        for (int i = 0; i < m_rp_total; i++)
+                        m_privilege_roleModel.role_id = m_roleID;
+                        //角色-菜单权限
+                        for (int i = 0; i < m_rmp_total; i++)
                         {
-                            int m_privilegeID = Convert.ToInt32(Request.Params[("rprivilegeID" + i)]);
-                            m_privilege_roleModel.role_id = m_roleID;
-                            m_privilege_roleModel.privilege_id = m_privilegeID;
+                            int m_mprivilegeID = Convert.ToInt32(Request.Params[("rmprivilegeID" + i)]);
+                            int m_parentMenuID = m_privilegesBllservice.ParentMenuIDOfMenuPrivilege(m_mprivilegeID, out msg);//菜单权限对应的菜单的父菜单ID
+
+                            //如果菜单权限对应的菜单有父ID（m_parentMenuID不等于0），先判断角色权限列表中角色是否拥有该父菜单的权限
+                            //若角色没有父菜单的权限，首先要添加父菜单的角色权限
+                            if (m_parentMenuID != 0)
+                            {
+                                int m_menuprivilegeID = m_privilegesBllservice.GetMenuPrivilegeIDByMenuID(m_parentMenuID,out msg);
+                                if (!m_privilege_roleBllService.Exists(m_roleID, m_menuprivilegeID, out msg))
+                                {
+                                    m_privilege_roleModel.privilege_id = m_menuprivilegeID;//父菜单权限ID
+                                    m_privilege_roleBllService.Add(m_privilege_roleModel);//先给角色添加父菜单权限
+                                }
+                            }
+
+                            m_privilege_roleModel.privilege_id = m_mprivilegeID;//菜单权限ID
                             if (!m_privilege_roleBllService.Add(m_privilege_roleModel))
                             {
                                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
                             }
                         }
+
+                        //角色-操作权限
+                        for (int i = 0; i < m_rop_total; i++)
+                        {
+                            int m_oprivilegeID = Convert.ToInt32(Request.Params[("roprivilegeID" + i)]);
+                            m_privilege_roleModel.role_id = m_roleID;
+                            m_privilege_roleModel.privilege_id = m_oprivilegeID;
+                            if (!m_privilege_roleBllService.Add(m_privilege_roleModel))
+                            {
+                                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                            }
+                        }
+
+                        //角色-元素权限
+                        for (int i = 0; i < m_rop_total; i++)
+                        {
+                            int m_eprivilegeID = Convert.ToInt32(Request.Params[("reprivilegeID" + i)]);
+                            m_privilege_roleModel.role_id = m_roleID;
+                            m_privilege_roleModel.privilege_id = m_eprivilegeID;
+                            if (!m_privilege_roleBllService.Add(m_privilege_roleModel))
+                            {
+                                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
                     }
                 }
                 catch (Exception ex)
@@ -884,7 +951,7 @@ namespace WorkFlow.Controllers
        
         }
 
-
+        //获得菜单权限列表--Tree控件menusList
         public ActionResult GetMenuPrivilegeTree()
         {
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
@@ -945,11 +1012,11 @@ namespace WorkFlow.Controllers
 
                     if (m_privilege_roleBllService.Exists(roleID, Convert.ToInt32(m_privilegeID), out msg))
                     {
-                        datajson += "ischecked:true,";
+                        datajson += "ischecked:true},";
                     }
                     else
                     {
-                        datajson += "ischecked:false,";
+                        datajson += "ischecked:false},";
                     }
                 }
                 else
@@ -970,7 +1037,7 @@ namespace WorkFlow.Controllers
                 }
             }
 
-            return Json("[{id:'1',name:'nihao',menuID:'1',parentID:'',ischecked:true}]");
+            return Json(datajson);
         }
     }
 }

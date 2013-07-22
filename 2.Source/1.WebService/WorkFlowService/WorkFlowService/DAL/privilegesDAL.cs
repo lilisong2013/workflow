@@ -334,6 +334,7 @@ namespace Saron.WorkFlowService.DAL
       
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+        
         /// <summary>
         /// 获得各种类型的数据列表
         /// </summary>
@@ -367,6 +368,7 @@ namespace Saron.WorkFlowService.DAL
 
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+       
         /// <summary>
         /// 获得元素数据列表
         /// </summary>
@@ -383,6 +385,7 @@ namespace Saron.WorkFlowService.DAL
 
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+        
         /// <summary>
         /// 获得某种权限类型下的权限列表
         /// </summary>
@@ -473,7 +476,32 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
+        /// <summary>
+        /// 根据菜单ID获取菜单权限的ID
+        /// </summary>
+        public int GetMenuPrivilegeIDByMenuID(int menuID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id ");
+            strSql.Append(" FROM privileges ");
+            strSql.Append(" where privilegeitem_id=@privilegeitem_id and privilegetype_id=1 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@privilegeitem_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = menuID;
 
-		#endregion  Method
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+
+            if (obj == null)
+            {
+                return 0;//不存在该菜单的权限
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
+		
+        #endregion  Method
     }
 }

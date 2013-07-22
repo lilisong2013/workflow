@@ -87,6 +87,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="DeleteByRoleIDResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -107,11 +108,17 @@
   <wsdl:message name="Privilege_RoleCountByRoleIDSoapOut">
     <wsdl:part name="parameters" element="tns:Privilege_RoleCountByRoleIDResponse" />
   </wsdl:message>
+  <wsdl:message name="Privilege_RoleCountByRoleIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="AddSoapIn">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
   <wsdl:message name="AddSoapOut">
     <wsdl:part name="parameters" element="tns:AddResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="DeleteSoapIn">
     <wsdl:part name="parameters" element="tns:Delete" />
@@ -119,11 +126,17 @@
   <wsdl:message name="DeleteSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteResponse" />
   </wsdl:message>
+  <wsdl:message name="DeleteSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="DeleteByRoleIDSoapIn">
     <wsdl:part name="parameters" element="tns:DeleteByRoleID" />
   </wsdl:message>
   <wsdl:message name="DeleteByRoleIDSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteByRoleIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteByRoleIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:portType name="privilege_roleBLLserviceSoap">
     <wsdl:operation name="Exists">
@@ -137,7 +150,7 @@
       <wsdl:output message="tns:Privilege_RoleCountByRoleIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Add">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条角色权限记录</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
       <wsdl:output message="tns:AddSoapOut" />
     </wsdl:operation>
@@ -147,7 +160,7 @@
       <wsdl:output message="tns:DeleteSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DeleteByRoleID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除角色id为role_id的所有权限</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除角色id为role_id的所有角色权限记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:DeleteByRoleIDSoapIn" />
       <wsdl:output message="tns:DeleteByRoleIDSoapOut" />
     </wsdl:operation>
@@ -168,6 +181,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Privilege_RoleCountByRoleID" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:Privilege_RoleCountByRoleIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -177,6 +191,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -186,6 +201,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -195,6 +211,7 @@
       <soap:operation soapAction="http://saron.workflowservice.org/DeleteByRoleID" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
+        <soap:header message="tns:DeleteByRoleIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -217,6 +234,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Privilege_RoleCountByRoleID" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:Privilege_RoleCountByRoleIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -226,6 +244,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -235,6 +254,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -244,6 +264,7 @@
       <soap12:operation soapAction="http://saron.workflowservice.org/DeleteByRoleID" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteByRoleIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

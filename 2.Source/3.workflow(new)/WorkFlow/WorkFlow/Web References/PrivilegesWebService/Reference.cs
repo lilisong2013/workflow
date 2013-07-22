@@ -58,6 +58,10 @@ namespace WorkFlow.PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetMenuPrivilegeListOfAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ParentMenuIDOfMenuPrivilegeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetMenuPrivilegeIDByMenuIDOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -143,6 +147,12 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         public event GetMenuPrivilegeListOfAppCompletedEventHandler GetMenuPrivilegeListOfAppCompleted;
+        
+        /// <remarks/>
+        public event ParentMenuIDOfMenuPrivilegeCompletedEventHandler ParentMenuIDOfMenuPrivilegeCompleted;
+        
+        /// <remarks/>
+        public event GetMenuPrivilegeIDByMenuIDCompletedEventHandler GetMenuPrivilegeIDByMenuIDCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -550,6 +560,68 @@ namespace WorkFlow.PrivilegesWebService {
             if ((this.GetMenuPrivilegeListOfAppCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetMenuPrivilegeListOfAppCompleted(this, new GetMenuPrivilegeListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ParentMenuIDOfMenuPrivilege", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int ParentMenuIDOfMenuPrivilege(int menuprivilegeID, out string msg) {
+            object[] results = this.Invoke("ParentMenuIDOfMenuPrivilege", new object[] {
+                        menuprivilegeID});
+            msg = ((string)(results[1]));
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ParentMenuIDOfMenuPrivilegeAsync(int menuprivilegeID) {
+            this.ParentMenuIDOfMenuPrivilegeAsync(menuprivilegeID, null);
+        }
+        
+        /// <remarks/>
+        public void ParentMenuIDOfMenuPrivilegeAsync(int menuprivilegeID, object userState) {
+            if ((this.ParentMenuIDOfMenuPrivilegeOperationCompleted == null)) {
+                this.ParentMenuIDOfMenuPrivilegeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnParentMenuIDOfMenuPrivilegeOperationCompleted);
+            }
+            this.InvokeAsync("ParentMenuIDOfMenuPrivilege", new object[] {
+                        menuprivilegeID}, this.ParentMenuIDOfMenuPrivilegeOperationCompleted, userState);
+        }
+        
+        private void OnParentMenuIDOfMenuPrivilegeOperationCompleted(object arg) {
+            if ((this.ParentMenuIDOfMenuPrivilegeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ParentMenuIDOfMenuPrivilegeCompleted(this, new ParentMenuIDOfMenuPrivilegeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetMenuPrivilegeIDByMenuID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetMenuPrivilegeIDByMenuID(int menuID, out string msg) {
+            object[] results = this.Invoke("GetMenuPrivilegeIDByMenuID", new object[] {
+                        menuID});
+            msg = ((string)(results[1]));
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetMenuPrivilegeIDByMenuIDAsync(int menuID) {
+            this.GetMenuPrivilegeIDByMenuIDAsync(menuID, null);
+        }
+        
+        /// <remarks/>
+        public void GetMenuPrivilegeIDByMenuIDAsync(int menuID, object userState) {
+            if ((this.GetMenuPrivilegeIDByMenuIDOperationCompleted == null)) {
+                this.GetMenuPrivilegeIDByMenuIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMenuPrivilegeIDByMenuIDOperationCompleted);
+            }
+            this.InvokeAsync("GetMenuPrivilegeIDByMenuID", new object[] {
+                        menuID}, this.GetMenuPrivilegeIDByMenuIDOperationCompleted, userState);
+        }
+        
+        private void OnGetMenuPrivilegeIDByMenuIDOperationCompleted(object arg) {
+            if ((this.GetMenuPrivilegeIDByMenuIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetMenuPrivilegeIDByMenuIDCompleted(this, new GetMenuPrivilegeIDByMenuIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1228,6 +1300,74 @@ namespace WorkFlow.PrivilegesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ParentMenuIDOfMenuPrivilegeCompletedEventHandler(object sender, ParentMenuIDOfMenuPrivilegeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ParentMenuIDOfMenuPrivilegeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ParentMenuIDOfMenuPrivilegeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetMenuPrivilegeIDByMenuIDCompletedEventHandler(object sender, GetMenuPrivilegeIDByMenuIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetMenuPrivilegeIDByMenuIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetMenuPrivilegeIDByMenuIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
         
