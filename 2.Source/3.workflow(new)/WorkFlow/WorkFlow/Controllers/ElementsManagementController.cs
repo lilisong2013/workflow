@@ -336,19 +336,27 @@ namespace WorkFlow.Controllers
             {
                 string msg = string.Empty;
                 WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
-                //WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
                 WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
 
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+                WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+                WorkFlow.MenusWebService.SecurityContext m_MSecurityContext = new MenusWebService.SecurityContext();
 
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+                //元素授权验证
                 m_SecurityContext.UserName = m_usersModel.login;
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_elementsBllService.SecurityContextValue = m_SecurityContext;
-
+                //菜单授权验证
+                m_MSecurityContext.UserName = m_usersModel.login;
+                m_MSecurityContext.PassWord = m_usersModel.password;
+                m_MSecurityContext.AppID = (int)m_usersModel.app_id;
+                m_menusBllService.SecurityContextValue = m_MSecurityContext;
+                //根据ID得到元素实体
                 WorkFlow.ElementsWebService.elementsModel m_elementsModel = m_elementsBllService.GetModel(id, out msg);
                 string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
                 DateTime t = Convert.ToDateTime(s);
+               
                 m_elementsModel.updated_at = t;
                 m_elementsModel.updated_by = m_elementsModel.created_by;
                 m_elementsModel.updated_ip = m_elementsModel.created_ip;
@@ -370,6 +378,10 @@ namespace WorkFlow.Controllers
                 }
                 ViewData["elementsSeqno"] = m_elementsModel.seqno;
                 ViewData["elementsMenu_id"] = m_elementsModel.menu_id;
+
+                int menuID = Convert.ToInt32(m_elementsModel.menu_id);
+                DataSet mds = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id,menuID,out msg);
+                ViewData["elementsMenu_IDName"]=mds.Tables[0].Rows[0][0];
                 ViewData["elementsApp_id"] = m_elementsModel.app_id;
                 ViewData["elementsInvalid"] = m_elementsModel.invalid;
                 ViewData["elementsDeleted"] = m_elementsModel.deleted;
@@ -617,13 +629,13 @@ namespace WorkFlow.Controllers
 
                 m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()), out msg);
                 int appID = Convert.ToInt32(codeModel.app_id);
-                int menuID = Convert.ToInt32(Request.Form["eElementPage"]);
-
+                int menuID = Convert.ToInt32(collection["elementsMenu_id"]);
+                //int menuID = Convert.ToInt32(Request.Form["eElementPage"]);
                 string name = collection["elementsName"].Trim();
                 string code = collection["elementsCode"].Trim();
                 string Initstatus_id = collection["elementsInitstatus_id"].Trim();
-                string Menu_id = Request.Form["eElementPage"];
-
+                //string Menu_id = Request.Form["eElementPage"];
+                string Menu_id = collection["elementsMenu_id"].Trim();
 
                 if (name.Length == 0)
                 {
@@ -641,14 +653,14 @@ namespace WorkFlow.Controllers
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "初始化状态码不能为空!" });
                 }
-                if (Menu_id.Length == 0)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空!" });
-                }
-                if (Menu_id.Equals("选择页面") || Convert.ToInt32(Menu_id) == -1)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "请选择所在页面!" });
-                }
+                //if (Menu_id.Length == 0)
+                //{
+                //    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空!" });
+                //}
+                //if (Menu_id.Equals("选择页面") || Convert.ToInt32(Menu_id) == -1)
+                //{
+                //    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "请选择所在页面!" });
+                //}
                 //判断元素名称重名处理操作
                 DataSet ds = m_elementsBllService.GetElementsListOfApp(appID, out msg);
                 var total = ds.Tables[0].Rows.Count;
@@ -673,7 +685,7 @@ namespace WorkFlow.Controllers
                     codeList.Add(codeds.Tables[0].Rows[i][0].ToString());
                 }
                 for (int i = 0; i < codetotal; i++)
-                { //修改后的名称和原名称相同
+                { //修改后的编码和原编码相同
                     if (m_elementsModel.code.ToString().Equals(collection["elementsCode"].Trim().ToString()))
                     {
                         codeList.Remove(m_elementsModel.code);
@@ -700,7 +712,8 @@ namespace WorkFlow.Controllers
                     m_elementsModel.initstatus_id = 3;
                 }
                 m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim().ToString());
-                m_elementsModel.menu_id = Convert.ToInt32(Request.Form["eElementPage"]);
+                //m_elementsModel.menu_id = Convert.ToInt32(Request.Form["eElementPage"]);
+                m_elementsModel.menu_id = Convert.ToInt32(collection["elementsMenu_id"].Trim().ToString());
                 m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim().ToString());
                 if (m_ev_Total == 1)
                 {

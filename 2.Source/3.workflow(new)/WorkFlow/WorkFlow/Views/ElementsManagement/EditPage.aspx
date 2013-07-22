@@ -167,7 +167,6 @@
         }
     </script>
 
-
    <%--表单提交数据--%>
    <script type="text/javascript">
        $(document).ready(function () {
@@ -276,20 +275,11 @@
        </div>
        </div>
        <div class="control-group span5 offset2">
-       <label class="control-label">所在页面：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-         <div class="controls">
-         <select id="eElementPage" name="eElementPage" class="span5">
-           <option id="eElementPageInfo" value="-1">选择页面</option>
-         </select>
-         </div>
-     <%--  <div class="controls">
-       <input id="elementsMenu_id" name="elementsMenu_id" type="text" value="<%=ViewData["elementsMenu_id"]%>"/>
-       </div> --%>
-       </div>
-       <div class="control-group span5 offset2">
-         <div class="controls span5">
-          <div id="eMyTree"></div>
-         </div>
+       <label class="control-label">所在页面：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>   
+       <div class="controls">
+       <label class="uneditable-input span5"><%=ViewData["elementsMenu_IDName"]%></label>
+       <input id="elementsMenu_id" name="elementsMenu_id" type="hidden" value="<%=ViewData["elementsMenu_id"]%>"/>      
+       </div> 
        </div>
 
        <div class="control-group span5 offset2">

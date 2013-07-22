@@ -14,7 +14,7 @@ namespace WorkFlow.Controllers
     {
         //
         // GET: /FlowsManagement/
-
+        
         //流程基本信息页面
         public ActionResult AppFlows()
         {
@@ -166,7 +166,52 @@ namespace WorkFlow.Controllers
                 }
             }
         }
-        //流程的详细信息
+   
+        //流程的详情
+        public ActionResult DetailConfirmCon()
+        {
+
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                var id = Convert.ToInt32(Request.Form["flowID"]);
+                var count = Convert.ToInt32(Request.Form["pageCount"]);
+                var size = Convert.ToInt32(Request.Form["SizeCount"]);
+                Session["pageCount"] =count;
+                Session["SizeCount"] =size;
+                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
+                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_flowsBllService.SecurityContextValue = m_SecurityContext;
+
+                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
+                ViewData["flowsPageCount"] = count;
+                ViewData["flowsSizeCount"] = size;
+                ViewData["flowsName"] = m_flowsModel.name;
+                ViewData["flowsRemark"] = m_flowsModel.remark;
+                ViewData["flowsInvalid"] = m_flowsModel.invalid;
+                ViewData["flowsDeleted"] = m_flowsModel.deleted;
+                ViewData["flowsCreated_at"] = m_flowsModel.created_at;
+                ViewData["flowsCreated_by"] = m_flowsModel.created_by;
+                ViewData["flowsCreated_ip"] = m_flowsModel.created_ip;
+                ViewData["flowsUpdated_at"] = m_flowsModel.updated_at;
+                ViewData["flowsUpdated_by"] = m_flowsModel.updated_by;
+                ViewData["flowsUpdated_ip"] = m_flowsModel.updated_ip;
+                ViewData["flowsApp_id"] = m_flowsModel.app_id;
+                return View();
+            }
+
+
+        }
+        //流程的跳转详情
         public ActionResult DetailInfo(int id)
         {
             if (Session["user"] == null)
@@ -175,20 +220,22 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                //var id = Convert.ToInt32(Request.Form["flowID"]);
-                var count = Convert.ToInt32(Request.Form["pageCount"]);
+               
+                
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
 
-                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
                 string msg = string.Empty;
                 m_SecurityContext.UserName = m_usersModel.login;
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_flowsBllService.SecurityContextValue = m_SecurityContext;
 
-                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
-                ViewData["flowsPageCount"] = count;
+                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
+
+                ViewData["flowsPageCount"] = Convert.ToInt32(Session["pageCount"]);
+                ViewData["flowsSizeCount"] = Convert.ToInt32(Session["SizeCount"]);
                 ViewData["flowsName"] = m_flowsModel.name;
                 ViewData["flowsRemark"] = m_flowsModel.remark;
                 ViewData["flowsInvalid"] = m_flowsModel.invalid;
@@ -203,45 +250,7 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
-        public ActionResult DetailConfirm()
-        {
-
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Home","Login");
-            }
-            else
-            {
-                var id = Convert.ToInt32(Request.Form["flowID"]);
-                var count = Convert.ToInt32(Request.Form["pageCount"]);
-                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
-                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-                string msg = string.Empty;
-                m_SecurityContext.UserName = m_usersModel.login;
-                m_SecurityContext.PassWord = m_usersModel.password;
-                m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_flowsBllService.SecurityContextValue = m_SecurityContext;
-
-                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
-                ViewData["flowsPageCount"] = count;
-                ViewData["flowsName"] = m_flowsModel.name;
-                ViewData["flowsRemark"] = m_flowsModel.remark;
-                ViewData["flowsInvalid"] = m_flowsModel.invalid;
-                ViewData["flowsDeleted"] = m_flowsModel.deleted;
-                ViewData["flowsCreated_at"] = m_flowsModel.created_at;
-                ViewData["flowsCreated_by"] = m_flowsModel.created_by;
-                ViewData["flowsCreated_ip"] = m_flowsModel.created_ip;
-                ViewData["flowsUpdated_at"] = m_flowsModel.updated_at;
-                ViewData["flowsUpdated_by"] = m_flowsModel.updated_by;
-                ViewData["flowsUpdated_ip"] = m_flowsModel.updated_ip;
-                ViewData["flowsApp_id"] = m_flowsModel.app_id;
-                return RedirectToAction("FlowsManagement", "DetailInfo");
-            }
-            
-          
-        }
+       
         //删除一条流程信息
         public ActionResult DeleteFlows()
         {
@@ -302,6 +311,9 @@ namespace WorkFlow.Controllers
                 m_flowsBllService.SecurityContextValue = m_SecurityContext;
 
                 WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
+
+                ViewData["flowsEditCount"] = Convert.ToInt32(Session["EditPageCount"]);
+                ViewData["flowsEditSize"] = Convert.ToInt32(Session["EditSizeCount"]);
                 ViewData["flowsID"] = m_flowsModel.id;
                 ViewData["flowsName"] = m_flowsModel.name;
                 ViewData["flowsRemark"] = m_flowsModel.remark;
@@ -317,47 +329,52 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
-
         //编辑流程信息
-    
-        //public ActionResult EditPage1()
-        //{
-        //    if (Session["user"] == null)
-        //    {
-        //        return RedirectToAction("Home", "Login");
-        //    }
-        //    else
-        //    {
-               
-        //        int id = Convert.ToInt32(Request.Form["flowID"]);
-        //        WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
+        public ActionResult EditPageCon()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
 
-        //        WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
+                int id = Convert.ToInt32(Request.Form["flowID"]);
+                var count = Convert.ToInt32(Request.Form["pageCount"]);
+                var size = Convert.ToInt32(Request.Form["SizeCount"]);
+                Session["EditPageCount"] =count;
+                Session["EditSizeCount"] =size;
+                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
 
-        //        WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
 
-        //        string msg = string.Empty;
-        //        m_SecurityContext.UserName = m_usersModel.login;
-        //        m_SecurityContext.PassWord = m_usersModel.password;
-        //        m_SecurityContext.AppID = (int)m_usersModel.app_id;
-        //        m_flowsBllService.SecurityContextValue = m_SecurityContext;
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
-        //        WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
-        //        ViewData["flowsID"] = m_flowsModel.id;
-        //        ViewData["flowsName"] = m_flowsModel.name;
-        //        ViewData["flowsRemark"] = m_flowsModel.remark;
-        //        ViewData["flowsInvalid"] = m_flowsModel.invalid;
-        //        ViewData["flowsDeleted"] = m_flowsModel.deleted;
-        //        ViewData["flowsCreated_at"] = m_flowsModel.created_at;
-        //        ViewData["flowsCreated_by"] = m_flowsModel.created_by;
-        //        ViewData["flowsCreated_ip"] = m_flowsModel.created_ip;
-        //        ViewData["flowsUpdated_at"] = m_flowsModel.updated_at;
-        //        ViewData["flowsUpdated_by"] = m_flowsModel.updated_by;
-        //        ViewData["flowsUpdated_ip"] = m_flowsModel.updated_ip;
-        //        ViewData["flowsApp_id"] = m_flowsModel.app_id;
-        //        return View();
-        //    }
-        //}
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_flowsBllService.SecurityContextValue = m_SecurityContext;
+
+                WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
+
+                ViewData["flowsEditCount"] =count;
+                ViewData["flowsEditSize"] =size;
+                ViewData["flowsID"] = m_flowsModel.id;
+                ViewData["flowsName"] = m_flowsModel.name;
+                ViewData["flowsRemark"] = m_flowsModel.remark;
+                ViewData["flowsInvalid"] = m_flowsModel.invalid;
+                ViewData["flowsDeleted"] = m_flowsModel.deleted;
+                ViewData["flowsCreated_at"] = m_flowsModel.created_at;
+                ViewData["flowsCreated_by"] = m_flowsModel.created_by;
+                ViewData["flowsCreated_ip"] = m_flowsModel.created_ip;
+                ViewData["flowsUpdated_at"] = m_flowsModel.updated_at;
+                ViewData["flowsUpdated_by"] = m_flowsModel.updated_by;
+                ViewData["flowsUpdated_ip"] = m_flowsModel.updated_ip;
+                ViewData["flowsApp_id"] = m_flowsModel.app_id;
+                return View();
+            }
+        }
         //获取是否有效列表
         public ActionResult GetInvalidList()
         {
@@ -414,7 +431,7 @@ namespace WorkFlow.Controllers
             else
             {
                 int m_fi_total = Convert.ToInt32(Request.Params["fv_Total"]);//流程"是否有效"的数量
-
+                int EditPageCount = Convert.ToInt32(Session["EditPageCount"]);
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
 
@@ -481,7 +498,8 @@ namespace WorkFlow.Controllers
                     {
                         m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
                         Session["flow"] = m_flowsModel.name;
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改流程成功!", toUrl = "/FlowsManagement/AppFlows" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改流程成功!", toUrl = "/FlowsManagement/AppFlowsPage?pageCount="+EditPageCount });
+
                     }
                     else
                     {

@@ -541,11 +541,9 @@
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
-    <Content Include="Views\FlowsManagement\AppFlows.aspx" />
     <Content Include="Views\FlowsManagement\AppFlows2.aspx" />
+    <Content Include="Views\FlowsManagement\AppFlows.aspx" />
     <Content Include="Views\FlowsManagement\AppFlowsPage.aspx" />
-    <Content Include="Views\FlowsManagement\DetailConfirm.aspx" />
-    <Content Include="Views\FlowsManagement\DetailInfo2.aspx" />
     <Content Include="Views\FlowsManagement\DetailInfo.aspx" />
     <Content Include="Views\FlowsManagement\EditPage.aspx" />
     <Content Include="Views\Home\AdminLogin.aspx" />

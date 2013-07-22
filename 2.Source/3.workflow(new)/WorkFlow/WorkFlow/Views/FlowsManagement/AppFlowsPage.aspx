@@ -30,18 +30,47 @@
             $("#promptDIV").html("");
         });
     </script>
-  
+   
+   <script type="text/javascript">
+       var flowsPageCount;
+       
+       $(document).ready(function () {
+//           flowsPageCount = $("#flowsPageCount").val(); //当前是第几页
+//           var flag = top.window.location.href;
+//           var count1 = flag.split("?");
+//           var count2 = count1[1];
+//           var count3 = count2.split("=");
+//           var count4 = count3[1];
+//           alert("pagecount:"+count4);
+       });
+   </script>
    <%--在Grid中显示flows信息--%>
     <script type="text/javascript">
+        var flag = top.window.location.href;
+        //alert(flag);
+        var count1 = flag.split("?");
+        var count2 = count1[1];
+
+        var count3= count2.split("&");
+
+        var count30 = count3[0].split("=");
+        var count31 = count3[1].split("=");
+        var count40 = count30[1];
+        var count41 = count31[1];
+        alert(count30[1]);
+        alert(count31[1]);
+
         var managerListGrid;
         $(document).ready(function () {
             //定义ligerGrid;
+           
             $("#flowsgrid").ligerGrid({
                 width: '99%',
                 height: 400
             });
 
             managerListGrid = $("#flowsgrid").ligerGetGridManager();
+
 
             GetFlowList(); //获取流程数据列表
             $("#infoTab").click(function () {
@@ -64,98 +93,70 @@
                         columns: [
                     { display: '流程ID', name: 'id', width: 60 },
                     { display: '流程名称', name: 'name', width: 800 },
-                    { display: '', width: 100,
-                        render: function (row) {
-                            var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" onclick="DetailConfirmCon(' + row.id + ');">详情</a>';
-                            return html;
+
+                      { display: '', width: 100,
+                          render: function (row) {
+                              var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" onclick="DetailConfirm(' + row.id + ')">详情</a>';
+                              return html;
+                          }
+                      }, 
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id='+row.id+'" onclick="EditPageCon('+row.id+')">编辑</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
+                                return html;
+                            }
                         }
-                    },
-                    { display: '', width: 100,
-                        render: function (row) {
-                            var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id=' + row.id + '" onclick="EditPageCon(' + row.id + ')">编辑</a>';
-                            return html;
-                        }
-                    },
-                    { display: '', width: 100,
-                        render: function (row) {
-                            var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
-                            return html;
-                        }
-                    }
+
                     ],
-                    data: dataJson,
-                    where:f_function()                     
+                        data: dataJson,
+                        newPage:count40,
+                        pageSize:count41
+
                     });
+
                     managerListGrid.loadData();
                 }
             });
-       
         }
-        function f_function() {
-            alert("----");
-        }
-   </script>
-   <script type="text/javascript">
-       function f_search() {
-           alert("aaaa");
-           //managerListGrid.options.data = $.extend(true, {}, data);
-           alert("bbb");
-           //managerListGrid.options.data = $.extend(true, {}, data);
-           //alert($.extend(true, {}, data));
-           alert("cbb");
-           managerListGrid.loadData(f_getWhere());
-       }
-   </script>
-   <script type="text/javascript">
-       function f_getWhere() {
-           alert("cccc");
-           if (!managerListGrid) return null;
-           alert("ddd");
-           var clause = function (rowdata, rowindex) {
 
-               var key = $("#txtKey").val();
-         
-               return rowdata.name.indexof(key) > -1;
-           };
-           return clause;
-       }
    </script>
-    <%--编辑确认函数--%>
+   <%--编辑确认函数--%>
     <script type="text/javascript">
         function EditPageCon(id) {
             var flowid = id;
             var Count = managerListGrid.get('page');
             var Size = managerListGrid.get('pageSize');
-            // alert("id:" + id);
+            //alert("id:" + id);
             //alert("Count:" + managerListGrid.get('page'));
-            //alert("pageSize:" + managerListGrid.get('pageSize'));
-//            alert(managerListGrid.get('pageSize'));
-//            alert(managerListGrid.get('total'));
             $.ajax({
                 url: "/FlowsManagement/EditPageCon",
                 type: "POST",
                 dataType: "json",
-                data: { flowID: flowid, pageCount: Count, SizeCount: Size}
+                data: { flowID: flowid, pageCount: Count,SizeCount: Size }
 
             });
         }
     </script>
     <%--详情确认函数--%>
     <script type="text/javascript">
-        function DetailConfirmCon(id) {
+        function DetailConfirm(id) {
             var flowid = id;
             var Count = managerListGrid.get('page');
-            var Size=managerListGrid.get('pageSize');
-            //alert("id:"+id);
-            //alert("Count:" + managerListGrid.get('page'));
-            //alert(managerListGrid.get('pageSize'));
-            //alert(managerListGrid.get('total'));
+            var Size = managerListGrid.get('pageSize');
+            //alert("id:" + id);
+            //alert("Count:" + Count);           
             $.ajax({
                 url: "/FlowsManagement/DetailConfirmCon",
                 type: "POST",
                 dataType: "json",
-                data: { flowID: flowid, pageCount: Count, SizeCount:Size}
-            });
+                data: { flowID: flowid, pageCount:Count,SizeCount:Size }
+            });        
         }
     </script>
     <%--删除确认函数--%>
@@ -221,10 +222,7 @@
         <%--操作提示DIV--%>
        <div id="promptDIV" class="row"></div>
     </div>
-    <div >
-      流程名称:<input id="txtKey" type="text"/>
-      <input  id="btnOK" type="button" value="查询" onclick="f_search()"/>
-    </div>
+
      <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
             <li class="active" id="#infoTab"><a href="#AllFlows" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
@@ -243,7 +241,8 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="flowsName">流程名称：</label>
                         <div class="controls">
-                            <input type="text" name="flowsName" id="flowsName" class="input-prepend span4"/>                                                     
+                            <input type="text" name="flowsName" id="flowsName" class="input-prepend span4"/> 
+                            <input type="hidden" name="flowsPageCount" id="flowsPageCount" value="<%=ViewData["flowsPageCount"]%>"/>                                                    
                         </div>
                     </div>
                           
@@ -271,3 +270,4 @@
      </div>
     </div>
 </asp:Content>
+

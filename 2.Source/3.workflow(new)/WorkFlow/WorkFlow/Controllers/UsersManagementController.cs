@@ -307,10 +307,12 @@ namespace WorkFlow.Controllers
                 }
                 DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID, out msg);
                 ArrayList usersList = new ArrayList();
+                ArrayList empNoList = new ArrayList();
                 var total = ds.Tables[0].Rows.Count;
                 for (int i = 0; i < total; i++)
                 {
                     usersList.Add(ds.Tables[0].Rows[i][1].ToString());
+                    empNoList.Add(ds.Tables[0].Rows[i][4].ToString());
                 }
                 foreach (string userList in usersList)
                 {
@@ -319,7 +321,13 @@ namespace WorkFlow.Controllers
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的登录名称！" });
                     }
                 }
-
+                foreach (string empnoList in empNoList)
+                {
+                    if (empnoList.Equals(collection["usersEmployee_no"].Trim().ToString()))
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的工号!"});
+                    }
+                }
                 WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)Session["apps"];
                 m_usersModel.login = collection["usersLogin"].Trim();
                 m_usersModel.password = collection["usersPassword"].Trim();
@@ -493,11 +501,14 @@ namespace WorkFlow.Controllers
 
                 DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID, out msg);
                 ArrayList userList = new ArrayList();
+                ArrayList empNoList = new ArrayList();
                 var total = ds.Tables[0].Rows.Count;
+
                 //将数据库中登录名称放到ArrayList中。
                 for (int i = 0; i < total; i++)
                 {
                     userList.Add(ds.Tables[0].Rows[i][1].ToString());
+                    empNoList.Add(ds.Tables[0].Rows[i][4].ToString());
                 }
                 //如果修改后的登录名称和修改前的登录名称一样。将数据库中修改前的登录名称删除
                 for (int i = 0; i < total; i++)
@@ -507,17 +518,32 @@ namespace WorkFlow.Controllers
                         userList.Remove(m_usersModel.login);
                     }
                 }
-                //遍历数据表中登录名称与编辑修改后的登录名称是否相同，如果相同给出提示。
-                foreach (string userlist in userList)
+                //如果修改后的员工号和修改前的员工号一样，将数据库中修改前的员工号删除
+                for (int i = 0; i < total; i++)
                 {
-                    if (userlist.Equals(collection["usersLogin"].Trim().ToString()))
+                    if (m_usersModel.employee_no.ToString().Equals(collection["usersEmployee_no"].Trim().ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的登录名称" });
+                        empNoList.Remove(m_usersModel.employee_no);
                     }
                 }
+                   //遍历数据表中登录名称与编辑修改后的登录名称是否相同，如果相同给出提示。
+                    foreach (string userlist in userList)
+                    {
+                        if (userlist.Equals(collection["usersLogin"].Trim().ToString()))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的登录名称!" });
+                        }
+                    }
+                  //遍历数据表中的员工编号与编辑修改后的员工编号是否相同，如果相同给出提示
+                    foreach (string empnolist in empNoList)
+                    {
+                        if (empnolist.Equals(collection["usersEmployee_no"].Trim().ToString()))
+                        {
+                            return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的员工编号!"});
+                        }
+                    }
                 m_usersModel.login = collection["usersLogin"].Trim();
-
-              
+        
                 if (npass.Length != 0)
                 {
                     if (Saron.Common.PubFun.ConditionFilter.IsPassWord(npass) == false)
