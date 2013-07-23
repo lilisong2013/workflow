@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
+using System.Web.Services.Protocols;
 using Saron.WorkFlowService.Model;
 
 namespace Saron.WorkFlowService.WebService
@@ -20,48 +21,56 @@ namespace Saron.WorkFlowService.WebService
     {
         private readonly Saron.WorkFlowService.DAL.privilege_roleDAL m_privilege_roleDal = new Saron.WorkFlowService.DAL.privilege_roleDAL();
 
-        /// <summary>
-        /// 是否存在该记录
-        /// </summary>
-        [WebMethod(Description = "是否存在角色id为role_id，权限id为privilege_id的记录")]
-        public bool Exists(int role_id, int privilege_id)
+        public SecurityContext m_securityContext = new SecurityContext();
+
+        #region Method
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "是否存在角色id为role_id，权限id为privilege_id的记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool Exists(int role_id, int privilege_id,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
             return m_privilege_roleDal.Exists(role_id, privilege_id);
         }
 
-        /// <summary>
-        /// 某角色存在多少个权限
-        /// </summary>
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "角色role_id的权限个数")]
         public int Privilege_RoleCountByRoleID(int role_id)
         {
             return m_privilege_roleDal.Privilege_RoleCountByRoleID(role_id);
         }
 
-        /// <summary>
-        /// 增加一条数据
-        /// </summary>
-        [WebMethod(Description = "增加一条记录")]
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "增加一条角色权限记录")]
         public bool Add(Saron.WorkFlowService.Model.privilege_roleModel model)
         {
             return m_privilege_roleDal.Add(model);
         }
 
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "删除角色id为role_id，权限id为privilege_id的记录")]
         public bool Delete(int role_id, int privilege_id)
         {
             return m_privilege_roleDal.Delete(role_id, privilege_id);
         }
 
-        /// <summary>
-        /// 按照role_id批量删除
-        /// </summary>
-        [WebMethod(Description = "删除角色id为role_id的所有权限")]
-        public bool DeleteByRoleID(int role_id)
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "删除角色id为role_id的所有角色权限记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool DeleteByRoleID(int role_id,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
             int rpCount = Privilege_RoleCountByRoleID(role_id);
             int deleteRp = m_privilege_roleDal.DeleteByRoleID(role_id);
             if (deleteRp < rpCount)
@@ -74,5 +83,7 @@ namespace Saron.WorkFlowService.WebService
             }
         }
 
+
+        #endregion
     }
 }

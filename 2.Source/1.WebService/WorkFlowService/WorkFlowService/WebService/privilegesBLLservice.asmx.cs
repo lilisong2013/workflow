@@ -247,6 +247,35 @@ namespace Saron.WorkFlowService.WebService
 
             return m_v_menu_privilegesdal.GetMenuPrivilegeListOfApp(appID);
         }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "菜单权限对应菜单的父菜单ID，<h4>（需要授权验证，系统管理员）</h4>")]
+        public int ParentMenuIDOfMenuPrivilege(int menuprivilegeID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return -1;
+            }
+
+            return m_v_menu_privilegesdal.GetMenuPrivilegeParentID(menuprivilegeID);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据菜单ID获取菜单权限ID，<h4>（需要授权验证，系统管理员）</h4>")]
+        public int GetMenuPrivilegeIDByMenuID(int menuID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return -1;
+            }
+
+            return m_privilegesDal.GetMenuPrivilegeIDByMenuID(menuID);
+        }
+       
         #endregion  Method
     }
 }

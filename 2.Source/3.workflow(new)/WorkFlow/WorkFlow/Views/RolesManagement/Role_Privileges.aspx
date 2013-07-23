@@ -31,38 +31,10 @@
 
     </script>
     <script src="../../LigerUI/lib/json2.js" type="text/javascript"></script>
+    
     <%--菜单权限初始化--%>
-    <%--<script type="text/javascript">
-        $(document).ready(function () {
-            $.ajax({
-                url: "/RolesManagement/GetMunusPrivilegeList",
-                type: "POST",
-                dataType: "json",
-                data: { roleid: roleID },
-                success: function (responseText, statusText) {
-                    //alert(responseText);
-                    var dataJson = eval("(" + responseText + ")");
-                    mpTotal = parseInt(dataJson.total);//菜单权限数量
-                    for (var i = 0; i < dataJson.total; i++) {
-                        $("#menusList").append("<label class='checkbox span2'><input id='menusprivilege" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
-                    }
-
-                    //alert($("#menusprivilege1").val());
-                    for (var i = 0; i < dataJson.total; i++) {
-                        if (dataJson.List[i].selected == "true") {
-                            $("#menusprivilege" + i.toString()).prop("checked", true);
-                        } else {
-                            $("#menusprivilege" + i.toString()).prop("checked", false);
-                        }
-                    }
-
-                }
-            });
-        });
-    </script>--%>
     <script type="text/javascript">
         var managerMenuTree;
-        //var dataJson=[{name:'个人信息',id:'1',children:[{name:'信息编辑',id:'2'},{name:'密码修改',id:'3'}]},{name:'数据分析',id:'4'}];
         $(document).ready(function () {
             managerMenuTree = $("#menusList").ligerTree({
                 checkbox: true,
@@ -74,10 +46,6 @@
 
             //给menusList填充数据
             GetMenusList();
-
-            $("#myButton").click(function () {
-                getChecked();
-            });
         });
         
         function GetMenusList() {
@@ -85,13 +53,13 @@
                 url: "/RolesManagement/GetMenuPrivilegeTree",
                 type: "POST",
                 dataType: "json",
-                data: {},
+                data: {roleID:roleID},//角色ID传入控制层以作权限判断
                 success: function (responseText, statusText) {
-                    alert(responseText);
-                    var dataMenusJson = eval(responseText);
-                    managerMenuTree.clear();
-                    managerMenuTree.setData(dataMenusJson);
-                    managerMenuTree.loadData();
+                    //alert(responseText);
+                    var dataMenusJson = eval(responseText);//菜单的字符串数据列表转为json格式数据源
+                    managerMenuTree.clear();//清空菜单Tree
+                    managerMenuTree.setData(dataMenusJson);//菜单Tree设定数据源
+                    managerMenuTree.loadData();//加载菜单Tree数据
                 }
             });
         }
@@ -119,7 +87,9 @@
                 success: function (responseText, statusText) {
                     //alert(responseText);
                     var dataJson = eval("(" + responseText + ")");
+
                     opTotal = parseInt(dataJson.total); //操作权限数量
+                    
                     for (var i = 0; i < dataJson.total; i++) {
                         $("#operationsList").append("<label class='checkbox span2'><input id='operationsprivilege" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
                     }
@@ -164,7 +134,7 @@
         });
     </script>
 
-
+    <%--编辑角色权限--%>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -177,42 +147,43 @@
                     return false;
                 } else {
                     role_privilegesStr = "{"; //JSON数据字符串
-                    var rpTotal = 0; //角色权限的数量
-                    //alert(rpTotal);
 
                     var notes = managerMenuTree.getChecked(); //菜单树中被选中的菜单
+
+                    mpTotal = notes.length;//选中的菜单权限数量
                     //alert(notes.length);
+
                     //菜单权限中被选中的项
-                    for (var i = 0; i < notes.length; i++) {
+                    for (var i = 0; i < mpTotal; i++) {
                         //alert(notes[i].data.id);
-                        role_privilegesStr += "rprivilegeID" + rpTotal.toString() + ":'" + notes[i].data.id + "',";
-                        rpTotal++;
+                        role_privilegesStr += "rmprivilegeID" + i + ":'" + notes[i].data.id + "',";
                     }
 
                     //alert(role_privilegesStr);
                     //操作权限中被选中的项
-                    for (var i = 0; i < mpTotal; i++) {
+                    for (var i = 0; i < opTotal; i++) {
                         var checkBoxID = $("#operationsprivilege" + i.toString()); //复选框ID
                         if (checkBoxID.is(":checked")) {
-                            role_privilegesStr += "rprivilegeID" + rpTotal.toString() + ":'" + checkBoxID.val() + "',";
-                            rpTotal++;
+                            role_privilegesStr += "roprivilegeID" + i + ":'" + checkBoxID.val() + "',";
                         } else {
 
                         }
                     }
+                    
                     //页面元素权限中被选中的项
-                    for (var i = 0; i < mpTotal; i++) {
+                    for (var i = 0; i < epTotal; i++) {
                         var checkBoxID = $("#elementsprivilege" + i.toString()); //复选框ID
                         if (checkBoxID.is(":checked")) {
-                            role_privilegesStr += "rprivilegeID" + rpTotal.toString() + ":'" + checkBoxID.val() + "',";
-                            rpTotal++;
+                            role_privilegesStr += "reprivilegeID" + i + ":'" + checkBoxID.val() + "',";
                         } else {
 
                         }
                     }
-                    role_privilegesStr += "rp_total: '" + rpTotal + "',r_ID:'" + $("#roleID").val() + "' }";
-                    alert(role_privilegesStr);
-                    role_privilegesData = eval("(" + role_privilegesStr + ")");
+                    role_privilegesStr += "mpTotal: '" + mpTotal + "',opTotal: '" + opTotal + "',epTotal: '" + epTotal + "',r_ID:'" + $("#roleID").val() + "' }";
+
+                    //alert(role_privilegesStr);
+
+                    role_privilegesData = eval("(" + role_privilegesStr + ")"); //权限字符串列表转为json数据
                     $("#role_privileges").ajaxForm({
                         success: rp_showResponse,  // form提交响应成功后执行的回调函数
                         url: "/RolesManagement/AddRolePrivileges",
@@ -230,9 +201,9 @@
                 $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                 $("#promptDIV").addClass(responseText.css);
                 $("#promptDIV").html(responseText.message);
-                if (result.success) {
-                    location.href = result.toUrl;
-                }
+                //                if (result.success) {
+                //                    location.href = result.toUrl;//跳转页面
+                //                }
             }
         });
     </script>
@@ -275,9 +246,6 @@
                 </div>
                 <div id="menusList">
 
-                </div>
-                <div class="btn btn-primary" id="myButton">
-                节点
                 </div>
             </div>
 
