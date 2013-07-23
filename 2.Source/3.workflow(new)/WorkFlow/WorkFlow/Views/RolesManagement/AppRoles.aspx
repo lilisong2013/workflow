@@ -144,7 +144,7 @@
                         $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                         $("#promptDIV").addClass(result.css);
                         $("#promptDIV").html(result.message);
-
+                        alert(result.success);
                         if (result.success) {
                             location.href = result.toUrl;
                         }
