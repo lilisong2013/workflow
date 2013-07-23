@@ -150,8 +150,8 @@
 
                     var notes = managerMenuTree.getChecked(); //菜单树中被选中的菜单
 
-                    mpTotal = notes.length;
-                    alert(notes.length);
+                    mpTotal = notes.length;//选中的菜单权限数量
+                    //alert(notes.length);
 
                     //菜单权限中被选中的项
                     for (var i = 0; i < mpTotal; i++) {
@@ -181,7 +181,7 @@
                     }
                     role_privilegesStr += "mpTotal: '" + mpTotal + "',opTotal: '" + opTotal + "',epTotal: '" + epTotal + "',r_ID:'" + $("#roleID").val() + "' }";
 
-                    alert(role_privilegesStr);
+                    //alert(role_privilegesStr);
 
                     role_privilegesData = eval("(" + role_privilegesStr + ")"); //权限字符串列表转为json数据
                     $("#role_privileges").ajaxForm({
@@ -246,9 +246,6 @@
                 </div>
                 <div id="menusList">
 
-                </div>
-                <div class="btn btn-primary" id="myButton">
-                节点
                 </div>
             </div>
 

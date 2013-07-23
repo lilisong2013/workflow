@@ -149,6 +149,7 @@ namespace Saron.WorkFlowService.WebService
 
             return m_menusDal.GetMenuNameOfAppID(appID,ID);
         }
+        
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据appID和parentId获得某系统的菜单名称,<h4>(需要授权验证,系统管理员)</h4>")]
         public DataSet GetMenuNameOfAppParent(int appID, int parentID, out string msg)
@@ -161,6 +162,7 @@ namespace Saron.WorkFlowService.WebService
             }
             return m_menusDal.GetMenuNameOfAppParent(appID,parentID);
         }
+        
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "菜单主键为parentId的菜单是否存在子菜单，<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsChildrenMenus(int parentId, out string msg)

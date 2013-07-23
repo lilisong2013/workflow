@@ -139,9 +139,10 @@ namespace WorkFlow.Privileges_RoleWebService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Privilege_RoleCountByRoleID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int Privilege_RoleCountByRoleID(int role_id) {
+        public int Privilege_RoleCountByRoleID(int role_id, out string msg) {
             object[] results = this.Invoke("Privilege_RoleCountByRoleID", new object[] {
                         role_id});
+            msg = ((string)(results[1]));
             return ((int)(results[0]));
         }
         
@@ -169,9 +170,10 @@ namespace WorkFlow.Privileges_RoleWebService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Add", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Add(privilege_roleModel model) {
+        public bool Add(privilege_roleModel model, out string msg) {
             object[] results = this.Invoke("Add", new object[] {
                         model});
+            msg = ((string)(results[1]));
             return ((bool)(results[0]));
         }
         
@@ -199,10 +201,11 @@ namespace WorkFlow.Privileges_RoleWebService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Delete", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool Delete(int role_id, int privilege_id) {
+        public bool Delete(int role_id, int privilege_id, out string msg) {
             object[] results = this.Invoke("Delete", new object[] {
                         role_id,
                         privilege_id});
+            msg = ((string)(results[1]));
             return ((bool)(results[0]));
         }
         
@@ -428,6 +431,14 @@ namespace WorkFlow.Privileges_RoleWebService {
                 return ((int)(this.results[0]));
             }
         }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
     }
     
     /// <remarks/>
@@ -454,6 +465,14 @@ namespace WorkFlow.Privileges_RoleWebService {
                 return ((bool)(this.results[0]));
             }
         }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
     }
     
     /// <remarks/>
@@ -478,6 +497,14 @@ namespace WorkFlow.Privileges_RoleWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
             }
         }
     }
