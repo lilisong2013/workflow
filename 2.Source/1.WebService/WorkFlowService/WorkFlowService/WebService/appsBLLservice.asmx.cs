@@ -39,6 +39,19 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "除原系统外是否存在系统名称为appName该记录，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool ExistsAppNameOutAppModel(Saron.WorkFlowService.Model.appsModel appModel, out string msg)
+        {
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+
+            return m_appsdal.ExistsNameOutAppModel(appModel);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "增加一条系统记录（返回0添加失败，返回-1系统已经存在，不等于0或-1为记录ID），<h4>（需要授权验证，自定义用户）</h4>")]
         public int Add(Saron.WorkFlowService.Model.appsModel model,out string msg)
         {

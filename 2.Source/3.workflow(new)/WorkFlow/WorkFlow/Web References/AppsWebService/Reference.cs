@@ -34,6 +34,8 @@ namespace WorkFlow.AppsWebService {
         
         private System.Threading.SendOrPostCallback ExistsAppNameOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsAppNameOutAppModelOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
         private System.Threading.SendOrPostCallback SuperAdminUpdateAppOperationCompleted;
@@ -105,6 +107,9 @@ namespace WorkFlow.AppsWebService {
         public event ExistsAppNameCompletedEventHandler ExistsAppNameCompleted;
         
         /// <remarks/>
+        public event ExistsAppNameOutAppModelCompletedEventHandler ExistsAppNameOutAppModelCompleted;
+        
+        /// <remarks/>
         public event AddCompletedEventHandler AddCompleted;
         
         /// <remarks/>
@@ -162,6 +167,37 @@ namespace WorkFlow.AppsWebService {
             if ((this.ExistsAppNameCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ExistsAppNameCompleted(this, new ExistsAppNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsAppNameOutAppModel", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsAppNameOutAppModel(appsModel appModel, out string msg) {
+            object[] results = this.Invoke("ExistsAppNameOutAppModel", new object[] {
+                        appModel});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsAppNameOutAppModelAsync(appsModel appModel) {
+            this.ExistsAppNameOutAppModelAsync(appModel, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsAppNameOutAppModelAsync(appsModel appModel, object userState) {
+            if ((this.ExistsAppNameOutAppModelOperationCompleted == null)) {
+                this.ExistsAppNameOutAppModelOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsAppNameOutAppModelOperationCompleted);
+            }
+            this.InvokeAsync("ExistsAppNameOutAppModel", new object[] {
+                        appModel}, this.ExistsAppNameOutAppModelOperationCompleted, userState);
+        }
+        
+        private void OnExistsAppNameOutAppModelOperationCompleted(object arg) {
+            if ((this.ExistsAppNameOutAppModelCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsAppNameOutAppModelCompleted(this, new ExistsAppNameOutAppModelCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -727,6 +763,40 @@ namespace WorkFlow.AppsWebService {
         private object[] results;
         
         internal ExistsAppNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsAppNameOutAppModelCompletedEventHandler(object sender, ExistsAppNameOutAppModelCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsAppNameOutAppModelCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsAppNameOutAppModelCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

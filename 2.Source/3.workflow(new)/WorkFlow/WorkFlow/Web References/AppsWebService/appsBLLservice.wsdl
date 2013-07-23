@@ -26,10 +26,10 @@
         </s:sequence>
         <s:anyAttribute />
       </s:complexType>
-      <s:element name="Add">
+      <s:element name="ExistsAppNameOutAppModel">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:appsModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="appModel" type="tns:appsModel" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -50,6 +50,21 @@
           <s:element minOccurs="1" maxOccurs="1" name="approval_at" nillable="true" type="s:dateTime" />
         </s:sequence>
       </s:complexType>
+      <s:element name="ExistsAppNameOutAppModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsAppNameOutAppModelResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Add">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:appsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="AddResponse">
         <s:complexType>
           <s:sequence>
@@ -202,6 +217,15 @@
   <wsdl:message name="ExistsAppNameSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="ExistsAppNameOutAppModelSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsAppNameOutAppModel" />
+  </wsdl:message>
+  <wsdl:message name="ExistsAppNameOutAppModelSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsAppNameOutAppModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsAppNameOutAppModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="AddSoapIn">
     <wsdl:part name="parameters" element="tns:Add" />
   </wsdl:message>
@@ -298,6 +322,11 @@
       <wsdl:input message="tns:ExistsAppNameSoapIn" />
       <wsdl:output message="tns:ExistsAppNameSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="ExistsAppNameOutAppModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">除原系统外是否存在系统名称为appName该记录，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsAppNameOutAppModelSoapIn" />
+      <wsdl:output message="tns:ExistsAppNameOutAppModelSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="Add">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条系统记录（返回0添加失败，返回-1系统已经存在，不等于0或-1为记录ID），&lt;h4&gt;（需要授权验证，自定义用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
@@ -356,6 +385,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:ExistsAppNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsAppNameOutAppModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsAppNameOutAppModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsAppNameOutAppModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -469,6 +508,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:ExistsAppNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsAppNameOutAppModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsAppNameOutAppModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsAppNameOutAppModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
