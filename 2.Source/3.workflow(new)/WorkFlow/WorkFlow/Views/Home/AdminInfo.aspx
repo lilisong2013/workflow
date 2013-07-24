@@ -23,6 +23,91 @@
             $("#promptDIV").html("");
         });
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetAppInfo(); //系统信息初始化
+            GetAdminInfo(); //管理员信息初始化
+
+            $("#appSave").click(function () {
+                alert($("#appName").val());
+                ModifyAppInfo(); //修改系统信息
+            });
+        });
+
+        //获取管理员信息
+        function GetAdminInfo() {
+            $.ajax({
+                url: "/Home/GetAdminInfo",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert();
+                    var adminInfoJson = eval("(" + responseText + ")");
+                    $("#adminLogin").val(adminInfoJson.adminLogin);
+                    $("#adminName").val(adminInfoJson.adminName);
+                    $("#adminEmployeNum").val(adminInfoJson.adminEmployeNum);
+                    $("#adminPhone").val(adminInfoJson.adminPhone);
+                    $("#adminEmail").val(adminInfoJson.adminEmail);
+                    $("#adminRemark").val(adminInfoJson.adminRemark);
+                }
+            });
+        }
+
+        //获取系统信息
+        function GetAppInfo() {
+            $.ajax({
+                url: "/Home/GetAppInfo",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var appInfoJson = eval("(" + responseText + ")");
+                    $("#appName").val(appInfoJson.appName);
+                    $("#appCode").val(appInfoJson.appCode);
+                    $("#appUrl").val(appInfoJson.appUrl);
+                    $("#appRemark").val(appInfoJson.appRemark);
+                }
+            });
+        }
+
+        //修改系统信息
+        function ModifyAppInfo() {
+            var options = {
+                beforeSubmit: app_showRequest,  // from提交前的响应的回调函数
+                success: showResponse,  // form提交响应成功后执行的回调函数
+                url: "/Home/ModifyAppInfo",
+                type: "POST",
+                dataType: "json"
+            };
+
+            $("#modifyAppInfo").ajaxForm(options);
+        }
+
+        function ModifyAdminInfo() {
+            var options = {
+                beforeSubmit: admin_showRequest,  // from提交前的响应的回调函数
+                success: showResponse,  // form提交响应成功后执行的回调函数
+                url: "/Home/ModifyAdminInfo",
+                type: "POST",
+                dataType: "json"
+            };
+
+            $("#modifyAdminInfo").ajaxForm(options);
+        }
+
+        function app_showRequest() {
+            alert("111");
+        }
+
+        function admin_showRequest() {
+        }
+
+        function showResponse(responseText, statusText) {
+        }
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -43,42 +128,33 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="AdminInfo">
                     <div class="container">
-                        <form class="form-horizontal" action="">
+                        <form id="modifyAppInfo" class="form-horizontal" method="post" action="">
                             <div class="control-group">
-                                <label class="control-label">登录名：</label>
+                                <label class="control-label">系统名称：</label>
                                 <div class="controls">
-                                    <input type="text" id="adminLogin" placeholder="登录名">
+                                    <input type="text" id="appName" placeholder="系统名称" />
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">姓名：</label>
+                                <label class="control-label">系统编码：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text1" placeholder="姓名">
+                                    <input type="text" id="appCode" placeholder="系统编码" />
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">工号：</label>
+                                <label class="control-label">访问地址：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text2" placeholder="工号">
+                                    <input type="text" id="appUrl" placeholder="访问链接" />
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">电话：</label>
+                                <label class="control-label">系统备注：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text3" placeholder="电话">
+                                   <textarea id="appRemark" name="appRemark" class="m-textarea" rows="6" cols="" placeholder="系统备注"></textarea>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">电子邮件：</label>
-                                <div class="controls">
-                                    <input type="text" id="Text4" placeholder="电子邮件">
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">备注信息：</label>
-                                <div class="controls">
-                                    <input type="text" id="Text5" placeholder="备注信息">
-                                </div>
+                                <div id="appSave" class="btn btn-primary span4">保存修改</div>
                             </div>
                         </form>
                     </div>
@@ -90,37 +166,37 @@
                             <div class="control-group">
                                 <label class="control-label">登录名：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text6" placeholder="登录名">
+                                    <input type="text" id="adminLogin" placeholder="登录名" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">姓名：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text7" placeholder="姓名">
+                                    <input type="text" id="adminName" placeholder="姓名" />
                                 </div>
-                            </div>
+                            </div> 
                             <div class="control-group">
                                 <label class="control-label">工号：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text8" placeholder="工号">
+                                    <input type="text" id="adminEmployeNum" placeholder="工号" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">电话：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text9" placeholder="电话">
+                                    <input type="text" id="adminPhone" placeholder="电话" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">电子邮件：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text10" placeholder="电子邮件">
+                                    <input type="text" id="adminEmail" placeholder="电子邮件" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">备注信息：</label>
                                 <div class="controls">
-                                    <input type="text" id="Text11" placeholder="备注信息">
+                                    <textarea id="adminRemark" name="adminRemark" class="m-textarea" rows="6" cols="" placeholder="管理员备注"></textarea>
                                 </div>
                             </div>
                         </form>

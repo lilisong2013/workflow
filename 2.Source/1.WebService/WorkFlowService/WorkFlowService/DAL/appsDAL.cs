@@ -74,6 +74,24 @@ namespace Saron.WorkFlowService.DAL
 
 
         /// <summary>
+        /// 是否存在系统名称为appName该记录
+        /// </summary>
+        public bool ExistsNameOutAppModel(Saron.WorkFlowService.Model.appsModel appModel)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from apps");
+            strSql.Append(" where name=@name and id!=@id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@name", SqlDbType.NVarChar,80),
+                    new SqlParameter("@id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appModel.name;
+            parameters[1].Value = appModel.id;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         /// <param name="model">apps实体</param>
