@@ -4,11 +4,11 @@
 </asp:Content>
 <%--本页用到的CSS/JS--%>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-   
+   <%--<link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="Stylesheet" type="text/css"/>--%>
    <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-
+   <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
@@ -35,7 +35,7 @@
     <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");      
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
             $("#promptDIV").html("");
         });
     </script>
@@ -49,7 +49,7 @@
             //去掉  大于小于包括,并改变顺序
             $.ligerDefaults.Filter.operators['string'] =
             $.ligerDefaults.Filter.operators['text'] =
-            ["like", "equal", "notequal", "startwith", "endwith"];   
+            ["like", "equal", "notequal", "startwith", "endwith"];
 
             GetFlowList(); //获取流程数据列表
 
@@ -59,21 +59,21 @@
 
         });
         //流程数据列表
-            function GetFlowList() {
-                $.ajax({
-                    url: "/FlowsManagement/GetFlowList",
-                    type: "POST",
-                    dataType: "json",
-                    data: {},
-                    success: function (responseText, statusText) {
+        function GetFlowList() {
+            $.ajax({
+                url: "/FlowsManagement/GetFlowList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
 
-                        dataJson = eval("(" + responseText + ")");
+                    dataJson = eval("(" + responseText + ")");
 
-                        window['g'] = $("#flowsgrid").ligerGrid({
-                            width: '99%',
-                            height: 400,
-                            checkbox: false,
-                            columns: [
+                    window['g'] = $("#flowsgrid").ligerGrid({
+                        width: '99%',
+                        height: 400,
+                        checkbox: false,
+                        columns: [
                             { display: '流程ID', name: 'id', align: 'left' },
                             { display: '流程名称', name: 'name', align: 'left' },
                             { display: '备注', name: 'remark', align: 'left' },
@@ -96,49 +96,108 @@
                                 }
                             }
                            ],
-                            data: dataJson,
-                            toolbar: { items: [{ text: '高级自定义查询:', click: itemclick, icon: 'search2'}] }
-                        });
+                        data: dataJson,
+                        toolbar: { items: [{ text: '高级自定义查询:', click: itemclick, icon: 'search2'}] }
+                    });
 
-                       g.loadData();
-                       $("#flowsgrid").ligerGetGridManager().loadData();
+                    g.loadData();
+                    $("#flowsgrid").ligerGetGridManager().loadData();
 
-                                function itemclick() {
-                                    g.options.data = dataJson;
-                                    g.showFilter();
-                                }
-
+                    function itemclick() {
+                        g.options.data = dataJson;
+                        g.showFilter();
                     }
 
-                });
-            }
+                }
+
+            });
+        }
 
        
    </script>
+
+   <%--在Grid中分页显示flows信息--%>
+    <script type="text/javascript">
+        $(document).ready(function () {       
+           window['t']=$("#AllFlows").ligerGrid({
+                columns: [
+                            { display: '流程ID', name: 'id', align: 'left' },
+                            { display: '流程名称', name: 'name', align: 'left' },
+                            { display: '备注', name: 'remark', align: 'left' },
+                            { display: '', width: 100,
+                                render: function (row) {
+                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 100,
+                                render: function (row) {
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 100,
+                                render: function (row) {
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
+                                    return html;
+                                }
+                            }
+                           ],
+                            dataAction: 'server',
+                            width: '99%',
+                            pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                            pageSize: 10,
+                            height: '400',
+                            rownumbers: true,
+                            usePager: true,                     
+                            url: "/FlowsManagement/GetFlow_List"
+                            
+                            
+            });
+          
+        });
+
+    </script>
 
     <%--编辑确认函数--%>
     <script type="text/javascript">
         function EditPageCon(id) {
             var flowid = id;
-            var Count = g.get('page');
-            var Size = g.get('pageSize');
-         
+            var Count = t.get('page');
+            var Size = t.get('pageSize');
+
             $.ajax({
                 url: "/FlowsManagement/EditPageCon",
                 type: "POST",
                 dataType: "json",
                 data: { flowID: flowid, pageCount: Count, SizeCount: Size }
-
+                
             });
+        }
+    </script>
+    <%--编辑弹出框函数--%>
+    <script type="text/javascript">
+        function EditDialog(id) {
+            if (id) {
+                $.ligerDialog.open({
+                    title: '更新流程信息',
+                    width: 800,
+                    height: 700,
+                    url: '/FlowsManagement/EditPage?id='+id,
+                   
+                });
+            }
         }
     </script>
     <%--详情确认函数--%>
     <script type="text/javascript">
         function DetailConfirmCon(id) {
-            var flowid = id;           
-            var Count = g.get('page');
-            var Size = g.get('pageSize');
-         
+            var flowid = id;
+            var Count = t.get('page');
+            var Size = t.get('pageSize');
+            alert("id:" + flowid);
+            alert("Count:" + Count);
+            alert("Size:"+Size);
             $.ajax({
                 url: "/FlowsManagement/DetailConfirmCon",
                 type: "POST",
@@ -146,6 +205,22 @@
                 data: { flowID: flowid, pageCount: Count, SizeCount: Size }
             });
         }
+    </script>
+    <%--详情弹出框函数--%>
+    <script type="text/javascript">
+        function DetailDialog(id) {
+
+            if (id) {
+                $.ligerDialog.open({
+                   title:'详情('+id+')信息',
+                   width:700,
+                   height:600,
+                   url:'/FlowsManagement/DetailInfo?id='+id,
+                 });
+            }
+        
+        }
+ 
     </script>
     <%--删除确认函数--%>
     <script type="text/javascript">
@@ -221,7 +296,7 @@
                         $("#promptDIV").html(result.message);
                         //alert(result.success);
                         if (result.success) {
-                           
+
                             location.href = result.toUrl;
                         }
                     },
@@ -272,7 +347,7 @@
 
     <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
-            <li class="active" id="#infoTab"><a href="#AllFlows" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
+            <li class="active"><a href="#AllFlows" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddFlows" data-toggle="tab"><i class="icon-plus"></i>添加</a></li>
         </ul>
     </div>
@@ -282,7 +357,6 @@
     <%--查看流程列表--%>
     <%-- <div class="l-loading" style="display:block" id="pageloading"></div>--%>
      <div class="tab-pane active" id="AllFlows">
-     <div id="flowsgrid"></div>
      </div>
 
      <%--添加流程--%>
