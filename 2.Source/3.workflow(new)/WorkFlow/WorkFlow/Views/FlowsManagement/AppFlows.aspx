@@ -126,13 +126,13 @@
                             { display: '备注', name: 'remark', align: 'left' },
                             { display: '', width: 100,
                                 render: function (row) {
-                                    var html = '<i class="icon-list"></i><a href="#" onclick="DetailDialog(' + row.id + ');">详情</a>';
+                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 100,
                                 render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id=' + row.id + '" onclick="EditPageCon(' + row.id + ');">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                     return html;
                                 }
                             },
@@ -149,29 +149,44 @@
                             pageSize: 10,
                             height: '400',
                             rownumbers: true,
-                            usePager: true,
+                            usePager: true,                     
                             url: "/FlowsManagement/GetFlow_List"
+                            
                             
             });
           
         });
 
     </script>
-    
+
     <%--编辑确认函数--%>
     <script type="text/javascript">
         function EditPageCon(id) {
             var flowid = id;
-            var Count = g.get('page');
-            var Size = g.get('pageSize');
+            var Count = t.get('page');
+            var Size = t.get('pageSize');
 
             $.ajax({
                 url: "/FlowsManagement/EditPageCon",
                 type: "POST",
                 dataType: "json",
                 data: { flowID: flowid, pageCount: Count, SizeCount: Size }
-
+                
             });
+        }
+    </script>
+    <%--编辑弹出框函数--%>
+    <script type="text/javascript">
+        function EditDialog(id) {
+            if (id) {
+                $.ligerDialog.open({
+                    title: '更新流程信息',
+                    width: 800,
+                    height: 700,
+                    url: '/FlowsManagement/EditPage?id='+id,
+                   
+                });
+            }
         }
     </script>
     <%--详情确认函数--%>
@@ -193,17 +208,19 @@
     </script>
     <%--详情弹出框函数--%>
     <script type="text/javascript">
-        var win1;
         function DetailDialog(id) {
-            alert("id:"+id);
-            var ID = id;
-            if (win1) win1.show();
-            else
-                win1 = $.ligerDialog.open({ height: 500,width:500, url: "/FlowsManagement/DetailInfo?id="+ID,showMax:true,showToggle:true,showMin:true,isResize:true});
-//            setTimeout(function () {
-//                m.setUrl("/FlowsManagement/DetailInfo?id="+ID);
-//            }, 8000);
+
+            if (id) {
+                $.ligerDialog.open({
+                   title:'详情('+id+')信息',
+                   width:700,
+                   height:600,
+                   url:'/FlowsManagement/DetailInfo?id='+id,
+                 });
+            }
+        
         }
+ 
     </script>
     <%--删除确认函数--%>
     <script type="text/javascript">

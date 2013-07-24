@@ -41,22 +41,43 @@ namespace Saron.WorkFlowService.WebService
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "角色role_id的权限个数")]
-        public int Privilege_RoleCountByRoleID(int role_id)
+        public int Privilege_RoleCountByRoleID(int role_id,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息,-1表示无法访问该方法
+                return -1;
+            }
+
             return m_privilege_roleDal.Privilege_RoleCountByRoleID(role_id);
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "增加一条角色权限记录")]
-        public bool Add(Saron.WorkFlowService.Model.privilege_roleModel model)
+        [WebMethod(Description = "增加一条角色权限记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool Add(Saron.WorkFlowService.Model.privilege_roleModel model,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
             return m_privilege_roleDal.Add(model);
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "删除角色id为role_id，权限id为privilege_id的记录")]
-        public bool Delete(int role_id, int privilege_id)
+        [WebMethod(Description = "删除角色id为role_id，权限id为privilege_id的记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool Delete(int role_id, int privilege_id,out string msg)
         {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
             return m_privilege_roleDal.Delete(role_id, privilege_id);
         }
 
@@ -71,7 +92,7 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
 
-            int rpCount = Privilege_RoleCountByRoleID(role_id);
+            int rpCount = m_privilege_roleDal.Privilege_RoleCountByRoleID(role_id);
             int deleteRp = m_privilege_roleDal.DeleteByRoleID(role_id);
             if (deleteRp < rpCount)
             {

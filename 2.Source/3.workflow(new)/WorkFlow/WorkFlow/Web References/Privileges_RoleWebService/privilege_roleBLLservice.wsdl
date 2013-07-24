@@ -38,6 +38,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="Privilege_RoleCountByRoleIDResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -58,6 +59,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="AddResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -73,6 +75,7 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -150,12 +153,12 @@
       <wsdl:output message="tns:Privilege_RoleCountByRoleIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Add">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条角色权限记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条角色权限记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddSoapIn" />
       <wsdl:output message="tns:AddSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="Delete">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除角色id为role_id，权限id为privilege_id的记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除角色id为role_id，权限id为privilege_id的记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:DeleteSoapIn" />
       <wsdl:output message="tns:DeleteSoapOut" />
     </wsdl:operation>

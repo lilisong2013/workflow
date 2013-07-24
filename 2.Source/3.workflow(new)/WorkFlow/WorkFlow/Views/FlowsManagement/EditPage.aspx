@@ -106,11 +106,11 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>流程管理</h2></div>
-<div class="container">
+<%--<div class="container">
  <div class="row-fluid">
     <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlowsPage?pageCount=<%=ViewData["flowsEditCount"]%>&sizeCount=<%=ViewData["flowsEditSize"]%>">返回</a></li></ul>
  </div> 
-</div>
+</div>--%>
 <div class="container">
    <%--操作提示DIV--%>
    <div id="promptDIV" class="row"></div>
@@ -146,7 +146,7 @@
         <input type="hidden" name="flowsCreated_ip" id="flowsCreated_ip" value="<%= ipAddress %>" />       
         </div> 
        </div>
-       <div class="control-group span6 offset3">
+       <div class="control-group span9 offset5">
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" />  
        </div>
    </form>

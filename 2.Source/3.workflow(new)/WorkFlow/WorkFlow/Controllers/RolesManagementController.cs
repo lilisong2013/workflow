@@ -900,12 +900,12 @@ namespace WorkFlow.Controllers
                                 if (!m_privilege_roleBllService.Exists(m_roleID, m_menuprivilegeID, out msg))
                                 {
                                     m_privilege_roleModel.privilege_id = m_menuprivilegeID;//父菜单权限ID
-                                    m_privilege_roleBllService.Add(m_privilege_roleModel);//先给角色添加父菜单权限
+                                    m_privilege_roleBllService.Add(m_privilege_roleModel,out msg);//先给角色添加父菜单权限
                                 }
                             }
 
                             m_privilege_roleModel.privilege_id = m_mprivilegeID;//菜单权限ID
-                            if (!m_privilege_roleBllService.Add(m_privilege_roleModel))
+                            if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
                                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
                             }
@@ -917,7 +917,7 @@ namespace WorkFlow.Controllers
                             int m_oprivilegeID = Convert.ToInt32(Request.Params[("roprivilegeID" + i)]);
                             m_privilege_roleModel.role_id = m_roleID;
                             m_privilege_roleModel.privilege_id = m_oprivilegeID;
-                            if (!m_privilege_roleBllService.Add(m_privilege_roleModel))
+                            if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
                                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
                             }
@@ -929,7 +929,7 @@ namespace WorkFlow.Controllers
                             int m_eprivilegeID = Convert.ToInt32(Request.Params[("reprivilegeID" + i)]);
                             m_privilege_roleModel.role_id = m_roleID;
                             m_privilege_roleModel.privilege_id = m_eprivilegeID;
-                            if (!m_privilege_roleBllService.Add(m_privilege_roleModel))
+                            if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
                                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
                             }
