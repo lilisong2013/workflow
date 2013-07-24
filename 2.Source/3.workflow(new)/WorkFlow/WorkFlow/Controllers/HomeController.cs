@@ -455,5 +455,76 @@ namespace WorkFlow.Controllers
             return Json("{appName:'" + appName + "'}");
         }
 
+        /// <summary>
+        /// 获得系统信息
+        /// </summary>
+        public ActionResult GetAppInfo()
+        {
+            string dataStr = "{";
+            WorkFlow.AppsWebService.appsBLLservice m_appBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appModel = new AppsWebService.appsModel();
+
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.AppsWebService.SecurityContext securityContext = new AppsWebService.SecurityContext();
+
+            string msg = "";
+            #region Webservice访问授权
+            securityContext.UserName = m_userModel.login;
+            securityContext.PassWord = m_userModel.password;
+            securityContext.AppID = (int)m_userModel.app_id;
+            m_appBllService.SecurityContextValue = securityContext;
+            #endregion
+
+            try
+            {
+                m_appModel = m_appBllService.AdminGetModel((int)m_userModel.app_id, out msg);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            dataStr += "appName:'" + m_appModel.name + "',";
+            dataStr += "appCode:'" + m_appModel.code + "',";
+            dataStr += "appUrl:'" + m_appModel.url + "',";
+            dataStr += "appRemark:'" + m_appModel.remark + "'}";
+
+            return Json(dataStr);
+        }
+
+        /// <summary>
+        /// 获得管理员信息
+        /// </summary>
+        public ActionResult GetAdminInfo()
+        {
+            string dataStr = "{";
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            dataStr += "adminLogin:'" + m_userModel.login + "',";
+            dataStr += "adminName:'" + m_userModel.name + "',";
+            dataStr += "adminEmployeNum:'" + m_userModel.employee_no + "',";
+            dataStr += "adminPhone:'" + m_userModel.mobile_phone + "',";
+            dataStr += "adminEmail:'" + m_userModel.mail + "',";
+            dataStr += "adminRemark:'" + m_userModel.remark + "'}";
+            return Json(dataStr);
+        }
+
+        /// <summary>
+        /// 修改系统信息
+        /// </summary>
+        public ActionResult ModifyAppInfo()
+        {
+            string appName = Request.Params["appName"];
+            return Json("");
+        }
+
+        /// <summary>
+        /// 修改管理员信息
+        /// </summary>
+        public ActionResult ModifyAdminInfo()
+        {
+            return Json("");
+        }
     }
 }

@@ -118,47 +118,53 @@
 
    <%--在Grid中分页显示flows信息--%>
     <script type="text/javascript">
-        $(document).ready(function () {       
-           window['t']=$("#AllFlows").ligerGrid({
+        $(document).ready(function () {
+            window['t'] = $("#AllFlows").ligerGrid({
                 columns: [
-                            { display: '流程ID', name: 'id', align: 'left' },
+                            { display: '流程ID', name: 'id', align: 'left', width: 80 },
                             { display: '流程名称', name: 'name', align: 'left' },
                             { display: '备注', name: 'remark', align: 'left' },
-                            { display: '', width: 100,
+                            { display: '', width: 80,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                     return html;
                                 }
                             },
-                            { display: '', width: 100,
+                            { display: '', width: 80,
                                 render: function (row) {
                                     var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                     return html;
                                 }
                             },
-                            { display: '', width: 100,
+                            { display: '', width: 80,
                                 render: function (row) {
                                     var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
                                     return html;
                                 }
                             }
                            ],
-                            dataAction: 'server',
-                            width: '99%',
-                            pageSizeOptions: [5, 10, 15, 20, 25, 50],
-                            pageSize: 10,
-                            height: '400',
-                            rownumbers: true,
-                            usePager: true,                     
-                            url: "/FlowsManagement/GetFlow_List"
-                            
-                            
+                dataAction: 'server',
+                width: '99%',
+                pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                pageSize: 10,
+                height: '400',
+                rownumbers: true,
+                usePager: true,
+                url: "/FlowsManagement/GetFlow_List"
+
             });
-          
+            t.loadData();
+
         });
 
     </script>
 
+    <script type="text/javascript">
+        function getData() {
+            var manager = $("#AllFlows").liger();
+            return manager.getData();
+        }
+    </script>
     <%--编辑确认函数--%>
     <script type="text/javascript">
         function EditPageCon(id) {
@@ -249,41 +255,8 @@
             });
         }
     </script>
-    <%--添加流程确认信息--%>
-   <%-- <script type="text/javascript">
-        $(document).ready(function () {
-
-            var form = $("#add_Flows");
-
-            form.submit(function () {
-                if ($.trim($("#flowsName").val()).length == 0) {
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-errorDIV");
-                    $("#promptDIV").html("流程名称不能为空！");
-
-                    return false;
-                }
-                else {
-                    $.post(form.attr("action"),
-                    form.serialize(),
-                    function (result, status) {
-                        //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(result.css);
-                        $("#promptDIV").html(result.message);
-                        alert(result.success);
-                        if (result.success) {
-                            location.href = result.toUrl;
-                        }
-                    },
-                    "JSON");
-                    return false;
-                }
-            });
-        });
-    </script>--%>
-
-       <script type="text/javascript">
+   <%--添加流程确认信息--%>
+   <script type="text/javascript">
            $(document).ready(function () {
                var form = $("#add_Flows");
                form.submit(function () {
@@ -306,36 +279,14 @@
                });
            });
     </script>
+   <%--查询信息--%>
+   <script type="text/javascript">
+       function Test() {
+           var key = $("#searchbtn").val();
+           alert(key);
 
-    <%--<script type="text/javascript">
-        $(document).ready(function () {
-            var options = {
-                //beforeSubmit: showRequest,  // from提交前的响应的回调函数
-                success: showResponse,  // form提交响应成功后执行的回调函数
-                url: "/FlowsManagement/AddFlows",
-                type: "POST",
-                dataType: "json"
-            };
-            $("#submit").click(function () {
-                if (false) {
-                    return false;
-                } else {
-                    $("add_Flows").ajaxForm(options);
-                }
-            });
-
-            function showResponse(responseText, statusText) {
-
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass(responseText.css);
-                $("#promptDIV").html(responseText.message);
-                if (responseText.success) {
-                    location.href = responseText.toUrl;
-                }
-
-            }
-        });
-    </script>--%>
+       }
+   </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container"><h2>流程管理</h2></div>
@@ -353,9 +304,10 @@
     </div>
     
     <div class="tab-content">
-    
-    <%--查看流程列表--%>
-    <%-- <div class="l-loading" style="display:block" id="pageloading"></div>--%>
+   
+     <input type="text" class="input-medium search-query" id="searchbtn",name="searchbtn"/>
+     <button type="submit" class="btn" onclick="Test();">查询</button>
+
      <div class="tab-pane active" id="AllFlows">
      </div>
 
