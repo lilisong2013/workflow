@@ -579,8 +579,13 @@ namespace WorkFlow.Controllers
                 {
                     if (m_flowsBllService.UpdateFlow(m_flowsModel, out msg))
                     {
+<<<<<<< HEAD
                         //m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
                         //Session["flow"] = m_flowsModel.name;
+=======
+                        m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
+                        Session["flow"] = m_flowsModel.name;
+>>>>>>> c8c124e3afbf39b71f94e7eea24a6a8fb927e4d0
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改流程成功!" });
 
                     }
