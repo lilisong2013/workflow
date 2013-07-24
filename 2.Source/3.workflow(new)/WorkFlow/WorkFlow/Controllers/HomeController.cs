@@ -37,6 +37,21 @@ namespace WorkFlow.Controllers
             }
         }
 
+        /// <summary>
+        /// 修改系统管理员信息页面
+        /// </summary>
+        public ActionResult AdminInfo()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         public ActionResult AdminLogin()
         {
 
@@ -51,10 +66,7 @@ namespace WorkFlow.Controllers
         
         public ActionResult Index()
         {
-            
-           
-                return View();
-           
+            return View();
         }
         
         public ActionResult AdminPassCon()
@@ -81,47 +93,44 @@ namespace WorkFlow.Controllers
         [HttpPost]
         public ActionResult LoginValidation()
         {
-          
-            
-                string m_loginName = Request.Form["loginName"];
-                string m_loginPassword = Request.Form["loginPassword"];
+            string m_loginName = Request.Form["loginName"];
+            string m_loginPassword = Request.Form["loginPassword"];
 
-                WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
-                WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
 
-                string msg = string.Empty;
+            string msg = string.Empty;
 
-                WorkFlow.UsersWebService.SecurityContext m_securityContext = new UsersWebService.SecurityContext();
-                //SecurityContext实体对象赋值
-                m_securityContext.UserName = m_loginName;
-                m_securityContext.PassWord = m_loginPassword;
-                m_usersBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+            WorkFlow.UsersWebService.SecurityContext m_securityContext = new UsersWebService.SecurityContext();
+            //SecurityContext实体对象赋值
+            m_securityContext.UserName = m_loginName;
+            m_securityContext.PassWord = m_loginPassword;
+            m_usersBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
-                try
+            try
+            {
+                if (m_usersBllService.SysAdminLoginValidator(m_loginName, m_loginPassword, out msg))
                 {
-                    if (m_usersBllService.SysAdminLoginValidator(m_loginName, m_loginPassword, out msg))
-                    {
-                        m_usersModel = m_usersBllService.GetUserModelByLoginCK(m_loginName, out msg);
-                        Session["user"] = m_usersModel;
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/Home/Index" });
-                    }
-                    else
-                    {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
-                    }
+                    m_usersModel = m_usersBllService.GetUserModelByLoginCK(m_loginName, out msg);
+                    Session["user"] = m_usersModel;
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = "", toUrl = "/Home/Index" });
                 }
-                catch (WebException ex)
+                else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
                 }
-                catch (Exception ex)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
-                }
+            }
+            catch (WebException ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
+            }
            
      
         }
-
 
         /// <summary>
         /// 超级管理员登录验证
@@ -338,8 +347,7 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败5" });
             }
         }
-        
-        
+
         /// <summary>
         /// 应用管理员修改密码
         /// </summary>
@@ -406,7 +414,6 @@ namespace WorkFlow.Controllers
             }
         }
 
-
         /// <summary>
         /// 获取页面的标题
         /// </summary>
@@ -417,7 +424,9 @@ namespace WorkFlow.Controllers
             return Json("{pageName:'" + pageName + "'}");
         }
 
-
+        /// <summary>
+        /// 获取系统标题
+        /// </summary>
         public ActionResult GetSysTitle()
         {
             WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
