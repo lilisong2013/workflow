@@ -24,7 +24,6 @@
    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
  
    <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
-   <script src="../../CustomersData.js" type="text/javascript"></script>
    <%--页面标题--%>
    <script type="text/javascript">
        var titleUrl = "/Home/GetPageTitle";
@@ -42,7 +41,7 @@
     </script>
   
    <%--在Grid中显示flows信息--%>
-    <%--<script type="text/javascript">
+   <%-- <script type="text/javascript">
         var managerListGrid;
         var dataJson;
         $(document).ready(function () {
@@ -120,9 +119,11 @@
    <%--在Grid中分页显示flows信息--%>
     <script type="text/javascript">
         $(document).ready(function () {
-            
-            window['t'] = $("#AllFlows").ligerGrid({
-                columns: [
+
+            GetFlowList();
+            function GetFlowList() {
+                window['t'] = $("#AllFlows").ligerGrid({
+                    columns: [
                             { display: '流程ID', name: 'id', align: 'left', width: 80 },
                             { display: '流程名称', name: 'name', align: 'left' },
                             { display: '备注', name: 'remark', align: 'left' },
@@ -145,29 +146,25 @@
                                 }
                             }
                            ],
-                dataAction: 'server',
-                width: '99%',
-                pageSizeOptions: [5, 10, 15, 20, 25, 50],
-                pageSize: 10,
-                height: '400',
-                rownumbers: true,
-                usePager: true,
-                url: "/FlowsManagement/GetFlow_List"               
-            });
-            t.loadData();
-           
+                    dataAction: 'server',
+                    width: '99%',
+                    pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                    pageSize: 10,
+                    height: '400',
+                    rownumbers: true,
+                    usePager: true,
+                    url: "/FlowsManagement/GetFlow_List"
+                });
+                t.loadData();
+
+            }
+
         });
 
     </script>
 
-    <script type="text/javascript">
-        function getData() {
-            var manager = $("#AllFlows").liger();
-            return manager.getData();
-        }
-    </script>
     <%--编辑确认函数--%>
-   <%-- <script type="text/javascript">
+    <%-- <script type="text/javascript">
         function EditPageCon(id) {
             var flowid = id;
             var Count = t.get('page');
@@ -196,23 +193,6 @@
             }
         }
     </script>
-    <%--详情确认函数--%>
-   <%-- <script type="text/javascript">
-        function DetailConfirmCon(id) {
-            var flowid = id;
-            var Count = t.get('page');
-            var Size = t.get('pageSize');
-            alert("id:" + flowid);
-            alert("Count:" + Count);
-            alert("Size:"+Size);
-            $.ajax({
-                url: "/FlowsManagement/DetailConfirmCon",
-                type: "POST",
-                dataType: "json",
-                data: { flowID: flowid, pageCount: Count, SizeCount: Size }
-            });
-        }
-    </script>--%>
     <%--详情弹出框函数--%>
     <script type="text/javascript">
         function DetailDialog(id) {
@@ -243,7 +223,7 @@
                         dataType: "json",
                         data: { flowID: flowid },
                         success: function (responseText, statusText) {
-                            GetFlowList();
+                            //GetFlowList();
                             $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
                             $("#promptDIV").addClass(responseText.css);
                             $("#promptDIV").html(responseText.message);
