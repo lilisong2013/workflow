@@ -24,6 +24,7 @@
    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
  
    <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
+   <script src="../../CustomersData.js" type="text/javascript"></script>
    <%--页面标题--%>
    <script type="text/javascript">
        var titleUrl = "/Home/GetPageTitle";
@@ -40,6 +41,45 @@
         });
     </script>
   
+   <%--在Grid中测试数据--%>
+   <script type="text/javascript">
+       var grid = null;
+       $(function () {
+           grid = $("#maingrid4").ligerGrid({
+               columns: [
+                { display: '主键', name: 'CustomerID', align: 'left', width: 120 },
+                { display: '公司名', name: 'CompanyName', minWidth: 60 },
+                { display: '联系名', name: 'ContactName', width: 50, align: 'left' },
+				{ display: '联系名', name: 'ContactName', minWidth: 140 },
+				{ display: '联系名', name: 'ContactName', minWidth: 140 },
+				{ display: '联系名', name: 'ContactName', minWidth: 140 },
+				{ display: '联系名', name: 'ContactName', minWidth: 140 },
+                { display: '城市', name: 'City' }
+                ],
+               pageSize: 30,
+               where: f_getWhere(),
+               data: $.extend(true, {}, CustomersData),
+               width: '100%',
+               height: '100%'
+           });
+
+
+           $("#pageloading").hide();
+       });
+       function f_search() {
+           grid.options.data = $.extend(true, {}, CustomersData);
+           grid.loadData(f_getWhere());
+       }
+       function f_getWhere() {
+           if (!grid) return null;
+           var clause = function (rowdata, rowindex) {
+               var key = $("#txtKey").val();
+               return rowdata.CustomerID.indexOf(key) > -1;
+           };
+           return clause;
+       }
+   </script>
+
    <%--在Grid中显示flows信息--%>
     <script type="text/javascript">
         var managerListGrid;
@@ -143,18 +183,28 @@
                                 }
                             }
                            ],
-                dataAction: 'server',
-                width: '99%',
-                pageSizeOptions: [5, 10, 15, 20, 25, 50],
-                pageSize: 10,
-                height: '400',
-                rownumbers: true,
-                usePager: true,
-                url: "/FlowsManagement/GetFlow_List"
+                            dataAction: 'server',               
+                            width: '99%',
+                            pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                            pageSize: 10,
+                            height: '400',
+                            rownumbers: true,
+                            usePager: true,
+                            url: "/FlowsManagement/GetFlow_List"
 
             });
             t.loadData();
+            //alert(t.getData('AllFlows'));
+//            function getData() {
+//                var manager = $('#AllFlows').liger();
+//                alert(manager.getData());
+//                return manager.getData();
 
+//            }
+//            function getData() {
+//                alert($("#AllFlows").liger('getData'));
+//                return $("#AllFlows").liger('getData');
+//            }
         });
 
     </script>
@@ -281,8 +331,8 @@
     </script>
    <%--查询信息--%>
    <script type="text/javascript">
-       function Test() {
-           var key = $("#searchbtn").val();
+       function search() {
+           var key = $("#txtKey").val();
            alert(key);
 
        }
@@ -305,11 +355,19 @@
     
     <div class="tab-content">
    
-     <input type="text" class="input-medium search-query" id="searchbtn",name="searchbtn"/>
-     <button type="submit" class="btn" onclick="Test();">查询</button>
-
+    <%-- <div id="searchbar">
+     主键:<input id="txtKey" type="text"/>
+     <input id="btnOK" type="button" value="button" onclick="f_search()"/>
+     </div> --%>
+     <b>流程名称:</b><input id="txtKey" type="text" class="input-medium search-query"/>
+     <input id="btnOK" type="button" value="查询" onclick="search()"/>
      <div class="tab-pane active" id="AllFlows">
      </div>
+
+    <%-- <div id="maingrid4" style="margin:0; padding:0" class="tab-pane active"></div>
+     <div style="display:none;">
+     <!-- g data total ttt -->
+     </div>--%>
 
      <%--添加流程--%>
      <div class="tab-pane" id="AddFlows">

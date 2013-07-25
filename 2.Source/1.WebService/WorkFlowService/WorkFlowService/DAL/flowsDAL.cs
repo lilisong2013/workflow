@@ -178,14 +178,14 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
-        /// 获得系统流程信息列表
+        /// 根据流程名称获得系统流程信息列表
         /// </summary>
         public DataSet GetListOfFlowsByName(string flowName,int appId)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id  ");
             strSql.Append(" FROM flows ");
-            strSql.Append(" where app_id=@app_id and name=@name deleted=0 order by id desc ");
+            strSql.Append(" where app_id=@app_id and name=@name and deleted=0 order by id desc ");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4),
                     new SqlParameter("@name", SqlDbType.NVarChar,100)

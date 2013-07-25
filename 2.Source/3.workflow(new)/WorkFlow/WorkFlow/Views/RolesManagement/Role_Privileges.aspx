@@ -64,16 +64,6 @@
             });
         }
 
-        function getChecked() {
-            var notes = managerMenuTree.getChecked();
-            var text = "";
-            for (var i = 0; i < notes.length; i++) {
-                alert(JSON2.stringify(managerMenuTree.getData()));
-                text += notes[i].data.id + ",";
-            }
-            alert('选择的节点数：' + text);
-        }
-
     </script>
 
     <%--操作权限初始化--%>
@@ -150,11 +140,13 @@
 
                     var notes = managerMenuTree.getChecked(); //菜单树中被选中的菜单
 
-                    mpTotal = notes.length;//选中的菜单权限数量
+                    var select_mpTotal = notes.length; //选中的菜单权限数量
+                    var select_opTotal = 0; //选中的操作权限数量
+                    var select_epTotal = 0; //选中的元素权限数量
                     //alert(notes.length);
 
                     //菜单权限中被选中的项
-                    for (var i = 0; i < mpTotal; i++) {
+                    for (var i = 0; i < select_mpTotal; i++) {
                         //alert(notes[i].data.id);
                         role_privilegesStr += "rmprivilegeID" + i + ":'" + notes[i].data.id + "',";
                     }
@@ -165,21 +157,23 @@
                         var checkBoxID = $("#operationsprivilege" + i.toString()); //复选框ID
                         if (checkBoxID.is(":checked")) {
                             role_privilegesStr += "roprivilegeID" + i + ":'" + checkBoxID.val() + "',";
+                            select_opTotal++;
                         } else {
 
                         }
                     }
-                    
+
                     //页面元素权限中被选中的项
                     for (var i = 0; i < epTotal; i++) {
                         var checkBoxID = $("#elementsprivilege" + i.toString()); //复选框ID
                         if (checkBoxID.is(":checked")) {
                             role_privilegesStr += "reprivilegeID" + i + ":'" + checkBoxID.val() + "',";
+                            select_epTotal++;
                         } else {
 
                         }
                     }
-                    role_privilegesStr += "mpTotal: '" + mpTotal + "',opTotal: '" + opTotal + "',epTotal: '" + epTotal + "',r_ID:'" + $("#roleID").val() + "' }";
+                    role_privilegesStr += "mpTotal: '" + select_mpTotal + "',opTotal: '" + select_opTotal + "',epTotal: '" + select_epTotal + "',r_ID:'" + $("#roleID").val() + "' }";
 
                     //alert(role_privilegesStr);
 
