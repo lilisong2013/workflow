@@ -187,8 +187,7 @@
                     title: '更新流程信息',
                     width: 800,
                     height: 700,
-                    url: '/FlowsManagement/EditPage?id='+id,
-                   
+                    url: '/FlowsManagement/EditPage?id='+id,                   
                 });
             }
         }
