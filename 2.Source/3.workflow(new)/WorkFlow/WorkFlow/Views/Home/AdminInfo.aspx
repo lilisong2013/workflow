@@ -30,8 +30,13 @@
             GetAdminInfo(); //管理员信息初始化
 
             $("#appSave").click(function () {
-                alert($("#appName").val());
-                ModifyAppInfo(); //修改系统信息
+                if (false) {
+                    return false;
+                }
+                else {
+                    ModifyAppInfo(); //修改系统信息
+                }
+
             });
         });
 
@@ -99,7 +104,14 @@
         }
 
         function app_showRequest() {
-            alert("111");
+            var appName = $("#appName").val();
+            var appCode = $("#appCode").val();
+            if (appName == "" || appCode == "") {
+                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                $("#promptDIV").addClass("p-errorDIV");
+                $("#promptDIV").html("系统名称或系统编码不能为空！");
+                return false;
+            }
         }
 
         function admin_showRequest() {
@@ -119,32 +131,32 @@
         <div id="promptDIV" class="row"></div>
     </div>
 
-    <div class="container">
+    <div class="container" style="margin-top:16px;">
         <div class="tabbable">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#AdminInfo" data-toggle="tab">系统信息</a></li>
-                <li><a href="#AppInfo" data-toggle="tab">管理员信息</a></li>
+                <li class="active"><a href="#AppInfo" data-toggle="tab">系统信息</a></li>
+                <li><a href="#AdminInfo" data-toggle="tab">管理员信息</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="AdminInfo">
+                <div class="tab-pane active" id="AppInfo">
                     <div class="container">
                         <form id="modifyAppInfo" class="form-horizontal" method="post" action="">
                             <div class="control-group">
                                 <label class="control-label">系统名称：</label>
                                 <div class="controls">
-                                    <input type="text" id="appName" placeholder="系统名称" />
+                                    <input type="text" id="appName" name="appName" placeholder="系统名称" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">系统编码：</label>
                                 <div class="controls">
-                                    <input type="text" id="appCode" placeholder="系统编码" />
+                                    <input type="text" id="appCode" name="appCode" placeholder="系统编码" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">访问地址：</label>
                                 <div class="controls">
-                                    <input type="text" id="appUrl" placeholder="访问链接" />
+                                    <input type="text" id="appUrl" name="appUrl" placeholder="访问链接" />
                                 </div>
                             </div>
                             <div class="control-group">
@@ -154,15 +166,15 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <div id="appSave" class="btn btn-primary span4">保存修改</div>
+                                <input id="appSave" type="submit" class="btn btn-primary span4" value="保存修改" />
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <div class="tab-pane" id="AppInfo">
+                <div class="tab-pane" id="AdminInfo">
                     <div class="container">
-                        <form class="form-horizontal" action="">
+                        <form id="modifyAdminInfo" class="form-horizontal" method="post" action="">
                             <div class="control-group">
                                 <label class="control-label">登录名：</label>
                                 <div class="controls">
