@@ -87,6 +87,20 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "更新一条系统记录，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool AdminUpdateApp(Saron.WorkFlowService.Model.appsModel model, out string msg)
+        {
+            //对webservice进行授权验证,超级管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_appsdal.Update(model);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "删除id为id的记录，<h4>（需要授权验证，自定义用户）</h4>")]
         public bool Delete(int id,out string msg)
         {

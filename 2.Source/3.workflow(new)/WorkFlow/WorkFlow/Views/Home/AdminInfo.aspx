@@ -117,7 +117,25 @@
         function admin_showRequest() {
         }
 
+        //回调响应
         function showResponse(responseText, statusText) {
+            //alert(responseText);
+            var dataJson = eval("(" + responseText + ")");
+            //alert(dataJson.success);
+            if (dataJson.success) {
+                GetAppInfo(); //重新加载系统信息
+            }
+
+            //alert(dataJson);
+            show_promptDIV(dataJson); //提示信息
+           
+        }
+
+        function show_promptDIV(data) {
+            //alert(data.message);
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").addClass(data.css);
+            $("#promptDIV").html(data.message);
         }
     </script>
 </asp:Content>
