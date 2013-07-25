@@ -515,8 +515,26 @@ namespace WorkFlow.Controllers
         /// </summary>
         public ActionResult ModifyAppInfo()
         {
+            WorkFlow.AppsWebService.appsBLLservice m_appBllService = new AppsWebService.appsBLLservice();
+            WorkFlow.AppsWebService.appsModel m_appModel = new AppsWebService.appsModel();
+
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.AppsWebService.SecurityContext securityContext = new AppsWebService.SecurityContext();
+
+            string msg = "";
+            #region Webservice访问授权
+            securityContext.UserName = m_userModel.login;
+            securityContext.PassWord = m_userModel.password;
+            securityContext.AppID = (int)m_userModel.app_id;
+            m_appBllService.SecurityContextValue = securityContext;
+            #endregion
+
+            
+
             string appName = Request.Params["appName"];
             return Json("");
+
         }
 
         /// <summary>

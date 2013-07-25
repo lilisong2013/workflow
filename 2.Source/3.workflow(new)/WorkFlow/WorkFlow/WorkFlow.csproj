@@ -225,6 +225,7 @@
     <Content Include="Css\blue.css" />
     <Content Include="Css\loginform.css" />
     <Content Include="Css\promptDivCss.css" />
+    <Content Include="CustomersData.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\grid-checkbox-checked.gif" />
@@ -542,6 +543,7 @@
     <Content Include="Views\ElementsManagement\AppElements.aspx" />
     <Content Include="Views\ElementsManagement\DetailInfo.aspx" />
     <Content Include="Views\ElementsManagement\EditPage.aspx" />
+    <Content Include="Views\FlowsManagement\AppFlows4.aspx" />
     <Content Include="Views\FlowsManagement\AppFlows2.aspx" />
     <Content Include="Views\FlowsManagement\AppFlows.aspx" />
     <Content Include="Views\FlowsManagement\AppFlowsPage.aspx" />
