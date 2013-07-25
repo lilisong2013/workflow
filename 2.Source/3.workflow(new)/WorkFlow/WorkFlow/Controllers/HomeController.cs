@@ -530,9 +530,46 @@ namespace WorkFlow.Controllers
             m_appBllService.SecurityContextValue = securityContext;
             #endregion
 
-            
+            try
+            {
+                m_appModel = m_appBllService.AdminGetModel((int)m_userModel.app_id, out msg);
+            }
+            catch (Exception ex)
+            {
 
-            string appName = Request.Params["appName"];
+            }
+
+            m_appModel.name = Request.Params["appName"];
+            m_appModel.code = Request.Params["appCode"];
+            m_appModel.url = Request.Params["appUrl"];
+            m_appModel.remark = Request.Params["appRemark"];
+            m_appModel.updated_at = DateTime.Now;//修改时间
+            m_appModel.updated_by = m_userModel.id;//修改用户ID
+            m_appModel.updated_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();//修改IP
+
+            try
+            {
+                //判断系统名称是否已经存在
+                if (m_appBllService.ExistsAppNameOutAppModel(m_appModel, out msg))
+                {
+                    //名称存在返回提示信息
+                    return Json("{success:false,css:'p-errorDIV',message:'系统名称已经存在！'}");
+                }
+                else
+                {
+                    if (m_appBllService.AdminUpdateApp(m_appModel, out msg))
+                    {
+                        return Json("{success:true,css:'p-successDIV',message:'修改系统信息成功！'}");
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'p-errorDIV',message:'系统修改失败！'}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
             return Json("");
 
         }
