@@ -178,6 +178,24 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 是否存在该系统管理员（除自身）
+        /// </summary>
+        /// <param name="login">系统管理员登录名</param>
+        /// <returns>存在true，不存在false</returns>
+        public bool ExistsLoginOutself(Saron.WorkFlowService.Model.usersModel userModel)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from users");
+            strSql.Append(" where login=@login and deleted=0 and admin=1 and id!=@id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@login", SqlDbType.NVarChar,40),
+                    new SqlParameter("@id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = userModel.login;
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         public int Add(Saron.WorkFlowService.Model.usersModel model)
@@ -373,6 +391,56 @@ namespace Saron.WorkFlowService.DAL
             parameters[15].Value = model.updated_ip;
             parameters[16].Value = model.app_id;
             parameters[17].Value = model.id;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public bool UpdateAdminInfo(Saron.WorkFlowService.Model.usersModel model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update users set ");
+            strSql.Append("login=@login,");
+            strSql.Append("name=@name,");
+            strSql.Append("employee_no=@employee_no,");
+            strSql.Append("mobile_phone=@mobile_phone,");
+            strSql.Append("mail=@mail,");
+            strSql.Append("remark=@remark,");
+            strSql.Append("updated_at=@updated_at,");
+            strSql.Append("updated_by=@updated_by,");
+            strSql.Append("updated_ip=@updated_ip ");
+            strSql.Append(" where id=@id and delete=0 and admin=1 ");
+            SqlParameter[] parameters = { 
+                    new SqlParameter("@login", SqlDbType.NVarChar,40),
+					new SqlParameter("@name", SqlDbType.NVarChar,40),
+					new SqlParameter("@employee_no", SqlDbType.NVarChar,40),
+					new SqlParameter("@mobile_phone", SqlDbType.NVarChar,40),
+					new SqlParameter("@mail", SqlDbType.NVarChar,40),
+					new SqlParameter("@remark", SqlDbType.NVarChar,80),
+					new SqlParameter("@updated_at", SqlDbType.DateTime),
+					new SqlParameter("@updated_by", SqlDbType.Int,4),
+					new SqlParameter("@updated_ip", SqlDbType.NVarChar,40),
+					new SqlParameter("@id", SqlDbType.Int,4)
+					};
+            parameters[0].Value = model.login;
+            parameters[1].Value = model.name;
+            parameters[2].Value = model.employee_no;
+            parameters[3].Value = model.mobile_phone;
+            parameters[4].Value = model.mail;
+            parameters[5].Value = model.remark;
+            parameters[6].Value = model.updated_at;
+            parameters[7].Value = model.updated_by;
+            parameters[8].Value = model.updated_ip;
+            parameters[9].Value = model.id;
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
             {

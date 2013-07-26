@@ -563,15 +563,14 @@ namespace WorkFlow.Controllers
                     }
                     else
                     {
-                        return Json("{success:false,css:'p-errorDIV',message:'系统修改失败！'}");
+                        return Json("{success:false,css:'p-errorDIV',message:'系统信息修改失败！'}");
                     }
                 }
             }
             catch (Exception ex)
             {
+                return Json("{success:false,css:'p-errorDIV',message:'程序异常！'}");
             }
-            return Json("");
-
         }
 
         /// <summary>
@@ -579,7 +578,53 @@ namespace WorkFlow.Controllers
         /// </summary>
         public ActionResult ModifyAdminInfo()
         {
-            return Json("");
+            WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            WorkFlow.UsersWebService.SecurityContext securityContext = new UsersWebService.SecurityContext();
+
+            string msg = "";
+            #region Webservice访问授权
+            securityContext.UserName = m_userModel.login;
+            securityContext.PassWord = m_userModel.password;
+            securityContext.AppID = (int)m_userModel.app_id;
+            m_usersBllService.SecurityContextValue = securityContext;
+            #endregion
+
+            m_userModel.login = Request.Params["adminLogin"];
+            m_userModel.name = Request.Params["adminName"];
+            m_userModel.employee_no = Request.Params["adminEmployeNum"];
+            m_userModel.mobile_phone = Request.Params["adminPhone"];
+            m_userModel.mail = Request.Params["adminEmail"];
+            m_userModel.remark = Request.Params["adminRemark"];
+            m_userModel.updated_at = DateTime.Now;//修改时间
+            m_userModel.updated_by = m_userModel.id;//修改用户ID
+            m_userModel.updated_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();//修改IP
+
+            try
+            {
+                //判断系统名称是否已经存在
+                if (m_usersBllService.ExistsAdminLogin(m_userModel, out msg))
+                {
+                    //名称存在返回提示信息
+                    return Json("{success:false,css:'p-errorDIV',message:'系统管理员登录名已经存在！'}");
+                }
+                else
+                {
+                    if (m_usersBllService.AdminInfoUpdate(m_userModel, out msg))
+                    {
+                        return Json("{success:true,css:'p-successDIV',message:'系统管理员信息修改成功！'}");
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'p-errorDIV',message:'系统管理员信息修改失败！'}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json("{success:false,css:'p-errorDIV',message:'程序异常！'}");
+            }
         }
     }
 }

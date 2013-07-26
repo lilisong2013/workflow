@@ -874,10 +874,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>WorkFlow_Step_ActionWebService_step_actionBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/usersBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.12.27:8081/WebService/usersBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\UsersWebService\</RelPath>
-      <UpdateFromURL>http://192.168.11.103:8081/WebService/usersBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.12.27:8081/WebService/usersBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
