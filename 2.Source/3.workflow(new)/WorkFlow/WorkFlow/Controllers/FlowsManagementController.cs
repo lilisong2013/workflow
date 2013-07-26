@@ -153,10 +153,10 @@ namespace WorkFlow.Controllers
                     m_list.Add(m_flowsModel);
                 }
                 //模拟排序操作
-                if (sortorder == "desc")
-                    m_list = m_list.OrderByDescending(c => c.id).ToList();
-                else
-                    m_list = m_list.OrderBy(c => c.id).ToList();
+                //if (sortorder == "desc")
+                //    m_list = m_list.OrderByDescending(c => c.id).ToList();
+                //else
+                //    m_list = m_list.OrderBy(c => c.id).ToList();
                 IList<WorkFlow.FlowsWebService.flowsModel> m_targetList=new List<WorkFlow.FlowsWebService.flowsModel>();
                 //模拟分页操作
                 for (var i = 0; i < total; i++)
@@ -173,6 +173,105 @@ namespace WorkFlow.Controllers
                     Total = total
                 };
                 return Json(gridData);
+
+            }
+        }
+        //后台根据流程名称获取数据列表
+        public ActionResult GetFlowName_List(string flowname)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {              
+                string msg = string.Empty;
+                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
+                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_flowsBllService.SecurityContextValue = m_SecurityContext;
+                if (flowname.Length == 0)
+                {
+                    DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id,out msg);
+                    string data = "{Rows:[";
+                    if (ds == null)
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
+                    }
+                    else
+                    {
+                        try
+                        {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
+                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
+                                string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "remark:'" + remark + "'}";
+                                }
+                                else
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "remark:'" + remark + "'},";
+                                }
+                            }
+
+                        }
+                        catch (Exception ex) { }
+
+                        data += "]}";
+                        return Json(data);
+                    }
+
+                }
+                else
+                {
+                    DataSet ds = m_flowsBllService.GetListOfFlowsByName(flowname, (int)m_usersModel.app_id, out msg);
+                    string data = "{Rows:[";
+                    if (ds == null)
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
+                    }
+                    else
+                    {
+                        try
+                        {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
+                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
+                                string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "remark:'" + remark + "'}";
+                                }
+                                else
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "remark:'" + remark + "'},";
+                                }
+                            }
+
+                        }
+                        catch (Exception ex) { }
+
+                        data += "]}";
+                        return Json(data);
+                    }
+                }
+
 
             }
         }
