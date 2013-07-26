@@ -110,7 +110,9 @@
             //定义ligerGrid
             $("#Mprivilegesgrid").ligerGrid({
                 width: '90%',
-                height: '400'
+                height: '400',
+                tree: { columnName: 'name' },
+                alternatingRow:false
             });
             MmanagerListGrid = $("#Mprivilegesgrid").ligerGetGridManager();
 
@@ -135,8 +137,8 @@
                     //alert(dataprivilegejson);
                     MmanagerListGrid.setOptions({
                         columns: [
-                            { display: '权限名称', name: 'name',width:200 },
-                            { display: '权限项目', name: 'privilegeitem_id',width:200 },
+                            { display: '权限名称', name: 'name', width: 200 },
+                            { display: '权限项目', name: 'privilegeitem_id', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
@@ -157,8 +159,8 @@
                             }
 
                             ],
-                        data: dataprivilegejson,
-                        alternatingRow: true
+                        data: dataprivilegejson
+                        //alternatingRow: true
                     });
                     MmanagerListGrid.loadData();
 
@@ -199,8 +201,8 @@
                     //alert(dataprivilegejson);
                     EmanagerListGrid.setOptions({
                         columns: [
-                            { display: '权限名称', name: 'name',width:200},
-                            { display: '权限项目', name: 'privilegeitem_id',width:200},
+                            { display: '权限名称', name: 'name', width: 200 },
+                            { display: '权限项目', name: 'privilegeitem_id', width: 200 },
                                   { display: '', width: 60,
                                       render: function (row) {
                                           var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
@@ -263,8 +265,8 @@
                      //alert(dataprivilegejson);
                      OmanagerListGrid.setOptions({
                          columns: [
-                            { display: '权限名称', name: 'name',width:200},
-                            { display: '权限项目', name: 'privilegeitem_id',width:200},
+                            { display: '权限名称', name: 'name', width: 200 },
+                            { display: '权限项目', name: 'privilegeitem_id', width: 200 },
                                   { display: '', width: 60,
                                       render: function (row) {
                                           var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';

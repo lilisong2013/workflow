@@ -377,7 +377,7 @@ namespace Saron.WorkFlowService.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM privileges ");
-            strSql.Append(" where app_id=@app_id and privilegetype_id=2");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=2 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};

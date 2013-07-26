@@ -485,13 +485,14 @@ namespace WorkFlow.Controllers
                 }
                 string m_operationsDescription = collection["operationsDescription"].Trim();
                 string m_operationsRemark = collection["operationsRemark"].Trim();
+
                 //获取operations表中所有name的值       
-                DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
+                DataSet ds = m_operationsBllService.GetOperationsListOfApp((int)m_usersModel.app_id,out msg);
                 var total = ds.Tables[0].Rows.Count;
                 ArrayList operationsList = new ArrayList();
                 for (int i = 0; i < total; i++)
                 {
-                    operationsList.Add(ds.Tables[0].Rows[i][0].ToString());
+                    operationsList.Add(ds.Tables[0].Rows[i][1].ToString());
                 }
                 foreach (string operationsname in operationsList)
                 {
@@ -500,6 +501,7 @@ namespace WorkFlow.Controllers
                         return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作名称!" });
                     }
                 }
+
                 //获取operations表中所有code的值
                 DataSet dscode = m_operationsBllService.GetCodeListOfApp(Convert.ToInt32(m_usersModel.app_id), out msg);
                 ArrayList codelist = new ArrayList();
