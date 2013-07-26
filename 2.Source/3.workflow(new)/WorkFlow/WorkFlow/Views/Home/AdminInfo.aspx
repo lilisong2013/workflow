@@ -128,7 +128,7 @@
 
         //from提交前的响应的回调函数
         function admin_showRequest() {
-            alert("aaaaa");
+            //alert("aaaaa");
             var adminLogin = $("#adminLogin").val();
             var adminName = $("#adminName").val();
             if (adminLogin == "" || adminName == "") {

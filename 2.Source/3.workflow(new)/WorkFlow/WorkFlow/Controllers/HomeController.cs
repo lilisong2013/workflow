@@ -613,6 +613,7 @@ namespace WorkFlow.Controllers
                 {
                     if (m_usersBllService.AdminInfoUpdate(m_userModel, out msg))
                     {
+                        Session["user"] = m_userModel;
                         return Json("{success:true,css:'p-successDIV',message:'系统管理员信息修改成功！'}");
                     }
                     else
