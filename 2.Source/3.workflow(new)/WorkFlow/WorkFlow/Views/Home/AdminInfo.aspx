@@ -38,6 +38,16 @@
                 }
 
             });
+
+            $("#adminSave").click(function () {
+                if (false) {
+                    return false;
+                }
+                else {
+                    ModifyAdminInfo(); //修改系统管理员信息
+                }
+
+            });
         });
 
         //获取管理员信息
@@ -82,7 +92,7 @@
         function ModifyAppInfo() {
             var options = {
                 beforeSubmit: app_showRequest,  // from提交前的响应的回调函数
-                success: showResponse,  // form提交响应成功后执行的回调函数
+                success: app_showResponse,  // form提交响应成功后执行的回调函数
                 url: "/Home/ModifyAppInfo",
                 type: "POST",
                 dataType: "json"
@@ -91,10 +101,11 @@
             $("#modifyAppInfo").ajaxForm(options);
         }
 
+
         function ModifyAdminInfo() {
             var options = {
                 beforeSubmit: admin_showRequest,  // from提交前的响应的回调函数
-                success: showResponse,  // form提交响应成功后执行的回调函数
+                success: admin_showResponse,  // form提交响应成功后执行的回调函数
                 url: "/Home/ModifyAdminInfo",
                 type: "POST",
                 dataType: "json"
@@ -103,6 +114,7 @@
             $("#modifyAdminInfo").ajaxForm(options);
         }
 
+        //from提交前的响应的回调函数
         function app_showRequest() {
             var appName = $("#appName").val();
             var appCode = $("#appCode").val();
@@ -114,11 +126,21 @@
             }
         }
 
+        //from提交前的响应的回调函数
         function admin_showRequest() {
+            alert("aaaaa");
+            var adminLogin = $("#adminLogin").val();
+            var adminName = $("#adminName").val();
+            if (adminLogin == "" || adminName == "") {
+                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                $("#promptDIV").addClass("p-errorDIV");
+                $("#promptDIV").html("系统管理员登录名或姓名不能为空！");
+                return false;
+            }
         }
 
         //回调响应
-        function showResponse(responseText, statusText) {
+        function app_showResponse(responseText, statusText) {
             //alert(responseText);
             var dataJson = eval("(" + responseText + ")");
             //alert(dataJson.success);
@@ -129,6 +151,20 @@
             //alert(dataJson);
             show_promptDIV(dataJson); //提示信息
            
+        }
+
+        //回调响应
+        function admin_showResponse(responseText, statusText) {
+            //alert(responseText);
+            var dataJson = eval("(" + responseText + ")");
+            //alert(dataJson.success);
+            if (dataJson.success) {
+                GetAdminInfo(); //重新加载系统信息
+            }
+
+            //alert(dataJson);
+            show_promptDIV(dataJson); //提示信息
+
         }
 
         function show_promptDIV(data) {
@@ -196,31 +232,31 @@
                             <div class="control-group">
                                 <label class="control-label">登录名：</label>
                                 <div class="controls">
-                                    <input type="text" id="adminLogin" placeholder="登录名" />
+                                    <input type="text" id="adminLogin" name="adminLogin" placeholder="登录名" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">姓名：</label>
                                 <div class="controls">
-                                    <input type="text" id="adminName" placeholder="姓名" />
+                                    <input type="text" id="adminName" name="adminName" placeholder="姓名" />
                                 </div>
                             </div> 
                             <div class="control-group">
                                 <label class="control-label">工号：</label>
                                 <div class="controls">
-                                    <input type="text" id="adminEmployeNum" placeholder="工号" />
+                                    <input type="text" id="adminEmployeNum" name="adminEmployeNum" placeholder="工号" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">电话：</label>
                                 <div class="controls">
-                                    <input type="text" id="adminPhone" placeholder="电话" />
+                                    <input type="text" id="adminPhone" name="adminPhone" placeholder="电话" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">电子邮件：</label>
                                 <div class="controls">
-                                    <input type="text" id="adminEmail" placeholder="电子邮件" />
+                                    <input type="text" id="adminEmail" name="adminEmail" placeholder="电子邮件" />
                                 </div>
                             </div>
                             <div class="control-group">
@@ -228,6 +264,9 @@
                                 <div class="controls">
                                     <textarea id="adminRemark" name="adminRemark" class="m-textarea" rows="6" cols="" placeholder="管理员备注"></textarea>
                                 </div>
+                            </div>
+                            <div class="control-group">
+                                <input id="adminSave" type="submit" class="btn btn-primary span4" value="保存修改" />
                             </div>
                         </form>
                     </div>
