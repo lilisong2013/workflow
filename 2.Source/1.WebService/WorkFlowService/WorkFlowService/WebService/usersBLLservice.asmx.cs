@@ -140,6 +140,20 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "是否存在login为login的系统管理员用户记录，<h4>（需要授权验证，系统管理员）</h4>")]
+        public bool ExistsAdminLogin(Saron.WorkFlowService.Model.usersModel userModel, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_usersdal.ExistsLoginOutself(userModel);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "增加一条普通用户记录记录，<h4>（需要授权验证，系统管理员）")]
         public int AddSysUser(Saron.WorkFlowService.Model.usersModel model, out string msg)
         {
@@ -192,6 +206,20 @@ namespace Saron.WorkFlowService.WebService
             }
 
             return m_usersdal.UpdateUserPass(model);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "修改系统管理员信息，<h4>（需要授权验证，系统管理员）")]
+        public bool AdminInfoUpdate(Saron.WorkFlowService.Model.usersModel model, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+
+            return m_usersdal.UpdateAdminInfo(model);
         }
 
         [SoapHeader("m_securityContext")]
@@ -293,7 +321,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得所有数据列表")]
+        [WebMethod(Description = "获得某系统所有有效用户的数据列表")]
         public DataSet GetAllUsersListOfApp(int appID,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问

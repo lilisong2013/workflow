@@ -924,7 +924,7 @@ namespace WorkFlow.Controllers
                         }
 
                         //角色-元素权限
-                        for (int i = 0; i < m_rop_total; i++)
+                        for (int i = 0; i < m_rep_total; i++)
                         {
                             int m_eprivilegeID = Convert.ToInt32(Request.Params[("reprivilegeID" + i)]);
                             m_privilege_roleModel.role_id = m_roleID;
