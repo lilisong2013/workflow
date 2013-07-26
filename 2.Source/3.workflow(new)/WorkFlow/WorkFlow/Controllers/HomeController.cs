@@ -553,23 +553,23 @@ namespace WorkFlow.Controllers
                 if (m_appBllService.ExistsAppNameOutAppModel(m_appModel, out msg))
                 {
                     //名称存在返回提示信息
-                    return Json("{success:false,css:'p-errorDIV',message:'系统名称已经存在！'}");
+                    return Json("{success:false,css:'alert alert-error',message:'系统名称已经存在！'}");
                 }
                 else
                 {
                     if (m_appBllService.AdminUpdateApp(m_appModel, out msg))
                     {
-                        return Json("{success:true,css:'p-successDIV',message:'修改系统信息成功！'}");
+                        return Json("{success:true,css:'alert alert-success',message:'修改系统信息成功！'}");
                     }
                     else
                     {
-                        return Json("{success:false,css:'p-errorDIV',message:'系统信息修改失败！'}");
+                        return Json("{success:false,css:'alert alert-error',message:'系统信息修改失败！'}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                return Json("{success:false,css:'p-errorDIV',message:'程序异常！'}");
+                return Json("{success:false,css:'alert alert-error',message:'程序异常！'}");
             }
         }
 
@@ -607,24 +607,24 @@ namespace WorkFlow.Controllers
                 if (m_usersBllService.ExistsAdminLogin(m_userModel, out msg))
                 {
                     //名称存在返回提示信息
-                    return Json("{success:false,css:'p-errorDIV',message:'系统管理员登录名已经存在！'}");
+                    return Json("{success:false,css:'alert alert-error',message:'系统管理员登录名已经存在！'}");
                 }
                 else
                 {
                     if (m_usersBllService.AdminInfoUpdate(m_userModel, out msg))
                     {
                         Session["user"] = m_userModel;
-                        return Json("{success:true,css:'p-successDIV',message:'系统管理员信息修改成功！'}");
+                        return Json("{success:true,css:'alert alert-success',message:'系统管理员信息修改成功！'}");
                     }
                     else
                     {
-                        return Json("{success:false,css:'p-errorDIV',message:'系统管理员信息修改失败！'}");
+                        return Json("{success:false,css:'alert alert-error',message:'系统管理员信息修改失败！'}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                return Json("{success:false,css:'p-errorDIV',message:'程序异常！'}");
+                return Json("{success:false,css:'alert alert-error',message:'程序异常！'}");
             }
         }
     }

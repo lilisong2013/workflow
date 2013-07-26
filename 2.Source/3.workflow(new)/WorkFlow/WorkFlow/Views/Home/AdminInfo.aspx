@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-    <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
+   <%-- <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />--%>
 
     <%--页面标题--%>
     <script type="text/javascript">
@@ -19,7 +19,7 @@
     <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
     </script>
@@ -119,8 +119,8 @@
             var appName = $("#appName").val();
             var appCode = $("#appCode").val();
             if (appName == "" || appCode == "") {
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass("p-errorDIV");
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass("alert alert-error");
                 $("#promptDIV").html("系统名称或系统编码不能为空！");
                 return false;
             }
@@ -132,8 +132,8 @@
             var adminLogin = $("#adminLogin").val();
             var adminName = $("#adminName").val();
             if (adminLogin == "" || adminName == "") {
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass("p-errorDIV");
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass("alert alert-error");
                 $("#promptDIV").html("系统管理员登录名或姓名不能为空！");
                 return false;
             }
@@ -169,7 +169,7 @@
 
         function show_promptDIV(data) {
             //alert(data.message);
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").addClass(data.css);
             $("#promptDIV").html(data.message);
         }
