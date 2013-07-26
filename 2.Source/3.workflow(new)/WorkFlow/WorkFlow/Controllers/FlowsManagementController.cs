@@ -194,6 +194,8 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_flowsBllService.SecurityContextValue = m_SecurityContext;
+
+                //搜索关键字为空的情况，显示全部数据
                 if (flowname.Length == 0)
                 {
                     DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id,out msg);
@@ -233,6 +235,7 @@ namespace WorkFlow.Controllers
                     }
 
                 }
+                //搜索关键字不为空的情况，显示部分搜索结果数据
                 else
                 {
                     DataSet ds = m_flowsBllService.GetListOfFlowsByName(flowname, (int)m_usersModel.app_id, out msg);

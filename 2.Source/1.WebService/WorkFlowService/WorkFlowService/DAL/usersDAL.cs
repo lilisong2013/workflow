@@ -418,7 +418,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("updated_at=@updated_at,");
             strSql.Append("updated_by=@updated_by,");
             strSql.Append("updated_ip=@updated_ip ");
-            strSql.Append(" where id=@id and delete=0 and admin=1 ");
+            strSql.Append(" where id=@id and deleted=0 and admin=1 ");
             SqlParameter[] parameters = { 
                     new SqlParameter("@login", SqlDbType.NVarChar,40),
 					new SqlParameter("@name", SqlDbType.NVarChar,40),

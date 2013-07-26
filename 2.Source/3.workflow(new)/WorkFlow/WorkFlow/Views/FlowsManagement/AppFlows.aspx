@@ -40,82 +40,6 @@
         });
     </script>
   
-   <%--在Grid中显示flows信息--%>
-   <%-- <script type="text/javascript">
-        var managerListGrid;
-        var dataJson;
-        $(document).ready(function () {
-
-            //去掉  大于小于包括,并改变顺序
-            $.ligerDefaults.Filter.operators['string'] =
-            $.ligerDefaults.Filter.operators['text'] =
-            ["like", "equal", "notequal", "startwith", "endwith"];
-
-            GetFlowList(); //获取流程数据列表
-
-            $("#infoTab").click(function () {
-                GetFlowList(); //获取流程数据列表
-            });
-
-        });
-        //流程数据列表
-        function GetFlowList() {
-            $.ajax({
-                url: "/FlowsManagement/GetFlowList",
-                type: "POST",
-                dataType: "json",
-                data: {},
-                success: function (responseText, statusText) {
-
-                    dataJson = eval("(" + responseText + ")");
-
-                    window['g'] = $("#flowsgrid").ligerGrid({
-                        width: '99%',
-                        height: 400,
-                        checkbox: false,
-                        columns: [
-                            { display: '流程ID', name: 'id', align: 'left' },
-                            { display: '流程名称', name: 'name', align: 'left' },
-                            { display: '备注', name: 'remark', align: 'left' },
-                            { display: '', width: 100,
-                                render: function (row) {
-                                    var html = '<i class="icon-list"></i><a href="/FlowsManagement/DetailInfo?id=' + row.id + '" onclick="DetailConfirmCon(' + row.id + ');">详情</a>';
-                                    return html;
-                                }
-                            },
-                            { display: '', width: 100,
-                                render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="/FlowsManagement/EditPage?id=' + row.id + '" onclick="EditPageCon(' + row.id + ');">编辑</a>';
-                                    return html;
-                                }
-                            },
-                            { display: '', width: 100,
-                                render: function (row) {
-                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
-                                    return html;
-                                }
-                            }
-                           ],
-                        data: dataJson,
-                        toolbar: { items: [{ text: '高级自定义查询:', click: itemclick, icon: 'search2'}] }
-                    });
-
-                    g.loadData();
-                    $("#flowsgrid").ligerGetGridManager().loadData();
-
-                    function itemclick() {
-                        g.options.data = dataJson;
-                        g.showFilter();
-                    }
-
-                }
-
-            });
-        }
-
-       
-   </script>--%>
-
    <%--在Grid中分页显示flows信息--%>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -161,12 +85,10 @@
 
                 });
                 function f_onToNext(e) {
-                    alert(t.get('page'));
-                    alert(t.get('pageSize'));
+                    //alert(t.get('page'));
+                    //alert(t.get('pageSize'));
                     //t.loadData();
-                    $.ajax({
-                        url: "/FlowsManagement/GetFlow_List"
-                    });
+                    t.loadData();
                 }
 //                function f_onToPrev(e) {
 //                    alert(t.get('page'));
@@ -211,14 +133,18 @@
     <script type="text/javascript">
         function EditDialog(id) {
             if (id) {
-               var m=$.ligerDialog.open({
+                var m = $.ligerDialog.open({
                     title: '更新流程信息',
                     width: 800,
-                    height: 700,
-                    url: '/FlowsManagement/EditPage?id=' + id,
-                    isResize:true
+                    height: 500,
+                    showMax: true,                  
+                    showMin: true,             
+                    url: '/FlowsManagement/EditPage?id=' + id,                  
+                    buttons:
+                    [{ text: '退出', onclick: function (item, dialog) { alert("修改成功，是否退出?"); t.loadData(); dialog.close(); } }                   
+                    ]
                 });
-                      
+              
             }
         }
     </script>
@@ -291,9 +217,15 @@
     </script>
    <%--查询信息--%>
    <script type="text/javascript">
-         var key;
+       var key;
+       var pageCount;
+       var sizeCount;
        function search() {
+           
            key = $("#txtKey").val();
+           //pageCount = t.get('page');
+          //sizeCount = t.get('pageSize');
+         
            $.ajax({
                url: "/FlowsManagement/GetFlowName_List?flowname=" + key,
                type: "POST",
@@ -328,13 +260,11 @@
                             }
                       ],
                        data: dataSearchJson2,
-                       onReload: f_onReload
+                       newPage: 1
+                     
                    });
 
-                   function f_onReload(grid) {
-                       grid.onReload();
-                   }
-                   $("#AllFlows").ligerGetGridManager().loadData();
+                 $("#AllFlows").ligerGetGridManager().loadData();
 
                }
            });
