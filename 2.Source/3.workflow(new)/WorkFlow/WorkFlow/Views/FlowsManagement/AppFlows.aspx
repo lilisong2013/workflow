@@ -153,8 +153,36 @@
                     height: '400',
                     rownumbers: true,
                     usePager: true,
-                    url: "/FlowsManagement/GetFlow_List"
+                    url: "/FlowsManagement/GetFlow_List",
+                    onToNext: f_onToNext
+//                    onToPrev: f_onToPrev,
+//                    onToFirst: f_onToFirst,
+//                    onToLast: f_onToLast
+
                 });
+                function f_onToNext(e) {
+                    alert(t.get('page'));
+                    alert(t.get('pageSize'));
+                    //t.loadData();
+                    $.ajax({
+                        url: "/FlowsManagement/GetFlow_List"
+                    });
+                }
+//                function f_onToPrev(e) {
+//                    alert(t.get('page'));
+//                    alert(t.get('pageSize'));
+//                    t.loadData();
+//                }
+//                function f_onToFirst(e) {
+//                    alert(t.get('page'));
+//                    alert(t.get('pageSize'));
+//                    t.loadData();
+//                }
+//                function f_onToLast(e) {
+//                    alert(t.get('page'));
+//                    alert(t.get('pageSize'));
+//                    t.loadData();
+//                }
                 t.loadData();
 
             }
@@ -183,12 +211,14 @@
     <script type="text/javascript">
         function EditDialog(id) {
             if (id) {
-                $.ligerDialog.open({
+               var m=$.ligerDialog.open({
                     title: '更新流程信息',
                     width: 800,
                     height: 700,
-                    url: '/FlowsManagement/EditPage?id='+id,                   
+                    url: '/FlowsManagement/EditPage?id=' + id,
+                    isResize:true
                 });
+                      
             }
         }
     </script>
@@ -263,7 +293,7 @@
    <script type="text/javascript">
          var key;
        function search() {
-           key = $("#txtKey").val();    
+           key = $("#txtKey").val();
            $.ajax({
                url: "/FlowsManagement/GetFlowName_List?flowname=" + key,
                type: "POST",
@@ -297,9 +327,15 @@
                                 }
                             }
                       ],
-                      data:dataSearchJson2
-                  });
+                       data: dataSearchJson2,
+                       onReload: f_onReload
+                   });
+
+                   function f_onReload(grid) {
+                       grid.onReload();
+                   }
                    $("#AllFlows").ligerGetGridManager().loadData();
+
                }
            });
                
