@@ -7,18 +7,23 @@
 <%--本页用到的CSS/JS--%>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
 
-   <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+   <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+   <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <%--LigerUI Dialog文件--%>
-   <%-- <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
-    
+   <%--LigerUI ToolBar文件--%>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+
     <%--页面标题--%>
     <script type="text/javascript">
         var titleUrl = "/Home/GetPageTitle";
@@ -30,52 +35,31 @@
     <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
     </script>
-    <%--在Grid中显示role信息--%>
-    <script type="text/javascript">
-        var managerListGrid;
-        $(document).ready(function () {
-            //定义ligerGrid;
-            $("#rolesgrid").ligerGrid({
-                width: '90%',
-                height: 400
-            });
-            managerListGrid = $("#rolesgrid").ligerGetGridManager();
-            GetRolesList(); //获取用户数据列表
-            $("#infoTab").click(function () {
-                GetRolesList(); //获取用户数据列表
-            });
-        });
-        function GetRolesList() {
 
-            $.ajax({
-                url: "/RolesManagement/GetRoles_Apply",
-                type: "POST",
-                dataType: "json",
-                data: {},
-                success: function (responseText, statusText) {
-                    //alert(responseText);
-                    
-                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                   // alert(dataJson);
-                    //更新mygrid数据
-                    managerListGrid.setOptions({
-                        columns: [
-                        { display: '角色ID', name: 'id',width:80,align: 'center' },
+    <%--在Grid中后台分页显示role信息--%>
+    <script type="text/javascript">
+        $("document").ready(function () {
+
+            GetRoleList();
+            function GetRoleList() {
+                window['t'] = $("#rolesgrid").ligerGrid({
+                    columns: [
+                   { display: '角色ID', name: 'id', width: 80, align: 'center' },
                         { display: '角色名称', name: 'name', align: 'center' },
                         { display: '角色备注', name: 'remark', align: 'center' },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-list"></i><a href="/RolesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="/RolesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
@@ -91,72 +75,134 @@
                                 return html;
                             }
                         }
-                       ],
-                        data: dataJson
-                    });
-                    managerListGrid.loadData();
-                }
-            });
+                   ],
+                    dataAction: 'server',
+                    width: '99%',
+                    pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                    pageSize: 10,
+                    height: '400',
+                    rownumbers: true,
+                    usePager: true,
+                    url: "/RolesManagement/GetRolesList"
+                });
+                t.loadData();
+            }
+        });
+    </script>
+  
+  <%--编辑弹出框函数--%>
+    <script type="text/javascript">
+        function EditDialog(id) {
+
+            if (id) {
+                var m = $.ligerDialog.open({
+                    title: '更新角色信息',
+                    width: 800,
+                    height: 500,
+                    showMax: true,
+                    showMin: true,
+                    url: '/RolesManagement/EditPage?id=' + id,
+                    buttons:
+                    [
+                    { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
+
+                    ]
+                });
+
+            }
         }
     </script>
 
-  <%--删除确认函数--%>
-     <script type="text/javascript">
+   <%--详情弹出框函数--%>
+   <script type="text/javascript">
+       function DetailDialog(id) {
+           if (id) {
+               $.ligerDialog.open({
+                 title:'详情('+id+')信息',
+                 width:700,
+                 height:600,
+                 url: '/RolesManagement/DetailInfo?id=' + id
+               });
+           }
+       }
+   </script>
+
+   <%--删除确认函数--%>
+   <script type="text/javascript">
          function DeleteRole(id) {
              //alert(id);
              var roleid = id;
              $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                  //return true;
-                 if (yes) { 
-                 $.ajax({
-                     url: "/RolesManagement/DeleteRole",
-                     type: "POST",
-                     dataType: "json",
-                     data: { roleID: roleid },
-                     success: function (responseText, statusText) {
-                         GetRolesList();
-                         $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                         $("#promptDIV").addClass(responseText.css);
-                         $("#promptDIV").html(responseText.message);
-                     }
-                 });
-             }
-           })
+                 if (yes) {
+                     $.ajax({
+                         url: "/RolesManagement/DeleteRole",
+                         type: "POST",
+                         dataType: "json",
+                         data: { roleID: roleid },
+                         success: function (responseText, statusText) {
+                             $("#promptDIV").removeClass("alert alert-error alert-success");
+                             $("#promptDIV").addClass("alert alert-success");
+                             $("#promptDIV").html("删除成功!");
+                             t.loadData();
+                         }
+                     });
+                 }
+             })
          }
     </script>
-  <%--添加角色确认信息--%>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var form = $("#add_Roles");
-            form.submit(function () {
-                if ($.trim($("#rolesName").val()).length == 0) {
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-errorDIV");
-                    $("#promptDIV").html("角色名称不能为空！");
 
-                    return false;
-                }
-                else {
-                    $.post(form.attr("action"),
-                    form.serialize(),
-                    function (result, status) {
-                        //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(result.css);
-                        $("#promptDIV").html(result.message);
-                        alert(result.success);
-                        if (result.success) {
-                            location.href = result.toUrl;
-                        }
-                    },
-                    "JSON");
-                    return false;
-                }
-            });
-        });
-    </script>
+   <%--添加角色--%>
+   <script type="text/javascript">
+       $(document).ready(function () {
+           $("#addSave").click(function () {
+               if (false) {
+                   return false;
+               } else {
+                   AddRoles(); //添加角色信息
+               }
+           });
 
+           //添加角色信息
+           function AddRoles() {
+               var options = {
+                   beforeSubmit: role_showRequest, //form提交前的响应的回调函数
+                   success: role_showResponse, //form提交响应成功后执行的回调函数
+                   url: "/RolesManagement/AddRoles",
+                   type: "POST",
+                   dataType: "json"
+               };
+               $("#add_Roles").ajaxForm(options);
+           }
 
+           //form提交前的响应的回调函数
+           function role_showRequest() {
+               var roleName = $("#rolesName").val();
+               if (roleName == "") {
+                   $("#promptDIV").removeClass("alert alert-error alert-success");
+                   $("#promptDIV").addClass("alert alert-error");
+                   $("#promptDIV").html("角色名称不能为空!");
+                   return false;
+               }
+           }
+
+           //form提交响应成功后执行的回调函数
+           function role_showResponse(responseText, statusText) {
+               var dataJson = eval("(" + responseText + ")");
+               show_promptDIV(dataJson);
+               t.loadData();
+           }
+
+           //提示信息
+           function show_promptDIV(data) {
+               $("#promptDIV").removeClass("alert alert-error alert-success");
+               $("#promptDIV").addClass(data.css);
+               $("#promptDIV").html(data.message);
+           }
+
+       });
+   </script>
+  
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -184,18 +230,18 @@
 
         <%--添加角色--%>
         <div class="tab-pane" id="AddRoles">
-          <form id="add_Roles" class="form-horizontal" method="post" action="/RolesManagement/AddRoles">
+          <form id="add_Roles" class="form-horizontal" method="post" action="">
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesName">角色名称：</label>
                         <div class="controls">
-                            <input type="text" name="rolesName" id="rolesName" class="input-prepend span4"/>                                                     
+                            <input type="text" name="rolesName" id="rolesName" class="input-prepend span4" placeholder="角色名称"/>                                                     
                         </div>
                     </div>
                           
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesRemark">备注：</label>
                         <div class="controls">
-                            <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4"></textarea>
+                            <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4" placeholder="备注"></textarea>
 
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]);%>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
@@ -211,7 +257,7 @@
 
                     <div class="control-group span6 offset3">
                         <div class="controls">
-                            <input type="submit" value="添加" class="btn btn-primary  span1" /> 
+                            <input id="addSave" type="submit" value="添加" class="btn btn-primary  span1" /> 
                             &nbsp;&nbsp;&nbsp;
                             <input type="reset" value="重置"  class="btn btn-primary  span1" />
                         </div>

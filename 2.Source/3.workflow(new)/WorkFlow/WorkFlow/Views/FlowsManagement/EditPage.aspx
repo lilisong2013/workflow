@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-   <%-- <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />--%>
+
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
     
     <%--页面标题--%>
