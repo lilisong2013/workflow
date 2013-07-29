@@ -77,34 +77,11 @@
                     height: '400',
                     rownumbers: true,
                     usePager: true,
-                    url: "/FlowsManagement/GetFlow_List",
-                    onToNext: f_onToNext
-//                    onToPrev: f_onToPrev,
-//                    onToFirst: f_onToFirst,
-//                    onToLast: f_onToLast
+                    url: "/FlowsManagement/GetFlow_List"
+
 
                 });
-                function f_onToNext(e) {
-                    //alert(t.get('page'));
-                    //alert(t.get('pageSize'));
-                    //t.loadData();
-                    t.loadData();
-                }
-//                function f_onToPrev(e) {
-//                    alert(t.get('page'));
-//                    alert(t.get('pageSize'));
-//                    t.loadData();
-//                }
-//                function f_onToFirst(e) {
-//                    alert(t.get('page'));
-//                    alert(t.get('pageSize'));
-//                    t.loadData();
-//                }
-//                function f_onToLast(e) {
-//                    alert(t.get('page'));
-//                    alert(t.get('pageSize'));
-//                    t.loadData();
-//                }
+              
                 t.loadData();
 
             }
@@ -113,22 +90,6 @@
 
     </script>
 
-    <%--编辑确认函数--%>
-    <%-- <script type="text/javascript">
-        function EditPageCon(id) {
-            var flowid = id;
-            var Count = t.get('page');
-            var Size = t.get('pageSize');
-
-            $.ajax({
-                url: "/FlowsManagement/EditPageCon",
-                type: "POST",
-                dataType: "json",
-                data: { flowID: flowid, pageCount: Count, SizeCount: Size }
-                
-            });
-        }
-    </script>--%>
     <%--编辑弹出框函数--%>
     <script type="text/javascript">
         function EditDialog(id) {
