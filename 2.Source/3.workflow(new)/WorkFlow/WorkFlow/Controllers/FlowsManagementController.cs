@@ -39,64 +39,7 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
-        //获取流程数据列表
-        public ActionResult GetFlowList()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Home", "Login");
-            }
-            else
-            {  
-                
-                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
-                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-
-                string msg = string.Empty;
-                m_SecurityContext.UserName = m_usersModel.login;
-                m_SecurityContext.PassWord = m_usersModel.password;
-                m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_flowsBllService.SecurityContextValue = m_SecurityContext;
-
-                DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id,out msg);
-                string data = "{Rows:[";
-                if (ds == null)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
-                }
-                else
-                {
-                    try
-                    {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                            string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                            string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                            if (i == ds.Tables[0].Rows.Count - 1)
-                            {
-                                data += "{name:'" + name + "',";
-                                data += "id:'" + id + "',";
-                                data += "remark:'" + remark + "'}";
-                            }
-                            else
-                            {
-                                data += "{name:'" + name + "',";
-                                data += "id:'" + id + "',";
-                                data += "remark:'" + remark + "'},";
-                            }
-                        }
-
-                    }
-                    catch (Exception ex) { }
-       
-                    data += "]}";
-                    return Json(data);
-                }
-            }
-        }
+   
         //后台分页获取流程数据列表
         public ActionResult GetFlow_List()
         {
@@ -202,7 +145,8 @@ namespace WorkFlow.Controllers
                     string data = "{Rows:[";
                     if (ds == null)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
+                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "无权访问WebService！" });
+                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
                     }
                     else
                     {
@@ -242,7 +186,8 @@ namespace WorkFlow.Controllers
                     string data = "{Rows:[";
                     if (ds == null)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
+                        //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "无权访问WebService！" });
+                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
                     }
                     else
                     {
@@ -303,7 +248,8 @@ namespace WorkFlow.Controllers
                 string flowsName = collection["flowsName"].Trim();
                 if (flowsName.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success=false,css="p-errorDIV",message="流程名称不能为空?!--"});
+                   //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-error", message = "流程名称不能为空!" });
+                   return Json("{success:false,css:'alert alert-error',message:'流程名称不能为空！'}");
                 }
 
                 //m_flowsModel.name=collection["flowsName"];
@@ -318,7 +264,8 @@ namespace WorkFlow.Controllers
                 {
                     if (flownamelist.Equals(collection["flowsName"].Trim()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel {success = false, css = "p-errorDIV", message = "流程名称已经存在!" });
+                       // return Json(new Saron.WorkFlow.Models.InformationModel {success = false, css = "p-errorDIV", message = "流程名称已经存在!" });
+                        return Json("{success:false,css:'alert alert-error',message:'流程名称已经存在!'}");
                     }
                 }
 
@@ -335,16 +282,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_flowsBllService.AddFlow(m_flowsModel,out msg)==0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加失败!" });                      
+                        //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加失败!" });
+                        return Json("{success:false,css:'alert alert-error',message:'添加失败!'}");
                     }
                     else 
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "流程添加成功!", toUrl = "/FlowsManagement/AppFlows" }); 
+                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "流程添加成功!", toUrl = "/FlowsManagement/AppFlows" }); 
+                        return Json("{success:true,css:'alert alert-success',message:'流程添加成功!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
         }
@@ -461,16 +411,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_flowsBllService.DeleteFlow(flowsid, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功!", toUrl = "/FlowsManagement/AppFlows" });
+                        //return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "删除成功!", toUrl = "/FlowsManagement/AppFlows" });
+                        return Json("{success:true,css:'alert alert-success',message:'删除成功!',toUrl:'/FlowsManagement/AppFlows'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="删除失败!"});
+                        //return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="删除失败!"});
+                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
         }
@@ -635,7 +588,8 @@ namespace WorkFlow.Controllers
                 string name=collection["flowsName"].Trim();
                 if (name.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="流程名称不能为空!"});
+                    //return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="流程名称不能为空!"});
+                    return Json("{success:false,css:'alert alert-error',message:'流程名称不能为空!'}");
                 }
                //获得deleted=false且应用系统ID为appid的flowsName列表
                 DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id,out msg);
@@ -674,31 +628,31 @@ namespace WorkFlow.Controllers
                 {
                     if (flowsname.Equals(collection["flowsName"].Trim()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的流程名称!"});
+                        //return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的流程名称!"});
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的流程名称!'}");
                     }
                 }
                 try 
                 {
                     if (m_flowsBllService.UpdateFlow(m_flowsModel, out msg))
-                    {
-
-                        //m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
-                        //Session["flow"] = m_flowsModel.name;
+                    {                 
 
                         m_flowsModel = m_flowsBllService.GetFlowModel(id, out msg);
                         Session["flow"] = m_flowsModel.name;
 
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改流程成功!" });
-
+                        //return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改流程成功!" });
+                        return Json("{success:true,css:'alert alert-success',message:'修改成功!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="修改流程失败!"});
+                        //return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="修改流程失败!"});
+                        return Json("{success:false,css:'alert alert-error',message:'修改流程失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+                   // return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="程序异常!"});
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
         }
