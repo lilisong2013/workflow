@@ -87,16 +87,16 @@ namespace Saron.WorkFlowService.WebService
             return m_flowsDal.GetListOfFlows(appID);
         }
 
-        [SoapHeader("m_securityContext")]
+       // [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据系统名称获得系统中流程信息列表，<h4>（需要授权验证，系统管理员）</h4>")]
-        public DataSet GetListOfFlowsByName(string flowName, int appID, out string msg)
+        public DataSet GetListOfFlowsByName(string flowName, int appID)
         {
             //对webservice进行授权验证,系统管理员才可访问(密码为密文)
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
-            {
-                //webservice用户未授权，msg提示信息
-                return null;
-            }
+            //if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            //{
+            //    //webservice用户未授权，msg提示信息
+            //    return null;
+            //}
 
             return m_flowsDal.GetListOfFlowsByName(flowName,appID);
         }
