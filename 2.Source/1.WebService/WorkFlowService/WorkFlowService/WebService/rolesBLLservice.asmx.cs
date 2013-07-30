@@ -121,7 +121,18 @@ namespace Saron.WorkFlowService.WebService
 
             return m_rolesDal.GetAllRolesListOfApp(appID);
         }
-
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据查询的角色名称获得角色列表,<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetListByRoleName(string roleName, int appID,out string msg) 
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+            return m_rolesDal.GetListByRoleName(roleName,appID);
+        }
         #endregion  Method
     }
 }

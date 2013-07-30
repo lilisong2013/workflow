@@ -449,6 +449,19 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
+        //根据查询的操作名称获得操作列表
+        public DataSet GetListByOperationName(string operationName, int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,code,description,remark,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append(" FROM operations ");
+            strSql.Append(" where app_id=@app_id and name like '%"+operationName+"%' and deleted=0 order by id desc ");
+            SqlParameter[] parameters ={
+                   new SqlParameter("@app_id",SqlDbType.Int,4)
+                                       };
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
 		#endregion  Method
     }
 }

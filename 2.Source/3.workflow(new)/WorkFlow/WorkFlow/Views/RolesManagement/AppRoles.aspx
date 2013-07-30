@@ -205,6 +205,58 @@
        });
    </script>
   
+  <%--查询信息--%>
+  <script type="text/javascript">
+      var key;
+      function search() {
+          key = $("#txtKey").val();
+
+          $.ajax({
+              url: "",
+              type: "POST",
+              dataType: "json",
+              data: {},
+              success: function (responseText, statusText) {
+                  var dataSearchJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                  $("#rolesgrid").ligerGrid({
+                      columns: [
+                        { display: '角色ID', name: 'id', width: 80, align: 'center' },
+                        { display: '角色名称', name: 'name', align: 'center' },
+                        { display: '角色备注', name: 'remark', align: 'center' },
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteRole(' + row.id + ')">删除</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-user"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
+                                return html;
+                            }
+                        }
+                   ],
+                      data: dataSearchJson,
+                      newPage: 1
+                  });
+                  $("#rolesgrid").ligerGetGridManager().loadData();
+              }
+          });
+      }
+  </script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -225,8 +277,13 @@
        
     <div class="tab-content">
 
-        <%--查看所有角色--%>
+        
         <div class="tab-pane active" id="AllRoles">
+        <%--查询按钮--%> 
+        <b>流程名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
+        <input id="btnOK" type="button" value="查询" onclick="search()"/> 
+        <hr /> 
+        <%--查看所有角色--%>
         <div id="rolesgrid"></div>
         </div>
 

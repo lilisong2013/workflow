@@ -336,7 +336,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据登录名称模糊查询")]
+        [WebMethod(Description = "根据登录名称模糊查询,<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetUserListByLogin(string userlogin, int appID,out string msg)
         { //对webservice进行授权验证,系统管理员才可访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
