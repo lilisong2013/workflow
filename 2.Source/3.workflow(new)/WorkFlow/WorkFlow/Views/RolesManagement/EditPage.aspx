@@ -121,7 +121,7 @@
            }
 
            //form提交成功后执行的回调函数
-           function role_showResponse() {
+           function role_showResponse(responseText,statusText) {
              
                var dataJson = eval("(" + responseText + ")");
                show_promptDIV(dataJson); //提示信息
@@ -136,15 +136,7 @@
       
        });
    </script>
-    <%--隐藏提示信息--%>
-    <script type="text/javascript">
-        //隐藏提示信息
-        $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-            $("#promptDIV").html("");
-        });
-    </script>
-   
+ 
 
    
 

@@ -354,7 +354,7 @@ namespace WorkFlow.Controllers
 
                 if (name.Length == 0)
                 {
-                    //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "角色名称不能为空！" });
+                    
                     return Json("{success:false,css:'alert alert-error',message:'角色名称不能为空!'}");
                 }
 
@@ -396,7 +396,7 @@ namespace WorkFlow.Controllers
                 {
                     if (rolesname.Equals(collection["rolesName"].Trim()))
                     {
-                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的角色名称!" });
+                      
                         return Json("{success:false,css:'alert alert-error',message:'已经存在相同的角色名称!'}");
                     }
                 }
@@ -404,22 +404,18 @@ namespace WorkFlow.Controllers
                 {
                     if (m_rolesBllService.Update(m_rolesModel, out msg))
                     {
-                       // m_roleModel = m_rolesBllService.GetModel(id, out msg);
-                        //Session["role"] = m_roleModel.name;
-                        //m_usersModel = m_usersBllService.GetModelByID(Convert.ToInt32(collection["rolesId"].Trim()));
-                        //Session["user"] = m_usersModel.login;
-                        //return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改角色成功！", toUrl = "/RolesManagement/AppRoles" });
+                      
                         return Json("{success:true,css:'alert alert-success',message:'修改角色成功!'}");
                     }
                     else
                     {
-                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改角色失败!" });
+                       
                         return Json("{success:false,css:'alert alert-error',message:'修改角色失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                  
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }

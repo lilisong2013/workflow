@@ -12,9 +12,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container">
-        <div class="row-fluid">
-            <ul class="pager"><li class="next"><a href="/OperationsManagement/AppOperations">返回</a></li></ul>
-        </div>
+
         <div class="row-fluid"><h2>操作名称：<%=ViewData["operationsName"]%></h2></div>
         <div class="row-fluid">操作编码：<%=ViewData["operationsCode"]%></div>
         <div class="row-fluid">操作描述：<%=ViewData["operationsDescription"]%></div>

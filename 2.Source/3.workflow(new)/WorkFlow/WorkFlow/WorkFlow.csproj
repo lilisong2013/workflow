@@ -548,7 +548,6 @@
     <Content Include="Views\Home\AdminInfo.aspx" />
     <Content Include="Views\Home\AdminLogin.aspx" />
     <Content Include="Views\Home\AdminPass.aspx" />
-    <Content Include="Views\Home\AdminPassCon.aspx" />
     <Content Include="Views\Home\Index.aspx" />
     <Content Include="Views\Home\Login.aspx" />
     <None Include="LigerUI\lib\ligerUI\skins\icons\新建 Microsoft Office Excel 工作表.xlsx" />

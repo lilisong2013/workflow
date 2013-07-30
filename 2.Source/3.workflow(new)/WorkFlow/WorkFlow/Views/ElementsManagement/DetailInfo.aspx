@@ -12,9 +12,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container">
-        <div class="row-fluid">
-            <ul class="pager"><li class="next"><a href="/ElementsManagement/AppElements">返回</a></li></ul>
-        </div>
+       
         <div class="row-fluid"><h2>元素名称：<%=ViewData["elementsName"]%></h2></div>
         <div class="row-fluid">元素编码：<%=ViewData["elementsCode"]%></div>
         <div class="row-fluid">备注：<%=ViewData["elementsRemark"]%></div>

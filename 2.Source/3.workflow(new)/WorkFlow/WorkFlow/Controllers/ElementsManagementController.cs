@@ -95,51 +95,83 @@ namespace WorkFlow.Controllers
             }
          
           }
-            //IList<WorkFlow.ElementsWebService.elementsModel> m_list=new List<WorkFlow.ElementsWebService.elementsModel>();
-            //var total = ds.Tables[0].Rows.Count;
-            //for (var i = 0; i < total; i++)
-            //{
-            //    WorkFlow.ElementsWebService.elementsModel m_elementModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
-            //    PropertyInfo[] m_propertys = m_elementModel.GetType().GetProperties();
-            //    foreach (PropertyInfo pi in m_propertys)
-            //    {
-            //        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
-            //        {
-            //            // 属性与字段名称一致的进行赋值 
-            //            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
-            //            {
-            //                // 数据库NULL值单独处理 
-            //                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
-            //                    pi.SetValue(m_elementModel, ds.Tables[0].Rows[i][j], null);
-            //                else
-            //                    pi.SetValue(m_elementModel, null, null);
-            //                break;
-            //            }
-            //        }
-            //    }
-            //    m_list.Add(m_elementModel);
-            //}
+          
+        }
 
-            ////模拟排序操作
-            //if (sortorder == "desc")
-            //    m_list = m_list.OrderByDescending(c => c.id).ToList();
-            //else
-            //    m_list = m_list.OrderBy(c => c.id).ToList();
-            //IList<WorkFlow.ElementsWebService.elementsModel> m_targetList = new List<WorkFlow.ElementsWebService.elementsModel>();
-            ////模拟分页操作
-            //for (var i = 0; i < total; i++)
-            //{
-            //    if (i >= (page - 1) * pagesize && i < page * pagesize)
-            //    {
-            //        m_targetList.Add(m_list[i]);
-            //    }
-            //}
-            //var gridData = new
-            //{
-            //    Rows = m_targetList,
-            //    Total = total
-            //};
-            //return Json(gridData);
+        //后台分页显示元素列表
+        public ActionResult GetElements_List()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
+                string msg = string.Empty;
+                WorkFlow.ElementsWebService.elementsBLLservice m_elementsService = new ElementsWebService.elementsBLLservice();
+                WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+                WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_elementsService.SecurityContextValue = m_SecurityContext;
+                DataSet ds = m_elementsService.GetElementsListOfApp((int)m_usersModel.app_id,out msg);
+
+                IList<WorkFlow.ElementsWebService.elementsModel> m_list = new List<WorkFlow.ElementsWebService.elementsModel>();
+                var total = ds.Tables[0].Rows.Count;
+                for (var i = 0; i < total; i++)
+                {
+                    WorkFlow.ElementsWebService.elementsModel m_elementModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
+                    PropertyInfo[] m_propertys = m_elementModel.GetType().GetProperties();
+                    foreach (PropertyInfo pi in m_propertys)
+                    {
+                        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                        {
+                            // 属性与字段名称一致的进行赋值 
+                            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                            {
+                                // 数据库NULL值单独处理 
+                                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                    pi.SetValue(m_elementModel, ds.Tables[0].Rows[i][j], null);
+                                else
+                                    pi.SetValue(m_elementModel, null, null);
+                                break;
+                            }
+                        }
+                    }
+                    m_list.Add(m_elementModel);
+                }
+
+               
+                IList<WorkFlow.ElementsWebService.elementsModel> m_targetList = new List<WorkFlow.ElementsWebService.elementsModel>();
+                //模拟分页操作
+                for (var i = 0; i < total; i++)
+                {
+                    if (i >= (page - 1) * pagesize && i < page * pagesize)
+                    {
+                        m_targetList.Add(m_list[i]);
+                    }
+                }
+                var gridData = new
+                {
+                    Rows = m_targetList,
+                    Total = total
+                };
+                return Json(gridData);
+
+            }
         }
         /// <summary>
         /// 显示元素操作的详细信息
@@ -237,6 +269,7 @@ namespace WorkFlow.Controllers
             }
           
         }
+
         //删除一条记录
         public ActionResult DeleteElement()
         {
@@ -262,21 +295,25 @@ namespace WorkFlow.Controllers
                 {
                     if (m_elementsBllService.Delete(elementID, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/ElementsManagement/AppElements" });
+
+                        return Json("{success:true,css:'alert alert-success',message:'成功删除元素!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+         
+                        return Json("{success:false,css:'alert alert-error',message:'元素删除失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
            
 
         }
+        
         //获取是否有效的列表
         public ActionResult GetInvalidList()
         {
@@ -428,31 +465,38 @@ namespace WorkFlow.Controllers
                 string seqno = (collection["elementsSeqno"].Trim());
                 if (name.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
+          
+                    return Json("{success:false,css:'alert alert-error',message:'元素名称不能为空!'}");
                 }
                 if (code.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码不能空!" });
+
+                    return Json("{success:false,css:'alert alert-error',message:'元素编码不能空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码以字母开头!" });
+                   
+                    return Json("{success:false,css:'alert alert-error',message:'元素编码以字母开头!'}");
                 }
                 if (initstatusid.Length == 0 || initstatusid.Equals("请选择"))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "初始化状态不能为空!" });
+                 
+                    return Json("{success:false,css:'alert alert-error',message:'初始化状态不能为空!'}");
                 }
                 if (menuid.Length == 0 || menuid.Equals("-1"))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空" });
+
+                    return Json("{success:false,css:'alert alert-error',message:'所在页面不能为空'}");
                 }
                 if (seqno.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "排序码不能为空!" });
+
+                    return Json("{success:false,css:'alert alert-error',message:'排序码不能为空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsNumber(seqno) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="排序码只能是数字!" });
+                
+                    return Json("{success:false,css:'alert alert-error',message:'排序码只能是数字!'}");
                 }
                 int appID = Convert.ToInt32(m_usersModel.app_id);
                 int menuID = Convert.ToInt32(collection["eElementPage"]);
@@ -467,7 +511,8 @@ namespace WorkFlow.Controllers
                 {
                     if (elementslist.Equals(collection["elementsName"].Trim().ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
+                      
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的元素名称!'}");
                     }
                 }
 
@@ -483,7 +528,8 @@ namespace WorkFlow.Controllers
                 {
                     if (codename.Equals(collection["elementsCode"].Trim().ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的编码名称!" });
+                      
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的编码名称!'}");
                     }
                 }
                 m_elementsModel.name = collection["elementsName"].Trim();
@@ -500,16 +546,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_elementsBllService.Add(m_elementsModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功", toUrl = "/ElementsManagement/AppElements" });
+                    
+                        return Json("{success:true,css:'alert alert-success',message:'元素添加成功!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加失败" });
+                      
+                        return Json("{success:false,css:'alert alert-error',message:'添加失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错!" });
+                   
+                    return Json("{success:false,css:'alert alert-error',message:'程序出错!'}");
                 }     
             }
             
@@ -636,31 +685,36 @@ namespace WorkFlow.Controllers
                 string Initstatus_id = collection["elementsInitstatus_id"].Trim();
                 //string Menu_id = Request.Form["eElementPage"];
                 string Menu_id = collection["elementsMenu_id"].Trim();
-
+                string seqno = collection["elementsSeqno"].Trim();
                 if (name.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素名称不能为空!" });
+                  
+                    return Json("{success:false,css:'alert alert-error',message:'元素名称不能为空!'}");
                 }
                 if (code.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码不能空!" });
+                 
+                    return Json("{success:false,css:'alert alert-error',message:'元素编码不能空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "元素编码以字母开头!" });
+                  
+                    return Json("{success:false,css:'alert alert-error',message:'元素编码以字母开头!'}");
                 }
                 if (Initstatus_id.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "初始化状态码不能为空!" });
+                  
+                    return Json("{success:false,css:'alert alert-error',message:'初始化状态码不能为空!'}");
                 }
-                //if (Menu_id.Length == 0)
-                //{
-                //    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "所在页面不能为空!" });
-                //}
-                //if (Menu_id.Equals("选择页面") || Convert.ToInt32(Menu_id) == -1)
-                //{
-                //    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "请选择所在页面!" });
-                //}
+                if (seqno.Length == 0)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'排序码不能为空!'}");
+                }
+                if (Saron.Common.PubFun.ConditionFilter.IsNumber(seqno) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'排序码只能为数字!'}");
+                }
+
                 //判断元素名称重名处理操作
                 DataSet ds = m_elementsBllService.GetElementsListOfApp(appID, out msg);
                 var total = ds.Tables[0].Rows.Count;
@@ -733,30 +787,35 @@ namespace WorkFlow.Controllers
                 {//如果修改后的名称与数据表中的名称相同
                     if (elementsName.Equals(m_elementsModel.name.ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的元素名称!" });
+                 
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的元素名称!'}");
                     }
                 }
                 foreach (string codeName in codeList)
                 {//如果修改后的编码与数据库中的编码相同 
                     if (codeName.Equals(m_elementsModel.code.ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的编码!" });
+       
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的编码!'}");
                     }
                 }
                 try
                 {
                     if (m_elementsBllService.Update(m_elementsModel, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功!", toUrl = "/ElementsManagement/AppElements" });
+                       
+                        return Json("{success:true,css:'alert alert-success',message:'元素修改成功!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败!" });
+              
+                        return Json("{success:false,css:'alert alert-error',message:'元素修改失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }          
             
             }

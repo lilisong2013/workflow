@@ -51,20 +51,7 @@ namespace Saron.WorkFlowService.WebService
                 return true;
             }
         }
-        
-        //[WebMethod(Description = "（普通用户）是否存在系统管理员login且密码password的系统管理员,<h4>（无需授权验证）</h4>")]
-        //public bool OLoginValidator(string login, string password,int appID, out string msg)
-        //{
-        //    if (!m_securityContext.OrdinaryIsValidCK(login, password,appID, out msg))
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        return true;
-        //    }
-        //}
-        
+             
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "是否存在登录名为login的系统管理员记录,<h4>（需授权验证,自定义用户）</h4>")]
         public bool ExistsLogin(string login,out string msg)
@@ -348,6 +335,17 @@ namespace Saron.WorkFlowService.WebService
             return m_usersdal.ModifyPassword(login,password);
         }
 
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据登录名称模糊查询")]
+        public DataSet GetUserListByLogin(string userlogin, int appID,out string msg)
+        { //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+            return m_usersdal.GetUserListByLogin(userlogin,appID);
+        }
         #endregion  Method
     }
 }

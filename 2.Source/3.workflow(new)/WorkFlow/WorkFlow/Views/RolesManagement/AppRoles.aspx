@@ -141,10 +141,12 @@
                          dataType: "json",
                          data: { roleID: roleid },
                          success: function (responseText, statusText) {
+                          
                              $("#promptDIV").removeClass("alert alert-error alert-success");
                              $("#promptDIV").addClass("alert alert-success");
                              $("#promptDIV").html("删除成功!");
                              t.loadData();
+                           
                          }
                      });
                  }

@@ -26,22 +26,26 @@ namespace WorkFlow.Controllers
             }
         }
         
-        /// <summary>
-        /// 显示数据库中功能操作表的信息
-        /// </summary>
-        /// <param name="id">系统的ID</param>
-        /// <returns></returns>    
-   
-        public ActionResult GetOperations_Apply()
+
+        //后台分页获取操作数据列表
+        public ActionResult GetOperations_List()
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("Home", "Login");
             }
-            else 
+            else
             {
-                string msg = string.Empty;
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
+                string msg = string.Empty;
                 WorkFlow.OperationsWebService.operationsBLLservice m_operationsService = new OperationsWebService.operationsBLLservice();
                 WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
 
@@ -53,46 +57,54 @@ namespace WorkFlow.Controllers
                 m_securityContext.AppID = (int)m_usersModel.app_id;
                 m_operationsService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
-                int appid = Convert.ToInt32(m_usersModel.app_id);
-                string data = "{Rows:[";
-                try
+                DataSet ds = m_operationsService.GetOperationsListOfApp((int)m_usersModel.app_id,out msg);
+                
+                IList<WorkFlow.OperationsWebService.operationsModel> m_list=new List<WorkFlow.OperationsWebService.operationsModel>();
+                var total = ds.Tables[0].Rows.Count;
+                for (var i = 0; i < total; i++)
                 {
-                    DataSet ds = m_operationsService.GetOperationsListOfApp(appid, out msg);
-                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    WorkFlow.OperationsWebService.operationsModel m_operationsModel = (WorkFlow.OperationsWebService.operationsModel)Activator.CreateInstance(typeof(WorkFlow.OperationsWebService.operationsModel));
+                    PropertyInfo[] m_propertys = m_operationsModel.GetType().GetProperties();
+                    foreach (PropertyInfo pi in m_propertys)
                     {
-                        string name = ds.Tables[0].Rows[i][1].ToString();
-                        string id = ds.Tables[0].Rows[i][0].ToString();
-                        string code = ds.Tables[0].Rows[i][2].ToString();
-                        string description = ds.Tables[0].Rows[i][3].ToString();
-                        string remark = ds.Tables[0].Rows[i][4].ToString();
-                        if (i == ds.Tables[0].Rows.Count - 1)
+                        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                         {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "code:'" + code + "',";
-                            data += "description:'" + description + "',";
-                            data += "remark:'" + remark + "'}";
-                        }
-                        else
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "code:'" + code + "',";
-                            data += "description:'" + description + "',";
-                            data += "remark:'" + remark + "'},";
+                            // 属性与字段名称一致的进行赋值 
+                            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                            {
+                                //数据库NULL值单独处理
+                                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                    pi.SetValue(m_operationsModel, ds.Tables[0].Rows[i][j], null);
+                                else
+                                    pi.SetValue(m_operationsModel, null, null);
+                                break;
+                            }
                         }
                     }
+                    m_list.Add(m_operationsModel);
                 }
-                catch (Exception ex)
+
+                IList<WorkFlow.OperationsWebService.operationsModel> m_targetList = new List<WorkFlow.OperationsWebService.operationsModel>();
+                //模拟分页操作
+                for (var i = 0; i < total; i++)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    if (i >= (page - 1) * pagesize && i < page * pagesize)
+                    {
+                        m_targetList.Add(m_list[i]);
+                    }
                 }
-                data += "]}";
-                return Json(data);
+
+                var gridData = new
+                {
+                    Rows = m_targetList,
+                    Total = total
+                };
+                return Json(gridData);
+
             }
-           
-          
+        
         }
+        
         //删除一条记录
         public ActionResult DeleteOperation()
         {
@@ -120,16 +132,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_operationsBllService.DeleteOperations(operationID, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/OperationsManagement/AppOperations" });
+                       
+                        return Json("{success:true,css:'alert alert-success',message:'删除成功!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+                      
+                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
          
@@ -185,11 +200,8 @@ namespace WorkFlow.Controllers
           
           
         }
-        /// <summary>
-        /// 显示所选系统的详情
-        /// </summary>
-        /// <param name="id">系统的ID</param>
-        /// <returns></returns>
+      
+        // 显示操作的详情  
         public ActionResult DetailInfo(int id)
         {
             if (Session["user"] == null)
@@ -307,15 +319,17 @@ namespace WorkFlow.Controllers
                 //string invalid = collection["operationsInvalid"].Trim();
                 if (name.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
+                    return Json("{success:false,css:'alert alert-error',message:'操作名称不能为空!'}");
                 }
                 if (code.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作编码不能为空!" });
+                  
+                    return Json("{success:false,css:'alert alert-error',message:'操作编码不能为空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "编码以字母开头!" });
+                  
+                    return Json("{success:false,css:'alert alert-error',message:'编码以字母开头!'}");
                 }
                 DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
                 var total = ds.Tables[0].Rows.Count;
@@ -371,14 +385,16 @@ namespace WorkFlow.Controllers
                 {
                     if (operationListname.Equals(m_operationsModel.name.ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作名称!" });
+     
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的操作名称!'}");
                     }
                 }
                 foreach (string codename in codeList)
                 {
                     if (codename.Equals(m_operationsModel.code.ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作编码!" });
+
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的操作编码!'}");
                     }
                 }
                 try
@@ -386,17 +402,19 @@ namespace WorkFlow.Controllers
                     //修改后的操作名称与数据库表中的操作名称不相同并且操作名称不是本身自己            
                     if (m_operationsBllService.Update(m_operationsModel, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/OperationsManagement/AppOperations" });
-                        // return RedirectToAction("AppOperations");
+
+                        return Json("{success:true,css:'alert alert-success',message:'操作修改成功!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败!" });
+
+                        return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
          
@@ -441,12 +459,8 @@ namespace WorkFlow.Controllers
             }
            
         }
-        
-        ///<summary>
-        ///向数据库中添加记录的操作
-        ///</summary>
-        ///<param name="id">系统的ID</param>
-        ///<returns></returns>
+       
+        //添加操作信息   
         public ActionResult AddOperations(FormCollection collection)
         {
             if (Session["user"] == null)
@@ -473,15 +487,18 @@ namespace WorkFlow.Controllers
                 string m_operationsCode = collection["operationsCode"].Trim();
                 if (m_operationsName.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作名称不能为空!" });
+                 
+                    return Json("{success:false,css:'alert alert-error',message:'操作名称不能为空!'}");
                 }
                 if (m_operationsCode.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作编码不能为空!" });
+         
+                    return Json("{success:false,css:'alert alert-error',message:'操作编码不能为空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(m_operationsCode) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "操作编码以字母开头!" });
+            
+                    return Json("{success:false,css:'alert alert-error',message:'操作编码以字母开头!'}");
                 }
                 string m_operationsDescription = collection["operationsDescription"].Trim();
                 string m_operationsRemark = collection["operationsRemark"].Trim();
@@ -498,7 +515,8 @@ namespace WorkFlow.Controllers
                 {
                     if (operationsname.Equals(collection["operationsName"].Trim()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作名称!" });
+                    
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的操作名称!'}");
                     }
                 }
 
@@ -514,7 +532,8 @@ namespace WorkFlow.Controllers
                 {
                     if (codename.Equals(collection["operationsCode"].Trim()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的操作编码!" });
+               
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的操作编码!'}");
                     }
                 }
                 string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString();
@@ -532,16 +551,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_operationsBllService.Add(m_operationsModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "功能添加成功!", toUrl = "/OperationsManagement/AppOperations" });
+               
+                        return Json("{success:true,css:'alert alert-success',message:'操作添加成功!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加功能失败!" });
+   
+                        return Json("{success:false,css:'alert alert-error',message:'操作添加失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错!" });
+
+                    return Json("{success:false,css:'alert alert-error',message:'程序出错!'}");
                 }
             }
         

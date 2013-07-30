@@ -4,9 +4,7 @@
 </asp:Content>
 <%--本页用到的CSS/JS--%>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-   <%--<link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="Stylesheet" type="text/css"/>--%>
    <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
-   <%--<link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />--%>
    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <%-- ligerUI核心文件--%>
@@ -120,11 +118,11 @@
 
             if (id) {
                 $.ligerDialog.open({
-                   title:'详情('+id+')信息',
-                   width:700,
-                   height:600,
-                   url:'/FlowsManagement/DetailInfo?id='+id,
-                 });
+                    title: '详情(' + id + ')信息',
+                    width: 700,
+                    height: 600,
+                    url: '/FlowsManagement/DetailInfo?id=' + id
+                });
             }
         
         }

@@ -53,34 +53,45 @@ namespace WorkFlow.Controllers
                 {
                     if (m_usersBllService.LogicDelete(userID, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/UsersManagement/AppUsers" });
+                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/UsersManagement/AppUsers" });
+                        return Json("{success:true,css:'alert alert-success',message:'成功删除用户信息!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
           
         }
-
-        //获取用户列表(在grid中显示)
-        public ActionResult GetUsers_Apply()
+    
+        //后台分页，获取用户列表
+        public ActionResult GetUsers_List()
         {
             if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
-            else 
+            else
             {
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
                 string msg = string.Empty;
                 WorkFlow.UsersWebService.usersBLLservice m_usersService = new UsersWebService.usersBLLservice();
                 WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
-
 
                 WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
@@ -89,43 +100,53 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_userModel.app_id;
                 m_usersService.SecurityContextValue = m_SecurityContext;
 
-                int appID = Convert.ToInt32(m_userModel.app_id);
-                string data = "{Rows:[";
-                try
+                DataSet ds = m_usersService.GetAllUsersListOfApp((int)m_userModel.app_id,out msg);
+
+                IList<WorkFlow.UsersWebService.usersModel> m_list = new List<WorkFlow.UsersWebService.usersModel>();
+                var total = ds.Tables[0].Rows.Count;
+                for (var i = 0; i < total; i++)
                 {
-                    DataSet ds = m_usersService.GetAllUsersListOfApp(appID, out msg);
-                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    WorkFlow.UsersWebService.usersModel m_usersModel= (WorkFlow.UsersWebService.usersModel)Activator.CreateInstance(typeof(WorkFlow.UsersWebService.usersModel));
+                    PropertyInfo[] m_propertys = m_usersModel.GetType().GetProperties();
+                    foreach (PropertyInfo pi in m_propertys)
                     {
-                        string login = ds.Tables[0].Rows[i][1].ToString();
-                        string id = ds.Tables[0].Rows[i][0].ToString();
-                        string name = ds.Tables[0].Rows[i][3].ToString();
-                        string employee_no = ds.Tables[0].Rows[i][4].ToString();
-                        if (i == ds.Tables[0].Rows.Count - 1)
+                        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                         {
-                            data += "{login:'" + login + "',";
-                            data += "id:'" + id + "',";
-                            data += "name:'" + name + "',";
-                            data += "employee_no:'" + employee_no + "'}";
-                        }
-                        else
-                        {
-                            data += "{login:'" + login + "',";
-                            data += "id:'" + id + "',";
-                            data += "name:'" + name + "',";
-                            data += "employee_no:'" + employee_no + "'},";
+                            // 属性与字段名称一致的进行赋值 
+                            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                            {
+                                //数据库NULL值单独处理
+                                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                    pi.SetValue(m_usersModel, ds.Tables[0].Rows[i][j], null);
+                                else
+                                    pi.SetValue(m_usersModel, null, null);
+                                break;
+                            }
                         }
                     }
+                    m_list.Add(m_usersModel);
                 }
-                catch (Exception ex)
+               
+                IList<WorkFlow.UsersWebService.usersModel> m_targetList = new List<WorkFlow.UsersWebService.usersModel>();
+                //模拟分页操作
+                for (var i = 0; i < total; i++)
                 {
+                    if (i >= (page - 1) * pagesize && i < page * pagesize)
+                    {
+                        m_targetList.Add(m_list[i]);
+                    }
                 }
-                data += "]}";
-                return Json(data);
-          
+
+                var gridData = new
+                {
+                    Rows = m_targetList,
+                    Total = total
+                };
+                return Json(gridData);
+
             }
-            
         }
-       
+
         //获取是否有效的列表
         public ActionResult GetInvalidList()
         {
@@ -224,9 +245,7 @@ namespace WorkFlow.Controllers
         
         }
      
-        ///<summary>
-        ///添加数据到数据库表中
-        ///</summary>
+        //添加用户信息
         public ActionResult AddUsers(FormCollection collection)
         {
             if (Session["user"] == null)
@@ -259,51 +278,63 @@ namespace WorkFlow.Controllers
                 string mail = collection["usersMail"].Trim();
                 if (login.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录名称不能为空!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录名称不能为空!" });
+                    return Json("{success:false,css:'alert alert-error',message:'登录名称不能为空!'}");
                 }
                 if (password.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码不能为空!" });
+                    //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码不能为空!" });
+                    return Json("{success:false,css:'alert alert-error',message:'登录密码不能为空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsPassWord(password) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码以字母开头,字母和数字的组成,至少6位!" });
+                    //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码以字母开头,字母和数字的组成,至少6位!" });
+                    return Json("{success:false,css:'alert alert-error',message:'登录密码以字母开头,字母和数字的组成,至少6位!'}");
                 }
                 if (passwordCon.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码不能为空!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码不能为空!" });
+                    return Json("{success:false,css:'alert alert-error',message:'确认密码不能为空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsPassWord(passwordCon) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码以字母开头,字母和数字的组合,至少6位!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码以字母开头,字母和数字的组合,至少6位!" });
+                    return Json("{success:false,css:'alert alert-error',message:'确认密码以字母开头,字母和数字的组合,至少6位!'}");
                 }
                 if (password.Equals(passwordCon) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码和确认密码不一致!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码和确认密码不一致!" });
+                    return Json("{success:false,css:'alert alert-error',message:'登录密码和确认密码不一致!'}");
                 }
                 if (name.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户姓名不能为空!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户姓名不能为空!" });
+                    return Json("{success:false,css:'alert alert-error',message:'用户姓名不能为空!'}");
                 }
                 if (employee_no.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "工号不能为空!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "工号不能为空!" });
+                    return Json("{success:false,css:'alert alert-error',message:'工号不能为空!'}");
                 }
                 if (mobile_phone.Length == 0 || mobile_phone.Length != 11)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "手机号不能为空或手机号码不足11位!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "手机号不能为空或手机号码不足11位!" });
+                    return Json("{success:false,css:'alert alert-error',message:'手机号不能为空或手机号码不足11位!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsMobilePhone(mobile_phone) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "手机号码格式不正确!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "手机号码格式不正确!" });
+                    return Json("{success:false,css:'alert alert-error',message:'手机号码格式不正确!'}");
                 }
                 if (mail.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件不能为空!" });
+                  //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件不能为空!" });
+                    return Json("{success:false,css:'alert alert-error',message:'邮件不能为空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsEmail(mail) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件格式不正确!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件格式不正确!" });
+                    return Json("{success:false,css:'alert alert-error',message:'邮件格式不正确!'}");
                 }
                 DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID, out msg);
                 ArrayList usersList = new ArrayList();
@@ -318,14 +349,16 @@ namespace WorkFlow.Controllers
                 {
                     if (userList.Equals(collection["usersLogin"].Trim().ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的登录名称！" });
+                      //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的登录名称！" });
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的登录名称！'}");
                     }
                 }
                 foreach (string empnoList in empNoList)
                 {
                     if (empnoList.Equals(collection["usersEmployee_no"].Trim().ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的工号!"});
+                      //  return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的工号!"});
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的工号!'}");
                     }
                 }
                 WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)Session["apps"];
@@ -345,16 +378,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_usersBllService.AddSysUser(m_usersModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加用户成功!", toUrl = "/UsersManagement/AppUsers" });
+                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加用户成功!", toUrl = "/UsersManagement/AppUsers" });
+                        return Json("{success:true,css:'alert alert-success',message:'添加用户成功!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加用户失败!" });
+                      //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加用户失败!" });
+                        return Json("{success:false,css:'alert alert-error',message:'添加用户失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错!" });
+                    return Json("{success:false,css:'alert alert-error',message:'程序出错!'}");
                 }
            
             }
@@ -418,10 +454,8 @@ namespace WorkFlow.Controllers
             
         }
        
-        ///<summary>
-        ///编辑数据表中的信息
-        /// </summary>
-        /// <returns></returns>
+      
+        //编辑用户信息    
         public ActionResult EditUsers(FormCollection collection)
         {
             if (Session["user"] == null)
@@ -466,37 +500,45 @@ namespace WorkFlow.Controllers
 
                 if (login.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录名称不能为空!" });
+ 
+                    return Json("{success:false,css:'alert alert-error',message:'登录名称不能为空!'}");
                 }
 
                 if (npass != passcon)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="新密码和确认密码不一致!"});
+   
+                    return Json("{success:false,css:'alert alert-error',message:'新密码和确认密码不一致!'}");
                 }
 
                 if (name.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户姓名不能为空!" });
+             
+                    return Json("{success:false,css:'alert alert-error',message:'用户姓名不能为空!'}");
                 }
                 if (employeeno.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "工号不能为空!" });
+       
+                    return Json("{success:false,css:'alert alert-error',message:'工号不能为空!'}");
                 }
                 if (phone.Length == 0 || phone.Length != 11)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "手机号不能为空或手机号位数必须为11位!" });
+                  
+                    return Json("{success:false,css:'alert alert-error',message:'手机号不能为空或手机号位数必须为11位!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsMobilePhone(phone) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "手机号码的格式不正确!" });
+                
+                    return Json("{success:false,css:'alert alert-error',message:'手机号码的格式不正确!'}");
                 }
                 if (mail.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件不能为空!" });
+                 
+                    return Json("{success:false,css:'alert alert-error',message:'邮件不能为空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsEmail(mail) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮件格式不正确!" });
+     
+                    return Json("{success:false,css:'alert alert-error',message:'邮件格式不正确!'}");
                 }
 
                 DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID, out msg);
@@ -531,7 +573,8 @@ namespace WorkFlow.Controllers
                     {
                         if (userlist.Equals(collection["usersLogin"].Trim().ToString()))
                         {
-                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的登录名称!" });
+                         
+                            return Json("{success:false,css:'alert alert-error',message:'已经存在相同的登录名称!'}");
                         }
                     }
                   //遍历数据表中的员工编号与编辑修改后的员工编号是否相同，如果相同给出提示
@@ -539,7 +582,8 @@ namespace WorkFlow.Controllers
                     {
                         if (empnolist.Equals(collection["usersEmployee_no"].Trim().ToString()))
                         {
-                            return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="已经存在相同的员工编号!"});
+                    
+                            return Json("{success:false,css:'alert alert-error',message:'已经存在相同的员工编号!'}");
                         }
                     }
                 m_usersModel.login = collection["usersLogin"].Trim();
@@ -548,11 +592,13 @@ namespace WorkFlow.Controllers
                 {
                     if (Saron.Common.PubFun.ConditionFilter.IsPassWord(npass) == false)
                     {  
-                        return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="新密码以字母开头，字母和数字的组合，至少6位!"});
+           
+                        return Json("{success:false,css:'alert alert-error',message:'新密码以字母开头，字母和数字的组合，至少6位!'}");
                     }
                     if (Saron.Common.PubFun.ConditionFilter.IsPassWord(passcon) == false)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码以字母开头，字母和数字的组合，至少6位!" });
+                   
+                        return Json("{success:false,css:'alert alert-error',message:'确认密码以字母开头，字母和数字的组合，至少6位!'}");
                     }
                     m_usersModel.password = Request.Form["newPassword"];
                     m_usersModel.name = collection["usersName"].Trim();
@@ -578,17 +624,20 @@ namespace WorkFlow.Controllers
                     {
                     if (m_usersBllService.AdminUpdate(m_usersModel, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改用户成功!", toUrl = "/UsersManagement/AppUsers" });
+                   
+                        return Json("{success:true,css:'alert alert-success',message:'修改用户成功!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改用户失败!" });
+                   
+                        return Json("{success:false,css:'alert alert-error',message:'修改用户失败!'}");
                     }
                   }
                  catch (Exception ex)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
-                    }
+         
+                        return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                 }
                
                 }
               //新密码为空，不修改，保持原来密码。
@@ -619,16 +668,19 @@ namespace WorkFlow.Controllers
                     {
                         if (m_usersBllService.AdminUpdatePass(m_usersModel, out msg))
                         {
-                            return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改用户成功!", toUrl = "/UsersManagement/AppUsers" });
+              
+                            return Json("{success:true,css:'alert alert-success',message:'修改用户成功!'}");
                         }
                         else
                         {
-                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改用户失败!" });
+                    
+                            return Json("{success:false,css:'alert alert-error',message:'修改用户失败!'}");
                         }
                     }
                     catch (Exception ex)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+
+                        return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                     }
                 }
           
