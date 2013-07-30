@@ -214,7 +214,7 @@
             key = $("#txtKey").val();
 
             $.ajax({
-                url: "/FlowsManagement/GetFlowName_List?flowname=" + key,
+                url: "/UsersManagement/GetUserListByLogin?userlogin=" + key,
                 type: "POST",
                 dataType: "json",
                 data: {},
