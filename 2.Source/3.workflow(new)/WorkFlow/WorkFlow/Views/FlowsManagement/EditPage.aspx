@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
     
     <%--页面标题--%>
@@ -13,6 +13,16 @@
 
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 
+   <%--隐藏提示信息--%>
+   <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("alert alert-error alert-success");
+            $("#promptDIV").html("");
+        });
+    </script>
+
+   <%--获得流程的ID--%>
    <script type="text/javascript">
          var flowsID;
          $(document).ready(function () {
@@ -21,10 +31,10 @@
          });
          var fiTotal = 0; //是否有效数量
     </script>
+
    <%--是否有效初始化--%>
    <script type="text/javascript">
-       $(document).ready(function () {
-           //alert("---???");
+       $(document).ready(function () {          
            $.ajax({
                url: "/FlowsManagement/GetInvalidList",
                type: "POST",
@@ -40,12 +50,10 @@
                    }
                    for (var i = 0; i < dataJson.total; i++) {
                        if (dataJson.List[i].selected == 'true') {
-                           $("#invalidValue" + i.toString()).prop("checked", true);
-                           //alert("ok???");
+                           $("#invalidValue" + i.toString()).prop("checked", true);                           
                        }
                        else {
-                           $("#invalidValue" + i.toString()).prop("checked", false);
-                           //alert("false???");
+                           $("#invalidValue" + i.toString()).prop("checked", false);                        
                        }
                    }
                }
@@ -78,27 +86,50 @@
                        }
                    }
                    flowsStr += "fv_Total:'" + fvTotal + "',u_ID:'" + $("#flowsID").val() + "'}";
-                   //alert(flowsStr);
                    flowsData = eval("(" + flowsStr + ")");
-                   $("#Edit_flows").ajaxForm({
-                       success: showResponse, //form提交相应成功后执行的回调函数
-                       url: "/FlowsManagement/EditFlow",
-                       type: "POST",
-                       dataType: "json",
-                       data: flowsData
-                   });
+                   ModifyFlow(); //修改流程信息
+                  
                }
            });
-           //提交flow表单后执行的函数
-           function showResponse(responseText, statusText) {
-               //alert("ok???");
-               $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-               $("#promptDIV").addClass(responseText.css);
-               $("#promptDIV").html(responseText.message);
-//               if (responseText.success) {
-//                   location.href = responseText.toUrl;
-//               }
+
+           //修改流程信息
+           function ModifyFlow() {
+               var options = {
+                   beforeSubmit: flow_showRequest, //form提交前的响应回调函数
+                   success: flow_showResponse, //form提交响应成功后执行的回调函数
+                   url: "/FlowsManagement/EditFlow",
+                   type: "POST",
+                   dataType: "json"
+               };
+
+               $("#Edit_flows").ajaxForm(options);
            }
+
+           //form提交前的响应回调函数
+           function flow_showRequest() {
+               var flowName = $("#flowsName").val();
+               if (flowName == "") {
+                   $("#promptDIV").removeClass("alert alert-error alert-success");
+                   $("#promptDIV").addClass("alert alert-error");
+                   $("#promptDIV").html("流程名称不能为空!");
+                   return false;
+               }
+           }
+
+           //form提交响应成功后执行的回调函数
+           function flow_showResponse(responseText, statusText) {
+               var dataJson = eval("(" + responseText + ")");
+               show_promptDIV(dataJson); //提示信息
+
+           }
+
+           //提示信息
+           function show_promptDIV(data) {
+               $("#promptDIV").removeClass("alert alert-error alert-success");
+               $("#promptDIV").addClass(data.css);
+               $("#promptDIV").html(data.message);
+           }
+
        });
    </script>
    
@@ -111,16 +142,18 @@
     <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlowsPage?pageCount=<%=ViewData["flowsEditCount"]%>&sizeCount=<%=ViewData["flowsEditSize"]%>">返回</a></li></ul>
  </div> 
 </div>--%>
+
 <div class="container">
    <%--操作提示DIV--%>
    <div id="promptDIV" class="row"></div>
  </div> 
+
 <div class="tab-pane">
     <form  id="Edit_flows" method="post" action="" class="form-horizontal"> 
        <div class="control-group span6 offset2">
        <label class="control-label">流程名称：</label>
        <div class="controls">
-       <input id="flowsName" name="flowsName" type="text" value="<%=ViewData["flowsName"]%>" />
+       <input id="flowsName" name="flowsName" type="text" value="<%=ViewData["flowsName"]%>" placeholder="流程名称"/>
        <input id="flowsID" name="flowsID" type="hidden" value="<%=ViewData["flowsID"]%>"/>
        </div>
        </div>
@@ -133,7 +166,7 @@
        <div class="control-group span6 offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
-       <textarea id="flowsRemark" name="flowsRemark" cols="5" rows="4"><%=ViewData["flowsRemark"]%></textarea>      
+       <textarea id="flowsRemark" name="flowsRemark" cols="5" rows="4" placeholder="备注"><%=ViewData["flowsRemark"]%></textarea>      
 
         <input type="hidden" name="flowsDeleted" id="flowsDeleted" value="<%=ViewData["flowsDeleted"]%>" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             

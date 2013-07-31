@@ -3,7 +3,7 @@
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-  <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+
   <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
 
   <%--页面标题--%>
@@ -13,6 +13,16 @@
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 
+   <%--隐藏提示信息--%>
+   <script type="text/javascript">
+       //隐藏提示信息
+       $(document).click(function () {
+           $("#promptDIV").removeClass("alert alert-error alert-success");
+           $("#promptDIV").html("");
+       });
+    </script>
+
+  <%--获得操作的ID--%>
   <script type="text/javascript">
       var operationID;
       $(document).ready(function () {
@@ -21,6 +31,7 @@
       });
       var opTotal = 0;//是否有效数量
   </script>
+
   <%--是否有效初始化--%>
   <script type="text/javascript">
       $(document).ready(function () {
@@ -40,83 +51,99 @@
                   for (var i = 0; i < dataJson.total; i++) {
                       if (dataJson.List[i].selected == "true") {
                           $("#invalidValue" + i.toString()).prop("checked", true);
-                         // alert("ok?");
+                         
                       } else {
                           $("#invalidValue" + i.toString()).prop("checked", false);
-                         //alert("???");
+                         
                       }
                   }
               }
           });
       }); 
   </script>
+
   <%--表单提交数据--%>
   <script type="text/javascript">
-     $(document).ready(function(){
-      var operationsData;
-      var operationsStr;
-      $("#saveSubmit").click(function () {
-          if (false) {
-              return false;
-          } else {
-              operationsStr = "{"; //JSON数据字符串
-              var oiTotal = 0; //操作有效的数量              
-              //操作"是否有效"中被选中的项 
-              for (var i = 0; i < 1; i++) {
-                  var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
-                  if (checkBoxID.is(":checked")) {
-                      //alert(checkBoxID.val() + "选中");
-                      //alert(checkBoxID.is(":checked"));
-                      operationsStr += "oInvalidID" + oiTotal.toString() + ":'" + checkBoxID.val() + "',";
-                      oiTotal++;
-                      //checkBoxID.prop("checked", true);
-                  } else {
-                      //alert(checkBoxID.is(":checked"));
-                      //alert(checkBoxID.val() + "未选中");
-                      //checkBoxID.prop("checked", false);
+      $(document).ready(function () {
+          var operationsData;
+          var operationsStr;
+          $("#saveSubmit").click(function () {
+              if (false) {
+                  return false;
+              } else {
+                  operationsStr = "{"; //JSON数据字符串
+                  var oiTotal = 0; //操作有效的数量              
+                  //操作"是否有效"中被选中的项 
+                  for (var i = 0; i < 1; i++) {
+                      var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
+                      if (checkBoxID.is(":checked")) {
+
+                          operationsStr += "oInvalidID" + oiTotal.toString() + ":'" + checkBoxID.val() + "',";
+                          oiTotal++;
+
+                      } else {
+
+                      }
                   }
+                  operationsStr += "oi_Total:'" + oiTotal + "',u_ID:'" + $("#operationID").val() + "'}";
+                  operationsData = eval("(" + operationsStr + ")");
+                  //              $("#Edit_Operations").ajaxForm({
+                  //                  success: ue_showResponse,  // form提交响应成功后执行的回调函数
+                  //                  url: "/OperationsManagement/EditOperations",
+                  //                  type: "POST",
+                  //                  dataType: "json",
+                  //                  data: operationsData
+
+                  //              });
+                  ModifyOperations(); //修改操作信息
+
               }
-              operationsStr += "oi_Total:'" + oiTotal + "',u_ID:'" + $("#operationID").val() + "'}";
-              operationsData = eval("(" + operationsStr + ")");
-              $("#Edit_Operations").ajaxForm({
-                  success: ue_showResponse,  // form提交响应成功后执行的回调函数
+          });
+
+          //修改操作信息
+          function ModifyOperations() {
+
+              var options = {
+                  beforeSubmit: operation_showRequest, //form提交前的响应回调函数
+                  success: operation_showResponse, //form提交响应成功后执行的回调函数
                   url: "/OperationsManagement/EditOperations",
                   type: "POST",
-                  dataType: "json",
-                  data: operationsData
-
-              });
+                  dataType: "json"
+              };
+              $("#Edit_Operations").ajaxForm(options);
           }
-        });
-          function ue_showResponse(responseText, statusText) {
-              //alert("ok????");
-              $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-              $("#promptDIV").addClass(responseText.css);
-              $("#promptDIV").html(responseText.message);
-              if (responseText.success) {
-                  location.href = responseText.toUrl;
+
+          //form提交前的响应回调函数
+          function operation_showRequest() {
+              var operationName = $("#operationsName").val();
+              if (operationName == "") {
+                  $("#promptDIV").removeClass("alert alert-error alert-success");
+                  $("#promptDIV").addClass("alert alert-error");
+                  $("#promptDIV").html("操作名称不能为空!");
+                  return false;
               }
           }
 
+          //form提交响应成功后执行的回调函数
+          function operation_showResponse(responseText, statusText) {
+              var dataJson = eval("(" + responseText + ")");
+              show_promptDIV(dataJson);//提示信息
+          }
+
+          //提示信息
+          function show_promptDIV(data) {
+              $("#promptDIV").removeClass("alert alert-error alert-success");
+              $("#promptDIV").addClass(data.css);
+              $("#promptDIV").html(data.message);
+          }
       });
   </script>
 
-    <%--隐藏提示信息--%>
-    <script type="text/javascript">
-        //隐藏提示信息
-        $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-            $("#promptDIV").html("");
-        });
-    </script>
+   
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container"><h2>操作管理</h2></div>
-   <div class="container">
-     <div class="row-fluid">
-       <ul class="pager"><li class="next"><a href="/OperationsManagement/AppOperations">返回</a></li></ul>
-     </div>
-    </div> 
+  
        <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
        <%string  s = DateTime.Now.ToString() +"."+ System.DateTime.Now.Millisecond.ToString(); %>
        <%DateTime t = Convert.ToDateTime(s); %>  
@@ -130,14 +157,14 @@
        <div class="control-group span6 offset2">
        <label class="control-label">操作名称：</label>
        <div class="controls">
-       <input id="operationsName" name="operationsName" type="text" value="<%=ViewData["operationsName"]%>" />
+       <input id="operationsName" name="operationsName" type="text" value="<%=ViewData["operationsName"]%>" placeholder="操作名称" />
        <input id="operationID" name="operationID" type="hidden" value="<%=ViewData["operationsId"]%>"/>
        </div>
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label">操作编码：</label>
        <div class="controls">
-       <input id="operationsCode" name="operationsCode" type="text" value="<%=ViewData["operationsCode"]%>" />
+       <input id="operationsCode" name="operationsCode" type="text" value="<%=ViewData["operationsCode"]%>" placeholder="操作编码"/>
        </div>
        </div>
        <div class="control-group span6 offset2">
@@ -149,13 +176,13 @@
        <div class="control-group span6 offset2">
        <label class="control-label">操作描述：</label>
        <div class="controls">
-       <textarea id="operationsDescription" name="operationsDescription" cols="5" rows="4" ><%=ViewData["operationsDescription"]%></textarea>
+       <textarea id="operationsDescription" name="operationsDescription" cols="5" rows="4" placeholder="操作描述"><%=ViewData["operationsDescription"]%></textarea>
        </div>
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">
-       <textarea id="operationsRemark" name="operationsRemark" cols="5" rows="4"><%=ViewData["operationsRemark"]%></textarea>
+       <textarea id="operationsRemark" name="operationsRemark" cols="5" rows="4" placeholder="备注"><%=ViewData["operationsRemark"]%></textarea>
         <input type="hidden" name="operationsApp_id" id="operationsApp_id" value="<%=m_usersModel.app_id%>"/>
         <input type="hidden" name="operationsId" id="operationsId" value="<%=ViewData["operationsId"]%>"/>
         <input type="hidden" name="operationsDeleted" id="operationsDeleted" value="<%=ViewData["operationsDeleted"]%>" />

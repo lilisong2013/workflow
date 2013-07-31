@@ -4,7 +4,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
 
-    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
 
     <%--页面标题--%>
@@ -12,7 +11,17 @@
         var titleUrl = "/Home/GetPageTitle";
         var PageName = "用户编辑";
     </script>
+
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+
+   <%--隐藏提示信息--%>
+   <script type="text/javascript">
+       //隐藏提示信息
+       $(document).click(function () {
+           $("#promptDIV").removeClass("alert alert-error alert-success");
+           $("#promptDIV").html("");
+       });
+    </script>
 
      <script type="text/javascript">
          var userID;
@@ -41,10 +50,10 @@
                     for (var i = 0; i < dataJson.total; i++) {
                         if (dataJson.List[i].selected == "true") {
                             $("#invalidValue" + i.toString()).prop("checked", true);
-                            //alert("ok?");
+                            
                         } else {
                             $("#invalidValue" + i.toString()).prop("checked", false);
-                            //alert("???");
+                           
                         }
                     }
                 }
@@ -66,66 +75,69 @@
 	                //alert(uiTotal);
 	                //用户"是否有效"中被选中的项 
 	                for (var i = 0; i < 1; i++) {
-	                    var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
-	                    // alert(checkBoxID);
+	                    var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID                 
 	                    if (checkBoxID.is(":checked")) {
-	                        // alert(checkBoxID.val() + "选中");
-	                        //alert(checkBoxID.is(":checked"));
 	                        usersStr += "uInvalidID" + uiTotal.toString() + ":'" + checkBoxID.val() + "',";
 	                        uiTotal++;
 	                        checkBoxID.prop("checked", true);
 	                    } else {
-	                        //alert(checkBoxID.is(":checked"));
-	                        // alert(checkBoxID.val() + "未选中");
+
 	                        checkBoxID.prop("checked", false);
 	                    }
 	                }
 
 	                usersStr += "in_Total:'" + uiTotal + "',u_ID:'" + $("#userID").val() + "'}";
-	                // alert(usersStr);
 
 	                usersData = eval("(" + usersStr + ")");
-	                // alert(usersData);
-	                $("#Edit_Users").ajaxForm({
-	                    success: ue_showResponse,  // form提交响应成功后执行的回调函数
-	                    url: "/UsersManagement/EditUsers",
-	                    type: "POST",
-	                    dataType: "json",
-	                    data: usersData
-	                });
+	                ModifyUser(); //修改用户信息
+	             
 	            }
 	        });
 
+	        //修改用户信息
+	        function ModifyUser() {
+	            var options = {
+	                beforeSubmit: user_showRequest, //form提交前的响应回调函数
+	                success: user_showResponse, //form提交响应成功后执行的回调函数
+	                url: "/UsersManagement/EditUsers",
+	                type: "POST",
+	                dataType: "json"
+	            };
+	            $("#Edit_Users").ajaxForm(options);
+	        }
 
-	        //提交role_privileges表单后执行的函数
-	        function ue_showResponse(responseText, statusText) {
-	            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-	            $("#promptDIV").addClass(responseText.css);
-	            $("#promptDIV").html(responseText.message);
-	            if (responseText.success) {
-	                location.href = responseText.toUrl;
+	        //form提交前的响应回调函数
+	        function user_showRequest() {
+	            var userLogin = $("#usersLogin").val();
+	            if (userLogin == "") {
+	                $("#promptDIV").removeClass("alert alert-error alert-success");
+	                $("#promptDIV").addClass("alert alert-error");
+	                $("#promptDIV").html("用户登录名称不能为空!");
+	                return false;
 	            }
+	        }
+
+	        //form提交响应成功后执行的回调函数
+	        function user_showResponse(responseText, statusText) {
+	            var dataJson = eval("(" + responseText + ")");
+	            show_promptDIV(dataJson); //提示信息
+	        }
+
+	        //提示信息
+	        function show_promptDIV(data) {
+	            $("#promptDIV").removeClass("alert alert-error alert-success");
+	            $("#promptDIV").addClass(data.css);
+	            $("#promptDIV").html(data.message);
 	        }
 	    });
     </script>
 
-    <%--隐藏提示信息--%>
-    <script type="text/javascript">
-        //隐藏提示信息
-        $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-            $("#promptDIV").html("");
-        });
-    </script>
+   
  
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户管理</h2></div>
-<div class="container">
- <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/UsersManagement/AppUsers">返回</a></li></ul>  
- </div> 
-</div>
+
  <div class="container">
    <%--操作提示DIV--%>
    <div id="promptDIV" class="row"></div>
@@ -135,45 +147,45 @@
    <form  id="Edit_Users" method="post" action="" class="form-horizontal"> 
        <div class="control-group span6 offset2">
        <label class="control-label">登录名称：&nbsp;&nbsp;&nbsp;</label>
-       <div class="controls"><input id="usersLogin" name="usersLogin" type="text" value="<%= ViewData["usersLogin"] %>" /></div>
+       <div class="controls"><input id="usersLogin" name="usersLogin" type="text" value="<%= ViewData["usersLogin"] %>" placeholder="登录名称"/></div>
        <input id="userID" name="userID" type="hidden" value="<%=ViewData["usersId"] %>"/>
       </div>    
        <div class="control-group span6 offset2">
         <label class="control-label">新密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
-        <input id="newPassword" name="newPassword" type="password" /> 
+        <input id="newPassword" name="newPassword" type="password" placeholder="新密码"/> 
         </div>
        </div> 
 
         <div class="control-group span6 offset2">
         <label class="control-label">确认密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
-        <input id="PasswordCon" name="PasswordCon" type="password"/> 
+        <input id="PasswordCon" name="PasswordCon" type="password" placeholder="确认密码"/> 
         </div>
        </div>
           
        <div class="control-group span6 offset2">
        <label class="control-label">用户姓名：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="usersName" name="usersName" type="text" value="<%= ViewData["usersName"] %>" />
+       <input id="usersName" name="usersName" type="text" value="<%= ViewData["usersName"] %>" placeholder="用户姓名"/>
        </div>
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label">工号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="usersEmployee_no" name="usersEmployee_no" type="text" value="<%= ViewData["usersEmployee_no"]%>"/> 
+       <input id="usersEmployee_no" name="usersEmployee_no" type="text" value="<%= ViewData["usersEmployee_no"]%>" placeholder="工号"/> 
        </div>
        </div>     
        <div class="control-group span6 offset2">
        <label class="control-label">手机号码：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">     
-       <input id="usersMobile_phone" name="usersMobile_phone" type="text" value="<%= ViewData["usersMobile_phone"]%>" />
+       <input id="usersMobile_phone" name="usersMobile_phone" type="text" value="<%= ViewData["usersMobile_phone"]%>" placeholder="手机号码"/>
        </div> 
        </div>
        <div class="control-group span6 offset2">
        <label class="control-label">邮件地址：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="usersMail" name="usersMail" type="text" value="<%=ViewData["usersMail"]%>"/>
+       <input id="usersMail" name="usersMail" type="text" value="<%=ViewData["usersMail"]%>" placeholder="邮件地址"/>
        </div>
        </div>                             
 
@@ -187,7 +199,7 @@
        <div class="control-group span6 offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label> 
        <div class="controls">   
-       <textarea id="usersRemark" name="usersRemark" cols="5" rows="4"><%=ViewData["usersRemark"]%></textarea>
+       <textarea id="usersRemark" name="usersRemark" cols="5" rows="4" placeholder="备注"><%=ViewData["usersRemark"]%></textarea>
         <input type="hidden" name="usersId" id="usersId" value="<%=ViewData["usersId"]%>"/>
         <input type="hidden" name="usersDeleted" id="usersDeleted" value="False" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             

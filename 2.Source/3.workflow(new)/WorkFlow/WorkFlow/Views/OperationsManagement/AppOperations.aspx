@@ -4,21 +4,26 @@
     
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
-    <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
+  
+    <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-
+    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
 
     <%--LigerUI Dialog文件--%>
-    <%--<link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
-
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
-    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
-    
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>    
+    <%--LigerUI ToolBar文件--%>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+ 
+   <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
     <%--页面标题--%>
     <script type="text/javascript">
         var titleUrl = "/Home/GetPageTitle";
@@ -30,69 +35,92 @@
     <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
     </script>
-    <%--在Grid中显示operation信息--%>
-     <script type="text/javascript">
-         var managerListGrid;
-         $(document).ready(function () {
-             //定义ligerGrid;
-             $("#operationsgrid").ligerGrid({
-                 width: '90%',
-                 height: 400
-             });
-             managerListGrid = $("#operationsgrid").ligerGetGridManager();
-             GetOperationsList(); //获取用户数据列表
-             $("#infoTab").click(function () {
-                 GetOperationsList(); //获取用户数据列表
-             });
-         });
-         function GetOperationsList() {
-             $.ajax({
-                 url: "/OperationsManagement/GetOperations_Apply",
-                 type: "POST",
-                 dataType: "json",
-                 data: {},
-                 success: function (responseText, statusText) {
-                    //alert(responseText);
-
-                     var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-
-                     //更新mygrid数据
-                     managerListGrid.setOptions({
-                         columns: [
-                        { display: '操作ID', name: 'id',width:80,align: 'center' },
+   
+    <%--在Grid中分页显示operation信息--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetOperationsList();
+            function GetOperationsList() {
+                window['t'] = $("#operationsgrid").ligerGrid({
+                    columns: [
+                        { display: '操作ID', name: 'id', width: 80, align: 'center' },
                         { display: '操作名称', name: 'name', align: 'center' },
                         { display: '操作编码', name: 'code', align: 'center' },
-                        { display: '操作描述', name: 'description',align: 'center' },
-                        { display: '备注', name: 'remark',align:'center'},     
+                        { display: '操作描述', name: 'description', align: 'center' },
+                        { display: '备注', name: 'remark', align: 'center' },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-list"></i><a href="/OperationsManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         }, { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="/OperationsManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog('+row.id+')">编辑</a>';
                                 return html;
                             }
                         },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteOperation('+ row.id+')">删除</a>';
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteOperation(' + row.id + ')">删除</a>';
                                 return html;
                             }
                         }
                        ],
-                         data: dataJson
-                     });
-                     managerListGrid.loadData();
-                 }
-             });
-         }
-     </script>
+                    dataAction: 'server',
+                    width: '99%',
+                    pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                    pageSize: 10,
+                    height: '400',
+                    rownumbers: true,
+                    usePager: true,
+                    url: "/OperationsManagement/GetOperations_List"
+                });
+                t.loadData();
+            }
+        });
+    </script>
+    <%--编辑信息弹出框--%>
+    <script type="text/javascript">
+        function EditDialog(id) {
+
+            if (id) {
+                var m = $.ligerDialog.open({
+
+                    title: '更新操作信息',
+                    width: 800,
+                    height: 500,
+                    showMax: true,
+                    showMin: true,
+                    url: '/OperationsManagement/EditPage?id=' + id,
+                    buttons:
+                    [
+                    { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
+
+                    ]
+                });
+            }
+        }
+    </script>
+
+    <%--详情信息弹出框--%>
+    <script type="text/javascript">
+        function DetailDialog(id) {
+
+            if (id) {
+                $.ligerDialog.open({
+                  title:'详情('+id+')信息',
+                  width:700,
+                  height:600,
+                  url:'/OperationsManagement/DetailInfo?id='+id
+                });
+            }
+        }
+    </script>
+
     <%--删除提示信息的函数--%>
     <script type="text/javascript">
         function DeleteOperation(id) {
@@ -107,47 +135,69 @@
                     dataType: "json",
                     data: { operationID: operationid },
                     success: function (responseText, statusText) {
-                        GetOperationsList();
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(responseText.css);
-                        $("#promptDIV").html(responseText.message);
+                        //GetOperationsList();
+                        $("#promptDIV").removeClass("alert alert-error alert-success");
+                        $("#promptDIV").addClass("alert alert-success");
+                        $("#promptDIV").html("删除成功!");
+                        t.loadData();
                     }
                 });
              }
           })
         }
     </script>
-    <%--添加操作--%>
-     <script type="text/javascript">
-            $(document).ready(function () {
-                var form = $("#add_Operations");
-                form.submit(function () {
-                    if ($.trim($("#operationsName").val()).length == 0) {
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass("p-errorDIV");
-                        $("#promptDIV").html("操作名称不能为空！");
 
-                        return false;
-                    }
-                    else {
-                        $.post(form.attr("action"),
-                    form.serialize(),
-                    function (result, status) {
-                        //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(result.css);
-                        $("#promptDIV").html(result.message);
-
-                        if (result.success) {
-                            location.href = result.toUrl;
-                        }
-                    },
-                    "JSON");
-                        return false;
-                    }
-                });
+    <%--添加操作信息--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#saveSubmit").click(function () {
+                if (false) {
+                    return false;
+                } else {
+                    AddOperations(); //添加操作信息
+                }
             });
+
+            //添加操作信息
+            function AddOperations() {
+                var options = {
+                    beforeSubmit: operation_showRequest, //form提交前的响应的回调函数
+                    success: operation_showResponse, //form提交相应成功后执行的回调函数
+                    url: "/OperationsManagement/AddOperations",
+                    type: "POST",
+                    dataType: "json"
+                };
+                $("#add_Operations").ajaxForm(options);
+            }
+
+            //form提交前的响应的回调函数
+            function operation_showRequest() {
+                var operationName = $("#operationsName").val();
+ 
+                if (operationName == "") {
+                    $("#promptDIV").removeClass("alert alert-error alert-success");
+                    $("#promptDIV").addClass("alert alert-error");
+                    $("#promptDIV").html("操作名称不能为空!");
+                    return false;
+                }
+            }
+
+            //form提交相应成功后执行的回调函数
+            function operation_showResponse(responseText, statusText) {
+                var dataJson = eval("(" + responseText + ")");
+                show_promptDIV(dataJson);
+                t.loadData();
+            }
+
+            //提示信息
+            function show_promptDIV(data) {
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass(data.css);
+                $("#promptDIV").html(data.message);
+            }
+        });
     </script>
+   
 
  </asp:Content>
 
@@ -175,29 +225,29 @@
         </div>
         <%--添加操作--%>
         <div class="tab-pane" id="AddOperations">
-          <form id="add_Operations" class="form-horizontal" method="post" action="/OperationsManagement/AddOperations">
+          <form id="add_Operations" class="form-horizontal" method="post" action="">
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsName">操作名称：</label>
                         <div class="controls">
-                            <input type="text" name="operationsName" id="operationsName" class="input-prepend span4"/>                  
+                            <input type="text" name="operationsName" id="operationsName" class="input-prepend span4" placeholder="操作名称"/>                  
                         </div>
                     </div>
                      <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsCode">操作编码：</label>
                         <div class="controls">
-                            <input type="text" name="operationsCode" id="operationsCode" class="input-prepend span4" />
+                            <input type="text" name="operationsCode" id="operationsCode" class="input-prepend span4" placeholder="操作编码"/>
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsDescription">操作描述：</label>
                         <div class="controls">
-                           <textarea name="operationsDescription" id="operationsDescription" rows="4" cols="5" class="span4"></textarea>
+                           <textarea name="operationsDescription" id="operationsDescription" rows="4" cols="5" class="span4" placeholder="操作描述"></textarea>
                         </div>
                     </div>              
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsRemark">备注：</label>
                         <div class="controls">
-                            <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4"></textarea>
+                            <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4" placeholder="备注"></textarea>
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
@@ -210,7 +260,7 @@
                     </div>
                     <div class="control-group span6 offset3">
                         <div class="controls">
-                            <input type="submit" value="添加" class="btn btn-primary span1" /> 
+                            <input  id="saveSubmit" type="submit" value="添加" class="btn btn-primary span1" /> 
                             &nbsp;&nbsp;&nbsp;
                             <input type="reset" value="重置"  class="btn btn-primary span1" />
                         </div>

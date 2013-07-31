@@ -70,6 +70,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback ModifyPasswordOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetUserListByLoginOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -173,6 +175,9 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public event ModifyPasswordCompletedEventHandler ModifyPasswordCompleted;
+        
+        /// <remarks/>
+        public event GetUserListByLoginCompletedEventHandler GetUserListByLoginCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/SysAdminLoginValidator", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -765,6 +770,39 @@ namespace WorkFlow.UsersWebService {
             if ((this.ModifyPasswordCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ModifyPasswordCompleted(this, new ModifyPasswordCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetUserListByLogin", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetUserListByLogin(string userlogin, int appID, out string msg) {
+            object[] results = this.Invoke("GetUserListByLogin", new object[] {
+                        userlogin,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserListByLoginAsync(string userlogin, int appID) {
+            this.GetUserListByLoginAsync(userlogin, appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserListByLoginAsync(string userlogin, int appID, object userState) {
+            if ((this.GetUserListByLoginOperationCompleted == null)) {
+                this.GetUserListByLoginOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserListByLoginOperationCompleted);
+            }
+            this.InvokeAsync("GetUserListByLogin", new object[] {
+                        userlogin,
+                        appID}, this.GetUserListByLoginOperationCompleted, userState);
+        }
+        
+        private void OnGetUserListByLoginOperationCompleted(object arg) {
+            if ((this.GetUserListByLoginCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserListByLoginCompleted(this, new GetUserListByLoginCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1700,6 +1738,40 @@ namespace WorkFlow.UsersWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetUserListByLoginCompletedEventHandler(object sender, GetUserListByLoginCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserListByLoginCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserListByLoginCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
         

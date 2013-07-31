@@ -69,17 +69,7 @@ namespace WorkFlow.Controllers
             return View();
         }
         
-        public ActionResult AdminPassCon()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                return View();
-            }
-        }
+    
         
         public ActionResult RegistPageCon()
         {
@@ -347,10 +337,8 @@ namespace WorkFlow.Controllers
                 return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败5" });
             }
         }
-
-        /// <summary>
-        /// 应用管理员修改密码
-        /// </summary>
+  
+        //应用管理员修改密码     
         public ActionResult ModifyAdminPass(FormCollection collection)
         {
             string m_oldpassword = Request.Form["oldpassword"];
@@ -368,49 +356,57 @@ namespace WorkFlow.Controllers
 
             if (m_oldpassword.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原密码不能为空!" });
+     
+                return Json("{success:false,css:'alert alert-error',message:'原密码不能为空!'}");
             }
             if (m_usersBllService.SysAdminLoginValidator(m_usersModel.login, m_oldpassword, out msg) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "原始密码不正确!" });
+          
+                return Json("{success:false,css:'alert alert-error',message:'原始密码不正确!'}");
             }
             if (m_newpassword.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "新密码不能为空!" });
+        
+                return Json("{success:false,css:'alert alert-error',message:'新密码不能为空!'}");
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(m_newpassword) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "新密码以字母开头，字母和数字的组合，至少为6位!" });
+          
+                return Json("{success:false,css:'alert alert-error',message:'新密码以字母开头，字母和数字的组合，至少为6位!'}");
             }
             if (m_newpassword2.Length == 0)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码不能为空!" });
+          
+                return Json("{success:false,css:'alert alert-error',message:'确认密码不能为空!'}");
             }
             if (m_newpassword != m_newpassword2)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "两次密码不一致!" });
+           
+                return Json("{success:false,css:'alert alert-error',message:'两次密码不一致!'}");
             }
             try
             {
                
                 if (m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword,out msg) == true)
                 {
-                    m_usersModel = m_usersBllService.GetUserModelByLogin(m_usersModel.login,out msg);
-                    Session["user"] = m_usersModel;
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", toUrl = "/Home/AdminPassCon" });
+        
+                    return Json("{success:true,css:'alert alert-success',message:'密码修改成功!'}");
                 }
                 else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "密码修改失败！" });
+  
+                    return Json("{success:false,css:'alert alert-error',message:'密码修改失败!'}");
                 }
             }
             catch (WebException ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "服务器连接失败!" });
+   
+                return Json("{success:false,css:'alert alert-error',message:'服务器连接失败!'}");
             }
             catch (Exception ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+
+                return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
             }
         }
 

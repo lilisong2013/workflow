@@ -1,9 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-   <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+  
    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
 
     <%-- ligerUI核心文件--%>
@@ -25,16 +25,16 @@
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 
-    <%--隐藏提示信息--%>
-    <script type="text/javascript">
-        //隐藏提示信息
-        $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-            $("#promptDIV").html("");
-        });
+   <%--隐藏提示信息--%>
+   <script type="text/javascript">
+       //隐藏提示信息
+       $(document).click(function () {
+           $("#promptDIV").removeClass("alert alert-error alert-success");
+           $("#promptDIV").html("");
+       });
     </script>
 
-   <%--ID初始化--%>
+   <%--获得元素的ID--%>
    <script type="text/javascript">
        var elementsID;
         $(document).ready(function () {
@@ -43,10 +43,11 @@
         });
         var eiTotal = 0; //是否有效数量
     </script>
+
    <%--是否有效初始化--%>
    <script type="text/javascript">
        $(document).ready(function () {
-           //alert("ok???");
+           
            $.ajax({
                url: "/ElementsManagement/GetInvalidList",
                type: "POST",
@@ -63,7 +64,7 @@
                    for (var i = 0; i < dataJson.total; i++) {
                        if (dataJson.List[i].selected == 'true') {
                            $("#invalidValue" + i.toString()).prop("checked", true);
-                           //alert("ok");
+                           
                        }
                        else {
                            $("#invalidValue" + i.toString()).prop("checked", false);
@@ -173,6 +174,77 @@
            var elementsData;
            var elementsStr;
            $("#saveSubmit").click(function () {
+               if (false) {
+                   return false;
+               } else {
+                   elementsStr = "{"; //JSON数据字符串
+                   var evTotal = 0; //元素有效的数量
+
+                   //元素"是否有效"中被选中的项
+                   for (var i = 0; i < 1; i++) {
+                       var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
+                       if (checkBoxID.is(":checked")) {
+                           elementsStr += "eInvalidID" + evTotal.toString() + ":'" + checkBoxID.val() + "',";
+                           evTotal++;
+
+                       } else {
+
+                       }
+                   }
+                   elementsStr += "ev_Total:'" + evTotal + "',u_ID:'" + $("#elementsID").val() + "'}";
+                   //alert(elementsStr);
+                   elementsData = eval("(" + elementsStr + ")");
+                   ModifyElement(); //修改元素信息
+                 
+               }
+           });
+
+           //修改元素信息
+           function ModifyElement() {
+               var options = {
+                   beforeSubmit: element_showRequest, //form提交前的响应回调函数
+                   success: element_showResponse, //form提交响应成功后执行的回调函数
+                   url: "/ElementsManagement/EditElements",
+                   type: "POST",
+                   dataType: "json"
+               };
+               $("#Edit_Elements").ajaxForm(options);
+           }
+
+           //form提交前的响应回调函数
+           function element_showRequest() {
+               var elementName = $("#elementsName").val();
+               if (elementName == "") {
+                   $("#promptDIV").removeClass("alert alert-error alert-success");
+                   $("#promptDIV").addClass("alert alert-error");
+                   $("#promptDIV").html("元素名称不能为空!");
+                   return false;
+               }
+           }
+
+           //form提交响应成功后执行的回调函数
+           function element_showResponse(responseText, statusText) {
+               var dataJson = eval("(" + responseText + ")");
+               show_promptDIV(dataJson);//提示信息
+           }
+
+           //提示信息
+           function show_promptDIV(data) {
+               $("#promptDIV").removeClass("alert alert-error alert-success");
+               $("#promptDIV").addClass(data.css);
+               $("#promptDIV").html(data.message);
+           }
+
+       });
+    
+   </script>
+
+   <%--表单提交数据--%>
+  <%-- <script type="text/javascript">
+       $(document).ready(function () {
+           var elementsData;
+           var elementsStr;
+           $("#saveSubmit").click(function () {
                
                if (false) {
                    return false;
@@ -219,25 +291,14 @@
                }
            }
        });
-   </script>
-   <%--隐藏提示信息--%>
-    <script type="text/javascript">
-        //隐藏提示信息
-        $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-            $("#promptDIV").html("");
-        });
-    </script>
+   </script>--%>
+  
 
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container"><h2>元素管理</h2></div>
-    <div class="container">
-       <div class="row-fluid">
-        <ul class="pager"><li class="next"><a href="/ElementsManagement/AppElements">返回</a></li></ul>
-       </div>         
-    </div>
+   
     <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
     <%string  s = DateTime.Now.ToString() +"."+ System.DateTime.Now.Millisecond.ToString(); %>
     <%DateTime t = Convert.ToDateTime(s); %>   
@@ -251,14 +312,14 @@
        <div class="control-group span5 offset2">       
        <label class="control-label">元素名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsName" name="elementsName" type="text" value="<%=ViewData["elementsName"]%>" class="input-prepend span5"/>
+       <input id="elementsName" name="elementsName" type="text" value="<%=ViewData["elementsName"]%>" class="input-prepend span5" placeholder="元素名称"/>
        <input id="elementsID" name="elementsID" type="hidden" value="<%=ViewData["elementsId"]%>"/>
        </div>
        </div>
        <div class="control-group span5 offset2">
        <label class="control-label">元素编码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsCode" name="elementsCode" type="text" value="<%=ViewData["elementsCode"]%>" class="input-prepend span5"/>
+       <input id="elementsCode" name="elementsCode" type="text" value="<%=ViewData["elementsCode"]%>" class="input-prepend span5" placeholder="元素编码"/>
        </div>
        </div>
        <div class="control-group span5 offset2">
@@ -271,7 +332,7 @@
        <div class="control-group span5 offset2">
        <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsSeqno" name="elementsSeqno" type="text" value="<%=ViewData["elementsSeqno"]%>" class="input-prepend span5"/>
+       <input id="elementsSeqno" name="elementsSeqno" type="text" value="<%=ViewData["elementsSeqno"]%>" class="input-prepend span5" placeholder="排序码"/>
        </div>
        </div>
        <div class="control-group span5 offset2">
@@ -290,7 +351,7 @@
        <div class="control-group span5 offset2">
        <label class="control-label"> 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    
        <div class="controls">
-       <textarea id="elementsRemark" name="elementsRemark" cols="5" rows="4" class="span5"><%=ViewData["elementsRemark"]%></textarea>
+       <textarea id="elementsRemark" name="elementsRemark" cols="5" rows="4" class="span5" placeholder="备注"><%=ViewData["elementsRemark"]%></textarea>
        </div>   
         
         <input type="hidden" name="elementsDeleted" id="elementsDeleted" value="<%=ViewData["elementsDeleted"]%>" />

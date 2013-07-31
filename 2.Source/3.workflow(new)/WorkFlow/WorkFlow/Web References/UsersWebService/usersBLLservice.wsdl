@@ -328,6 +328,29 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetUserListByLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userlogin" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserListByLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserListByLoginResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="SysAdminLoginValidatorSoapIn">
@@ -495,6 +518,15 @@
   <wsdl:message name="ModifyPasswordSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetUserListByLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserListByLogin" />
+  </wsdl:message>
+  <wsdl:message name="GetUserListByLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserListByLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserListByLoginSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="usersBLLserviceSoap">
     <wsdl:operation name="SysAdminLoginValidator">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">（系统管理员登录）是否存在系统管理员login且密码password的系统管理员,&lt;h4&gt;（无需授权验证）&lt;/h4&gt;</wsdl:documentation>
@@ -590,6 +622,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">修改密码</wsdl:documentation>
       <wsdl:input message="tns:ModifyPasswordSoapIn" />
       <wsdl:output message="tns:ModifyPasswordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListByLogin">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名称模糊查询</wsdl:documentation>
+      <wsdl:input message="tns:GetUserListByLoginSoapIn" />
+      <wsdl:output message="tns:GetUserListByLoginSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="usersBLLserviceSoap" type="tns:usersBLLserviceSoap">
@@ -782,6 +819,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetUserListByLogin">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetUserListByLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetUserListByLoginSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="usersBLLserviceSoap12" type="tns:usersBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -968,6 +1015,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:ModifyPasswordSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListByLogin">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetUserListByLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetUserListByLoginSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
