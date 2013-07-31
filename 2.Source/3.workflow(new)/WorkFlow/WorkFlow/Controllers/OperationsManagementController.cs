@@ -143,14 +143,8 @@ namespace WorkFlow.Controllers
                 var total = ods.Tables[0].Rows.Count;
                 ArrayList oidlist = new ArrayList();
 
-                //权限项目列表中没有操作项目
-                if (total == 0)
-                {
-                    return Json("{success:false,css:'alert alert-error',message:'权限项目列表中没有操作项目'}");
-                }
-
                 //权限项目列表中操作项目的ID列表
-                else
+                if(total!=0)
                 {
                     for (int i = 0; i < total; i++)
                     {

@@ -305,13 +305,9 @@ namespace WorkFlow.Controllers
                 DataSet eds = m_privilegesBllService.GetItemIDOfPrivileges((int)m_usersModel.app_id,2,out msg);
                 var total = eds.Tables[0].Rows.Count;
                 ArrayList eidlist = new ArrayList();
-                //权限项目列表中没有元素项目
-                if (total == 0)
-                {
-                    return Json("{success:false,css:'alert alert-error',message:'权限项目列表中没有操元素项目'}");
-                }
-                //权限项目列表中元素项目加入到元素列表中
-                else
+               
+               //权限项目列表中元素项目加入到元素列表中
+               if(total!=0)
                 {
                     for (int i = 0; i < total; i++)
                     {
