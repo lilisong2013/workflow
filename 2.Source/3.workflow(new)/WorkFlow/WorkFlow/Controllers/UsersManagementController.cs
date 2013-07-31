@@ -464,7 +464,7 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                int m_ue_total = Convert.ToInt32(Request.Params["in_Total"]);//用户"是否有效"的数量
+                int m_ue_total = Convert.ToInt32(Request.Form["in_Total"]);//用户"是否有效"的数量
                 WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
                 WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
 

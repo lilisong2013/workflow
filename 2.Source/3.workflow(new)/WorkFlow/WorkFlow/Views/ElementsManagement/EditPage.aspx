@@ -173,12 +173,13 @@
        $(document).ready(function () {
            var elementsData;
            var elementsStr;
+           var evTotal = 0; //元素有效的数量
            $("#saveSubmit").click(function () {
                if (false) {
                    return false;
                } else {
                    elementsStr = "{"; //JSON数据字符串
-                   var evTotal = 0; //元素有效的数量
+
 
                    //元素"是否有效"中被选中的项
                    for (var i = 0; i < 1; i++) {
@@ -195,7 +196,7 @@
                    //alert(elementsStr);
                    elementsData = eval("(" + elementsStr + ")");
                    ModifyElement(); //修改元素信息
-                 
+
                }
            });
 
@@ -206,7 +207,8 @@
                    success: element_showResponse, //form提交响应成功后执行的回调函数
                    url: "/ElementsManagement/EditElements",
                    type: "POST",
-                   dataType: "json"
+                   dataType: "json",
+                   data: {ev_Total:evTotal}
                };
                $("#Edit_Elements").ajaxForm(options);
            }
@@ -225,7 +227,7 @@
            //form提交响应成功后执行的回调函数
            function element_showResponse(responseText, statusText) {
                var dataJson = eval("(" + responseText + ")");
-               show_promptDIV(dataJson);//提示信息
+               show_promptDIV(dataJson); //提示信息
            }
 
            //提示信息
@@ -239,60 +241,7 @@
     
    </script>
 
-   <%--表单提交数据--%>
-  <%-- <script type="text/javascript">
-       $(document).ready(function () {
-           var elementsData;
-           var elementsStr;
-           $("#saveSubmit").click(function () {
-               
-               if (false) {
-                   return false;
-               } else {
-                   elementsStr = "{"; //JSON数据字符串
-                   var evTotal = 0; //元素有效的数量
-                  
-                   //元素"是否有效"中被选中的项
-                   for (var i = 0; i < 1; i++) {
-                       var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
-                       
-                       if (checkBoxID.is(":checked")) {
-                           //alert(checkBoxID.val() + "选中");
-                           elementsStr += "eInvalidID" + evTotal.toString() + ":'" + checkBoxID.val() + "',";
-                           evTotal++;
-                           // checkBoxID.prop("checked", true);
-                       } else {
-                           //alert(checkBoxID.is(":checked"));
-                           //alert(checkBoxID.val() + "未选中");
-                           // checkBoxID.prop("checked", false);
-                       }
-                   }
-                   elementsStr += "ev_Total:'" + evTotal + "',u_ID:'" + $("#elementsID").val() + "'}";
-                   //alert(elementsStr);
-                   elementsData = eval("(" + elementsStr + ")");
-                  // alert(elementsData);
-                   $("#Edit_Elements").ajaxForm({
-                       success: ri_showResponse, //form提交相应成功后执行的回调函数
-                       url: "/ElementsManagement/EditElements",
-                       type: "POST",
-                       dataType: "json",
-                       data: elementsData
-                   });
-               }
-           });
-           //提交element表单后执行的函数
-           function ri_showResponse(responseText, statusText) {
-               //alert("ok?????");
-               $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-               $("#promptDIV").addClass(responseText.css);
-               $("#promptDIV").html(responseText.message);
-               if (responseText.success) {
-                   location.href = responseText.toUrl;
-               }
-           }
-       });
-   </script>--%>
-  
+ 
 
 
 </asp:Content>

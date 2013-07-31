@@ -67,12 +67,13 @@
       $(document).ready(function () {
           var operationsData;
           var operationsStr;
+          var oiTotal = 0; //操作有效的数量     
           $("#saveSubmit").click(function () {
               if (false) {
                   return false;
               } else {
                   operationsStr = "{"; //JSON数据字符串
-                  var oiTotal = 0; //操作有效的数量              
+
                   //操作"是否有效"中被选中的项 
                   for (var i = 0; i < 1; i++) {
                       var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
@@ -87,14 +88,7 @@
                   }
                   operationsStr += "oi_Total:'" + oiTotal + "',u_ID:'" + $("#operationID").val() + "'}";
                   operationsData = eval("(" + operationsStr + ")");
-                  //              $("#Edit_Operations").ajaxForm({
-                  //                  success: ue_showResponse,  // form提交响应成功后执行的回调函数
-                  //                  url: "/OperationsManagement/EditOperations",
-                  //                  type: "POST",
-                  //                  dataType: "json",
-                  //                  data: operationsData
 
-                  //              });
                   ModifyOperations(); //修改操作信息
 
               }
@@ -108,7 +102,8 @@
                   success: operation_showResponse, //form提交响应成功后执行的回调函数
                   url: "/OperationsManagement/EditOperations",
                   type: "POST",
-                  dataType: "json"
+                  dataType: "json",
+                  data: {oi_Total:oiTotal}
               };
               $("#Edit_Operations").ajaxForm(options);
           }
@@ -127,7 +122,7 @@
           //form提交响应成功后执行的回调函数
           function operation_showResponse(responseText, statusText) {
               var dataJson = eval("(" + responseText + ")");
-              show_promptDIV(dataJson);//提示信息
+              show_promptDIV(dataJson); //提示信息
           }
 
           //提示信息

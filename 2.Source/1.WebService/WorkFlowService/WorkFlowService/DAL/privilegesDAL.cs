@@ -317,7 +317,49 @@ namespace Saron.WorkFlowService.DAL
 			}
 			return DbHelperSQL.Query(strSql.ToString());
 		}
-
+        
+        //获得权限列表中菜单，操作，功能中元素的权限项目列表信息
+        public DataSet GetItemIDOfPrivileges(int appID,int flag)
+        {
+            StringBuilder strSql = new StringBuilder();
+            //菜单ID列表
+            if (flag == 1)
+            {
+                strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+                strSql.Append(" FROM privileges ");
+                strSql.Append(" where app_id=@app_id and privilegetype_id=1 and invalid=0");
+                SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			    };
+                parameters[0].Value = appID;
+                return DbHelperSQL.Query(strSql.ToString(), parameters);
+            }
+            //元素ID列表
+            else  if (flag == 2) 
+            {
+                strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+                strSql.Append(" FROM privileges ");
+                strSql.Append(" where app_id=@app_id and privilegetype_id=2 and invalid=0");
+                SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			    };
+                parameters[0].Value = appID;
+                return DbHelperSQL.Query(strSql.ToString(), parameters);
+            }
+            //操作ID列表
+            else
+            {
+                strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+                strSql.Append(" FROM privileges ");
+                strSql.Append(" where app_id=@app_id and privilegetype_id=3 and invalid=0");
+                SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			    };
+                parameters[0].Value = appID;
+                return DbHelperSQL.Query(strSql.ToString(), parameters);
+            }
+           
+        }
         /// <summary>
         /// 获得数据列表
         /// </summary>

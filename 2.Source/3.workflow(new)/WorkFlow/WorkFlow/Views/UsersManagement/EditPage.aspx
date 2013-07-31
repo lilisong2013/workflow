@@ -66,12 +66,13 @@
 	    $(document).ready(function () {
 	        var usersData;
 	        var usersStr;
+	        var uiTotal = 0; //用户有效的数量
 	        $("#saveSubmit").click(function () {
 	            if (false) {
 	                return false;
 	            } else {
 	                usersStr = "{"; //JSON数据字符串
-	                var uiTotal = 0; //用户有效的数量
+
 	                //alert(uiTotal);
 	                //用户"是否有效"中被选中的项 
 	                for (var i = 0; i < 1; i++) {
@@ -90,7 +91,7 @@
 
 	                usersData = eval("(" + usersStr + ")");
 	                ModifyUser(); //修改用户信息
-	             
+
 	            }
 	        });
 
@@ -101,7 +102,8 @@
 	                success: user_showResponse, //form提交响应成功后执行的回调函数
 	                url: "/UsersManagement/EditUsers",
 	                type: "POST",
-	                dataType: "json"
+	                dataType: "json",
+	                data: {in_Total:uiTotal}
 	            };
 	            $("#Edit_Users").ajaxForm(options);
 	        }

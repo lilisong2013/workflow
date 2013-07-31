@@ -127,7 +127,18 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_operationsBllService.SecurityContextValue = m_SecurityContext;
 
-                //m_operationModel = m_operationsBllService.GetModel(operationID,out msg);
+
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+                WorkFlow.PrivilegesWebService.SecurityContext mo_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+                mo_SecurityContext.UserName = m_usersModel.login;
+                mo_SecurityContext.PassWord = m_usersModel.password;
+                mo_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllService.SecurityContextValue = mo_SecurityContext;
+
+                //获得操作权限项目在权限中的权限项目号列表
+              
+
                 try
                 {
                     if (m_operationsBllService.DeleteOperations(operationID, out msg))
@@ -297,7 +308,7 @@ namespace WorkFlow.Controllers
             }
             else 
             {
-                int m_oi_total = Convert.ToInt32(Request.Params["oi_Total"]);//功能"是否有效"的数量
+                int m_oi_total = Convert.ToInt32(Request.Form["oi_Total"]);//功能"是否有效"的数量
                 string msg = string.Empty;
                 WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
                 WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
@@ -568,5 +579,114 @@ namespace WorkFlow.Controllers
             }
         
         }
+
+        //操作功能中的模糊查询
+        public ActionResult GetListByOperationName(string operationName)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                string msg = string.Empty;
+                WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+                WorkFlow.OperationsWebService.SecurityContext m_SecurityContext = new OperationsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_operationsBllService.SecurityContextValue = m_SecurityContext;
+
+                 //如果搜索字段为空，默认为显示全部数据
+                if (operationName.Length == 0)
+                {
+                    DataSet ds = m_operationsBllService.GetOperationsListOfApp((int)m_usersModel.app_id,out msg);
+                    string data = "{Rows:[";
+                    if (ds == null)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
+                    }
+                    else
+                    {
+                        try {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
+                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
+                                string remark = Convert.ToString(ds.Tables[0].Rows[i][4]);
+                                string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                string description = Convert.ToString(ds.Tables[0].Rows[i][3]);
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "code:'" + code + "',";
+                                    data += "description:'" + description + "',";
+                                    data += "remark:'" + remark + "'}";
+                                }
+                                else
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "code:'" + code + "',";
+                                    data += "description:'" + description + "',";
+                                    data += "remark:'" + remark + "'},";
+                                }
+                            }
+                        }
+                        catch (Exception ex) { }
+                        data += "]}";
+                        return Json(data);
+                    }
+                }
+                //如果搜索字段不为空，按照搜索字段显示部分数据列表
+                else
+                {
+                    DataSet ds = m_operationsBllService.GetListByOperationName(operationName,(int)m_usersModel.app_id,out msg);
+                    string data = "{Rows:[";
+                    if (ds == null)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
+                    }
+                    else
+                    {
+                        try {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
+                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
+                                string remark = Convert.ToString(ds.Tables[0].Rows[i][4]);
+                                string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                string description = Convert.ToString(ds.Tables[0].Rows[i][3]);
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "code:'" + code + "',";
+                                    data += "description:'" + description + "',";
+                                    data += "remark:'" + remark + "'}";
+                                }
+                                else
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "code:'" + code + "',";
+                                    data += "description:'" + description + "',";
+                                    data += "remark:'" + remark + "'},";
+                                }
+                            }
+                        }
+                        catch (Exception ex) { }
+
+                        data += "]}";
+                        return Json(data);
+                    }
+                }
+            }
+        }
+
+
     }
 }

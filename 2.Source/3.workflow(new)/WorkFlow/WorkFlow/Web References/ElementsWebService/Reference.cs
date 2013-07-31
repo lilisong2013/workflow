@@ -52,6 +52,8 @@ namespace WorkFlow.ElementsWebService {
         
         private System.Threading.SendOrPostCallback GetElementsNameOfAppIDOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetListByOperationNameOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -128,6 +130,9 @@ namespace WorkFlow.ElementsWebService {
         
         /// <remarks/>
         public event GetElementsNameOfAppIDCompletedEventHandler GetElementsNameOfAppIDCompleted;
+        
+        /// <remarks/>
+        public event GetListByOperationNameCompletedEventHandler GetListByOperationNameCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -442,6 +447,39 @@ namespace WorkFlow.ElementsWebService {
             if ((this.GetElementsNameOfAppIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetElementsNameOfAppIDCompleted(this, new GetElementsNameOfAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetListByOperationName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetListByOperationName(string operationName, int appID, out string msg) {
+            object[] results = this.Invoke("GetListByOperationName", new object[] {
+                        operationName,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetListByOperationNameAsync(string operationName, int appID) {
+            this.GetListByOperationNameAsync(operationName, appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetListByOperationNameAsync(string operationName, int appID, object userState) {
+            if ((this.GetListByOperationNameOperationCompleted == null)) {
+                this.GetListByOperationNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetListByOperationNameOperationCompleted);
+            }
+            this.InvokeAsync("GetListByOperationName", new object[] {
+                        operationName,
+                        appID}, this.GetListByOperationNameOperationCompleted, userState);
+        }
+        
+        private void OnGetListByOperationNameOperationCompleted(object arg) {
+            if ((this.GetListByOperationNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetListByOperationNameCompleted(this, new GetListByOperationNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1049,6 +1087,40 @@ namespace WorkFlow.ElementsWebService {
         private object[] results;
         
         internal GetElementsNameOfAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetListByOperationNameCompletedEventHandler(object sender, GetListByOperationNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetListByOperationNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetListByOperationNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

@@ -66,12 +66,13 @@
        $(document).ready(function () {
            var flowsData;
            var flowsStr;
+           var fvTotal = 0; //流程有效的数量
            $("#saveSubmit").click(function () {
                if (false) {
                    return false;
                } else {
                    flowsStr = "{"; //JSON数据字符串
-                   var fvTotal = 0; //流程有效的数量
+
                    //alert(fvTotal);
                    //流程"是否有效"中被选中的项
                    for (var i = 0; i < 1; i++) {
@@ -88,7 +89,7 @@
                    flowsStr += "fv_Total:'" + fvTotal + "',u_ID:'" + $("#flowsID").val() + "'}";
                    flowsData = eval("(" + flowsStr + ")");
                    ModifyFlow(); //修改流程信息
-                  
+
                }
            });
 
@@ -99,7 +100,8 @@
                    success: flow_showResponse, //form提交响应成功后执行的回调函数
                    url: "/FlowsManagement/EditFlow",
                    type: "POST",
-                   dataType: "json"
+                   dataType: "json",
+                   data: {fv_Total:fvTotal}
                };
 
                $("#Edit_flows").ajaxForm(options);

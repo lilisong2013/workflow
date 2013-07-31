@@ -332,6 +332,50 @@
         });
     </script>
 
+   <%--查询信息--%>
+   <script type="text/javascript">
+       var key;
+       function search() {
+           key = $("#txtKey").val();
+           $.ajax({
+               url: "/ElementsManagement/GetListByElementName?elementName=" + key,
+               type: "POST",
+               dataType: "json",
+               data: {},
+               success: function (responseText, statusText) {
+                   var dataSearchJson = eval("(" + responseText + ")");
+                   $("#elementgrid").ligerGrid({
+                       columns: [
+                        { display: '元素ID', name: 'id', width: 80, align: 'center' },
+                        { display: '元素名称', name: 'name', align: 'center' },
+                        { display: '元素编码', name: 'code', align: 'center' },
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 100,
+                            render: function (row) {
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteElement(' + row.id + ')">删除</a>';
+                                return html;
+                            }
+                        }
+                       ],
+                       data: dataSearchJson,
+                       newPage: 1
+                   });
+                   $("#elementgrid").ligerGetGridManager().loadData();
+               }
+           });
+       }
+   </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -354,8 +398,13 @@
       <% DateTime t = Convert.ToDateTime(s); %>
      
    <div class="tab-content">
-     <%--查看所有元素--%>
+     
      <div class="tab-pane active" id="AllElements">
+      <%--查询按钮--%> 
+      <b>元素名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
+      <input id="btnOK" type="button" value="查询" onclick="search()"/> 
+      <hr />   
+     <%--查看所有元素--%>
      <div id="elementgrid"></div>
      </div>  
      <%--添加元素--%>

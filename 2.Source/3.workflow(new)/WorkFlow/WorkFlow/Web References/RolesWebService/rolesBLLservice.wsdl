@@ -109,6 +109,29 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetListByRoleName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="roleName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListByRoleNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListByRoleNameResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AddSoapIn">
@@ -156,6 +179,15 @@
   <wsdl:message name="GetAllRolesListOfAppSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetListByRoleNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListByRoleName" />
+  </wsdl:message>
+  <wsdl:message name="GetListByRoleNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListByRoleNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListByRoleNameSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="rolesBLLserviceSoap">
     <wsdl:operation name="Add">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -181,6 +213,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的角色数据列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetAllRolesListOfAppSoapIn" />
       <wsdl:output message="tns:GetAllRolesListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListByRoleName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据查询的角色名称获得角色列表,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetListByRoleNameSoapIn" />
+      <wsdl:output message="tns:GetListByRoleNameSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="rolesBLLserviceSoap" type="tns:rolesBLLserviceSoap">
@@ -235,6 +272,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetListByRoleName">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetListByRoleName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetListByRoleNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="rolesBLLserviceSoap12" type="tns:rolesBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -283,6 +330,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetAllRolesListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListByRoleName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetListByRoleName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetListByRoleNameSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

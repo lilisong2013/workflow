@@ -212,7 +212,7 @@
           key = $("#txtKey").val();
 
           $.ajax({
-              url: "",
+              url: "/RolesManagement/GetListByRoleName?roleName="+key,
               type: "POST",
               dataType: "json",
               data: {},
@@ -280,7 +280,7 @@
         
         <div class="tab-pane active" id="AllRoles">
         <%--查询按钮--%> 
-        <b>流程名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
+        <b>角色名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
         <input id="btnOK" type="button" value="查询" onclick="search()"/> 
         <hr /> 
         <%--查看所有角色--%>

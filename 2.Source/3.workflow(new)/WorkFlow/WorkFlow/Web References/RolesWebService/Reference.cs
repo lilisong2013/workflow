@@ -42,6 +42,8 @@ namespace WorkFlow.RolesWebService {
         
         private System.Threading.SendOrPostCallback GetAllRolesListOfAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetListByRoleNameOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -103,6 +105,9 @@ namespace WorkFlow.RolesWebService {
         
         /// <remarks/>
         public event GetAllRolesListOfAppCompletedEventHandler GetAllRolesListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetListByRoleNameCompletedEventHandler GetListByRoleNameCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -256,6 +261,39 @@ namespace WorkFlow.RolesWebService {
             if ((this.GetAllRolesListOfAppCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllRolesListOfAppCompleted(this, new GetAllRolesListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetListByRoleName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetListByRoleName(string roleName, int appID, out string msg) {
+            object[] results = this.Invoke("GetListByRoleName", new object[] {
+                        roleName,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetListByRoleNameAsync(string roleName, int appID) {
+            this.GetListByRoleNameAsync(roleName, appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetListByRoleNameAsync(string roleName, int appID, object userState) {
+            if ((this.GetListByRoleNameOperationCompleted == null)) {
+                this.GetListByRoleNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetListByRoleNameOperationCompleted);
+            }
+            this.InvokeAsync("GetListByRoleName", new object[] {
+                        roleName,
+                        appID}, this.GetListByRoleNameOperationCompleted, userState);
+        }
+        
+        private void OnGetListByRoleNameOperationCompleted(object arg) {
+            if ((this.GetListByRoleNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetListByRoleNameCompleted(this, new GetListByRoleNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -642,6 +680,40 @@ namespace WorkFlow.RolesWebService {
         private object[] results;
         
         internal GetAllRolesListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetListByRoleNameCompletedEventHandler(object sender, GetListByRoleNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetListByRoleNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetListByRoleNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

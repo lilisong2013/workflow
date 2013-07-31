@@ -329,7 +329,7 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                int m_ri_total = Convert.ToInt32(Request.Params["rv_Total"]);//角色"是否有效"的数量
+                int m_ri_total = Convert.ToInt32(Request.Form["rv_Total"]);//角色"是否有效"的数量
                 string msg = string.Empty;
                 WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
                 WorkFlow.RolesWebService.rolesModel m_rolesModel = new RolesWebService.rolesModel();
@@ -1044,5 +1044,105 @@ namespace WorkFlow.Controllers
 
             return Json(datajson);
         }
+
+        //角色名称的模糊查询
+        public ActionResult GetListByRoleName(string roleName)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                string msg = string.Empty;
+                WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+                WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_rolesBllService.SecurityContextValue=m_SecurityContext;
+
+                //如果搜索的字段为空，则显示全部角色列表
+                if (roleName.Length == 0)
+                {
+                    DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
+                    string data = "{Rows:[";
+                    if (ds == null)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService!'}");
+                    }
+                    else
+                    {
+                        try
+                        {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
+                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
+                                string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "remark:'" + remark + "'}";
+                                }
+                                else
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "remark:'" + remark + "'},";
+                                }
+                            }
+                        }
+                        catch (Exception ex) { }
+                        data += "]}";
+                        return Json(data);
+                    }
+                }
+                //如果搜索的字段不为空，则根据搜索字段显示部分角色列表
+                else 
+                {
+                    DataSet ds = m_rolesBllService.GetListByRoleName(roleName,(int)m_usersModel.app_id,out msg);
+                    String data = "{Rows:[";
+                    if (ds == null)
+                    {
+
+                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
+                    }
+                    else
+                    {
+                        try
+                        {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
+                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
+                                string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "remark:'" + remark + "'}";
+                                }
+                                else
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "remark:'" + remark + "'},";
+                                }
+                            }
+                        }
+                        catch (Exception ex) { }
+                        data += "]}";
+                        return Json(data);
+                    }
+                }
+            }
+        }
+
+
     }
 }

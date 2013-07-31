@@ -67,33 +67,29 @@
        $(document).ready(function () {
            var rolesData;
            var rolesStr;
+           var rvTotal = 0;
            $("#saveSubmit").click(function () {
                if (false) {
                    return false;
                } else {
                    rolesStr = "{"; //JSON数据字符串
-                   var rvTotal = 0; //角色有效的数量                
+                   //角色有效的数量                
                    //角色"是否有效"中被选中的项
                    for (var i = 0; i < 1; i++) {
                        var checkBoxID = $("#invalidValue" + i.toString()); //复选框ID
                        //alert(checkBoxID);
                        if (checkBoxID.is(":checked")) {
+                         
                            rolesStr += "rInvalidID" + rvTotal.toString() + ":'" + checkBoxID.val() + "',";
                            rvTotal++;
 
                        } else {
-
+                           
                        }
                    }
                    rolesStr += "rv_Total:'" + rvTotal + "',u_ID:'" + $("#rolesID").val() + "'}";
                    rolesData = eval("(" + rolesStr + ")");
-                   //                   $("#Edit_Roles").ajaxForm({
-                   //                       success: ri_showResponse, //form提交相应成功后执行的回调函数
-                   //                       url: "/RolesManagement/EditRoles",
-                   //                       type: "POST",
-                   //                       dataType: "json",
-                   //                       data: rolesData
-                   //                   });
+                 
                    ModifyRole();
                }
            });
@@ -104,7 +100,8 @@
                    success: role_showResponse, //form提交成功后执行的回调函数
                    url: "/RolesManagement/EditRoles",
                    type: "POST",
-                   dataType: "json"
+                   dataType: "json",
+                   data: {rv_Total:rvTotal}
                };
                $("#Edit_Roles").ajaxForm(options);
            }
@@ -121,8 +118,8 @@
            }
 
            //form提交成功后执行的回调函数
-           function role_showResponse(responseText,statusText) {
-             
+           function role_showResponse(responseText, statusText) {
+
                var dataJson = eval("(" + responseText + ")");
                show_promptDIV(dataJson); //提示信息
            }
@@ -133,7 +130,7 @@
                $("#promptDIV").addClass(data.css);
                $("#promptDIV").html(data.message);
            }
-      
+
        });
    </script>
  
@@ -179,7 +176,7 @@
         <input type="hidden" name="rolesCreated_ip" id="rolesCreated_ip" value="<%= ipAddress %>" /> 
         </div> 
        </div>
-       <div class="control-group span6 offset3">
+       <div class="control-group span10 offset5">
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" />  
        </div>
    </form>

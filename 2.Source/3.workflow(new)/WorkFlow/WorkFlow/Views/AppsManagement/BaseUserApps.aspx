@@ -5,17 +5,23 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-    <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
-    
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
-        type="text/css" />
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+   <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
+   <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+   <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+    <%-- ligerUI核心文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
-    
-     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
+    <%--LigerUI Dialog文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+   <%--LigerUI ToolBar文件--%>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+   <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
 
     <%--页面标题--%>
     <script type="text/javascript">
@@ -23,6 +29,15 @@
         var PageName = "系统总览";
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+     
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("alert alert-error alert-success");
+            $("#promptDIV").html("");
+        });
+    </script>
 
     <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
@@ -103,7 +118,7 @@
                                   { display: '备注信息', name: 'remark', type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-list"></i><a href="/AppsManagement/BU_AppsInfo?id=' + row.id + '">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog('+row.id+')">详情</a>';
                                           return html;
                                       }
                                   }
@@ -133,7 +148,7 @@
                                   { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-list"></i><a href="/AppsManagement/BU_ApprovalApps?id=' + row.id + '">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog('+row.id+')">详情</a>';
                                           return html;
                                       }
                                   },
@@ -151,7 +166,8 @@
             });
         }
 
-
+    
+        //删除弹出框
         function DeleteApp(appid) {
             //alert(appid);
             var app_id = appid;
@@ -175,6 +191,21 @@
           
         }
     </script>
+
+  <%--详情弹出框函数--%>
+  <script type="text/javascript">
+      function DetailDialog(id) {
+
+          if (id) {
+              $.ligerDialog.open({
+                title:'详情('+id+')信息',
+                width:850,
+                height:600,
+                url: '/AppsManagement/BU_ApprovalApps?id='+id
+              });
+          }
+      }
+  </script>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">

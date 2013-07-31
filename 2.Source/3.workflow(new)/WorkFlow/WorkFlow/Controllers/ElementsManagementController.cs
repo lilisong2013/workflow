@@ -664,7 +664,7 @@ namespace WorkFlow.Controllers
             else
             {
                 string msg = string.Empty;
-                int m_ev_Total = Convert.ToInt32(Request.Params["ev_Total"]);
+                int m_ev_Total = Convert.ToInt32(Request.Form["ev_Total"]);
                 WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
                 WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
                 WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
@@ -820,6 +820,104 @@ namespace WorkFlow.Controllers
             
             }
        
+        }
+
+        //根据元素名称实现模糊查询
+        public ActionResult GetListByElementName(string elementName)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                string msg = string.Empty;
+                WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+                WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_elementsBllService.SecurityContextValue = m_SecurityContext;
+
+                //如果搜索元素名称为空，显示全部元素列表
+                if (elementName.Length == 0)
+                {
+                    DataSet ds = m_elementsBllService.GetElementsListOfApp((int)m_usersModel.app_id,out msg);
+                    string data = "{Rows:[";
+                    if (ds == null)
+                    {
+
+                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
+                    }
+                    else 
+                    {
+                        try {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
+                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
+                                string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "code:'" + code + "'}";
+                                }
+                                else
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "code:'" + code + "'},";
+                                }
+                            }
+
+                        }
+                        catch (Exception ex) { }
+                        data += "]}";
+                        return Json(data);
+                    }
+                }
+                //如果搜索元素名称不为空，显示相应的元素列表
+                else
+                {
+                    DataSet ds = m_elementsBllService.GetListByOperationName(elementName,(int)m_usersModel.app_id, out msg);
+                    string data = "{Rows:[";
+                    if (ds == null)
+                    {
+
+                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
+                    }
+                    else
+                    {
+                        try {
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            {
+                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
+                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
+                                string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                if (i == ds.Tables[0].Rows.Count - 1)
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "code:'" + code + "'}";
+                                }
+                                else
+                                {
+                                    data += "{name:'" + name + "',";
+                                    data += "id:'" + id + "',";
+                                    data += "code:'" + code + "'},";
+                                }
+                            }
+                        }
+                        catch (Exception ex) { }
+                        data += "]}";
+                        return Json(data);
+                    }
+                }
+            }
         }
         public class LoginResultDTO
         {

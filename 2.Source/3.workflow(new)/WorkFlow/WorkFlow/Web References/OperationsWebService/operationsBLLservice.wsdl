@@ -174,6 +174,29 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetListByOperationName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="operationName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetListByOperationNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetListByOperationNameResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AddSoapIn">
@@ -248,6 +271,15 @@
   <wsdl:message name="GetCodeListOfAppSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetListByOperationNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetListByOperationName" />
+  </wsdl:message>
+  <wsdl:message name="GetListByOperationNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetListByOperationNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetListByOperationNameSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="operationsBLLserviceSoap">
     <wsdl:operation name="Add">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条操作记录，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -288,6 +320,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统中操作的Code数据列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetCodeListOfAppSoapIn" />
       <wsdl:output message="tns:GetCodeListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListByOperationName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据操作的名称获得操作数据列表&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetListByOperationNameSoapIn" />
+      <wsdl:output message="tns:GetListByOperationNameSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="operationsBLLserviceSoap" type="tns:operationsBLLserviceSoap">
@@ -372,6 +409,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetListByOperationName">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetListByOperationName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetListByOperationNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="operationsBLLserviceSoap12" type="tns:operationsBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -450,6 +497,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetCodeListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListByOperationName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetListByOperationName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetListByOperationNameSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

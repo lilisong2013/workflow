@@ -355,7 +355,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetOperationsNameOfAppID(int appID,int id)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select name");
+            strSql.Append("select id, name");
             strSql.Append(" FROM operations ");
             strSql.Append(" where app_id=@app_id and id=@id and deleted=0 ");
             SqlParameter[] parameters = {

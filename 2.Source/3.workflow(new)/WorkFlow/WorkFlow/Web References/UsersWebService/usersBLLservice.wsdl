@@ -624,7 +624,7 @@
       <wsdl:output message="tns:ModifyPasswordSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetUserListByLogin">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名称模糊查询</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据登录名称模糊查询,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetUserListByLoginSoapIn" />
       <wsdl:output message="tns:GetUserListByLoginSoapOut" />
     </wsdl:operation>

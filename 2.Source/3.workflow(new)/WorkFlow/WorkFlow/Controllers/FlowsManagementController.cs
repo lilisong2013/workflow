@@ -573,7 +573,7 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                int m_fi_total = Convert.ToInt32(Request.Params["fv_Total"]);//流程"是否有效"的数量
+                int m_fi_total = Convert.ToInt32(Request.Form["fv_Total"]);//流程"是否有效"的数量
                 int EditPageCount = Convert.ToInt32(Session["EditPageCount"]);
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();

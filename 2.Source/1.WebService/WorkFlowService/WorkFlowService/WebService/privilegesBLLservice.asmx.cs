@@ -192,20 +192,7 @@ namespace Saron.WorkFlowService.WebService
             return m_privilegesDal.GetOpListByAppID(appID);
         }
         
-        ////[SoapHeader("m_securityContext")]
-        //[WebMethod(Description = "获得某系统某类型的所有权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
-        //public DataSet GetAllListByAppTypeID(int appID, int privilegetype_id)
-        //{
-        //    ////对webservice进行授权验证,系统管理员才可访问
-        //    //if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
-        //    //{
-        //    //    //webservice用户未授权，msg提示信息
-        //    //    return null;
-        //    //}
-
-        //    return m_privilegesDal.GetAllListByAppTypeID(appID, privilegetype_id);
-        //}
-  
+      
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统某种权限类型下的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetListByPrivilegeType(int privilegeTypeID, int appID,out string msg)
@@ -275,7 +262,19 @@ namespace Saron.WorkFlowService.WebService
 
             return m_privilegesDal.GetMenuPrivilegeIDByMenuID(menuID);
         }
-       
+        
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据权限项目类型获得相应的项目ID列表,<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetItemIDOfPrivileges(int appID, int flag,out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+            return m_privilegesDal.GetItemIDOfPrivileges(appID,flag);
+        }
         #endregion  Method
     }
 }
