@@ -62,6 +62,8 @@ namespace WorkFlow.PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetMenuPrivilegeIDByMenuIDOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetItemIDOfPrivilegesOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -153,6 +155,9 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         public event GetMenuPrivilegeIDByMenuIDCompletedEventHandler GetMenuPrivilegeIDByMenuIDCompleted;
+        
+        /// <remarks/>
+        public event GetItemIDOfPrivilegesCompletedEventHandler GetItemIDOfPrivilegesCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -622,6 +627,39 @@ namespace WorkFlow.PrivilegesWebService {
             if ((this.GetMenuPrivilegeIDByMenuIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetMenuPrivilegeIDByMenuIDCompleted(this, new GetMenuPrivilegeIDByMenuIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetItemIDOfPrivileges", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetItemIDOfPrivileges(int appID, int flag, out string msg) {
+            object[] results = this.Invoke("GetItemIDOfPrivileges", new object[] {
+                        appID,
+                        flag});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetItemIDOfPrivilegesAsync(int appID, int flag) {
+            this.GetItemIDOfPrivilegesAsync(appID, flag, null);
+        }
+        
+        /// <remarks/>
+        public void GetItemIDOfPrivilegesAsync(int appID, int flag, object userState) {
+            if ((this.GetItemIDOfPrivilegesOperationCompleted == null)) {
+                this.GetItemIDOfPrivilegesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetItemIDOfPrivilegesOperationCompleted);
+            }
+            this.InvokeAsync("GetItemIDOfPrivileges", new object[] {
+                        appID,
+                        flag}, this.GetItemIDOfPrivilegesOperationCompleted, userState);
+        }
+        
+        private void OnGetItemIDOfPrivilegesOperationCompleted(object arg) {
+            if ((this.GetItemIDOfPrivilegesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetItemIDOfPrivilegesCompleted(this, new GetItemIDOfPrivilegesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1368,6 +1406,40 @@ namespace WorkFlow.PrivilegesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetItemIDOfPrivilegesCompletedEventHandler(object sender, GetItemIDOfPrivilegesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetItemIDOfPrivilegesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetItemIDOfPrivilegesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
         

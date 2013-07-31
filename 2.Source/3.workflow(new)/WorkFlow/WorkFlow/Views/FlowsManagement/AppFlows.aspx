@@ -143,14 +143,19 @@
                         dataType: "json",
                         data: { flowID: flowid },
                         success: function (responseText, statusText) {
-                            //GetFlowList();
-                            $("#promptDIV").removeClass("alert alert-error alert-success");
-                            $("#promptDIV").addClass("alert alert-success");
-                            $("#promptDIV").html("删除成功!");
+                            var dataJson = eval("(" + responseText + ")");
+                            //删除提示信息
+                            show_DIV(dataJson);
                             t.loadData();
 
                         }
                     });
+                    //删除提示信息
+                    function show_DIV(data) {
+                        $("#promptDIV").removeClass("alert alert-error alert-success");
+                        $("#promptDIV").addClass(data.css);
+                        $("#promptDIV").html(data.message);
+                    }
                 }
             });
         }

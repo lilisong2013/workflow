@@ -305,6 +305,29 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetItemIDOfPrivileges">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="flag" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemIDOfPrivilegesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemIDOfPrivilegesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="ExistsItemOfPrivilegesTypeSoapIn">
@@ -442,6 +465,15 @@
   <wsdl:message name="GetMenuPrivilegeIDByMenuIDSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetItemIDOfPrivilegesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemIDOfPrivileges" />
+  </wsdl:message>
+  <wsdl:message name="GetItemIDOfPrivilegesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemIDOfPrivilegesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemIDOfPrivilegesSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="privilegesBLLserviceSoap">
     <wsdl:operation name="ExistsItemOfPrivilegesType">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">某种权限类型下某权限项目的权限是否已经存在，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -517,6 +549,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据菜单ID获取菜单权限ID，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetMenuPrivilegeIDByMenuIDSoapIn" />
       <wsdl:output message="tns:GetMenuPrivilegeIDByMenuIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetItemIDOfPrivileges">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据权限项目类型获得相应的项目ID列表,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetItemIDOfPrivilegesSoapIn" />
+      <wsdl:output message="tns:GetItemIDOfPrivilegesSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="privilegesBLLserviceSoap" type="tns:privilegesBLLserviceSoap">
@@ -671,6 +708,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetItemIDOfPrivileges">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetItemIDOfPrivileges" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetItemIDOfPrivilegesSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="privilegesBLLserviceSoap12" type="tns:privilegesBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -819,6 +866,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetMenuPrivilegeIDByMenuIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemIDOfPrivileges">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetItemIDOfPrivileges" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetItemIDOfPrivilegesSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -273,12 +273,14 @@ namespace WorkFlow.Controllers
         //删除一条记录
         public ActionResult DeleteElement()
         {
+            Boolean flag=false;
             if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
             else
             {
+               
                 string msg = string.Empty;
                 int elementID = Convert.ToInt32(Request.Form["elementsID"]);
                 WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
@@ -291,18 +293,69 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_elementsBllService.SecurityContextValue = m_SecurityContext;
 
-                try
-                {
-                    if (m_elementsBllService.Delete(elementID, out msg))
-                    {
 
-                        return Json("{success:true,css:'alert alert-success',message:'成功删除元素!'}");
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+                WorkFlow.PrivilegesWebService.SecurityContext me_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+                me_SecurityContext.UserName = m_usersModel.login;
+                me_SecurityContext.PassWord = m_usersModel.password;
+                me_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllService.SecurityContextValue = me_SecurityContext;
+
+                DataSet eds = m_privilegesBllService.GetItemIDOfPrivileges((int)m_usersModel.app_id,2,out msg);
+                var total = eds.Tables[0].Rows.Count;
+                ArrayList eidlist = new ArrayList();
+                //权限项目列表中没有元素项目
+                if (total == 0)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'权限项目列表中没有操元素项目'}");
+                }
+                //权限项目列表中元素项目加入到元素列表中
+                else
+                {
+                    for (int i = 0; i < total; i++)
+                    {
+                        eidlist.Add(eds.Tables[0].Rows[i][3]);
+                    }
+                }
+
+                //判断一下当前元素ID是否存在权限项目中元素ID列表中
+                foreach (int idlist in eidlist)
+                {
+                    if (idlist.Equals(elementID))
+                    {
+                        flag = true;//存在
                     }
                     else
                     {
-         
-                        return Json("{success:false,css:'alert alert-error',message:'元素删除失败!'}");
+                        flag = false;//不存在
                     }
+                }
+
+
+                try
+                {
+                    //不存在权限项目中可以删除
+                    if (flag==false)
+                    {
+
+                        if (m_elementsBllService.Delete(elementID, out msg))
+                        {
+
+                            return Json("{success:true,css:'alert alert-success',message:'成功删除元素!'}");
+                        }
+                        else
+                        {
+
+                            return Json("{success:false,css:'alert alert-error',message:'元素删除失败!'}");
+                        }
+                    }
+                   //存在权限项目中，不能删除
+                    else
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'元素已经在权限项目中设置，不能删除!'}");
+                    }
+                    
                 }
                 catch (Exception ex)
                 {

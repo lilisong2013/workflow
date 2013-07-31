@@ -137,21 +137,27 @@
             var userid = id;
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 //return true;
-                if (yes) { 
-                $.ajax({
-                    url: "/UsersManagement/DeleteUser",
-                    type: "POST",
-                    dataType: "json",
-                    data: { userID: userid },
-                    success: function (responseText, statusText) {
-                        //GetUsersList();
+                if (yes) {
+                    $.ajax({
+                        url: "/UsersManagement/DeleteUser",
+                        type: "POST",
+                        dataType: "json",
+                        data: { userID: userid },
+                        success: function (responseText, statusText) {
+                            var dataJson = eval("(" + responseText + ")");
+                            //删除提示信息
+                            show_DIV(dataJson);
+                            t.loadData();
+                        }
+                    });
+
+                    //删除提示信息
+                    function show_DIV(data) {
                         $("#promptDIV").removeClass("alert alert-error alert-success");
-                        $("#promptDIV").addClass("alert alert-success");
-                        $("#promptDIV").html("删除成功!");
-                        t.loadData();
+                        $("#promptDIV").addClass(data.css);
+                        $("#promptDIV").html(data.message);
                     }
-                });
-            }
+                }
             })
         }
     </script>

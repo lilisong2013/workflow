@@ -442,7 +442,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetMenuNameOfAppID(int appId,int Id)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name");
+            strSql.Append("select name");
             strSql.Append(" FROM menus ");
             strSql.Append(" where app_id=@app_id and id=@Id and deleted=0 ");
             SqlParameter[] parameters = {

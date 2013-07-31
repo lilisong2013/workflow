@@ -108,12 +108,14 @@ namespace WorkFlow.Controllers
         //删除一条记录
         public ActionResult DeleteOperation()
         {
+            Boolean flag = false;//判断删除的标志
             if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
             else
             {
+                
                 string msg = string.Empty;
                 int operationID = Convert.ToInt32(Request.Form["operationID"]);
                 WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
@@ -137,20 +139,61 @@ namespace WorkFlow.Controllers
                 m_privilegesBllService.SecurityContextValue = mo_SecurityContext;
 
                 //获得操作权限项目在权限中的权限项目号列表
-              
+                DataSet ods = m_privilegesBllService.GetItemIDOfPrivileges((int)m_usersModel.app_id,3,out msg);
+                var total = ods.Tables[0].Rows.Count;
+                ArrayList oidlist = new ArrayList();
 
-                try
+                //权限项目列表中没有操作项目
+                if (total == 0)
                 {
-                    if (m_operationsBllService.DeleteOperations(operationID, out msg))
+                    return Json("{success:false,css:'alert alert-error',message:'权限项目列表中没有操作项目'}");
+                }
+
+                //权限项目列表中操作项目的ID列表
+                else
+                {
+                    for (int i = 0; i < total; i++)
                     {
-                       
-                        return Json("{success:true,css:'alert alert-success',message:'删除成功!'}");
+                        oidlist.Add(ods.Tables[0].Rows[i][3]);
+                    }
+                }
+
+                //判断一下当前的操作ID(operationID)是否和权限项目列表中操作项目的ID列表相等
+                foreach (int idlist in oidlist)
+                {
+                    if (idlist.Equals(operationID))
+                    {
+                        flag = true;//存在
                     }
                     else
                     {
-                      
-                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
+                        flag = false;//不存在
                     }
+                    
+                }
+                
+
+                try
+                {
+                    if (flag == false)
+                    {
+                        if (m_operationsBllService.DeleteOperations(operationID, out msg))
+                        {
+
+                            return Json("{success:true,css:'alert alert-success',message:'删除成功!'}");
+                        }
+                        else
+                        {
+
+                            return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
+                        }
+
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'权限项目中已经设置了操作功能，不能删除!'}");
+                    }
+                   
                 }
                 catch (Exception ex)
                 {
