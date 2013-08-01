@@ -852,7 +852,9 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+
                 DataSet ds = m_privilegesBllService.GetElListByAppID((int)m_usersModel.app_id, out msg);
+
                 IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
                 var total = ds.Tables[0].Rows.Count;
                 for (var i = 0; i < total; i++)
@@ -874,6 +876,9 @@ namespace WorkFlow.Controllers
                                     pi.SetValue(m_privilegesModel, null, null);
                                 break;
                             }
+
+
+
                         }
                     }
                     m_list.Add(m_privilegesModel);
@@ -1243,16 +1248,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegeBllService.Delete(privilegeID, out msg) == true)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/PrivilegesManagement/AppPrivileges" });
+                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/PrivilegesManagement/AppPrivileges" });
+                        return Json("{success:true,css:'alert alert-success',message:'成功删除!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
           
@@ -1396,7 +1404,7 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                int m_pi_total = Convert.ToInt32(Request.Params["pv_Total"]);//权限"是否有效"的数量
+                int m_pi_total = Convert.ToInt32(Request.Form["pv_Total"]);//权限"是否有效"的数量
                 string msg = string.Empty;
                 WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
                 WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = new PrivilegesWebService.privilegesModel();
@@ -1416,7 +1424,8 @@ namespace WorkFlow.Controllers
                 string name = collection["privilegeName"].Trim().ToString();
                 if (name.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "权限名称不能为空!" });
+                  
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称不能为空!'}");
                 }
                 DataSet ds = m_privilegesBllService.GetAllListByAppID(appID,out msg);
                 var total = ds.Tables[0].Rows.Count;
@@ -1456,23 +1465,27 @@ namespace WorkFlow.Controllers
                 {
                     if (privilegename.Equals(m_privilegesModel.name.ToString()))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的权限名称!" });
+                      
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的权限名称!'}");
                     }
                 }
                 try
                 {
                     if (m_privilegesBllService.Update(m_privilegesModel, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/PrivilegesManagement/AppPrivileges" });
+                   
+                        return Json("{success:true,css:'alert alert-success',message:'修改成功！'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败!" });
+                     
+                        return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+             
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
                       

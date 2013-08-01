@@ -5,8 +5,9 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
-    <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
-    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+     <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
+     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
     
    <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
@@ -22,6 +23,12 @@
 
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+     <%--LigerUI ToolBar文件--%>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+   <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
 
     <%--页面标题--%>
     <script type="text/javascript">
@@ -30,21 +37,21 @@
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
   
-    <%--隐藏提示信息--%>
+   <%--隐藏提示信息--%>
     <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
-    </script>  
+    </script>
 
     <%--菜单权限--%>
     <script type="text/javascript">
         $(document).ready(function () {
            
             GetMPrivilegesList(); //获取数据列表
-            $("#MinfoTab").click(function () {
+            $("#menusTab").click(function () {
                 GetMPrivilegesList(); //获取数据列表
             });
         });
@@ -153,22 +160,71 @@
 
     <%--元素权限--%>
     <script type="text/javascript">
+        var EmanagerListGrid;
         $(document).ready(function () {
+            // alert("Eprivilegesgrid");
+            //定义ligerGrid
+            $("#Eprivilegesgrid").ligerGrid({
+                width: '90%',
+                height: '400'
+            });
+            EmanagerListGrid = $("#Eprivilegesgrid").ligerGetGridManager();
 
-            GetEPrivilegesList(); //获取数据列表 
+            GetEPrivilegesList(); //获取数据列表
 
             $("#EinfoTab").click(function () {
-                GetEPrivilegesList(); //获取数据列表
+                GetMPrivilegesList(); //获取数据列表
             });
+
         });
 
-        //获取数据列表
-        function GetEPrivilegesList() { 
-           window
+        function GetEPrivilegesList() {
+            $.ajax({
+                url: "/PrivilegesManagement/GetEPrivilegesList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataprivilegejson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //更新mygrid数据
+                    //alert(dataprivilegejson);
+                    window['e'] = $("#Eprivilegesgrid").ligerGrid({
+                        columns: [
+                            { display: '权限名称', name: 'name', width: 200 },
+                            { display: '权限项目', name: 'privilegeitem_id', width: 200 },
+                                  { display: '', width: 60,
+                                      render: function (row) {
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                          return html;
+                                      }
+                                  },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.id + ')">编辑</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    return html;
+                                }
+                            }
+
+                            ],
+                        data: dataprivilegejson,
+                        alternatingRow: true
+                    });
+                    // EmanagerListGrid.loadData();
+                    e.loadData();
+                }
+            });
         }
     </script>
-    <%--元素权限列表--%>
-    <script type="text/javascript">
+
+   <%--元素权限列表--%>
+    <%--<script type="text/javascript">
         var EmanagerListGrid;
         $(document).ready(function () {
             // alert("Eprivilegesgrid");
@@ -230,9 +286,74 @@
                 }
             });
         }
+    </script>--%>
+
+    <%--操作权限--%>
+    <script type="text/javascript">
+        var OmanagerListGrid;
+        $(document).ready(function () {
+            // alert("Eprivilegesgrid");
+            //定义ligerGrid
+            $("#Oprivilegesgrid").ligerGrid({
+                width: '90%',
+                height: '400'
+            });
+            OmanagerListGrid = $("#Oprivilegesgrid").ligerGetGridManager();
+
+            GetOPrivilegesList(); //获取数据列表
+
+            $("#OinfoTab").click(function () {
+                GetMPrivilegesList(); //获取数据列表
+            });
+
+        });
+
+        function GetOPrivilegesList() {
+            $.ajax({
+                url: "/PrivilegesManagement/GetOPrivilegesList",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataprivilegejson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //更新mygrid数据
+                    //alert(dataprivilegejson);
+                    window['o'] = $("#Oprivilegesgrid").ligerGrid({
+                        columns: [
+                            { display: '权限名称', name: 'name', width: 200 },
+                            { display: '权限项目', name: 'privilegeitem_id', width: 200 },
+                                  { display: '', width: 60,
+                                      render: function (row) {
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                          return html;
+                                      }
+                                  },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.id + ')">编辑</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    return html;
+                                }
+                            }
+
+                            ],
+                        data: dataprivilegejson,
+                        alternatingRow: true
+                    });
+                    //OmanagerListGrid.loadData();
+                    o.loadData();
+                }
+            });
+        }
     </script>
     <%--操作权限列表--%>
-    <script type="text/javascript">
+   <%-- <script type="text/javascript">
          var OmanagerListGrid;
          $(document).ready(function () {
              // alert("Eprivilegesgrid");
@@ -294,7 +415,7 @@
                  }
              });
          }
-    </script>
+    </script>--%>
 
    <%--详情弹出框--%>
    <script type="text/javascript">
@@ -334,6 +455,29 @@
        }
    </script>
 
+   <%--操作编辑弹出框--%>
+   <script type="text/javascript">
+       function OEditDialog(id) {
+
+           if (id) {
+               var pm = $.ligerDialog.open({
+                   title: '更新流程信息',
+                   width: 800,
+                   height: 500,
+                   showMax: true,
+                   showMin: true,
+                   url: '/PrivilegesManagement/EditPage?id=' + id,
+                   buttons:
+                    [
+                    { text: '返回', onclick: function (item, dialog) {OmanagerListGrid.loadData() ; dialog.close(); } }
+
+                    ]
+               });
+
+           }
+       }
+   </script>
+
     <%--删除提示信息的函数--%>
     <script type="text/javascript">
         function DeletePrivileges(id) {
@@ -347,16 +491,19 @@
                         dataType: "json",
                         data: { privilegeID: privilegeid },
                         success: function (responseText, statusText) {
-                            GetPrivilegeList();
-                            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                            $("#promptDIV").addClass(responseText.css);
-                            $("#promptDIV").html(responseText.message);
-                            if (responseText.success) {
-                                location.href = responseText.toUrl;
-                            }
+                            var dataJson = eval("(" + responseText + ")");
+                            //删除提示信息
+                            show_DIV(dataJson);
+                            m.loadData();
                         }
                     });
 
+                    //删除提示信息
+                    function show_DIV(data) {
+                        $("#promptDIV").removeClass("alert alert-error alert-success");
+                        $("#promptDIV").addClass(data.css);
+                        $("#promptDIV").html(data.message);
+                    }
                 }
 
             });
@@ -443,16 +590,16 @@
                 var operationsID = $("#oPrivilegesItem").val();
                 //alert(oPrivilegesName);
                 if (oPrivilegesName == "") {
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-errorDIV");
+                    $("#promptDIV").removeClass("alert alert-error alert-success");
+                    $("#promptDIV").addClass("alert alert-error");
                     $("#promptDIV").html("权限名称不能为空");
 
                     return false;
                 }
 
                 if (operationsID == "-1") {
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-errorDIV");
+                    $("#promptDIV").removeClass("alert alert-error alert-success");
+                    $("#promptDIV").addClass("alert alert-error");
                     $("#promptDIV").html("请选择权限项目！");
 
                     return false;
@@ -461,12 +608,21 @@
 
             //提交add_OperationsPrivileges表单后执行的函数
             function showResponse(responseText, statusText) {
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass(responseText.css);
-                $("#promptDIV").html(responseText.message);
-                if (responseText.success) {
-                    location.href = responseText.toUrl;
-                }
+                var dataJson = eval("(" + responseText + ")");
+//                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+//                $("#promptDIV").addClass(responseText.css);
+                //                $("#promptDIV").html(responseText.message);
+                 show_DIV(dataJson)
+//                if (responseText.success) {
+//                    location.href = responseText.toUrl;
+//                }
+            }
+
+            //提示信息
+            function show_DIV(data) {
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass(data.css);
+                $("#promptDIV").html(data.message);
             }
         });
        
@@ -481,6 +637,7 @@
             $("#mMyTree").ligerTree({
                 checkbox: false,
                 textFieldName: 'name',
+                nodeWidth:'auto',
                 onSelect: OnSelectMenus
             });
             mManagerTree = $("#mMyTree").ligerGetTreeManager();
@@ -884,7 +1041,7 @@
                 <div class="control-group">
                     <label class="control-label">权限名称</label>
                     <div class="controls">
-                        <input id="mPrivilegesName" name="mPrivilegesName" type="text" class="input-prepend span9" />
+                        <input id="mPrivilegesName" name="mPrivilegesName" type="text" class="input-prepend span9" placeholder="权限名称"/>
                     </div>
                 </div>
                 <div class="control-group">
@@ -909,7 +1066,7 @@
                 <div class="control-group">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="mPrivilegesRemark" rows="4" cols="5" class="span9"></textarea>
+                        <textarea name="mPrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息"></textarea>
                     </div>
                 </div>
                 <div class="control-group offset1">
@@ -924,7 +1081,7 @@
                 <div class="control-group">
                     <label class="control-label">权限名称</label>
                     <div class="controls">
-                        <input id="oPrivilegesName" name="oPrivilegesName" type="text" class="input-prepend span9" />
+                        <input id="oPrivilegesName" name="oPrivilegesName" type="text" class="input-prepend span9" placeholder="权限名称"/>
                     </div>
                 </div>
                 <div class="control-group">
@@ -949,7 +1106,7 @@
                 <div class="control-group">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="oPrivilegesRemark" rows="4" cols="5" class="span9"></textarea>
+                        <textarea name="oPrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息"></textarea>
                     </div>
                 </div>
                 <div class="control-group offset1">
@@ -964,7 +1121,7 @@
                 <div class="control-group">
                     <label class="control-label">权限名称</label>
                     <div class="controls">
-                        <input id="ePrivilegesName" name="ePrivilegesName" type="text" class="input-prepend span9" />
+                        <input id="ePrivilegesName" name="ePrivilegesName" type="text" class="input-prepend span9" placeholder="权限名称"/>
                     </div>
                 </div>
                 <div class="control-group">
@@ -1002,7 +1159,7 @@
                 <div class="control-group">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="ePrivilegesRemark" rows="4" cols="5" class="span9"></textarea>
+                        <textarea name="ePrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息"></textarea>
                     </div>
                 </div>
                 <div class="control-group offset1">

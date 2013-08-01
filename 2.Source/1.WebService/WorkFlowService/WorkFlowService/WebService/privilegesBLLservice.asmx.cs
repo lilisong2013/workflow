@@ -168,7 +168,7 @@ namespace Saron.WorkFlowService.WebService
             return m_privilegesDal.GetMListByAppTypeID(appID);
         }
 
-        [SoapHeader("m_securityContext")]
+       [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统的所有元素列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetElListByAppID(int appID,out string msg)
         {  //对webservice进行授权验证,系统管理员才可访问
