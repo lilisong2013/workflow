@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Collections;
+using System.Reflection;
 
 namespace WorkFlow.Controllers
 {
@@ -669,118 +670,83 @@ namespace WorkFlow.Controllers
             
         }
 
-        //权限列表
-        public ActionResult GetAllPrivilegesList()
+       //菜单列表(后台分页)
+        public ActionResult GetMPrivilegesList2()
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Login", "Home");
+                return RedirectToAction("Home", "Login");
             }
             else
             {
-                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
-
-                WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
                 string msg = string.Empty;
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+                WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
 
-                //SecurityContext实体对象赋值
-                m_securityContext.UserName = m_usersModel.login;
-                m_securityContext.PassWord = m_usersModel.password;
-                m_securityContext.AppID = (int)m_usersModel.app_id;
-                m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
 
-                string data = "{Rows:[";
-                try
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+
+                DataSet ds = m_privilegesBllService.GetMListByAppTypeID((int)m_usersModel.app_id, out msg);
+
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list=new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                var total = ds.Tables[0].Rows.Count;
+                for (var i = 0; i < total; i++)
                 {
-                    DataSet ds = m_privilegesBllService.GetAllListByAppID((int)m_usersModel.app_id, out msg);
-                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = (WorkFlow.PrivilegesWebService.privilegesModel)Activator.CreateInstance(typeof(WorkFlow.PrivilegesWebService.privilegesModel));
+                    PropertyInfo[] m_propertys = m_privilegesModel.GetType().GetProperties();
+                    foreach (PropertyInfo pi in m_propertys)
                     {
-                        string id = ds.Tables[0].Rows[i][0].ToString();
-                        string name = ds.Tables[0].Rows[i][1].ToString();
-                        string privilegetype_id = null;
-                        string privilegeitem_id = null;
-                        if (Convert.ToInt32(ds.Tables[0].Rows[i][2].ToString()) == 1)
+                        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                         {
-                            privilegetype_id = "菜单";
-                            WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
-                            WorkFlow.MenusWebService.SecurityContext m_MSecurity = new MenusWebService.SecurityContext();
 
-                            m_MSecurity.UserName = m_usersModel.login;
-                            m_MSecurity.PassWord = m_usersModel.password;
-                            m_MSecurity.AppID = (int)m_usersModel.app_id;
-                            m_menusBllService.SecurityContextValue = m_MSecurity;
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                                {
+                                    //数据库NULL值单独处理
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_privilegesModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_privilegesModel, null, null);
+                                    break;
+                                }
+                           
+                          
 
-                            DataSet dsM = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
-
-                            privilegeitem_id = dsM.Tables[0].Rows[0][0].ToString();
-                        }
-                        if (Convert.ToInt32(ds.Tables[0].Rows[i][2].ToString()) == 2)
-                        {
-                            privilegetype_id = "页面元素";
-
-                            WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
-                            WorkFlow.ElementsWebService.SecurityContext m_ESecurity = new ElementsWebService.SecurityContext();
-
-                            m_ESecurity.UserName = m_usersModel.login;
-                            m_ESecurity.PassWord = m_usersModel.password;
-                            m_ESecurity.AppID = (int)m_usersModel.app_id;
-                            m_elementsBllService.SecurityContextValue = m_ESecurity;
-
-                            DataSet dsE = m_elementsBllService.GetElementsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
-
-                            privilegeitem_id = dsE.Tables[0].Rows[0][0].ToString();
-                        }
-                        if (Convert.ToInt32(ds.Tables[0].Rows[i][2].ToString()) == 3)
-                        {
-                            privilegetype_id = "操作";
-
-                            WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
-                            WorkFlow.OperationsWebService.SecurityContext m_OSecurity = new OperationsWebService.SecurityContext();
-
-                            m_OSecurity.UserName = m_usersModel.login;
-                            m_OSecurity.PassWord = m_usersModel.password;
-                            m_OSecurity.AppID = (int)m_usersModel.app_id;
-                            m_operationsBllService.SecurityContextValue = m_OSecurity;
-
-                            DataSet dsO = m_operationsBllService.GetOperationsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
-                            privilegeitem_id = dsO.Tables[0].Rows[0][0].ToString();
-                        }
-
-
-                        string remark = ds.Tables[0].Rows[i][4].ToString();
-                        string invalid = ds.Tables[0].Rows[i][5].ToString();
-                        if (i == ds.Tables[0].Rows.Count - 1)
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "privilegetype_id:'" + privilegetype_id + "',";
-                            data += "privilegeitem_id:'" + privilegeitem_id + "',";
-                            data += "invalid:'" + invalid + "',";
-                            data += "remark:'" + remark + "'}";
-                        }
-                        else
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "privilegetype_id:'" + privilegetype_id + "',";
-                            data += "privilegeitem_id:'" + privilegeitem_id + "',";
-                            data += "invalid:'" + invalid + "',";
-                            data += "remark:'" + remark + "'},";
                         }
                     }
+                    m_list.Add(m_privilegesModel);
                 }
-                catch (Exception ex)
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_targetList = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                //模拟分页操作
+                for (var i = 0; i < total; i++)
                 {
+                    if (i >= (page - 1) * pagesize && i < page * pagesize)
+                    {
+                        m_targetList.Add(m_list[i]);
+                    }
                 }
-
-                data += "]}";
-                return Json(data);
+                var gridData = new
+                {
+                    Rows=m_targetList,
+                    Total = total
+                };
+                return Json(gridData);
             }
-
         }
+
        //菜单列表
         public ActionResult GetMPrivilegesList()
         {
@@ -857,6 +823,79 @@ namespace WorkFlow.Controllers
                 return Json(data);
             }
         }
+
+       //元素列表(后台分页)
+        public ActionResult GetEPrivilegesList2()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
+                string msg = string.Empty;
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+                WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+                DataSet ds = m_privilegesBllService.GetElListByAppID((int)m_usersModel.app_id, out msg);
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                var total = ds.Tables[0].Rows.Count;
+                for (var i = 0; i < total; i++)
+                {
+                    WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = (WorkFlow.PrivilegesWebService.privilegesModel)Activator.CreateInstance(typeof(WorkFlow.PrivilegesWebService.privilegesModel));
+                    PropertyInfo[] m_propertys = m_privilegesModel.GetType().GetProperties();
+                    foreach (PropertyInfo pi in m_propertys)
+                    {
+                        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                        {
+
+                            // 属性与字段名称一致的进行赋值 
+                            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                            {
+                                //数据库NULL值单独处理
+                                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                    pi.SetValue(m_privilegesModel, ds.Tables[0].Rows[i][j], null);
+                                else
+                                    pi.SetValue(m_privilegesModel, null, null);
+                                break;
+                            }
+                        }
+                    }
+                    m_list.Add(m_privilegesModel);
+                }
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_targetList = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                //模拟分页操作
+                for (var i = 0; i < total; i++)
+                {
+                    if (i >= (page - 1) * pagesize && i < page * pagesize)
+                    {
+                        m_targetList.Add(m_list[i]);
+                    }
+                }
+                var gridData = new
+                {
+                    Rows = m_targetList,
+                    Total = total
+                };
+                return Json(gridData);
+            }
+        }
+
        //元素列表
         public ActionResult GetEPrivilegesList()
         {
@@ -936,6 +975,80 @@ namespace WorkFlow.Controllers
                 return Json(data);
             }
         }
+
+       //操作列表(后台分页)
+        public ActionResult GetOPrivilegesList2()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
+                string msg = string.Empty;
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+                WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+                DataSet ds = m_privilegesBllService.GetOpListByAppID((int)m_usersModel.app_id, out msg);
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                var total = ds.Tables[0].Rows.Count;
+                for (var i = 0; i < total; i++)
+                {
+                    WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = (WorkFlow.PrivilegesWebService.privilegesModel)Activator.CreateInstance(typeof(WorkFlow.PrivilegesWebService.privilegesModel));
+                    PropertyInfo[] m_propertys = m_privilegesModel.GetType().GetProperties();
+                    foreach (PropertyInfo pi in m_propertys)
+                    {
+                        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                        {
+
+                            // 属性与字段名称一致的进行赋值 
+                            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                            {
+                                //数据库NULL值单独处理
+                                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                    pi.SetValue(m_privilegesModel, ds.Tables[0].Rows[i][j], null);
+                                else
+                                    pi.SetValue(m_privilegesModel, null, null);
+                                break;
+                            }
+                        }
+                    }
+                    m_list.Add(m_privilegesModel);
+                }
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_targetList = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                //模拟分页操作
+                for (var i = 0; i < total; i++)
+                {
+                    if (i >= (page - 1) * pagesize && i < page * pagesize)
+                    {
+                        m_targetList.Add(m_list[i]);
+                    }
+                }
+                var gridData = new
+                {
+                    Rows = m_targetList,
+                    Total = total
+                };
+                return Json(gridData);
+            }
+        }
+
        //操作列表
         public ActionResult GetOPrivilegesList()
         {
@@ -1040,11 +1153,65 @@ namespace WorkFlow.Controllers
 
                 WorkFlow.PrivilegesWebService.privilegesModel m_privilegesModel = m_privilegesBllService.GetModel(id, out msg);
                 ViewData["name"] = m_privilegesModel.name;
-                ViewData["privilegetype_id"] = m_privilegesModel.privilegetype_id;
-                ViewData["privilegeitem_id"] = m_privilegesModel.privilegeitem_id;
-                ViewData["remark"] = m_privilegesModel.remark;
+
+                if (m_privilegesModel.privilegetype_id == 1)
+                {
+                    WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+                    WorkFlow.MenusWebService.SecurityContext m_MSecurity = new MenusWebService.SecurityContext();
+
+                    m_MSecurity.UserName = m_usersModel.login;
+                    m_MSecurity.PassWord = m_usersModel.password;
+                    m_MSecurity.AppID = (int)m_usersModel.app_id;
+                    m_menusBllService.SecurityContextValue = m_MSecurity;
+
+                    DataSet dsM = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id, m_privilegesModel.privilegeitem_id, out msg);
+                    ViewData["privilegetype_id"] = "菜单项目";
+                    ViewData["privilegeitem_id"] = dsM.Tables[0].Rows[0][0].ToString();
+
+                }
+                if (m_privilegesModel.privilegetype_id == 2)
+                {
+                    WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+                    WorkFlow.ElementsWebService.SecurityContext m_ESecurity = new ElementsWebService.SecurityContext();
+
+                    m_ESecurity.UserName = m_usersModel.login;
+                    m_ESecurity.PassWord = m_usersModel.password;
+                    m_ESecurity.AppID = (int)m_usersModel.app_id;
+                    m_elementsBllService.SecurityContextValue = m_ESecurity;
+
+                    DataSet dsE = m_elementsBllService.GetElementsNameOfAppID((int)m_usersModel.app_id, m_privilegesModel.privilegeitem_id, out msg);
+
+                    ViewData["privilegeitem_id"] = dsE.Tables[0].Rows[0][0].ToString();
+
+                    ViewData["privilegetype_id"] = "元素项目";
+                }
+                if (m_privilegesModel.privilegetype_id == 3)
+                {
+                    WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
+                    WorkFlow.OperationsWebService.SecurityContext m_OSecurity = new OperationsWebService.SecurityContext();
+
+                    m_OSecurity.UserName = m_usersModel.login;
+                    m_OSecurity.PassWord = m_usersModel.password;
+                    m_OSecurity.AppID = (int)m_usersModel.app_id;
+                    m_operationsBllService.SecurityContextValue = m_OSecurity;
+
+                    DataSet dsO = m_operationsBllService.GetOperationsNameOfAppID((int)m_usersModel.app_id, m_privilegesModel.privilegeitem_id, out msg);
+                    ViewData["privilegeitem_id"] = dsO.Tables[0].Rows[0][0].ToString();
+                    ViewData["privilegetype_id"] = "操作项目";
+                }
+
+                if (m_privilegesModel.invalid == false)
+                {
+                    ViewData["invalid"] = "是"; 
+                }
+                if (m_privilegesModel.invalid == true)
+                {
+                    ViewData["invalid"] = "否";
+                }
+            
                 ViewData["app_id"] = m_privilegesModel.app_id;
-                ViewData["invalid"] = m_privilegesModel.invalid;
+                ViewData["remark"] = m_privilegesModel.remark;
+            
                 return View();
             }
 

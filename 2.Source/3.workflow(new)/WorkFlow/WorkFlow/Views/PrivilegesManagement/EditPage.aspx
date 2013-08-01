@@ -111,12 +111,6 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>权限管理</h2></div>
 
-<div class="container">
- <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/PrivilegesManagement/AppPrivileges">返回</a></li></ul>
- </div> 
-</div>
-
  <div class="container">
  <%--操作提示DIV--%>
  <div id="promptDIV" class="row"></div>

@@ -37,51 +37,32 @@
             $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
             $("#promptDIV").html("");
         });
-    </script>
+    </script>  
 
-    <%--权限列表--%>
+    <%--菜单权限--%>
     <script type="text/javascript">
-        var managerListGrid;
         $(document).ready(function () {
-            //定义ligerGrid
-            $("#privilegesgrid").ligerGrid({
-                width: '90%',
-                height: '200'
+           
+            GetMPrivilegesList(); //获取数据列表
+            $("#MinfoTab").click(function () {
+                GetMPrivilegesList(); //获取数据列表
             });
-            managerListGrid = $("#privilegesgrid").ligerGetGridManager();
-
-            GetPrivilegeList(); //获取数据列表
-
-            $("#infoTab").click(function () {
-                GetPrivilegeList(); //获取数据列表
-            });
-
         });
-
-        function GetPrivilegeList() {
-            $.ajax({
-                url: "/PrivilegesManagement/GetAllPrivilegesList",
-                type: "POST",
-                dataType: "json",
-                data: {},
-                success: function (responseText, statusText) {
-                    //alert(responseText);
-                    var dataprivilegejson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                    //更新mygrid数据
-                    //alert(dataprivilegejson);
-                    managerListGrid.setOptions({
-                        columns: [
-                            { display: '权限名称', name: 'name' },
-                            { display: '权限项目', name: 'privilegeitem_id' },
+        //获取菜单数据列表
+        function GetMPrivilegesList() {
+            window['m'] = $("#Mprivilegesgrid").ligerGrid({
+                columns: [
+                            { display: '权限名称', name: 'name', width: 200 },
+                            { display: '权限项目', name: 'privilegeitem_id', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.id + ')">编辑</a>';
                                     return html;
                                 }
                             },
@@ -91,28 +72,29 @@
                                     return html;
                                 }
                             }
-
                             ],
-                        data: dataprivilegejson,
-                        alternatingRow: true
-                    });
-                    managerListGrid.loadData();
+                dataAction: 'server',
+                width: '99%',
+                pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                pageSize: 10,
+                height: '400',
+                rownumbers: true,
+                usePager: true,
+                url: "/PrivilegesManagement/GetMPrivilegesList2"
 
-                }
             });
+            m.loadData();
         }
     </script>
     <%--菜单权限列表--%>
-    <script type="text/javascript">
+   <%-- <script type="text/javascript">
         var MmanagerListGrid;
         $(document).ready(function () {
             //alert("Mprivilegesgrid");
             //定义ligerGrid
             $("#Mprivilegesgrid").ligerGrid({
                 width: '90%',
-                height: '400',
-                tree: { columnName: 'name' },
-                alternatingRow:false
+                height: '400'
             });
             MmanagerListGrid = $("#Mprivilegesgrid").ligerGetGridManager();
 
@@ -141,13 +123,13 @@
                             { display: '权限项目', name: 'privilegeitem_id', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog('+row.id+')">详情</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog('+row.id+')">编辑</a>';
                                     return html;
                                 }
                             },
@@ -159,13 +141,30 @@
                             }
 
                             ],
-                        data: dataprivilegejson
-                        //alternatingRow: true
+                        data: dataprivilegejson,
+                        alternatingRow: true
                     });
                     MmanagerListGrid.loadData();
 
                 }
             });
+        }
+    </script>--%>
+
+    <%--元素权限--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            GetEPrivilegesList(); //获取数据列表 
+
+            $("#EinfoTab").click(function () {
+                GetEPrivilegesList(); //获取数据列表
+            });
+        });
+
+        //获取数据列表
+        function GetEPrivilegesList() { 
+           window
         }
     </script>
     <%--元素权限列表--%>
@@ -205,13 +204,13 @@
                             { display: '权限项目', name: 'privilegeitem_id', width: 200 },
                                   { display: '', width: 60,
                                       render: function (row) {
-                                          var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                           return html;
                                       }
                                   },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.id + ')">编辑</a>';
                                     return html;
                                 }
                             },
@@ -233,7 +232,7 @@
         }
     </script>
     <%--操作权限列表--%>
-     <script type="text/javascript">
+    <script type="text/javascript">
          var OmanagerListGrid;
          $(document).ready(function () {
              // alert("Eprivilegesgrid");
@@ -269,13 +268,13 @@
                             { display: '权限项目', name: 'privilegeitem_id', width: 200 },
                                   { display: '', width: 60,
                                       render: function (row) {
-                                          var html = '<i class="icon-list"></i><a href="/PrivilegesManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                           return html;
                                       }
                                   },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="/PrivilegesManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.id + ')">编辑</a>';
                                     return html;
                                 }
                             },
@@ -296,6 +295,45 @@
              });
          }
     </script>
+
+   <%--详情弹出框--%>
+   <script type="text/javascript">
+       function DetailDialog(id) {
+
+           if (id) {
+               $.ligerDialog.open({
+                   title: '详情(' + id + ')信息',
+                   width: 700,
+                   height: 600,
+                   url: '/PrivilegesManagement/DetailInfo?id=' + id
+               });
+           }
+       }
+   </script>
+
+   <%--菜单编辑弹出框--%>
+   <script type="text/javascript">
+       function MEditDialog(id) {
+
+           if (id) {
+               var pm = $.ligerDialog.open({
+                   title: '更新流程信息',
+                   width: 800,
+                   height: 500,
+                   showMax: true,
+                   showMin: true,
+                   url: '/PrivilegesManagement/EditPage?id=' + id,
+                   buttons:
+                    [
+                    { text: '返回', onclick: function (item, dialog) { m.loadData();dialog.close(); } }
+
+                    ]
+               });
+
+           }
+       }
+   </script>
+
     <%--删除提示信息的函数--%>
     <script type="text/javascript">
         function DeletePrivileges(id) {
