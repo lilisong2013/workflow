@@ -701,16 +701,16 @@
                 var menusID = $("#mPrivilegesItem").val();
                 //alert(oPrivilegesName);
                 if (mPrivilegesName == "") {
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-errorDIV");
+                    $("#promptDIV").removeClass("alert alert-error alert-success");
+                    $("#promptDIV").addClass("alert-error");
                     $("#promptDIV").html("权限名称不能为空");
 
                     return false;
                 }
 
                 if (menusID == "-1") {
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-errorDIV");
+                    $("#promptDIV").removeClass("alert alert-error alert-success");
+                    $("#promptDIV").addClass("alert-error");
                     $("#promptDIV").html("请选择权限项目！");
 
                     return false;
@@ -719,12 +719,18 @@
 
             //提交add_MenusPrivileges表单后执行的函数
             function m_showResponse(responseText, statusText) {
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass(responseText.css);
-                $("#promptDIV").html(responseText.message);
-                if (responseText.success) {
-                    location.href = responseText.toUrl;
-                }
+                var dataJson = eval("(" + responseText + ")");
+                show_DIV(dataJson)
+//                if (responseText.success) {
+//                    location.href = responseText.toUrl;
+//                }
+            }
+
+            //提示信息
+            function show_DIV(data) {
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass(data.css);
+                $("#promptDIV").html(data.message);
             }
         });
        
@@ -878,16 +884,16 @@
                 var elementID = $("#ePrivilegesItem").val(); //元素ID
                 //alert(oPrivilegesName);
                 if (ePrivilegesName == "") {
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-errorDIV");
+                    $("#promptDIV").removeClass("alert alert-error alert-success");
+                    $("#promptDIV").addClass("alert-error");
                     $("#promptDIV").html("权限名称不能为空");
 
                     return false;
                 }
 
                 if (elementID == "-1") {
-                    $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                    $("#promptDIV").addClass("p-errorDIV");
+                    $("#promptDIV").removeClass("alert alert-error alert-success");
+                    $("#promptDIV").addClass("alert-error");
                     $("#promptDIV").html("请选择权限项目！");
 
                     return false;
@@ -896,12 +902,20 @@
 
             //提交add_MenusPrivileges表单后执行的函数
             function e_showResponse(responseText, statusText) {
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass(responseText.css);
-                $("#promptDIV").html(responseText.message);
-                if (responseText.success) {
-                    location.href = responseText.toUrl;
-                }
+
+                var dataJson = eval("(" + responseText + ")");
+                //提示信息
+                show_DIV(dataJson);
+               
+//                if (responseText.success) {
+//                    location.href = responseText.toUrl;
+//                }
+            }
+            //删除提示
+            function show_DIV(data) {
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass(data.css);
+                $("#promptDIV").html(data.message);
             }
         });
        
@@ -918,6 +932,7 @@
                 dataType: "json",
                 data: { operationsID: rowdata.id },
                 success: function (responseText, statusText) {
+                    var dataJson = eval("(" + responseText + ")");
                     if (responseText.success) {
                         $("#oPrivilegesItemInfo").val(rowdata.id);
                         $("#oPrivilegesItemInfo").html(rowdata.name);
@@ -926,12 +941,19 @@
                         $("#oPrivilegesItemInfo").val("-1");
                         $("#oPrivilegesItemInfo").html("选择权限项目（操作）");
 
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(responseText.css);
-                        $("#promptDIV").html(responseText.message);
+                        show_DIV(dataJson);
+//                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+//                        $("#promptDIV").addClass(responseText.css);
+//                        $("#promptDIV").html(responseText.message);
                     }
                 }
             });
+            function show_DIV(data) {
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass(data.css);
+                $("#promptDIV").html(data.message);
+            }
+
         }
 
         //选择项目(菜单)后判断该操作是否已经创建权限
@@ -943,6 +965,7 @@
                 dataType: "json",
                 data: { menusID: note.data.id },
                 success: function (responseText, statusText) {
+                    var dataJson = eval("(" + responseText + ")");
                     if (responseText.success) {
                         $("#mPrivilegesItemInfo").val(note.data.id);
                         $("#mPrivilegesItemInfo").html(note.data.name);
@@ -950,13 +973,20 @@
                     else {
                         $("#mPrivilegesItemInfo").val("-1");
                         $("#mPrivilegesItemInfo").html("选择权限项目（菜单）");
-
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(responseText.css);
-                        $("#promptDIV").html(responseText.message);
+                        show_DIV(dataJson);
+//                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+//                        $("#promptDIV").addClass(responseText.css);
+//                        $("#promptDIV").html(responseText.message);
                     }
                 }
             });
+
+            //提示信息
+            function show_DIV(data) {
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass(data.css);
+                $("#promptDIV").html(data.message);
+            }
         }
 
         //选择项目(页面元素)后判断该操作是否已经创建权限
@@ -968,6 +998,7 @@
                 dataType: "json",
                 data: { elementID: rowdata.id },
                 success: function (responseText, statusText) {
+                    var dataJson = eval("("+responseText+")");
                     if (responseText.success) {
                         $("#ePrivilegesItemInfo").val(rowdata.id);
                         $("#ePrivilegesItemInfo").html(rowdata.name);
@@ -975,13 +1006,18 @@
                     else {
                         $("#ePrivilegesItemInfo").val("-1");
                         $("#ePrivilegesItemInfo").html("选择权限项目（页面元素）");
-
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        $("#promptDIV").addClass(responseText.css);
-                        $("#promptDIV").html(responseText.message);
+                        show_DIV(dataJson)
+                        //                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        //                        $("#promptDIV").addClass(responseText.css);
+                        //                        $("#promptDIV").html(responseText.message);
                     }
                 }
             });
+            function show_DIV(data) {
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass(data.css);
+                $("#promptDIV").html(data.message);
+            }
         }
     </script>
 </asp:Content>

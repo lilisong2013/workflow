@@ -57,7 +57,8 @@ namespace WorkFlow.Controllers
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
+
+                    return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
                 }
 
                 m_privilegesModel.name = m_privilegeName;//权限名称
@@ -73,16 +74,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegesBllService.Add(m_privilegesModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！", toUrl = "/PrivilegesManagement/AppPrivileges" });
+         
+                        return Json("{success:true,css:'alert alert-success',message:'添加权限成功！'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加权限失败！" });
+
+                        return Json("{success:false,css:'alert alert-error',message:'添加权限失败！'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+
+                    return Json("{success:false,css:'alert alert-error',message:'程序出错！'}");
                 }
             }
            
@@ -118,7 +122,8 @@ namespace WorkFlow.Controllers
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
+              
+                    return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
                 }
 
                 m_privilegesModel.name = m_privilegeName;//权限名称
@@ -134,16 +139,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegesBllService.Add(m_privilegesModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！",toUrl = "/PrivilegesManagement/AppPrivileges" });
+                      
+                        return Json("{success:true,css:'alert alert-success',message:'添加权限成功！'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加权限失败！" });
+                     
+                        return Json("{success:false,css:'alert alert-error',message:'添加权限失败！'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+                  
+                    return Json("{success:false,css:'alert alert-error',message:'程序出错！'}");
                 }
 
             }
@@ -179,7 +187,8 @@ namespace WorkFlow.Controllers
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
+                
+                    return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
                 }
 
                 m_privilegesModel.name = m_privilegeName;//权限名称
@@ -195,16 +204,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegesBllService.Add(m_privilegesModel, out msg) != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！", toUrl = "/PrivilegesManagement/AppPrivileges" });
+                   
+                        return Json("{success:true,css:'alert alert-success',message:'添加权限成功！'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加权限失败！" });
+         
+                        return Json("{success:false,css:'alert alert-error',message:'添加权限失败！'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+    
+                    return Json("{success:false,css:'alert alert-error',message:'程序出错！'}");
                 }
 
             }
@@ -537,11 +549,13 @@ namespace WorkFlow.Controllers
 
                 if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+                  //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+                    return Json("{success:false,css:'alert alert-error',message:'该项目已设置权限！'}");
                 }
                 else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+                    return Json("{success:true}");
                 }
             }
         
@@ -574,11 +588,13 @@ namespace WorkFlow.Controllers
 
                 if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+                  //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+                    return Json("{success:false,css:'alert alert-error',message:'该项目已设置权限！'}");
                 }
                 else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+                    return Json("{success:true}");
                 }
             }
             
@@ -612,11 +628,13 @@ namespace WorkFlow.Controllers
 
                 if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+                    return Json("{success:false,css:'alert alert-error',message:'该项目已设置权限！'}");
                 }
                 else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+                    return Json("{success:true}");
                 }
             }
            
@@ -1248,18 +1266,18 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegeBllService.Delete(privilegeID, out msg) == true)
                     {
-                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/PrivilegesManagement/AppPrivileges" });
+       
                         return Json("{success:true,css:'alert alert-success',message:'成功删除!'}");
                     }
                     else
                     {
-                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+   
                         return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
