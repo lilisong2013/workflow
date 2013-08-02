@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-    <link href="../../CSS/promptDivCss.css" rel="stylesheet" type="text/css" />
+    
 
     <%--页面标题--%>
     <script type="text/javascript">
@@ -12,7 +12,16 @@
         var PageName = "用户角色";
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
-
+   
+   <%--隐藏提示信息--%>
+   <script type="text/javascript">
+       //隐藏提示信息
+       $(document).click(function () {
+           $("#promptDIV").removeClass("alert alert-error alert-success");
+           $("#promptDIV").html("");
+       });
+    </script>
+    
     <script type="text/javascript">
         var usersID;
         $(document).ready(function () {
@@ -53,65 +62,75 @@
      $(document).ready(function () {
          var user_rolesData;
          var user_rolesStr = "{";
+         var urTotal = 0; //用户角色的数量
+
          $("#saveSubmit").click(function () {
              if (false) {
                  return false;
              } else {
                  user_rolesStr = "{"; //JSON数据字符串
-                 var urTotal = 0; //用户角色的数量
+
                  //alert(urTotal);
 
                  //用户角色被选中的项
                  for (var i = 0; i < epTotal; i++) {
                      var checkBoxID = $("#rolesprivilege" + i.toString()); //复选框ID
-                    // alert(checkBoxID);
+                     // alert(checkBoxID);
                      if (checkBoxID.is(":checked")) {
-                       // alert(checkBoxID.val() + "选中");
+                         // alert(checkBoxID.val() + "选中");
                          user_rolesStr += "rprivilegeID" + urTotal.toString() + ":'" + checkBoxID.val() + "',";
                          urTotal++;
                      } else {
-                      // alert(checkBoxID.val() + "未选中");
+                         // alert(checkBoxID.val() + "未选中");
                      }
                  }
                  user_rolesStr += "ur_total:'" + urTotal + "',u_ID:'" + $("#usersID").val() + "'}";
-                // alert(user_rolesStr);
+                 // alert(user_rolesStr);
                  user_rolesData = eval("(" + user_rolesStr + ")");
-                 $("#user_roles").ajaxForm({
-                     success:ue_showResponse,//form提交响应成功后执行的回调函数                  
-                     url: "/UsersManagement/AddUserRoles",
-                     type: "POST",
-                     dataType: "json",
-                     data: user_rolesData
-                 });
+                                  $("#user_roles").ajaxForm({
+                                      success:ue_showResponse,//form提交响应成功后执行的回调函数                  
+                                      url: "/UsersManagement/AddUserRoles",
+                                      type: "POST",
+                                      dataType: "json",
+                                      data: user_rolesData
+                                  });
+                // ModifyUserRole(); //用户角色信息
              }
          });
-         //提交user_roles表单后执行的函数
+
+         //用户角色信息
+         function ModifyUserRole() {
+             alert(user_rolesStr);
+             var options = {
+                 //beforeSubmit: userole_showRequest, //form提交前的响应回调函数
+                 success: userole_showResponse, //form提交响应成功后执行的回调函数
+                 url: "/UsersManagement/AddUserRoles",
+                 type: "POST",
+                 dataType: "json",
+                 data: { ur_total: urTotal, u_ID: $("#usersID").val(),userStr:user_rolesStr}
+             };
+             $("#user_roles").ajaxForm(options);
+         }
+
+         //form提交响应成功后执行的回调函数
          function ue_showResponse(responseText, statusText) {
-             //alert("ok?");
-             $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-             $("#promptDIV").addClass(responseText.css);
-             $("#promptDIV").html(responseText.message);
-//             if (responseText.success) {
-//                 location.href = responseText.toUrl;
-//             }
+             var dataJson = eval("(" + responseText + ")");
+             show_DIV(dataJson);
+         }
+
+         //提示信息
+         function show_DIV(data) {
+             $("#promptDIV").removeClass("alert alert-error alert-success");
+             $("#promptDIV").addClass(data.css);
+             $("#promptDIV").html(data.message);
          }
      });
  </script>
-   <%--隐藏提示信息--%>
-    <script type="text/javascript">
-        //隐藏提示信息
-        $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-            $("#promptDIV").html("");
-        });
-    </script>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户角色管理</h2></div>
 
-  <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/UsersManagement/AppUsers">返回</a></li></ul>
-  </div>  
 
   <div class="container">
   <%--操作提示DIV--%>

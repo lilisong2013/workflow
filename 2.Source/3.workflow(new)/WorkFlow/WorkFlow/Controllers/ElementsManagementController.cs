@@ -517,6 +517,10 @@ namespace WorkFlow.Controllers
           
                     return Json("{success:false,css:'alert alert-error',message:'元素名称不能为空!'}");
                 }
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["elementsName"]) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'元素名称含有非法字符，只能包含字母、汉字、数字、下划线!'}");
+                }
                 if (code.Length == 0)
                 {
 
@@ -739,6 +743,10 @@ namespace WorkFlow.Controllers
                 {
                   
                     return Json("{success:false,css:'alert alert-error',message:'元素名称不能为空!'}");
+                }
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["elementsName"]) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'元素名称含有非法字符,只能包含字母、数字、汉字、下划线!'}");
                 }
                 if (code.Length == 0)
                 {

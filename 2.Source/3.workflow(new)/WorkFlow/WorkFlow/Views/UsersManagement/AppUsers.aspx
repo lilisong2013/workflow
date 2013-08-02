@@ -72,7 +72,7 @@
                         },
                        { display: '', width: 100,
                            render: function (row) {
-                               var html = '<i class="icon-user"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色设置</a>';
+                               var html = '<i class="icon-user"></i><a href="javascript:void(0);" onclick="UserRoleDialog(' + row.id + ')">角色设置</a>';
                                return html;
                            }
                        }
@@ -129,7 +129,26 @@
             }
         }
     </script>
+   <%--用户角色弹出框函数--%>
+   <script type="text/javascript">
+       function UserRoleDialog(id) {
+           if (id) {
+               $.ligerDialog.open({
+                 title:'用户角色信息',
+                 width:800,
+                 height: 500,
+                 showMax: true,
+                 showMin: true,
+                 url: '/UsersManagement/UserRoles?id=' + id,
+                  buttons:
+                    [
+                    { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
 
+                    ]
+               });
+           }
+       }
+   </script>
     <%--用户删除--%>
     <script type="text/javascript">
         function DeleteUser(id) {

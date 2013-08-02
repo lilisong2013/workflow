@@ -91,6 +91,11 @@ namespace Saron.Common.PubFun
         {
             return System.Text.RegularExpressions.Regex.IsMatch(str_mobile, @"\b(86)?0?\d{11}\b");
         }
+        //判断字符串中是否含有+,#,%,&,?等特殊字符串
+        public static bool IsValidString(string str_String)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(str_String,@"^[a-zA-Z0-9_\u4e00-\u9fa5]+$");
+        }
 
     }
 }

@@ -106,6 +106,10 @@ namespace WorkFlow.Controllers
                    
                     return Json("{success:false,css:'alert alert-error',message:'角色名称不能为空!'}");
                 }
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["rolesName"])==false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'角色名称含有非法字符串,只能包含字母、汉字、数字、下划线!'}");
+                }
                 m_rolesModel.name = collection["rolesName"].Trim();
                 //获得deleted=false的rolesName列表
                 DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id, out msg);
@@ -357,7 +361,10 @@ namespace WorkFlow.Controllers
                     
                     return Json("{success:false,css:'alert alert-error',message:'角色名称不能为空!'}");
                 }
-
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["rolesName"])==false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'角色名称中含有非法字符串,只能包含字母、汉字、数字、下划线!'}");
+                }
                 //获得deleted=false且应用系统ID为appid的rolesName列表
                 DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id, out msg);
                 var total = ds.Tables[0].Rows.Count;
@@ -1107,13 +1114,7 @@ namespace WorkFlow.Controllers
                 {
                     DataSet ds = m_rolesBllService.GetListByRoleName(roleName,(int)m_usersModel.app_id,out msg);
                     String data = "{Rows:[";
-                    if (ds == null)
-                    {
-
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else
-                    {
+                   
                         try
                         {
                             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
@@ -1138,7 +1139,7 @@ namespace WorkFlow.Controllers
                         catch (Exception ex) { }
                         data += "]}";
                         return Json(data);
-                    }
+                  
                 }
             }
         }

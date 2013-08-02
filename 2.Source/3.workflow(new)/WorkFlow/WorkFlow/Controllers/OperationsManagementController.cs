@@ -369,6 +369,10 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'操作名称不能为空!'}");
                 }
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["operationsName"]) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'操作名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
+                }
                 if (code.Length == 0)
                 {
                   
@@ -535,8 +539,13 @@ namespace WorkFlow.Controllers
                 string m_operationsCode = collection["operationsCode"].Trim();
                 if (m_operationsName.Length == 0)
                 {
-                 
+
                     return Json("{success:false,css:'alert alert-error',message:'操作名称不能为空!'}");
+
+                }
+                if(Saron.Common.PubFun.ConditionFilter.IsValidString(collection["operationsName"])==false)
+                {
+                   return Json("{success:fasle,css:'alert alert-error',message:'操作名称含有非法字符串，只能包含字母、汉字、数字、下划线!'}");
                 }
                 if (m_operationsCode.Length == 0)
                 {
