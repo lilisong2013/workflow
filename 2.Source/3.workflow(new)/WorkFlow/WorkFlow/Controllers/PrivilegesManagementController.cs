@@ -297,6 +297,7 @@ namespace WorkFlow.Controllers
                         string id = ds.Tables[0].Rows[i][0].ToString();
                         string code = ds.Tables[0].Rows[i][2].ToString();
                         string url = ds.Tables[0].Rows[i][3].ToString();
+                        string parent_id = ds.Tables[0].Rows[i][5].ToString();
                         string remark = ds.Tables[0].Rows[i][6].ToString();
                         string invalid = ds.Tables[0].Rows[i][7].ToString();
                         if (i == ds.Tables[0].Rows.Count - 1)
@@ -305,6 +306,7 @@ namespace WorkFlow.Controllers
                             data += "id:'" + id + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
                             data += "code:'" + code + "',";
                             data += "url:'" + url + "',";
+                            data += "parent_id:'" + parent_id + "',";
                             data += "invalid:'" + invalid + "',";
                             data += "remark:'" + remark + "'" + GetChildrenMenusList(Convert.ToInt32(id)) + "}";
                         }
@@ -314,6 +316,7 @@ namespace WorkFlow.Controllers
                             data += "id:'" + id + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "},";
                             data += "code:'" + code + "',";
                             data += "url:'" + url + "',";
+                            data += "parent_id:'" + parent_id + "',";
                             data += "invalid:'" + invalid + "',";
                             data += "remark:'" + remark + "'" + GetChildrenMenusList(Convert.ToInt32(id)) + "},";
                         }
@@ -356,6 +359,7 @@ namespace WorkFlow.Controllers
                     string id = ds.Tables[0].Rows[i][0].ToString();
                     string code = ds.Tables[0].Rows[i][2].ToString();
                     string url = ds.Tables[0].Rows[i][3].ToString();
+                    string parent_id = ds.Tables[0].Rows[i][5].ToString();
                     string remark = ds.Tables[0].Rows[i][6].ToString();
                     string invalid = ds.Tables[0].Rows[i][7].ToString();
                     if (m_menusBllService.ExistsChildrenMenus((int)ds.Tables[0].Rows[i][0],out msg))
@@ -366,6 +370,7 @@ namespace WorkFlow.Controllers
                             dataStr += "id:'" + id + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
                             dataStr += "code:'" + code + "',";
                             dataStr += "url:'" + url + "',";
+                            dataStr += "parent_id:'" + parent_id + "',";
                             dataStr += "invalid:'" + invalid + "',";
                             dataStr += "remark:'" + remark + "'" + GetChildrenMenusList(Convert.ToInt32(id)) + "},";
                         }
@@ -375,6 +380,7 @@ namespace WorkFlow.Controllers
                             dataStr += "id:'" + id + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "},";
                             dataStr += "code:'" + code + "',";
                             dataStr += "url:'" + url + "',";
+                            dataStr += "parent_id:'" + parent_id + "',";
                             dataStr += "invalid:'" + invalid + "',";
                             dataStr += "remark:'" + remark + "'" + GetChildrenMenusList(Convert.ToInt32(id)) + "},";
                         }
@@ -387,6 +393,7 @@ namespace WorkFlow.Controllers
                             dataStr += "id:'" + id + "',";
                             dataStr += "code:'" + code + "',";
                             dataStr += "url:'" + url + "',";
+                            dataStr += "parent_id:'" + parent_id + "',";
                             dataStr += "invalid:'" + invalid + "',";
                             dataStr += "remark:'" + remark + "'}";
                         }
@@ -396,6 +403,7 @@ namespace WorkFlow.Controllers
                             dataStr += "id:'" + id + "',";
                             dataStr += "code:'" + code + "',";
                             dataStr += "url:'" + url + "',";
+                            dataStr += "parent_id:'" + parent_id + "',";
                             dataStr += "invalid:'" + invalid + "',";
                             dataStr += "remark:'" + remark + "'},";
                         }
@@ -560,6 +568,7 @@ namespace WorkFlow.Controllers
             }
         
         }
+        
         //判断项目(菜单)是否已经创建权限
         public ActionResult ExistPrivilegeItemOfMenus()
         {
@@ -571,6 +580,11 @@ namespace WorkFlow.Controllers
             {
                 int privilegeTypeID = 1;//权限类型ID
                 int privilegeItemID = Convert.ToInt32(Request.Params["menusID"]);//权限项目ID
+                int menuparentID = 0;//父菜单ID
+                if (Request.Params["parentID"] != "")
+                {
+                    menuparentID = Convert.ToInt32(Request.Params["parentID"]);//父菜单ID
+                }
 
                 WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
 
@@ -580,11 +594,22 @@ namespace WorkFlow.Controllers
 
                 string msg = string.Empty;
 
+                #region webservice授权
                 //SecurityContext实体对象赋值
                 m_securityContext.UserName = m_usersModel.login;
                 m_securityContext.PassWord = m_usersModel.password;
                 m_securityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                #endregion
+
+                //菜单存在父菜单时，判断父菜单是否创建权限
+                if(menuparentID!=0)
+                {
+                    if (!m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, menuparentID, out msg))
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'该菜单的父菜单尚未设置权限！'}");
+                    }
+                }
 
                 if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID, out msg))
                 {

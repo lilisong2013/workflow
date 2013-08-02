@@ -599,6 +599,30 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
+        /// <summary>
+        /// 获得菜单id的父菜单id,无父菜单返回0
+        /// </summary>
+        public int GetParentIDByID(int menusID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select parent_id FROM menus ");
+            strSql.Append(" where id=@id ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@id",SqlDbType.Int,4)
+			};
+            parameters[0].Value = menusID;
+            
+            object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
+
 
 		#endregion  Method
     }
