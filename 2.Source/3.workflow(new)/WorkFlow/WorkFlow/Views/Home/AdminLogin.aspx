@@ -67,14 +67,14 @@
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on span1">@<i class="icon-user"></i></span>
-                                <input type="text" id="loginName" name="loginName" class="span2" />
+                                <input type="text" id="loginName" name="loginName" class="span2" placeholder="登录名称"/>
                             </div>
                         </div>
 
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on span1">@<i class="icon-lock"></i></span>
-                                <input type="password" id="loginPassword" name="loginPassword" class="span2" />
+                                <input type="password" id="loginPassword" name="loginPassword" class="span2" placeholder="登录密码"/>
                             </div>
                         </div>
 

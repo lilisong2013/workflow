@@ -15,6 +15,15 @@
         var PageName = "登录";
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+    
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").html("");
+        });
+    </script>
 
      <script type="text/javascript">
          $(document).ready(function () {
@@ -45,11 +54,13 @@
              $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
              $("#promptDIV").addClass(responseText.css);
              $("#promptDIV").html(responseText.message);
-            
+
              if (responseText.success) {
                  location.href = responseText.toUrl;
              }
-         } 
+         }
+
+       
     </script>
 </asp:Content>
 
@@ -69,14 +80,14 @@
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on span1">@<i class="icon-user"></i></span>
-                                <input type="text" id="loginName" name="loginName" class="span2" />
+                                <input type="text" id="loginName" name="loginName" class="span2" placeholder="登录名称"/>
                             </div>
                         </div>
 
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on span1">@<i class="icon-lock"></i></span>
-                                <input type="password" id="loginPassword" name="loginPassword" class="span2" />
+                                <input type="password" id="loginPassword" name="loginPassword" class="span2" placeholder="登录密码"/>
                             </div>
                         </div>
 

@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Net;
 using System.Net.Sockets;
 using System.Web.Services.Protocols;
+using System.Data;
+using System.Collections;
 
 namespace WorkFlow.Controllers
 {
@@ -107,20 +109,24 @@ namespace WorkFlow.Controllers
                 }
                 else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
+         
                 }
             }
             catch (WebException ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
+              return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
+              
             }
             catch (Exception ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
+               return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
+              
             }
            
      
         }
+
 
         /// <summary>
         /// 超级管理员登录验证
@@ -210,7 +216,7 @@ namespace WorkFlow.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败1" + ex.ToString() });
+                return Json("{success:false,css:'alert alert-error',message:'系统添加失败1'}");
             }
 
             //对象m_userModel赋值
@@ -232,61 +238,67 @@ namespace WorkFlow.Controllers
             //判断系统name、code是否为空
             if (m_appsModel.name == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统名称不能为空！" });
+                return Json("{success:false,css:'alert alert-error',message:'系统名称不能为空！'}");
             }
             if (m_appsModel.code == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统编码不能为空!" });
+                return Json("{success:false,css:'alert alert-error',message:'系统编码不能为空!'}");
             }
             //判断用户login、name、password是否为空
             if (m_userModel.login == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户登录名称不能为空！" });
+                   return Json("{success:false,css:'alert alert-error',message:'用户登录名称不能为空！'}");
             }
             if (m_userModel.password == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "登录密码不能为空!" });
+                return Json("{success:false,css:'alert alert-error',message:'登录密码不能为空!'}");
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(m_userModel.password) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="p-errorDIV",message="登录密码应字母开头，字母和数字组合，至少6位!"});
+                return Json("{success:false,css:'alert alert-error',message:'登录密码应字母开头，字母和数字组合，至少6位!'}");
             }
             if (Request.Form["userPassword2"].Trim() == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码不能为空!" });
+                return Json("{success:false,css:'alert alert-error',message:'确认密码不能为空!'}");
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(Request.Form["userPassword2"]) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "确认密码应字母开头，字母和数字组合，至少6位!" });
+                return Json("{success:false,css:'alert alert-error',message:'确认密码应字母开头，字母和数字组合，至少6位!'}");
             }
             if (m_userModel.password != Request.Form["userPassword2"].Trim())
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "两次输入的密码不一致！" });
+                return Json("{success:false,css:'alert alert-error',message:'两次输入的密码不一致！'}");
             }
             if (m_userModel.name == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "真实姓名不能为空!" });
+                return Json("{success:false,css:'alert alert-error',message:'真实姓名不能为空!'}");
             }
+            if (m_userModel.employee_no == "")
+            {
+                return Json("{success:false,css:'alert alert-error',message:'工号不能为空!'}");
+            }
+                      
             if (m_userModel.mobile_phone == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "手机号码不能为空!" });
+
+                return Json("{success:false,css:'alert alert-error',message:'手机号码不能为空!'}");
             }
             if (Saron.Common.PubFun.ConditionFilter.IsMobilePhone(m_userModel.mobile_phone) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "手机号码输入不正确!" });
+                return Json("{success:false,css:'alert alert-error',message:'手机号码输入不正确!'}");
             }
             if (m_userModel.mail == "")
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮箱不能为空!" });
+                return Json("{success:false,css:'alert alert-error',message:'邮箱不能为空!'}");
             }
             if (Saron.Common.PubFun.ConditionFilter.IsEmail(m_userModel.mail) == false)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "邮箱格式输入不正确!" });
+                return Json("{success:false,css:'alert alert-error',message:'邮箱格式输入不正确!'}");
             }
             //系统是否存在
             if (m_appsBllservice.ExistsAppName(m_appsModel.name,out msg))
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统名称已经存在！" });
+                return Json("{success:false,css:'alert alert-error',message:'系统名称已经存在！'}");
             }
 
             int appsID = 0;//系统的ID
@@ -296,12 +308,12 @@ namespace WorkFlow.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败" + ex.ToString() });
+                return Json("{success:false,css:'alert alert-error',message:'系统添加失败！'}");
             }
 
             if (appsID == -1)
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统名称已经存在！" });
+                return Json("{success:false,css:'alert alert-error',message:'系统名称已经存在！'}");
             }
 
             if (appsID != 0)
@@ -314,27 +326,27 @@ namespace WorkFlow.Controllers
                     if (flag == 0)
                     {
                         m_appsBllservice.Delete(appsID,out msg);//删除申请的系统记录
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户添加失败！" });
+                        return Json("{success:false,css:'alert alert-error',message:'用户添加失败！'}");
                     }
                     else if (flag == -1)
                     {
                         m_appsBllservice.Delete(appsID,out msg);//删除申请的系统记录
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户登录名称已经存在" });
+                        return Json("{success:false,css:'alert alert-error',message:'用户登录名称已经存在!'}");
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "", message = m_appsModel.name, toUrl = "/Home/RegistPageCon" });
+                        return Json("{success:true,css:'alert alert-success',message:'成功添加!'}");
                     }
                 }
                 catch (Exception ex)
                 {
                     m_appsBllservice.Delete(appsID,out msg);//删除申请的系统记录
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败4" + ex.ToString() });
+                    return Json("{success:false,css:'alert alert-error',message:'系统添加失败4!'}");
                 }
             }
             else
             {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统添加失败5" });
+                return Json("{success:false,css:'alert alert-error',message:'系统添加失败5!'}");
             }
         }
   

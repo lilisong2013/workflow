@@ -7,7 +7,7 @@
 <%--子页面的css、js--%>
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-    <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
+  <%--  <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />--%>
 
 
     <%--页面标题--%>
@@ -16,6 +16,15 @@
         var PageName = "应用系统注册";
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("alert alert-error alert-success");
+            $("#promptDIV").html("");
+        });
+    </script>
 
     <style type="text/css">
         .container{ min-width:700px;}
@@ -54,14 +63,20 @@
 
            function showResponse(responseText, statusText) {
                //alert(responseText.toUrl);
+               var dataJson = eval("("+responseText+")");
                if (!responseText.success) {
-                   $("#promptDIV").removeClass("p^-warningDIV p-successDIV p-errorDIV");
-                   $("#promptDIV").addClass(responseText.css);
-                   $("#promptDIV").html(responseText.message);
+                   show_DIV(dataJson);
                } else {
                    location.href = responseText.toUrl;
                }
            }
+
+           //提示信息
+           function show_DIV(data) {
+               $("#promptDIV").removeClass("alert alert-success alert-error");
+               $("#promptDIV").addClass(data.css);
+               $("#promptDIV").html(data.message);
+          }
     </script>
 
 </asp:Content>
@@ -89,19 +104,19 @@
             <div class="m-group-topborder">
                 <div class="m-leftform">
                 <label class="control-label">系统名称：</label>
-                <input name="appsName" type="text" class="span2" />  
+                <input name="appsName" type="text" class="span2" placeholder="系统名称"/>  
                            
                 <label class="control-label">系统编码：</label>
-                <input name="appsCode" type="text" class="span2" />
+                <input name="appsCode" type="text" class="span2" placeholder="系统编码"/>
 
                 <label class="control-label">访问链接：</label>
-                <input name="appsUrl" type="text" class="span2" />
+                <input name="appsUrl" type="text" class="span2" placeholder="访问链接"/>
 
                </div>
                 <div class="m-rightform">
                  <div class="m-newline">
                     <label class="control-label">备注信息：</label>
-                    <textarea name="appsRemark" class="m-textarea" rows="3" cols="15" style="width:700px"></textarea>
+                    <textarea name="appsRemark" class="m-textarea" rows="3" cols="15" style="width:700px" placeholder="备注信息"></textarea>
                  </div>
                 </div>             
             </div>
@@ -112,37 +127,37 @@
                 <div class="m-leftform">
                     <div class="m-newline">
                         <label class="control-label">登录名称：</label>
-                        <input name="userLogin" type="text" class="span2" />
+                        <input name="userLogin" type="text" class="span2" placeholder="登录名称"/>
                     </div>
                     <div class="m-newline">
                         <label class="control-label">登录密码：</label>
-                        <input name="userPassword" type="password" class="span2" />
+                        <input name="userPassword" type="password" class="span2" placeholder="登录密码"/>
                     </div>
                     <div class="m-newline">
                         <label class="control-label">确认密码：</label>
-                        <input name="userPassword2" type="password" class="span2" />
+                        <input name="userPassword2" type="password" class="span2" placeholder="确认密码"/>
                     </div>
                     <div class="m-newline">
                     <label class="control-label">真实姓名：</label>
-                    <input name="userName" type="text" class="span2" />
+                    <input name="userName" type="text" class="span2" placeholder="真实姓名"/>
                     </div>
                 </div>
                 <div class="m-rightform">
                     <div class="m-newline">
                     <label class="control-label">&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;号：&nbsp;&nbsp;</label>
-                    <input name="userEmployeeNo" type="text" class="span2" />
+                    <input name="userEmployeeNo" type="text" class="span2" placeholder="工号"/>
                     </div>
                     <div class="m-newline">
                     <label class="control-label">手&nbsp;&nbsp;机&nbsp;&nbsp;号：</label>
-                    <input name="userMobilePhone" type="text" class="span2" />
+                    <input name="userMobilePhone" type="text" class="span2" placeholder="手机号"/>
                     </div>
                     <div class="m-newline">
                     <label class="control-label">电子邮箱：</label>
-                    <input name="userMail" type="text" class="span2" />
+                    <input name="userMail" type="text" class="span2" placeholder="电子邮箱"/>
                     </div>
                     <div class="m-newline">
                     <label class="control-label">备注信息：</label>
-                    <textarea name="userRemark" class="m-textarea" rows="3" cols="10" style="width:400px"></textarea>
+                    <textarea name="userRemark" class="m-textarea" rows="3" cols="10" style="width:400px" placeholder="备注信息"></textarea>
                     <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                     <input type="hidden" name="createdIP" id="Hidden1" value="<%= ipAddress %>" />
                     <% string apply_at = DateTime.Now.ToString(); %>

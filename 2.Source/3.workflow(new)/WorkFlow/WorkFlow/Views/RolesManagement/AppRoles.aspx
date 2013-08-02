@@ -69,12 +69,7 @@
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
-                            render: function (row) {
-                                var html = '<i class="icon-user"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
-                                return html;
-                            }
-                        },
+                      
                          { display: '', width: 100,
                              render: function (row) {
                                  var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="RolePrivilegeDialog(' + row.id + ')">权限设置</a>';
