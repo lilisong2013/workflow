@@ -4,7 +4,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-    
 
     <%--页面标题--%>
     <script type="text/javascript">
@@ -21,13 +20,13 @@
            $("#promptDIV").html("");
        });
     </script>
-    
+ 
     <script type="text/javascript">
         var usersID;
         $(document).ready(function () {
             usersID = $("#usersID").val(); //用户ID
         });
-        var epTotal = 0;//角色数量
+        var epTotal = 0; //角色数量
     </script>
   <%--角色列表初始化--%>
   <script type="text/javascript">
@@ -40,7 +39,7 @@
               success: function (responseText, statusText) {
                   //alert(responseText);
                   var dataJson = eval("(" + responseText + ")");
-                 // alert(dataJson);
+                  // alert(dataJson);
                   epTotal = parseInt(dataJson.total); //角色数量
                   for (var i = 0; i < dataJson.total; i++) {
                       $("#rolesList").append("<label class='checkbox span2'><input id='rolesprivilege" + i + "' type='checkbox' value='" + dataJson.List[i].id + "'/>" + dataJson.List[i].name + "</label>");
@@ -62,14 +61,12 @@
      $(document).ready(function () {
          var user_rolesData;
          var user_rolesStr = "{";
-         var urTotal = 0; //用户角色的数量
-
          $("#saveSubmit").click(function () {
              if (false) {
                  return false;
              } else {
                  user_rolesStr = "{"; //JSON数据字符串
-
+                 var urTotal = 0; //用户角色的数量
                  //alert(urTotal);
 
                  //用户角色被选中的项
@@ -87,35 +84,20 @@
                  user_rolesStr += "ur_total:'" + urTotal + "',u_ID:'" + $("#usersID").val() + "'}";
                  // alert(user_rolesStr);
                  user_rolesData = eval("(" + user_rolesStr + ")");
-                                  $("#user_roles").ajaxForm({
-                                      success:ue_showResponse,//form提交响应成功后执行的回调函数                  
-                                      url: "/UsersManagement/AddUserRoles",
-                                      type: "POST",
-                                      dataType: "json",
-                                      data: user_rolesData
-                                  });
-                // ModifyUserRole(); //用户角色信息
+                 $("#user_roles").ajaxForm({
+                     success: ue_showResponse, //form提交响应成功后执行的回调函数                  
+                     url: "/UsersManagement/AddUserRoles",
+                     type: "POST",
+                     dataType: "json",
+                     data: user_rolesData
+                 });
              }
          });
-
-         //用户角色信息
-         function ModifyUserRole() {
-             alert(user_rolesStr);
-             var options = {
-                 //beforeSubmit: userole_showRequest, //form提交前的响应回调函数
-                 success: userole_showResponse, //form提交响应成功后执行的回调函数
-                 url: "/UsersManagement/AddUserRoles",
-                 type: "POST",
-                 dataType: "json",
-                 data: { ur_total: urTotal, u_ID: $("#usersID").val(),userStr:user_rolesStr}
-             };
-             $("#user_roles").ajaxForm(options);
-         }
-
-         //form提交响应成功后执行的回调函数
+         //提交user_roles表单后执行的函数
          function ue_showResponse(responseText, statusText) {
              var dataJson = eval("(" + responseText + ")");
-             show_DIV(dataJson);
+
+             show_DIV(dataJson);//提示信息
          }
 
          //提示信息
@@ -126,11 +108,10 @@
          }
      });
  </script>
-
+ 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>用户角色管理</h2></div>
-
 
   <div class="container">
   <%--操作提示DIV--%>

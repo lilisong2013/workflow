@@ -54,7 +54,7 @@
                         { display: '工号', name: 'employee_no', align: 'center' },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog('+row.id+')">详情</a>';
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
@@ -70,12 +70,13 @@
                                 return html;
                             }
                         },
+                     
                        { display: '', width: 100,
-                           render: function (row) {
-                               var html = '<i class="icon-user"></i><a href="javascript:void(0);" onclick="UserRoleDialog(' + row.id + ')">角色设置</a>';
-                               return html;
-                           }
-                       }
+                            render: function (row) {
+                                var html = '<i class="icon-user"></i><a href="javascript:void(0);" onclick="UserRoleDialog('+row.id+')">角色设置</a>';
+                                return html;
+                            }
+                        }
                        ],
                     dataAction: 'server',
                     width: '99%',
@@ -96,23 +97,23 @@
     <script type="text/javascript">
         function EditDialog(id) {
 
-            if (id) {           
-            var m=$.ligerDialog.open({
-                title: '更新用户信息',
-                width: 800,
-                height: 500,
-                showMax: true,
-                showMin: true,
-                url: '/UsersManagement/EditPage?id=' + id,
-                buttons:
+            if (id) {
+                var m = $.ligerDialog.open({
+                    title: '更新用户信息',
+                    width: 800,
+                    height: 500,
+                    showMax: true,
+                    showMin: true,
+                    url: '/UsersManagement/EditPage?id=' + id,
+                    buttons:
                     [
                     { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
 
                     ]
-            });
+                });
 
-         }
-       }
+            }
+        }
     </script>
 
     <%--详情弹出框函数--%>
@@ -121,10 +122,10 @@
 
             if (id) {
                 $.ligerDialog.open({
-                  title:'详情('+id+')信息',
-                   width:700,
-                   height:600,
-                   url: '/UsersManagement/DetailInfo?id=' + id
+                    title: '详情(' + id + ')信息',
+                    width: 700,
+                    height: 600,
+                    url: '/UsersManagement/DetailInfo?id=' + id
                 });
             }
         }
@@ -134,13 +135,13 @@
        function UserRoleDialog(id) {
            if (id) {
                $.ligerDialog.open({
-                 title:'用户角色信息',
-                 width:800,
-                 height: 500,
-                 showMax: true,
-                 showMin: true,
-                 url: '/UsersManagement/UserRoles?id=' + id,
-                  buttons:
+                   title: '用户角色信息',
+                   width: 800,
+                   height: 500,
+                   showMax: true,
+                   showMin: true,
+                   url: '/UsersManagement/UserRoles?id=' + id,
+                   buttons:
                     [
                     { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
 

@@ -816,8 +816,6 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                //string str = Request.Form["userStr"];
-
                 int m_usersID = Convert.ToInt32(Request.Params["u_ID"]);//用户ID
                 int m_ur_total = Convert.ToInt32(Request.Params["ur_total"]);//用户角色数量
                 WorkFlow.User_RoleBLLservice.user_roleBLLservice m_user_roleBllService = new User_RoleBLLservice.user_roleBLLservice();
@@ -838,19 +836,18 @@ namespace WorkFlow.Controllers
                             m_user_roleModel.role_id = m_rolesID;
                             if ((m_user_roleBllService.Add(m_user_roleModel) == 0))
                             {
-                              //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败!" });
+
                                 return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                             }
-
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+                
                     return Json("{success:false,css:'alert alert-error',message:'程序出错！'}");
                 }
-              //  return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "角色添加成功！", toUrl = "/UsersManagement/AppUsers" });
+               
                 return Json("{success:true,css:'alert alert-success',message:'角色添加成功！'}");
             }
 
