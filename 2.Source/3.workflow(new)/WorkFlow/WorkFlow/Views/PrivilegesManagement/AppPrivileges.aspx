@@ -702,7 +702,7 @@
                 //alert(oPrivilegesName);
                 if (mPrivilegesName == "") {
                     $("#promptDIV").removeClass("alert alert-error alert-success");
-                    $("#promptDIV").addClass("alert-error");
+                    $("#promptDIV").addClass("alert alert-error");
                     $("#promptDIV").html("权限名称不能为空");
 
                     return false;
@@ -710,7 +710,7 @@
 
                 if (menusID == "-1") {
                     $("#promptDIV").removeClass("alert alert-error alert-success");
-                    $("#promptDIV").addClass("alert-error");
+                    $("#promptDIV").addClass("alert alert-error");
                     $("#promptDIV").html("请选择权限项目！");
 
                     return false;
@@ -885,7 +885,7 @@
                 //alert(oPrivilegesName);
                 if (ePrivilegesName == "") {
                     $("#promptDIV").removeClass("alert alert-error alert-success");
-                    $("#promptDIV").addClass("alert-error");
+                    $("#promptDIV").addClass("alert alert-error");
                     $("#promptDIV").html("权限名称不能为空");
 
                     return false;
@@ -893,7 +893,7 @@
 
                 if (elementID == "-1") {
                     $("#promptDIV").removeClass("alert alert-error alert-success");
-                    $("#promptDIV").addClass("alert-error");
+                    $("#promptDIV").addClass("alert alert-error");
                     $("#promptDIV").html("请选择权限项目！");
 
                     return false;
@@ -963,10 +963,10 @@
                 url: "/PrivilegesManagement/ExistPrivilegeItemOfMenus",
                 type: "POST",
                 dataType: "json",
-                data: { menusID: note.data.id },
+                data: { menusID: note.data.id,parentID:note.data.parent_id },
                 success: function (responseText, statusText) {
                     var dataJson = eval("(" + responseText + ")");
-                    if (responseText.success) {
+                    if (dataJson.success) {
                         $("#mPrivilegesItemInfo").val(note.data.id);
                         $("#mPrivilegesItemInfo").html(note.data.name);
                     }
@@ -974,9 +974,9 @@
                         $("#mPrivilegesItemInfo").val("-1");
                         $("#mPrivilegesItemInfo").html("选择权限项目（菜单）");
                         show_DIV(dataJson);
-//                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-//                        $("#promptDIV").addClass(responseText.css);
-//                        $("#promptDIV").html(responseText.message);
+                        //                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        //                        $("#promptDIV").addClass(responseText.css);
+                        //                        $("#promptDIV").html(responseText.message);
                     }
                 }
             });
