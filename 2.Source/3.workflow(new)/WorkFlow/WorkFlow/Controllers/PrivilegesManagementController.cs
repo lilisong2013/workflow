@@ -759,6 +759,7 @@ namespace WorkFlow.Controllers
                                 // 属性与字段名称一致的进行赋值 
                                 if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
+                                
                                     //数据库NULL值单独处理
                                     if (ds.Tables[0].Rows[i][j] != DBNull.Value)
                                         pi.SetValue(m_privilegesModel, ds.Tables[0].Rows[i][j], null);
