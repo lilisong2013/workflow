@@ -197,6 +197,7 @@
                 
                 checkbox: false,
                 textFieldName: 'name',
+                nodeWidth:'auto',
                 onSelect: OnSelectMenusOfElements
             });
             eManagerTree = $("#eMyTree").ligerGetTreeManager();

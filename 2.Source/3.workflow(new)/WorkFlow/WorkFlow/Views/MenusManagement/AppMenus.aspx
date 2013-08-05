@@ -157,6 +157,7 @@
             $("#tree1").ligerTree({
                 checkbox: false,
                 textFieldName: 'name',
+                nodeWidth: 'auto',
                 onSelect: OnSelect
             });
             eManagerTree = $("#tree1").ligerGetTreeManager();
