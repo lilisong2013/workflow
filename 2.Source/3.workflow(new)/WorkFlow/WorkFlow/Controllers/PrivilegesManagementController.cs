@@ -55,7 +55,7 @@ namespace WorkFlow.Controllers
                 string m_privilegeName = Request.Form["oPrivilegesName"].ToString();
 
                 //权限名称是否存在
-                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
+                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,3,out msg))
                 {
                     // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
                    return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
@@ -121,7 +121,7 @@ namespace WorkFlow.Controllers
                 string m_privilegeName = Request.Form["mPrivilegesName"].ToString();
 
                 //权限名称是否存在
-                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
+                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,1,out msg))
                 {
               
                     return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
@@ -186,7 +186,7 @@ namespace WorkFlow.Controllers
                 string m_privilegeName = Request.Form["ePrivilegesName"].ToString();
 
                 //权限名称是否存在
-                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
+                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,2,out msg))
                 {
                 
                     return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");

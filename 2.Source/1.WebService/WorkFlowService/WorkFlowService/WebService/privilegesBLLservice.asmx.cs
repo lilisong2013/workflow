@@ -44,7 +44,7 @@ namespace Saron.WorkFlowService.WebService
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "系统ID为appID的系统中是否存在privilegeName的权限名称，<h4>（需要授权验证，系统管理员）</h4>")]
-        public bool ExistsPrivilegeName(string privilegeName, int appID,out string msg)
+        public bool ExistsPrivilegeName(string privilegeName, int appID,int pm_typeid,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
@@ -53,7 +53,7 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
 
-            return m_privilegesDal.ExistsPrivilegesName(privilegeName, appID);
+            return m_privilegesDal.ExistsPrivilegesName(privilegeName,appID,pm_typeid);
         }
 
         [SoapHeader("m_securityContext")]

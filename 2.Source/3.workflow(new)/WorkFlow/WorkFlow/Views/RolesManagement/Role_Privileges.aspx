@@ -50,7 +50,8 @@
                 autoCheckboxEven: true,
                 textFieldName: 'name',
                 idFieldName: 'menuID',
-                parentIDFieldName: 'parentID'
+                parentIDFieldName: 'parentID',
+                nodeWidth:'auto'
             });
 
             //给menusList填充数据

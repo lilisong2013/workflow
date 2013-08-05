@@ -195,27 +195,29 @@ namespace WorkFlow.PrivilegesWebService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsPrivilegeName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool ExistsPrivilegeName(string privilegeName, int appID, out string msg) {
+        public bool ExistsPrivilegeName(string privilegeName, int appID, int pm_typeid, out string msg) {
             object[] results = this.Invoke("ExistsPrivilegeName", new object[] {
                         privilegeName,
-                        appID});
+                        appID,
+                        pm_typeid});
             msg = ((string)(results[1]));
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void ExistsPrivilegeNameAsync(string privilegeName, int appID) {
-            this.ExistsPrivilegeNameAsync(privilegeName, appID, null);
+        public void ExistsPrivilegeNameAsync(string privilegeName, int appID, int pm_typeid) {
+            this.ExistsPrivilegeNameAsync(privilegeName, appID, pm_typeid, null);
         }
         
         /// <remarks/>
-        public void ExistsPrivilegeNameAsync(string privilegeName, int appID, object userState) {
+        public void ExistsPrivilegeNameAsync(string privilegeName, int appID, int pm_typeid, object userState) {
             if ((this.ExistsPrivilegeNameOperationCompleted == null)) {
                 this.ExistsPrivilegeNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsPrivilegeNameOperationCompleted);
             }
             this.InvokeAsync("ExistsPrivilegeName", new object[] {
                         privilegeName,
-                        appID}, this.ExistsPrivilegeNameOperationCompleted, userState);
+                        appID,
+                        pm_typeid}, this.ExistsPrivilegeNameOperationCompleted, userState);
         }
         
         private void OnExistsPrivilegeNameOperationCompleted(object arg) {
