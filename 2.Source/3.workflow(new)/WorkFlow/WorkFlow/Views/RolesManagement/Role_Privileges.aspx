@@ -5,7 +5,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-    <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
+    <%--<link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />--%>
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
     
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-tree.css" rel="stylesheet"
@@ -18,6 +18,15 @@
         var PageName = "角色权限";
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+
+   <%--隐藏提示信息--%>
+   <script type="text/javascript">
+       //隐藏提示信息
+       $(document).click(function () {
+           $("#promptDIV").removeClass("alert alert-error alert-success");
+           $("#promptDIV").html("");
+       });
+    </script>
 
     <script type="text/javascript">
         var roleID;
@@ -192,34 +201,28 @@
 
             //提交role_privileges表单后执行的函数
             function rp_showResponse(responseText, statusText) {
+                var dataJson = eval("(" + responseText + ")");
+                show_DIV(dataJson);//提示信息
+              
 
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                $("#promptDIV").addClass(responseText.css);
-                $("#promptDIV").html(responseText.message);
-                //                if (result.success) {
-                //                    location.href = result.toUrl;//跳转页面
-                //                }
+            }
+
+            //提示信息
+            function show_DIV(data) {
+                $("#promptDIV").removeClass("alert alert-error alert-success");
+                $("#promptDIV").addClass(data.css);
+                $("#promptDIV").html(data.message);
             }
         });
     </script>
 
-    <%--隐藏提示信息--%>
-    <script type="text/javascript">
-        //隐藏提示信息
-        $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-            $("#promptDIV").html("");
-        });
-    </script>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container"><h2>角色权限管理</h2></div>
 
-    <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/RolesManagement/AppRoles">返回</a></li></ul>
-    </div>
+  
 
     <div class="container">
         <%--操作提示DIV--%>

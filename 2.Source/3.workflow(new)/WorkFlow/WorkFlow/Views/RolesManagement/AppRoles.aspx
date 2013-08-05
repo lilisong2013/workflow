@@ -69,12 +69,13 @@
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
-                            render: function (row) {
-                                var html = '<i class="icon-user"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
-                                return html;
-                            }
-                        }
+                      
+                         { display: '', width: 100,
+                             render: function (row) {
+                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="RolePrivilegeDialog(' + row.id + ')">权限设置</a>';
+                                 return html;
+                             }
+                         }
                    ],
                     dataAction: 'server',
                     width: '99%',
@@ -112,7 +113,26 @@
             }
         }
     </script>
+   <%--角色权限弹出框函数--%>
+   <script type="text/javascript">
+       function RolePrivilegeDialog(id) {
+           if (id) {
+               var m = $.ligerDialog.open({
+                   title: '更新角色信息',
+                   width: 800,
+                   height: 500,
+                   showMax: true,
+                   showMin: true,
+                   url: '/RolesManagement/Role_Privileges?id=' + id,
+                   buttons:
+                    [
+                    { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
 
+                    ]
+               });
+           }
+       }
+   </script>
    <%--详情弹出框函数--%>
    <script type="text/javascript">
        function DetailDialog(id) {

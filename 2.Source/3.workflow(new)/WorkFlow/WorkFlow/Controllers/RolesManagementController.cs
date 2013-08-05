@@ -919,7 +919,8 @@ namespace WorkFlow.Controllers
                             m_privilege_roleModel.privilege_id = m_mprivilegeID;//菜单权限ID
                             if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
-                                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                              //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                                return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                             }
                         }
 
@@ -931,7 +932,8 @@ namespace WorkFlow.Controllers
                             m_privilege_roleModel.privilege_id = m_oprivilegeID;
                             if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
-                                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                              //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                                return Json("{success:false,css:'alert alert-error',message:'修改失败！'}");
                             }
                         }
 
@@ -943,21 +945,25 @@ namespace WorkFlow.Controllers
                             m_privilege_roleModel.privilege_id = m_eprivilegeID;
                             if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
-                                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                              //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                                return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                             }
                         }
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                      //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+                        return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+                  //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+                    return Json("{success:false,css:'alert alert-error',message:'程序出错!'}");
                 }
 
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/RolesManagement/Role_Privileges" });
+               // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/RolesManagement/Role_Privileges" });
+                return Json("{success:true,css:'alert alert-success',message:'修改成功!'}");
             }
     
        

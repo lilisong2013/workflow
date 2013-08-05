@@ -57,8 +57,8 @@ namespace WorkFlow.Controllers
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
                 {
-
-                    return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
+                    // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
+                   return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
                 }
 
                 m_privilegesModel.name = m_privilegeName;//权限名称
@@ -74,19 +74,20 @@ namespace WorkFlow.Controllers
                 {
                     if (m_privilegesBllService.Add(m_privilegesModel, out msg) != 0)
                     {
-         
-                        return Json("{success:true,css:'alert alert-success',message:'添加权限成功！'}");
+                      return Json("{success:true,css:'alert alert-success',message:'添加权限成功！'}");
+                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加权限成功！" });
                     }
                     else
                     {
-
-                        return Json("{success:false,css:'alert alert-error',message:'添加权限失败！'}");
+                       return Json("{success:false,css:'alert alert-error',message:'添加权限失败！'}");
+                        //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加权限失败！" });
                     }
                 }
                 catch (Exception ex)
                 {
-
-                    return Json("{success:false,css:'alert alert-error',message:'程序出错！'}");
+                    // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+                  return Json("{success:false,css:'alert alert-error',message:'程序出错！'}");
+                  
                 }
             }
            
@@ -557,13 +558,13 @@ namespace WorkFlow.Controllers
 
                 if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID, out msg))
                 {
-                  //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
+                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-warningDIV", message = "该项目已设置权限！" });
                     return Json("{success:false,css:'alert alert-error',message:'该项目已设置权限！'}");
                 }
                 else
                 {
-                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
-                    return Json("{success:true}");
+                 // return Json(new Saron.WorkFlow.Models.InformationModel { success = true });
+                    return Json("{success:true}");         
                 }
             }
         
@@ -714,7 +715,7 @@ namespace WorkFlow.Controllers
         }
 
        //菜单列表(后台分页)
-        public ActionResult GetMPrivilegesList2()
+        public ActionResult GetMPrivilegesList()
         {
             if (Session["user"] == null)
             {
@@ -790,85 +791,8 @@ namespace WorkFlow.Controllers
             }
         }
 
-       //菜单列表
-        public ActionResult GetMPrivilegesList()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
-
-                WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
-
-                string msg = string.Empty;
-
-                //SecurityContext实体对象赋值
-                m_securityContext.UserName = m_usersModel.login;
-                m_securityContext.PassWord = m_usersModel.password;
-                m_securityContext.AppID = (int)m_usersModel.app_id;
-                m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
-
-                string data = "{Rows:[";
-                try
-                {
-                    DataSet ds = m_privilegesBllService.GetMListByAppTypeID((int)m_usersModel.app_id, out msg);
-                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                    {
-                        string id = ds.Tables[0].Rows[i][0].ToString();
-                        string name = ds.Tables[0].Rows[i][1].ToString();
-                        string privilegetype_id = null;
-                        string privilegeitem_id = null;
-                        privilegetype_id = "菜单";
-                        WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
-                        WorkFlow.MenusWebService.SecurityContext m_MSecurity = new MenusWebService.SecurityContext();
-
-                        m_MSecurity.UserName = m_usersModel.login;
-                        m_MSecurity.PassWord = m_usersModel.password;
-                        m_MSecurity.AppID = (int)m_usersModel.app_id;
-                        m_menusBllService.SecurityContextValue = m_MSecurity;
-
-                        DataSet dsM = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
-
-                        privilegeitem_id = dsM.Tables[0].Rows[0][0].ToString();
-
-                        string remark = ds.Tables[0].Rows[i][4].ToString();
-                        string invalid = ds.Tables[0].Rows[i][5].ToString();
-                        if (i == ds.Tables[0].Rows.Count - 1)
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "privilegetype_id:'" + privilegetype_id + "',";
-                            data += "privilegeitem_id:'" + privilegeitem_id + "',";
-                            data += "invalid:'" + invalid + "',";
-                            data += "remark:'" + remark + "'}";
-                        }
-                        else
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "privilegetype_id:'" + privilegetype_id + "',";
-                            data += "privilegeitem_id:'" + privilegeitem_id + "',";
-                            data += "invalid:'" + invalid + "',";
-                            data += "remark:'" + remark + "'},";
-                        }
-                    }
-
-                }
-                catch (Exception ex)
-                { 
-                }
-                data += "]}";
-                return Json(data);
-            }
-        }
-
        //元素列表(后台分页)
-        public ActionResult GetEPrivilegesList2()
+        public ActionResult GetEPrivilegesList()
         {
             if (Session["user"] == null)
             {
@@ -944,88 +868,8 @@ namespace WorkFlow.Controllers
             }
         }
 
-       //元素列表
-        public ActionResult GetEPrivilegesList()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
-
-                WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
-
-                string msg = string.Empty;
-
-                //SecurityContext实体对象赋值
-                m_securityContext.UserName = m_usersModel.login;
-                m_securityContext.PassWord = m_usersModel.password;
-                m_securityContext.AppID = (int)m_usersModel.app_id;
-                m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
-
-                string data = "{Rows:[";
-                try
-                {
-                    DataSet ds = m_privilegesBllService.GetElListByAppID((int)m_usersModel.app_id,out msg);
-                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                    {
-                        string id = ds.Tables[0].Rows[i][0].ToString();
-                        string name = ds.Tables[0].Rows[i][1].ToString();
-                        string privilegetype_id = null;
-                        string privilegeitem_id = null;
-                        privilegetype_id = "元素";
-
-                        WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
-                        WorkFlow.ElementsWebService.SecurityContext m_ESecurity = new ElementsWebService.SecurityContext();
-
-                        m_ESecurity.UserName = m_usersModel.login;
-                        m_ESecurity.PassWord = m_usersModel.password;
-                        m_ESecurity.AppID = (int)m_usersModel.app_id;
-                        m_elementsBllService.SecurityContextValue = m_ESecurity;
-
-                        DataSet dsE = m_elementsBllService.GetElementsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
-
-                        privilegeitem_id = dsE.Tables[0].Rows[0][0].ToString();
-
-                        string remark = ds.Tables[0].Rows[i][4].ToString();
-                        string invalid = ds.Tables[0].Rows[i][5].ToString();
-                        if (i == ds.Tables[0].Rows.Count - 1)
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "privilegetype_id:'" + privilegetype_id + "',";
-                            data += "privilegeitem_id:'" + privilegeitem_id + "',";
-                            data += "invalid:'" + invalid + "',";
-                            data += "remark:'" + remark + "'}";
-                        }
-                        else
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "privilegetype_id:'" + privilegetype_id + "',";
-                            data += "privilegeitem_id:'" + privilegeitem_id + "',";
-                            data += "invalid:'" + invalid + "',";
-                            data += "remark:'" + remark + "'},";
-                        }
-
-                    }
-
-                }
-                catch (Exception ex)
-                { 
-                
-                }
-                data += "]}";
-                return Json(data);
-            }
-        }
-
        //操作列表(后台分页)
-        public ActionResult GetOPrivilegesList2()
+        public ActionResult GetOPrivilegesList()
         {
             if (Session["user"] == null)
             {
@@ -1033,7 +877,6 @@ namespace WorkFlow.Controllers
             }
             else
             {
-
                 //排序的字段名
                 string sortname = Request.Params["sortname"];
                 //排序的方向
@@ -1053,7 +896,9 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+
                 DataSet ds = m_privilegesBllService.GetOpListByAppID((int)m_usersModel.app_id, out msg);
+
                 IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
                 var total = ds.Tables[0].Rows.Count;
                 for (var i = 0; i < total; i++)
@@ -1075,6 +920,9 @@ namespace WorkFlow.Controllers
                                     pi.SetValue(m_privilegesModel, null, null);
                                 break;
                             }
+
+
+
                         }
                     }
                     m_list.Add(m_privilegesModel);
@@ -1097,86 +945,7 @@ namespace WorkFlow.Controllers
             }
         }
 
-       //操作列表
-        public ActionResult GetOPrivilegesList()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
-
-                WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
-
-                string msg = string.Empty;
-
-                //SecurityContext实体对象赋值
-                m_securityContext.UserName = m_usersModel.login;
-                m_securityContext.PassWord = m_usersModel.password;
-                m_securityContext.AppID = (int)m_usersModel.app_id;
-                m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
-
-                string data = "{Rows:[";
-                try
-                {
-
-                    DataSet ds = m_privilegesBllService.GetOpListByAppID((int)m_usersModel.app_id, out msg);
-                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                    {
-                        string id = ds.Tables[0].Rows[i][0].ToString();
-                        string name = ds.Tables[0].Rows[i][1].ToString();
-                        string privilegetype_id = null;
-                        string privilegeitem_id = null;
-                        privilegetype_id = "操作";
-                        WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
-                        WorkFlow.OperationsWebService.SecurityContext m_OSecurity = new OperationsWebService.SecurityContext();
-
-                        m_OSecurity.UserName = m_usersModel.login;
-                        m_OSecurity.PassWord = m_usersModel.password;
-                        m_OSecurity.AppID = (int)m_usersModel.app_id;
-                        m_operationsBllService.SecurityContextValue = m_OSecurity;
-
-                        DataSet dsO = m_operationsBllService.GetOperationsNameOfAppID((int)m_usersModel.app_id, Convert.ToInt32(ds.Tables[0].Rows[i][3].ToString()), out msg);
-                        privilegeitem_id = dsO.Tables[0].Rows[0][0].ToString();
-
-                        string remark = ds.Tables[0].Rows[i][4].ToString();
-                        string invalid = ds.Tables[0].Rows[i][5].ToString();
-                        if (i == ds.Tables[0].Rows.Count - 1)
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "privilegetype_id:'" + privilegetype_id + "',";
-                            data += "privilegeitem_id:'" + privilegeitem_id + "',";
-                            data += "invalid:'" + invalid + "',";
-                            data += "remark:'" + remark + "'}";
-                        }
-                        else
-                        {
-                            data += "{name:'" + name + "',";
-                            data += "id:'" + id + "',";
-                            data += "privilegetype_id:'" + privilegetype_id + "',";
-                            data += "privilegeitem_id:'" + privilegeitem_id + "',";
-                            data += "invalid:'" + invalid + "',";
-                            data += "remark:'" + remark + "'},";
-                        }
-                    }
-                }
-                catch (Exception ex)
-                { 
-                }
-                data += "]}";
-                return Json(data);
-            }
-        }
-        /// <summary>
-        /// 显示所选权限系统的详情
-        /// </summary>
-        /// <param name="id">系统的ID</param>
-        /// <returns></returns>
+        //详情
         public ActionResult DetailInfo(int id)
         {
             if (Session["user"] == null)
@@ -1308,7 +1077,8 @@ namespace WorkFlow.Controllers
             }
           
         }
-      //权限编辑的基本信息
+
+       //权限编辑的基本信息
         public ActionResult EditPage(int id)
         {
             if (Session["user"] == null)
@@ -1383,7 +1153,8 @@ namespace WorkFlow.Controllers
             }
          
         }
-       //获取是否有效的列表
+      
+        //获取是否有效的列表
         public ActionResult GetInvalidList()
         {
             if (Session["user"] == null)
@@ -1434,11 +1205,8 @@ namespace WorkFlow.Controllers
             }
          
         }
-        ///<summay>
-        ///编辑数据库中指定记录的操作
-        ///</summay>
-        ///<param name="id">系统的ID</param>
-        ///<returns></returns>
+       
+        //权限编辑信息
         public ActionResult EditPrivileges(FormCollection collection)
         {
             if (Session["user"] == null)

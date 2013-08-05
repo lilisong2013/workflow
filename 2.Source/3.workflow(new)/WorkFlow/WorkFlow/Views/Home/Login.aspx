@@ -15,6 +15,15 @@
         var PageName = "登录";
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
+    
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("alert alert-error alert-success");
+            $("#promptDIV").html("");
+        });
+    </script>
 
      <script type="text/javascript">
          $(document).ready(function () {
@@ -28,8 +37,8 @@
 
              $("#submit").click(function () {
                  if ($.trim($("#loginName").val()).length == 0 || $.trim($("#loginPassword").val()).length == 0) {
-                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                     $("#promptDIV").addClass("p-errorDIV");
+                     $("#promptDIV").removeClass("alert alert-error alert-success");
+                     $("#promptDIV").addClass("alert alert-error");
                      $("#promptDIV").html("用户名或密码不能为空！");
 
                      return false;
@@ -42,14 +51,16 @@
          function showResponse(responseText, statusText) {
              //成功后执行的方法
              //alert(responseText.Id + responseText.Name);
-             $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+             $("#promptDIV").removeClass("alert alert-error alert-success");
              $("#promptDIV").addClass(responseText.css);
              $("#promptDIV").html(responseText.message);
-            
+
              if (responseText.success) {
                  location.href = responseText.toUrl;
              }
-         } 
+         }
+
+       
     </script>
 </asp:Content>
 
@@ -69,14 +80,14 @@
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on span1">@<i class="icon-user"></i></span>
-                                <input type="text" id="loginName" name="loginName" class="span2" />
+                                <input type="text" id="loginName" name="loginName" class="span2" placeholder="登录名称"/>
                             </div>
                         </div>
 
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on span1">@<i class="icon-lock"></i></span>
-                                <input type="password" id="loginPassword" name="loginPassword" class="span2" />
+                                <input type="password" id="loginPassword" name="loginPassword" class="span2" placeholder="登录密码"/>
                             </div>
                         </div>
 
