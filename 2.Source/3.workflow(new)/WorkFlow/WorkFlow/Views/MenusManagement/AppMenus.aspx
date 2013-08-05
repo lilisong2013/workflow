@@ -6,7 +6,7 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
-
+   
     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
 
@@ -24,7 +24,13 @@
 
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
-  
+    <%--LigerUI ToolBar文件--%>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+ 
+   <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
     <%--页面标题--%>
     <script type="text/javascript">
         var titleUrl = "/Home/GetPageTitle";

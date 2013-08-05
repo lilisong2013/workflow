@@ -275,6 +275,7 @@ namespace Saron.WorkFlowService.WebService
             }
             return m_privilegesDal.GetItemIDOfPrivileges(appID,flag);
         }
+        
         #endregion  Method
     }
 }
