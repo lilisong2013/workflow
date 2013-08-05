@@ -54,18 +54,19 @@ namespace Saron.WorkFlowService.DAL
         /// <param name="privilegeName">权限名称</param>
         /// <param name="appID">系统ID</param>
         /// <returns></returns>
-        public bool ExistsPrivilegesName(string privilegeName,int appID)
+        public bool ExistsPrivilegesName(string privilegeName,int appID,int pm_typeid)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from privileges");
-            strSql.Append(" where name=@name and app_id=@app_id ");
+            strSql.Append(" where name=@name and app_id=@app_id and privilegetype_id=@privilegetype_id ");
             SqlParameter[] parameters = {
 					new SqlParameter("@name", SqlDbType.NVarChar,80),
-                    new SqlParameter("@app_id", SqlDbType.Int,4)
+                    new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@privilegetype_id",SqlDbType.Int,4)
 			};
             parameters[0].Value = privilegeName;
             parameters[1].Value = appID;
-
+            parameters[2].Value = pm_typeid;
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
 

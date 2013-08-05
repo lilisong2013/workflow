@@ -16,11 +16,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
 <h2>Index</h2>
- <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
-    <label><%=m_usersModel.login %></label>
-    <label><%=m_usersModel.name %></label>
-    <label><%=m_usersModel.password %></label>
-    <label><%=m_usersModel.app_id %></label>
+
 </asp:Content>
 
 

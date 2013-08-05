@@ -55,7 +55,7 @@ namespace WorkFlow.Controllers
                 string m_privilegeName = Request.Form["oPrivilegesName"].ToString();
 
                 //权限名称是否存在
-                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
+                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,3,out msg))
                 {
                     // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
                    return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
@@ -121,7 +121,7 @@ namespace WorkFlow.Controllers
                 string m_privilegeName = Request.Form["mPrivilegesName"].ToString();
 
                 //权限名称是否存在
-                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
+                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,1,out msg))
                 {
               
                     return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
@@ -186,7 +186,7 @@ namespace WorkFlow.Controllers
                 string m_privilegeName = Request.Form["ePrivilegesName"].ToString();
 
                 //权限名称是否存在
-                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id, out msg))
+                if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,2,out msg))
                 {
                 
                     return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
@@ -745,7 +745,10 @@ namespace WorkFlow.Controllers
 
                 DataSet ds = m_privilegesBllService.GetMListByAppTypeID((int)m_usersModel.app_id, out msg);
 
-                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list=new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                
+
                 var total = ds.Tables[0].Rows.Count;
                 for (var i = 0; i < total; i++)
                 {
@@ -759,6 +762,7 @@ namespace WorkFlow.Controllers
                                 // 属性与字段名称一致的进行赋值 
                                 if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
+                                
                                     //数据库NULL值单独处理
                                     if (ds.Tables[0].Rows[i][j] != DBNull.Value)
                                         pi.SetValue(m_privilegesModel, ds.Tables[0].Rows[i][j], null);

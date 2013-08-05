@@ -56,6 +56,8 @@ namespace WorkFlow.MenusWebService {
         
         private System.Threading.SendOrPostCallback ExistsMenusNameOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetParentIDByIDOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -138,6 +140,9 @@ namespace WorkFlow.MenusWebService {
         
         /// <remarks/>
         public event ExistsMenusNameCompletedEventHandler ExistsMenusNameCompleted;
+        
+        /// <remarks/>
+        public event GetParentIDByIDCompletedEventHandler GetParentIDByIDCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -518,6 +523,37 @@ namespace WorkFlow.MenusWebService {
             if ((this.ExistsMenusNameCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.ExistsMenusNameCompleted(this, new ExistsMenusNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetParentIDByID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetParentIDByID(int menuID, out string msg) {
+            object[] results = this.Invoke("GetParentIDByID", new object[] {
+                        menuID});
+            msg = ((string)(results[1]));
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetParentIDByIDAsync(int menuID) {
+            this.GetParentIDByIDAsync(menuID, null);
+        }
+        
+        /// <remarks/>
+        public void GetParentIDByIDAsync(int menuID, object userState) {
+            if ((this.GetParentIDByIDOperationCompleted == null)) {
+                this.GetParentIDByIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetParentIDByIDOperationCompleted);
+            }
+            this.InvokeAsync("GetParentIDByID", new object[] {
+                        menuID}, this.GetParentIDByIDOperationCompleted, userState);
+        }
+        
+        private void OnGetParentIDByIDOperationCompleted(object arg) {
+            if ((this.GetParentIDByIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetParentIDByIDCompleted(this, new GetParentIDByIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1188,6 +1224,40 @@ namespace WorkFlow.MenusWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetParentIDByIDCompletedEventHandler(object sender, GetParentIDByIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetParentIDByIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetParentIDByIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
         
