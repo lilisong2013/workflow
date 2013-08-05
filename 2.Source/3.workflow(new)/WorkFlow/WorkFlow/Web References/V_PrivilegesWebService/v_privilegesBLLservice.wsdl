@@ -121,6 +121,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetMPrivilegesListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMPrivilegesListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMPrivilegesListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="UserIsItemPrivilegeSoapIn">
@@ -177,6 +199,15 @@
   <wsdl:message name="SysUserLoginValidatorSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetMPrivilegesListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMPrivilegesListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetMPrivilegesListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMPrivilegesListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMPrivilegesListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="v_privilegesBLLserviceSoap">
     <wsdl:operation name="UserIsItemPrivilege">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断用户是否有访问项目的权限（userID：用户ID，item_Code：项目编码，pt_Name：权限类型名称，appID：系统ID）&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
@@ -207,6 +238,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">系统用户是否存在，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:SysUserLoginValidatorSoapIn" />
       <wsdl:output message="tns:SysUserLoginValidatorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMPrivilegesListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的菜单列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetMPrivilegesListOfAppSoapIn" />
+      <wsdl:output message="tns:GetMPrivilegesListOfAppSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="v_privilegesBLLserviceSoap" type="tns:v_privilegesBLLserviceSoap">
@@ -271,6 +307,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetMPrivilegesListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetMPrivilegesListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetMPrivilegesListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="v_privilegesBLLserviceSoap12" type="tns:v_privilegesBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -329,6 +375,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:SysUserLoginValidatorSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMPrivilegesListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetMPrivilegesListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetMPrivilegesListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -16,9 +16,8 @@
         <div class="row-fluid"><h2>流程名称：<%=ViewData["flowsName"]%></h2>
         </div>
         <div class="row-fluid">流程备注：<%=ViewData["flowsRemark"]%></div>
-        <div class="row-fluid">是否有效：<%=ViewData["flowsInvalid"]%></div>
-        <div class="row-fluid">是否删除：<%=ViewData["flowsDeleted"]%></div>
-        <div class="row-fluid">应用系统id：<%= ViewData["flowsApp_id"]%></div>
+        <div class="row-fluid">是否有效：<%=ViewData["flowsInvalid"]%></div>   
+        <div class="row-fluid">应用系统ID：<%= ViewData["flowsApp_id"]%></div>
         <div class="row-fluid">记录创建时间：<%=ViewData["flowsCreated_at"]%></div>
         <div class="row-fluid">记录创建用户：<%= ViewData["flowsCreated_by"]%></div>
         <div class="row-fluid">记录创建IP：<%=ViewData["flowsCreated_ip"]%></div>

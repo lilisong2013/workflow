@@ -25,17 +25,7 @@ namespace WorkFlow.Controllers
                 return View();
             }        
         }
-        public ActionResult EditPageCon()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                return View();
-            }
-        }
+      
         public ActionResult Role_Privileges()
         {
             string msg = string.Empty;
@@ -457,13 +447,21 @@ namespace WorkFlow.Controllers
                 m_rolesModel = m_rolesBllService.GetModel(id, out msg);
                 ViewData["rolesName"] = m_rolesModel.name;
                 ViewData["rolesRemark"] = m_rolesModel.remark;
-                ViewData["rolesInvalid"] = m_rolesModel.invalid;
-                ViewData["rolesDeleted"] = m_rolesModel.deleted;
+                if (m_rolesModel.invalid == true)
+                {
+                    ViewData["rolesInvalid"] ="否";
+                }
+                if (m_rolesModel.invalid == false)
+                {
+                    ViewData["rolesInvalid"] = "是";
+                }
+               
+      
                 ViewData["rolesCreated_at"] = m_rolesModel.created_at;
-                ViewData["rolesCreated_by"] = m_rolesModel.created_by;
+                ViewData["rolesCreated_by"] = m_usersModel.login;
                 ViewData["rolesCreated_ip"] = m_rolesModel.created_ip;
                 ViewData["rolesUpdated_at"] = m_rolesModel.updated_at;
-                ViewData["rolesUpdated_by"] = m_rolesModel.updated_by;
+                ViewData["rolesUpdated_by"] =m_usersModel.login;
                 ViewData["rolesUpdated_ip"] = m_rolesModel.updated_ip;
                 ViewData["rolesApp_id"] = m_rolesModel.app_id;
                 return View();

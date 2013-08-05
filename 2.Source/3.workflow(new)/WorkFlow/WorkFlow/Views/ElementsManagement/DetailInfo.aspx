@@ -18,10 +18,10 @@
         <div class="row-fluid">备注：<%=ViewData["elementsRemark"]%></div>
         <div class="row-fluid">初始化状态：<%=ViewData["elementsInitstatus_id"]%></div>
         <div class="row-fluid">排序码：<%=ViewData["elementsSeqno"]%></div>
-        <div class="row-fluid">页面ID：<%=ViewData["elementsMenu_id"]%></div>
+        <div class="row-fluid">所在页面：<%=ViewData["elementsMenu_id"]%></div>
         <div class="row-fluid">系统ID：<%=ViewData["elementsApp_id"]%></div>
         <div class="row-fluid">是否有效：<%=ViewData["elementsInvalid"]%></div>
-        <div class="row-fluid">是否删除：<%=ViewData["elementsDeleted"]%></div>
+
         <div class="row-fluid">记录创建时间：<%=ViewData["elementsCreated_at"]%></div>
         <div class="row-fluid">记录创建用户：<%=ViewData["elementsCreated_by"]%></div>
         <div class="row-fluid">记录创建IP：<%=ViewData["elementsCreated_ip"]%></div>

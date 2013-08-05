@@ -83,7 +83,19 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
-		
+
+        public DataSet GetMPrivilegesListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select p_id,p_name,pt_id,pt_name,pt_code,item_name,item_code,item_id,app_id ");
+            strSql.Append(" FROM v_privileges ");
+            strSql.Append(" where app_id=@app_id and pt_id=1 ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
 		#endregion  Method
     }
 }

@@ -98,10 +98,9 @@
             if (id) {
                 var m = $.ligerDialog.open({
                     title: '更新角色信息',
-                    width: 800,
-                    height: 500,
+                    width: 1000,
+                    height:1000,
                     showMax: true,
-                    showMin: true,
                     url: '/RolesManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -119,10 +118,9 @@
            if (id) {
                var m = $.ligerDialog.open({
                    title: '更新角色信息',
-                   width: 800,
-                   height: 500,
+                   width: 1000,
+                   height:1000,
                    showMax: true,
-                   showMin: true,
                    url: '/RolesManagement/Role_Privileges?id=' + id,
                    buttons:
                     [

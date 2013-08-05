@@ -230,14 +230,28 @@ namespace WorkFlow.Controllers
                 ViewData["usersMobile_phone"] = m_usersModel.mobile_phone;
                 ViewData["usersMail"] = m_usersModel.mail;
                 ViewData["usersRemark"] = m_usersModel.remark;
-                ViewData["usersAdmin"] = m_usersModel.admin;
-                ViewData["usersInvalid"] = m_usersModel.invalid;
-                ViewData["usersDeleted"] = m_usersModel.deleted;
+                if (m_usersModel.admin == true)
+                {
+                    ViewData["usersAdmin"] ="是";
+                }
+                if (m_usersModel.admin == false)
+                {
+                    ViewData["usersAdmin"] = "否";
+                }
+                if (m_usersModel.invalid == true)
+                {
+                   ViewData["usersInvalid"] ="否";
+                }
+                if (m_usersModel.invalid == false)
+                {
+                    ViewData["usersInvalid"] = "是";
+                }
+              
                 ViewData["usersCreated_at"] = m_usersModel.created_at;
-                ViewData["usersCreated_by"] = m_usersModel.created_by;
+                ViewData["usersCreated_by"] = m_userModel.login;
                 ViewData["usersCreated_ip"] = m_usersModel.created_ip;
                 ViewData["usersUpdated_at"] = m_usersModel.updated_at;
-                ViewData["usersUpdated_by"] = m_usersModel.updated_by;
+                ViewData["usersUpdated_by"] = m_userModel.login;
                 ViewData["usersUpdated_ip"] = m_usersModel.updated_ip;
                 ViewData["usersApp_id"] = m_usersModel.app_id;
                 return View();

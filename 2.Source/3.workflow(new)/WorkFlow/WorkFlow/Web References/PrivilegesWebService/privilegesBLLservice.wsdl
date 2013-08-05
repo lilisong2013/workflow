@@ -512,7 +512,7 @@
       <wsdl:output message="tns:GetAllListByAppIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetMListByAppTypeID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有菜单列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统的所有菜单列表,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetMListByAppTypeIDSoapIn" />
       <wsdl:output message="tns:GetMListByAppTypeIDSoapOut" />
     </wsdl:operation>

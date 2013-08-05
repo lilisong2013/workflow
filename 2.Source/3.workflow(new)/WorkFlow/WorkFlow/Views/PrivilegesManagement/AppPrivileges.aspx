@@ -51,8 +51,9 @@
         $(document).ready(function () {
 
             GetMPrivilegesList(); //获取数据列表
-            $("#m_privilegeTab").click(function () {         
+            $("#m_privilegeTab").click(function () {
                 GetMPrivilegesList(); //获取数据列表
+                m.loadData();
             });
         });
         //获取菜单数据列表
@@ -98,11 +99,12 @@
     <script type="text/javascript">
         var EmanagerListGrid;
         $(document).ready(function () {
-         
-           GetEPrivilegesList(); //获取数据列表
+
+            GetEPrivilegesList(); //获取数据列表
 
             $("#e_privilegeTab").click(function () {
                 GetEPrivilegesList(); //获取数据列表
+                e.loadData();
             });
 
         });
@@ -152,12 +154,13 @@
     <script type="text/javascript">
         var OmanagerListGrid;
         $(document).ready(function () {
-         
+
             GetOPrivilegesList(); //获取数据列表
 
             $("#o_privilegeTab").click(function () {
-               
+
                 GetOPrivilegesList(); //获取数据列表
+                o.loadData();
             });
 
         });
@@ -203,7 +206,63 @@
                 }
      
     </script>
-  
+   <%--测试(后台分页)--%>
+    <script type="text/javascript">
+   
+        $(document).ready(function () {
+
+            GetTPrivilegesList(); //获取数据列表
+
+            $("#test_privilegesTab").click(function () {
+
+                GetTPrivilegesList(); //获取数据列表
+                t.loadData();
+            });
+
+        });
+        //获取操作数据列表
+        function GetTPrivilegesList() {
+
+            window['t'] = $("#Tprivilegesgrid").ligerGrid({
+                columns: [
+                            { display: '权限ID', name: 'pt_id', width: 200 },
+                          
+                            { display: 'AppID', name: 'app_id', width: 200 },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="OEditDialog(' + row.id + ')">编辑</a>';
+                                    return html;
+                                }
+                            },
+                            { display: '', width: 60,
+                                render: function (row) {
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    return html;
+                                }
+                            }
+
+                            ],
+                dataAction: 'server',
+                width: '99%',
+                pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                pageSize: 10,
+                height: '400',
+                rownumbers: true,
+                usePager: true,
+                url: "/PrivilegesManagement/GetTPrivilegesList"
+
+            });
+            //OmanagerListGrid.loadData();
+            t.loadData();
+        }
+     
+    </script>
    <%--详情弹出框--%>
    <script type="text/javascript">
        function DetailDialog(id) {
@@ -226,10 +285,9 @@
            if (id) {
                var pm = $.ligerDialog.open({
                    title: '更新流程信息',
-                   width: 800,
-                   height: 500,
+                   width: 1000,
+                   height: 800,
                    showMax: true,
-                   showMin: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -249,8 +307,8 @@
            if (id) {
                var po = $.ligerDialog.open({
                    title: '更新流程信息',
-                   width: 800,
-                   height: 500,
+                   width: 1000,
+                   height: 800,
                    showMax: true,
                    showMin: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
@@ -272,8 +330,8 @@
            if (id) {
                var pe = $.ligerDialog.open({
                    title: '更新流程信息',
-                   width: 800,
-                   height: 500,
+                   width: 1000,
+                   height: 800,
                    showMax: true,
                    showMin: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
@@ -919,6 +977,7 @@
                <li id="m_privilegeTab" class="active"><a href="#MPrivileges" data-toggle="tab">菜单权限</a></li>
                <li id="o_privilegeTab"><a href="#OPrivileges" data-toggle="tab">操作权限</a></li>
                <li id="e_privilegeTab"><a href="#EPrivileges" data-toggle="tab">页面元素</a></li>
+               <li id="test_privilegesTab"><a href="#TPrivileges" data-toggle="tab">测试</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="MPrivileges">
@@ -931,6 +990,10 @@
 
                 <div class="tab-pane" id="EPrivileges">
                     <div id="Eprivilegesgrid"></div> 
+                </div>
+               
+                <div class="tab-pane" id="TPrivileges">
+                    <div id="Tprivilegesgrid"></div> 
                 </div>
                
                </div> 

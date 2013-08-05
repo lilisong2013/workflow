@@ -15,9 +15,8 @@
     
         <div class="row-fluid"><h2>角色名称：<%=ViewData["rolesName"]%></h2></div>
         <div class="row-fluid">角色备注：<%=ViewData["rolesRemark"]%></div>
-        <div class="row-fluid">是否有效：<%=ViewData["rolesInvalid"]%></div>
-        <div class="row-fluid">是否删除：<%=ViewData["rolesDeleted"]%></div>
-        <div class="row-fluid">系统id：<%=ViewData["rolesApp_id"]%></div>
+        <div class="row-fluid">是否有效：<%=ViewData["rolesInvalid"]%></div>    
+        <div class="row-fluid">应用系统ID：<%=ViewData["rolesApp_id"]%></div>
         <div class="row-fluid">记录创建时间：<%=ViewData["rolesCreated_at"]%></div>
         <div class="row-fluid">记录创建用户：<%=ViewData["rolesCreated_by"]%></div>
         <div class="row-fluid">记录创建IP：<%=ViewData["rolesCreated_ip"]%></div>

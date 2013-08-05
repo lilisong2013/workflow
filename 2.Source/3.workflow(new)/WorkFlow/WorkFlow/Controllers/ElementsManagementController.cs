@@ -199,19 +199,37 @@ namespace WorkFlow.Controllers
                 m_elementsModel = m_elementsBllService.GetModel(id, out msg);
                 ViewData["elementsName"] = m_elementsModel.name;
                 ViewData["elementsCode"] = m_elementsModel.code;
-                ViewData["elementsRemark"] = m_elementsModel.remark;
-                //ViewData["elementsInitstatus_id"] = m_elementsModel.initstatus_id;
+                ViewData["elementsRemark"] = m_elementsModel.remark;         
                 ViewData["elementsInitstatus_id"] = GetStatusValue(Convert.ToInt32(m_elementsModel.initstatus_id));
                 ViewData["elementsSeqno"] = m_elementsModel.seqno;
-                ViewData["elementsMenu_id"] = m_elementsModel.menu_id;
+
+                WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
+                WorkFlow.MenusWebService.SecurityContext pm_SecurityContext = new MenusWebService.SecurityContext();
+
+                pm_SecurityContext.UserName = m_usersModel.login;
+                pm_SecurityContext.PassWord = m_usersModel.password;
+                pm_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_menusBllService.SecurityContextValue = pm_SecurityContext;
+
+    
+                DataSet pmds = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id,(int)m_elementsModel.menu_id,out msg);
+                ViewData["elementsMenu_id"] = pmds.Tables[0].Rows[0][0].ToString();
+             
                 ViewData["elementsApp_id"] = m_elementsModel.app_id;
-                ViewData["elementsInvalid"] = m_elementsModel.invalid;
-                ViewData["elementsDeleted"] = m_elementsModel.deleted;
+                if (m_elementsModel.invalid == true)
+                {
+                    ViewData["elementsInvalid"] ="否";
+                }
+                if (m_elementsModel.invalid == false)
+                {
+                    ViewData["elementsInvalid"] = "是";
+                }
+               
                 ViewData["elementsCreated_at"] = m_elementsModel.created_at;
-                ViewData["elementsCreated_by"] = m_elementsModel.created_by;
+                ViewData["elementsCreated_by"] = m_usersModel.login;
                 ViewData["elementsCreated_ip"] = m_elementsModel.created_ip;
                 ViewData["elementsUpdated_at"] = m_elementsModel.updated_at;
-                ViewData["elementsUpdated_by"] = m_elementsModel.updated_by;
+                ViewData["elementsUpdated_by"] = m_usersModel.login;
                 ViewData["elementsUpdated_ip"] = m_elementsModel.updated_ip;
                 return View();
             }

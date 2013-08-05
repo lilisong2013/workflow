@@ -100,10 +100,12 @@
             if (id) {
                 var m = $.ligerDialog.open({
                     title: '更新用户信息',
-                    width: 800,
-                    height: 500,
+                    width: 900,
+                    height: 600,
                     showMax: true,
-                    showMin: true,
+                    isResize: true,
+                    isDrag: true,
+                    show:true,
                     url: '/UsersManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -136,10 +138,12 @@
            if (id) {
                $.ligerDialog.open({
                    title: '用户角色信息',
-                   width: 800,
-                   height: 500,
+                   width: 900,
+                   height:600,
                    showMax: true,
-                   showMin: true,
+                   isResize: true,
+                   isDrag: true,
+                   show: true,
                    url: '/UsersManagement/UserRoles?id=' + id,
                    buttons:
                     [

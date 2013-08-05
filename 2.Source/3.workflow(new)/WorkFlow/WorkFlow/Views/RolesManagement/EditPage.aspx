@@ -177,7 +177,7 @@
         </div> 
        </div>
        <div class="control-group span10 offset5">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" />  
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" style="background-position:center"/>  
        </div>
    </form>
 </div>
