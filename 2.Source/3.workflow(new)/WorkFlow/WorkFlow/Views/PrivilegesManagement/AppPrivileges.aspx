@@ -51,7 +51,7 @@
         $(document).ready(function () {
 
             GetMPrivilegesList(); //获取数据列表
-            $("#menusTab").click(function () {         
+            $("#m_privilegeTab").click(function () {         
                 GetMPrivilegesList(); //获取数据列表
             });
         });
@@ -101,7 +101,7 @@
          
            GetEPrivilegesList(); //获取数据列表
 
-            $("#elementsTab").click(function () {
+            $("#e_privilegeTab").click(function () {
                 GetEPrivilegesList(); //获取数据列表
             });
 
@@ -155,7 +155,7 @@
          
             GetOPrivilegesList(); //获取数据列表
 
-            $("#operationsTab").click(function () {
+            $("#o_privilegeTab").click(function () {
                
                 GetOPrivilegesList(); //获取数据列表
             });
@@ -803,7 +803,7 @@
                 data: { operationsID: rowdata.id },
                 success: function (responseText, statusText) {
                     var dataJson = eval("(" + responseText + ")");
-                    if (responseText.success) {
+                    if (dataJson.success) {
                         $("#oPrivilegesItemInfo").val(rowdata.id);
                         $("#oPrivilegesItemInfo").html(rowdata.name);
                     }
@@ -868,7 +868,7 @@
                 data: { elementID: rowdata.id },
                 success: function (responseText, statusText) {
                     var dataJson = eval("("+responseText+")");
-                    if (responseText.success) {
+                    if (dataJson.success) {
                         $("#ePrivilegesItemInfo").val(rowdata.id);
                         $("#ePrivilegesItemInfo").html(rowdata.name);
                     }
@@ -916,20 +916,20 @@
              <div class="tab-pane active" id="AllPrivileges">
               <div class="tabbable tabs-left">
               <ul class="nav nav-tabs">
-               <li class="active"><a href="#MPrivileges" data-toggle="tab">菜单权限</a></li>
-               <li><a href="#OPrivileges" data-toggle="tab">操作权限</a></li>
-               <li><a href="#EPrivileges" data-toggle="tab">页面元素</a></li>
+               <li id="m_privilegeTab" class="active"><a href="#MPrivileges" data-toggle="tab">菜单权限</a></li>
+               <li id="o_privilegeTab"><a href="#OPrivileges" data-toggle="tab">操作权限</a></li>
+               <li id="e_privilegeTab"><a href="#EPrivileges" data-toggle="tab">页面元素</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="MPrivileges">
                    <div id="Mprivilegesgrid"></div> 
                 </div>
 
-                <div class="tab-pane active" id="OPrivileges">
+                <div class="tab-pane" id="OPrivileges">
                     <div id="Oprivilegesgrid"></div> 
                 </div>
 
-                <div class="tab-pane active" id="EPrivileges">
+                <div class="tab-pane" id="EPrivileges">
                     <div id="Eprivilegesgrid"></div> 
                 </div>
                

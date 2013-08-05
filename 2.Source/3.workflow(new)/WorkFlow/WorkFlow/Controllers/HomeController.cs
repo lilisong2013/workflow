@@ -109,18 +109,18 @@ namespace WorkFlow.Controllers
                 }
                 else
                 {
-                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "用户名或密码不正确！" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "用户名或密码不正确！" });
          
                 }
             }
             catch (WebException ex)
             {
-              return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据库连接失败！" });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "数据库连接失败！" });
               
             }
             catch (Exception ex)
             {
-               return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "数据访问出错：" + ex.ToString() });
+                return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "数据访问出错：" + ex.ToString() });
               
             }
            

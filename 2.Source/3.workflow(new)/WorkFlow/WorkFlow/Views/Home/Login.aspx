@@ -20,7 +20,7 @@
     <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
     </script>
@@ -37,8 +37,8 @@
 
              $("#submit").click(function () {
                  if ($.trim($("#loginName").val()).length == 0 || $.trim($("#loginPassword").val()).length == 0) {
-                     $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                     $("#promptDIV").addClass("p-errorDIV");
+                     $("#promptDIV").removeClass("alert alert-error alert-success");
+                     $("#promptDIV").addClass("alert alert-error");
                      $("#promptDIV").html("用户名或密码不能为空！");
 
                      return false;
@@ -51,7 +51,7 @@
          function showResponse(responseText, statusText) {
              //成功后执行的方法
              //alert(responseText.Id + responseText.Name);
-             $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+             $("#promptDIV").removeClass("alert alert-error alert-success");
              $("#promptDIV").addClass(responseText.css);
              $("#promptDIV").html(responseText.message);
 
