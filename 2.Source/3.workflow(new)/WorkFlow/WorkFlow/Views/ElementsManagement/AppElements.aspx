@@ -95,9 +95,10 @@
            if (id) {
                var m = $.ligerDialog.open({
                    title: '更新流程信息',
-                   width: 1000,
-                   height: 800,
-                   showMax: true,
+                   width: 900,
+                   height: 600,
+                   isDrag: true,
+                   isResize: true, 
                    url: '/ElementsManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -119,6 +120,8 @@
                    title: '详情(' + id + ')信息',
                    width: 700,
                    height: 600,
+                   isDrag: true,
+                   isResize: true, 
                    url: '/ElementsManagement/DetailInfo?id=' + id
                });
            }

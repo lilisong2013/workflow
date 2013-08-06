@@ -138,7 +138,7 @@
  
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<div class="container"><h2>用户管理</h2></div>
+<div class="container"><h4>用户管理</h4></div>
 
  <div class="container">
    <%--操作提示DIV--%>
@@ -147,61 +147,58 @@
   
   <div class="tab-pane">
    <form  id="Edit_Users" method="post" action="" class="form-horizontal"> 
-       <div class="control-group span6 offset2">
+      <div class="m-group-topborder">
+       <div class="m-leftform">
+       <div class="m-newline offset2">
        <label class="control-label">登录名称：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls"><input id="usersLogin" name="usersLogin" type="text" value="<%= ViewData["usersLogin"] %>" placeholder="登录名称"/></div>
        <input id="userID" name="userID" type="hidden" value="<%=ViewData["usersId"] %>"/>
       </div>    
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
         <label class="control-label">新密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
         <input id="newPassword" name="newPassword" type="password" placeholder="新密码"/> 
         </div>
        </div> 
-
-        <div class="control-group span6 offset2">
+        <div class="m-newline offset2">
         <label class="control-label">确认密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
         <input id="PasswordCon" name="PasswordCon" type="password" placeholder="确认密码"/> 
         </div>
-       </div>
-          
-       <div class="control-group span6 offset2">
+       </div>      
+       <div class="m-newline offset2">
        <label class="control-label">用户姓名：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <input id="usersName" name="usersName" type="text" value="<%= ViewData["usersName"] %>" placeholder="用户姓名"/>
        </div>
        </div>
-       <div class="control-group span6 offset2">
+
+     </div>
+         
+      <div class="m-rightform">
+       
+       <div class="m-newline offset2">
        <label class="control-label">工号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <input id="usersEmployee_no" name="usersEmployee_no" type="text" value="<%= ViewData["usersEmployee_no"]%>" placeholder="工号"/> 
        </div>
        </div>     
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">手机号码：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">     
        <input id="usersMobile_phone" name="usersMobile_phone" type="text" value="<%= ViewData["usersMobile_phone"]%>" placeholder="手机号码"/>
        </div> 
        </div>
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">邮件地址：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <input id="usersMail" name="usersMail" type="text" value="<%=ViewData["usersMail"]%>" placeholder="邮件地址"/>
        </div>
        </div>                             
-
-       <div class="control-group span6 offset2">      
-       <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;</label>
-       <div id="invalidList">
-      
-       </div>      
-       </div> 
-                                 
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">      
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label> 
-       <div class="controls">   
-       <textarea id="usersRemark" name="usersRemark" cols="5" rows="4" placeholder="备注"><%=ViewData["usersRemark"]%></textarea>
+       <div class="controls">  
+       <textarea id="usersRemark" name="usersRemark" cols="2" rows="2" placeholder="备注"><%=ViewData["usersRemark"]%></textarea>
         <input type="hidden" name="usersId" id="usersId" value="<%=ViewData["usersId"]%>"/>
         <input type="hidden" name="usersDeleted" id="usersDeleted" value="False" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
@@ -215,10 +212,25 @@
         <input type="hidden" name="usersUpdated_by" id="usersUpdated_by" value="<%=-1%>"/>
         <input type="hidden" name="usersUpdated_ip" id="usersUpdated_ip" value="<%=ipAddress%>"/>
        </div>
-       </div>   
-       <div class="control-group span10 ">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10" style="background-position:center"/>  
-       </div>
+       </div>  
+       <div class="m-newline offset2">    
+       <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;</label>
+        <div id="invalidList">
+      
+       </div>       
+       </div>          
+     <br />
+   
+      </div>                      
+    
+    <div class="control-group span10  offset2">
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" style="background-position:center"/>  
+     </div>
+
+   </div>
+  
+      
+      
    </form>
 </div>
 </asp:Content>

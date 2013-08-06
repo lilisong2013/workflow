@@ -137,7 +137,7 @@
    
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
- <div class="container"><h2>操作管理</h2></div>
+ <div class="container"><h4>操作管理</h4></div>
   
        <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
        <%string  s = DateTime.Now.ToString() +"."+ System.DateTime.Now.Millisecond.ToString(); %>
@@ -149,35 +149,29 @@
     </div>   
     <div class="tab-pane">
       <form  id="Edit_Operations" method="post" action="" class="form-horizontal">           
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">操作名称：</label>
        <div class="controls">
        <input id="operationsName" name="operationsName" type="text" value="<%=ViewData["operationsName"]%>" placeholder="操作名称" />
        <input id="operationID" name="operationID" type="hidden" value="<%=ViewData["operationsId"]%>"/>
        </div>
        </div>
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">操作编码：</label>
        <div class="controls">
        <input id="operationsCode" name="operationsCode" type="text" value="<%=ViewData["operationsCode"]%>" placeholder="操作编码"/>
        </div>
-       </div>
-       <div class="control-group span6 offset2">
-       <label class="control-label">是否有效：</label>     
-        <div id="invalidList">
-        
-        </div>   
-       </div>
-       <div class="control-group span6 offset2">
+       </div>  
+       <div class="m-newline offset2">
        <label class="control-label">操作描述：</label>
        <div class="controls">
-       <textarea id="operationsDescription" name="operationsDescription" cols="5" rows="4" placeholder="操作描述"><%=ViewData["operationsDescription"]%></textarea>
+       <textarea id="operationsDescription" name="operationsDescription" cols="2" rows="4" placeholder="操作描述"><%=ViewData["operationsDescription"]%></textarea>
        </div>
        </div>
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">
-       <textarea id="operationsRemark" name="operationsRemark" cols="5" rows="4" placeholder="备注"><%=ViewData["operationsRemark"]%></textarea>
+       <textarea id="operationsRemark" name="operationsRemark" cols="2" rows="4" placeholder="备注"><%=ViewData["operationsRemark"]%></textarea>
         <input type="hidden" name="operationsApp_id" id="operationsApp_id" value="<%=m_usersModel.app_id%>"/>
         <input type="hidden" name="operationsId" id="operationsId" value="<%=ViewData["operationsId"]%>"/>
         <input type="hidden" name="operationsDeleted" id="operationsDeleted" value="<%=ViewData["operationsDeleted"]%>" />
@@ -189,8 +183,15 @@
         <input type="hidden" name="operationsUpdated_ip" id="operationsUpdated_ip" value=""/>
        </div>
        </div>
-       <div class="control-group span10 ">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10" />  
+
+       <div class="m-newline offset2">
+       <label class="control-label">是否有效：</label>     
+        <div id="invalidList">
+        
+        </div>   
+       </div>
+       <div class="control-group span10 offset2">
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
        </div>    
     </form>
     </div>

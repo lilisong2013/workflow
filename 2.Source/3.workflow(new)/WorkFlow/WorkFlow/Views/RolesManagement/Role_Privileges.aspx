@@ -264,8 +264,8 @@
                 
                 </div>
             </div>
-            <div class="control-group">
-                <input id="saveSubmit" type="submit" class="btn btn-primary btn-large span4"  value="保存" />
+            <div class="control-group span10 offset2">
+                <input id="saveSubmit" type="submit" class="btn btn-primary  span10 offset2"  value="保存" />
             </div>
         </form>
     </div>

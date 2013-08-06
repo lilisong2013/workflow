@@ -24,6 +24,7 @@
    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
  
    <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
+
     <%--页面标题--%>
     <script type="text/javascript">
         var titleUrl = "/Home/GetPageTitle";
@@ -60,7 +61,7 @@
                         },
                         { display: '', width: 100,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')" >编辑</a>';
                                 return html;
                             }
                         },
@@ -96,25 +97,23 @@
     <%--编辑弹出框函数--%>
     <script type="text/javascript">
         function EditDialog(id) {
-
-            if (id) {
-                var m = $.ligerDialog.open({
-                    title: '更新用户信息',
-                    width: 900,
-                    height: 600,
-                    showMax: true,
-                    isResize: true,
-                    isDrag: true,
-                    show:true,
-                    url: '/UsersManagement/EditPage?id=' + id,
-                    buttons:
+                if (id) {
+                    var m = $.ligerDialog.open({
+                        title: '更新用户信息',
+                        width: 900,
+                        height: 600,
+                        isDrag: true,                    
+                        isResize: true,  
+                        url: '/UsersManagement/EditPage?id=' + id,
+                        buttons:
                     [
                     { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
 
                     ]
-                });
+                    });
+                }
 
-            }
+          
         }
     </script>
 
@@ -125,6 +124,8 @@
             if (id) {
                 $.ligerDialog.open({
                     title: '详情(' + id + ')信息',
+                    isDrag: true,
+                    isResize: true, 
                     width: 700,
                     height: 600,
                     url: '/UsersManagement/DetailInfo?id=' + id
@@ -132,6 +133,7 @@
             }
         }
     </script>
+
    <%--用户角色弹出框函数--%>
    <script type="text/javascript">
        function UserRoleDialog(id) {
@@ -140,10 +142,8 @@
                    title: '用户角色信息',
                    width: 900,
                    height:600,
-                   showMax: true,
                    isResize: true,
-                   isDrag: true,
-                   show: true,
+                   isDrag:true,
                    url: '/UsersManagement/UserRoles?id=' + id,
                    buttons:
                     [
@@ -154,6 +154,7 @@
            }
        }
    </script>
+
     <%--用户删除--%>
     <script type="text/javascript">
         function DeleteUser(id) {
