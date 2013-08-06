@@ -742,10 +742,18 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+<<<<<<< HEAD
 
                 DataSet ds = m_privilegesBllService.GetMListByAppTypeID((int)m_usersModel.app_id,out msg);
                 IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list=new List<WorkFlow.PrivilegesWebService.privilegesModel>();
      
+=======
+    
+                DataSet ds = m_privilegesBllService.GetMListByAppTypeID((int)m_usersModel.app_id,out msg);
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list=new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                
+
+>>>>>>> 33fd7973526023962fb35cffafc2af37542e2744
                 var total = ds.Tables[0].Rows.Count;
                 for (var i = 0; i < total; i++)
                 {
@@ -791,8 +799,12 @@ namespace WorkFlow.Controllers
                 return Json(gridData);
             }
         }
+<<<<<<< HEAD
       
         //测试列表(后台分页)
+=======
+       //测试列表(后台分页)
+>>>>>>> 33fd7973526023962fb35cffafc2af37542e2744
         public ActionResult GetTPrivilegesList()
         {
             if (Session["user"] == null)
@@ -811,6 +823,7 @@ namespace WorkFlow.Controllers
                 int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
                 string msg = string.Empty;
+<<<<<<< HEAD
                 WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
                 WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
 
@@ -824,6 +837,25 @@ namespace WorkFlow.Controllers
                 DataSet ds = m_privilegesBllService.GetMListByAppTypeID((int)m_usersModel.app_id, out msg);
                 IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
 
+=======
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+
+
+                WorkFlow.V_PrivilegesWebService.v_privilegesBLLservice mv_privilegesBllService = new V_PrivilegesWebService.v_privilegesBLLservice();
+                WorkFlow.V_PrivilegesWebService.SecurityContext mv_SecurityContext = new V_PrivilegesWebService.SecurityContext();
+
+
+                mv_SecurityContext.UserName = m_usersModel.login;
+                mv_SecurityContext.PassWord = m_usersModel.password;
+                mv_SecurityContext.AppID = (int)m_usersModel.app_id;
+                mv_privilegesBllService.SecurityContextValue = mv_SecurityContext;
+
+                DataSet ds = mv_privilegesBllService.GetMPrivilegesListOfApp((int)m_usersModel.app_id, out msg);
+
+                IList<WorkFlow.V_PrivilegesWebService.v_privilegesModel> m_list = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+>>>>>>> 33fd7973526023962fb35cffafc2af37542e2744
                 var total = ds.Tables[0].Rows.Count;
                 for (var i = 0; i < total; i++)
                 {

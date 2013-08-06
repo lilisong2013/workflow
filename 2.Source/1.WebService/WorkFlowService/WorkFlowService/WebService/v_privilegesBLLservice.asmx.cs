@@ -179,5 +179,19 @@ namespace Saron.WorkFlowService.WebService
             }
             return m_v_privilegesDal.GetMPrivilegesListOfApp(appID);
         }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得权限下的菜单列表，<h4>（需要授权验证，普通用户）</h4>")]
+        public Saron.WorkFlowService.Model.v_privilegesModel GetV_PrivilegesModel(int p_id,out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_v_privilegesDal.GetModel(p_id);
+        }
     }
 }

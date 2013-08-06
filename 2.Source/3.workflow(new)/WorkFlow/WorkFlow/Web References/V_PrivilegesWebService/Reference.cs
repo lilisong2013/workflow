@@ -46,6 +46,8 @@ namespace WorkFlow.V_PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetMPrivilegesListOfAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetV_PrivilegesModelOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -113,6 +115,9 @@ namespace WorkFlow.V_PrivilegesWebService {
         
         /// <remarks/>
         public event GetMPrivilegesListOfAppCompletedEventHandler GetMPrivilegesListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetV_PrivilegesModelCompletedEventHandler GetV_PrivilegesModelCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -344,6 +349,37 @@ namespace WorkFlow.V_PrivilegesWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetV_PrivilegesModel", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public v_privilegesModel GetV_PrivilegesModel(int p_id, out string msg) {
+            object[] results = this.Invoke("GetV_PrivilegesModel", new object[] {
+                        p_id});
+            msg = ((string)(results[1]));
+            return ((v_privilegesModel)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetV_PrivilegesModelAsync(int p_id) {
+            this.GetV_PrivilegesModelAsync(p_id, null);
+        }
+        
+        /// <remarks/>
+        public void GetV_PrivilegesModelAsync(int p_id, object userState) {
+            if ((this.GetV_PrivilegesModelOperationCompleted == null)) {
+                this.GetV_PrivilegesModelOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetV_PrivilegesModelOperationCompleted);
+            }
+            this.InvokeAsync("GetV_PrivilegesModel", new object[] {
+                        p_id}, this.GetV_PrivilegesModelOperationCompleted, userState);
+        }
+        
+        private void OnGetV_PrivilegesModelOperationCompleted(object arg) {
+            if ((this.GetV_PrivilegesModelCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetV_PrivilegesModelCompleted(this, new GetV_PrivilegesModelCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -417,6 +453,123 @@ namespace WorkFlow.V_PrivilegesWebService {
             }
             set {
                 this.anyAttrField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1009")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://saron.workflowservice.org/")]
+    public partial class v_privilegesModel {
+        
+        private int p_idField;
+        
+        private string p_nameField;
+        
+        private int pt_idField;
+        
+        private string pt_nameField;
+        
+        private string pt_codeField;
+        
+        private string item_nameField;
+        
+        private string item_codeField;
+        
+        private int item_idField;
+        
+        private int app_idField;
+        
+        /// <remarks/>
+        public int p_id {
+            get {
+                return this.p_idField;
+            }
+            set {
+                this.p_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string p_name {
+            get {
+                return this.p_nameField;
+            }
+            set {
+                this.p_nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int pt_id {
+            get {
+                return this.pt_idField;
+            }
+            set {
+                this.pt_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string pt_name {
+            get {
+                return this.pt_nameField;
+            }
+            set {
+                this.pt_nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string pt_code {
+            get {
+                return this.pt_codeField;
+            }
+            set {
+                this.pt_codeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string item_name {
+            get {
+                return this.item_nameField;
+            }
+            set {
+                this.item_nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string item_code {
+            get {
+                return this.item_codeField;
+            }
+            set {
+                this.item_codeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int item_id {
+            get {
+                return this.item_idField;
+            }
+            set {
+                this.item_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int app_id {
+            get {
+                return this.app_idField;
+            }
+            set {
+                this.app_idField = value;
             }
         }
     }
@@ -647,6 +800,40 @@ namespace WorkFlow.V_PrivilegesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetV_PrivilegesModelCompletedEventHandler(object sender, GetV_PrivilegesModelCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetV_PrivilegesModelCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetV_PrivilegesModelCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public v_privilegesModel Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((v_privilegesModel)(this.results[0]));
             }
         }
         
