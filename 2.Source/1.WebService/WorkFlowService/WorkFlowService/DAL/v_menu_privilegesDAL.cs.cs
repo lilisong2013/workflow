@@ -50,7 +50,7 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
-        /// 获得某系统菜单权限的权限列表
+        /// 获得菜单权限的父菜单ID
         /// </summary>
         public int GetMenuPrivilegeParentID(int menuprivilegeID)
         {
