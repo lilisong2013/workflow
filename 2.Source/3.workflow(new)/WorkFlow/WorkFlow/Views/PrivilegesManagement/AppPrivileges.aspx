@@ -8,7 +8,7 @@
      <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
      <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
      <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
-    
+     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
    <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
         type="text/css" />
@@ -51,6 +51,7 @@
         $(document).ready(function () {
 
             GetMPrivilegesList(); //获取数据列表
+            m.loadData();
             $("#m_privilegeTab").click(function () {
                 GetMPrivilegesList(); //获取数据列表
                 m.loadData();
@@ -64,19 +65,19 @@
                            { display: '权限项目', name: 'item_name', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.id + ')">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.p_id + ')">编辑</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteMPrivileges(' + row.p_id + ')">删除</a>';
                                     return html;
                                 }
                             }
@@ -100,8 +101,8 @@
         var EmanagerListGrid;
         $(document).ready(function () {
 
-           // GetEPrivilegesList(); //获取数据列表
-
+            GetEPrivilegesList(); //获取数据列表
+            e.loadData();
             $("#e_privilegeTab").click(function () {
                 GetEPrivilegesList(); //获取数据列表
                 e.loadData();
@@ -117,19 +118,19 @@
                            { display: '权限项目', name: 'item_name', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EEditDialog(' + row.id + ')">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EEditDialog(' + row.p_id + ')">编辑</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteEPrivileges(' + row.p_id + ')">删除</a>';
                                     return html;
                                 }
                             }
@@ -144,7 +145,6 @@
                             usePager: true,
                             url: "/PrivilegesManagement/GetEPrivilegesList"
                     });
-                   
                     e.loadData();
                 }
       
@@ -155,8 +155,8 @@
         var OmanagerListGrid;
         $(document).ready(function () {
 
-           // GetOPrivilegesList(); //获取数据列表
-
+            GetOPrivilegesList(); //获取数据列表
+            o.loadData();
             $("#o_privilegeTab").click(function () {
 
                 GetOPrivilegesList(); //获取数据列表
@@ -173,19 +173,19 @@
                             { display: '权限项目', name: 'item_name', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="OEditDialog(' + row.id + ')">编辑</a>';
+                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="OEditDialog(' + row.p_id + ')">编辑</a>';
                                     return html;
                                 }
                             },
                             { display: '', width: 60,
                                 render: function (row) {
-                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeletePrivileges(' + row.id + ')">删除</a>';
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteOPrivileges(' + row.p_id + ')">删除</a>';
                                     return html;
                                 }
                             }
@@ -210,14 +210,14 @@
   
    <%--详情弹出框--%>
    <script type="text/javascript">
-       function DetailDialog(id) {
+       function DetailDialog(p_id) {
 
-           if (id) {
+           if (p_id) {
                $.ligerDialog.open({
-                   title: '详情(' + id + ')信息',
+                   title: '详情(' + p_id + ')信息',
                    width: 700,
                    height: 600,
-                   url: '/PrivilegesManagement/DetailInfo?id=' + id
+                   url: '/PrivilegesManagement/DetailInfo?id=' + p_id 
                });
            }
        }
@@ -230,8 +230,8 @@
            if (id) {
                var pm = $.ligerDialog.open({
                    title: '更新流程信息',
-                   width: 1000,
-                   height: 800,
+                   width: 900,
+                   height: 600,
                    showMax: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
@@ -252,10 +252,9 @@
            if (id) {
                var po = $.ligerDialog.open({
                    title: '更新流程信息',
-                   width: 1000,
-                   height: 800,
+                   width: 900,
+                   height: 600,
                    showMax: true,
-                   showMin: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -275,10 +274,9 @@
            if (id) {
                var pe = $.ligerDialog.open({
                    title: '更新流程信息',
-                   width: 1000,
-                   height: 800,
+                   width: 900,
+                   height: 600,
                    showMax: true,
-                   showMin: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -293,7 +291,7 @@
 
    <%--删除菜单提示信息的函数--%>
     <script type="text/javascript">
-        function DeletePrivileges(id) {     
+        function DeleteMPrivileges(id) {     
             var privilegeid = id;
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 if (yes) {
@@ -325,7 +323,7 @@
 
     <%--删除操作提示信息的函数--%>
     <script type="text/javascript">
-        function DeletePrivileges(id) {
+        function DeleteOPrivileges(id) {
             var privilegeid = id;
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 if (yes) {
@@ -357,7 +355,7 @@
 
     <%--删除元素提示信息的函数--%>
     <script type="text/javascript">
-        function DeletePrivileges(id) {
+        function DeleteEPrivileges(id) {
             var privilegeid = id;
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 if (yes) {

@@ -53,7 +53,10 @@ namespace WorkFlow.Controllers
 
 
                 string m_privilegeName = Request.Form["oPrivilegesName"].ToString();
-
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称非法,只能包含字母、数字、中文、下划线!'}");
+                }
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,3,out msg))
                 {
@@ -119,7 +122,11 @@ namespace WorkFlow.Controllers
                 m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
                 string m_privilegeName = Request.Form["mPrivilegesName"].ToString();
-
+               
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符，只能包含字母、数字、英文、下划线!'}");
+                }
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,1,out msg))
                 {
@@ -184,7 +191,10 @@ namespace WorkFlow.Controllers
                 m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
                 string m_privilegeName = Request.Form["ePrivilegesName"].ToString();
-
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称非法，只能包含字母、数字、中文、下划线!'}");
+                }
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,2,out msg))
                 {
@@ -1073,7 +1083,8 @@ namespace WorkFlow.Controllers
                     if (m_privilegeBllService.Delete(privilegeID, out msg) == true)
                     {
        
-                        return Json("{success:true,css:'alert alert-success',message:'成功删除!'}");
+                       return Json("{success:true,css:'alert alert-success',message:'成功删除!'}");
+            
                     }
                     else
                     {
@@ -1249,6 +1260,10 @@ namespace WorkFlow.Controllers
                 {
                   
                     return Json("{success:false,css:'alert alert-error',message:'权限名称不能为空!'}");
+                }
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(name) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含中文、英文、数字、下划线!'}");
                 }
                 DataSet ds = m_privilegesBllService.GetAllListByAppID(appID,out msg);
                 var total = ds.Tables[0].Rows.Count;
