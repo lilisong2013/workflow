@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="F:\workflowWebService7.01" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="配置文件1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
-    <file relUrl="Web.config" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/step_actionBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/init_statusBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/elementsBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="bin/WorkFlowService.dll" publishTime="08/05/2013 10:48:03" />
-    <file relUrl="WebService/operationsBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="Default.aspx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/base_userBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/rolesBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/v_privilegesBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/appsBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/user_roleBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="bin/WorkFlowService.pdb" publishTime="08/05/2013 10:48:03" />
-    <file relUrl="WebService/menusBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/flowstep_typeBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/privilege_roleBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/flowsBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/privilegesBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/usersBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
-    <file relUrl="WebService/privileges_typeBLLservice.asmx" publishTime="08/02/2013 17:44:56" />
+  <publishProfile publishUrl="D:\workflowWebService发布" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="配置文件1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Web.config" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/step_actionBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/init_statusBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/elementsBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="bin/WorkFlowService.dll" publishTime="08/06/2013 10:24:48" />
+    <file relUrl="Default.aspx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/base_userBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/privileges_typeBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/v_privilegesBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/appsBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/user_roleBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/rolesBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="bin/WorkFlowService.pdb" publishTime="08/06/2013 10:24:47" />
+    <file relUrl="WebService/menusBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/flowstep_typeBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/privilege_roleBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/flowsBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/privilegesBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/usersBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
+    <file relUrl="WebService/operationsBLLservice.asmx" publishTime="07/18/2013 09:48:18" />
   </publishProfile>
 </publishData>

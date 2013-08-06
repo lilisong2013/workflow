@@ -357,10 +357,6 @@ namespace WorkFlow.Controllers
             else
             {
 
-                //var ID = Convert.ToInt32(Request.Form["flowID"]);
-                //var count = Convert.ToInt32(Request.Form["pageCount"]);
-                //var size = Convert.ToInt32(Request.Form["SizeCount"]);
-
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
 
@@ -373,17 +369,21 @@ namespace WorkFlow.Controllers
 
                 WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
 
-                //ViewData["flowsPageCount"] = Convert.ToInt32(Session["pageCount"]);
-               // ViewData["flowsSizeCount"] = Convert.ToInt32(Session["SizeCount"]);
                 ViewData["flowsName"] = m_flowsModel.name;
                 ViewData["flowsRemark"] = m_flowsModel.remark;
-                ViewData["flowsInvalid"] = m_flowsModel.invalid;
-                ViewData["flowsDeleted"] = m_flowsModel.deleted;
+                if (m_flowsModel.invalid == true)
+                {
+                    ViewData["flowsInvalid"] ="否";
+                }
+                if (m_flowsModel.invalid == false)
+                {
+                    ViewData["flowsInvalid"] = "是";
+                }
                 ViewData["flowsCreated_at"] = m_flowsModel.created_at;
-                ViewData["flowsCreated_by"] = m_flowsModel.created_by;
+                ViewData["flowsCreated_by"] = m_usersModel.login;
                 ViewData["flowsCreated_ip"] = m_flowsModel.created_ip;
                 ViewData["flowsUpdated_at"] = m_flowsModel.updated_at;
-                ViewData["flowsUpdated_by"] = m_flowsModel.updated_by;
+                ViewData["flowsUpdated_by"] = m_usersModel.login;
                 ViewData["flowsUpdated_ip"] = m_flowsModel.updated_ip;
                 ViewData["flowsApp_id"] = m_flowsModel.app_id;
                 return View();

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Web.Services.Protocols;
+using Saron.WorkFlowService.Model;
 
 namespace Saron.WorkFlowService.WebService
 {
@@ -21,6 +22,7 @@ namespace Saron.WorkFlowService.WebService
         private readonly Saron.WorkFlowService.DAL.v_privilegesDAL m_v_privilegesDal = new Saron.WorkFlowService.DAL.v_privilegesDAL();
         private readonly Saron.WorkFlowService.DAL.v_usersDAL m_v_userDal = new Saron.WorkFlowService.DAL.v_usersDAL();
         private readonly Saron.WorkFlowService.DAL.v_users_exDAL m_v_users_exDal = new Saron.WorkFlowService.DAL.v_users_exDAL();
+
 
         public Saron.WorkFlowService.Model.SecurityContext m_securityContext = new Model.SecurityContext();
 
@@ -164,6 +166,32 @@ namespace Saron.WorkFlowService.WebService
                 return true;
             }
 
+        }
+        
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得权限下的菜单列表，<h4>（需要授权验证，普通用户）</h4>")]
+        public DataSet GetMPrivilegesListOfApp(int appID,out string msg)
+        {  //对webservice进行授权验证,普通用户才可访问
+            if (!m_securityContext.UserIsValidCK(m_securityContext.UserName, m_securityContext.PassWord, m_securityContext.AppID, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+            return m_v_privilegesDal.GetMPrivilegesListOfApp(appID);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得权限下的菜单列表，<h4>（需要授权验证，普通用户）</h4>")]
+        public Saron.WorkFlowService.Model.v_privilegesModel GetV_PrivilegesModel(int p_id,out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_v_privilegesDal.GetModel(p_id);
         }
     }
 }

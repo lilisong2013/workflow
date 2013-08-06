@@ -278,13 +278,21 @@ namespace WorkFlow.Controllers
                 ViewData["operationsDescription"] = m_operationsModel.description;
                 ViewData["operationsRemark"] = m_operationsModel.remark;
                 ViewData["operationsApp_id"] = m_operationsModel.app_id;
-                ViewData["operationsInvalid"] = m_operationsModel.invalid;
-                ViewData["operationsDeleted"] = m_operationsModel.deleted;
+                if (m_operationsModel.invalid == true)
+                {
+                    ViewData["operationsInvalid"] = "否";
+                }
+                if (m_operationsModel.invalid == false)
+                {
+                    ViewData["operationsInvalid"] = "是";
+                }
+              
+           
                 ViewData["operationsCreated_at"] = m_operationsModel.created_at;
-                ViewData["operationsCreated_by"] = m_operationsModel.created_by;
+                ViewData["operationsCreated_by"] = m_usersModel.login;
                 ViewData["operationsCreated_ip"] = m_operationsModel.created_ip;
                 ViewData["operationsUpdated_at"] = m_operationsModel.updated_at;
-                ViewData["operationsUpdated_by"] = m_operationsModel.updated_by;
+                ViewData["operationsUpdated_by"] = m_usersModel.login;
                 ViewData["operationsUpdated_ip"] = m_operationsModel.updated_ip;
                 return View();
             }

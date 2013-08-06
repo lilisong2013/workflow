@@ -20,8 +20,7 @@
         <div class="row-fluid">邮件地址：<%=ViewData["usersMail"]%></div>
         <div class="row-fluid">备注：<%=ViewData["usersRemark"]%></div>
         <div class="row-fluid">是否管理员：<%= ViewData["usersAdmin"]%></div>
-        <div class="row-fluid">是否有效：<%= ViewData["usersInvalid"]%></div>
-        <div class="row-fluid">是否删除：<%=ViewData["usersDeleted"]%></div>
+        <div class="row-fluid">是否有效：<%= ViewData["usersInvalid"]%></div>     
         <div class="row-fluid">记录创建时间：<%= ViewData["usersCreated_at"]%></div>
         <div class="row-fluid">记录创建用户：<%=ViewData["usersCreated_by"]%></div>
         <div class="row-fluid">记录创建IP：<%=ViewData["usersCreated_ip"]%></div>

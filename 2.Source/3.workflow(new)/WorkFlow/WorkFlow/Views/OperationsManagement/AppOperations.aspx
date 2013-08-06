@@ -91,10 +91,9 @@
                 var m = $.ligerDialog.open({
 
                     title: '更新操作信息',
-                    width: 800,
-                    height: 500,
+                    width: 1000,
+                    height: 800,
                     showMax: true,
-                    showMin: true,
                     url: '/OperationsManagement/EditPage?id=' + id,
                     buttons:
                     [

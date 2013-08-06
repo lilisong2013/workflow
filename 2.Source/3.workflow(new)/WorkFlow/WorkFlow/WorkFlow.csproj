@@ -725,6 +725,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </None>
     <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.wsdl" />
+    <None Include="Web References\V_PrivilegesWebService\v_privilegesModel.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />

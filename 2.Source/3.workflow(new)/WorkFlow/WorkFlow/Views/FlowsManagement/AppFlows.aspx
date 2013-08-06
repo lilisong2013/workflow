@@ -96,8 +96,8 @@
             if (id) {
                 var m = $.ligerDialog.open({
                     title: '更新流程信息',
-                    width: 800,
-                    height: 500,
+                    width: 1000,
+                    height: 800,
                     showMax: true,
                     showMin: true,
                     url: '/FlowsManagement/EditPage?id=' + id,
