@@ -100,7 +100,7 @@
         var EmanagerListGrid;
         $(document).ready(function () {
 
-            GetEPrivilegesList(); //获取数据列表
+           // GetEPrivilegesList(); //获取数据列表
 
             $("#e_privilegeTab").click(function () {
                 GetEPrivilegesList(); //获取数据列表
@@ -155,7 +155,7 @@
         var OmanagerListGrid;
         $(document).ready(function () {
 
-            GetOPrivilegesList(); //获取数据列表
+           // GetOPrivilegesList(); //获取数据列表
 
             $("#o_privilegeTab").click(function () {
 
@@ -225,9 +225,9 @@
 
             window['t'] = $("#Tprivilegesgrid").ligerGrid({
                 columns: [
-                            { display: '权限ID', name: 'pt_id', width: 200 },
-                          
-                            { display: 'AppID', name: 'app_id', width: 200 },
+                            { display: '权限名称', name: 'name', width: 200 },
+
+                            { display: '权限项目', name: 'privilegeitem_id', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
