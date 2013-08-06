@@ -742,9 +742,19 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+<<<<<<< HEAD
     
                 DataSet ds = m_privilegesBllService.GetMListByAppTypeID((int)m_usersModel.app_id,out msg);
                 IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list=new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+=======
+
+                DataSet ds = m_privilegesBllService.GetMListByAppTypeID((int)m_usersModel.app_id, out msg);
+
+
+                IList<WorkFlow.PrivilegesWebService.privilegesModel> m_list = new List<WorkFlow.PrivilegesWebService.privilegesModel>();
+                
+
+>>>>>>> 88bbf75f2fe74fd6e1dad5d28ab7da49e4bf8a2f
                 var total = ds.Tables[0].Rows.Count;
                 for (var i = 0; i < total; i++)
                 {
