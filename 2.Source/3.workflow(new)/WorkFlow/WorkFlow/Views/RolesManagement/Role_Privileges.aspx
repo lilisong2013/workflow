@@ -166,7 +166,7 @@
                     for (var i = 0; i < opTotal; i++) {
                         var checkBoxID = $("#operationsprivilege" + i.toString()); //复选框ID
                         if (checkBoxID.is(":checked")) {
-                            role_privilegesStr += "roprivilegeID" + i + ":'" + checkBoxID.val() + "',";
+                            role_privilegesStr += "roprivilegeID" + select_opTotal + ":'" + checkBoxID.val() + "',";
                             select_opTotal++;
                         } else {
 
@@ -177,7 +177,7 @@
                     for (var i = 0; i < epTotal; i++) {
                         var checkBoxID = $("#elementsprivilege" + i.toString()); //复选框ID
                         if (checkBoxID.is(":checked")) {
-                            role_privilegesStr += "reprivilegeID" + i + ":'" + checkBoxID.val() + "',";
+                            role_privilegesStr += "reprivilegeID" + select_epTotal + ":'" + checkBoxID.val() + "',";
                             select_epTotal++;
                         } else {
 
