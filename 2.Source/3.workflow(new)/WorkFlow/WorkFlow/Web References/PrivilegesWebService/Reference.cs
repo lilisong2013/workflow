@@ -46,12 +46,6 @@ namespace WorkFlow.PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetAllListByAppIDOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetMListByAppTypeIDOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetElListByAppIDOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback GetOpListByAppIDOperationCompleted;
-        
         private System.Threading.SendOrPostCallback GetListByPrivilegeTypeOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetTopMenuPrivilegeListOfAppOperationCompleted;
@@ -131,15 +125,6 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         public event GetAllListByAppIDCompletedEventHandler GetAllListByAppIDCompleted;
-        
-        /// <remarks/>
-        public event GetMListByAppTypeIDCompletedEventHandler GetMListByAppTypeIDCompleted;
-        
-        /// <remarks/>
-        public event GetElListByAppIDCompletedEventHandler GetElListByAppIDCompleted;
-        
-        /// <remarks/>
-        public event GetOpListByAppIDCompletedEventHandler GetOpListByAppIDCompleted;
         
         /// <remarks/>
         public event GetListByPrivilegeTypeCompletedEventHandler GetListByPrivilegeTypeCompleted;
@@ -379,99 +364,6 @@ namespace WorkFlow.PrivilegesWebService {
             if ((this.GetAllListByAppIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllListByAppIDCompleted(this, new GetAllListByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetMListByAppTypeID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetMListByAppTypeID(int appID, out string msg) {
-            object[] results = this.Invoke("GetMListByAppTypeID", new object[] {
-                        appID});
-            msg = ((string)(results[1]));
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetMListByAppTypeIDAsync(int appID) {
-            this.GetMListByAppTypeIDAsync(appID, null);
-        }
-        
-        /// <remarks/>
-        public void GetMListByAppTypeIDAsync(int appID, object userState) {
-            if ((this.GetMListByAppTypeIDOperationCompleted == null)) {
-                this.GetMListByAppTypeIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMListByAppTypeIDOperationCompleted);
-            }
-            this.InvokeAsync("GetMListByAppTypeID", new object[] {
-                        appID}, this.GetMListByAppTypeIDOperationCompleted, userState);
-        }
-        
-        private void OnGetMListByAppTypeIDOperationCompleted(object arg) {
-            if ((this.GetMListByAppTypeIDCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetMListByAppTypeIDCompleted(this, new GetMListByAppTypeIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetElListByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetElListByAppID(int appID, out string msg) {
-            object[] results = this.Invoke("GetElListByAppID", new object[] {
-                        appID});
-            msg = ((string)(results[1]));
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetElListByAppIDAsync(int appID) {
-            this.GetElListByAppIDAsync(appID, null);
-        }
-        
-        /// <remarks/>
-        public void GetElListByAppIDAsync(int appID, object userState) {
-            if ((this.GetElListByAppIDOperationCompleted == null)) {
-                this.GetElListByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetElListByAppIDOperationCompleted);
-            }
-            this.InvokeAsync("GetElListByAppID", new object[] {
-                        appID}, this.GetElListByAppIDOperationCompleted, userState);
-        }
-        
-        private void OnGetElListByAppIDOperationCompleted(object arg) {
-            if ((this.GetElListByAppIDCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetElListByAppIDCompleted(this, new GetElListByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOpListByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetOpListByAppID(int appID, out string msg) {
-            object[] results = this.Invoke("GetOpListByAppID", new object[] {
-                        appID});
-            msg = ((string)(results[1]));
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetOpListByAppIDAsync(int appID) {
-            this.GetOpListByAppIDAsync(appID, null);
-        }
-        
-        /// <remarks/>
-        public void GetOpListByAppIDAsync(int appID, object userState) {
-            if ((this.GetOpListByAppIDOperationCompleted == null)) {
-                this.GetOpListByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOpListByAppIDOperationCompleted);
-            }
-            this.InvokeAsync("GetOpListByAppID", new object[] {
-                        appID}, this.GetOpListByAppIDOperationCompleted, userState);
-        }
-        
-        private void OnGetOpListByAppIDOperationCompleted(object arg) {
-            if ((this.GetOpListByAppIDCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetOpListByAppIDCompleted(this, new GetOpListByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1127,108 +1019,6 @@ namespace WorkFlow.PrivilegesWebService {
         private object[] results;
         
         internal GetAllListByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-        
-        /// <remarks/>
-        public string msg {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[1]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetMListByAppTypeIDCompletedEventHandler(object sender, GetMListByAppTypeIDCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetMListByAppTypeIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetMListByAppTypeIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-        
-        /// <remarks/>
-        public string msg {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[1]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetElListByAppIDCompletedEventHandler(object sender, GetElListByAppIDCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetElListByAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetElListByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-        
-        /// <remarks/>
-        public string msg {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((string)(this.results[1]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetOpListByAppIDCompletedEventHandler(object sender, GetOpListByAppIDCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetOpListByAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal GetOpListByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

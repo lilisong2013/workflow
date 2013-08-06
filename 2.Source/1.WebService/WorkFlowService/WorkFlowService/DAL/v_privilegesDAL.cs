@@ -83,20 +83,45 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
-
+        //获取视图下权限下菜单列表
         public DataSet GetMPrivilegesListOfApp(int appID)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select p_id,p_name,pt_id,pt_name,pt_code,item_name,item_code,item_id,app_id ");
             strSql.Append(" FROM v_privileges ");
-            strSql.Append(" where app_id=@app_id and pt_id=1 ");
+            strSql.Append(" where app_id=@app_id and pt_id=1 order by p_id desc ");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
-
+        //获取视图下权限下元素列表
+        public DataSet GetEPrivilegesListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select p_id,p_name,pt_id,pt_name,pt_code,item_name,item_code,item_id,app_id ");
+            strSql.Append(" FROM v_privileges ");
+            strSql.Append(" where app_id=@app_id and pt_id=2 order by p_id desc ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+        //获取视图下权限下操作列表
+        public DataSet GetOPrivilegesListOfApp(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select p_id,p_name,pt_id,pt_name,pt_code,item_name,item_code,item_id,app_id ");
+            strSql.Append(" FROM v_privileges ");
+            strSql.Append(" where app_id=@app_id and pt_id=3 order by p_id desc ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
         /// <summary>
         /// 得到一个对象实体
         /// </summary>

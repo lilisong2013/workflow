@@ -143,6 +143,50 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetEPrivilegesListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEPrivilegesListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEPrivilegesListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOPrivilegesListOfApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOPrivilegesListOfAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOPrivilegesListOfAppResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetV_PrivilegesModel">
         <s:complexType>
           <s:sequence>
@@ -236,6 +280,24 @@
   <wsdl:message name="GetMPrivilegesListOfAppSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetEPrivilegesListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEPrivilegesListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetEPrivilegesListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEPrivilegesListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEPrivilegesListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetOPrivilegesListOfAppSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOPrivilegesListOfApp" />
+  </wsdl:message>
+  <wsdl:message name="GetOPrivilegesListOfAppSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOPrivilegesListOfAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOPrivilegesListOfAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetV_PrivilegesModelSoapIn">
     <wsdl:part name="parameters" element="tns:GetV_PrivilegesModel" />
   </wsdl:message>
@@ -280,6 +342,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的菜单列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetMPrivilegesListOfAppSoapIn" />
       <wsdl:output message="tns:GetMPrivilegesListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEPrivilegesListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的元素列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetEPrivilegesListOfAppSoapIn" />
+      <wsdl:output message="tns:GetEPrivilegesListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOPrivilegesListOfApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的操作列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetOPrivilegesListOfAppSoapIn" />
+      <wsdl:output message="tns:GetOPrivilegesListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetV_PrivilegesModel">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的菜单列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
@@ -354,6 +426,26 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetMPrivilegesListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEPrivilegesListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetEPrivilegesListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetEPrivilegesListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOPrivilegesListOfApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetOPrivilegesListOfApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetOPrivilegesListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -437,6 +529,26 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetMPrivilegesListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEPrivilegesListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetEPrivilegesListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetEPrivilegesListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOPrivilegesListOfApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetOPrivilegesListOfApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetOPrivilegesListOfAppSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

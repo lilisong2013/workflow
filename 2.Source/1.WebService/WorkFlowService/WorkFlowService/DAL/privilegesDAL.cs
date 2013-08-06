@@ -377,53 +377,7 @@ namespace Saron.WorkFlowService.DAL
       
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
-        
-       
-        // 获得权限下菜单的数据列表   
-        public DataSet GetMListByAppTypeID(int appID)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
-            strSql.Append(" FROM privileges ");
-            strSql.Append(" where app_id=@app_id and privilegetype_id=1");
-            SqlParameter[] parameters = {
-                    new SqlParameter("@app_id", SqlDbType.Int,4)
-            };
-            parameters[0].Value = appID;
-       
-            return DbHelperSQL.Query(strSql.ToString(), parameters);
-        }
-
-        // 获得权限下操作的数据列表
-         public DataSet GetOpListByAppID(int appID)
-         {
-             StringBuilder strSql = new StringBuilder();
-             strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
-             strSql.Append(" FROM privileges ");
-             strSql.Append(" where app_id=@app_id and privilegetype_id=3");
-             SqlParameter[] parameters = {
-                    new SqlParameter("@app_id", SqlDbType.Int,4)
-            };
-             parameters[0].Value = appID;
-
-             return DbHelperSQL.Query(strSql.ToString(), parameters);
-         }
-
-         // 获得权限下元素的数据列表
-         public DataSet GetElListByAppID(int appID)
-         {
-             StringBuilder strSql = new StringBuilder();
-             strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
-             strSql.Append(" FROM privileges ");
-             strSql.Append(" where app_id=@app_id and privilegetype_id=2 ");
-             SqlParameter[] parameters = {
-                    new SqlParameter("@app_id", SqlDbType.Int,4)
-            };
-             parameters[0].Value = appID;
-
-             return DbHelperSQL.Query(strSql.ToString(), parameters);
-         }
-        
+   
     
         /// <summary>
         /// 获得某种权限类型下的权限列表

@@ -46,6 +46,10 @@ namespace WorkFlow.V_PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetMPrivilegesListOfAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetEPrivilegesListOfAppOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetOPrivilegesListOfAppOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetV_PrivilegesModelOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
@@ -115,6 +119,12 @@ namespace WorkFlow.V_PrivilegesWebService {
         
         /// <remarks/>
         public event GetMPrivilegesListOfAppCompletedEventHandler GetMPrivilegesListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetEPrivilegesListOfAppCompletedEventHandler GetEPrivilegesListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetOPrivilegesListOfAppCompletedEventHandler GetOPrivilegesListOfAppCompleted;
         
         /// <remarks/>
         public event GetV_PrivilegesModelCompletedEventHandler GetV_PrivilegesModelCompleted;
@@ -345,6 +355,68 @@ namespace WorkFlow.V_PrivilegesWebService {
             if ((this.GetMPrivilegesListOfAppCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetMPrivilegesListOfAppCompleted(this, new GetMPrivilegesListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetEPrivilegesListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetEPrivilegesListOfApp(int appID, out string msg) {
+            object[] results = this.Invoke("GetEPrivilegesListOfApp", new object[] {
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetEPrivilegesListOfAppAsync(int appID) {
+            this.GetEPrivilegesListOfAppAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetEPrivilegesListOfAppAsync(int appID, object userState) {
+            if ((this.GetEPrivilegesListOfAppOperationCompleted == null)) {
+                this.GetEPrivilegesListOfAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetEPrivilegesListOfAppOperationCompleted);
+            }
+            this.InvokeAsync("GetEPrivilegesListOfApp", new object[] {
+                        appID}, this.GetEPrivilegesListOfAppOperationCompleted, userState);
+        }
+        
+        private void OnGetEPrivilegesListOfAppOperationCompleted(object arg) {
+            if ((this.GetEPrivilegesListOfAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetEPrivilegesListOfAppCompleted(this, new GetEPrivilegesListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOPrivilegesListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetOPrivilegesListOfApp(int appID, out string msg) {
+            object[] results = this.Invoke("GetOPrivilegesListOfApp", new object[] {
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetOPrivilegesListOfAppAsync(int appID) {
+            this.GetOPrivilegesListOfAppAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetOPrivilegesListOfAppAsync(int appID, object userState) {
+            if ((this.GetOPrivilegesListOfAppOperationCompleted == null)) {
+                this.GetOPrivilegesListOfAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOPrivilegesListOfAppOperationCompleted);
+            }
+            this.InvokeAsync("GetOPrivilegesListOfApp", new object[] {
+                        appID}, this.GetOPrivilegesListOfAppOperationCompleted, userState);
+        }
+        
+        private void OnGetOPrivilegesListOfAppOperationCompleted(object arg) {
+            if ((this.GetOPrivilegesListOfAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetOPrivilegesListOfAppCompleted(this, new GetOPrivilegesListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -791,6 +863,74 @@ namespace WorkFlow.V_PrivilegesWebService {
         private object[] results;
         
         internal GetMPrivilegesListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetEPrivilegesListOfAppCompletedEventHandler(object sender, GetEPrivilegesListOfAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetEPrivilegesListOfAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetEPrivilegesListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetOPrivilegesListOfAppCompletedEventHandler(object sender, GetOPrivilegesListOfAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetOPrivilegesListOfAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetOPrivilegesListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
