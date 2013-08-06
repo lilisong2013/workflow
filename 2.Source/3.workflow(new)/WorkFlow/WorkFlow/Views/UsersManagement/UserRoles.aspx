@@ -136,7 +136,7 @@
        </div>
       </div>          
      <div class="control-group">
-      <input id="saveSubmit" type="submit" class="btn btn-primary btn-large span3"  value="保存" />
+      <input id="saveSubmit" type="submit" class="btn btn-primary span4"  value="保存" />
      </div>
    </form>
 </div>

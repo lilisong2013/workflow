@@ -192,8 +192,8 @@
         </div> 
        </div>
 
-       <div class="control-group span6 offset3">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" />  
+       <div class="control-group span10 ">
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10" />  
        </div>
    </form>
 </div>

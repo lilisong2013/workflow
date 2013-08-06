@@ -270,6 +270,8 @@
 
        }
    </script>
+
+   
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container"><h2>流程管理</h2></div>
@@ -294,7 +296,8 @@
       <%--查询按钮--%> 
       <b>流程名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
       <input id="btnOK" type="button" value="查询" onclick="search()"/> 
-      <hr />   
+      <hr />  
+     
       <%--显示全部流程--%>
       <div id="AllFlows"></div>
 
@@ -331,5 +334,6 @@
 
               </form>
      </div>
+
     </div>
 </asp:Content>

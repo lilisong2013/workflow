@@ -51,7 +51,6 @@
         $(document).ready(function () {
 
             GetMPrivilegesList(); //获取数据列表
-            m.loadData();
             $("#m_privilegeTab").click(function () {
                 GetMPrivilegesList(); //获取数据列表
                 m.loadData();
@@ -61,8 +60,9 @@
         function GetMPrivilegesList() {
             window['m'] = $("#Mprivilegesgrid").ligerGrid({
                 columns: [
-                           { display: '权限名称', name: 'p_name', width: 200 },
-                           { display: '权限项目', name: 'item_name', width: 200 },
+                           { display: '菜单名称', name: 'p_name', width: 200 },
+                           { display: '菜单项目', name: 'item_name', width: 200 },
+                           { display: '菜单编码', name: 'item_code', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
@@ -102,7 +102,6 @@
         $(document).ready(function () {
 
             GetEPrivilegesList(); //获取数据列表
-            e.loadData();
             $("#e_privilegeTab").click(function () {
                 GetEPrivilegesList(); //获取数据列表
                 e.loadData();
@@ -114,8 +113,9 @@
            
                     window['e'] = $("#Eprivilegesgrid").ligerGrid({
                         columns: [
-                           { display: '权限名称', name: 'p_name', width: 200 },
-                           { display: '权限项目', name: 'item_name', width: 200 },
+                           { display: '元素名称', name: 'p_name', width: 200 },
+                           { display: '元素项目', name: 'item_name', width: 200 },
+                           { display: '元素编码', name: 'item_code', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
@@ -156,7 +156,6 @@
         $(document).ready(function () {
 
             GetOPrivilegesList(); //获取数据列表
-            o.loadData();
             $("#o_privilegeTab").click(function () {
 
                 GetOPrivilegesList(); //获取数据列表
@@ -169,8 +168,9 @@
          
             window['o'] = $("#Oprivilegesgrid").ligerGrid({
                         columns: [
-                            { display: '权限名称', name: 'p_name', width: 200 },
-                            { display: '权限项目', name: 'item_name', width: 200 },
+                            { display: '操作名称', name: 'p_name', width: 200 },
+                            { display: '操作项目', name: 'item_name', width: 200 },
+                            { display: '操作编码', name: 'item_code', width: 200 },
                             { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';

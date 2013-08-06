@@ -176,8 +176,8 @@
         <input type="hidden" name="rolesCreated_ip" id="rolesCreated_ip" value="<%= ipAddress %>" /> 
         </div> 
        </div>
-       <div class="control-group span10 offset5">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" style="background-position:center"/>  
+       <div class="control-group span10 ">
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10" style="background-position:center"/>  
        </div>
    </form>
 </div>

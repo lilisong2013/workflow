@@ -312,8 +312,8 @@
         <input type="hidden" name="elementsUpdated_by" id="elementsUpdated_by"/>
         <input type="hidden" name="elementsUpdated_ip" id="elementsUpdated_ip"/>
        </div>
-       <div class="control-group span5 offset3" >
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary  span6" />  
+       <div class="control-group span10" >
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 " />  
        </div>    
     </form>
     </div> 
