@@ -238,9 +238,9 @@
                 </div>
             </div>
 
-            <div class="control-group">
+            <div class="control-group ">
                 <div class="page-header">
-                    <h3>菜单</h3>
+                    <h4>菜单</h4>
                 </div>
                 <div id="menusList">
 
@@ -249,7 +249,7 @@
 
             <div class="control-group">
                 <div class="page-header">
-                    <h3>操作</h3>
+                    <h4>操作</h4>
                 </div>
                 <div id="operationsList">
                     
@@ -258,7 +258,7 @@
 
             <div class="control-group">
                 <div class="page-header">
-                    <h3>页面元素</h3>
+                    <h4>页面元素</h4>
                 </div>
                 <div id="elementsList">
                 
