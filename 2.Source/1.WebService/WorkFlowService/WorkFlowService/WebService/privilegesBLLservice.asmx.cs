@@ -23,6 +23,7 @@ namespace Saron.WorkFlowService.WebService
         private readonly Saron.WorkFlowService.DAL.privilege_roleDAL m_privilege_roledal = new DAL.privilege_roleDAL();
 
         private readonly Saron.WorkFlowService.DAL.v_menu_privilegesDAL m_v_menu_privilegesdal = new DAL.v_menu_privilegesDAL();
+        private readonly Saron.WorkFlowService.DAL.v_privileges_treeDAL m_v_pribileges_treedal = new DAL.v_privileges_treeDAL();
 
         public SecurityContext m_securityContext = new SecurityContext();
 
@@ -194,6 +195,20 @@ namespace Saron.WorkFlowService.WebService
             }
 
             return m_v_menu_privilegesdal.GetMenuPrivilegeListOfApp(appID);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某系统菜单权限的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetMenuAndElementPrivilegeListOfApp(int appID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_v_pribileges_treedal.GetMenuAndElementPrivilegeListOfApp(appID);
         }
 
         [SoapHeader("m_securityContext")]

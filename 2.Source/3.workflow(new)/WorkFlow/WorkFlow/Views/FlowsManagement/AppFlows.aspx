@@ -67,13 +67,7 @@
                                     var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
                                     return html;
                                 }
-                            },
-                             { display: '', width: 80,
-                                 render: function (row) {
-                                     var html = '<i class="icon-trash"></i><a href="#" data-toggle="modal" onclick="Test('+row.id+')">详细测试</a>';
-                                     return html;
-                                 }
-                             }
+                            }
                            ],
                     dataAction: 'server',
                     width: '99%',
@@ -277,18 +271,7 @@
        }
    </script>
 
-   <%--BootStrap弹窗信息--%>
-   <script type="text/javascript">
-       function Test(id) {
-           alert(id);
-           
-           $('#regModal').modal('show');
-           $.ajax({
-               url: '/FlowsManagement/DetailInfo?id='+id
-           });
-           
-       }
-   </script>
+ 
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -308,26 +291,7 @@
     
     <div class="tab-content">
   
-  <%--测试--%>
-  <form id="regModal" class="modal hide fade form-horizontal" method="post" action="DetailInfo.aspx?id=171" style="display:none" tabindex="-1" role="dialog" aria-hidden="true">
-  <%--<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">--%>
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">流程详情</h3>
-  </div>
-  <div class="modal-body">
-
-    <p>名称</p>
-    <p><%=m_usersModel.login%></p>
-    <p><%=ViewData["flowsName"]%></p>
-
-  </div>
-  <div class="modal-footer">
-    <input  type="submit" class="btn btn-primary" value="Submit!">  
-    <input type="button" class="btn" value="Close!" data-dismiss="modal">  
-  </div>
-  
-  </form>
+ 
       <div class="tab-pane active" id="AllFlows1">
 
       <%--查询按钮--%> 
