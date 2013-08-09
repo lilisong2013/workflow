@@ -52,6 +52,10 @@ namespace WorkFlow.PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetMenuPrivilegeListOfAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetMenuAndElementPrivilegeListOfAppOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetMenuAndElementPrivilegeListOfRoleOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ParentMenuIDOfMenuPrivilegeOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetMenuPrivilegeIDByMenuIDOperationCompleted;
@@ -134,6 +138,12 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         public event GetMenuPrivilegeListOfAppCompletedEventHandler GetMenuPrivilegeListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetMenuAndElementPrivilegeListOfAppCompletedEventHandler GetMenuAndElementPrivilegeListOfAppCompleted;
+        
+        /// <remarks/>
+        public event GetMenuAndElementPrivilegeListOfRoleCompletedEventHandler GetMenuAndElementPrivilegeListOfRoleCompleted;
         
         /// <remarks/>
         public event ParentMenuIDOfMenuPrivilegeCompletedEventHandler ParentMenuIDOfMenuPrivilegeCompleted;
@@ -459,6 +469,68 @@ namespace WorkFlow.PrivilegesWebService {
             if ((this.GetMenuPrivilegeListOfAppCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetMenuPrivilegeListOfAppCompleted(this, new GetMenuPrivilegeListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetMenuAndElementPrivilegeListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetMenuAndElementPrivilegeListOfApp(int appID, out string msg) {
+            object[] results = this.Invoke("GetMenuAndElementPrivilegeListOfApp", new object[] {
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetMenuAndElementPrivilegeListOfAppAsync(int appID) {
+            this.GetMenuAndElementPrivilegeListOfAppAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetMenuAndElementPrivilegeListOfAppAsync(int appID, object userState) {
+            if ((this.GetMenuAndElementPrivilegeListOfAppOperationCompleted == null)) {
+                this.GetMenuAndElementPrivilegeListOfAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMenuAndElementPrivilegeListOfAppOperationCompleted);
+            }
+            this.InvokeAsync("GetMenuAndElementPrivilegeListOfApp", new object[] {
+                        appID}, this.GetMenuAndElementPrivilegeListOfAppOperationCompleted, userState);
+        }
+        
+        private void OnGetMenuAndElementPrivilegeListOfAppOperationCompleted(object arg) {
+            if ((this.GetMenuAndElementPrivilegeListOfAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetMenuAndElementPrivilegeListOfAppCompleted(this, new GetMenuAndElementPrivilegeListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetMenuAndElementPrivilegeListOfRole", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetMenuAndElementPrivilegeListOfRole(int roleID, out string msg) {
+            object[] results = this.Invoke("GetMenuAndElementPrivilegeListOfRole", new object[] {
+                        roleID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetMenuAndElementPrivilegeListOfRoleAsync(int roleID) {
+            this.GetMenuAndElementPrivilegeListOfRoleAsync(roleID, null);
+        }
+        
+        /// <remarks/>
+        public void GetMenuAndElementPrivilegeListOfRoleAsync(int roleID, object userState) {
+            if ((this.GetMenuAndElementPrivilegeListOfRoleOperationCompleted == null)) {
+                this.GetMenuAndElementPrivilegeListOfRoleOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetMenuAndElementPrivilegeListOfRoleOperationCompleted);
+            }
+            this.InvokeAsync("GetMenuAndElementPrivilegeListOfRole", new object[] {
+                        roleID}, this.GetMenuAndElementPrivilegeListOfRoleOperationCompleted, userState);
+        }
+        
+        private void OnGetMenuAndElementPrivilegeListOfRoleOperationCompleted(object arg) {
+            if ((this.GetMenuAndElementPrivilegeListOfRoleCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetMenuAndElementPrivilegeListOfRoleCompleted(this, new GetMenuAndElementPrivilegeListOfRoleCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1121,6 +1193,74 @@ namespace WorkFlow.PrivilegesWebService {
         private object[] results;
         
         internal GetMenuPrivilegeListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetMenuAndElementPrivilegeListOfAppCompletedEventHandler(object sender, GetMenuAndElementPrivilegeListOfAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetMenuAndElementPrivilegeListOfAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetMenuAndElementPrivilegeListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetMenuAndElementPrivilegeListOfRoleCompletedEventHandler(object sender, GetMenuAndElementPrivilegeListOfRoleCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetMenuAndElementPrivilegeListOfRoleCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetMenuAndElementPrivilegeListOfRoleCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

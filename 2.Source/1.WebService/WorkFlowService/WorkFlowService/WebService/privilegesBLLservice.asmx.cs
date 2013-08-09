@@ -212,6 +212,20 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某系统菜单权限的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetMenuAndElementPrivilegeListOfRole(int roleID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_v_pribileges_treedal.GetMenuAndElementPrivilegeListOfRole(roleID);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "菜单权限对应菜单的父菜单ID，<h4>（需要授权验证，系统管理员）</h4>")]
         public int ParentMenuIDOfMenuPrivilege(int menuprivilegeID, out string msg)
         {

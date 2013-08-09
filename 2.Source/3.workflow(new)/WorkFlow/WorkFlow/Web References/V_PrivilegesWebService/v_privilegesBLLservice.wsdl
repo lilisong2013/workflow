@@ -344,17 +344,17 @@
       <wsdl:output message="tns:GetMPrivilegesListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetEPrivilegesListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的元素列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的元素列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetEPrivilegesListOfAppSoapIn" />
       <wsdl:output message="tns:GetEPrivilegesListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetOPrivilegesListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的操作列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的操作列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetOPrivilegesListOfAppSoapIn" />
       <wsdl:output message="tns:GetOPrivilegesListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetV_PrivilegesModel">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的菜单列表，&lt;h4&gt;（需要授权验证，普通用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得权限下的菜单列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetV_PrivilegesModelSoapIn" />
       <wsdl:output message="tns:GetV_PrivilegesModelSoapOut" />
     </wsdl:operation>
