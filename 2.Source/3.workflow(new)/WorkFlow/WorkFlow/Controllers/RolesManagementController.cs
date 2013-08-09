@@ -820,8 +820,12 @@ namespace WorkFlow.Controllers
                         for (int i = 0; i < m_rmp_total; i++)
                         {
                             int m_mprivilegeID = Convert.ToInt32(Request.Params[("rmprivilegeID" + i)]);
+                            int m_parentMenuID = 0;
 
-                            int m_parentMenuID = Convert.ToInt32(Request.Params[("parentID" + i)]);
+                            if (Request.Params[("parentID" + i)].ToString() != "")
+                            {
+                                m_parentMenuID = Convert.ToInt32(Request.Params[("parentID" + i)]);
+                            }
                             
                             //如果菜单权限对应的菜单有父ID（m_parentMenuID不等于0），先判断角色权限列表中角色是否拥有该父菜单的权限
                             //若角色没有父菜单的权限，首先要添加父菜单的角色权限

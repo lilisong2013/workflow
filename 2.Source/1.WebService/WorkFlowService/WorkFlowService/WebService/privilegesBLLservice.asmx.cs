@@ -198,7 +198,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某系统菜单权限的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        [WebMethod(Description = "获得某系统菜单权限、页面元素权限的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetMenuAndElementPrivilegeListOfApp(int appID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -212,7 +212,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某系统菜单权限的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
+        [WebMethod(Description = "获得某角色菜单权限、页面元素权限的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetMenuAndElementPrivilegeListOfRole(int roleID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
