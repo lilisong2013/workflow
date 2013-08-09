@@ -25,8 +25,8 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append(" FROM v_menu_privileges ");
             strSql.Append(" where app_id=@app_id and parent_id is null ");
             SqlParameter[] parameters = {
-					new SqlParameter("@app_id", SqlDbType.Int,4)
-			};
+                    new SqlParameter("@app_id", SqlDbType.Int,4)
+            };
             parameters[0].Value = appID;
 
             return DbHelperSQL.Query(strSql.ToString(), parameters);
@@ -42,8 +42,8 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append(" FROM v_menu_privileges ");
             strSql.Append(" where app_id=@app_id ");
             SqlParameter[] parameters = {
-					new SqlParameter("@app_id", SqlDbType.Int,4)
-			};
+                    new SqlParameter("@app_id", SqlDbType.Int,4)
+            };
             parameters[0].Value = appID;
 
             return DbHelperSQL.Query(strSql.ToString(), parameters);
@@ -59,8 +59,8 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append(" FROM v_menu_privileges ");
             strSql.Append(" where p_id=@p_id ");
             SqlParameter[] parameters = {
-					new SqlParameter("@p_id", SqlDbType.Int,4)
-			};
+                    new SqlParameter("@p_id", SqlDbType.Int,4)
+            };
             parameters[0].Value = menuprivilegeID;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);

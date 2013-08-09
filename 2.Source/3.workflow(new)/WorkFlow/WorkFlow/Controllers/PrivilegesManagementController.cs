@@ -805,7 +805,70 @@ namespace WorkFlow.Controllers
             }
         }
 
-       //元素列表(后台分页)
+       //菜单列表(前台分页[v_menu_privileges])
+        public ActionResult GetMenuPrivilegesList()
+        {
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+            string msg = string.Empty;
+            string data = "{Rows:[";
+            try {
+                DataSet ds = m_privilegesBllService.GetTopMenuPrivilegeListOfApp((int)m_usersModel.app_id,out msg);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string pname = ds.Tables[0].Rows[i][1].ToString();
+                    string iname=ds.Tables[0].Rows[i][5].ToString();
+                    string id = ds.Tables[0].Rows[i][0].ToString();
+                    string parent_id=ds.Tables[0].Rows[i][8].ToString();
+                    string code = ds.Tables[0].Rows[i][6].ToString();
+                    if (i == ds.Tables[0].Rows.Count - 1)
+                    {
+                        data += "{p_name:'" + pname + "',";
+                        data += "itme_name:'" + iname + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
+                        data += "id:'" + id + "',";
+                        data += "parent_id:'" + parent_id + "',";
+                        data += "code:'" + code + "'" + GetChildrenMenusList(Convert.ToInt32(parent_id)) + "}";
+                    }
+                    else
+                    {
+                        data += "{p_name:'" + pname + "',";
+                        data += "itme_name:'" + iname + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
+                        data += "id:'" + id + "',";
+                        data += "parent_id:'" + parent_id + "',";
+                        data += "code:'" + code + "'" + GetChildrenMenusList(Convert.ToInt32(parent_id)) + "},";
+                    }
+                }
+            }
+            catch (Exception ex) 
+            { }
+            data += "]}";
+            return Json(data);
+        }
+
+        //菜单Grid
+        public string GetChildrenMenusList(int parentId)
+        {
+            string dataStr = ",children:[";
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            string msg = string.Empty;
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+
+        }
+        //元素列表(后台分页)
         public ActionResult GetEPrivilegesList()
         {
             if (Session["user"] == null)
