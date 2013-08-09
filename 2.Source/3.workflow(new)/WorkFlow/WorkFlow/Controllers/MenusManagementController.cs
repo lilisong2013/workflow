@@ -60,16 +60,16 @@ namespace WorkFlow.Controllers
 
                 if (Request.Form["MenusName"] == "")
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单名不能为空" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名不能为空" });
                 }
 
                 if (Request.Form["MenusCode"] == "")
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单编码不能为空" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单编码不能为空" });
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(Request.Form["MenusCode"]) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "编码以字母开头!" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "编码以字母开头!" });
                 }
                 m_menusModel.name = Request.Form["MenusName"];
                 m_menusModel.code = Request.Form["MenusCode"];
@@ -88,19 +88,19 @@ namespace WorkFlow.Controllers
 
                 if (m_menusBllService.ExistsMenusName(m_menusModel.name, m_menusModel.parent_id, (int)m_menusModel.app_id, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单名称在父菜单下已经存在！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称在父菜单下已经存在！" });
                 }
 
                 if (m_menusBllService.ExistsMenusCode(m_menusModel.code, (int)m_menusModel.app_id, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中菜单编码已经存在！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "系统中菜单编码已经存在！" });
                 }
 
                 if (m_menusModel.parent_id != null)
                 {
                     if (m_elementsBllService.ExistsElementsOfMenus((int)m_menusModel.parent_id, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单下存在页面元素，不允许添加子菜单！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单下存在页面元素，不允许添加子菜单！" });
                     }
                 }
 
@@ -110,21 +110,21 @@ namespace WorkFlow.Controllers
 
                     if (addFlag == -1)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = msg });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = msg });
                     }
 
                     if (addFlag != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "添加成功", toUrl = "/MenusManagement/AppMenus" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "alert alert-success", message = "添加成功", toUrl = "/MenusManagement/AppMenus" });
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加失败" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "添加失败" });
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "添加失败" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "添加失败" });
                 }
             }
             
@@ -173,31 +173,31 @@ namespace WorkFlow.Controllers
                 {
                     if (m_menusBllService.ExistsChildrenMenus(menusID, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单存在子菜单，无法删除！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单存在子菜单，无法删除！" });
                     }
 
                     if (m_elementsBllService.ExistsElementsOfMenus(menusID, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单下存在页面元素，无法删除！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单下存在页面元素，无法删除！" });
                     }
 
                     if (m_privilegesBllService.ExistsItemOfPrivilegesType(1, menusID, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单已创建权限，无法删除！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单已创建权限，无法删除！" });
                     }
 
                     if (m_menusBllService.DeleteMenus(menusID, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "菜单删除成功！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "alert alert-success", message = "菜单删除成功！" });
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单删除失败！" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单删除失败！" });
                     }
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "删除失败！" });
                 }
             }
            
@@ -623,15 +623,15 @@ namespace WorkFlow.Controllers
                
                 if (name.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单名称不能为空!" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称不能为空!" });
                 }
                 if (code.Length == 0)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "菜单编码不能为空!" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单编码不能为空!" });
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "编码以字母开头!" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "编码以字母开头!" });
                 }
               
                 DataSet ds = m_menusBllService.GetAllMenusListofApp(appID, out msg);
@@ -697,7 +697,7 @@ namespace WorkFlow.Controllers
                     {
                         if (menuListname.Equals(m_menusModel.name.ToString()))
                         {
-                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单名称!" });
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "已经存在相同的菜单名称!" });
                         }
                     }
 
@@ -705,7 +705,7 @@ namespace WorkFlow.Controllers
                     {
                         if (codeListname.Equals(m_menusModel.code.ToString()))
                         {
-                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单编码!" });
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "已经存在相同的菜单编码!" });
                         }
                     }
 
@@ -770,7 +770,7 @@ namespace WorkFlow.Controllers
                     {
                         if (menuListname.Equals(m_menusModel.name.ToString()))
                         {
-                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单名称!" });
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "已经存在相同的菜单名称!" });
                         }
                     }
 
@@ -778,7 +778,7 @@ namespace WorkFlow.Controllers
                     {
                         if (codeListname.Equals(m_menusModel.code.ToString()))
                         {
-                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "已经存在相同的菜单编码!" });
+                            return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "已经存在相同的菜单编码!" });
                         }
                     }
                
@@ -790,17 +790,17 @@ namespace WorkFlow.Controllers
 
                     if (m_menusBllService.Update(m_menusModel, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/MenusManagement/AppMenus" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "alert alert-success", message = "修改成功！", toUrl = "/MenusManagement/AppMenus" });
                     }
                     else
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败!" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "修改失败!" });
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "程序异常!" });
                 }
             
             }
