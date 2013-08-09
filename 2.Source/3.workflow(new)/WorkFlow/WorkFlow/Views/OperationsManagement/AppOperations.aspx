@@ -91,9 +91,10 @@
                 var m = $.ligerDialog.open({
 
                     title: '更新操作信息',
-                    width: 1000,
-                    height: 800,
-                    showMax: true,
+                    width: 900,
+                    height: 600,
+                    isDrag: true,
+                    isResize: true, 
                     url: '/OperationsManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -113,7 +114,9 @@
                 $.ligerDialog.open({
                   title:'详情('+id+')信息',
                   width:700,
-                  height:600,
+                  height: 600,
+                  isDrag: true,
+                  isResize: true, 
                   url:'/OperationsManagement/DetailInfo?id='+id
                 });
             }

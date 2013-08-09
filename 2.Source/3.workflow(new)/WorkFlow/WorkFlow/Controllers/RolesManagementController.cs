@@ -820,8 +820,9 @@ namespace WorkFlow.Controllers
                         for (int i = 0; i < m_rmp_total; i++)
                         {
                             int m_mprivilegeID = Convert.ToInt32(Request.Params[("rmprivilegeID" + i)]);
-                            int m_parentMenuID = m_privilegesBllservice.ParentMenuIDOfMenuPrivilege(m_mprivilegeID, out msg);//菜单权限对应的菜单的父菜单ID
 
+                            int m_parentMenuID = Convert.ToInt32(Request.Params[("parentID" + i)]);
+                            
                             //如果菜单权限对应的菜单有父ID（m_parentMenuID不等于0），先判断角色权限列表中角色是否拥有该父菜单的权限
                             //若角色没有父菜单的权限，首先要添加父菜单的角色权限
                             if (m_parentMenuID != 0)
@@ -929,12 +930,14 @@ namespace WorkFlow.Controllers
                 string m_privilegeTypeID = ds.Tables[0].Rows[i][2].ToString();//权限类型ID
                 string m_itemID =ds.Tables[0].Rows[i][5].ToString();//菜单ID
                 string m_parentID = ds.Tables[0].Rows[i][6].ToString();//父菜单ID
+                string m_realparentID = ds.Tables[0].Rows[i][8].ToString();//父菜单ID
 
                 if (i < total - 1)
                 {
                     datajson += "{id:'" + m_privilegeID + "',";
                     datajson += "name:'" + m_privilegeName + "',";
                     datajson += "pt_id:'" + m_privilegeTypeID + "',";
+                    datajson += "real_parentID:'" + m_realparentID + "',";
                     datajson += "menuID:'" + m_itemID + "',";
                     datajson += "parentID:'" + m_parentID + "',";
 
@@ -962,6 +965,7 @@ namespace WorkFlow.Controllers
                     datajson += "{id:'" + m_privilegeID + "',";
                     datajson += "name:'" + m_privilegeName + "',";
                     datajson += "pt_id:'" + m_privilegeTypeID + "',";
+                    datajson += "real_parentID:'" + m_realparentID + "',";
                     datajson += "menuID:'" + m_itemID + "',";
                     datajson += "parentID:'" + m_parentID + "',";
 

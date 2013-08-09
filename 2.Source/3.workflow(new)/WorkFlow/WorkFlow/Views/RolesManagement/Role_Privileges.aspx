@@ -129,6 +129,7 @@
                     for (var i = 0; i < select_mpTotal; i++) {
                         //alert(notes[i].data.id);
                         role_privilegesStr += "rmprivilegeID" + i + ":'" + notes[i].data.id + "',";
+                        role_privilegesStr += "parentID" + i + ":'" + notes[i].data.real_parentID + "',";
                     }
 
                     //alert(role_privilegesStr);
@@ -162,8 +163,8 @@
             //提交role_privileges表单后执行的函数
             function rp_showResponse(responseText, statusText) {
                 var dataJson = eval("(" + responseText + ")");
-                show_DIV(dataJson);//提示信息
-              
+                show_DIV(dataJson); //提示信息
+
 
             }
 

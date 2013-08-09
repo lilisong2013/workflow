@@ -22,7 +22,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetMenuAndElementPrivilegeListOfRole(int roleID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select p_id,p_name,pt_id,item_name,item_code,item_id,parent_id,app_id,role_id ");
+            strSql.Append("select p_id,p_name,pt_id,item_name,item_code,item_id,parent_id,app_id,role_id");
             strSql.Append(" FROM v_privileges_tree ");
             strSql.Append(" where role_id=@role_id ");
             SqlParameter[] parameters = {
@@ -39,10 +39,10 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetMenuAndElementPrivilegeListOfApp(int appID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select DISTINCT p_id, p_name, pt_id, item_name, item_code, item_id, parent_id, app_id ");
+            strSql.Append("select DISTINCT p_id, p_name, pt_id, item_name, item_code, item_id, parent_id, app_id,real_parent_id  ");
             strSql.Append(" FROM v_privileges_tree ");
             strSql.Append(" where app_id=@app_id ");
-            strSql.Append(" GROUP BY p_id, p_name, pt_id, item_name, item_code, item_id, parent_id, app_id ");
+            strSql.Append(" GROUP BY p_id, p_name, pt_id, item_name, item_code, item_id, parent_id, app_id,real_parent_id ");
             SqlParameter[] parameters = {
 					new SqlParameter("@app_id", SqlDbType.Int,4)
 			};

@@ -138,12 +138,7 @@
  
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<div class="container"><h2>流程管理</h2></div>
-<%--<div class="container">
- <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/FlowsManagement/AppFlowsPage?pageCount=<%=ViewData["flowsEditCount"]%>&sizeCount=<%=ViewData["flowsEditSize"]%>">返回</a></li></ul>
- </div> 
-</div>--%>
+<div class="container"><h4>流程管理</h4></div>
 
 <div class="container">
    <%--操作提示DIV--%>
@@ -152,20 +147,15 @@
 
 <div class="tab-pane">
     <form  id="Edit_flows" method="post" action="" class="form-horizontal"> 
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">流程名称：</label>
        <div class="controls">
        <input id="flowsName" name="flowsName" type="text" value="<%=ViewData["flowsName"]%>" placeholder="流程名称"/>
        <input id="flowsID" name="flowsID" type="hidden" value="<%=ViewData["flowsID"]%>"/>
        </div>
        </div>
-       <div class="control-group span6 offset2">
-       <label class="control-label">是否有效：</label>
-       <div id="invalidList">
-       </div>
-
-       </div>
-       <div class="control-group span6 offset2">
+    
+       <div class="m-newline offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
        <textarea id="flowsRemark" name="flowsRemark" cols="5" rows="4" placeholder="备注"><%=ViewData["flowsRemark"]%></textarea>      
@@ -181,8 +171,15 @@
         <input type="hidden" name="flowsCreated_ip" id="flowsCreated_ip" value="<%= ipAddress %>" />       
         </div> 
        </div>
-       <div class="control-group span9 offset5">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" />  
+
+       <div class="m-newline offset2">
+       <label class="control-label">是否有效：</label>
+       <div id="invalidList">
+       </div>
+
+       </div>
+       <div class="control-group span10 offset2">
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
        </div>
    </form>
 </div>

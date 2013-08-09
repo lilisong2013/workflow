@@ -96,10 +96,10 @@
             if (id) {
                 var m = $.ligerDialog.open({
                     title: '更新流程信息',
-                    width: 1000,
-                    height: 800,
-                    showMax: true,
-                    showMin: true,
+                    width: 900,
+                    height: 600,
+                    isDrag: true,
+                    isResize: true, 
                     url: '/FlowsManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -121,6 +121,8 @@
                     title: '详情(' + id + ')信息',
                     width: 700,
                     height: 600,
+                    isDrag: true,
+                    isResize: true, 
                     url: '/FlowsManagement/DetailInfo?id=' + id
                 });
             }
@@ -221,9 +223,7 @@
        function search() {
            
            key = $("#txtKey").val();
-           //pageCount = t.get('page');
-          //sizeCount = t.get('pageSize');
-         
+        
            $.ajax({
                url: "/FlowsManagement/GetFlowName_List?flowname=" + key,
                type: "POST",
@@ -271,7 +271,8 @@
        }
    </script>
 
-   
+ 
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container"><h2>流程管理</h2></div>
@@ -280,7 +281,7 @@
         <%--操作提示DIV--%>
        <div id="promptDIV" class="row"></div>
     </div>
-
+      <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]);%>
     <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
             <li class="active"> <a href="#AllFlows1" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
@@ -289,8 +290,8 @@
     </div>
     
     <div class="tab-content">
+  
  
-     
       <div class="tab-pane active" id="AllFlows1">
 
       <%--查询按钮--%> 
@@ -316,7 +317,7 @@
                         <label class="control-label" for="flowsRemark">备注：</label>
                         <div class="controls">
                         <textarea name="flowsRemark" id="flowsRemark" rows="4" cols="5" class="span4" placeholder="备注"></textarea>
-                        <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]);%>
+                                          
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                             <%DateTime t = Convert.ToDateTime(dt);%>
