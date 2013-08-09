@@ -246,7 +246,7 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
- <div class="container"><h2>元素管理</h2></div>
+ <div class="container"><h4>元素管理</h4></div>
    
     <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
     <%string  s = DateTime.Now.ToString() +"."+ System.DateTime.Now.Millisecond.ToString(); %>
@@ -258,49 +258,44 @@
    </div>  
      <div class="tab-pane">
       <form  id="Edit_Elements" method="post" action="" class="form-horizontal">           
-       <div class="control-group span5 offset2">       
+       <div class="m-newline offset2">       
        <label class="control-label">元素名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <input id="elementsName" name="elementsName" type="text" value="<%=ViewData["elementsName"]%>" class="input-prepend span5" placeholder="元素名称"/>
        <input id="elementsID" name="elementsID" type="hidden" value="<%=ViewData["elementsId"]%>"/>
        </div>
        </div>
-       <div class="control-group span5 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">元素编码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <input id="elementsCode" name="elementsCode" type="text" value="<%=ViewData["elementsCode"]%>" class="input-prepend span5" placeholder="元素编码"/>
        </div>
        </div>
-       <div class="control-group span5 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">初始状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <label class="uneditable-input span5" ><%=ViewData["elementsInitstatus_id"]%></label>
        <input type="hidden" id="elementsInitstatus_id" name="elementsInitstatus_id" value="<%=ViewData["elementsInitstatus_id"]%>"/>
        </div>
        </div>
-       <div class="control-group span5 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
        <input id="elementsSeqno" name="elementsSeqno" type="text" value="<%=ViewData["elementsSeqno"]%>" class="input-prepend span5" placeholder="排序码"/>
        </div>
        </div>
-       <div class="control-group span5 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">所在页面：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>   
        <div class="controls">
        <label class="uneditable-input span5"><%=ViewData["elementsMenu_IDName"]%></label>
        <input id="elementsMenu_id" name="elementsMenu_id" type="hidden" value="<%=ViewData["elementsMenu_id"]%>"/>      
        </div> 
        </div>
-
-       <div class="control-group span5 offset2">
-       <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-       <div id="invalidList">
-       </div>
-       </div>
-       <div class="control-group span5 offset2">
+      
+       <div class="m-newline offset2">
        <label class="control-label"> 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    
        <div class="controls">
-       <textarea id="elementsRemark" name="elementsRemark" cols="5" rows="4" class="span5" placeholder="备注"><%=ViewData["elementsRemark"]%></textarea>
+       <textarea id="elementsRemark" name="elementsRemark" cols="2" rows="4" class="span5" placeholder="备注"><%=ViewData["elementsRemark"]%></textarea>
        </div>   
         
         <input type="hidden" name="elementsDeleted" id="elementsDeleted" value="<%=ViewData["elementsDeleted"]%>" />
@@ -312,8 +307,15 @@
         <input type="hidden" name="elementsUpdated_by" id="elementsUpdated_by"/>
         <input type="hidden" name="elementsUpdated_ip" id="elementsUpdated_ip"/>
        </div>
-       <div class="control-group span10" >
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 " />  
+
+       <div class="m-newline offset2">
+       <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+       <div id="invalidList">
+       </div>
+       </div>
+
+       <div class="control-group span10 offset2" >
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
        </div>    
     </form>
     </div> 

@@ -98,9 +98,10 @@
             if (id) {
                 var m = $.ligerDialog.open({
                     title: '更新角色信息',
-                    width: 1000,
-                    height:1000,
-                    showMax: true,
+                    width: 900,
+                    height:600,
+                    isDrag: true,
+                    isResize: true, 
                     url: '/RolesManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -118,9 +119,10 @@
            if (id) {
                var m = $.ligerDialog.open({
                    title: '更新角色信息',
-                   width: 1000,
-                   height:1000,
-                   showMax: true,
+                   width: 900,
+                   height: 600,
+                   isDrag: true,
+                   isResize: true, 
                    url: '/RolesManagement/Role_Privileges?id=' + id,
                    buttons:
                     [
@@ -138,7 +140,9 @@
                $.ligerDialog.open({
                  title:'详情('+id+')信息',
                  width:700,
-                 height:600,
+                 height: 600,
+                 isDrag: true,
+                 isResize: true, 
                  url: '/RolesManagement/DetailInfo?id=' + id
                });
            }

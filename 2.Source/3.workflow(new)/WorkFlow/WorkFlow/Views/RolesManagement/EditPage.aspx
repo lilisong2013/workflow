@@ -139,7 +139,7 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<div class="container"><h2>角色管理</h2></div>
+<div class="container"><h4>角色管理</h4></div>
 
  <div class="container">
    <%--操作提示DIV--%>
@@ -147,23 +147,18 @@
   </div>  
    <div class="tab-pane">
    <form  id="Edit_Roles" method="post" action="" class="form-horizontal"> 
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">角色名称：</label>
        <div class="controls">
        <input id="rolesName" name="rolesName" type="text" value="<%=ViewData["rolesName"] %>" placeholder="角色名称"/>
        <input id="rolesID" name="rolesID" type="hidden" value="<%=ViewData["rolesId"]%>"/>
        </div>
        </div>
-       <div class="control-group span6 offset2">
-       <label class="control-label">是否有效：</label>
-       <div id="invalidList">
-       </div>
-
-       </div>
-       <div class="control-group span6 offset2">
+    
+       <div class="m-newline offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
-       <textarea id="rolesRemark" name="rolesRemark" cols="5" rows="4" placeholder="备注"><%=ViewData["rolesRemark"]%></textarea>      
+       <textarea id="rolesRemark" name="rolesRemark" cols="2" rows="4" placeholder="备注"><%=ViewData["rolesRemark"]%></textarea>      
 
         <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="<%=ViewData["rolesDeleted"]%>" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
@@ -176,8 +171,15 @@
         <input type="hidden" name="rolesCreated_ip" id="rolesCreated_ip" value="<%= ipAddress %>" /> 
         </div> 
        </div>
-       <div class="control-group span10 ">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10" style="background-position:center"/>  
+
+       <div class="m-newline offset2">
+       <label class="control-label">是否有效：</label>
+       <div id="invalidList">
+       </div>
+
+       </div>
+       <div class="control-group span10 offset2">
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" style="background-position:center"/>  
        </div>
    </form>
 </div>
