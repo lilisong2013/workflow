@@ -612,7 +612,7 @@ namespace Saron.WorkFlowService.DAL
 			};
             parameters[0].Value = menusID;
             
-            object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
             if (obj == null)
             {
                 return 0;

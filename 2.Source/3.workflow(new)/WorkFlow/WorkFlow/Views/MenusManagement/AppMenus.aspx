@@ -42,7 +42,7 @@
     <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
-            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+            $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
     </script>
@@ -122,7 +122,7 @@
                         data: { menuID: menuid },
                         success: function (responseText, statusText) {
                             GetMenusList(); //重载菜单数据列表
-                            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                            $("#promptDIV").removeClass("alert alert-error alert-success");
                             $("#promptDIV").addClass(responseText.css);
                             $("#promptDIV").html(responseText.message);
                         }
@@ -215,7 +215,7 @@
                 //成功后执行的方法
                 //alert(responseText.Id + responseText.Name);
                 GetMenusTreeList(); //绑定菜单树数据并展示
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                $("#promptDIV").removeClass("alert alert-error alert-success");
                 $("#promptDIV").addClass(responseText.css);
                 $("#promptDIV").html(responseText.message);
                 if (responseText.success) {
@@ -254,19 +254,19 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">菜单名称</label>
                     <div class="controls">
-                        <input name="MenusName" type="text" class="input-prepend span4" />
+                        <input name="MenusName" type="text" class="input-prepend span4" placeholder="菜单名称"/>
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">菜单编码</label>
                     <div class="controls">
-                        <input name="MenusCode" type="text" class="input-prepend span4" />
+                        <input name="MenusCode" type="text" class="input-prepend span4" placeholder="菜单编码"/>
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">菜单URL</label>
                     <div class="controls">
-                        <input name="MenusUrl" type="text" class="input-prepend span4" />
+                        <input name="MenusUrl" type="text" class="input-prepend span4" placeholder="菜单URL"/>
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
@@ -286,7 +286,7 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="MenusRemark" rows="4" cols="5" class="span4"></textarea>
+                        <textarea name="MenusRemark" rows="4" cols="5" class="span4" placeholder="备注信息"></textarea>
                     </div>
                 </div>
                 <div class="control-group span6 offset4">
