@@ -36,7 +36,6 @@
 
         var mpTotal = 0;//菜单权限数量
         var opTotal = 0; //操作权限数量
-        var epTotal = 0;//页面元素权限数量
 
     </script>
     <script src="../../LigerUI/lib/json2.js" type="text/javascript"></script>
@@ -106,34 +105,6 @@
         });
     </script>
 
-    <%--页面元素权限初始化--%>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $.ajax({
-                url: "/RolesManagement/GetElementsPrivilegeList",
-                type: "POST",
-                dataType: "json",
-                data: { roleid: roleID },
-                success: function (responseText, statusText) {
-                    //alert(responseText);
-                    var dataJson = eval("(" + responseText + ")");
-                    epTotal = parseInt(dataJson.total); //页面元素权限数量
-                    for (var i = 0; i < dataJson.total; i++) {
-                        $("#elementsList").append("<label class='checkbox span2'><input id='elementsprivilege" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
-                    }
-
-                    for (var i = 0; i < dataJson.total; i++) {
-                        if (dataJson.List[i].selected == "true") {
-                            $("#elementsprivilege" + i.toString()).prop("checked", true);
-                        } else {
-                            $("#elementsprivilege" + i.toString()).prop("checked", false);
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-
     <%--编辑角色权限--%>
     <script type="text/javascript">
 
@@ -150,9 +121,8 @@
 
                     var notes = managerMenuTree.getChecked(); //菜单树中被选中的菜单
 
-                    var select_mpTotal = notes.length; //选中的菜单权限数量
+                    var select_mpTotal = notes.length; //选中的菜单、页面元素权限数量
                     var select_opTotal = 0; //选中的操作权限数量
-                    var select_epTotal = 0; //选中的元素权限数量
                     //alert(notes.length);
 
                     //菜单权限中被选中的项
@@ -173,17 +143,7 @@
                         }
                     }
 
-                    //页面元素权限中被选中的项
-                    for (var i = 0; i < epTotal; i++) {
-                        var checkBoxID = $("#elementsprivilege" + i.toString()); //复选框ID
-                        if (checkBoxID.is(":checked")) {
-                            role_privilegesStr += "reprivilegeID" + select_epTotal + ":'" + checkBoxID.val() + "',";
-                            select_epTotal++;
-                        } else {
-
-                        }
-                    }
-                    role_privilegesStr += "mpTotal: '" + select_mpTotal + "',opTotal: '" + select_opTotal + "',epTotal: '" + select_epTotal + "',r_ID:'" + $("#roleID").val() + "' }";
+                    role_privilegesStr += "mpTotal: '" + select_mpTotal + "',opTotal: '" + select_opTotal + "',r_ID:'" + $("#roleID").val() + "' }";
 
                     //alert(role_privilegesStr);
 
@@ -238,9 +198,9 @@
                 </div>
             </div>
 
-            <div class="control-group ">
+            <div class="control-group">
                 <div class="page-header">
-                    <h4>菜单</h4>
+                    <h3>菜单及页面元素权限</h3>
                 </div>
                 <div id="menusList">
 
@@ -249,7 +209,7 @@
 
             <div class="control-group">
                 <div class="page-header">
-                    <h4>操作</h4>
+                    <h3>操作权限</h3>
                 </div>
                 <div id="operationsList">
                     
@@ -257,15 +217,7 @@
             </div>
 
             <div class="control-group">
-                <div class="page-header">
-                    <h4>页面元素</h4>
-                </div>
-                <div id="elementsList">
-                
-                </div>
-            </div>
-            <div class="control-group span10 offset2">
-                <input id="saveSubmit" type="submit" class="btn btn-primary  span10 offset2"  value="保存" />
+                <input id="saveSubmit" type="submit" class="btn btn-primary btn-large span4"  value="保存" />
             </div>
         </form>
     </div>
