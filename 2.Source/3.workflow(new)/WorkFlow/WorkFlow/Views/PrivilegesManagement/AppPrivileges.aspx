@@ -5,9 +5,9 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
-     <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
+    <%-- <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>--%>
      <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-     <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+ <%--    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>--%>
      <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
    <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
@@ -50,69 +50,59 @@
    <script type="text/javascript">
        var mangerListGrid;
        $(document).ready(function () {
-           $("#M1privilegesgrid").ligerGrid({
+           $("#Mprivilegesgrid").ligerGrid({
                width: '99%',
                height: 400,
-               tree: { columnName: 'name' },
+               tree: { columnName: 'p_name' },
                alternatingRow: false
            });
-           mangerListGrid = $("#M1privilegesgrid").ligerGetGridManager();
+           mangerListGrid = $("#Mprivilegesgrid").ligerGetGridManager();
            GetPMenuList(); //获取数据列表
-           $("#m_privilegesTab1").click(function () { 
-              GetP
-           })
+           $("#m_privilegeTab").click(function () {
+               GetPMenuList(); //获取数据列表
+           });
        });
-   </script>
-    <%--菜单权限(后台分页)--%>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            GetMPrivilegesList(); //获取数据列表
-            $("#m_privilegeTab").click(function () {
-                GetMPrivilegesList(); //获取数据列表
-                m.loadData();
-            });
-        });
-        //获取菜单数据列表
-        function GetMPrivilegesList() {
-            window['m'] = $("#Mprivilegesgrid").ligerGrid({
-                columns: [
-                           { display: '菜单名称', name: 'p_name', width: 200 },
-                           { display: '菜单项目', name: 'item_name', width: 200 },
-                           { display: '菜单编码', name: 'item_code', width: 200 },
-                            { display: '', width: 60,
-                                render: function (row) {
-                                    var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
-                                    return html;
-                                }
-                            },
-                            { display: '', width: 60,
+       function GetPMenuList() {
+           $.ajax({
+               url: "/PrivilegesManagement/GetMenuPrivilegesList",
+               type: 'POST',
+               dataType: 'json',
+               data: {},
+               success: function (responseText, statusText) {
+                   var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    mangerListGrid.setOptions({
+                       columns: [
+                       { display: '菜单名称', name: 'p_name', width: 200 },
+                       { display: '菜单项目', name: 'item_name', width: 200 },
+                       { display: '菜单编码', name: 'item_code', width: 200 },
+                       { display: '', width: 60,
+                            render: function (row) {
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.p_id + ')">编辑</a>';
                                     return html;
                                 }
-                            },
-                            { display: '', width: 60,
+                         },
+                        { display: '', width: 60,
                                 render: function (row) {
                                     var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteMPrivileges(' + row.p_id + ')">删除</a>';
                                     return html;
                                 }
-                            }
-                            ],
-                dataAction: 'server',
-                width: '99%',
-                pageSizeOptions: [5, 10, 15, 20, 25, 50],
-                pageSize: 10,
-                height: '400',
-                rownumbers: true,
-                usePager: true,
-                url: "/PrivilegesManagement/GetMPrivilegesList"
+                         }
 
-            });
-            m.loadData();
-        }
-    </script>
-  
+                       ],
+                       data: dataJson
+                   });
+                   mangerListGrid.loadData();
+               }
+           });
+       }
+   </script>
+   
     <%--元素权限(后台分页)--%>
     <script type="text/javascript">
         var EmanagerListGrid;
@@ -252,11 +242,11 @@
                    width: 900,
                    height: 600,
                    isDrag: true,
-                   isResize: true, 
+                   isResize: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
-                    { text: '返回', onclick: function (item, dialog) { m.loadData();dialog.close(); } }
+                    { text: '返回', onclick: function (item, dialog) { GetPMenuList(); dialog.close(); } }
 
                     ]
                });
@@ -326,7 +316,7 @@
                             var dataJson = eval("(" + responseText + ")");
                             //删除提示信息
                             show_DIV(dataJson);
-                            m.loadData();
+                            GetPMenuList();
                         }
                     });
 
@@ -943,7 +933,7 @@
                <li id="m_privilegeTab" class="active"><a href="#MPrivileges" data-toggle="tab">菜单权限</a></li>
                <li id="o_privilegeTab"><a href="#OPrivileges" data-toggle="tab">操作权限</a></li>
                <li id="e_privilegeTab"><a href="#EPrivileges" data-toggle="tab">页面元素</a></li>
-              <li id="m_privilegesTab1"><a href="#M1Privileges" data-toggle="tab">菜单权限(测试)</a></li>
+             
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="MPrivileges">
@@ -958,9 +948,7 @@
                     <div id="Eprivilegesgrid"></div> 
                 </div>
                
-                <div class="tab-pane" id="M1Privileges">
-                    <div id="M1privilegesgrid"></div> 
-                </div>
+              
                
                </div> 
 

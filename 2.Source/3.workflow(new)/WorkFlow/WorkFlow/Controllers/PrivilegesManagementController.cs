@@ -828,13 +828,14 @@ namespace WorkFlow.Controllers
                     string p_id = ds.Tables[0].Rows[i][0].ToString();
                     string parent_id=ds.Tables[0].Rows[i][8].ToString();
                     string item_code = ds.Tables[0].Rows[i][6].ToString();
+                    string item_id = ds.Tables[0].Rows[i][7].ToString();
                     if (i == ds.Tables[0].Rows.Count - 1)
                     {
                         data += "{p_name:'" + p_name + "',";
                         data += "item_name:'" + item_name + "',";
                         data += "p_id:'" + p_id + "',";
                         data += "parent_id:'" + parent_id + "',";
-                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(parent_id)) + "}";
+                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "}";
                     }
                     else
                     {
@@ -842,7 +843,7 @@ namespace WorkFlow.Controllers
                         data += "item_name:'" + item_name + "',";
                         data += "p_id:'" + p_id + "',";
                         data += "parent_id:'" + parent_id + "',";
-                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(parent_id)) + "},";
+                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
                     }
                 }
             }
@@ -853,7 +854,7 @@ namespace WorkFlow.Controllers
         }  
 
         //菜单树
-        public string GetChildrenPMenu(int parentID)
+        public string GetChildrenPMenu(int parentID,int appID)
         {
             string dataStr = ",children:[";
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
@@ -872,31 +873,31 @@ namespace WorkFlow.Controllers
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     string p_name = ds.Tables[0].Rows[i][1].ToString();
-                    string parent_id = ds.Tables[0].Rows[i][8].ToString();
+                    string p_id = ds.Tables[0].Rows[i][0].ToString();
 
                     if (m_privilegesBllService.ExistsChildrenPMenus(parentID, (int)m_usersModel.app_id, out msg))
                     {
                         if (i == ds.Tables[0].Rows.Count - 1)
                         {
                             dataStr += "{p_name:'" + p_name + "',";
-                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenu(Convert.ToInt32(parent_id)) + "}";
+                            dataStr += "p_id:'" + p_id + "'" + GetChildrenPMenu(Convert.ToInt32(p_id),(int)m_usersModel.app_id) + "}";
                         }
                         else
                         {
                             dataStr += "{p_name:'" + p_name + "',";
-                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenu(Convert.ToInt32(parent_id)) + "},";
+                            dataStr += "p_id:'" + p_id + "'" + GetChildrenPMenu(Convert.ToInt32(p_id),(int)m_usersModel.app_id) + "},";
                         }
                     }
                     else {
                         if (i == ds.Tables[0].Rows.Count - 1)
                         {
                             dataStr += "{p_name:'" + p_name + "',";
-                            dataStr += "parent_id:'" + parent_id + "'}";
+                            dataStr += "p_id:'" + p_id + "'}";
                         }
                         else
                         {
                             dataStr += "{p_name:'" + p_name + "',";
-                            dataStr += "parent_id:'" + parent_id + "'},";
+                            dataStr += "p_id:'" + p_id + "'},";
                         }
                     }
                 }
@@ -935,17 +936,17 @@ namespace WorkFlow.Controllers
                         if (i == ds.Tables[0].Rows.Count - 1)
                         {
                             dataStr += "{p_name:'" + p_name + "',";
-                            dataStr += "item_name:'" + item_name + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
+                            dataStr += "item_name:'" + item_name + "',"; 
                             dataStr += "p_id:'" +p_id + "',";
-                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(parent_id)) + "}";
+                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(p_id)) + "},";
 
                         }
                         else
                         {
                             dataStr += "{p_name:'" + p_name + "',";
-                            dataStr += "item_name:'" + item_name + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
+                            dataStr += "item_name:'" + item_name + "',"; 
                             dataStr += "p_id:'" + p_id + "',";
-                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(parent_id)) + "},";
+                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(p_id)) + "},";
                         }
                     }
                     else

@@ -563,12 +563,12 @@
       <wsdl:output message="tns:GetMenuPrivilegeListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetMenuAndElementPrivilegeListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限、页面元素权限的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetMenuAndElementPrivilegeListOfAppSoapIn" />
       <wsdl:output message="tns:GetMenuAndElementPrivilegeListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetMenuAndElementPrivilegeListOfRole">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某角色菜单权限、页面元素权限的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetMenuAndElementPrivilegeListOfRoleSoapIn" />
       <wsdl:output message="tns:GetMenuAndElementPrivilegeListOfRoleSoapOut" />
     </wsdl:operation>
