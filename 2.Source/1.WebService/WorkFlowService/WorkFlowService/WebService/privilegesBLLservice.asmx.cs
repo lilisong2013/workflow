@@ -182,7 +182,8 @@ namespace Saron.WorkFlowService.WebService
 
             return m_v_menu_privilegesdal.GetTopMenuPrivilegeListOfApp(appID);
         }
-
+       
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统菜单权限的菜单的子菜单,<h4>（需要授权验证，系统管理员）</h4>")]
         public bool ExistsChildrenPMenus(int parentID,int appID,out string msg)
         { //对webservice进行授权验证,系统管理员才可访问
@@ -193,6 +194,19 @@ namespace Saron.WorkFlowService.WebService
             }
             return m_privilegesDal.ExistsChildrenPMenus(parentID,appID);
         }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得某权限下菜单的子菜单列表,<h4>（需要授权验证，系统管理员）</h4>")]
+        public DataSet GetChildrenPMenu(int parentID,int appID,out string msg)
+        { //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+            return m_privilegesDal.GetChildrenPMenusListOfApp(parentID,appID);
+        }
+
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统菜单权限的权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetMenuPrivilegeListOfApp(int appID, out string msg)

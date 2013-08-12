@@ -46,6 +46,23 @@
         });
     </script>
 
+    <%--菜单权限(前台分页)--%>
+   <script type="text/javascript">
+       var mangerListGrid;
+       $(document).ready(function () {
+           $("#M1privilegesgrid").ligerGrid({
+               width: '99%',
+               height: 400,
+               tree: { columnName: 'name' },
+               alternatingRow: false
+           });
+           mangerListGrid = $("#M1privilegesgrid").ligerGetGridManager();
+           GetPMenuList(); //获取数据列表
+           $("#m_privilegesTab1").click(function () { 
+              GetP
+           })
+       });
+   </script>
     <%--菜单权限(后台分页)--%>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -926,7 +943,7 @@
                <li id="m_privilegeTab" class="active"><a href="#MPrivileges" data-toggle="tab">菜单权限</a></li>
                <li id="o_privilegeTab"><a href="#OPrivileges" data-toggle="tab">操作权限</a></li>
                <li id="e_privilegeTab"><a href="#EPrivileges" data-toggle="tab">页面元素</a></li>
-              
+              <li id="m_privilegesTab1"><a href="#M1Privileges" data-toggle="tab">菜单权限(测试)</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="MPrivileges">
@@ -941,7 +958,9 @@
                     <div id="Eprivilegesgrid"></div> 
                 </div>
                
-               
+                <div class="tab-pane" id="M1Privileges">
+                    <div id="M1privilegesgrid"></div> 
+                </div>
                
                </div> 
 

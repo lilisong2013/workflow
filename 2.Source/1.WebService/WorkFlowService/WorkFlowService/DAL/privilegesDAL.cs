@@ -84,6 +84,23 @@ namespace Saron.WorkFlowService.DAL
             parameters[1].Value = appID;
             return DbHelperSQL.Exists(strSql.ToString(),parameters);
         }
+
+        //获得系统某菜单的子菜单
+        public DataSet GetChildrenPMenusListOfApp(int parentID, int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  p_id, p_name, pt_id, pt_name, pt_code, item_name, item_code, item_id, parent_id, app_id");
+            strSql.Append(" from   v_menu_privileges ");
+            strSql.Append(" where parent_id=@parent_id and app_id=@app_id ");
+            SqlParameter[] parameters ={
+                  new SqlParameter("@parent_id",SqlDbType.Int,4),
+                  new SqlParameter("@app_id",SqlDbType.Int,4) 
+                                      };
+            parameters[0].Value = parentID;
+            parameters[1].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(),parameters);
+        }
+
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>

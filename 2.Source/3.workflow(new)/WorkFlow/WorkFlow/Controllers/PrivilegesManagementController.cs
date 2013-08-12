@@ -361,9 +361,9 @@ namespace WorkFlow.Controllers
             m_securityContext.AppID = (int)m_usersModel.app_id;
             m_menusBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
-            if (m_menusBllService.ExistsChildrenMenus(parentId,out msg))
+            if (m_menusBllService.ExistsChildrenMenus(parentId, out msg))
             {
-                DataSet ds = m_menusBllService.GetChildrenMenus(parentId,out msg);
+                DataSet ds = m_menusBllService.GetChildrenMenus(parentId, out msg);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     string name = ds.Tables[0].Rows[i][1].ToString();
@@ -373,7 +373,7 @@ namespace WorkFlow.Controllers
                     string parent_id = ds.Tables[0].Rows[i][5].ToString();
                     string remark = ds.Tables[0].Rows[i][6].ToString();
                     string invalid = ds.Tables[0].Rows[i][7].ToString();
-                    if (m_menusBllService.ExistsChildrenMenus((int)ds.Tables[0].Rows[i][0],out msg))
+                    if (m_menusBllService.ExistsChildrenMenus((int)ds.Tables[0].Rows[i][0], out msg))
                     {
                         if (i == ds.Tables[0].Rows.Count - 1)
                         {
@@ -823,26 +823,26 @@ namespace WorkFlow.Controllers
                 DataSet ds = m_privilegesBllService.GetTopMenuPrivilegeListOfApp((int)m_usersModel.app_id,out msg);
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
-                    string pname = ds.Tables[0].Rows[i][1].ToString();
-                    string iname=ds.Tables[0].Rows[i][5].ToString();
-                    string id = ds.Tables[0].Rows[i][0].ToString();
+                    string p_name = ds.Tables[0].Rows[i][1].ToString();
+                    string item_name=ds.Tables[0].Rows[i][5].ToString();
+                    string p_id = ds.Tables[0].Rows[i][0].ToString();
                     string parent_id=ds.Tables[0].Rows[i][8].ToString();
-                    string code = ds.Tables[0].Rows[i][6].ToString();
+                    string item_code = ds.Tables[0].Rows[i][6].ToString();
                     if (i == ds.Tables[0].Rows.Count - 1)
                     {
-                        data += "{p_name:'" + pname + "',";
-                        data += "itme_name:'" + iname + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
-                        data += "id:'" + id + "',";
+                        data += "{p_name:'" + p_name + "',";
+                        data += "item_name:'" + item_name + "',";
+                        data += "p_id:'" + p_id + "',";
                         data += "parent_id:'" + parent_id + "',";
-                        data += "code:'" + code + "'" + GetChildrenMenusList(Convert.ToInt32(parent_id)) + "}";
+                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(parent_id)) + "}";
                     }
                     else
                     {
-                        data += "{p_name:'" + pname + "',";
-                        data += "itme_name:'" + iname + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
-                        data += "id:'" + id + "',";
+                        data += "{p_name:'" + p_name + "',";
+                        data += "item_name:'" + item_name + "',";
+                        data += "p_id:'" + p_id + "',";
                         data += "parent_id:'" + parent_id + "',";
-                        data += "code:'" + code + "'" + GetChildrenMenusList(Convert.ToInt32(parent_id)) + "},";
+                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(parent_id)) + "},";
                     }
                 }
             }
@@ -850,24 +850,127 @@ namespace WorkFlow.Controllers
             { }
             data += "]}";
             return Json(data);
-        }
+        }  
 
-        //菜单Grid
-        public string GetChildrenMenusList(int parentId)
+        //菜单树
+        public string GetChildrenPMenu(int parentID)
         {
             string dataStr = ",children:[";
             WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
             WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
 
             WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+            string msg = string.Empty;
+
+            if (m_privilegesBllService.ExistsChildrenPMenus(parentID, (int)m_usersModel.app_id, out msg))
+            {
+                DataSet ds = m_privilegesBllService.GetChildrenPMenu(parentID,(int)m_usersModel.app_id,out msg);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string p_name = ds.Tables[0].Rows[i][1].ToString();
+                    string parent_id = ds.Tables[0].Rows[i][8].ToString();
+
+                    if (m_privilegesBllService.ExistsChildrenPMenus(parentID, (int)m_usersModel.app_id, out msg))
+                    {
+                        if (i == ds.Tables[0].Rows.Count - 1)
+                        {
+                            dataStr += "{p_name:'" + p_name + "',";
+                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenu(Convert.ToInt32(parent_id)) + "}";
+                        }
+                        else
+                        {
+                            dataStr += "{p_name:'" + p_name + "',";
+                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenu(Convert.ToInt32(parent_id)) + "},";
+                        }
+                    }
+                    else {
+                        if (i == ds.Tables[0].Rows.Count - 1)
+                        {
+                            dataStr += "{p_name:'" + p_name + "',";
+                            dataStr += "parent_id:'" + parent_id + "'}";
+                        }
+                        else
+                        {
+                            dataStr += "{p_name:'" + p_name + "',";
+                            dataStr += "parent_id:'" + parent_id + "'},";
+                        }
+                    }
+                }
+            }
+            dataStr += "]";
+            return dataStr;
+        }
+
+        //菜单Grid
+        public string GetChildrenPMenusList(int parentID)
+        {
+            string dataStr = ",children:[";
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
             string msg = string.Empty;
 
             m_SecurityContext.UserName = m_usersModel.login;
             m_SecurityContext.PassWord = m_usersModel.password;
             m_SecurityContext.AppID = (int)m_usersModel.app_id;
             m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+            //如果权限列表下的菜单含有子菜单
+            if (m_privilegesBllService.ExistsChildrenPMenus(parentID, (int)m_usersModel.app_id, out msg))
+            {
+                DataSet ds = m_privilegesBllService.GetChildrenPMenu(parentID,(int)m_usersModel.app_id,out msg);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string p_name = ds.Tables[0].Rows[i][1].ToString();
+                    string item_name = ds.Tables[0].Rows[i][5].ToString();
+                    string p_id = ds.Tables[0].Rows[i][0].ToString();
+                    string parent_id = ds.Tables[0].Rows[i][8].ToString();
+                    string item_code = ds.Tables[0].Rows[i][6].ToString();
+                    if (m_privilegesBllService.ExistsChildrenPMenus(parentID, (int)m_usersModel.app_id, out msg))
+                    {
+                        if (i == ds.Tables[0].Rows.Count - 1)
+                        {
+                            dataStr += "{p_name:'" + p_name + "',";
+                            dataStr += "item_name:'" + item_name + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
+                            dataStr += "p_id:'" +p_id + "',";
+                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(parent_id)) + "}";
 
+                        }
+                        else
+                        {
+                            dataStr += "{p_name:'" + p_name + "',";
+                            dataStr += "item_name:'" + item_name + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "}";
+                            dataStr += "p_id:'" + p_id + "',";
+                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(parent_id)) + "},";
+                        }
+                    }
+                    else
+                    {
+                        if (i == ds.Tables[0].Rows.Count - 1)
+                        {
+                            dataStr += "{p_name:'" + p_name + "',";
+                            dataStr += "item_name:'" + item_name + "',"; 
+                            dataStr += "p_id:'" + p_id + "',";
+                            dataStr += "parent_id:'" + parent_id + "'}";
+                        }
+                        else
+                        {
+                            dataStr += "{p_name:'" + p_name + "',";
+                            dataStr += "item_name:'" + item_name + "',"; 
+                            dataStr += "p_id:'" +p_id + "',";
+                            dataStr += "parent_id:'" + parent_id + "'},";
+                        }
+                    }
+                }
+            }
+            dataStr += "]";
+            return dataStr;
         }
+
         //元素列表(后台分页)
         public ActionResult GetEPrivilegesList()
         {

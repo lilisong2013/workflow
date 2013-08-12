@@ -50,6 +50,10 @@ namespace WorkFlow.PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback GetTopMenuPrivilegeListOfAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsChildrenPMenusOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetChildrenPMenuOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetMenuPrivilegeListOfAppOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetMenuAndElementPrivilegeListOfAppOperationCompleted;
@@ -135,6 +139,12 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         public event GetTopMenuPrivilegeListOfAppCompletedEventHandler GetTopMenuPrivilegeListOfAppCompleted;
+        
+        /// <remarks/>
+        public event ExistsChildrenPMenusCompletedEventHandler ExistsChildrenPMenusCompleted;
+        
+        /// <remarks/>
+        public event GetChildrenPMenuCompletedEventHandler GetChildrenPMenuCompleted;
         
         /// <remarks/>
         public event GetMenuPrivilegeListOfAppCompletedEventHandler GetMenuPrivilegeListOfAppCompleted;
@@ -438,6 +448,72 @@ namespace WorkFlow.PrivilegesWebService {
             if ((this.GetTopMenuPrivilegeListOfAppCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetTopMenuPrivilegeListOfAppCompleted(this, new GetTopMenuPrivilegeListOfAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsChildrenPMenus", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsChildrenPMenus(int parentID, int appID, out string msg) {
+            object[] results = this.Invoke("ExistsChildrenPMenus", new object[] {
+                        parentID,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsChildrenPMenusAsync(int parentID, int appID) {
+            this.ExistsChildrenPMenusAsync(parentID, appID, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsChildrenPMenusAsync(int parentID, int appID, object userState) {
+            if ((this.ExistsChildrenPMenusOperationCompleted == null)) {
+                this.ExistsChildrenPMenusOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsChildrenPMenusOperationCompleted);
+            }
+            this.InvokeAsync("ExistsChildrenPMenus", new object[] {
+                        parentID,
+                        appID}, this.ExistsChildrenPMenusOperationCompleted, userState);
+        }
+        
+        private void OnExistsChildrenPMenusOperationCompleted(object arg) {
+            if ((this.ExistsChildrenPMenusCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsChildrenPMenusCompleted(this, new ExistsChildrenPMenusCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetChildrenPMenu", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetChildrenPMenu(int parentID, int appID, out string msg) {
+            object[] results = this.Invoke("GetChildrenPMenu", new object[] {
+                        parentID,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetChildrenPMenuAsync(int parentID, int appID) {
+            this.GetChildrenPMenuAsync(parentID, appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetChildrenPMenuAsync(int parentID, int appID, object userState) {
+            if ((this.GetChildrenPMenuOperationCompleted == null)) {
+                this.GetChildrenPMenuOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetChildrenPMenuOperationCompleted);
+            }
+            this.InvokeAsync("GetChildrenPMenu", new object[] {
+                        parentID,
+                        appID}, this.GetChildrenPMenuOperationCompleted, userState);
+        }
+        
+        private void OnGetChildrenPMenuOperationCompleted(object arg) {
+            if ((this.GetChildrenPMenuCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetChildrenPMenuCompleted(this, new GetChildrenPMenuCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1159,6 +1235,74 @@ namespace WorkFlow.PrivilegesWebService {
         private object[] results;
         
         internal GetTopMenuPrivilegeListOfAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsChildrenPMenusCompletedEventHandler(object sender, ExistsChildrenPMenusCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsChildrenPMenusCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsChildrenPMenusCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetChildrenPMenuCompletedEventHandler(object sender, GetChildrenPMenuCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetChildrenPMenuCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetChildrenPMenuCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

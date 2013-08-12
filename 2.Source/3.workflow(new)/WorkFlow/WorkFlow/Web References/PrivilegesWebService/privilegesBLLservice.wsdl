@@ -188,6 +188,45 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ExistsChildrenPMenus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="parentID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsChildrenPMenusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsChildrenPMenusResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChildrenPMenu">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="parentID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChildrenPMenuResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetChildrenPMenuResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetMenuPrivilegeListOfApp">
         <s:complexType>
           <s:sequence>
@@ -390,6 +429,24 @@
   <wsdl:message name="GetTopMenuPrivilegeListOfAppSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="ExistsChildrenPMenusSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsChildrenPMenus" />
+  </wsdl:message>
+  <wsdl:message name="ExistsChildrenPMenusSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsChildrenPMenusResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsChildrenPMenusSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetChildrenPMenuSoapIn">
+    <wsdl:part name="parameters" element="tns:GetChildrenPMenu" />
+  </wsdl:message>
+  <wsdl:message name="GetChildrenPMenuSoapOut">
+    <wsdl:part name="parameters" element="tns:GetChildrenPMenuResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetChildrenPMenuSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetMenuPrivilegeListOfAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetMenuPrivilegeListOfApp" />
   </wsdl:message>
@@ -489,6 +546,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的顶级菜单权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetTopMenuPrivilegeListOfAppSoapIn" />
       <wsdl:output message="tns:GetTopMenuPrivilegeListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsChildrenPMenus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的菜单的子菜单,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsChildrenPMenusSoapIn" />
+      <wsdl:output message="tns:ExistsChildrenPMenusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChildrenPMenu">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某权限下菜单的子菜单列表,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetChildrenPMenuSoapIn" />
+      <wsdl:output message="tns:GetChildrenPMenuSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetMenuPrivilegeListOfApp">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的权限列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -608,6 +675,26 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetTopMenuPrivilegeListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsChildrenPMenus">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsChildrenPMenus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsChildrenPMenusSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChildrenPMenu">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetChildrenPMenu" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetChildrenPMenuSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -761,6 +848,26 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetTopMenuPrivilegeListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsChildrenPMenus">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsChildrenPMenus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsChildrenPMenusSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChildrenPMenu">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetChildrenPMenu" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetChildrenPMenuSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
