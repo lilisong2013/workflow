@@ -562,7 +562,6 @@
     <Content Include="Views\OperationsManagement\DetailInfo.aspx" />
     <Content Include="Views\OperationsManagement\EditPage.aspx" />
     <Content Include="Views\PrivilegesManagement\AppPrivileges.aspx" />
-    <Content Include="Views\PrivilegesManagement\AppPrivileges1.aspx" />
     <Content Include="Views\PrivilegesManagement\DetailInfo.aspx" />
     <Content Include="Views\PrivilegesManagement\EditPage.aspx" />
     <Content Include="Views\RolesManagement\AppRoles.aspx" />
