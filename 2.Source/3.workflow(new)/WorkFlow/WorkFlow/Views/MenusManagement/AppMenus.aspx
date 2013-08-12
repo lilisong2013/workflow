@@ -85,13 +85,13 @@
                                   { display: '备注信息', name: 'remark', type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-list"></i><a href="/MenusManagement/DetailInfo?id=' + row.id + '">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                           return html;
                                       }
                                   },
                                   { display: '', width: 100,
                                        render: function (row) {
-                                           var html = '<i class="icon-edit"></i><a href="/MenusManagement/EditPage?id=' + row.id + '">编辑</a>';
+                                           var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                            return html;
                                        }
                                    },
@@ -130,6 +130,46 @@
                 }
             });
           
+        }
+    </script>
+
+    <%--详情信息弹出框--%>
+    <script type="text/javascript">
+        function DetailDialog(id) {
+
+            if (id) {
+                $.ligerDialog.open({
+                    title: '详情(' + id + ')信息',
+                    width: 700,
+                    height: 600,
+                    isDrag: true,
+                    isResize: true,
+                    url: '/MenusManagement/DetailInfo?id=' + id
+                });
+            }
+        }
+    </script>
+
+     <%--编辑信息弹出框--%>
+    <script type="text/javascript">
+        function EditDialog(id) {
+
+            if (id) {
+                var m = $.ligerDialog.open({
+
+                    title: '更新菜单信息',
+                    width: 900,
+                    height: 600,
+                    isDrag: true,
+                    isResize: true,
+                    url: '/MenusManagement/EditPage?id=' + id,
+                    buttons:
+                    [
+                    { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
+
+                    ]
+                });
+            }
         }
     </script>
 
