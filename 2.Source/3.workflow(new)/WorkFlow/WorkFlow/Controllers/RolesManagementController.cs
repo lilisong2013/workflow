@@ -820,21 +820,18 @@ namespace WorkFlow.Controllers
                         for (int i = 0; i < m_rmp_total; i++)
                         {
                             int m_mprivilegeID = Convert.ToInt32(Request.Params[("rmprivilegeID" + i)]);
-                            int m_parentMenuID = m_privilegesBllservice.ParentMenuIDOfMenuPrivilege(m_mprivilegeID, out msg);//菜单权限对应的菜单的父菜单ID
+                            int m_parentMenuID = 0;
 
+                            if (Request.Params[("parentID" + i)].ToString() != "")
+                            {
+                                m_parentMenuID = Convert.ToInt32(Request.Params[("parentID" + i)]);
+                            }
+                            
                             //如果菜单权限对应的菜单有父ID（m_parentMenuID不等于0），先判断角色权限列表中角色是否拥有该父菜单的权限
                             //若角色没有父菜单的权限，首先要添加父菜单的角色权限
-                            if (m_parentMenuID != 0)
-                            {
-                                int m_menuprivilegeID = m_privilegesBllservice.GetMenuPrivilegeIDByMenuID(m_parentMenuID,out msg);
-                                if (!m_privilege_roleBllService.Exists(m_roleID, m_menuprivilegeID, out msg))
-                                {
-                                    m_privilege_roleModel.privilege_id = m_menuprivilegeID;//父菜单权限ID
-                                    m_privilege_roleBllService.Add(m_privilege_roleModel,out msg);//先给角色添加父菜单权限
-                                }
-                            }
+                            AddParentMenuRolePrivilege(m_parentMenuID,m_roleID);
 
-                            m_privilege_roleModel.privilege_id = m_mprivilegeID;//菜单权限ID
+                            m_privilege_roleModel.privilege_id = m_mprivilegeID;//菜单、页面元素权限ID
                             if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
                               //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
@@ -873,6 +870,61 @@ namespace WorkFlow.Controllers
     
        
         }
+
+        /// <summary>
+        /// 给角色添加父菜单权限
+        /// </summary>
+        public void AddParentMenuRolePrivilege(int menuID,int roleID)
+        {
+            if (menuID != 0)
+            {
+                WorkFlow.Privileges_RoleWebService.privilege_roleBLLservice m_privilege_roleBllService = new Privileges_RoleWebService.privilege_roleBLLservice();
+                WorkFlow.Privileges_RoleWebService.privilege_roleModel m_privilege_roleModel = new Privileges_RoleWebService.privilege_roleModel();
+
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllservice = new PrivilegesWebService.privilegesBLLservice();
+                WorkFlow.MenusWebService.menusBLLservice m_menusBllservice = new MenusWebService.menusBLLservice();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                WorkFlow.Privileges_RoleWebService.SecurityContext m_PR_securityContext = new Privileges_RoleWebService.SecurityContext();
+                WorkFlow.PrivilegesWebService.SecurityContext m_p_securityContext = new PrivilegesWebService.SecurityContext();
+                WorkFlow.MenusWebService.SecurityContext m_menu_securityContext = new MenusWebService.SecurityContext();
+
+                string msg = string.Empty;
+
+                #region webservice方法授权验证
+
+                //SecurityContext实体对象赋值
+                m_PR_securityContext.UserName = m_usersModel.login;
+                m_PR_securityContext.PassWord = m_usersModel.password;
+                m_PR_securityContext.AppID = (int)m_usersModel.app_id;
+                m_privilege_roleBllService.SecurityContextValue = m_PR_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+                m_p_securityContext.UserName = m_usersModel.login;
+                m_p_securityContext.PassWord = m_usersModel.password;
+                m_p_securityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllservice.SecurityContextValue = m_p_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+                m_menu_securityContext.UserName = m_usersModel.login;
+                m_menu_securityContext.PassWord = m_usersModel.password;
+                m_menu_securityContext.AppID = (int)m_usersModel.app_id;
+                m_menusBllservice.SecurityContextValue = m_menu_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                #endregion
+
+                int m_menuprivilegeID = m_privilegesBllservice.GetMenuPrivilegeIDByMenuID(menuID, out msg);//由菜单ID获得菜单权限ID
+                int m_parentMenuID = m_menusBllservice.GetParentIDByID(menuID, out msg);//获取菜单父菜单ID
+
+                AddParentMenuRolePrivilege(m_parentMenuID,roleID);//给角色添加父菜单权限ID
+
+                if (!m_privilege_roleBllService.Exists(roleID, m_menuprivilegeID, out msg))
+                {
+                    m_privilege_roleModel.privilege_id = m_menuprivilegeID;//父菜单权限ID
+                    m_privilege_roleModel.role_id = roleID;//角色ID
+                    m_privilege_roleBllService.Add(m_privilege_roleModel, out msg);//先给角色添加父菜单权限
+                }
+            }
+        }
+
 
         //获得菜单、页面元素权限--Tree控件menusList
         public ActionResult GetMenuPrivilegeTree()
@@ -929,12 +981,14 @@ namespace WorkFlow.Controllers
                 string m_privilegeTypeID = ds.Tables[0].Rows[i][2].ToString();//权限类型ID
                 string m_itemID =ds.Tables[0].Rows[i][5].ToString();//菜单ID
                 string m_parentID = ds.Tables[0].Rows[i][6].ToString();//父菜单ID
+                string m_realparentID = ds.Tables[0].Rows[i][8].ToString();//父菜单ID
 
                 if (i < total - 1)
                 {
                     datajson += "{id:'" + m_privilegeID + "',";
                     datajson += "name:'" + m_privilegeName + "',";
                     datajson += "pt_id:'" + m_privilegeTypeID + "',";
+                    datajson += "real_parentID:'" + m_realparentID + "',";
                     datajson += "menuID:'" + m_itemID + "',";
                     datajson += "parentID:'" + m_parentID + "',";
 
@@ -962,6 +1016,7 @@ namespace WorkFlow.Controllers
                     datajson += "{id:'" + m_privilegeID + "',";
                     datajson += "name:'" + m_privilegeName + "',";
                     datajson += "pt_id:'" + m_privilegeTypeID + "',";
+                    datajson += "real_parentID:'" + m_realparentID + "',";
                     datajson += "menuID:'" + m_itemID + "',";
                     datajson += "parentID:'" + m_parentID + "',";
 
