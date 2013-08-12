@@ -70,6 +70,20 @@ namespace Saron.WorkFlowService.DAL
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
 
+        //判断权限列表下菜单是否有子菜单
+        public bool ExistsChildrenPMenus(int parentID,int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from  v_menu_privileges");
+            strSql.Append(" where parent_id=@parent_id and app_id=@app_id");
+            SqlParameter[] parameters ={
+                     new SqlParameter("@parent_id",SqlDbType.Int,4),
+                     new SqlParameter("@app_id",SqlDbType.Int,4)
+                                      };
+            parameters[0].Value = parentID;
+            parameters[1].Value = appID;
+            return DbHelperSQL.Exists(strSql.ToString(),parameters);
+        }
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>

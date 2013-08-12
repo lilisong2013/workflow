@@ -430,10 +430,10 @@
                     //更新oMyGrid数据
                     oManagerGrid.setOptions({
                         columns: [
-                            { display: '操作名称', name: 'name', width: 80 },
-                            { display: '操作编码', name: 'code', width: 80 },
-                            { display: '操作描述', name: 'description', width: 80 },
-                            { display: '备注信息', name: 'remark', width: 100 }
+                            { display: '操作名称', name: 'name', width: 150 },
+                            { display: '操作编码', name: 'code', width: 120 },
+                            { display: '操作描述', name: 'description', width: 160 },
+                            { display: '备注信息', name: 'remark', width: 200 }
                             ],
                         data: dataOperationsJson,
                         onSelectRow: OnSelectOperations
@@ -722,9 +722,9 @@
                     //更新eMyGrid数据
                     eManagerGrid.setOptions({
                         columns: [
-                            { display: '页面元素名称', name: 'name', width: 80 },
-                            { display: '页面元素编码', name: 'code', width: 80 },
-                            { display: '备注信息', name: 'remark', width: 100 }
+                            { display: '页面元素名称', name: 'name', width: 160 },
+                            { display: '页面元素编码', name: 'code', width: 120 },
+                            { display: '备注信息', name: 'remark', width: 220 }
                             ],
                         data: dataElementsJson,
                         onSelectRow: OnSelectElements
