@@ -23,6 +23,7 @@ namespace Saron.WorkFlowService.Model
         private int? _parent_id;
         private int? _app_id;
         private int? _role_id;
+        private int? _real_parent_id;
         /// <summary>
         /// 权限ID
         /// </summary>
@@ -94,6 +95,15 @@ namespace Saron.WorkFlowService.Model
         {
             set { _role_id = value; }
             get { return _role_id; }
+        }
+
+        /// <summary>
+        /// 父菜单ID或页面元素所属页面ID
+        /// </summary>
+        public int? real_parent_id
+        {
+            set { _real_parent_id = value; }
+            get { return _real_parent_id; }
         }
         #endregion Model
 
