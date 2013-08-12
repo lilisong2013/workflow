@@ -174,9 +174,6 @@
              $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
              $("#promptDIV").addClass(responseText.css);
              $("#promptDIV").html(responseText.message);
-             if (responseText.success) {
-                 location.href = responseText.toUrl;
-             }
          }
      });
  </script>
@@ -193,12 +190,6 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>菜单管理</h2></div>
-
-<div class="container">
- <div class="row-fluid">
-    <ul class="pager"><li class="next"><a href="/MenusManagement/AppMenus">返回</a></li></ul>
- </div> 
-</div>
 
  <div class="container">
   <%--操作提示DIV--%>

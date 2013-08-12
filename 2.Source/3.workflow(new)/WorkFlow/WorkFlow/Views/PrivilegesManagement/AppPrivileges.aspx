@@ -72,9 +72,9 @@
                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
                     mangerListGrid.setOptions({
                        columns: [
-                       { display: '菜单名称', name: 'p_name', width: 200 },
-                       { display: '菜单项目', name: 'item_name', width: 200 },
-                       { display: '菜单编码', name: 'item_code', width: 200 },
+                       { display: '菜单名称', name: 'p_name' },
+                       { display: '菜单项目', name: 'item_name'},
+                       { display: '菜单编码', name: 'item_code'},
                        { display: '', width: 60,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
@@ -225,7 +225,6 @@
                    width: 700,
                    height: 600,
                    isDrag: true,
-                   isResize: true, 
                    url: '/PrivilegesManagement/DetailInfo?id=' + p_id 
                });
            }
@@ -242,7 +241,6 @@
                    width: 900,
                    height: 600,
                    isDrag: true,
-                   isResize: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -265,7 +263,6 @@
                    width: 900,
                    height: 600,
                    isDrag: true,
-                   isResize: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -288,7 +285,6 @@
                    width: 900,
                    height: 600,
                    isDrag: true,
-                   isResize: true,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [

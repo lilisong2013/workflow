@@ -790,7 +790,7 @@ namespace WorkFlow.Controllers
 
                     if (m_menusBllService.Update(m_menusModel, out msg))
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "alert alert-success", message = "修改成功！", toUrl = "/MenusManagement/AppMenus" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "alert alert-success", message = "修改成功！" });
                     }
                     else
                     {

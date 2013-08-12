@@ -101,7 +101,6 @@
                     width: 900,
                     height:600,
                     isDrag: true,
-                    isResize: true, 
                     url: '/RolesManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -122,7 +121,6 @@
                    width: 900,
                    height: 600,
                    isDrag: true,
-                   isResize: true, 
                    url: '/RolesManagement/Role_Privileges?id=' + id,
                    buttons:
                     [
@@ -142,7 +140,6 @@
                  width:700,
                  height: 600,
                  isDrag: true,
-                 isResize: true, 
                  url: '/RolesManagement/DetailInfo?id=' + id
                });
            }

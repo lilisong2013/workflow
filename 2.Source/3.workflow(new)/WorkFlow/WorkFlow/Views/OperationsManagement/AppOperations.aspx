@@ -94,7 +94,6 @@
                     width: 900,
                     height: 600,
                     isDrag: true,
-                    isResize: true, 
                     url: '/OperationsManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -116,7 +115,6 @@
                   width:700,
                   height: 600,
                   isDrag: true,
-                  isResize: true, 
                   url:'/OperationsManagement/DetailInfo?id='+id
                 });
             }

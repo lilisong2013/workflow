@@ -103,7 +103,6 @@
                         width: 900,
                         height: 600,
                         isDrag: true,                    
-                        isResize: true,  
                         url: '/UsersManagement/EditPage?id=' + id,
                         buttons:
                     [
@@ -125,7 +124,6 @@
                 $.ligerDialog.open({
                     title: '详情(' + id + ')信息',
                     isDrag: true,
-                    isResize: true, 
                     width: 700,
                     height: 600,
                     url: '/UsersManagement/DetailInfo?id=' + id
@@ -142,7 +140,6 @@
                    title: '用户角色信息',
                    width: 900,
                    height:600,
-                   isResize: true,
                    isDrag:true,
                    url: '/UsersManagement/UserRoles?id=' + id,
                    buttons:
