@@ -12,9 +12,6 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  <div class="container">
-        <div class="row-fluid">
-            <ul class="pager"><li class="next"><a href="/MenusManagement/AppMenus">返回</a></li></ul>
-        </div>
         <div class="row-fluid"><h2>菜单名称：<%=ViewData["name"]%></h2></div>
         <div class="row-fluid">菜单编码：<%=ViewData["code"]%></div>
         <div class="row-fluid">菜单URL：<%=ViewData["url"]%></div>
