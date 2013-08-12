@@ -41,6 +41,27 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 由系统ID获得系统名称
+        /// </summary>
+        /// <param name="appName"></param>
+        /// <returns></returns>
+        public string GetAppNameByID(int id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name from apps ");
+            strSql.Append(" where id=@id  ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@id", SqlDbType.NVarChar,80)
+            };
+            parameters[0].Value = id;
+
+            
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+
+            return obj.ToString();
+        }
+
+        /// <summary>
         /// 是否存在id号为appId的该记录
         /// </summary>
         public bool Exists(int appId)
