@@ -277,7 +277,15 @@ namespace WorkFlow.Controllers
                 ViewData["operationsCode"] = m_operationsModel.code;
                 ViewData["operationsDescription"] = m_operationsModel.description;
                 ViewData["operationsRemark"] = m_operationsModel.remark;
-                ViewData["operationsApp_id"] = m_operationsModel.app_id;
+
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.SecurityContext mp_SecurityContext = new AppsWebService.SecurityContext();
+                mp_SecurityContext.UserName = m_usersModel.login;
+                mp_SecurityContext.PassWord = m_usersModel.password;
+                mp_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_appsBllService.SecurityContextValue = mp_SecurityContext;
+                ViewData["operationsApp_id"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
+      
                 if (m_operationsModel.invalid == true)
                 {
                     ViewData["operationsInvalid"] = "否";

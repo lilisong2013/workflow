@@ -16,7 +16,7 @@
         <div class="row-fluid"><h2>权限名称：<%=ViewData["name"]%></h2></div>
         <div class="row-fluid">权限类型：<%=ViewData["privilegetype_id"]%></div>
         <div class="row-fluid">权限项目：<%=ViewData["privilegeitem_id"]%></div>      
-        <div class="row-fluid">应用系统ID：<%=ViewData["app_id"]%></div>
+        <div class="row-fluid">应用系统名称：<%=ViewData["app_id"]%></div>
         <div class="row-fluid">是否有效：<%=ViewData["invalid"]%></div>
         <div class="row-fluid">权限备注：<%=ViewData["remark"]%></div>
     </div>

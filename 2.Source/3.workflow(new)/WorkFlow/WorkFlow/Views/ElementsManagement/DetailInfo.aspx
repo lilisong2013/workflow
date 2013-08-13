@@ -19,7 +19,7 @@
         <div class="row-fluid">初始化状态：<%=ViewData["elementsInitstatus_id"]%></div>
         <div class="row-fluid">排序码：<%=ViewData["elementsSeqno"]%></div>
         <div class="row-fluid">所在页面：<%=ViewData["elementsMenu_id"]%></div>
-        <div class="row-fluid">系统ID：<%=ViewData["elementsApp_id"]%></div>
+        <div class="row-fluid">系统名称：<%=ViewData["elementsApp_id"]%></div>
         <div class="row-fluid">是否有效：<%=ViewData["elementsInvalid"]%></div>
 
         <div class="row-fluid">记录创建时间：<%=ViewData["elementsCreated_at"]%></div>

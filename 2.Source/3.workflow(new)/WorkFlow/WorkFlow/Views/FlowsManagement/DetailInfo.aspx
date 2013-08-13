@@ -17,7 +17,7 @@
         </div>
         <div class="row-fluid">流程备注：<%=ViewData["flowsRemark"]%></div>
         <div class="row-fluid">是否有效：<%=ViewData["flowsInvalid"]%></div>   
-        <div class="row-fluid">应用系统ID：<%= ViewData["flowsApp_id"]%></div>
+        <div class="row-fluid">应用系统名称：<%= ViewData["flowsApp_id"]%></div>
         <div class="row-fluid">记录创建时间：<%=ViewData["flowsCreated_at"]%></div>
         <div class="row-fluid">记录创建用户：<%= ViewData["flowsCreated_by"]%></div>
         <div class="row-fluid">记录创建IP：<%=ViewData["flowsCreated_ip"]%></div>

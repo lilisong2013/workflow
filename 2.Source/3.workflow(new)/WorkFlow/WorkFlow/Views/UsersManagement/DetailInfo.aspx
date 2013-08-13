@@ -27,7 +27,7 @@
         <div class="row-fluid">记录更新时间：<%=ViewData["usersUpdated_at"]%></div>
         <div class="row-fluid">记录更新用户：<%=ViewData["usersUpdated_by"]%></div>
         <div class="row-fluid">记录更新IP：<%=ViewData["usersUpdated_ip"]%></div>
-        <div class="row-fluid">系统ID：<%=ViewData["usersApp_id"]%></div>
+        <div class="row-fluid">系统名称：<%=ViewData["usersApp_id"]%></div>
     </div>
 
 </asp:Content>

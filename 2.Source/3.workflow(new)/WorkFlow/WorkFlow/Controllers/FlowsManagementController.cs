@@ -330,7 +330,15 @@ namespace WorkFlow.Controllers
                 ViewData["flowsUpdated_at"] = m_flowsModel.updated_at;
                 ViewData["flowsUpdated_by"] = m_usersModel.login;
                 ViewData["flowsUpdated_ip"] = m_flowsModel.updated_ip;
-                ViewData["flowsApp_id"] = m_flowsModel.app_id;
+
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
+                
+                ma_SecurityContext.UserName = m_usersModel.login;
+                ma_SecurityContext.PassWord = m_usersModel.password;
+                ma_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_appsBllService.SecurityContextValue = ma_SecurityContext;
+                ViewData["flowsApp_id"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
                 return View();
             }
         }

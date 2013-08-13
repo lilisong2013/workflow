@@ -150,7 +150,7 @@ namespace Saron.WorkFlowService.WebService
             return m_menusDal.GetMenuNameOfAppID(appID,ID);
         }
         
-        [SoapHeader("m_securityContext")]
+       [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据appID和parentId获得某系统的菜单名称,<h4>(需要授权验证,系统管理员)</h4>")]
         public DataSet GetMenuNameOfAppParent(int appID, int parentID,out string msg)
         {
