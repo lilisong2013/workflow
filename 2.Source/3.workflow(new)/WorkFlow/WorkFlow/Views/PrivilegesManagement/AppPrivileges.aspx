@@ -70,29 +70,29 @@
                data: {},
                success: function (responseText, statusText) {
                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                    mangerListGrid.setOptions({
+                   mangerListGrid.setOptions({
                        columns: [
                        { display: '菜单名称', name: 'p_name' },
-                       { display: '菜单项目', name: 'item_name'},
-                       { display: '菜单编码', name: 'item_code'},
+                       { display: '菜单项目', name: 'item_name' },
+                       { display: '菜单编码', name: 'item_code' },
                        { display: '', width: 60,
+                           render: function (row) {
+                               var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
+                               return html;
+                           }
+                       },
+                        { display: '', width: 60,
                             render: function (row) {
-                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.p_id + ')">编辑</a>';
                                 return html;
                             }
                         },
                         { display: '', width: 60,
-                                render: function (row) {
-                                    var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.p_id + ')">编辑</a>';
-                                    return html;
-                                }
-                         },
-                        { display: '', width: 60,
-                                render: function (row) {
-                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteMPrivileges(' + row.p_id + ')">删除</a>';
-                                    return html;
-                                }
-                         }
+                            render: function (row) {
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteMPrivileges(' + row.p_id + ')">删除</a>';
+                                return html;
+                            }
+                        }
 
                        ],
                        data: dataJson
@@ -117,9 +117,9 @@
         });
 
         function GetEPrivilegesList() {
-           
-                    window['e'] = $("#Eprivilegesgrid").ligerGrid({
-                        columns: [
+
+            window['e'] = $("#Eprivilegesgrid").ligerGrid({
+                columns: [
                            { display: '元素名称', name: 'p_name', width: 200 },
                            { display: '元素项目', name: 'item_name', width: 200 },
                            { display: '元素编码', name: 'item_code', width: 200 },
@@ -143,17 +143,17 @@
                             }
 
                             ],
-                            dataAction: 'server',
-                            width: '99%',
-                            pageSizeOptions: [5, 10, 15, 20, 25, 50],
-                            pageSize: 10,
-                            height: '400',
-                            rownumbers: true,
-                            usePager: true,
-                            url: "/PrivilegesManagement/GetEPrivilegesList"
-                    });
-                    e.loadData();
-                }
+                dataAction: 'server',
+                width: '99%',
+                pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                pageSize: 10,
+                height: '400',
+                rownumbers: true,
+                usePager: true,
+                url: "/PrivilegesManagement/GetEPrivilegesList"
+            });
+            e.loadData();
+        }
       
     </script>
 
@@ -172,9 +172,9 @@
         });
         //获取操作数据列表
         function GetOPrivilegesList() {
-         
+
             window['o'] = $("#Oprivilegesgrid").ligerGrid({
-                        columns: [
+                columns: [
                             { display: '操作名称', name: 'p_name', width: 200 },
                             { display: '操作项目', name: 'item_name', width: 200 },
                             { display: '操作编码', name: 'item_code', width: 200 },
@@ -198,19 +198,19 @@
                             }
 
                             ],
-                            dataAction: 'server',
-                            width: '99%',
-                            pageSizeOptions: [5, 10, 15, 20, 25, 50],
-                            pageSize: 10,
-                            height: '400',
-                            rownumbers: true,
-                            usePager: true,
-                            url: "/PrivilegesManagement/GetOPrivilegesList"
+                dataAction: 'server',
+                width: '99%',
+                pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                pageSize: 10,
+                height: '400',
+                rownumbers: true,
+                usePager: true,
+                url: "/PrivilegesManagement/GetOPrivilegesList"
 
-                    });
-                    //OmanagerListGrid.loadData();
-                    o.loadData();
-                }
+            });
+            //OmanagerListGrid.loadData();
+            o.loadData();
+        }
      
     </script>
   
@@ -225,7 +225,7 @@
                    width: 700,
                    height: 600,
                    isDrag: true,
-                   url: '/PrivilegesManagement/DetailInfo?id=' + p_id 
+                   url: '/PrivilegesManagement/DetailInfo?id=' + p_id
                });
            }
        }
@@ -266,7 +266,7 @@
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
-                    { text: '返回', onclick: function (item, dialog) {o.loadData(); dialog.close(); } }
+                    { text: '返回', onclick: function (item, dialog) { o.loadData(); dialog.close(); } }
 
                     ]
                });
@@ -299,7 +299,7 @@
 
    <%--删除菜单提示信息的函数--%>
     <script type="text/javascript">
-        function DeleteMPrivileges(id) {     
+        function DeleteMPrivileges(id) {
             var privilegeid = id;
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 if (yes) {
@@ -471,7 +471,7 @@
             function o_showRequest() {
                 var oPrivilegesName = $.trim($("#oPrivilegesName").val());
                 var operationsID = $("#oPrivilegesItem").val();
-               
+
                 if (oPrivilegesName == "") {
                     $("#promptDIV").removeClass("alert alert-error alert-success");
                     $("#promptDIV").addClass("alert alert-error");
@@ -481,7 +481,7 @@
                 }
 
                 if (operationsID == "-1") {
-                    
+
                     $("#promptDIV").removeClass("alert alert-error alert-success");
                     $("#promptDIV").addClass("alert alert-error");
                     $("#promptDIV").html("请选择权限项目！");
@@ -496,13 +496,13 @@
                 $("#promptDIV").removeClass("alert alert-error alert-success");
                 $("#promptDIV").addClass(dataJson.css);
                 $("#promptDIV").html(dataJson.message);
-              
+
                 if (responseText.success) {
                     location.href = responseText.toUrl;
                 }
             }
 
-         
+
         });
        
     </script>
@@ -516,7 +516,7 @@
             $("#mMyTree").ligerTree({
                 checkbox: false,
                 textFieldName: 'name',
-                nodeWidth:'auto',
+                nodeWidth: 'auto',
                 onSelect: OnSelectMenus
             });
             mManagerTree = $("#mMyTree").ligerGetTreeManager();
@@ -600,9 +600,9 @@
             function m_showResponse(responseText, statusText) {
                 var dataJson = eval("(" + responseText + ")");
                 show_DIV(dataJson)
-//                if (responseText.success) {
-//                    location.href = responseText.toUrl;
-//                }
+                //                if (responseText.success) {
+                //                    location.href = responseText.toUrl;
+                //                }
             }
 
             //提示信息
@@ -786,10 +786,10 @@
                 var dataJson = eval("(" + responseText + ")");
                 //提示信息
                 show_DIV(dataJson);
-               
-//                if (responseText.success) {
-//                    location.href = responseText.toUrl;
-//                }
+
+                //                if (responseText.success) {
+                //                    location.href = responseText.toUrl;
+                //                }
             }
             //删除提示
             function show_DIV(data) {
@@ -821,9 +821,9 @@
                         $("#oPrivilegesItemInfo").val("-1");
                         $("#oPrivilegesItemInfo").html("选择权限项目（操作）");
                         show_DIV(dataJson);
-//                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-//                        $("#promptDIV").addClass(responseText.css);
-//                        $("#promptDIV").html(responseText.message);
+                        //                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        //                        $("#promptDIV").addClass(responseText.css);
+                        //                        $("#promptDIV").html(responseText.message);
                     }
                 }
             });
@@ -842,7 +842,7 @@
                 url: "/PrivilegesManagement/ExistPrivilegeItemOfMenus",
                 type: "POST",
                 dataType: "json",
-                data: { menusID: note.data.id,parentID:note.data.parent_id },
+                data: { menusID: note.data.id, parentID: note.data.parent_id },
                 success: function (responseText, statusText) {
                     var dataJson = eval("(" + responseText + ")");
                     if (dataJson.success) {
@@ -877,7 +877,7 @@
                 dataType: "json",
                 data: { elementID: rowdata.id },
                 success: function (responseText, statusText) {
-                    var dataJson = eval("("+responseText+")");
+                    var dataJson = eval("(" + responseText + ")");
                     if (dataJson.success) {
                         $("#ePrivilegesItemInfo").val(rowdata.id);
                         $("#ePrivilegesItemInfo").html(rowdata.name);

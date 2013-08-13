@@ -306,7 +306,7 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["usersLogin"]) == false)
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'登录名称含有非法字符串,只能包含字母、汉字、数字、下划线!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'登录名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
                 }
              
                 if (password.Length == 0)

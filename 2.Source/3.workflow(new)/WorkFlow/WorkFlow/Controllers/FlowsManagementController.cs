@@ -243,7 +243,7 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["flowsName"]) == false)
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'流程名称含有非法字符，只能有字母、数字、汉字、下划线！'}");
+                    return Json("{success:false,css:'alert alert-error',message:'流程名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
                 }
                 //m_flowsModel.name=collection["flowsName"];
                 //获得deleted=false且应用系统ID为app_id的flowsName列表

@@ -64,7 +64,7 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(Request.Form["MenusName"]) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="alert alert-error",message="菜单名称只能包含中英文字母、数字、汉字和下划线!"});
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称含有非法字符,只能包含字母、汉字、数字、下划线!" });
                 }
                 if (Request.Form["MenusCode"] == "")
                 {
@@ -524,6 +524,7 @@ namespace WorkFlow.Controllers
             }
            
         }
+       
         //菜单为id的基本信息
         public ActionResult EditPage(int id)
         {
@@ -572,6 +573,7 @@ namespace WorkFlow.Controllers
             }
            
         }
+       
         //获取是否有效的列表
         public ActionResult GetInvalidList()
         {
@@ -660,7 +662,7 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(name) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="alert alert-error",message="菜单名称只能包含中英文字母、中文、数字、下划线!"});
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称含有非法字符,只能包含字母、汉字、数字、下划线!" });
                 }
                 if (code.Length == 0)
                 {

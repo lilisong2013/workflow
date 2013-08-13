@@ -55,7 +55,7 @@ namespace WorkFlow.Controllers
                 string m_privilegeName = Request.Form["oPrivilegesName"].ToString();
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'权限名称非法,只能包含字母、数字、中文、下划线!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
                 }
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,3,out msg))
@@ -125,7 +125,7 @@ namespace WorkFlow.Controllers
                
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符，只能包含字母、数字、英文、下划线!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
                 }
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,1,out msg))
@@ -193,7 +193,7 @@ namespace WorkFlow.Controllers
                 string m_privilegeName = Request.Form["ePrivilegesName"].ToString();
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'权限名称非法，只能包含字母、数字、中文、下划线!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
                 }
                 //权限名称是否存在
                 if (m_privilegesBllService.ExistsPrivilegeName(m_privilegeName, (int)m_usersModel.app_id,2,out msg))
@@ -851,8 +851,56 @@ namespace WorkFlow.Controllers
             { }
             data += "]}";
             return Json(data);
-        }  
+        }
 
+        //菜单列表1(前台分页[v_menu_privileges])
+        public ActionResult GetMenuPrivilegesList1()
+        {
+            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+            WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+            m_SecurityContext.UserName = m_usersModel.login;
+            m_SecurityContext.PassWord = m_usersModel.password;
+            m_SecurityContext.AppID = (int)m_usersModel.app_id;
+            m_privilegesBllService.SecurityContextValue = m_SecurityContext;
+            string msg = string.Empty;
+            string data = "{Rows:[";
+            try
+            {
+                DataSet ds = m_privilegesBllService.GetTopMenuPrivilegeListOfApp((int)m_usersModel.app_id, out msg);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string p_name = ds.Tables[0].Rows[i][1].ToString();
+                    string item_name = ds.Tables[0].Rows[i][5].ToString();
+                    string p_id = ds.Tables[0].Rows[i][0].ToString();
+                    string parent_id = ds.Tables[0].Rows[i][8].ToString();
+                    string item_code = ds.Tables[0].Rows[i][6].ToString();
+                    string item_id = ds.Tables[0].Rows[i][7].ToString();
+                    if (i == ds.Tables[0].Rows.Count - 1)
+                    {
+                        data += "{p_name:'" + p_name + "',";
+                        data += "item_name:'" + item_name + "',";
+                        data += "p_id:'" + p_id + "',";
+                        data += "parent_id:'" + parent_id + "',";
+                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "}";
+                    }
+                    else
+                    {
+                        data += "{p_name:'" + p_name + "',";
+                        data += "item_name:'" + item_name + "',";
+                        data += "p_id:'" + p_id + "',";
+                        data += "parent_id:'" + parent_id + "',";
+                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
+                    }
+                }
+            }
+            catch (Exception ex)
+            { }
+            data += "]}";
+            return Json(data);
+        }
         //菜单树
         public string GetChildrenPMenu(int parentID,int appID)
         {
@@ -1439,7 +1487,7 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(name) == false)
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含中文、英文、数字、下划线!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
                 }
                 DataSet ds = m_privilegesBllService.GetAllListByAppID(appID,out msg);
                 var total = ds.Tables[0].Rows.Count;
