@@ -417,7 +417,7 @@ namespace Saron.WorkFlowService.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM elements ");
-            strSql.Append(" where menu_id=@menu_id and deleted=0 ");
+            strSql.Append(" where menu_id=@menu_id and deleted=0 order by id desc ");
             SqlParameter[] parameters = {
 					new SqlParameter("@menu_id", SqlDbType.Int,4)
 			};
