@@ -853,54 +853,6 @@ namespace WorkFlow.Controllers
             return Json(data);
         }
 
-        //菜单列表1(前台分页[v_menu_privileges])
-        public ActionResult GetMenuPrivilegesList1()
-        {
-            WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
-            WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
-
-            WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-
-            m_SecurityContext.UserName = m_usersModel.login;
-            m_SecurityContext.PassWord = m_usersModel.password;
-            m_SecurityContext.AppID = (int)m_usersModel.app_id;
-            m_privilegesBllService.SecurityContextValue = m_SecurityContext;
-            string msg = string.Empty;
-            string data = "{Rows:[";
-            try
-            {
-                DataSet ds = m_privilegesBllService.GetTopMenuPrivilegeListOfApp((int)m_usersModel.app_id, out msg);
-                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                {
-                    string p_name = ds.Tables[0].Rows[i][1].ToString();
-                    string item_name = ds.Tables[0].Rows[i][5].ToString();
-                    string p_id = ds.Tables[0].Rows[i][0].ToString();
-                    string parent_id = ds.Tables[0].Rows[i][8].ToString();
-                    string item_code = ds.Tables[0].Rows[i][6].ToString();
-                    string item_id = ds.Tables[0].Rows[i][7].ToString();
-                    if (i == ds.Tables[0].Rows.Count - 1)
-                    {
-                        data += "{p_name:'" + p_name + "',";
-                        data += "item_name:'" + item_name + "',";
-                        data += "p_id:'" + p_id + "',";
-                        data += "parent_id:'" + parent_id + "',";
-                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "}";
-                    }
-                    else
-                    {
-                        data += "{p_name:'" + p_name + "',";
-                        data += "item_name:'" + item_name + "',";
-                        data += "p_id:'" + p_id + "',";
-                        data += "parent_id:'" + parent_id + "',";
-                        data += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
-                    }
-                }
-            }
-            catch (Exception ex)
-            { }
-            data += "]}";
-            return Json(data);
-        }
         //菜单树
         public string GetChildrenPMenu(int parentID,int appID)
         {
@@ -979,14 +931,15 @@ namespace WorkFlow.Controllers
                     string p_id = ds.Tables[0].Rows[i][0].ToString();
                     string parent_id = ds.Tables[0].Rows[i][8].ToString();
                     string item_code = ds.Tables[0].Rows[i][6].ToString();
-                    if (m_privilegesBllService.ExistsChildrenPMenus(parentID, (int)m_usersModel.app_id, out msg))
+                    string item_id = ds.Tables[0].Rows[i][7].ToString();
+                    if (m_privilegesBllService.ExistsChildrenPMenus(Convert.ToInt32(item_id), (int)m_usersModel.app_id, out msg))
                     {
                         if (i == ds.Tables[0].Rows.Count - 1)
                         {
                             dataStr += "{p_name:'" + p_name + "',";
                             dataStr += "item_name:'" + item_name + "',"; 
                             dataStr += "p_id:'" +p_id + "',";
-                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(p_id)) + "},";
+                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
 
                         }
                         else
@@ -994,7 +947,7 @@ namespace WorkFlow.Controllers
                             dataStr += "{p_name:'" + p_name + "',";
                             dataStr += "item_name:'" + item_name + "',"; 
                             dataStr += "p_id:'" + p_id + "',";
-                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(p_id)) + "},";
+                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
                         }
                     }
                     else

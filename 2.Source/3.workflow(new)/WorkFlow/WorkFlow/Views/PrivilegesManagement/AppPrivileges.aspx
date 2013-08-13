@@ -70,11 +70,12 @@
                data: {},
                success: function (responseText, statusText) {
                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                   
                    mangerListGrid.setOptions({
                        columns: [
-                       { display: '菜单名称', name: 'p_name' },
-                       { display: '菜单项目', name: 'item_name' },
-                       { display: '菜单编码', name: 'item_code' },
+                       { display: '菜单权限名称', name: 'p_name', align: 'center',width: 260 },
+                       { display: '菜单名称', name: 'item_name', align: 'center', width: 120 },
+                       { display: '菜单编码', name: 'item_code', align: 'center', width: 100 },
                        { display: '', width: 60,
                            render: function (row) {
                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
