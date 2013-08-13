@@ -687,6 +687,34 @@
                         $("#eElementPageInfo").html("选择页面");
                     }
                     else {
+
+                        ExistPagePrivilege(note); //判断页面是否创建权限
+
+                        
+                    }
+                }
+            });
+        }
+
+        //判断页面是否创建权限
+        function ExistPagePrivilege(note) {
+            $.ajax({
+                url: "/PrivilegesManagement/ExistPagePrivilege",
+                type: "POST",
+                dataType: "json",
+                data: { menusID: note.data.id },
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataJson = eval("(" + responseText + ")");
+                    if (!dataJson.success) {
+                        $("#eElementPageInfo").val("-1");
+                        $("#eElementPageInfo").html("选择页面");
+
+                        $("#promptDIV").removeClass("alert alert-success alert-error");
+                        $("#promptDIV").addClass(dataJson.css);
+                        $("#promptDIV").html(dataJson.message);
+                    } else {
+                        //alert(note.data.name);
                         $("#eElementPageInfo").val(note.data.id);
                         $("#eElementPageInfo").html(note.data.name);
                         BindElementsList(note.data.id); //重载eMyGrid的数据
@@ -854,9 +882,6 @@
                         $("#mPrivilegesItemInfo").val("-1");
                         $("#mPrivilegesItemInfo").html("选择权限项目（菜单）");
                         show_DIV(dataJson);
-                        //                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                        //                        $("#promptDIV").addClass(responseText.css);
-                        //                        $("#promptDIV").html(responseText.message);
                     }
                 }
             });

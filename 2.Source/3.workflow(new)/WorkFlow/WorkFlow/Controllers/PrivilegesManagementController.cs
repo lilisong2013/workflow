@@ -635,6 +635,46 @@ namespace WorkFlow.Controllers
             }
             
         }
+
+        //判断项目(菜单)是否已经创建权限
+        public ActionResult ExistPagePrivilege()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                int privilegeTypeID = 1;//权限类型ID
+                int privilegeItemID = Convert.ToInt32(Request.Params["menusID"]);//权限项目ID
+
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new WorkFlow.PrivilegesWebService.privilegesBLLservice();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];//获取session存储的系统管理员对象
+
+                WorkFlow.PrivilegesWebService.SecurityContext m_securityContext = new PrivilegesWebService.SecurityContext();
+
+                string msg = string.Empty;
+
+                #region webservice授权
+                //SecurityContext实体对象赋值
+                m_securityContext.UserName = m_usersModel.login;
+                m_securityContext.PassWord = m_usersModel.password;
+                m_securityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+                #endregion
+
+                if (m_privilegesBllService.ExistsItemOfPrivilegesType(privilegeTypeID, privilegeItemID, out msg))
+                {
+                    return Json("{success:true}");
+                }
+                else
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'该页面未设置权限！'}");
+                }
+            }
+
+        }
        
         //判断项目(页面元素)是否已经创建权限
         public ActionResult ExistPrivilegeItemOfElements()
