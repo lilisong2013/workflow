@@ -11,18 +11,53 @@
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
- <div class="container">
-    
-        <div class="row-fluid"><h2>角色名称：<%=ViewData["rolesName"]%></h2></div>
-        <div class="row-fluid">角色备注：<%=ViewData["rolesRemark"]%></div>
-        <div class="row-fluid">是否有效：<%=ViewData["rolesInvalid"]%></div>    
-        <div class="row-fluid">系统名称：<%=ViewData["rolesApp_id"]%></div>
-        <div class="row-fluid">记录创建时间：<%=ViewData["rolesCreated_at"]%></div>
-        <div class="row-fluid">记录创建用户：<%=ViewData["rolesCreated_by"]%></div>
-        <div class="row-fluid">记录创建IP：<%=ViewData["rolesCreated_ip"]%></div>
-        <div class="row-fluid">记录更新时间：<%=ViewData["rolesUpdated_at"]%></div>
-        <div class="row-fluid">记录更新用户：<%=ViewData["rolesUpdated_by"]%></div>
-        <div class="row-fluid">记录更新IP：<%=ViewData["rolesUpdated_ip"]%></div>
-    </div>
+
+<table border="1" align="center" width="600">
+   <tr>
+   <th colspan="2">角色详情</th>
+   </tr>
+   <tr>
+    <td>角色名称：</td>
+    <td><%=ViewData["rolesName"]%></td>
+   </tr>
+    <tr>
+    <td>角色备注：</td>
+    <td><%=ViewData["rolesRemark"]%></td>
+   </tr>
+   <tr>
+    <td>是否有效：</td>
+    <td><%=ViewData["rolesInvalid"]%></td>
+   </tr>
+    <tr>
+    <td>系统名称：</td>
+    <td><%=ViewData["rolesApp_id"]%></td>
+   </tr>
+    <tr>
+    <td>记录创建时间：</td>
+    <td><%=ViewData["rolesCreated_at"]%></td>
+   </tr>
+    <tr>
+    <td>记录创建用户：</td>
+    <td><%=ViewData["rolesCreated_by"]%></td>
+   </tr>
+    <tr>
+    <td>记录创建IP：</td>
+    <td><%=ViewData["rolesCreated_ip"]%></td>
+   </tr>
+    <tr>
+    <td>记录更新时间：</td>
+    <td><%=ViewData["rolesUpdated_at"]%></td>
+   </tr>
+   <tr>
+    <td>记录更新用户：</td>
+    <td><%=ViewData["rolesUpdated_by"]%></td>
+   </tr>
+    <tr>
+    <td>记录更新IP：</td>
+    <td><%=ViewData["rolesUpdated_ip"]%></td>
+   </tr>
+
+</table>
+
 
 </asp:Content>

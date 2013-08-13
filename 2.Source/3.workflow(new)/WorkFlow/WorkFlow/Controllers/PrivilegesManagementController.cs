@@ -939,7 +939,8 @@ namespace WorkFlow.Controllers
                             dataStr += "{p_name:'" + p_name + "',";
                             dataStr += "item_name:'" + item_name + "',"; 
                             dataStr += "p_id:'" +p_id + "',";
-                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
+                            dataStr += "parent_id:'" + parent_id + "',";
+                            dataStr += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
 
                         }
                         else
@@ -947,7 +948,8 @@ namespace WorkFlow.Controllers
                             dataStr += "{p_name:'" + p_name + "',";
                             dataStr += "item_name:'" + item_name + "',"; 
                             dataStr += "p_id:'" + p_id + "',";
-                            dataStr += "parent_id:'" + parent_id + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
+                            dataStr += "parent_id:'" + parent_id + "',";
+                            dataStr += "item_code:'" + item_code + "'" + GetChildrenPMenusList(Convert.ToInt32(item_id)) + "},";
                         }
                     }
                     else
@@ -957,14 +959,16 @@ namespace WorkFlow.Controllers
                             dataStr += "{p_name:'" + p_name + "',";
                             dataStr += "item_name:'" + item_name + "',"; 
                             dataStr += "p_id:'" + p_id + "',";
-                            dataStr += "parent_id:'" + parent_id + "'}";
+                            dataStr += "parent_id:'" + parent_id + "',";
+                            dataStr += "item_code:'" + item_code + "'}";
                         }
                         else
                         {
                             dataStr += "{p_name:'" + p_name + "',";
                             dataStr += "item_name:'" + item_name + "',"; 
                             dataStr += "p_id:'" +p_id + "',";
-                            dataStr += "parent_id:'" + parent_id + "'},";
+                            dataStr += "parent_id:'" + parent_id + "',";
+                            dataStr += "item_code:'" + item_code + "'},";
                         }
                     }
                 }

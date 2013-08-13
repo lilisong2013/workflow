@@ -11,19 +11,44 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
- <div class="container">
-      
-        <div class="row-fluid"><h2>流程名称：<%=ViewData["flowsName"]%></h2>
-        </div>
-        <div class="row-fluid">流程备注：<%=ViewData["flowsRemark"]%></div>
-        <div class="row-fluid">是否有效：<%=ViewData["flowsInvalid"]%></div>   
-        <div class="row-fluid">应用系统名称：<%= ViewData["flowsApp_id"]%></div>
-        <div class="row-fluid">记录创建时间：<%=ViewData["flowsCreated_at"]%></div>
-        <div class="row-fluid">记录创建用户：<%= ViewData["flowsCreated_by"]%></div>
-        <div class="row-fluid">记录创建IP：<%=ViewData["flowsCreated_ip"]%></div>
-        <div class="row-fluid">记录更新时间：<%=ViewData["flowsUpdated_at"]%></div>
-        <div class="row-fluid">记录更新用户：<%=ViewData["flowsUpdated_by"]%></div>
-        <div class="row-fluid">记录更新IP：<%=ViewData["flowsUpdated_ip"]%></div>
-     
-  </div>
+<table border="1" width="600" align="center">
+  <tr><th colspan="2">流程详情</th></tr>
+  <tr>
+  <td>流程名称：</td>
+  <td><%=ViewData["flowsName"]%></td>
+  </tr>
+  <tr>
+  <td>流程备注：</td>
+  <td><%=ViewData["flowsRemark"]%></td>
+  </tr>
+  <tr>
+  <td>应用系统名称：</td>
+  <td><%= ViewData["flowsApp_id"]%></td>
+  </tr>
+  <tr>
+  <td>记录创建时间：</td>
+  <td><%=ViewData["flowsCreated_at"]%></td>
+  </tr>
+  <tr>
+  <td>记录创建用户：</td>
+  <td><%= ViewData["flowsCreated_by"]%></td>
+  </tr>
+  <tr>
+  <td>记录创建IP：</td>
+  <td><%=ViewData["flowsCreated_ip"]%></td>
+  </tr>
+  <tr>
+  <td>记录更新时间：</td>
+  <td><%=ViewData["flowsUpdated_at"]%></td>
+  </tr>
+  <tr>
+  <td>记录更新用户：</td>
+  <td><%=ViewData["flowsUpdated_by"]%></td>
+  </tr>
+  <tr>
+  <td>记录更新IP：</td>
+  <td><%=ViewData["flowsUpdated_ip"]%></td>
+  </tr>
+</table>
+
 </asp:Content>

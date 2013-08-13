@@ -5,9 +5,8 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="PageJS" runat="server">
-    <%-- <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>--%>
+
      <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
- <%--    <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>--%>
      <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
    <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"

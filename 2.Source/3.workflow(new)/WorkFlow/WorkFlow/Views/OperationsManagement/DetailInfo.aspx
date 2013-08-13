@@ -11,21 +11,57 @@
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
- <div class="container">
+<table border="1" align="center" width="600">
+  <tr><th colspan="2">操作详情</th></tr>
+  <tr>
+  <td>操作名称：</td>
+  <td><%=ViewData["operationsName"]%></td>
+  </tr>
+  <tr>
+  <td>操作编码：</td>
+  <td><%=ViewData["operationsCode"]%></td>
+  </tr>
+  <tr>
+  <td>操作描述：</td>
+  <td><%=ViewData["operationsDescription"]%></td>
+  </tr>
+  <tr>
+  <td>备注：</td>
+  <td><%=ViewData["operationsRemark"]%></td>
+  </tr>
+  <tr>
+  <td>应用系统名称：</td>
+  <td><%=ViewData["operationsApp_id"]%></td>
+  </tr>
+  <tr>
+  <td>是否有效：</td>
+  <td><%=ViewData["operationsInvalid"]%></td>
+  </tr>
+  <tr>
+  <td>记录创建时间：</td>
+  <td><%=ViewData["operationsCreated_at"]%></td>
+  </tr>
+  <tr>
+  <td>记录创建用户：</td>
+  <td><%=ViewData["operationsCreated_by"]%></td>
+  </tr>
+  <tr>
+  <td>记录创建IP：</td>
+  <td><%=ViewData["operationsCreated_ip"]%></td>
+  </tr>
+  <tr>
+  <td>记录更新时间：</td>
+  <td><%=ViewData["operationsUpdated_at"]%></td>
+  </tr>
+  <tr>
+  <td>记录更新用户：</td>
+  <td><%=ViewData["operationsUpdated_by"]%></td>
+  </tr>
+  <tr>
+  <td>记录更新IP：</td>
+  <td><%=ViewData["operationsUpdated_ip"]%></td>
+  </tr>
+</table>
 
-        <div class="row-fluid"><h2>操作名称：<%=ViewData["operationsName"]%></h2></div>
-        <div class="row-fluid">操作编码：<%=ViewData["operationsCode"]%></div>
-        <div class="row-fluid">操作描述：<%=ViewData["operationsDescription"]%></div>
-        <div class="row-fluid">备注：<%=ViewData["operationsRemark"]%></div>
-        <div class="row-fluid">应用系统名称：<%=ViewData["operationsApp_id"]%></div>
-        <div class="row-fluid">是否有效：<%=ViewData["operationsInvalid"]%></div>
-
-        <div class="row-fluid">记录创建时间：<%=ViewData["operationsCreated_at"]%></div>
-        <div class="row-fluid">记录创建用户：<%=ViewData["operationsCreated_by"]%></div>
-        <div class="row-fluid">记录创建IP：<%=ViewData["operationsCreated_ip"]%></div>
-        <div class="row-fluid">记录更新时间：<%=ViewData["operationsUpdated_at"]%></div>
-        <div class="row-fluid">记录更新用户：<%=ViewData["operationsUpdated_by"]%></div>
-        <div class="row-fluid">记录更新IP：<%=ViewData["operationsUpdated_ip"]%></div>
-    </div>
 
 </asp:Content>

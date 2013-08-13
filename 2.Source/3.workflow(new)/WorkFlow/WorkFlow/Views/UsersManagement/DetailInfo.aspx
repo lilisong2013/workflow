@@ -11,23 +11,68 @@
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-        <div class="container">
-        
-        <div class="row-fluid"><h2>登录名称：<%=ViewData["usersLogin"]%></h2></div>
-        <div class="row-fluid">用户姓名：<%=ViewData["usersName"]%></div>
-        <div class="row-fluid">工号：<%=ViewData["usersEmployee_no"]%></div>
-        <div class="row-fluid">手机号码：<%= ViewData["usersMobile_phone"]%></div>
-        <div class="row-fluid">邮件地址：<%=ViewData["usersMail"]%></div>
-        <div class="row-fluid">备注：<%=ViewData["usersRemark"]%></div>
-        <div class="row-fluid">是否管理员：<%= ViewData["usersAdmin"]%></div>
-        <div class="row-fluid">是否有效：<%= ViewData["usersInvalid"]%></div>     
-        <div class="row-fluid">记录创建时间：<%= ViewData["usersCreated_at"]%></div>
-        <div class="row-fluid">记录创建用户：<%=ViewData["usersCreated_by"]%></div>
-        <div class="row-fluid">记录创建IP：<%=ViewData["usersCreated_ip"]%></div>
-        <div class="row-fluid">记录更新时间：<%=ViewData["usersUpdated_at"]%></div>
-        <div class="row-fluid">记录更新用户：<%=ViewData["usersUpdated_by"]%></div>
-        <div class="row-fluid">记录更新IP：<%=ViewData["usersUpdated_ip"]%></div>
-        <div class="row-fluid">系统名称：<%=ViewData["usersApp_id"]%></div>
-    </div>
+
+        <table border="1" align="center" width="600">
+        <tr><th colspan="2">用户详情</th></tr>
+        <tr>
+        <td>登录名称：</td><td><%=ViewData["usersLogin"]%></td>
+        </tr>
+        <tr>
+        <td>用户姓名：</td><td><%=ViewData["usersName"]%></td>
+        </tr>
+        <tr>
+        <td>工号：</td>
+        <td><%=ViewData["usersEmployee_no"]%></td>
+        </tr>
+        <tr>
+        <td>手机号码：</td>
+        <td><%= ViewData["usersMobile_phone"]%></td>
+        </tr>
+        <tr>
+        <td>邮件地址：</td>
+        <td><%=ViewData["usersMail"]%></td>
+        </tr>
+        <tr>
+        <td>备注：</td>
+        <td><%=ViewData["usersRemark"]%></td>
+        </tr>
+        <tr>
+        <td>是否管理员：</td>
+        <td><%= ViewData["usersAdmin"]%></td>
+        </tr>
+        <tr>
+        <td>是否有效：</td>
+        <td><%=ViewData["usersInvalid"]%></td>
+        </tr>
+        <tr>
+        <td>记录创建时间：</td>
+        <td><%= ViewData["usersCreated_at"]%></td>
+        </tr>
+        <tr>
+        <td>记录创建用户：</td>
+        <td><%=ViewData["usersCreated_by"]%></td>
+        </tr>
+        <tr>
+        <td>记录创建IP：</td>
+        <td><%=ViewData["usersCreated_ip"]%></td>
+        </tr>
+        <tr>
+        <td>记录更新时间：</td>
+        <td><%=ViewData["usersUpdated_at"]%></td>
+        </tr>
+        <tr>
+        <td>记录更新用户：</td>
+        <td><%=ViewData["usersUpdated_by"]%></td>
+        </tr>
+        <tr>
+        <td>记录更新IP：</td>
+        <td><%=ViewData["usersUpdated_ip"]%></td>
+        </tr>
+        <tr>
+        <td>系统名称：</td>
+        <td><%=ViewData["usersApp_id"]%></td>
+        </tr>
+        </table>
+     
 
 </asp:Content>
