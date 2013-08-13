@@ -15,8 +15,8 @@
         <div class="row-fluid"><h2>菜单名称：<%=ViewData["name"]%></h2></div>
         <div class="row-fluid">菜单编码：<%=ViewData["code"]%></div>
         <div class="row-fluid">菜单URL：<%=ViewData["url"]%></div>
-        <div class="row-fluid">应用系统ID：<%=ViewData["app_id"]%></div>
-        <div class="row-fluid">父菜单ID：<%=ViewData["parent_id"]%></div>
+        <div class="row-fluid">应用系统名称：<%=ViewData["app_id"]%></div>
+        <div class="row-fluid">父菜单名称：<%=ViewData["parent_id1"]%></div>
         <div class="row-fluid">备注：<%=ViewData["remark"]%></div>
         <div class="row-fluid">是否有效：<%=ViewData["invalid"]%></div>
     

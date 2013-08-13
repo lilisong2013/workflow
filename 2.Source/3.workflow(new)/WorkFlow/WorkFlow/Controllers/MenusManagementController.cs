@@ -62,7 +62,10 @@ namespace WorkFlow.Controllers
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名不能为空" });
                 }
-
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(Request.Form["MenusName"]) == false)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="alert alert-error",message="菜单名称只能包含中英文字母、数字、汉字和下划线!"});
+                }
                 if (Request.Form["MenusCode"] == "")
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单编码不能为空" });
@@ -482,10 +485,40 @@ namespace WorkFlow.Controllers
                 ViewData["name"] = m_menusModel.name;
                 ViewData["code"] = m_menusModel.code;
                 ViewData["url"] = m_menusModel.url;
-                ViewData["app_id"] = m_menusModel.app_id;
-                ViewData["parent_id"] = m_menusModel.parent_id;
+
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
+
+                ma_SecurityContext.UserName = m_usersModel.login;
+                ma_SecurityContext.PassWord = m_usersModel.password;
+                ma_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_appsBllService.SecurityContextValue = ma_SecurityContext;
+
+                ViewData["app_id"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
+
+                if (m_menusModel.parent_id.ToString().Length == 0)
+                {
+                    ViewData["parent_id1"] = "顶级菜单";
+                    ViewData["parent_id"] = m_menusModel.parent_id;
+                }
+                else
+                { 
+                    DataSet ds=m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id,(int)m_menusModel.parent_id,out msg);
+                    ViewData["parent_id1"] = ds.Tables[0].Rows[0][0].ToString();
+                    ViewData["parent_id"] = m_menusModel.parent_id;
+                }
+               // ViewData["parent_id"] = m_menusModel.parent_id;
                 ViewData["remark"] = m_menusModel.remark;
-                ViewData["invalid"] = m_menusModel.invalid;
+
+                if (m_menusModel.invalid == true)
+                {
+                    ViewData["invalid"] = "否"; 
+                }
+                if (m_menusModel.invalid == false)
+                {
+                    ViewData["invalid"] = "是";
+                }
+             
 
                 return View();
             }
@@ -624,6 +657,10 @@ namespace WorkFlow.Controllers
                 if (name.Length == 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称不能为空!" });
+                }
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(name) == false)
+                {
+                    return Json(new Saron.WorkFlow.Models.InformationModel {success=false,css="alert alert-error",message="菜单名称只能包含中英文字母、中文、数字、下划线!"});
                 }
                 if (code.Length == 0)
                 {

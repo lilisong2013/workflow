@@ -1214,8 +1214,17 @@ namespace WorkFlow.Controllers
                 {
                     ViewData["invalid"] = "否";
                 }
-            
-                ViewData["app_id"] = m_privilegesModel.app_id;
+
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
+
+                ma_SecurityContext.UserName = m_usersModel.login;
+                ma_SecurityContext.PassWord = m_usersModel.password;
+                ma_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_appsBllService.SecurityContextValue = ma_SecurityContext;
+
+                ViewData["app_id"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
+          
                 ViewData["remark"] = m_privilegesModel.remark;
             
                 return View();

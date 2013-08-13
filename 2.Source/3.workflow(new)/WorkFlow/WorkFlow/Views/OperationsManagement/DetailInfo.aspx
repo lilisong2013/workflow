@@ -17,7 +17,7 @@
         <div class="row-fluid">操作编码：<%=ViewData["operationsCode"]%></div>
         <div class="row-fluid">操作描述：<%=ViewData["operationsDescription"]%></div>
         <div class="row-fluid">备注：<%=ViewData["operationsRemark"]%></div>
-        <div class="row-fluid">应用系统ID：<%=ViewData["operationsApp_id"]%></div>
+        <div class="row-fluid">应用系统名称：<%=ViewData["operationsApp_id"]%></div>
         <div class="row-fluid">是否有效：<%=ViewData["operationsInvalid"]%></div>
 
         <div class="row-fluid">记录创建时间：<%=ViewData["operationsCreated_at"]%></div>

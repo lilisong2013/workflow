@@ -214,8 +214,16 @@ namespace WorkFlow.Controllers
     
                 DataSet pmds = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id,(int)m_elementsModel.menu_id,out msg);
                 ViewData["elementsMenu_id"] = pmds.Tables[0].Rows[0][0].ToString();
-             
-                ViewData["elementsApp_id"] = m_elementsModel.app_id;
+
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
+
+                ma_SecurityContext.UserName = m_usersModel.login;
+                ma_SecurityContext.PassWord = m_usersModel.password;
+                ma_SecurityContext.AppID =(int)m_usersModel.app_id;
+                m_appsBllService.SecurityContextValue = ma_SecurityContext;
+                ViewData["elementsApp_id"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
+  
                 if (m_elementsModel.invalid == true)
                 {
                     ViewData["elementsInvalid"] ="否";
