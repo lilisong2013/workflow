@@ -189,7 +189,7 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<div class="container"><h2>菜单管理</h2></div>
+<div class="container"><h4>菜单管理</h4></div>
 
  <div class="container">
   <%--操作提示DIV--%>
@@ -198,7 +198,7 @@
    
    <div class="tab-pane">
    <form  id="Edit_Menus" method="post" action="" class="form-horizontal"> 
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">菜单名称：</label>
        <div class="controls">
        <input id="menusName" name="menusName" type="text" value="<%=ViewData["menusName"] %>" />
@@ -206,21 +206,21 @@
        </div>
        </div>
 
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">菜单编码：</label>
        <div class="controls">
        <input id="menuCode" name="menuCode" type="text" value="<%=ViewData["menuCode"] %>" />
        </div>
        </div>
 
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">菜单URL：</label>
        <div class="controls">
        <input id="menuUrl" name="menuUrl" type="text" value="<%=ViewData["menuUrl"] %>" />
        </div>
        </div>
 
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">父菜单：</label>
 
 
@@ -230,13 +230,7 @@
        </div>
       </div>
 
-       <div class="control-group span6 offset2">
-       <label class="control-label">是否有效：</label>
-       <div id="invalidList">
-       </div>
-       </div>
-
-       <div class="control-group span6 offset2">
+       <div class="m-newline offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
        <textarea id="menuRemark" name="menuRemark" cols="5" rows="4"><%=ViewData["menuRemark"]%></textarea>      
@@ -253,8 +247,15 @@
 
         </div> 
        </div>
-       <div class="control-group span6 offset3">
-       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span3" />  
+
+       <div class="m-newline offset2">
+       <label class="control-label">是否有效：</label>
+       <div id="invalidList">
+       </div>
+       </div>
+
+       <div class="control-group span10 offset2">
+       <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
        </div>
    </form>
 </div>
