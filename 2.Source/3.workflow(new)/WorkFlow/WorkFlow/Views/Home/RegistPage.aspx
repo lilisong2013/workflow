@@ -26,7 +26,7 @@
         });
     </script>
 
-    <style type="text/css">
+    <%--<style type="text/css">
         .container{ min-width:700px;}
         .control-group .{}
         .m-group-topborder{border-top:1px solid #ccc; padding-top:10px;}
@@ -39,7 +39,7 @@
 
         #userinfo .m-leftform{border-right:1px solid #ccc; width:300px; position:relative; float:left;}
         #userinfo .m-rightform{ position:relative; float:left;}
-    </style>
+    </style>--%>
 
        <script type="text/javascript">
            $(document).ready(function () {
@@ -52,6 +52,15 @@
                };
 
                $("#submit").click(function () {
+                   if (false) {
+
+                       return false;
+                   } else {
+                       $("#registerUser").ajaxForm(options);
+                   }
+               });
+
+               $("#submit2").click(function () {
                    if (false) {
 
                        return false;
@@ -83,90 +92,124 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">  
     <div class="container">
-        <ul class="breadcrumb">
-            <li class="active"><a href="#">系统管理员信息</a><span class="divider">/</span></li>
-            <li><a href="/Home/Login">登录</a></li>
-        </ul>
+        <div class="row">
+            <ul class="breadcrumb">
+                <li class="active"><a href="#">系统管理员信息</a><span class="divider">/</span></li>
+                <li><a href="/Home/Login">登录</a></li>
+            </ul>
+        </div>
+        
+        <div class="row">
+            <%--操作提示DIV--%>
+            <div id="promptDIV"></div>
+        </div>
+       
     </div>     
  
     <div class="container">
 
-        <div class="container">
-         <%--操作提示DIV--%>
-        <div id="promptDIV" class="row"></div>
-        </div>
-
-        <form id="registerUser" class="form-inline" method="post" action="">
-        <input type="reset" class="btn btn-primary pull-right" value="重置信息" />
-        <input id="submit"  type="submit" class="btn btn-primary pull-right" value="提交申请" />     
-        <div class="control-group"style="border-style:none" >
-            <h3>系统信息</h3>
-            <div class="m-group-topborder">
-                <div class="m-leftform">
-                <label class="control-label">系统名称：</label>
-                <input name="appsName" type="text" class="span2" placeholder="系统名称"/>  
-                           
-                <label class="control-label">系统编码：</label>
-                <input name="appsCode" type="text" class="span2" placeholder="系统编码"/>
-
-                <label class="control-label">访问链接：</label>
-                <input name="appsUrl" type="text" class="span2" placeholder="访问链接"/>
-
-               </div>
-                <div class="m-rightform">
-                 <div class="m-newline">
-                    <label class="control-label">备注信息：</label>
-                    <textarea name="appsRemark" class="m-textarea" rows="3" cols="15" style="width:700px" placeholder="备注信息"></textarea>
-                 </div>
-                </div>             
+        <form id="registerUser" class="form-horizontal" method="post" action="">
+            <div class="control-group">
+                <div class="row span2 pull-right">
+                    <input type="reset" class="btn btn-primary span2" value="重置信息" />
+                </div>
+                <div class="row span2 pull-right">
+                    <input id="submit"  type="submit" class="btn btn-primary span2" value="提交申请" /> 
+                </div>
             </div>
-        </div>
-        <div id="userinfo" class="control-group">
-            <h3>用户信息</h3>
-            <div class="m-group-topborder">
-                <div class="m-leftform">
-                    <div class="m-newline">
-                        <label class="control-label">登录名称：</label>
-                        <input name="userLogin" type="text" class="span2" placeholder="登录名称"/>
+            
+            <fieldset>
+                <legend>系统信息</legend>
+                <div class="control-group">
+                    <label class="control-label">系统名称：</label>
+                    <div class="controls">
+                        <input name="appsName" type="text" class="span4"/>
                     </div>
-                    <div class="m-newline">
-                        <label class="control-label">登录密码：</label>
-                        <input name="userPassword" type="password" class="span2" placeholder="登录密码"/>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">系统编码：</label>
+                    <div class="controls">
+                        <input name="appsCode" type="text" class="span4"/>
                     </div>
-                    <div class="m-newline">
-                        <label class="control-label">确认密码：</label>
-                        <input name="userPassword2" type="password" class="span2" placeholder="确认密码"/>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">访问链接：</label>
+                    <div class="controls">
+                        <input name="appsUrl" type="text" class="span4"/>
                     </div>
-                    <div class="m-newline">
+                </div>
+                <div class="control-group">
+                    <label class="control-label">备注信息：</label>
+                    <div class="controls">
+                        <textarea name="appsRemark" class="m-textarea span4" rows="3" cols="10"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>用户信息</legend>
+                <div class="control-group">
+                    <label class="control-label">登录名称：</label>
+                    <div class="controls">
+                        <input name="userLogin" type="text" class="span4" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">登录密码：</label>
+                    <div class="controls">
+                        <input name="userPassword" type="password" class="span4" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">确认密码：</label>
+                    <div class="controls">
+                        <input name="userPassword2" type="password" class="span4" />
+                    </div>
+                </div>
+                <div class="control-group">
                     <label class="control-label">真实姓名：</label>
-                    <input name="userName" type="text" class="span2" placeholder="真实姓名"/>
+                    <div class="controls">
+                        <input name="userName" type="text" class="span4" />
                     </div>
                 </div>
-                <div class="m-rightform">
-                    <div class="m-newline">
-                    <label class="control-label">&nbsp;&nbsp;工&nbsp;&nbsp;&nbsp;号：&nbsp;&nbsp;</label>
-                    <input name="userEmployeeNo" type="text" class="span2" placeholder="工号"/>
+                <div class="control-group">
+                    <label class="control-label">工号：</label>
+                    <div class="controls">
+                        <input name="userEmployeeNo" type="text" class="span4" />
                     </div>
-                    <div class="m-newline">
-                    <label class="control-label">手&nbsp;&nbsp;机&nbsp;&nbsp;号：</label>
-                    <input name="userMobilePhone" type="text" class="span2" placeholder="手机号"/>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">手机号：</label>
+                    <div class="controls">
+                        <input name="userMobilePhone" type="text" class="span4" />
                     </div>
-                    <div class="m-newline">
+                </div>
+                <div class="control-group">
                     <label class="control-label">电子邮箱：</label>
-                    <input name="userMail" type="text" class="span2" placeholder="电子邮箱"/>
+                    <div class="controls">
+                        <input name="userMail" type="text" class="span4" />
                     </div>
-                    <div class="m-newline">
-                    <label class="control-label">备注信息：</label>
-                    <textarea name="userRemark" class="m-textarea" rows="3" cols="10" style="width:400px" placeholder="备注信息"></textarea>
-                    <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
-                    <input type="hidden" name="createdIP" id="Hidden1" value="<%= ipAddress %>" />
-                    <% string apply_at = DateTime.Now.ToString(); %>
-                    <input type="hidden" name="apply_at" id="Hidden2" value="<%= apply_at %>" />
-                   </div>
                 </div>
-              
+                <div class="control-group">
+                    <label class="control-label">备注信息：</label>
+                    <div class="controls">
+                        <textarea name="userRemark" class="m-textarea span4" rows="3" cols="10"></textarea>
+                        <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
+                        <input type="hidden" name="createdIP" id="Hidden1" value="<%= ipAddress %>" />
+                        <% string apply_at = DateTime.Now.ToString(); %>
+                        <input type="hidden" name="apply_at" id="Hidden2" value="<%= apply_at %>" />
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="control-group">
+                <div class="row span2 offset1">
+                    <input id="submit2"  type="submit" class="btn btn-primary span2" value="提交申请" /> 
+                </div>
+                <div class="row span2">
+                    <input type="reset" class="btn btn-primary span2" value="重置信息" />
+                </div>
             </div>
-        </div>
         </form>
     </div>
 
