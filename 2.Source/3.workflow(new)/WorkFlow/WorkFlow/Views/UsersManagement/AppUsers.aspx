@@ -125,7 +125,7 @@
                     title: '详情(' + id + ')信息',
                     isDrag: true,
                     width: 700,
-                    height: 600,
+                    height: 650,
                     url: '/UsersManagement/DetailInfo?id=' + id
                 });
             }

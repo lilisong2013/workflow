@@ -91,7 +91,7 @@
         });
     </script>
   
-  <%--编辑弹出框函数--%>
+    <%--编辑弹出框函数--%>
     <script type="text/javascript">
         function EditDialog(id) {
 
@@ -112,6 +112,7 @@
             }
         }
     </script>
+
    <%--角色权限弹出框函数--%>
    <script type="text/javascript">
        function RolePrivilegeDialog(id) {
@@ -131,6 +132,7 @@
            }
        }
    </script>
+
    <%--详情弹出框函数--%>
    <script type="text/javascript">
        function DetailDialog(id) {

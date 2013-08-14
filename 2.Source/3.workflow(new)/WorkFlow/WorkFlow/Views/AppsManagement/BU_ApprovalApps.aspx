@@ -86,8 +86,8 @@
     <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)ViewData["userInfo"];%>
     <div class="form-horizontal">
     <form  method="post" action="" class="form-horizontal">
-       <table border="1" align="left" width="600">
-        <tr><th colspan="2">待审批系统详情</th></tr>
+       <table class="table table-bordered  table-condensed table-hover" width="600">
+        <tr><th colspan="2"><center>待审批系统详情</center></th></tr>
          <tr>
          <td width="300">系统名称：</td>
          <td width="300"><%=m_appsModel.name %></td>
@@ -130,7 +130,7 @@
          </tr>
          <tr>
          <input id="appID" type="hidden" value="<%=m_appsModel.id %>"/>
-          <td colspan="2" align="center"><input id="approvalApply" type="button" value="批准申请"/></td>
+          <td colspan="2" align="center"><center><input id="approvalApply" type="button" value="批准申请"/></center></td>
          </tr>
         </table>
      </form>
