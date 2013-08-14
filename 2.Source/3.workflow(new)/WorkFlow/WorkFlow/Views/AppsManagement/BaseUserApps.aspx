@@ -118,7 +118,7 @@
                                   { display: '备注信息', name: 'remark', type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog('+row.id+')">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="VDetailDialog('+row.id+')">详情</a>';
                                           return html;
                                       }
                                   }
@@ -148,7 +148,7 @@
                                   { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
                                   { display: '', width: 100,
                                       render: function (row) {
-                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog('+row.id+')">详情</a>';
+                                          var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="IDetailDialog('+row.id+')">详情</a>';
                                           return html;
                                       }
                                   },
@@ -192,16 +192,32 @@
         }
     </script>
 
-  <%--详情弹出框函数--%>
+  <%--待审批详情弹出框函数--%>
   <script type="text/javascript">
-      function DetailDialog(id) {
+      function IDetailDialog(id) {
 
           if (id) {
               $.ligerDialog.open({
-                title:'详情('+id+')信息',
-                width:850,
+                title: '详情(' + id + ')信息',
+                isDrag: true,
+                width:700,
                 height:600,
                 url: '/AppsManagement/BU_ApprovalApps?id='+id
+              });
+          }
+      }
+  </script>
+  <%--已审批详情弹出框函数--%>
+  <script type="text/javascript">
+      function VDetailDialog(id) {
+
+          if (id) {
+              $.ligerDialog.open({
+                  title: '详情(' + id + ')信息',
+                  isDrag: true,
+                  width: 700,
+                  height: 600,
+                  url: '/AppsManagement/BU_ApprovalInfo?id=' + id
               });
           }
       }
