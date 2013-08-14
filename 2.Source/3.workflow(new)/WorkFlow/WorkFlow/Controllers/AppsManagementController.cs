@@ -243,6 +243,49 @@ namespace WorkFlow.Controllers
             }
         }
 
+        //系统已审批页面
+        public ActionResult BU_ApprovalInfo(int id)
+        {
+            if (Session["baseuser"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
+
+                WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+                WorkFlow.UsersWebService.usersModel m_usersModel = new UsersWebService.usersModel();
+
+                WorkFlow.Base_UserWebService.base_userModel m_base_usersModel=(WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
+
+                #region 超级管理员用户授权
+                string msg = string.Empty;
+                WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
+
+                ma_SecurityContext.UserName = m_base_usersModel.login;
+                ma_SecurityContext.PassWord = m_base_usersModel.password;
+                m_appsBllService.SecurityContextValue = ma_SecurityContext;
+
+                WorkFlow.UsersWebService.SecurityContext mu_SecurityContext = new UsersWebService.SecurityContext();
+
+                mu_SecurityContext.UserName = m_base_usersModel.login;
+                mu_SecurityContext.PassWord = m_base_usersModel.password;
+                m_usersBllService.SecurityContextValue = mu_SecurityContext;
+                #endregion
+
+                m_appsModel = m_appsBllService.GetModel(id,out msg);
+
+                m_usersModel = m_usersBllService.GetAdminModelByAppID(m_appsModel.id,out msg);
+
+
+                ViewData["appInfo"] = m_appsModel;//系统信息
+                ViewData["userInfo"] = m_usersModel;//用户信息
+
+                return View();
+            }
+        }
         //系统信息页面
         public ActionResult BU_AppsInfo(int id)
         {

@@ -75,61 +75,58 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
 <div class="container">
-    <% WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
-
-    <div class="row">
-        <h2 class="span3">系统审批</h2>
-    </div>
     <div class="container">
          <%--操作提示DIV--%>
         <div id="promptDIV" class="row"></div>
     </div>
 </div>
 <div class="container">
+    <% WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
     <% WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)ViewData["appInfo"];%>
     <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)ViewData["userInfo"];%>
     <div class="form-horizontal">
     <form  method="post" action="" class="form-horizontal">
-       <table border="1" align="left" width="700">
+       <table border="1" align="left" width="600">
+        <tr><th colspan="2">待审批系统详情</th></tr>
          <tr>
-         <td>系统名称：</td>
-         <td><%=m_appsModel.name %></td>
+         <td width="300">系统名称：</td>
+         <td width="300"><%=m_appsModel.name %></td>
          </tr>
          <tr>
-         <td>系统编码：</td>
-         <td><%=m_appsModel.code %></td>
+         <td width="300">系统编码：</td>
+         <td width="300"><%=m_appsModel.code %></td>
+         </tr>
+         <tr>
+         <td width="300">访问链接：</td>
+         <td width="300"><%=m_appsModel.url %></td>
+         </tr>
+         <tr>
+         <td width="300">系统备注：</td>
+         <td width="300"><%=m_appsModel.remark %></td>
+         </tr>
+         <tr>
+         <td width="300">系统管理员：</td>
+         <td width="300"><%=m_userModel.login %></td>
+         </tr>
+         <tr>
+         <td width="300">管理员姓名：</td>
+         <td width="300"><%=m_userModel.name %></td>
          </tr>
           <tr>
-         <td>访问链接：</td>
-         <td><%=m_appsModel.url %></td>
+         <td width="300">管理员工号：</td>
+         <td width="300"><%=m_userModel.employee_no %></td>
          </tr>
          <tr>
-         <td>系统备注：</td>
-         <td><%=m_appsModel.remark %></td>
+         <td width="300">手机号码：</td>
+         <td width="300"><%=m_userModel.mobile_phone %></td>
          </tr>
          <tr>
-         <td>系统管理员：</td>
-         <td><%=m_userModel.login %></td>
+         <td width="300">邮件地址：</td>
+         <td width="300"><%=m_userModel.mail %></td>
          </tr>
          <tr>
-         <td>管理员姓名：</td>
-         <td><%=m_userModel.name %></td>
-         </tr>
-           <tr>
-         <td>管理员工号：</td>
-         <td><%=m_userModel.employee_no %></td>
-         </tr>
-         <tr>
-         <td>手机号码：</td>
-         <td><%=m_userModel.mobile_phone %></td>
-         </tr>
-         <tr>
-         <td>邮件地址：</td>
-         <td><%=m_userModel.mail %></td>
-         </tr>
-         <tr>
-         <td>管理员备注：</td>
-         <td><%=m_userModel.remark %></td>
+         <td width="300">管理员备注：</td>
+         <td width="300"><%=m_userModel.remark %></td>
          </tr>
          <tr>
          <input id="appID" type="hidden" value="<%=m_appsModel.id %>"/>
