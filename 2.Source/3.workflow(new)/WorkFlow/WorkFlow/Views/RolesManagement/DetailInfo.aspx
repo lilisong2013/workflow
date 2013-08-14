@@ -17,44 +17,44 @@
    <th colspan="2">角色详情</th>
    </tr>
    <tr>
-    <td>角色名称：</td>
-    <td><%=ViewData["rolesName"]%></td>
+    <td width="300">角色名称：</td>
+    <td width="300"><%=ViewData["rolesName"]%></td>
    </tr>
     <tr>
-    <td>角色备注：</td>
-    <td><%=ViewData["rolesRemark"]%></td>
+    <td width="300">角色备注：</td>
+    <td width="300"><%=ViewData["rolesRemark"]%></td>
    </tr>
    <tr>
-    <td>是否有效：</td>
-    <td><%=ViewData["rolesInvalid"]%></td>
+    <td width="300">是否有效：</td>
+    <td width="300"><%=ViewData["rolesInvalid"]%></td>
    </tr>
     <tr>
-    <td>系统名称：</td>
-    <td><%=ViewData["rolesApp_id"]%></td>
+    <td width="300">系统名称：</td>
+    <td width="300"><%=ViewData["rolesApp_id"]%></td>
    </tr>
     <tr>
-    <td>记录创建时间：</td>
-    <td><%=ViewData["rolesCreated_at"]%></td>
+    <td width="300">记录创建时间：</td>
+    <td width="300"><%=ViewData["rolesCreated_at"]%></td>
    </tr>
     <tr>
-    <td>记录创建用户：</td>
-    <td><%=ViewData["rolesCreated_by"]%></td>
+    <td width="300">记录创建用户：</td>
+    <td width="300"><%=ViewData["rolesCreated_by"]%></td>
    </tr>
     <tr>
-    <td>记录创建IP：</td>
-    <td><%=ViewData["rolesCreated_ip"]%></td>
+    <td width="300">记录创建IP：</td>
+    <td width="300"><%=ViewData["rolesCreated_ip"]%></td>
    </tr>
     <tr>
-    <td>记录更新时间：</td>
-    <td><%=ViewData["rolesUpdated_at"]%></td>
+    <td width="300">记录更新时间：</td>
+    <td width="300"><%=ViewData["rolesUpdated_at"]%></td>
    </tr>
    <tr>
-    <td>记录更新用户：</td>
-    <td><%=ViewData["rolesUpdated_by"]%></td>
+    <td width="300">记录更新用户：</td>
+    <td width="300"><%=ViewData["rolesUpdated_by"]%></td>
    </tr>
     <tr>
-    <td>记录更新IP：</td>
-    <td><%=ViewData["rolesUpdated_ip"]%></td>
+    <td width="300">记录更新IP：</td>
+    <td width="300"><%=ViewData["rolesUpdated_ip"]%></td>
    </tr>
 
 </table>

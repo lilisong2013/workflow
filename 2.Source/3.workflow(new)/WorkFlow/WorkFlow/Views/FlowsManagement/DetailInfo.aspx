@@ -14,40 +14,40 @@
 <table border="1" width="600" align="center">
   <tr><th colspan="2">流程详情</th></tr>
   <tr>
-  <td>流程名称：</td>
-  <td><%=ViewData["flowsName"]%></td>
+  <td width="300">流程名称：</td>
+  <td width="300"><%=ViewData["flowsName"]%></td>
   </tr>
   <tr>
-  <td>流程备注：</td>
-  <td><%=ViewData["flowsRemark"]%></td>
+  <td width="300">流程备注：</td>
+  <td width="300"><%=ViewData["flowsRemark"]%></td>
   </tr>
   <tr>
-  <td>应用系统名称：</td>
-  <td><%= ViewData["flowsApp_id"]%></td>
+  <td width="300">应用系统名称：</td>
+  <td width="300"><%= ViewData["flowsApp_id"]%></td>
   </tr>
   <tr>
-  <td>记录创建时间：</td>
-  <td><%=ViewData["flowsCreated_at"]%></td>
+  <td width="300">记录创建时间：</td>
+  <td width="300"><%=ViewData["flowsCreated_at"]%></td>
   </tr>
   <tr>
-  <td>记录创建用户：</td>
-  <td><%= ViewData["flowsCreated_by"]%></td>
+  <td width="300">记录创建用户：</td>
+  <td width="300"><%= ViewData["flowsCreated_by"]%></td>
   </tr>
   <tr>
-  <td>记录创建IP：</td>
-  <td><%=ViewData["flowsCreated_ip"]%></td>
+  <td width="300">记录创建IP：</td>
+  <td width="300"><%=ViewData["flowsCreated_ip"]%></td>
   </tr>
   <tr>
-  <td>记录更新时间：</td>
-  <td><%=ViewData["flowsUpdated_at"]%></td>
+  <td width="300">记录更新时间：</td>
+  <td width="300"><%=ViewData["flowsUpdated_at"]%></td>
   </tr>
   <tr>
-  <td>记录更新用户：</td>
-  <td><%=ViewData["flowsUpdated_by"]%></td>
+  <td width="300">记录更新用户：</td>
+  <td width="300"><%=ViewData["flowsUpdated_by"]%></td>
   </tr>
   <tr>
-  <td>记录更新IP：</td>
-  <td><%=ViewData["flowsUpdated_ip"]%></td>
+  <td width="300">记录更新IP：</td>
+  <td width="300"><%=ViewData["flowsUpdated_ip"]%></td>
   </tr>
 </table>
 

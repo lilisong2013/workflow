@@ -14,52 +14,52 @@
 <table border="1" align="center" width="600">
   <tr><th colspan="2">操作详情</th></tr>
   <tr>
-  <td>操作名称：</td>
-  <td><%=ViewData["operationsName"]%></td>
+  <td width="300">操作名称：</td>
+  <td width="300"><%=ViewData["operationsName"]%></td>
   </tr>
   <tr>
-  <td>操作编码：</td>
-  <td><%=ViewData["operationsCode"]%></td>
+  <td width="300">操作编码：</td>
+  <td width="300"><%=ViewData["operationsCode"]%></td>
   </tr>
   <tr>
-  <td>操作描述：</td>
-  <td><%=ViewData["operationsDescription"]%></td>
+  <td width="300">操作描述：</td>
+  <td width="300"><%=ViewData["operationsDescription"]%></td>
   </tr>
   <tr>
-  <td>备注：</td>
-  <td><%=ViewData["operationsRemark"]%></td>
+  <td width="300">备注：</td>
+  <td width="300"><%=ViewData["operationsRemark"]%></td>
   </tr>
   <tr>
-  <td>应用系统名称：</td>
-  <td><%=ViewData["operationsApp_id"]%></td>
+  <td width="300">应用系统名称：</td>
+  <td width="300"><%=ViewData["operationsApp_id"]%></td>
   </tr>
   <tr>
-  <td>是否有效：</td>
-  <td><%=ViewData["operationsInvalid"]%></td>
+  <td width="300">是否有效：</td>
+  <td width="300"><%=ViewData["operationsInvalid"]%></td>
   </tr>
   <tr>
-  <td>记录创建时间：</td>
-  <td><%=ViewData["operationsCreated_at"]%></td>
+  <td width="300">记录创建时间：</td>
+  <td width="300"><%=ViewData["operationsCreated_at"]%></td>
   </tr>
   <tr>
-  <td>记录创建用户：</td>
-  <td><%=ViewData["operationsCreated_by"]%></td>
+  <td width="300">记录创建用户：</td>
+  <td width="300"><%=ViewData["operationsCreated_by"]%></td>
   </tr>
   <tr>
-  <td>记录创建IP：</td>
-  <td><%=ViewData["operationsCreated_ip"]%></td>
+  <td width="300">记录创建IP：</td>
+  <td width="300"><%=ViewData["operationsCreated_ip"]%></td>
   </tr>
   <tr>
-  <td>记录更新时间：</td>
-  <td><%=ViewData["operationsUpdated_at"]%></td>
+  <td width="300">记录更新时间：</td>
+  <td width="300"><%=ViewData["operationsUpdated_at"]%></td>
   </tr>
   <tr>
-  <td>记录更新用户：</td>
-  <td><%=ViewData["operationsUpdated_by"]%></td>
+  <td width="300">记录更新用户：</td>
+  <td width="300"><%=ViewData["operationsUpdated_by"]%></td>
   </tr>
   <tr>
-  <td>记录更新IP：</td>
-  <td><%=ViewData["operationsUpdated_ip"]%></td>
+  <td width="300">记录更新IP：</td>
+  <td width="300"><%=ViewData["operationsUpdated_ip"]%></td>
   </tr>
 </table>
 

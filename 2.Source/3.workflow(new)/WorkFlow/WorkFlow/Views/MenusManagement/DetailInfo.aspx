@@ -14,32 +14,32 @@
 <table border="1" align="center" width="600">
    <tr><th colspan="2">菜单详情</th></tr>
    <tr>
-   <td>菜单名称：</td>
-   <td><%=ViewData["name"]%></td>
+   <td width="300">菜单名称：</td>
+   <td width="300"><%=ViewData["name"]%></td>
    </tr>
    <tr>
-   <td>菜单编码：</td>
-   <td><%=ViewData["code"]%></td>
+   <td width="300">菜单编码：</td>
+   <td width="300"><%=ViewData["code"]%></td>
    </tr>
    <tr>
-   <td>菜单URL：</td>
-   <td><%=ViewData["url"]%></td>
+   <td width="300">菜单URL：</td>
+   <td width="300"><%=ViewData["url"]%></td>
    </tr>
    <tr>
-   <td>应用系统名称：</td>
-   <td><%=ViewData["app_id"]%></td>
+   <td width="300">应用系统名称：</td>
+   <td width="300"><%=ViewData["app_id"]%></td>
    </tr>
    <tr>
-   <td>父菜单名称：</td>
-   <td><%=ViewData["parent_id1"]%></td>
+   <td width="300">父菜单名称：</td>
+   <td width="300"><%=ViewData["parent_id1"]%></td>
    </tr>
    <tr>
-   <td>备注：</td>
-   <td><%=ViewData["remark"]%></td>
+   <td width="300">备注：</td>
+   <td width="300"><%=ViewData["remark"]%></td>
    </tr>
    <tr>
-   <td>是否有效：</td>
-   <td><%=ViewData["invalid"]%></td>
+   <td width="300">是否有效：</td>
+   <td width="300"><%=ViewData["invalid"]%></td>
    </tr>
 </table>
 </asp:Content>

@@ -14,79 +14,62 @@
 <table border="1" width="600" align="center">
   <tr><th colspan="2">元素详情</th></tr>
   <tr>
-  <td>元素名称：</td>
-  <td><%=ViewData["elementsName"]%></td>
+  <td width="300">元素名称：</td>
+  <td width="300"><%=ViewData["elementsName"]%></td>
   </tr>
   <tr>
-  <td>元素编码：</td>
-  <td><%=ViewData["elementsCode"]%></td>
+  <td width="300">元素编码：</td>
+  <td width="300"><%=ViewData["elementsCode"]%></td>
   </tr>
   <tr>
-  <td>备注：</td>
-  <td><%=ViewData["elementsRemark"]%></td>
+  <td width="300">备注：</td>
+  <td width="300"><%=ViewData["elementsRemark"]%></td>
   </tr>
   <tr>
-  <td>初始化状态：</td>
-  <td><%=ViewData["elementsInitstatus_id"]%></td>
+  <td width="300">初始化状态：</td>
+  <td width="300"><%=ViewData["elementsInitstatus_id"]%></td>
   </tr>
   <tr>
-  <td>排序码：</td>
-  <td><%=ViewData["elementsSeqno"]%></td>
+  <td width="300">排序码：</td>
+  <td width="300"><%=ViewData["elementsSeqno"]%></td>
   </tr>
   <tr>
-  <td>所在页面：</td>
-  <td><%=ViewData["elementsMenu_id"]%></td>
+  <td width="300">所在页面：</td>
+  <td width="300"><%=ViewData["elementsMenu_id"]%></td>
   </tr>
   <tr>
-  <td>系统名称：</td>
-  <td><%=ViewData["elementsApp_id"]%></td>
+  <td width="300">系统名称：</td>
+  <td width="300"><%=ViewData["elementsApp_id"]%></td>
   </tr>
   <tr>
-  <td>是否有效：</td>
-  <td><%=ViewData["elementsInvalid"]%></td>
+  <td width="300">是否有效：</td>
+  <td width="300"><%=ViewData["elementsInvalid"]%></td>
   </tr>
   <tr>
-  <td>记录创建时间：</td>
-  <td><%=ViewData["elementsCreated_at"]%></td>
+  <td width="300">记录创建时间：</td>
+  <td width="300"><%=ViewData["elementsCreated_at"]%></td>
   </tr>
   <tr>
-  <td>记录创建用户：</td>
-  <td><%=ViewData["elementsCreated_by"]%></td>
+  <td width="300">记录创建用户：</td>
+  <td width="300"><%=ViewData["elementsCreated_by"]%></td>
   </tr>
   <tr>
-  <td>记录创建IP：</td>
-  <td><%=ViewData["elementsCreated_ip"]%></td>
+  <td width="300">记录创建IP：</td>
+  <td width="300"><%=ViewData["elementsCreated_ip"]%></td>
   </tr>
   <tr>
-  <td>记录更新时间：</td>
-  <td><%=ViewData["elementsUpdated_at"]%></td>
+  <td width="300">记录更新时间：</td>
+  <td width="300"><%=ViewData["elementsUpdated_at"]%></td>
   </tr>
   <tr>
-  <td>记录更新用户：</td>
-  <td><%=ViewData["elementsUpdated_by"]%></td>
+  <td width="300">记录更新用户：</td>
+  <td width="300"><%=ViewData["elementsUpdated_by"]%></td>
   </tr>
   <tr>
-  <td>记录更新IP：</td>
-  <td><%=ViewData["elementsUpdated_ip"]%></td>
+  <td width="300">记录更新IP：</td>
+  <td width="300"><%=ViewData["elementsUpdated_ip"]%></td>
   </tr>
 </table>
 
- <%--<div class="container">
-       
-        <div class="row-fluid"><h2>元素名称：<%=ViewData["elementsName"]%></h2></div>
-        <div class="row-fluid">元素编码：<%=ViewData["elementsCode"]%></div>
-        <div class="row-fluid">备注：<%=ViewData["elementsRemark"]%></div>
-        <div class="row-fluid">初始化状态：<%=ViewData["elementsInitstatus_id"]%></div>
-        <div class="row-fluid">排序码：<%=ViewData["elementsSeqno"]%></div>
-        <div class="row-fluid">所在页面：<%=ViewData["elementsMenu_id"]%></div>
-        <div class="row-fluid">系统名称：<%=ViewData["elementsApp_id"]%></div>
-        <div class="row-fluid">是否有效：<%=ViewData["elementsInvalid"]%></div>
 
-        <div class="row-fluid">记录创建时间：<%=ViewData["elementsCreated_at"]%></div>
-        <div class="row-fluid">记录创建用户：<%=ViewData["elementsCreated_by"]%></div>
-        <div class="row-fluid">记录创建IP：<%=ViewData["elementsCreated_ip"]%></div>
-        <div class="row-fluid">记录更新时间：<%=ViewData["elementsUpdated_at"]%></div>
-        <div class="row-fluid">记录更新用户：<%=ViewData["elementsUpdated_by"]%></div>
-        <div class="row-fluid">记录更新IP：<%=ViewData["elementsUpdated_ip"]%></div>
-    </div>--%>
 </asp:Content>

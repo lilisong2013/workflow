@@ -14,38 +14,30 @@
 <table border="1" align="center" width="600">
   <tr><th colspan="2">权限列表详情</th></tr>
   <tr>
-  <td>权限名称：</td>
-  <td><%=ViewData["name"]%></td>
+  <td width="300">权限名称：</td>
+  <td width="300"><%=ViewData["name"]%></td>
   </tr>
   <tr>
-  <td>权限类型：</td>
-  <td><%=ViewData["privilegetype_id"]%></td>
+  <td width="300">权限类型：</td>
+  <td width="300"><%=ViewData["privilegetype_id"]%></td>
   </tr>
   <tr>
-  <td>权限项目：</td>
-  <td><%=ViewData["privilegeitem_id"]%></td>
+  <td width="300">权限项目：</td>
+  <td width="300"><%=ViewData["privilegeitem_id"]%></td>
   </tr>
   <tr>
-  <td>应用系统名称：</td>
-  <td><%=ViewData["app_id"]%></td>
+  <td width="300">应用系统名称：</td>
+  <td width="300"><%=ViewData["app_id"]%></td>
   </tr>
   <tr>
-  <td>是否有效：</td>
-  <td><%=ViewData["invalid"]%></td>
+  <td width="300">是否有效：</td>
+  <td width="300"><%=ViewData["invalid"]%></td>
   </tr>
   <tr>
-  <td>权限备注：</td>
-  <td><%=ViewData["remark"]%></td>
+  <td width="300">权限备注：</td>
+  <td width="300"><%=ViewData["remark"]%></td>
   </tr>
 </table>
-<%--<div class="container">
-      
-        <div class="row-fluid"><h2>权限名称：<%=ViewData["name"]%></h2></div>
-        <div class="row-fluid">权限类型：<%=ViewData["privilegetype_id"]%></div>
-        <div class="row-fluid">权限项目：<%=ViewData["privilegeitem_id"]%></div>      
-        <div class="row-fluid">应用系统名称：<%=ViewData["app_id"]%></div>
-        <div class="row-fluid">是否有效：<%=ViewData["invalid"]%></div>
-        <div class="row-fluid">权限备注：<%=ViewData["remark"]%></div>
-    </div>--%>
+
 
 </asp:Content>
