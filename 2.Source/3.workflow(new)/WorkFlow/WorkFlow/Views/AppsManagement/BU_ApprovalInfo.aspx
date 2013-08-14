@@ -22,8 +22,8 @@
   <% WorkFlow.Base_UserWebService.base_userModel m_baseuserModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"]; %>
   <% WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)ViewData["appInfo"];%>
   <% WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)ViewData["userInfo"];%>
-<table border="1" align="center" width="600">
-         <tr><th colspan="2">已审批系统详情</th></tr>
+<table class="table table-bordered  table-condensed table-hover" width="600">
+         <tr><th colspan="2"><center>已审批系统详情</center></th></tr>
          <tr>
          <td width="300">系统名称：</td>
          <td width="300"><%=m_appsModel.name %></td>

@@ -12,8 +12,8 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
-        <table border="1" align="center" width="600">
-        <tr><th colspan="2">用户详情</th></tr>
+        <table class="table table-bordered  table-condensed table-hover" width="600">
+        <tr><th colspan="2"><center>用户详情</center></th></tr>
         <tr>
         <td width="300">登录名称：</td>
         <td width="300"><%=ViewData["usersLogin"]%></td>

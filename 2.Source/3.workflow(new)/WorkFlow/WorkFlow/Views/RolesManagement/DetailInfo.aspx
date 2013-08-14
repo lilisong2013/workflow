@@ -12,9 +12,9 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 
-<table border="1" align="center" width="600">
-   <tr>
-   <th colspan="2">角色详情</th>
+<table class="table table-bordered  table-condensed table-hover" width="600">
+   <tr >
+   <th colspan="2"><center>角色详情</center></th>
    </tr>
    <tr>
     <td width="300">角色名称：</td>

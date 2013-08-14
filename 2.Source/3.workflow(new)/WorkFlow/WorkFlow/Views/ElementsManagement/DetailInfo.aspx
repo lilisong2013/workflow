@@ -11,8 +11,8 @@
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<table border="1" width="600" align="center">
-  <tr><th colspan="2">元素详情</th></tr>
+<table class="table table-bordered  table-condensed table-hover" width="600">
+  <tr><th colspan="2"><center>元素详情</center></th></tr>
   <tr>
   <td width="300">元素名称：</td>
   <td width="300"><%=ViewData["elementsName"]%></td>
