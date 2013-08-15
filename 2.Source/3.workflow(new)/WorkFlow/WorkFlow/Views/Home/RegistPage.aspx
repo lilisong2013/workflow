@@ -94,88 +94,157 @@
                 </div>
             </div>
             
-            <div class="container">
-                <table class="table table-bordered">
-                    <caption>填写系统信息</caption>
-                    <thead>
-                        <tr>
-                            <th>系统名称：</th>
-                            <th>系统编码：</th>
-                            <th>访问链接：</th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        <tr class="info">
-                            <td><input name="appsName" type="text" class="span4"/></td>
-                            <td><input name="appsCode" type="text" class="span4"/></td>
-                            <td><input name="appsUrl" type="text" class="span4"/></td>
-                        </tr>
-                    </tbody>
-                    <thead>
-                        <tr>
-                            <th colspan="3">系统备注：</th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        <tr class="info">
-                            <td colspan="3"><textarea name="appsRemark" class="m-textarea span12" rows="3" cols="10"></textarea></td>
-                        </tr>
-                    </tbody>
-                </table>
-        
-                <table class="table table-bordered">
-                    <caption>填写管理员信息</caption>
-                    <thead>
-                        <tr>
-                            <th>登录名称：</th>
-                            <th>登录密码：</th>
-                            <th>确认密码：</th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        <tr class="info">
-                            <td><input name="userLogin" type="text" class="span4" /></td>
-                            <td><input name="userPassword" type="password" class="span4" /></td>
-                            <td><input name="userPassword2" type="password" class="span4" /></td>
-                        </tr>
-                    </tbody>
-            
-                    <thead>
-                        <tr>
-                            <th>真实姓名：</th>
-                            <th>工号：</th>
-                            <th>手机号：</th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        <tr class="info">
-                            <td><input name="userName" type="text" class="span4" /></td>
-                            <td><input name="userEmployeeNo" type="text" class="span4" /></td>
-                            <td><input name="userMobilePhone" type="text" class="span4" /></td>
-                        </tr>
-                    </tbody>
-            
-                    <thead>
-                        <tr>
-                            <th>电子邮箱：</th>
-                            <th colspan="2">备注信息：</th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        <tr class="info">
-                            <td><input name="userMail" type="text" class="span4" /></td>
-                            <td colspan="2">
-                                <textarea name="userRemark" class="m-textarea span8" rows="3" cols="10"></textarea>
-                                <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
-                                <input type="hidden" name="createdIP" id="Hidden1" value="<%= ipAddress %>" />
-                                <% string apply_at = DateTime.Now.ToString(); %>
-                                <input type="hidden" name="apply_at" id="Hidden2" value="<%= apply_at %>" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="row text-center">
+                <h3>填写系统信息</h3>
+            </div>
+            <div class="row well">
+                
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">系统名称：</label>
+                                <div class="controls">
+                                    <input name="appsName" type="text" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">系统编码：</label>
+                                <div class="controls">
+                                    <input name="appsCode" type="text" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">访问链接：</label>
+                                <div class="controls">
+                                    <input name="appsUrl" type="text" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">系统备注：</label>
+                                <div class="controls">
+                                    <textarea name="appsRemark" class="m-textarea span8" rows="3" cols="10"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <div class="row text-center">
+                <h3>填写管理员信息</h3>
+            </div>
+            <div class="row well">
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">登录名称：</label>
+                                <div class="controls">
+                                    <input name="userLogin" type="text" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">真实姓名：</label>
+                                <div class="controls">
+                                    <input name="userName" type="text" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">登录密码：</label>
+                                <div class="controls">
+                                    <input name="userPassword" type="password" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">确认密码：</label>
+                                <div class="controls">
+                                    <input name="userPassword2" type="password" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">员工编号：</label>
+                                <div class="controls">
+                                    <input name="userEmployeeNo" type="text" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">手机号码：</label>
+                                <div class="controls">
+                                    <input name="userMobilePhone" type="text" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">电子邮箱：</label>
+                                <div class="controls">
+                                    <input name="userMail" type="text" class="span3" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">备注信息：</label>
+                                <div class="controls">
+                                    <textarea name="userRemark" class="m-textarea span8" rows="3" cols="10"></textarea>
+                                    <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
+                                    <input type="hidden" name="createdIP" id="Hidden3" value="<%= ipAddress %>" />
+                                    <% string apply_at = DateTime.Now.ToString(); %>
+                                    <input type="hidden" name="apply_at" id="Hidden4" value="<%= apply_at %>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 
