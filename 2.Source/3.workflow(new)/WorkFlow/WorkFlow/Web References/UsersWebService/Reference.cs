@@ -66,6 +66,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback GetModelByAppIDOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetV_AppAdminModelByAdminIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAllUsersListOfAppOperationCompleted;
         
         private System.Threading.SendOrPostCallback ModifyPasswordOperationCompleted;
@@ -169,6 +171,9 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public event GetModelByAppIDCompletedEventHandler GetModelByAppIDCompleted;
+        
+        /// <remarks/>
+        public event GetV_AppAdminModelByAdminIDCompletedEventHandler GetV_AppAdminModelByAdminIDCompleted;
         
         /// <remarks/>
         public event GetAllUsersListOfAppCompletedEventHandler GetAllUsersListOfAppCompleted;
@@ -711,6 +716,37 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetV_AppAdminModelByAdminID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public v_app_adminModel GetV_AppAdminModelByAdminID(int adminID, out string msg) {
+            object[] results = this.Invoke("GetV_AppAdminModelByAdminID", new object[] {
+                        adminID});
+            msg = ((string)(results[1]));
+            return ((v_app_adminModel)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetV_AppAdminModelByAdminIDAsync(int adminID) {
+            this.GetV_AppAdminModelByAdminIDAsync(adminID, null);
+        }
+        
+        /// <remarks/>
+        public void GetV_AppAdminModelByAdminIDAsync(int adminID, object userState) {
+            if ((this.GetV_AppAdminModelByAdminIDOperationCompleted == null)) {
+                this.GetV_AppAdminModelByAdminIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetV_AppAdminModelByAdminIDOperationCompleted);
+            }
+            this.InvokeAsync("GetV_AppAdminModelByAdminID", new object[] {
+                        adminID}, this.GetV_AppAdminModelByAdminIDOperationCompleted, userState);
+        }
+        
+        private void OnGetV_AppAdminModelByAdminIDOperationCompleted(object arg) {
+            if ((this.GetV_AppAdminModelByAdminIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetV_AppAdminModelByAdminIDCompleted(this, new GetV_AppAdminModelByAdminIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllUsersListOfApp", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetAllUsersListOfApp(int appID, out string msg) {
             object[] results = this.Invoke("GetAllUsersListOfApp", new object[] {
@@ -880,6 +916,171 @@ namespace WorkFlow.UsersWebService {
             }
             set {
                 this.anyAttrField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1009")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://saron.workflowservice.org/")]
+    public partial class v_app_adminModel {
+        
+        private int app_idField;
+        
+        private string app_NameField;
+        
+        private string app_CodeField;
+        
+        private string uRLField;
+        
+        private string app_MarkField;
+        
+        private int user_IDField;
+        
+        private string user_LoginField;
+        
+        private string user_PasswordField;
+        
+        private string user_NameField;
+        
+        private string employee_noField;
+        
+        private string mobile_phoneField;
+        
+        private string mailField;
+        
+        private string user_RemarkField;
+        
+        /// <remarks/>
+        public int App_id {
+            get {
+                return this.app_idField;
+            }
+            set {
+                this.app_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string App_Name {
+            get {
+                return this.app_NameField;
+            }
+            set {
+                this.app_NameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string App_Code {
+            get {
+                return this.app_CodeField;
+            }
+            set {
+                this.app_CodeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string URL {
+            get {
+                return this.uRLField;
+            }
+            set {
+                this.uRLField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string App_Mark {
+            get {
+                return this.app_MarkField;
+            }
+            set {
+                this.app_MarkField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int User_ID {
+            get {
+                return this.user_IDField;
+            }
+            set {
+                this.user_IDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string User_Login {
+            get {
+                return this.user_LoginField;
+            }
+            set {
+                this.user_LoginField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string User_Password {
+            get {
+                return this.user_PasswordField;
+            }
+            set {
+                this.user_PasswordField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string User_Name {
+            get {
+                return this.user_NameField;
+            }
+            set {
+                this.user_NameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string employee_no {
+            get {
+                return this.employee_noField;
+            }
+            set {
+                this.employee_noField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string mobile_phone {
+            get {
+                return this.mobile_phoneField;
+            }
+            set {
+                this.mobile_phoneField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string mail {
+            get {
+                return this.mailField;
+            }
+            set {
+                this.mailField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string User_Remark {
+            get {
+                return this.user_RemarkField;
+            }
+            set {
+                this.user_RemarkField = value;
             }
         }
     }
@@ -1670,6 +1871,40 @@ namespace WorkFlow.UsersWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((usersModel)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetV_AppAdminModelByAdminIDCompletedEventHandler(object sender, GetV_AppAdminModelByAdminIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetV_AppAdminModelByAdminIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetV_AppAdminModelByAdminIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public v_app_adminModel Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((v_app_adminModel)(this.results[0]));
             }
         }
         

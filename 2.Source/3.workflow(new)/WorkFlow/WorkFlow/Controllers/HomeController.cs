@@ -77,7 +77,21 @@ namespace WorkFlow.Controllers
         {
             int m_userID = Convert.ToInt32(Request.Params["adminID"]);
 
+            WorkFlow.UsersWebService.usersBLLservice m_userBllService = new UsersWebService.usersBLLservice();
+            WorkFlow.UsersWebService.v_app_adminModel m_v_app_adminModel = new UsersWebService.v_app_adminModel();
 
+            WorkFlow.UsersWebService.SecurityContext m_securityContext = new UsersWebService.SecurityContext();
+
+            #region webservice授权验证
+            string msg = string.Empty;
+            m_securityContext.UserName = "saron";
+            m_securityContext.PassWord = "123";
+            m_userBllService.SecurityContextValue = m_securityContext;
+            #endregion
+
+            m_v_app_adminModel = m_userBllService.GetV_AppAdminModelByAdminID(m_userID, out msg);
+
+            ViewData["appName"] = m_v_app_adminModel.App_Name;
             return View();
         }
         
