@@ -267,15 +267,36 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'系统名称不能为空！'}");
             }
+            if (Convert.ToInt32(m_appsModel.name.Length) > 30)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'系统名称不能超过30个字符!'}");
+            }
             if (m_appsModel.code == "")
             {
                 return Json("{success:false,css:'alert alert-error',message:'系统编码不能为空!'}");
+            }
+            if (Convert.ToInt32(m_appsModel.code.Length) > 30)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'系统编码不能超过30个字符!'}");
+            }
+            if (Convert.ToInt32(m_appsModel.url.Length) > 30)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'访问链接不能超过30个字符!'}");
+            }
+            if (Convert.ToInt32(m_appsModel.remark.Length) > 150)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'访问链接不能超过150个字符!'}");
             }
             //判断用户login、name、password是否为空
             if (m_userModel.login == "")
             {
                    return Json("{success:false,css:'alert alert-error',message:'用户登录名称不能为空！'}");
             }
+            if (Convert.ToInt32(m_userModel.login) > 30)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'用户登录名称长度不能超过30个字符!'}");
+            }
+           
             if (m_userModel.password == "")
             {
                 return Json("{success:false,css:'alert alert-error',message:'登录密码不能为空!'}");
@@ -283,6 +304,10 @@ namespace WorkFlow.Controllers
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(m_userModel.password) == false)
             {
                 return Json("{success:false,css:'alert alert-error',message:'登录密码应字母开头，字母和数字组合，至少6位!'}");
+            }
+            if (Convert.ToInt32(m_userModel.password.Length) > 15)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'登录密码长度不能超过15位!'}");
             }
             if (Request.Form["userPassword2"].Trim() == "")
             {
@@ -300,11 +325,18 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'真实姓名不能为空!'}");
             }
+            if (Convert.ToInt32(m_userModel.name) > 30)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'用户真实姓名长度不能超过30个字符!'}");
+            }
             if (m_userModel.employee_no == "")
             {
-                return Json("{success:false,css:'alert alert-error',message:'工号不能为空!'}");
+                return Json("{success:false,css:'alert alert-error',message:'员工编号不能为空!'}");
             }
-                      
+            if (Convert.ToInt32(m_userModel.employee_no) > 30)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'员工编号长度不能超过30个字符!}");
+            }
             if (m_userModel.mobile_phone == "")
             {
 

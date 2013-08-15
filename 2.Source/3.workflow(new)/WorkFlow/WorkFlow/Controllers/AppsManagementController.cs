@@ -446,19 +446,19 @@ namespace WorkFlow.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统出错！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "系统出错！" });
                 }
 
                 m_appsModel.invalid = false;
 
                 if (m_appsBllService.SuperAdminUpdateApp(m_appsModel, out msg))
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "系统：" + m_appsModel.name + "，已经可以使用！", toUrl = "/AppsManagement/BaseUserApps" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "alert alert-success", message = "系统：" + m_appsModel.name + "，已经可以使用！", toUrl = "/AppsManagement/BaseUserApps" });
 
                 }
                 else
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统：" + m_appsModel.name + "，审批失败！" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "系统：" + m_appsModel.name + "，审批失败！" });
                 }
             }
          
