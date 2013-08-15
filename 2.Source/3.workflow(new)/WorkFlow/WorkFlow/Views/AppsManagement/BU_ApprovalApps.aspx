@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/supersite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/superapproval.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     权限管理系统/系统审批
@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-    <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
+   <%-- <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />--%>
     
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
         type="text/css" />
@@ -20,7 +20,16 @@
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 
-<script type="text/javascript">
+    <%--隐藏提示信息--%>
+    <script type="text/javascript">
+        //隐藏提示信息
+        $(document).click(function () {
+            $("#promptDIV").removeClass("alert alert-error alert-success");
+            $("#promptDIV").html("");
+        });
+    </script>
+
+  <script type="text/javascript">
     $(document).ready(function () {
         var form = $("#approvalApply");
         form.submit(function () {
@@ -30,7 +39,7 @@
                     form.serialize(),
                     function (result, status) {
                         //debugger
-                        $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                        $("#promptDIV").removeClass("alert alert-error alert-success");
                         $("#promptDIV").addClass(result.css);
                         $("#promptDIV").html(result.message);
 
@@ -62,7 +71,7 @@
             function showResponse(responseText, statusText) {
                 //成功后执行的方法
                 //alert(responseText.Id + responseText.Name);
-                $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                $("#promptDIV").removeClass("alert alert-error alert-success");
                 $("#promptDIV").addClass(responseText.css);
                 $("#promptDIV").html(responseText.message);
 
@@ -130,7 +139,7 @@
          </tr>
          <tr>
          <input id="appID" type="hidden" value="<%=m_appsModel.id %>"/>
-          <td colspan="2" align="center"><center><input id="approvalApply" type="button" value="批准申请"/></center></td>
+          <td colspan="2" align="center"><center><input id="approvalApply" class="btn btn-primary btn-info" value="批准申请"/></center></td>
          </tr>
         </table>
      </form>
