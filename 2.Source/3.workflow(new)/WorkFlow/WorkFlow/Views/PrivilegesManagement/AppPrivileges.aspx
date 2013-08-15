@@ -304,7 +304,7 @@
             $.ligerDialog.confirm('确定要删除吗?', function (yes) {
                 if (yes) {
                     $.ajax({
-                        url: "/PrivilegesManagement/DeletePrivileges",
+                        url: "/PrivilegesManagement/DeleteMPrivileges",
                         type: "POST",
                         dataType: "json",
                         data: { privilegeID: privilegeid },

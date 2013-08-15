@@ -52,6 +52,8 @@ namespace WorkFlow.PrivilegesWebService {
         
         private System.Threading.SendOrPostCallback ExistsChildrenPMenusOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetItemIDByPIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetChildrenPMenuOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetMenuPrivilegeListOfAppOperationCompleted;
@@ -142,6 +144,9 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         public event ExistsChildrenPMenusCompletedEventHandler ExistsChildrenPMenusCompleted;
+        
+        /// <remarks/>
+        public event GetItemIDByPIDCompletedEventHandler GetItemIDByPIDCompleted;
         
         /// <remarks/>
         public event GetChildrenPMenuCompletedEventHandler GetChildrenPMenuCompleted;
@@ -486,6 +491,39 @@ namespace WorkFlow.PrivilegesWebService {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetItemIDByPID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetItemIDByPID(int pID, int appID, out string msg) {
+            object[] results = this.Invoke("GetItemIDByPID", new object[] {
+                        pID,
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetItemIDByPIDAsync(int pID, int appID) {
+            this.GetItemIDByPIDAsync(pID, appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetItemIDByPIDAsync(int pID, int appID, object userState) {
+            if ((this.GetItemIDByPIDOperationCompleted == null)) {
+                this.GetItemIDByPIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetItemIDByPIDOperationCompleted);
+            }
+            this.InvokeAsync("GetItemIDByPID", new object[] {
+                        pID,
+                        appID}, this.GetItemIDByPIDOperationCompleted, userState);
+        }
+        
+        private void OnGetItemIDByPIDOperationCompleted(object arg) {
+            if ((this.GetItemIDByPIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetItemIDByPIDCompleted(this, new GetItemIDByPIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetChildrenPMenu", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetChildrenPMenu(int parentID, int appID, out string msg) {
             object[] results = this.Invoke("GetChildrenPMenu", new object[] {
@@ -725,7 +763,7 @@ namespace WorkFlow.PrivilegesWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1009")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1015")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -784,7 +822,7 @@ namespace WorkFlow.PrivilegesWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1009")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1015")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1278,6 +1316,40 @@ namespace WorkFlow.PrivilegesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetItemIDByPIDCompletedEventHandler(object sender, GetItemIDByPIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetItemIDByPIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetItemIDByPIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
         

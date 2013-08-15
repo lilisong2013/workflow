@@ -204,6 +204,29 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetItemIDByPID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="pID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemIDByPIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemIDByPIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetChildrenPMenu">
         <s:complexType>
           <s:sequence>
@@ -438,6 +461,15 @@
   <wsdl:message name="ExistsChildrenPMenusSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetItemIDByPIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemIDByPID" />
+  </wsdl:message>
+  <wsdl:message name="GetItemIDByPIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemIDByPIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemIDByPIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetChildrenPMenuSoapIn">
     <wsdl:part name="parameters" element="tns:GetChildrenPMenu" />
   </wsdl:message>
@@ -551,6 +583,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统菜单权限的菜单的子菜单,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:ExistsChildrenPMenusSoapIn" />
       <wsdl:output message="tns:ExistsChildrenPMenusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetItemIDByPID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">在菜单权限下通过视图的id获得item_id,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetItemIDByPIDSoapIn" />
+      <wsdl:output message="tns:GetItemIDByPIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetChildrenPMenu">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某权限下菜单的子菜单列表,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -685,6 +722,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:ExistsChildrenPMenusSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemIDByPID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetItemIDByPID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetItemIDByPIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -858,6 +905,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:ExistsChildrenPMenusSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemIDByPID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetItemIDByPID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetItemIDByPIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

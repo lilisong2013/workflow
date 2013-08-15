@@ -1300,16 +1300,34 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.UserName = m_usersModel.login;
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_privilegesBllService.SecurityContextValue = m_SecurityContext;
 
-               
-                if (m_privilegesBllService.ExistsChildrenPMenus(privilegeID, (int)m_usersModel.app_id, out msg) == true)
-                { //判断该菜单权限下存在子菜单
-
+                DataSet ds = m_privilegesBllService.GetItemIDByPID(privilegeID,(int)m_usersModel.app_id,out msg);
+                int itemID = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
+       
+                try
+                {
+                    if (m_privilegesBllService.ExistsChildrenPMenus(itemID, (int)m_usersModel.app_id, out msg) == true)
+                    { //判断该菜单权限下存在子菜单
+                        return Json("{success:false,css:'alert alert-error',message:'该菜单权限下存在子菜单,不能删除!'}");
+                    }
+                    else
+                    { //该菜单权限下不存在子菜单
+                        if (m_privilegesBllService.Delete(privilegeID, out msg))
+                        {
+                            return Json("{success:true,css:'alert alert-success',message:'菜单权限删除成功!'}");
+                        }
+                        else
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'菜单权限删除失败!'}");
+                        }
+                    }
                 }
-                else
-                { //该菜单权限下不存在子菜单
-                
+                catch (Exception ex)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
+             
 
             }
 
