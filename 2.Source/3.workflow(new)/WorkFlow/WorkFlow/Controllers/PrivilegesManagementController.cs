@@ -1217,6 +1217,7 @@ namespace WorkFlow.Controllers
 
                     DataSet dsM = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id, m_privilegesModel.privilegeitem_id, out msg);
                     ViewData["privilegetype_id"] = "菜单项目";
+                    ViewData["privilegetype"] = "菜单";
                     ViewData["privilegeitem_id"] = dsM.Tables[0].Rows[0][0].ToString();
 
                 }
@@ -1235,6 +1236,7 @@ namespace WorkFlow.Controllers
                     ViewData["privilegeitem_id"] = dsE.Tables[0].Rows[0][0].ToString();
 
                     ViewData["privilegetype_id"] = "元素项目";
+                    ViewData["privilegetype"] = "页面元素";
                 }
                 if (m_privilegesModel.privilegetype_id == 3)
                 {
@@ -1249,6 +1251,7 @@ namespace WorkFlow.Controllers
                     DataSet dsO = m_operationsBllService.GetOperationsNameOfAppID((int)m_usersModel.app_id, m_privilegesModel.privilegeitem_id, out msg);
                     ViewData["privilegeitem_id"] = dsO.Tables[0].Rows[0][0].ToString();
                     ViewData["privilegetype_id"] = "操作项目";
+                    ViewData["privilegetype"] = "操作";
                 }
 
                 if (m_privilegesModel.invalid == false)

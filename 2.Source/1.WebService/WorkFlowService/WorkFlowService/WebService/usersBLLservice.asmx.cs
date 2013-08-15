@@ -310,7 +310,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据系统ID得到一个实体对象，<h4>（需要授权验证，系统管理员）")]
+        [WebMethod(Description = "根据系统管理员ID获得一个系统-系统管理员对象实体，<h4>（需要授权验证，自定义用户）")]
         public Saron.WorkFlowService.Model.v_app_adminModel GetV_AppAdminModelByAdminID(int adminID, out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问

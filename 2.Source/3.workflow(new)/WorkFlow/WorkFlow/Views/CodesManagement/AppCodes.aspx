@@ -11,7 +11,6 @@
     <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
     <%--LigerUI Dialog文件--%>
-   <%-- <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
@@ -31,111 +30,7 @@
             $("#promptDIV").html("");
         });
     </script>
-    <%--在Grid中测试信息--%>
-   <%-- <script type="text/javascript">
-        $(document).ready(function () {
-            alert("-----");
-            var user =
-            {
-                "username": "andy",
-                "age": 20,
-                "info": { "tel": "123456", "cellphone": "98765" },
-                "address":
-                [
-                 { "city": "beijing", "postcode": "222333" },
-                 { "city": "newyork", "postcode": "555666" }
-                ]
-            }
-            alert(user.username);
-            alert(user.age);
-            alert(user.info.cellphone);
-            alert(user.address[0].city);
-            alert(user.address[0].postcode);
-            var test =
-            { Rows: [
-              { name: '顺序', id: '1', reamrk: '', order_no: '1' },
-              { name: '并序', id: '2', remark: '', order_no: '2' }
-              ]
-            }
-            var JsonTest = eval(test);
-            alert("length:" + test.Rows.length)
-            for (var i = 0; i < test.Rows.length; i++) {
-                alert("i:" + i);
-                alert("name:"+test.Rows[i].name+"id:"+test.Rows[i].id+"order_no:"+test.Rows[i].order_no);
-            }
-            alert(JsonTest);
-//            alert(test.Rows[0].name);
-//            alert(test.Rows[0].id);
-//            alert(test.Rows[0].order_no);
-//            alert(test.Rows[1].name);
-//            alert(test.Rows[1].id);
-//            alert(test.Rows[1].order_no);
-        });
-    </script>--%>
-    <%--在Grid中显示flowstep_type信息--%>
-   <%-- <script type="text/javascript">
-        var FmanagerListGrid;
-        $(document).ready(function () {
 
-         GetFlowstep_Type_List(); 
-
-        });
-     function GetFlowstep_Type_List() {
-         $.ajax({
-             url: "/CodesManagement/GetFlowstep_Type_List",
-             type: "POST",
-             dataType: "json",
-             data: {},
-             success: function (responseText, statusText) {
-                 alert(responseText);
-                 var test = eval("(" + responseText + ")");
-                 for (var i = 0; i < test.Rows.length; i++) {
-                     alert("name:" + test.Rows[i].name + "order_no:" + test.Rows[i].order_no);
-                 }
-                 var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-             }
-         });
-      }
-    </script>--%>
-    <%--在Grid中显示step_action信息--%>
-   <%--  <script type="text/javascript">
-        var SmangerListGrid;
-        $(document).ready(function () {
-            //定义ligerGrid
-            $("#step_actiongrid").ligerGrid({
-                width: '99%',
-                height: 300
-            });
-            SmangerListGrid = $("#step_actiongrid").ligerGetGridManager();
-            GetStep_Action_List(); //获取处理结果列表
-//            $("#infoTab1").click(function () {
-//                GetStep_Action_List();//获取处理结果列表
-//            });
-        });
-        function GetStep_Action_List() {
-            $.ajax({
-                url: "/CodesManagement/GetStep_Action_List",
-                type: "POST",
-                dataType: "json",
-                data: {},
-                success: function (responseText, statusText) {
-                   // alert(responseText);
-                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                    //更新mygrid数据
-                    SmangerListGrid.setOptions({
-                        columns: [
-                      { display: '处理结果名称', name: 'name',width:80, align: 'center' },
-                      { display: '排序码', name: 'order_no', width:80,align: 'center' },
-                      { display: '备注', name: 'reamrk', width:80,align: 'center' }
-                      
-                      ],
-                        data: dataJson
-                    });
-                    SmangerListGrid.loadData();
-                }
-            });
-        }
-    </script>--%>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h2>代码表信息管理</h2></div>
@@ -146,47 +41,9 @@
     </div>
 
      <div class="container" style="margin-top:16px;">
-       <%-- <ul class="nav nav-tabs">
-            <li class="active" id="#infoTab"><a href="#AllFlow" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
-        </ul>--%>
+
     </div>
     <div class="tab-content">
-   
-    <%--  <script type="text/javascript">
-          $(document).ready(function () {
-              alert("-----");
-                  var user =
-              {
-                  "username": "andy",
-                  "age": 20,
-                  "info": { "tel": "123456", "cellphone": "98765" },
-                  "address":
-                [
-                 { "city": "beijing", "postcode": "222333" },
-                 { "city": "newyork", "postcode": "555666" }
-                ]
-              }
-                  alert(user.username);
-                  alert(user.age);
-                  alert(user.info.cellphone);
-                  alert(user.address[0].city);
-                  alert(user.address[0].postcode);
-                  var test =
-            { Rows: [
-              { name: '顺序', id: '1', reamrk: '', order_no: '1' },
-              { name: '并序', id: '2', remark: '', order_no: '2' }
-              ]
-            }
-                  var JsonTest = eval(test);
-                  alert("length:" + test.Rows.length)
-                  for (var i = 0; i < test.Rows.length; i++) {
-                      alert("i:" + i);
-                      alert("name:" + test.Rows[i].name + "id:" + test.Rows[i].id + "order_no:" + test.Rows[i].order_no);
-                  }
-                  alert(JsonTest);               
-          });
-     
-      </script>--%>
   
       <%string msg = string.Empty; %>
       <%WorkFlow.Flowstep_TypeWebService.flowstep_typeBLLservice m_flowstepBllService = new WorkFlow.Flowstep_TypeWebService.flowstep_typeBLLservice(); %>

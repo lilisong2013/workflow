@@ -27,7 +27,7 @@
             </thead>
             <tbody> 
                 <tr class="info">
-                    <td></td>
+                    <td><%=ViewData["appName"] %></td>
                     <td></td>
                     <td></td>
                 </tr>
