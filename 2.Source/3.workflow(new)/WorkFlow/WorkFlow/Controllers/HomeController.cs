@@ -92,6 +92,16 @@ namespace WorkFlow.Controllers
             m_v_app_adminModel = m_userBllService.GetV_AppAdminModelByAdminID(m_userID, out msg);
 
             ViewData["appName"] = m_v_app_adminModel.App_Name;
+            ViewData["appCode"] = m_v_app_adminModel.App_Code;
+            ViewData["appUrl"] = m_v_app_adminModel.URL;
+            ViewData["appMark"] = m_v_app_adminModel.App_Mark;
+
+            ViewData["adminLogin"] = m_v_app_adminModel.User_Login;
+            ViewData["adminName"] = m_v_app_adminModel.User_Name;
+            ViewData["adminEmployee_no"] = m_v_app_adminModel.employee_no;
+            ViewData["adminPhone"] = m_v_app_adminModel.mobile_phone;
+            ViewData["adminMail"] = m_v_app_adminModel.mail;
+            ViewData["adminMark"] = m_v_app_adminModel.User_Remark;
             return View();
         }
         
