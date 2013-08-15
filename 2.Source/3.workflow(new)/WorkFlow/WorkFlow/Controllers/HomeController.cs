@@ -292,7 +292,7 @@ namespace WorkFlow.Controllers
             {
                    return Json("{success:false,css:'alert alert-error',message:'用户登录名称不能为空！'}");
             }
-            if (Convert.ToInt32(m_userModel.login) > 30)
+            if (Convert.ToInt32(m_userModel.login.Length)>30)
             {
                 return Json("{success:false,css:'alert alert-error',message:'用户登录名称长度不能超过30个字符!'}");
             }
@@ -325,7 +325,7 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'真实姓名不能为空!'}");
             }
-            if (Convert.ToInt32(m_userModel.name) > 30)
+            if (Convert.ToInt32(m_userModel.name.Length) > 30)
             {
                 return Json("{success:false,css:'alert alert-error',message:'用户真实姓名长度不能超过30个字符!'}");
             }
@@ -333,7 +333,7 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'员工编号不能为空!'}");
             }
-            if (Convert.ToInt32(m_userModel.employee_no) > 30)
+            if (Convert.ToInt32(m_userModel.employee_no.Length) > 30)
             {
                 return Json("{success:false,css:'alert alert-error',message:'员工编号长度不能超过30个字符!}");
             }
