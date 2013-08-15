@@ -290,6 +290,38 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetV_AppAdminModelByAdminID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="adminID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetV_AppAdminModelByAdminIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetV_AppAdminModelByAdminIDResult" type="tns:v_app_adminModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="v_app_adminModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="App_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="App_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="App_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="App_Mark" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="User_ID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="User_Login" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="User_Password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="User_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="employee_no" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mobile_phone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mail" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="User_Remark" type="s:string" />
+        </s:sequence>
+      </s:complexType>
       <s:element name="GetAllUsersListOfApp">
         <s:complexType>
           <s:sequence>
@@ -500,6 +532,15 @@
   <wsdl:message name="GetModelByAppIDSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetV_AppAdminModelByAdminIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetV_AppAdminModelByAdminID" />
+  </wsdl:message>
+  <wsdl:message name="GetV_AppAdminModelByAdminIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetV_AppAdminModelByAdminIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetV_AppAdminModelByAdminIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetAllUsersListOfAppSoapIn">
     <wsdl:part name="parameters" element="tns:GetAllUsersListOfApp" />
   </wsdl:message>
@@ -584,12 +625,12 @@
       <wsdl:output message="tns:AdminInfoUpdateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="LogicDelete">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">逻辑上删除一条id为id的记录</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">逻辑上删除一条id为id的记录，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
       <wsdl:input message="tns:LogicDeleteSoapIn" />
       <wsdl:output message="tns:LogicDeleteSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModelByID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
       <wsdl:input message="tns:GetModelByIDSoapIn" />
       <wsdl:output message="tns:GetModelByIDSoapOut" />
     </wsdl:operation>
@@ -609,9 +650,14 @@
       <wsdl:output message="tns:GetUserModelByLoginSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModelByAppID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统ID得到一个实体对象</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统ID得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
       <wsdl:input message="tns:GetModelByAppIDSoapIn" />
       <wsdl:output message="tns:GetModelByAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetV_AppAdminModelByAdminID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统管理员ID获得一个系统-系统管理员对象实体，&lt;h4&gt;（需要授权验证，自定义用户）</wsdl:documentation>
+      <wsdl:input message="tns:GetV_AppAdminModelByAdminIDSoapIn" />
+      <wsdl:output message="tns:GetV_AppAdminModelByAdminIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllUsersListOfApp">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统所有有效用户的数据列表</wsdl:documentation>
@@ -794,6 +840,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetModelByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetV_AppAdminModelByAdminID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetV_AppAdminModelByAdminID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetV_AppAdminModelByAdminIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -995,6 +1051,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetModelByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetV_AppAdminModelByAdminID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetV_AppAdminModelByAdminID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetV_AppAdminModelByAdminIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

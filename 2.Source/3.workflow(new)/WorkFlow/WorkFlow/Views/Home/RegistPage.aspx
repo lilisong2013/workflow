@@ -26,67 +26,52 @@
         });
     </script>
 
-    <%--<style type="text/css">
-        .container{ min-width:700px;}
-        .control-group .{}
-        .m-group-topborder{border-top:1px solid #ccc; padding-top:10px;}
-        .m-group-topborder label{ margin-left:20px;}
-        .m-newline{ margin-top:10px;}
-        .m-newline label{ margin-top:28px;}
-        .m-textarea{ width:280px;}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var options = {
+                //beforeSubmit: showRequest,  // from提交前的响应的回调函数
+                success: showResponse,  // form提交响应成功后执行的回调函数
+                url: "/Home/RegistUser",
+                type: "POST",
+                dataType: "json"
+            };
 
-        .pull-right{ margin-right:12px;}
+            $("#submit").click(function () {
+                if (false) {
 
-        #userinfo .m-leftform{border-right:1px solid #ccc; width:300px; position:relative; float:left;}
-        #userinfo .m-rightform{ position:relative; float:left;}
-    </style>--%>
+                    return false;
+                } else {
+                    $("#registerUser").ajaxForm(options);
+                }
+            });
 
-       <script type="text/javascript">
-           $(document).ready(function () {
-               var options = {
-                   //beforeSubmit: showRequest,  // from提交前的响应的回调函数
-                   success: showResponse,  // form提交响应成功后执行的回调函数
-                   url: "/Home/RegistUser",
-                   type: "POST",
-                   dataType: "json"
-               };
+            $("#submit2").click(function () {
+                if (false) {
 
-               $("#submit").click(function () {
-                   if (false) {
+                    return false;
+                } else {
+                    $("#registerUser").ajaxForm(options);
+                }
+            });
+        });
 
-                       return false;
-                   } else {
-                       $("#registerUser").ajaxForm(options);
-                   }
-               });
+        function showResponse(responseText, statusText) {
+            //alert(responseText.toUrl);
+            var dataJson = eval("(" + responseText + ")");
+            if (!dataJson.success) {
+                show_DIV(dataJson);
+            } else {
+                location.href = dataJson.toUrl;
+            }
+        }
 
-               $("#submit2").click(function () {
-                   if (false) {
-
-                       return false;
-                   } else {
-                       $("#registerUser").ajaxForm(options);
-                   }
-               });
-           });
-
-           function showResponse(responseText, statusText) {
-               //alert(responseText.toUrl);
-               var dataJson = eval("("+responseText+")");
-               if (!responseText.success) {
-                   show_DIV(dataJson);
-               } else {
-                   location.href = responseText.toUrl;
-               }
-           }
-
-           //提示信息
-           function show_DIV(data) {
-               $("#promptDIV").removeClass("alert alert-success alert-error");
-               $("#promptDIV").addClass(data.css);
-               $("#promptDIV").html(data.message);
-          }
-    </script>
+        //提示信息
+        function show_DIV(data) {
+            $("#promptDIV").removeClass("alert alert-success alert-error");
+            $("#promptDIV").addClass(data.css);
+            $("#promptDIV").html(data.message);
+        }
+</script>
 
 </asp:Content>
 
@@ -94,8 +79,8 @@
     <div class="container">
         <div class="row">
             <ul class="breadcrumb">
-                <li class="active"><a href="#">系统管理员信息</a><span class="divider">/</span></li>
-                <li><a href="/Home/Login">登录</a></li>
+                <li class="active">应用系统注册<span class="divider">/</span></li>
+                <li><a href="/Home/RegistPageCon">登录</a></li>
             </ul>
         </div>
         

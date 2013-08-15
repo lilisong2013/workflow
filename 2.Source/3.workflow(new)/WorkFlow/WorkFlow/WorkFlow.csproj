@@ -681,6 +681,9 @@
     <None Include="Web References\OperationsWebService\operationsBLLservice.disco" />
     <None Include="Web References\Init_StatusWebService\init_statusBLLservice.disco" />
     <None Include="Web References\Privileges_RoleWebService\privilege_roleBLLservice.disco" />
+    <None Include="Web References\UsersWebService\v_app_adminModel.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\User_RoleBLLservice\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
