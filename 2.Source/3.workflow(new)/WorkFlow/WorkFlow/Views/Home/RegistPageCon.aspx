@@ -15,76 +15,131 @@
     <div class="container">
         <div class="alert alert-success">您的系统申请已成功提交！系统信息如下：</div>
     </div>
-    <div class="container">
-        <table class="table table-bordered">
-            <caption>系统信息浏览</caption>
-            <thead>
-                <tr>
-                    <th>系统名称：</th>
-                    <th>系统编码：</th>
-                    <th>访问链接：</th>
-                </tr>
-            </thead>
-            <tbody> 
-                <tr class="info">
-                    <td><%=ViewData["appName"] %></td>
-                    <td><%=ViewData["appCode"] %></td>
-                    <td><%=ViewData["appUrl"] %></td>
-                </tr>
-            </tbody>
-            <thead>
-                <tr>
-                    <th colspan="3">系统备注：</th>
-                </tr>
-            </thead>
-            <tbody> 
-                <tr class="info">
-                    <td colspan="3"><%=ViewData["appMark"] %></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <table class="table table-bordered">
-            <caption>管理员信息浏览</caption>
-            <thead>
-                <tr>
-                    <th>登录名称：</th>
-                    <th>真实姓名：</th>
-                    <th>工号：</th>
-                </tr>
-            </thead>
-            <tbody> 
-                <tr class="info">
-                    <td><%=ViewData["adminLogin"] %></td>
-                    <td><%=ViewData["adminName"] %></td>
-                    <td><%=ViewData["adminEmployee_no"]%></td>
-                </tr>
-            </tbody>
-            
-            <thead>
-                <tr>
-                    <th>手机号：</th>
-                    <th colspan="2">电子邮箱：</th>
-                </tr>
-            </thead>
-            <tbody> 
-                <tr class="info">
-                    <td><%=ViewData["adminPhone"]%></td>
-                    <td colspan="2"><%=ViewData["adminMail"] %></td>
-                </tr>
-            </tbody>
-            
-            <thead>
-                <tr>
-                    <th colspan="3">备注信息：</th>
-                </tr>
-            </thead>
-            <tbody> 
-                <tr class="info">
-                    <td colspan="3"><%=ViewData["adminMark"] %></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="container form-horizontal">
+        <div class="row text-center">
+            <h3>系统信息浏览</h3>
+        </div>
+        <div class="row well">
+            <div class="span12">
+                <div class="row">
+                    <div class="span5">
+                        <div class="control-group">
+                            <label class="control-label">系统名称：</label>
+                            <div class="controls">
+                                <label class="span3"><%=ViewData["appName"]%></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <div class="control-group">
+                            <label class="control-label">系统编码：</label>
+                            <div class="controls">
+                                <label class="span3"><%=ViewData["appCode"]%></label> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="span12">
+                <div class="row">
+                    <div class="span5">
+                        <div class="control-group">
+                            <label class="control-label">访问链接：</label>
+                            <div class="controls">
+                                <label class="span3"><%=ViewData["appUrl"]%></label> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="span12">
+                <div class="row">
+                    <div class="span5">
+                        <div class="control-group">
+                            <label class="control-label">系统备注：</label>
+                            <div class="controls">
+                                <p class="span8" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["appMark"]%></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="row text-center">
+                <h3>管理员信息浏览</h3>
+            </div>
+            <div class="row well">
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">登录名称：</label>
+                                <div class="controls">
+                                    <label class="span3"><%=ViewData["adminLogin"]%></label> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">真实姓名：</label>
+                                <div class="controls">
+                                    <label class="span3"><%=ViewData["adminName"]%></label> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">员工编号：</label>
+                                <div class="controls">
+                                    <label class="span3"><%=ViewData["adminEmployee_no"]%></label> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">手机号码：</label>
+                                <div class="controls">
+                                    <label class="span3"><%=ViewData["adminPhone"]%></label> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">电子邮箱：</label>
+                                <div class="controls">
+                                    <label class="span3"><%=ViewData["adminMail"]%></label> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span12">
+                    <div class="row">
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label">备注信息：</label>
+                                <div class="controls">
+                                    <p class="span8" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["adminMark"]%></p> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
     <div class="container">
         <ul class="pager">
