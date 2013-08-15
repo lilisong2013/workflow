@@ -13,6 +13,7 @@ namespace WorkFlow.Controllers
         //
         // GET: /MenusManagement/
 
+        //AppMenus页面
         public ActionResult AppMenus()
         {
             if (Session["user"] == null)
@@ -25,9 +26,7 @@ namespace WorkFlow.Controllers
             }
         }
 
-        /// <summary>
-        /// 添加菜单
-        /// </summary>
+        // 添加菜单
         public ActionResult AddMenus()
         {
             if (Session["user"] == null)
@@ -268,10 +267,7 @@ namespace WorkFlow.Controllers
            
         }
 
-        /// <summary>
-        /// 获得菜单的下拉列表
-        /// </summary>
-        /// <returns>json数据</returns>
+        // 获得菜单的下拉列表
         public ActionResult GetMenus()
         {
             if (Session["user"] == null)
@@ -624,11 +620,8 @@ namespace WorkFlow.Controllers
             }
            
         }
-        ///<summay>
-        ///编辑数据库中指定记录的操作
-        ///</summay>
-        ///<param name="id">系统的ID</param>
-        ///<returns></returns>
+
+        //编辑数据库中指定记录的操作
         public ActionResult EditMenus(FormCollection collection)
         {
             if (Session["user"] == null)

@@ -14,6 +14,7 @@ namespace WorkFlow.Controllers
         //
         // GET: /ElementsManagement/
 
+        //AppElements页面
         public ActionResult AppElements()
         {
             if (Session["user"] == null)
@@ -25,79 +26,7 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
-        /// <summary>
-        /// 获取数据库中Elements表中所有有效的数据
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult GetElements_Apply()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                string msg = string.Empty;
-                WorkFlow.ElementsWebService.elementsBLLservice m_elementsService = new ElementsWebService.elementsBLLservice();
-                WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-                WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-
-                m_SecurityContext.UserName = m_usersModel.login;
-                m_SecurityContext.PassWord = m_usersModel.password;
-                m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_elementsService.SecurityContextValue = m_SecurityContext;
-
-                int AppID = Convert.ToInt32(m_usersModel.app_id);
-                ////排序的字段名
-                //string sortname = Request.Params["sortname"];
-                ////排序的方向
-                //string sortorder = Request.Params["sortorder"];
-                ////当前页
-                //int page = Convert.ToInt32(Request.Params["page"]);
-                ////每页显示的记录数
-                //int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
-
-
-                DataSet ds = m_elementsService.GetElementsListOfApp(AppID, out msg);
-                string data = "{Rows:[";
-                if (ds == null)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
-                }
-                else
-                {
-                    try
-                    {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            string name = ds.Tables[0].Rows[i][1].ToString();
-                            string id = ds.Tables[0].Rows[i][0].ToString();
-                            string code = ds.Tables[0].Rows[i][2].ToString();
-                            if (i == ds.Tables[0].Rows.Count - 1)
-                            {
-                                data += "{name:'" + name + "',";
-                                data += "id:'" + id + "',";
-                                data += "code :'" + code + "'}";
-                            }
-                            else
-                            {
-                                data += "{name:'" + name + "',";
-                                data += "id:'" + id + "',";
-                                data += "code:'" + code + "'},";
-                            }
-                        }
-                    }
-                    catch (Exception ex) { }
-                    data += "]}";
-                    return Json(data);
-            }
-         
-          }
-          
-        }
-
+ 
         //后台分页显示元素列表
         public ActionResult GetElements_List()
         {
@@ -173,10 +102,8 @@ namespace WorkFlow.Controllers
 
             }
         }
-        /// <summary>
-        /// 显示元素操作的详细信息
-        /// </summary>
-        /// <returns></returns>
+
+        // 显示元素操作的详细信息
         public ActionResult DetailInfo(int id)
         {
             if (Session["user"] == null)
@@ -243,11 +170,8 @@ namespace WorkFlow.Controllers
             }
        
         }
-        /// <summary>
-        /// 根据状态ID返回状态值
-        /// </summary>
-        /// <param name="id">状态ID</param>
-        /// <returns>状态值</returns>
+  
+        // 根据状态ID返回状态值
         public string  GetStatusValue(int id)
         {
             if (id == 1)
@@ -261,41 +185,7 @@ namespace WorkFlow.Controllers
             return "无效";
             
         }
-        ///<summary>
-        ///删除指定ID的操作
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult ChangePage(int id)
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                string msg = string.Empty;
-                WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
-                //WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
-                WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-                m_SecurityContext.UserName = m_usersModel.login;
-                m_SecurityContext.PassWord = m_usersModel.password;
-                m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_elementsBllService.SecurityContextValue = m_SecurityContext;
-
-                if (m_elementsBllService.Delete(id, out msg))
-                {
-                    return RedirectToAction("AppElements");
-                }
-                else
-                {
-                    return View();
-                }          
-            }
-          
-        }
-
+ 
         //删除一条记录
         public ActionResult DeleteElement()
         {
@@ -434,10 +324,8 @@ namespace WorkFlow.Controllers
             }
            
         }
-        ///<summary>
-        ///编辑元素的详细信息
-        ///</summary>
-        ///<returns></returns>
+
+        //编辑元素的详细信息
         public ActionResult EditPage(int id)
         {
             if (Session["user"] == null)
@@ -507,10 +395,8 @@ namespace WorkFlow.Controllers
             }
            
         }
-        /// <summary>
-        /// 添加元素操作
-        /// </summary>
-        /// <returns></returns>
+
+        // 添加元素操作
         public ActionResult AddElements(FormCollection collection)
         {
             if (Session["user"] == null)
@@ -643,10 +529,7 @@ namespace WorkFlow.Controllers
             
         }
 
-        ///<summary>
-        ///获得初始化状态的下拉列表
-        /// </summary>
-        /// <returns>json数据</returns>
+        //获得初始化状态的下拉列表
         public ActionResult GetStatusName()
         {
             if (Session["user"] == null)
@@ -673,10 +556,7 @@ namespace WorkFlow.Controllers
           
         }
 
-        /// <summary>
-        /// 获得菜单的下拉列表
-        /// </summary>
-        /// <returns>json数据</returns>
+        // 获得菜单的下拉列表
         public ActionResult GetMenusName()
         {
             if (Session["user"] == null)
@@ -729,11 +609,8 @@ namespace WorkFlow.Controllers
             }
           
         }
-        /// <summary>
-        /// 编辑信息
-        /// </summary>
-        /// <param name="collection"></param>
-        /// <returns></returns>
+
+        // 编辑信息
         public ActionResult EditElements(FormCollection collection)
         {
             if (Session["user"] == null)
@@ -758,11 +635,9 @@ namespace WorkFlow.Controllers
                 m_elementsModel = m_elementsBllService.GetModel(Convert.ToInt32(collection["elementsId"].Trim()), out msg);
                 int appID = Convert.ToInt32(codeModel.app_id);
                 int menuID = Convert.ToInt32(collection["elementsMenu_id"]);
-                //int menuID = Convert.ToInt32(Request.Form["eElementPage"]);
                 string name = collection["elementsName"].Trim();
                 string code = collection["elementsCode"].Trim();
                 string Initstatus_id = collection["elementsInitstatus_id"].Trim();
-                //string Menu_id = Request.Form["eElementPage"];
                 string Menu_id = collection["elementsMenu_id"].Trim();
                 string seqno = collection["elementsSeqno"].Trim();
                 if (name.Length == 0)
@@ -849,7 +724,6 @@ namespace WorkFlow.Controllers
                     m_elementsModel.initstatus_id = 3;
                 }
                 m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim().ToString());
-                //m_elementsModel.menu_id = Convert.ToInt32(Request.Form["eElementPage"]);
                 m_elementsModel.menu_id = Convert.ToInt32(collection["elementsMenu_id"].Trim().ToString());
                 m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim().ToString());
                 if (m_ev_Total == 1)
@@ -1002,6 +876,7 @@ namespace WorkFlow.Controllers
                 }
             }
         }
+      
         public class LoginResultDTO
         {
             public bool Success { get; set; }

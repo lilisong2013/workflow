@@ -13,7 +13,8 @@ namespace WorkFlow.Controllers
     {
         //
         // GET: /RolesManagement/
-
+        
+        //AppRoles页面
         public ActionResult AppRoles()
         {
             if (Session["user"] == null)
@@ -26,6 +27,7 @@ namespace WorkFlow.Controllers
             }        
         }
       
+        //Role_Privileges页面
         public ActionResult Role_Privileges()
         {
             string msg = string.Empty;
@@ -82,13 +84,10 @@ namespace WorkFlow.Controllers
                 WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
                 WorkFlow.AppsWebService.appsModel m_appsModel = new AppsWebService.appsModel();
 
-
-
                 m_SecurityContext.UserName = m_usersModel.login;
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_rolesBllService.SecurityContextValue = m_SecurityContext;
-
 
                 string m_rolesName = collection["rolesName"].Trim();
                 if (m_rolesName.Length == 0)
@@ -118,15 +117,11 @@ namespace WorkFlow.Controllers
                     }
                 }
                 m_rolesModel.name = collection["rolesName"].Trim();
-                //m_rolesModel.invalid = Convert.ToBoolean(collection["rolesInvalid"].Trim());//String转化为Boolean
-                //m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());//String转化为Boolean
                 m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
                 m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
                 m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
                 m_rolesModel.created_ip = collection["rolesCreated_ip"].Trim();
                 m_rolesModel.remark = collection["rolesRemark"].Trim();
-
-
                 try
                 {
                     if (m_rolesBllService.Add(m_rolesModel, out msg) != 0)
@@ -185,6 +180,7 @@ namespace WorkFlow.Controllers
                 }
            
         }
+       
         //获取是否有效的列表
         public ActionResult GetInvalidList()
         {
@@ -235,11 +231,8 @@ namespace WorkFlow.Controllers
             }
             
         }
-        /// <summary>
-        /// 获取ID的数据表详情
-        /// </summary>
-        /// <param name="id">系统的ID</param>
-        /// <returns></returns>
+
+        // 获取角色ID的信息
         public ActionResult EditPage(int id)
         {
             if (Session["user"] == null)
@@ -279,6 +272,7 @@ namespace WorkFlow.Controllers
            
         }
 
+        //获取是否有效的名称
         public ActionResult GetInvalidName()
         {
             if (Session["user"] == null)
@@ -309,12 +303,7 @@ namespace WorkFlow.Controllers
            
         }
 
-        /// <summary>
-        /// 修改数据库中的信息
-        /// </summary>
-        /// <param name="id">系统的ID</param>
-        /// <returns></returns>
-        /// <summary>
+        // 修改角色表信息
         public ActionResult EditRoles(FormCollection collection)
         {
             if (Session["user"] == null)
@@ -475,64 +464,7 @@ namespace WorkFlow.Controllers
            
         }
 
-        public ActionResult GetRoles_Apply()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                string msg = string.Empty;
-                WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
-                WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-
-                m_SecurityContext.UserName = m_usersModel.login;
-                m_SecurityContext.PassWord = m_usersModel.password;
-                m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_rolesBllService.SecurityContextValue = m_SecurityContext;
-
-                int appID = Convert.ToInt32(m_usersModel.app_id);
-                DataSet ds = m_rolesBllService.GetAllRolesListOfApp(appID, out msg);
-                string data = "{Rows:[";
-                if (ds == null)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
-                }
-                else
-                {
-                    try
-                    {
-                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                        {
-                            string name = ds.Tables[0].Rows[i][1].ToString();
-                            string id = ds.Tables[0].Rows[i][0].ToString();
-                            string remark = ds.Tables[0].Rows[i][2].ToString();
-                            if (i == ds.Tables[0].Rows.Count - 1)
-                            {
-                                data += "{name:'" + name + "',";
-                                data += "id:'" + id + "',";
-                                data += "remark:'" + remark + "'}";
-                            }
-                            else
-                            {
-                                data += "{name:'" + name + "',";
-                                data += "id:'" + id + "',";
-                                data += "remark:'" + remark + "'},";
-                            }
-                        }
-                    }
-                    catch (Exception ex) { }
-                    data += "]}";
-                    return Json(data);
-                }
-            }
-        }
-
-        
-        // 后台分页方式获得角色的信息列表      
+        //获得角色的信息列表(后台分页)
         public ActionResult GetRolesList()
         {
             if(Session["user"]==null)
@@ -840,7 +772,7 @@ namespace WorkFlow.Controllers
                             m_privilege_roleModel.privilege_id = m_mprivilegeID;//菜单、页面元素权限ID
                             if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
-                              //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+
                                 return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                             }
                         }
@@ -853,33 +785,31 @@ namespace WorkFlow.Controllers
                             m_privilege_roleModel.privilege_id = m_oprivilegeID;
                             if (!m_privilege_roleBllService.Add(m_privilege_roleModel,out msg))
                             {
-                              //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+
                                 return Json("{success:false,css:'alert alert-error',message:'修改失败！'}");
                             }
                         }
                     }
                     else
                     {
-                      //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "修改失败！" });
+
                         return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                  //  return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序出错！" });
+ 
                     return Json("{success:false,css:'alert alert-error',message:'程序出错!'}");
                 }
 
-               // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "修改成功！", toUrl = "/RolesManagement/Role_Privileges" });
+
                 return Json("{success:true,css:'alert alert-success',message:'修改成功!'}");
             }
     
        
         }
 
-        /// <summary>
-        /// 给角色添加父菜单权限
-        /// </summary>
+        // 给角色添加父菜单权限
         public void AddParentMenuRolePrivilege(int menuID,int roleID)
         {
             if (menuID != 0)
@@ -930,7 +860,6 @@ namespace WorkFlow.Controllers
                 }
             }
         }
-
 
         //获得菜单、页面元素权限--Tree控件menusList
         public ActionResult GetMenuPrivilegeTree()

@@ -14,6 +14,7 @@ namespace WorkFlow.Controllers
         //
         // GET: /OperationsManagement/
 
+        //AppOperations页面
         public ActionResult AppOperations()
         {
             if (Session["user"] == null)
@@ -26,7 +27,6 @@ namespace WorkFlow.Controllers
             }
         }
         
-
         //后台分页获取操作数据列表
         public ActionResult GetOperations_List()
         {
@@ -165,8 +165,6 @@ namespace WorkFlow.Controllers
                     }
                     
                 }
-                
-
                 try
                 {
                     if (flag == false)
@@ -307,11 +305,7 @@ namespace WorkFlow.Controllers
           
         }
         
-        ///<summay>
-        ///编辑数据库中指定记录的操作
-        ///</summay>
-        ///<param name="id">系统的ID</param>
-        ///<returns></returns>
+        //获取一条为id的操作信息
         public ActionResult EditPage(int id)
         {
             if (Session["user"] == null)
@@ -348,11 +342,7 @@ namespace WorkFlow.Controllers
          
         }
         
-        ///<summay>
-        ///编辑数据库中指定记录的操作
-        ///</summay>
-        ///<param name="id">系统的ID</param>
-        ///<returns></returns>
+        //编辑数据库中指定记录的操作
         public ActionResult EditOperations(FormCollection collection)
         {
             if (Session["user"] == null)
@@ -488,46 +478,7 @@ namespace WorkFlow.Controllers
          
           
         }
-        
-        ///<summary>
-        ///删除数据库中指定记录的操作
-        ///</summary>
-        ///<param name="id">系统的ID</param>
-        ///<returns></returns>
-        public ActionResult ChangePage(int id)
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            else 
-            {
-                WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
-                WorkFlow.OperationsWebService.operationsModel m_operationsModel = new OperationsWebService.operationsModel();
-
-                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-
-                string msg = string.Empty;
-
-                WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
-                //SecurityContext实体对象赋值
-                m_securityContext.UserName = m_usersModel.login;
-                m_securityContext.PassWord = m_usersModel.password;
-                m_securityContext.AppID = (int)m_usersModel.app_id;
-                m_operationsBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
-
-                if (m_operationsBllService.DeleteOperations(id, out msg))
-                {
-                    return RedirectToAction("AppOperations");
-                }
-                else
-                {
-                    return View();
-                }
-            }
-           
-        }
-       
+             
         //添加操作信息   
         public ActionResult AddOperations(FormCollection collection)
         {

@@ -47,24 +47,24 @@ namespace WorkFlow.Controllers
                 m_securityContext.AppID = (int)m_usersModel.app_id;
                 m_usersBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
-                //m_userModel = m_usersBllService.GetModelByID(userID,out msg);
+    
 
                 try
                 {
                     if (m_usersBllService.LogicDelete(userID, out msg))
                     {
-                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "p-successDIV", message = "成功删除记录", toUrl = "/UsersManagement/AppUsers" });
+
                         return Json("{success:true,css:'alert alert-success',message:'成功删除用户信息!'}");
                     }
                     else
                     {
-                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "删除失败!" });
+
                         return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
                     }
                 }
                 catch (Exception ex)
                 {
-                   // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "程序异常!" });
+
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
             }
@@ -199,11 +199,7 @@ namespace WorkFlow.Controllers
            
         }
         
-        ///<summary>
-        ///显示数据库中用户表的详细信息
-        ///</summary>
-        ///<param name="id">系统的ID</param>
-        ///<return>返回所有信息</return>
+        //显示用户的详细信息   
         public ActionResult DetailInfo(int id)
         {
             if (Session["user"] == null)
@@ -364,6 +360,8 @@ namespace WorkFlow.Controllers
            
                     return Json("{success:false,css:'alert alert-error',message:'邮件格式不正确!'}");
                 }
+
+                //获取某应用系统中数据表中用户的登录名和工号列表
                 DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID, out msg);
                 ArrayList usersList = new ArrayList();
                 ArrayList empNoList = new ArrayList();
@@ -373,6 +371,8 @@ namespace WorkFlow.Controllers
                     usersList.Add(ds.Tables[0].Rows[i][1].ToString());
                     empNoList.Add(ds.Tables[0].Rows[i][4].ToString());
                 }
+
+               //判断数据表中和添加的登录名称是否相同
                 foreach (string userList in usersList)
                 {
                     if (userList.Equals(collection["usersLogin"].Trim().ToString()))
@@ -381,6 +381,8 @@ namespace WorkFlow.Controllers
                         return Json("{success:false,css:'alert alert-error',message:'已经存在相同的登录名称！'}");
                     }
                 }
+
+                //判断数据表中和添加的工号是否相同
                 foreach (string empnoList in empNoList)
                 {
                     if (empnoList.Equals(collection["usersEmployee_no"].Trim().ToString()))
@@ -389,6 +391,8 @@ namespace WorkFlow.Controllers
                         return Json("{success:false,css:'alert alert-error',message:'已经存在相同的工号!'}");
                     }
                 }
+
+                //赋值
                 WorkFlow.AppsWebService.appsModel m_appsModel = (WorkFlow.AppsWebService.appsModel)Session["apps"];
                 m_usersModel.login = collection["usersLogin"].Trim();
                 m_usersModel.password = collection["usersPassword"].Trim();
@@ -425,13 +429,10 @@ namespace WorkFlow.Controllers
               
         }
        
-        ///<summary>
-        ///获取数据表中ID的信息
-        ///</summary>
-        ///<param name="id">系统的ID</param>
-        ///<returns></returns>
+        //获取用户表中ID的一条信息
         public ActionResult EditPage(int id)
-        {  if (Session["user"] == null)
+        { 
+            if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }  
@@ -481,8 +482,7 @@ namespace WorkFlow.Controllers
             }
             
         }
-       
-      
+         
         //编辑用户信息    
         public ActionResult EditUsers(FormCollection collection)
         {
@@ -720,15 +720,13 @@ namespace WorkFlow.Controllers
             }
         }
        
-        ///<summary>
-        ///给用户赋角色
-        ///</summary>
-        ///<returns></returns>
+        //给用户赋角色
         public ActionResult UserRoles(int id)
-        {    if (Session["user"] == null)
-                {
-                    return RedirectToAction("Login", "Home");
-                }           
+        {    
+           if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }           
            else
            {
             string msg = string.Empty;
@@ -757,10 +755,7 @@ namespace WorkFlow.Controllers
                       
         }
         
-        ///<summary>
-        ///获取角色类型的权限列表
-        /// </summary>
-        ///<returns></returns>
+        //获取角色类型的权限列表
         public ActionResult GetRolesList()
         {
             if (Session["user"] == null)
@@ -788,7 +783,7 @@ namespace WorkFlow.Controllers
 
                 DataSet ds = new DataSet();
                 try
-                {   //？？
+                {   
                     ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id, out msg);
                 }
                 catch (Exception ex)
@@ -799,6 +794,7 @@ namespace WorkFlow.Controllers
                     int m_rolesID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
                     string m_rolesName = ds.Tables[0].Rows[i][1].ToString();
                     string m_selected = string.Empty;
+                   
                     //判断用户中是否存在此角色
                     if (m_user_roleBllService.Exists(m_usersID, m_rolesID))
                     {
@@ -827,10 +823,7 @@ namespace WorkFlow.Controllers
             
         }
         
-        ///<summary>
-        ///添加用户角色
-        ///</summary>
-        ///<returns></returns>
+        //添加用户角色
         public ActionResult AddUserRoles()
         {
             if (Session["user"] == null)
@@ -875,8 +868,6 @@ namespace WorkFlow.Controllers
             }
 
         }
-
-       
 
         //根据用户登录名称实现模糊查询
         public ActionResult GetUserListByLogin(string userlogin)
@@ -942,13 +933,6 @@ namespace WorkFlow.Controllers
                 else {
                     DataSet ds = m_usersBllService.GetUserListByLogin(userlogin,(int)m_userModel.app_id,out msg);
                     string data = "{Rows:[";
-                    if (ds == null)
-                    {
-                        //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "无权访问WebService！" });
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else
-                    {
                         try {
                             for (int i = 0; i < ds.Tables[0].Rows.Count; i++) 
                             {
@@ -974,11 +958,8 @@ namespace WorkFlow.Controllers
                         }
                         catch (Exception ex) { }
                         data += "]}";
-                        return Json(data);
-
-                    }
+                        return Json(data);                
                 }
-
 
             }
         }

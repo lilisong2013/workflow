@@ -1280,6 +1280,41 @@ namespace WorkFlow.Controllers
 
         }
 
+        //删除菜单权限
+
+        public ActionResult DeleteMPrivileges()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
+                WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
+
+                string msg = string.Empty;
+                int privilegeID = Convert.ToInt32(Request.Form["privilegeID"]);
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+               
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+
+               
+                if (m_privilegesBllService.ExistsChildrenPMenus(privilegeID, (int)m_usersModel.app_id, out msg) == true)
+                { //判断该菜单权限下存在子菜单
+
+                }
+                else
+                { //该菜单权限下不存在子菜单
+                
+                }
+
+            }
+
+        }
+
         //删除权限
         public ActionResult DeletePrivileges()
         {

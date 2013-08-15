@@ -28,8 +28,8 @@
             <tbody> 
                 <tr class="info">
                     <td><%=ViewData["appName"] %></td>
-                    <td></td>
-                    <td></td>
+                    <td><%=ViewData["appCode"] %></td>
+                    <td><%=ViewData["appUrl"] %></td>
                 </tr>
             </tbody>
             <thead>
@@ -39,7 +39,7 @@
             </thead>
             <tbody> 
                 <tr class="info">
-                    <td colspan="3"></td>
+                    <td colspan="3"><%=ViewData["appMark"] %></td>
                 </tr>
             </tbody>
         </table>
@@ -55,9 +55,9 @@
             </thead>
             <tbody> 
                 <tr class="info">
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><%=ViewData["adminLogin"] %></td>
+                    <td><%=ViewData["adminName"] %></td>
+                    <td><%=ViewData["adminEmployee_no"]%></td>
                 </tr>
             </tbody>
             
@@ -69,8 +69,8 @@
             </thead>
             <tbody> 
                 <tr class="info">
-                    <td></td>
-                    <td colspan="2"></td>
+                    <td><%=ViewData["adminPhone"]%></td>
+                    <td colspan="2"><%=ViewData["adminMail"] %></td>
                 </tr>
             </tbody>
             
@@ -81,7 +81,7 @@
             </thead>
             <tbody> 
                 <tr class="info">
-                    <td colspan="3"></td>
+                    <td colspan="3"><%=ViewData["adminMark"] %></td>
                 </tr>
             </tbody>
         </table>
