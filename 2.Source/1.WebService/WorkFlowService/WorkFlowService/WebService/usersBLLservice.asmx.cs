@@ -22,6 +22,8 @@ namespace Saron.WorkFlowService.WebService
         private readonly Saron.WorkFlowService.DAL.usersDAL m_usersdal = new Saron.WorkFlowService.DAL.usersDAL();
         private readonly Saron.WorkFlowService.DAL.user_roleDAL m_user_roledal = new DAL.user_roleDAL();
 
+        private readonly Saron.WorkFlowService.DAL.v_app_adminDAL m_v_app_admindal = new DAL.v_app_adminDAL();
+
         public SecurityContext m_securityContext = new SecurityContext();
 
         #region  Method
@@ -210,7 +212,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "逻辑上删除一条id为id的记录")]
+        [WebMethod(Description = "逻辑上删除一条id为id的记录，<h4>（需要授权验证，系统管理员）")]
         public bool LogicDelete(int id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -239,7 +241,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据主键id得到一个实体对象")]
+        [WebMethod(Description = "根据主键id得到一个实体对象，<h4>（需要授权验证，系统管理员）")]
         public Saron.WorkFlowService.Model.usersModel GetModelByID(int id,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -294,7 +296,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "根据系统ID得到一个实体对象")]
+        [WebMethod(Description = "根据系统ID得到一个实体对象，<h4>（需要授权验证，系统管理员）")]
         public Saron.WorkFlowService.Model.usersModel GetModelByAppID(int appID,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
@@ -305,6 +307,20 @@ namespace Saron.WorkFlowService.WebService
             }
 
             return m_usersdal.GetModelByAppID(appID);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据系统ID得到一个实体对象，<h4>（需要授权验证，系统管理员）")]
+        public Saron.WorkFlowService.Model.v_app_adminModel GetV_AppAdminModelByAdminID(int adminID, out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AnyOneIsValidCK(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return null;
+            }
+
+            return m_v_app_admindal.GetV_AppAdminModelByUserID(adminID);
         }
 
         [SoapHeader("m_securityContext")]

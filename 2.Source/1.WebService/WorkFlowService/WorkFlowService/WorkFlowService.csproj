@@ -97,6 +97,7 @@
     <Compile Include="DAL\step_actionDAL.cs" />
     <Compile Include="DAL\usersDAL.cs" />
     <Compile Include="DAL\user_roleDAL.cs" />
+    <Compile Include="DAL\v_app_adminDAL.cs" />
     <Compile Include="DAL\v_menu_privilegesDAL.cs.cs" />
     <Compile Include="DAL\v_privilegesDAL.cs" />
     <Compile Include="DAL\v_privileges_treeDAL.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Model\step_actionModel.cs" />
     <Compile Include="Model\usersModel.cs" />
     <Compile Include="Model\user_roleModel.cs" />
+    <Compile Include="Model\v_app_adminModel.cs" />
     <Compile Include="Model\v_menu_privilegesModel.cs.cs" />
     <Compile Include="Model\v_privilegesModel.cs" />
     <Compile Include="Model\v_privileges_treeModel.cs" />

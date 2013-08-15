@@ -75,6 +75,9 @@ namespace WorkFlow.Controllers
         
         public ActionResult RegistPageCon()
         {
+            int m_userID = Convert.ToInt32(Request.Params["adminID"]);
+
+
             return View();
         }
         
@@ -335,7 +338,7 @@ namespace WorkFlow.Controllers
                     }
                     else
                     {
-                        return Json("{success:true,css:'alert alert-success',message:'成功添加!'}");
+                        return Json("{success:true,css:'alert alert-success',message:'申请已成功提交!',toUrl:'/Home/RegistPageCon?adminID=" + flag + "'}");
                     }
                 }
                 catch (Exception ex)
