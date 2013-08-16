@@ -330,7 +330,7 @@
                 <div class="control-group span6 offset4">
                     <input id="submit" type="submit" class="btn btn-primary  span2"  value="添加菜单" />
                     &nbsp;&nbsp;&nbsp;
-                    <input type="reset" class="btn btn-primary  span2"  value="重置" />
+                    <input type="reset" class="btn btn-primary span2"  value="重置" />
                 </div>
             </form>
         </div>

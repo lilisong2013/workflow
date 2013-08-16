@@ -8,7 +8,7 @@
   
    <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-   <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+  <%-- <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>--%>
 
     <%-- ligerUI核心文件--%>
     <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-tree.css" rel="stylesheet" type="text/css" />        
@@ -445,7 +445,7 @@
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
-                    <div class="controls span9">
+                    <div class="controls span6">
                         <div id="eMyTree"></div>
                     </div>
                 </div>
@@ -468,14 +468,14 @@
                         <input type="hidden" id="Created_ip" name="Created_ip" value="<%=ipAddress%>"/>           
                     </div>
                 </div>
-              <div class="control-group span6 offset3">
+              <div class="control-group span6 offset2">
                   <div class="controls">
-                     <input  id="addSave" type="submit" value="添加" class="btn btn-primary  span1" /> 
+                     <input  id="addSave" type="submit" value="添加" class="btn btn-primary span2" /> 
                      &nbsp;&nbsp;&nbsp;
-                     <input type="reset" value="重置"  class="btn btn-primary  span1" />
+                     <input type="reset" value="重置"  class="btn btn-primary  span2" />
                   </div>
               </div>
-            </form>
+           </form>
         </div>
     </div>
 
