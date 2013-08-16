@@ -41,6 +41,15 @@
             $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
+
+        $(document).ready(function () {
+            //重置信息时充值下拉列表信息
+            $("#restInfo").click(function () {
+                //alert("aaaa");
+                $("#eElementPageInfo").val("-1");
+                $("#eElementPageInfo").html("选择页面");
+            });
+        });
     </script>
 
     <%--在Grid中分页显示Element信息--%>
@@ -472,7 +481,7 @@
                   <div class="controls">
                      <input  id="addSave" type="submit" value="添加" class="btn btn-primary span2" /> 
                      &nbsp;&nbsp;&nbsp;
-                     <input type="reset" value="重置"  class="btn btn-primary  span2" />
+                     <input id="restInfo" type="reset" value="重置"  class="btn btn-primary  span2" />
                   </div>
               </div>
            </form>

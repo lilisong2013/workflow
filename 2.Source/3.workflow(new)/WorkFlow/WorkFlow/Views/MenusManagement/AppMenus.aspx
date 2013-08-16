@@ -45,6 +45,15 @@
             $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
+
+        $(document).ready(function () {
+            //重置信息时充值下拉列表信息
+            $("#restInfo").click(function () {
+                //alert("aaaa");
+                $("#menusInfo").val("-1");
+                $("#menusInfo").html("顶级菜单");
+            });
+        });
     </script>
 
     <%--在Grid中显示menus信息--%>
@@ -330,7 +339,7 @@
                 <div class="control-group span6 offset4">
                     <input id="submit" type="submit" class="btn btn-primary  span2"  value="添加菜单" />
                     &nbsp;&nbsp;&nbsp;
-                    <input type="reset" class="btn btn-primary span2"  value="重置" />
+                    <input id="restInfo" type="reset" class="btn btn-primary span2"  value="重置" />
                 </div>
             </form>
         </div>
