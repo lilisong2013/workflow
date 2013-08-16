@@ -29,7 +29,7 @@
         });
     </script>
 
-  <script type="text/javascript">
+<%--  <script type="text/javascript">
     $(document).ready(function () {
         var form = $("#approvalApply");
         form.submit(function () {
@@ -52,7 +52,7 @@
 
         });
     });
-    </script>
+    </script>--%>
 
     <script type="text/javascript">
         $(document).ready(function (result) {
