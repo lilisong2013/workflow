@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/superapproval.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     
 </asp:Content>
@@ -23,7 +23,7 @@
   </tr>
   <tr>
   <td width="300">备注：</td>
-  <td width="300"><%=ViewData["elementsRemark"]%></td>
+  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsRemark"]%></td>
   </tr>
   <tr>
   <td width="300">初始化状态：</td>

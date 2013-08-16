@@ -144,7 +144,7 @@
     <div class="container">
         <ul class="pager">
             <li class="next">
-                <a href="/Home/Login">返回登录</a>
+                <a href="/Home/Login">返回</a>
             </li>
         </ul>
     </div>

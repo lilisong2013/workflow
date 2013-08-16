@@ -53,6 +53,7 @@ namespace WorkFlow.Controllers
 
 
                 string m_privilegeName = Request.Form["oPrivilegesName"].ToString();
+                string o_remark = Request.Form["oPrivilegesRemark"].ToString();
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
@@ -63,7 +64,10 @@ namespace WorkFlow.Controllers
                     // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "系统中权限名称已经存在！" });
                    return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
                 }
-
+                if (Convert.ToInt32(o_remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注的长度不能超过150个字符！'}");
+                }
                 m_privilegesModel.name = m_privilegeName;//权限名称
                 m_privilegesModel.privilegetype_id = 3;//权限类型ID
                 m_privilegesModel.privilegeitem_id = Convert.ToInt32(Request.Form["oPrivilegesItem"].ToString());
@@ -122,7 +126,7 @@ namespace WorkFlow.Controllers
                 m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
                 string m_privilegeName = Request.Form["mPrivilegesName"].ToString();
-               
+                string m_remark = Request.Form["mPrivilegesRemark"].ToString();
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
@@ -133,7 +137,10 @@ namespace WorkFlow.Controllers
               
                     return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
                 }
-
+                if (Convert.ToInt32(m_remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注长度不能超过150个字符！'}");
+                }
                 m_privilegesModel.name = m_privilegeName;//权限名称
                 m_privilegesModel.privilegetype_id = 1;//权限类型ID
                 m_privilegesModel.privilegeitem_id = Convert.ToInt32(Request.Form["mPrivilegesItem"].ToString());
@@ -191,6 +198,7 @@ namespace WorkFlow.Controllers
                 m_privilegesBllService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
 
                 string m_privilegeName = Request.Form["ePrivilegesName"].ToString();
+                string m_remark = Request.Form["ePrivilegesRemark"].ToString();
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(m_privilegeName) == false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
@@ -201,7 +209,10 @@ namespace WorkFlow.Controllers
                 
                     return Json("{success:false,css:'alert alert-error',message:'系统中权限名称已经存在！'}");
                 }
-
+                if (Convert.ToInt32(m_remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注的长度不能超过150个字符！'}");
+                }
                 m_privilegesModel.name = m_privilegeName;//权限名称
                 m_privilegesModel.privilegetype_id = 2;//权限类型ID
                 m_privilegesModel.privilegeitem_id = Convert.ToInt32(Request.Form["ePrivilegesItem"].ToString());

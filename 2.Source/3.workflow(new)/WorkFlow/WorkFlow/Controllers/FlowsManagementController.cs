@@ -236,6 +236,7 @@ namespace WorkFlow.Controllers
                 m_flowsBllService.SecurityContextValue = m_SecurityContext;
 
                 string flowsName = collection["flowsName"].Trim();
+                string remark = collection["flowsRemark"].Trim();
                 if (flowsName.Length == 0)
                 {
                   
@@ -244,6 +245,10 @@ namespace WorkFlow.Controllers
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["flowsName"]) == false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'流程名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
+                }
+                if (Convert.ToInt32(remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注不能超过150个字符!'}");
                 }
                 //m_flowsModel.name=collection["flowsName"];
                 //获得deleted=false且应用系统ID为app_id的flowsName列表
@@ -500,6 +505,7 @@ namespace WorkFlow.Controllers
                 WorkFlow.FlowsWebService.flowsModel m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
 
                 string name=collection["flowsName"].Trim();
+                string remark = collection["flowsRemark"].Trim();
                 if (name.Length == 0)
                 {
                   
@@ -508,6 +514,10 @@ namespace WorkFlow.Controllers
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["flowsName"]) == false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'流程名称含有非法字符,只能包含字母、数字、汉字、下划线!'}");
+                }
+                if (Convert.ToInt32(remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注长度不能超过150个字符!'}");
                 }
                //获得deleted=false且应用系统ID为appid的flowsName列表
                 DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id,out msg);

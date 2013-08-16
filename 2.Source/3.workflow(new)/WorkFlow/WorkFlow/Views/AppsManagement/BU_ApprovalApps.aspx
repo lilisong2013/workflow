@@ -99,43 +99,43 @@
         <tr><th colspan="2"><center>待审批系统详情</center></th></tr>
          <tr>
          <td width="300">系统名称：</td>
-         <td width="300"><%=m_appsModel.name %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_appsModel.name %></td>
          </tr>
          <tr>
          <td width="300">系统编码：</td>
-         <td width="300"><%=m_appsModel.code %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_appsModel.code %></td>
          </tr>
          <tr>
          <td width="300">访问链接：</td>
-         <td width="300"><%=m_appsModel.url %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_appsModel.url %></td>
          </tr>
          <tr>
          <td width="300">系统备注：</td>
-         <td width="300"><%=m_appsModel.remark %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_appsModel.remark %></td>
          </tr>
          <tr>
          <td width="300">系统管理员：</td>
-         <td width="300"><%=m_userModel.login %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_userModel.login %></td>
          </tr>
          <tr>
          <td width="300">管理员姓名：</td>
-         <td width="300"><%=m_userModel.name %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_userModel.name %></td>
          </tr>
           <tr>
          <td width="300">管理员工号：</td>
-         <td width="300"><%=m_userModel.employee_no %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_userModel.employee_no %></td>
          </tr>
          <tr>
          <td width="300">手机号码：</td>
-         <td width="300"><%=m_userModel.mobile_phone %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_userModel.mobile_phone %></td>
          </tr>
          <tr>
          <td width="300">邮件地址：</td>
-         <td width="300"><%=m_userModel.mail %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_userModel.mail %></td>
          </tr>
          <tr>
          <td width="300">管理员备注：</td>
-         <td width="300"><%=m_userModel.remark %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_userModel.remark %></td>
          </tr>
          <tr>
          <input id="appID" type="hidden" value="<%=m_appsModel.id %>"/>

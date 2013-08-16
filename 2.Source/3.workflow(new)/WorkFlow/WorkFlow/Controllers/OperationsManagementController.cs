@@ -370,6 +370,7 @@ namespace WorkFlow.Controllers
                 m_operationsModel = m_operationsBllService.GetModel(m_operationsId, out msg);
                 string name = collection["operationsName"].Trim().ToString();
                 string code = collection["operationsCode"].Trim().ToString();
+                string remark = collection["operationsRemark"].Trim().ToString();
                 //string invalid = collection["operationsInvalid"].Trim();
                 if (name.Length == 0)
                 {
@@ -388,6 +389,10 @@ namespace WorkFlow.Controllers
                 {
                   
                     return Json("{success:false,css:'alert alert-error',message:'编码以字母开头!'}");
+                }
+                if (Convert.ToInt32(remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注的长度不能超过150个字符!'}");
                 }
                 DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
                 var total = ds.Tables[0].Rows.Count;
@@ -504,6 +509,7 @@ namespace WorkFlow.Controllers
 
                 string m_operationsName = collection["operationsName"].Trim();
                 string m_operationsCode = collection["operationsCode"].Trim();
+                string remark = collection["operationsRemark"].Trim();
                 if (m_operationsName.Length == 0)
                 {
 
@@ -523,6 +529,10 @@ namespace WorkFlow.Controllers
                 {
             
                     return Json("{success:false,css:'alert alert-error',message:'操作编码以字母开头!'}");
+                }
+                if (Convert.ToInt32(remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注的长度不能超过150个字符!'}");
                 }
                 string m_operationsDescription = collection["operationsDescription"].Trim();
                 string m_operationsRemark = collection["operationsRemark"].Trim();

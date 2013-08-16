@@ -295,6 +295,7 @@ namespace WorkFlow.Controllers
                 string employee_no = collection["usersEmployee_no"].Trim();
                 string mobile_phone = collection["usersMobile_phone"].Trim();
                 string mail = collection["usersMail"].Trim();
+                string remark = collection["usersRemark"].Trim();
                 if (login.Length == 0)
                 {
                    
@@ -360,7 +361,10 @@ namespace WorkFlow.Controllers
            
                     return Json("{success:false,css:'alert alert-error',message:'邮件格式不正确!'}");
                 }
-
+                if (Convert.ToInt32(remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注的字符长度不能超过150个字符!'}");
+                }
                 //获取某应用系统中数据表中用户的登录名和工号列表
                 DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID, out msg);
                 ArrayList usersList = new ArrayList();
@@ -523,7 +527,7 @@ namespace WorkFlow.Controllers
                 string employeeno = collection["usersEmployee_no"].Trim();
                 string phone = collection["usersMobile_phone"].Trim();
                 string mail = collection["usersMail"].Trim();
-
+                string remark = collection["usersRemark"].Trim();
                 string invalid = Request.Params["invalidValue"];
 
                 if (login.Length == 0)
@@ -573,6 +577,10 @@ namespace WorkFlow.Controllers
                     return Json("{success:false,css:'alert alert-error',message:'邮件格式不正确!'}");
                 }
 
+                if (Convert.ToInt32(remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注的长度不能超过150个字符!'}");
+                }
                 DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID, out msg);
                 ArrayList userList = new ArrayList();
                 ArrayList empNoList = new ArrayList();

@@ -237,6 +237,7 @@ namespace WorkFlow.Controllers
             m_appsModel.created_at = DateTime.Now;
             m_appsModel.created_ip = Request.Form["createdIP"].Trim();
             string datetime = Request.Form["apply_at"].Trim();
+            
             try
             {
                 m_appsModel.apply_at = Convert.ToDateTime(datetime);
@@ -285,8 +286,9 @@ namespace WorkFlow.Controllers
             }
             if (Convert.ToInt32(m_appsModel.remark.Length) > 150)
             {
-                return Json("{success:false,css:'alert alert-error',message:'访问链接不能超过150个字符!'}");
+                return Json("{success:false,css:'alert alert-error',message:'系统备注不能超过150个字符!'}");
             }
+
             //判断用户login、name、password是否为空
             if (m_userModel.login == "")
             {
@@ -296,7 +298,14 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'用户登录名称长度不能超过30个字符!'}");
             }
-           
+            if (m_userModel.name == "")
+            {
+                return Json("{success:false,css:'alert alert-error',message:'真实姓名不能为空!'}");
+            }
+            if (Convert.ToInt32(m_userModel.name.Length) > 30)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'用户真实姓名长度不能超过30个字符!'}");
+            }
             if (m_userModel.password == "")
             {
                 return Json("{success:false,css:'alert alert-error',message:'登录密码不能为空!'}");
@@ -321,14 +330,7 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'两次输入的密码不一致！'}");
             }
-            if (m_userModel.name == "")
-            {
-                return Json("{success:false,css:'alert alert-error',message:'真实姓名不能为空!'}");
-            }
-            if (Convert.ToInt32(m_userModel.name.Length) > 30)
-            {
-                return Json("{success:false,css:'alert alert-error',message:'用户真实姓名长度不能超过30个字符!'}");
-            }
+         
             if (m_userModel.employee_no == "")
             {
                 return Json("{success:false,css:'alert alert-error',message:'员工编号不能为空!'}");
@@ -353,6 +355,10 @@ namespace WorkFlow.Controllers
             if (Saron.Common.PubFun.ConditionFilter.IsEmail(m_userModel.mail) == false)
             {
                 return Json("{success:false,css:'alert alert-error',message:'邮箱格式输入不正确!'}");
+            }
+            if (Convert.ToInt32(m_userModel.remark.Length) > 150)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'备注信息不能超过150个字符!'}");
             }
             //系统是否存在
             if (m_appsBllservice.ExistsAppName(m_appsModel.name,out msg))

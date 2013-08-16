@@ -90,6 +90,7 @@ namespace WorkFlow.Controllers
                 m_rolesBllService.SecurityContextValue = m_SecurityContext;
 
                 string m_rolesName = collection["rolesName"].Trim();
+                string m_rolesRemark=collection["rolesRemark"].Trim();
                 if (m_rolesName.Length == 0)
                 {
                    
@@ -98,6 +99,10 @@ namespace WorkFlow.Controllers
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["rolesName"])==false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'角色名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
+                }
+                if (m_rolesRemark.Length>150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'角色备注的长度不能超过150个字符!'}");
                 }
                 m_rolesModel.name = collection["rolesName"].Trim();
                 //获得deleted=false的rolesName列表
@@ -334,7 +339,7 @@ namespace WorkFlow.Controllers
                 m_rolesModel = m_rolesBllService.GetModel(id, out msg);
 
                 string name = collection["rolesName"].Trim();
-
+                string remark = collection["rolesRemark"].Trim();
                 if (name.Length == 0)
                 {
                     
@@ -343,6 +348,10 @@ namespace WorkFlow.Controllers
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(collection["rolesName"])==false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'角色名称中含有非法字符,只能包含字母、汉字、数字、下划线!'}");
+                }
+                if (remark.Length > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'角色备注长度不能超过150个字符!'}");
                 }
                 //获得deleted=false且应用系统ID为appid的rolesName列表
                 DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id, out msg);

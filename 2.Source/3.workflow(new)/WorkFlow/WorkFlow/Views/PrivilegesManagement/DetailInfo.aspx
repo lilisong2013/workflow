@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/secondsite.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/superapproval.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     
 </asp:Content>
@@ -35,7 +35,7 @@
   </tr>
   <tr>
   <td width="300">权限备注：</td>
-  <td width="300"><%=ViewData["remark"]%></td>
+  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["remark"]%></td>
   </tr>
 </table>
 

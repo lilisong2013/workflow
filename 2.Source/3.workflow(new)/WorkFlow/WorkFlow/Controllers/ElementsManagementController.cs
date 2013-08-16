@@ -424,6 +424,7 @@ namespace WorkFlow.Controllers
                 string initstatusid = (collection["StatusParent"].Trim());
                 string menuid = Request.Form["eElementPage"];
                 string seqno = (collection["elementsSeqno"].Trim());
+                string remark = collection["elementsRemark"].Trim();
                 if (name.Length == 0)
                 {
           
@@ -462,6 +463,10 @@ namespace WorkFlow.Controllers
                 {
                 
                     return Json("{success:false,css:'alert alert-error',message:'排序码只能是数字!'}");
+                }
+                if (Convert.ToInt32(remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注的长度不能超过150个字符!'}");
                 }
                 int appID = Convert.ToInt32(m_usersModel.app_id);
                 int menuID = Convert.ToInt32(collection["eElementPage"]);
@@ -640,6 +645,7 @@ namespace WorkFlow.Controllers
                 string Initstatus_id = collection["elementsInitstatus_id"].Trim();
                 string Menu_id = collection["elementsMenu_id"].Trim();
                 string seqno = collection["elementsSeqno"].Trim();
+                string remark = collection["elementsRemark"].Trim();
                 if (name.Length == 0)
                 {
                   
@@ -672,7 +678,10 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'排序码只能为数字!'}");
                 }
-
+                if (Convert.ToInt32(remark.ToString().Length) > 150)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'备注长度不能超过150个字符!'}");
+                }
                 //判断元素名称重名处理操作
                 DataSet ds = m_elementsBllService.GetElementsListOfApp(appID, out msg);
                 var total = ds.Tables[0].Rows.Count;
