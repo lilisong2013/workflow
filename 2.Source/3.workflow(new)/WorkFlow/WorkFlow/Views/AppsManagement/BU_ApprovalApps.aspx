@@ -5,13 +5,23 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
-    <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
-   <%-- <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />--%>
-    
-    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
-        type="text/css" />
-    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+   
+   <link href="../../LigerUI/lib/ligerUI/skins/ligerui-icons.css" rel="Stylesheet" type="text/css"/>
+   <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+   <script src="../../Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+    <%-- ligerUI核心文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet" type="text/css" />    
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>   
     <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+    <%--LigerUI Dialog文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+   <%--LigerUI ToolBar文件--%>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
 
     <%--页面标题--%>
     <script type="text/javascript">
@@ -54,11 +64,46 @@
     });
     </script>--%>
 
+  <%--  <script type="text/javascript">
+
+        function ApprovalCon() {
+
+            var appID = $("#appID").val();
+            alert("appID:" + appID);
+            $.ligerDialog.confirm('确定要审批吗?', function (yes) {
+                //return true;
+                if (yes) {
+                    $.ajax({
+                        url: "/AppsManagement/ApprovalAppsApply",
+                        type: "POST",
+                        dataType: "json",
+                        data: { id: appID },
+                        success: function (responseText, statusText) {
+                          
+                            var dataJson = eval("(" + responseText + ")");                        
+                            show_DIV(dataJson);
+                            if (responseText.success) {
+                                location.href = responseText.toUrl;
+                            }
+                        }
+                    });
+
+                    //删除提示信息
+                    function show_DIV(data) {
+                        $("#promptDIV").removeClass("alert alert-error alert-success");
+                        $("#promptDIV").addClass(data.css);
+                        $("#promptDIV").html(data.message);
+                    }
+                }
+            })
+        }
+    </script>--%>
+
     <script type="text/javascript">
         $(document).ready(function (result) {
             $("#approvalApply").click(function () {
                 var appID = $("#appID").val();
-                //alert(appID);
+                //alert(appID);      
                 $.ajax({
                     url: "/AppsManagement/ApprovalAppsApply",
                     type: "POST",
@@ -79,6 +124,8 @@
             }
         });
 </script>
+
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -139,7 +186,11 @@
          </tr>
          <tr>
          <input id="appID" type="hidden" value="<%=m_appsModel.id %>"/>
-          <td colspan="2" align="center"><center><input id="approvalApply" class="btn btn-primary btn-info" value="批准申请"/></center></td>
+          <td colspan="2" align="center">
+          <center>
+          <input id="approvalApply" class="btn btn-primary btn-info" value="批准申请" onclick="ApprovalCon();"/>
+          </center>      
+          </td>
          </tr>
         </table>
      </form>

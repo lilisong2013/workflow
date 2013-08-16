@@ -299,13 +299,13 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "根据系统ID得到一个实体对象，<h4>（需要授权验证，系统管理员）")]
         public Saron.WorkFlowService.Model.usersModel GetModelByAppID(int appID,out string msg)
         {
-            //对webservice进行授权验证,系统管理员才可访问
-            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            //对webservice进行授权验证,超级管理员才可访问
+      
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return null;
             }
-
             return m_usersdal.GetModelByAppID(appID);
         }
 

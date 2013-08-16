@@ -181,7 +181,7 @@
                         success: function (responseText, statusText) {
                             GetInvalidAppsList(); //重载待审批系统数据列表
                             ShowAppsCount(); //显示待审批、已审批系统的数量
-                            $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
+                            $("#promptDIV").removeClass("alert alert-error alert-success");
                             $("#promptDIV").addClass(responseText.css);
                             $("#promptDIV").html(responseText.message);
                         }
@@ -202,7 +202,11 @@
                 isDrag: true,
                 width:700,
                 height: 600,
-                url: '/AppsManagement/BU_ApprovalApps?id='+id
+                url: '/AppsManagement/BU_ApprovalApps?id=' + id,
+                buttons:
+                [
+                    { text: '返回', onclick: function (item, dialog) { managerInvalidGrid.loadData(); dialog.close(); } }
+                ]
             });
             managerInvalidGrid.loadData();
           }

@@ -105,7 +105,6 @@
                     buttons:
                     [
                     { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
-
                     ]
                 });
 

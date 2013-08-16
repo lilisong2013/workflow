@@ -52,6 +52,19 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "通过系统ID获得系统名称，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public string GetAppNameByAdminID(int id, out string msg)
+        {
+            //是否有权限访问
+            if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+
+            return m_appsdal.GetAppNameByID(id);
+        }
+
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "除原系统外是否存在系统名称为appName该记录，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool ExistsAppNameOutAppModel(Saron.WorkFlowService.Model.appsModel appModel, out string msg)
         {
