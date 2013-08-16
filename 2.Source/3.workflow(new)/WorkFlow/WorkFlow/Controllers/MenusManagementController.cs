@@ -652,7 +652,7 @@ namespace WorkFlow.Controllers
                 m_menusModel = m_menusBllService.GetModel(m_menusId, out msg);
                 string name = collection["menusName"].Trim().ToString();
                 string code = collection["menuCode"].Trim().ToString();
-                string remark = collection["MenusRemark"].Trim().ToString();
+               // string remark = collection["MenusRemark"].Trim().ToString();
                 if (name.Length == 0)
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称不能为空!" });
@@ -669,10 +669,10 @@ namespace WorkFlow.Controllers
                 {
                     return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "编码以字母开头!" });
                 }
-                if (Convert.ToInt32(remark.ToString().Length) > 150)
-                {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "备注的长度不能超过150个字符!" });
-                }
+                //if (Convert.ToInt32(remark.ToString().Length) > 150)
+                //{
+                //    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "备注的长度不能超过150个字符!" });
+                //}
                 DataSet ds = m_menusBllService.GetAllMenusListofApp(appID, out msg);
                 if (m_menusModel.parent_id.ToString().Length == 0)
                 {//修改的如果是顶级父菜单

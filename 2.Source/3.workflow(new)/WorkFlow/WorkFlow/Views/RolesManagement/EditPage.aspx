@@ -150,7 +150,7 @@
        <div class="m-newline offset2">
        <label class="control-label">角色名称：</label>
        <div class="controls">
-       <input id="rolesName" name="rolesName" type="text" value="<%=ViewData["rolesName"] %>" placeholder="角色名称"/>
+       <input id="rolesName" name="rolesName" type="text" value="<%=ViewData["rolesName"] %>" placeholder="角色名称" />
        <input id="rolesID" name="rolesID" type="hidden" value="<%=ViewData["rolesId"]%>"/>
        </div>
        </div>
@@ -158,7 +158,7 @@
        <div class="m-newline offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
-       <textarea id="rolesRemark" name="rolesRemark" cols="2" rows="4" placeholder="备注" maxlength="150"><%=ViewData["rolesRemark"]%></textarea>      
+       <textarea id="rolesRemark" name="rolesRemark" cols="2" rows="4" placeholder="备注" maxlength="80"><%=ViewData["rolesRemark"]%></textarea>      
 
         <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="<%=ViewData["rolesDeleted"]%>" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             

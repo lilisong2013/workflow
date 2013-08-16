@@ -418,13 +418,13 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">页面元素名称</label>
                     <div class="controls">
-                        <input id="elementsName" name="elementsName" type="text" class="input-prepend span4" placeholder="页面元素名称"/>
+                        <input id="elementsName" name="elementsName" type="text" class="input-prepend span4" placeholder="页面元素名称" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">页面元素编码</label>
                     <div class="controls">
-                        <input id="elementsCode" name="elementsCode" type="text" class="input-prepend span4" placeholder="页面元素编码"/>
+                        <input id="elementsCode" name="elementsCode" type="text" class="input-prepend span4" placeholder="页面元素编码" />
                     </div>
                 </div>             
                 <div class="control-group span6 offset2">
@@ -454,13 +454,13 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">排序码</label>
                     <div class="controls">
-                        <input id="elementsSeqno" name="elementsSeqno" type="text" class="span4" placeholder="排序码"/>
+                        <input id="elementsSeqno" name="elementsSeqno" type="text" class="span4" placeholder="排序码" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea id="elementsRemark" name="elementsRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="150"></textarea>
+                        <textarea id="elementsRemark" name="elementsRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="80"></textarea>
                         <%WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>                   
                         <input type="hidden" id="elementsApp_id" name="elementsApp_id" value="<%=m_userModel.app_id%>"/>                     
                         <input type="hidden" id="Created_at" name="Created_at" value="<%=t %>"/>               
@@ -472,7 +472,7 @@
                   <div class="controls">
                      <input  id="addSave" type="submit" value="添加" class="btn btn-primary span2" /> 
                      &nbsp;&nbsp;&nbsp;
-                     <input type="reset" value="重置"  class="btn btn-primary  span2" />
+                     <input type="reset" value="重置" class="btn btn-primary  span2" />
                   </div>
               </div>
            </form>

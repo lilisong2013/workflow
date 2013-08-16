@@ -151,25 +151,25 @@
        <div class="m-leftform">
        <div class="m-newline offset2">
        <label class="control-label">登录名称：&nbsp;&nbsp;&nbsp;</label>
-       <div class="controls"><input id="usersLogin" name="usersLogin" type="text" value="<%= ViewData["usersLogin"] %>" placeholder="登录名称"/></div>
+       <div class="controls"><input id="usersLogin" name="usersLogin" type="text" value="<%= ViewData["usersLogin"] %>" placeholder="登录名称" /></div>
        <input id="userID" name="userID" type="hidden" value="<%=ViewData["usersId"] %>"/>
       </div>    
        <div class="m-newline offset2">
         <label class="control-label">新密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
-        <input id="newPassword" name="newPassword" type="password" placeholder="新密码"/> 
+        <input id="newPassword" name="newPassword" type="password" placeholder="新密码" /> 
         </div>
        </div> 
         <div class="m-newline offset2">
         <label class="control-label">确认密码：&nbsp;&nbsp;&nbsp;</label>
         <div class="controls">
-        <input id="PasswordCon" name="PasswordCon" type="password" placeholder="确认密码"/> 
+        <input id="PasswordCon" name="PasswordCon" type="password" placeholder="确认密码" /> 
         </div>
        </div>      
        <div class="m-newline offset2">
        <label class="control-label">用户姓名：&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="usersName" name="usersName" type="text" value="<%= ViewData["usersName"] %>" placeholder="用户姓名"/>
+       <input id="usersName" name="usersName" type="text" value="<%= ViewData["usersName"] %>" placeholder="用户姓名" />
        </div>
        </div>
 
@@ -180,7 +180,7 @@
        <div class="m-newline offset2">
        <label class="control-label">工号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="usersEmployee_no" name="usersEmployee_no" type="text" value="<%= ViewData["usersEmployee_no"]%>" placeholder="工号"/> 
+       <input id="usersEmployee_no" name="usersEmployee_no" type="text" value="<%= ViewData["usersEmployee_no"]%>" placeholder="工号" /> 
        </div>
        </div>     
        <div class="m-newline offset2">
@@ -198,7 +198,7 @@
        <div class="m-newline offset2">      
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label> 
        <div class="controls">  
-       <textarea id="usersRemark" name="usersRemark" cols="2" rows="2" placeholder="备注" maxlength="150"><%=ViewData["usersRemark"]%></textarea>
+       <textarea id="usersRemark" name="usersRemark" cols="2" rows="2" placeholder="备注" maxlength="80"><%=ViewData["usersRemark"]%></textarea>
         <input type="hidden" name="usersId" id="usersId" value="<%=ViewData["usersId"]%>"/>
         <input type="hidden" name="usersDeleted" id="usersDeleted" value="False" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
@@ -223,7 +223,7 @@
    
       </div>                      
     
-    <div class="control-group span10  offset2">
+    <div class="control-group span6  offset2">
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" style="background-position:center"/>  
      </div>
 

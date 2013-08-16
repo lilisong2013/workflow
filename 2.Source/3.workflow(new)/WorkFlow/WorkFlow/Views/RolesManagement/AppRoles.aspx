@@ -320,14 +320,14 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesName">角色名称：</label>
                         <div class="controls">
-                            <input type="text" name="rolesName" id="rolesName" class="input-prepend span4" placeholder="角色名称"/>                                                     
+                            <input type="text" name="rolesName" id="rolesName" class="input-prepend span4" placeholder="角色名称" />                                                     
                         </div>
                     </div>
                           
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="rolesRemark">备注：</label>
                         <div class="controls">
-                            <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="150"></textarea>
+                            <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="80"></textarea>
 
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]);%>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>

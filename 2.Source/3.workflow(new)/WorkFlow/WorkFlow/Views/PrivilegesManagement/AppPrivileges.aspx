@@ -984,7 +984,7 @@
                 <div class="control-group">
                     <label class="control-label">权限名称</label>
                     <div class="controls">
-                        <input id="mPrivilegesName" name="mPrivilegesName" type="text" class="input-prepend span9" placeholder="权限名称"/>
+                        <input id="mPrivilegesName" name="mPrivilegesName" type="text" class="input-prepend span9" placeholder="权限名称" />
                     </div>
                 </div>
                 <div class="control-group">
@@ -1009,7 +1009,7 @@
                 <div class="control-group">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="mPrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息" maxlength="150"></textarea>
+                        <textarea name="mPrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息" maxlength="80"></textarea>
                     </div>
                 </div>
                 <div class="control-group offset1">
@@ -1024,7 +1024,7 @@
                 <div class="control-group">
                     <label class="control-label">权限名称</label>
                     <div class="controls">
-                        <input id="oPrivilegesName" name="oPrivilegesName" type="text" class="input-prepend span9" placeholder="权限名称"/>
+                        <input id="oPrivilegesName" name="oPrivilegesName" type="text" class="input-prepend span9" placeholder="权限名称" />
                     </div>
                 </div>
                 <div class="control-group">
@@ -1049,7 +1049,7 @@
                 <div class="control-group">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="oPrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息" maxlength="150"></textarea>
+                        <textarea name="oPrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息" maxlength="80"></textarea>
                     </div>
                 </div>
                 <div class="control-group offset1">
@@ -1102,7 +1102,7 @@
                 <div class="control-group">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="ePrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息" maxlength="150"></textarea>
+                        <textarea name="ePrivilegesRemark" rows="4" cols="5" class="span9" placeholder="备注信息" maxlength="80"></textarea>
                     </div>
                 </div>
                 <div class="control-group offset1">

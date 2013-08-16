@@ -159,19 +159,19 @@
        <div class="m-newline offset2">
        <label class="control-label">操作编码：</label>
        <div class="controls">
-       <input id="operationsCode" name="operationsCode" type="text" value="<%=ViewData["operationsCode"]%>" placeholder="操作编码"/>
+       <input id="operationsCode" name="operationsCode" type="text" value="<%=ViewData["operationsCode"]%>" placeholder="操作编码" />
        </div>
        </div>  
        <div class="m-newline offset2">
        <label class="control-label">操作描述：</label>
        <div class="controls">
-       <textarea id="operationsDescription" name="operationsDescription" cols="2" rows="4" placeholder="操作描述"><%=ViewData["operationsDescription"]%></textarea>
+       <textarea id="operationsDescription" name="operationsDescription" cols="2" rows="4" placeholder="操作描述" maxlength="200"><%=ViewData["operationsDescription"]%></textarea>
        </div>
        </div>
        <div class="m-newline offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">
-       <textarea id="operationsRemark" name="operationsRemark" cols="2" rows="4" placeholder="备注" maxlength="150"><%=ViewData["operationsRemark"]%></textarea>
+       <textarea id="operationsRemark" name="operationsRemark" cols="2" rows="4" placeholder="备注" maxlength="80"><%=ViewData["operationsRemark"]%></textarea>
         <input type="hidden" name="operationsApp_id" id="operationsApp_id" value="<%=m_usersModel.app_id%>"/>
         <input type="hidden" name="operationsId" id="operationsId" value="<%=ViewData["operationsId"]%>"/>
         <input type="hidden" name="operationsDeleted" id="operationsDeleted" value="<%=ViewData["operationsDeleted"]%>" />

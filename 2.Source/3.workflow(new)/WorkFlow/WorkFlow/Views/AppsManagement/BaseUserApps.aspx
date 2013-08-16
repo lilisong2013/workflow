@@ -201,9 +201,10 @@
                 title: '详情(' + id + ')信息',
                 isDrag: true,
                 width:700,
-                height:600,
+                height: 600,
                 url: '/AppsManagement/BU_ApprovalApps?id='+id
-              });
+            });
+            managerInvalidGrid.loadData();
           }
       }
   </script>
@@ -219,6 +220,7 @@
                   height: 600,
                   url: '/AppsManagement/BU_ApprovalInfo?id=' + id
               });
+              managerValidGrid.loadData();
           }
       }
   </script>

@@ -233,7 +233,7 @@
        <div class="m-newline offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
-       <textarea id="menuRemark" name="menuRemark" cols="5" rows="4" maxlength="150"><%=ViewData["menuRemark"]%></textarea>      
+       <textarea id="menuRemark" name="menuRemark" cols="5" rows="4" maxlength="200"><%=ViewData["menuRemark"]%></textarea>      
      
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
         <%string  s = DateTime.Now.ToString() +"."+ System.DateTime.Now.Millisecond.ToString(); %>

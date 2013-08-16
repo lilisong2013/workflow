@@ -322,31 +322,31 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="usersLogin">登录名称：</label>
                         <div class="controls">
-                            <input type="text" name="usersLogin" id="usersLogin" class="input-prepend span4" placeholder="登录名称"/>                            
+                            <input type="text" name="usersLogin" id="usersLogin" class="input-prepend span4" placeholder="登录名称" />                            
                         </div>
                     </div>
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="usersPassword">登录密码：</label>
                         <div class="controls">
-                            <input type="password" name="usersPassword" id="usersPassword" class="input-prepend span4" placeholder="登录密码"/>                            
+                            <input type="password" name="usersPassword" id="usersPassword" class="input-prepend span4" placeholder="登录密码" />                            
                         </div>
                     </div> 
                      <div class="control-group span6 offset2">
                             <label class="control-label" for="passwordcon">确认密码：</label>
                             <div class="controls">
-                                <input name="passwordcon" id="passwordcon" type="password" class="input-prepend span4" placeholder="确认密码"/>
+                                <input name="passwordcon" id="passwordcon" type="password" class="input-prepend span4" placeholder="确认密码" />
                             </div>
                         </div>
                      <div class="control-group span6 offset2">
                         <label class="control-label" for="usersName">用户姓名：</label>
                         <div class="controls">
-                            <input type="text" name="usersName" id="usersName" class="input-prepend span4" placeholder="用户姓名"/>                            
+                            <input type="text" name="usersName" id="usersName" class="input-prepend span4" placeholder="用户姓名" />                            
                         </div>
                     </div>  
                      <div class="control-group span6 offset2">
                         <label class="control-label" for="usersEmployee_no">工号：</label>
                         <div class="controls">
-                            <input type="text" name="usersEmployee_no" id="usersEmployee_no" class="input-prepend span4" placeholder="工号"/>                            
+                            <input type="text" name="usersEmployee_no" id="usersEmployee_no" class="input-prepend span4" placeholder="工号" />                            
                         </div>
                     </div> 
                     <div class="control-group span6 offset2">
@@ -364,7 +364,7 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="usersRemark">备注：</label>
                         <div class="controls">
-                            <textarea name="usersRemark" id="usersRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="150"></textarea>
+                            <textarea name="usersRemark" id="usersRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="80"></textarea>
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]); %>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>

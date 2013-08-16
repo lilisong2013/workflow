@@ -135,7 +135,7 @@
                    
        </div>
       </div>          
-     <div class="control-group span10 offset2">
+     <div class="control-group span6 offset1">
       <input id="saveSubmit" type="submit" class="btn btn-primary span10 offset2"  value="保存" />
      </div>
    </form>

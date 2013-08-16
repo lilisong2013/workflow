@@ -292,13 +292,13 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">菜单名称</label>
                     <div class="controls">
-                        <input name="MenusName" type="text" class="input-prepend span4" placeholder="菜单名称"/>
+                        <input name="MenusName" type="text" class="input-prepend span4" placeholder="菜单名称" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
                     <label class="control-label">菜单编码</label>
                     <div class="controls">
-                        <input name="MenusCode" type="text" class="input-prepend span4" placeholder="菜单编码"/>
+                        <input name="MenusCode" type="text" class="input-prepend span4" placeholder="菜单编码" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
@@ -324,7 +324,7 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="MenusRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="150"></textarea>
+                        <textarea name="MenusRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="200"></textarea>
                     </div>
                 </div>
                 <div class="control-group span6 offset4">

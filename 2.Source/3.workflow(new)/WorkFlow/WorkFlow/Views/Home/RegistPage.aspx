@@ -140,7 +140,7 @@
                             <div class="control-group">
                                 <label class="control-label">系统备注：</label>
                                 <div class="controls">
-                                    <textarea name="appsRemark" class="m-textarea span8" rows="3" cols="10" maxlength="150"></textarea>
+                                    <textarea name="appsRemark" class="m-textarea span8" rows="3" cols="10" maxlength="100"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -234,7 +234,7 @@
                             <div class="control-group">
                                 <label class="control-label">备注信息：</label>
                                 <div class="controls">
-                                    <textarea name="userRemark" class="m-textarea span8" rows="3" cols="10" maxlength="150"></textarea>
+                                    <textarea name="userRemark" class="m-textarea span8" rows="3" cols="10" maxlength="80"></textarea>
                                     <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                                     <input type="hidden" name="createdIP" id="Hidden3" value="<%= ipAddress %>" />
                                     <% string apply_at = DateTime.Now.ToString(); %>
