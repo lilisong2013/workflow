@@ -15,23 +15,23 @@
   <tr><th colspan="2"><center><%=ViewData["privilegetype"]%>权限详情</center></th></tr>
   <tr>
   <td width="300">权限名称：</td>
-  <td width="300"><%=ViewData["name"]%></td>
+  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["name"]%></td>
   </tr>
   <tr>
   <td width="300">权限类型：</td>
-  <td width="300"><%=ViewData["privilegetype_id"]%></td>
+  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["privilegetype_id"]%></td>
   </tr>
   <tr>
   <td width="300">权限项目：</td>
-  <td width="300"><%=ViewData["privilegeitem_id"]%></td>
+  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["privilegeitem_id"]%></td>
   </tr>
   <tr>
   <td width="300">应用系统名称：</td>
-  <td width="300"><%=ViewData["app_id"]%></td>
+  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["app_id"]%></td>
   </tr>
   <tr>
   <td width="300">是否有效：</td>
-  <td width="300"><%=ViewData["invalid"]%></td>
+  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["invalid"]%></td>
   </tr>
   <tr>
   <td width="300">权限备注：</td>

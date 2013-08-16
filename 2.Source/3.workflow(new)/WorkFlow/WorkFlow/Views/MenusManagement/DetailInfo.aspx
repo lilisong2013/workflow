@@ -15,23 +15,23 @@
    <tr><th colspan="2"><center>菜单详情</center></th></tr>
    <tr>
    <td width="300">菜单名称：</td>
-   <td width="300"><%=ViewData["name"]%></td>
+   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["name"]%></td>
    </tr>
    <tr>
    <td width="300">菜单编码：</td>
-   <td width="300"><%=ViewData["code"]%></td>
+   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["code"]%></td>
    </tr>
    <tr>
    <td width="300">菜单URL：</td>
-   <td width="300"><%=ViewData["url"]%></td>
+   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["url"]%></td>
    </tr>
    <tr>
    <td width="300">应用系统名称：</td>
-   <td width="300"><%=ViewData["app_id"]%></td>
+   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["app_id"]%></td>
    </tr>
    <tr>
    <td width="300">父菜单名称：</td>
-   <td width="300"><%=ViewData["parent_id1"]%></td>
+   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["parent_id1"]%></td>
    </tr>
    <tr>
    <td width="300">备注：</td>
@@ -39,7 +39,7 @@
    </tr>
    <tr>
    <td width="300">是否有效：</td>
-   <td width="300"><%=ViewData["invalid"]%></td>
+   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["invalid"]%></td>
    </tr>
 </table>
 </asp:Content>

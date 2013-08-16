@@ -16,23 +16,23 @@
         <tr><th colspan="2"><center>用户详情</center></th></tr>
         <tr>
         <td width="300">登录名称：</td>
-        <td width="300"><%=ViewData["usersLogin"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersLogin"]%></td>
         </tr>
         <tr>
         <td width="300">用户姓名：</td>
-        <td width="300"><%=ViewData["usersName"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersName"]%></td>
         </tr>
         <tr>
         <td width="300">工号：</td>
-        <td width="300"><%=ViewData["usersEmployee_no"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersEmployee_no"]%></td>
         </tr>
         <tr>
         <td width="300">手机号码：</td>
-        <td width="300"><%= ViewData["usersMobile_phone"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%= ViewData["usersMobile_phone"]%></td>
         </tr>
         <tr>
         <td width="300">邮件地址：</td>
-        <td width="300"><%=ViewData["usersMail"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersMail"]%></td>
         </tr>
         <tr>
         <td width="300">备注：</td>
@@ -40,39 +40,39 @@
         </tr>
         <tr>
         <td width="300">是否管理员：</td>
-        <td width="300"><%= ViewData["usersAdmin"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%= ViewData["usersAdmin"]%></td>
         </tr>
         <tr>
         <td width="300">是否有效：</td>
-        <td width="300"><%=ViewData["usersInvalid"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersInvalid"]%></td>
         </tr>
         <tr>
         <td width="300">记录创建时间：</td>
-        <td width="300"><%= ViewData["usersCreated_at"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%= ViewData["usersCreated_at"]%></td>
         </tr>
         <tr>
         <td width="300">记录创建用户：</td>
-        <td width="300"><%=ViewData["usersCreated_by"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersCreated_by"]%></td>
         </tr>
         <tr>
         <td width="300">记录创建IP：</td>
-        <td width="300"><%=ViewData["usersCreated_ip"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersCreated_ip"]%></td>
         </tr>
         <tr>
         <td width="300">记录更新时间：</td>
-        <td width="300"><%=ViewData["usersUpdated_at"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersUpdated_at"]%></td>
         </tr>
         <tr>
         <td width="300">记录更新用户：</td>
-        <td width="300"><%=ViewData["usersUpdated_by"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersUpdated_by"]%></td>
         </tr>
         <tr>
         <td width="300">记录更新IP：</td>
-        <td width="300"><%=ViewData["usersUpdated_ip"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersUpdated_ip"]%></td>
         </tr>
         <tr>
         <td width="300">系统名称：</td>
-        <td width="300"><%=ViewData["usersApp_id"]%></td>
+        <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersApp_id"]%></td>
         </tr>
         </table>
      
