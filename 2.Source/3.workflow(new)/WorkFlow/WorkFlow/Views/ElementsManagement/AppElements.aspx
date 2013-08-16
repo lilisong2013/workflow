@@ -481,11 +481,8 @@
                   <div class="controls">
                      <input  id="addSave" type="submit" value="添加" class="btn btn-primary span2" /> 
                      &nbsp;&nbsp;&nbsp;
-<<<<<<< HEAD
-                     <input type="reset" value="重置" class="btn btn-primary  span2" />
-=======
                      <input id="restInfo" type="reset" value="重置"  class="btn btn-primary  span2" />
->>>>>>> 4bd956aa432d5c8e260ac22c14d008b06700a8a8
+
                   </div>
               </div>
            </form>

@@ -62,7 +62,7 @@
         $(document).ready(function () {
             //定义ligerGrid
             $("#menusgrid").ligerGrid({
-                width: '99%',
+                width: 1100,
                 height: 400,
                 tree: { columnName: 'name' },
                 alternatingRow: false
