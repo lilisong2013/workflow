@@ -168,7 +168,7 @@
        <div class="m-newline offset2">
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
        <div class="controls">  
-       <textarea id="privilegeRemark" name="privilegeRemark" cols="2" rows="4" placeholder="备注"><%=ViewData["privilegeRemark"]%></textarea>      
+       <textarea id="privilegeRemark" name="privilegeRemark" cols="2" rows="4" placeholder="备注" maxlength="150"><%=ViewData["privilegeRemark"]%></textarea>      
 
        <input type="hidden" name="privilegeDeleted" id="privilegeDeleted" value="<%=ViewData["privilegeDeleted"]%>" />
 

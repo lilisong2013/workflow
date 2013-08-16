@@ -198,7 +198,7 @@
        <div class="m-newline offset2">      
        <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;</label> 
        <div class="controls">  
-       <textarea id="usersRemark" name="usersRemark" cols="2" rows="2" placeholder="备注"><%=ViewData["usersRemark"]%></textarea>
+       <textarea id="usersRemark" name="usersRemark" cols="2" rows="2" placeholder="备注" maxlength="150"><%=ViewData["usersRemark"]%></textarea>
         <input type="hidden" name="usersId" id="usersId" value="<%=ViewData["usersId"]%>"/>
         <input type="hidden" name="usersDeleted" id="usersDeleted" value="False" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             

@@ -304,13 +304,13 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsDescription">操作描述：</label>
                         <div class="controls">
-                           <textarea name="operationsDescription" id="operationsDescription" rows="4" cols="5" class="span4" placeholder="操作描述"></textarea>
+                           <textarea name="operationsDescription" id="operationsDescription" rows="4" cols="5" class="span4" placeholder="操作描述" maxlength="150"></textarea>
                         </div>
                     </div>              
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsRemark">备注：</label>
                         <div class="controls">
-                            <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4" placeholder="备注"></textarea>
+                            <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="150"></textarea>
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>

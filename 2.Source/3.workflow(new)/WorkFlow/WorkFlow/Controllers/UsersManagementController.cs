@@ -361,6 +361,7 @@ namespace WorkFlow.Controllers
            
                     return Json("{success:false,css:'alert alert-error',message:'邮件格式不正确!'}");
                 }
+
                 if (Convert.ToInt32(remark.ToString().Length) > 150)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'备注的字符长度不能超过150个字符!'}");

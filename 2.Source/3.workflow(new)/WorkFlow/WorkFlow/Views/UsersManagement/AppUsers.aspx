@@ -364,7 +364,7 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="usersRemark">备注：</label>
                         <div class="controls">
-                            <textarea name="usersRemark" id="usersRemark" rows="4" cols="5" class="span4" placeholder="备注"></textarea>
+                            <textarea name="usersRemark" id="usersRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="150"></textarea>
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]); %>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>

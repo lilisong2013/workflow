@@ -106,7 +106,7 @@
                             <div class="control-group">
                                 <label class="control-label">系统名称：</label>
                                 <div class="controls">
-                                    <input name="appsName" type="text" class="span3" />
+                                    <input name="appsName" type="text" class="span3" maxlength="30"/>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                             <div class="control-group">
                                 <label class="control-label">系统编码：</label>
                                 <div class="controls">
-                                    <input name="appsCode" type="text" class="span3" />
+                                    <input name="appsCode" type="text" class="span3" maxlength="30"/>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                             <div class="control-group">
                                 <label class="control-label">访问链接：</label>
                                 <div class="controls">
-                                    <input name="appsUrl" type="text" class="span3" />
+                                    <input name="appsUrl" type="text" class="span3" maxlength="30"/>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                             <div class="control-group">
                                 <label class="control-label">系统备注：</label>
                                 <div class="controls">
-                                    <textarea name="appsRemark" class="m-textarea span8" rows="3" cols="10"></textarea>
+                                    <textarea name="appsRemark" class="m-textarea span8" rows="3" cols="10" maxlength="150"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                             <div class="control-group">
                                 <label class="control-label">登录名称：</label>
                                 <div class="controls">
-                                    <input name="userLogin" type="text" class="span3" />
+                                    <input name="userLogin" type="text" class="span3" maxlength="30"/>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                             <div class="control-group">
                                 <label class="control-label">真实姓名：</label>
                                 <div class="controls">
-                                    <input name="userName" type="text" class="span3" />
+                                    <input name="userName" type="text" class="span3" maxlength="30"/>
                                 </div>
                             </div>
                         </div>
@@ -234,7 +234,7 @@
                             <div class="control-group">
                                 <label class="control-label">备注信息：</label>
                                 <div class="controls">
-                                    <textarea name="userRemark" class="m-textarea span8" rows="3" cols="10"></textarea>
+                                    <textarea name="userRemark" class="m-textarea span8" rows="3" cols="10" maxlength="150"></textarea>
                                     <% string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                                     <input type="hidden" name="createdIP" id="Hidden3" value="<%= ipAddress %>" />
                                     <% string apply_at = DateTime.Now.ToString(); %>

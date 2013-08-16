@@ -324,7 +324,7 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">备注信息</label>
                     <div class="controls">
-                        <textarea name="MenusRemark" rows="4" cols="5" class="span4" placeholder="备注信息"></textarea>
+                        <textarea name="MenusRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="150"></textarea>
                     </div>
                 </div>
                 <div class="control-group span6 offset4">

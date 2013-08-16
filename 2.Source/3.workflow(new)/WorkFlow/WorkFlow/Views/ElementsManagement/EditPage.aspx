@@ -295,7 +295,7 @@
        <div class="m-newline offset2">
        <label class="control-label"> 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    
        <div class="controls">
-       <textarea id="elementsRemark" name="elementsRemark" cols="2" rows="4" class="span5" placeholder="备注"><%=ViewData["elementsRemark"]%></textarea>
+       <textarea id="elementsRemark" name="elementsRemark" cols="2" rows="4" class="span5" placeholder="备注" maxlength="150"><%=ViewData["elementsRemark"]%></textarea>
        </div>   
         
         <input type="hidden" name="elementsDeleted" id="elementsDeleted" value="<%=ViewData["elementsDeleted"]%>" />

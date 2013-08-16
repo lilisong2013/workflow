@@ -316,7 +316,7 @@
                     <div class="control-group span6 offset2">
                         <label class="control-label" for="flowsRemark">备注：</label>
                         <div class="controls">
-                        <textarea name="flowsRemark" id="flowsRemark" rows="4" cols="5" class="span4" placeholder="备注"></textarea>
+                        <textarea name="flowsRemark" id="flowsRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="150"></textarea>
                                           
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
