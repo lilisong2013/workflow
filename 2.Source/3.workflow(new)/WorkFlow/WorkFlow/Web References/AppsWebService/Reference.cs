@@ -36,6 +36,8 @@ namespace WorkFlow.AppsWebService {
         
         private System.Threading.SendOrPostCallback GetAppNameByIDOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAppNameByAdminIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback ExistsAppNameOutAppModelOperationCompleted;
         
         private System.Threading.SendOrPostCallback AddOperationCompleted;
@@ -112,6 +114,9 @@ namespace WorkFlow.AppsWebService {
         
         /// <remarks/>
         public event GetAppNameByIDCompletedEventHandler GetAppNameByIDCompleted;
+        
+        /// <remarks/>
+        public event GetAppNameByAdminIDCompletedEventHandler GetAppNameByAdminIDCompleted;
         
         /// <remarks/>
         public event ExistsAppNameOutAppModelCompletedEventHandler ExistsAppNameOutAppModelCompleted;
@@ -208,6 +213,37 @@ namespace WorkFlow.AppsWebService {
             if ((this.GetAppNameByIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAppNameByIDCompleted(this, new GetAppNameByIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAppNameByAdminID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string GetAppNameByAdminID(int id, out string msg) {
+            object[] results = this.Invoke("GetAppNameByAdminID", new object[] {
+                        id});
+            msg = ((string)(results[1]));
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAppNameByAdminIDAsync(int id) {
+            this.GetAppNameByAdminIDAsync(id, null);
+        }
+        
+        /// <remarks/>
+        public void GetAppNameByAdminIDAsync(int id, object userState) {
+            if ((this.GetAppNameByAdminIDOperationCompleted == null)) {
+                this.GetAppNameByAdminIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAppNameByAdminIDOperationCompleted);
+            }
+            this.InvokeAsync("GetAppNameByAdminID", new object[] {
+                        id}, this.GetAppNameByAdminIDOperationCompleted, userState);
+        }
+        
+        private void OnGetAppNameByAdminIDOperationCompleted(object arg) {
+            if ((this.GetAppNameByAdminIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAppNameByAdminIDCompleted(this, new GetAppNameByAdminIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -869,6 +905,40 @@ namespace WorkFlow.AppsWebService {
         private object[] results;
         
         internal GetAppNameByIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetAppNameByAdminIDCompletedEventHandler(object sender, GetAppNameByAdminIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAppNameByAdminIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAppNameByAdminIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
