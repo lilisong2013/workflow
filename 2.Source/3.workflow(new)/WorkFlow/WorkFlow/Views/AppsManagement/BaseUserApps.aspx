@@ -44,6 +44,9 @@
     
     <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
+
+        var Name;//应用系统的名称
+
         $(document).ready(function () {
             ShowAppsCount();//显示待审批、已审批系统的数量
         });
@@ -63,26 +66,15 @@
             var dataJson = eval("(" + responseText + ")");
             $("#invalidTab").html("待审批系统（" + dataJson.invalidCount + "）");  //待审批
             $("#validTab").html("已审批系统（" + dataJson.validCount + "）"); //已审批
-
+      
             return false;
         }
     </script>
 
+   
     <%--显示审批系统列表--%>
     <script type="text/javascript">
         $(document).ready(function () {
-
-            //定义已审批系统ligerGrid
-            $("#validgrid").ligerGrid({
-                width: '99%',
-                height: 400
-            });
-
-            //定义待审批系统ligerGrid
-            $("#invalidGrid").ligerGrid({
-                width: '99%',
-                height: 400
-            });
 
             GetValidAppsList(); //已审批系统
 
@@ -90,6 +82,7 @@
             function GetValidAppsList() {
                 window['v'] = $("#validgrid").ligerGrid({
                     columns: [
+                    { display: '系统ID', name: 'id', width: 150, align: 'center' },
                     { display: '系统名称', name: 'name', width: 150, align: 'center' },
                     { display: '系统编码', name: 'code', width: 150, align: 'center' },
                     { display: '访问连接', name: 'url', width: 150, align: 'center' },
@@ -119,6 +112,7 @@
             function GetInvalidAppsList() {
                 window['i'] = $("#invalidGrid").ligerGrid({
                     columns: [
+                    { display: '系统ID', name: 'id', width: 150, align: 'center' },
                     { display: '系统名称', name: 'name', width: 150, align: 'center' },
                     { display: '系统编码', name: 'code', width: 150, align: 'center' },
                     { display: '访问连接', name: 'url', width: 150, align: 'center' },
@@ -129,15 +123,17 @@
                             return html;
                         }
                     },
+
                      { display: '', width: 100,
                          render: function (row) {
                              var html = '<i class="icon-list"></i><a href="#" onclick="ApprovalDialog(' + row.id + ')">审批</a>';
+                             
                              return html;
                          }
                      },
                     { display: '', width: 100,
                         render: function (row) {
-                            var html = '<i class="icon-trash"></i><a href="#" onclick="Delete(' + row.id + ')">删除</a>';
+                            var html = '<i class="icon-trash"></i><a href="#" onclick="Delete(' + row.id + ')">删除</a>';              
                             return html;
                         }
                     }
@@ -154,12 +150,13 @@
                 i.loadData();
             }
 
-
+            //已审批Tab
             $("#validTab").click(function () {
                 GetValidAppsList();
                 ShowAppsCount();
             });
 
+            //待审批Tab
             $("#invalidTab").click(function () {
                 GetInvalidAppsList();
                 ShowAppsCount();
@@ -179,7 +176,7 @@
                   height: 600,
                   url: '/AppsManagement/BU_ApprovalInfo?id=' + id
               });
-              v.loadData();
+            
           }
       }
   </script>
@@ -196,7 +193,7 @@
                        height: 600,
                        url: '/AppsManagement/BU_ApprovalApps?id=' + id
                    });
-                   v.loadData();
+                 
                }
            }
   </script>
@@ -235,33 +232,34 @@
 
     <%--审批流程--%>
     <script type="text/javascript">
-        function ApprovalDialog(id) {
-            
-            var ID = id;
-            $.ligerDialog.confirm('确认要审批' + ID + '吗?', function (yes) {
-                if (yes) {
-                    $.ajax({
-                        url: "/AppsManagement/ApprovalApps",
-                        type: "POST",
-                        dataType: "json",
-                        data: { appID: ID },
-                        success: function (responseText, statusText) {
-                            var dataJson = eval("(" + responseText + ")");
-                            show_DIV(dataJson);
-                            
-                            i.loadData();
-                            ShowAppsCount();
-                        }
-                    });
 
-                    //删除提示
-                    function show_DIV(data) {
-                        $("#promptDIV").removeClass("alert alert-error alert-success");
-                        $("#promptDIV").addClass(data.css);
-                        $("#promptDIV").html(data.message);
+        function ApprovalDialog(id) {      
+            var ID = id;
+               
+                $.ligerDialog.confirm('确认要审批系统ID号为:' +id+ '吗?', function (yes) {
+                    if (yes) {
+                        $.ajax({
+                            url: "/AppsManagement/ApprovalApps",
+                            type: "POST",
+                            dataType: "json",
+                            data: { appID: ID},
+                            success: function (responseText, statusText) {
+                                var dataJson = eval("(" + responseText + ")");
+                                show_DIV(dataJson);
+
+                                i.loadData();
+                                ShowAppsCount();
+                            }
+                        });
+
+                        //删除提示
+                        function show_DIV(data) {
+                            $("#promptDIV").removeClass("alert alert-error alert-success");
+                            $("#promptDIV").addClass(data.css);
+                            $("#promptDIV").html(data.message);
+                        }
                     }
-                }
-            });
+                });   
          }
     </script>
 
