@@ -373,7 +373,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,code,url,remark,invalid,created_at,created_ip,updated_at,updated_by,updated_ip,apply_at,approval_at ");
-            strSql.Append(" FROM apps where invalid=1 ");
+            strSql.Append(" FROM apps where invalid=1 order by id desc");
 
             return DbHelperSQL.Query(strSql.ToString());
         }
@@ -385,7 +385,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,code,url,remark,invalid,created_at,created_ip,updated_at,updated_by,updated_ip,apply_at,approval_at ");
-            strSql.Append(" FROM apps where invalid=0 ");
+            strSql.Append(" FROM apps where invalid=0 order by id desc");
 
             return DbHelperSQL.Query(strSql.ToString());
         }
