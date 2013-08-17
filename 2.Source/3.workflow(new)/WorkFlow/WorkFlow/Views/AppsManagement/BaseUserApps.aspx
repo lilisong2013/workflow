@@ -45,8 +45,7 @@
     <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
 
-        var Name;//应用系统的名称
-
+        var name;
         $(document).ready(function () {
             ShowAppsCount();//显示待审批、已审批系统的数量
         });
@@ -106,7 +105,7 @@
                 v.loadData();
             }
 
-            GetInvalidAppsList(); //待审批系统
+            //  GetInvalidAppsList(); //待审批系统
 
             //待审批系统
             function GetInvalidAppsList() {
@@ -123,17 +122,15 @@
                             return html;
                         }
                     },
-
-                     { display: '', width: 100,
+                    { display: '', width: 100,
                          render: function (row) {
-                             var html = '<i class="icon-list"></i><a href="#" onclick="ApprovalDialog(' + row.id + ')">审批</a>';
-                             
+                             var html = '<i class="icon-list"></i><a href="#" onclick="ApprovalDialog('+row.id+')">审批</a>';
                              return html;
                          }
                      },
                     { display: '', width: 100,
                         render: function (row) {
-                            var html = '<i class="icon-trash"></i><a href="#" onclick="Delete(' + row.id + ')">删除</a>';              
+                            var html = '<i class="icon-trash"></i><a href="#" onclick="Delete(' + row.id + ')">删除</a>';
                             return html;
                         }
                     }
@@ -230,12 +227,13 @@
           }
   </script>
 
+
     <%--审批流程--%>
     <script type="text/javascript">
 
-        function ApprovalDialog(id) {      
+        function ApprovalDialog(id) {
             var ID = id;
-               
+ 
                 $.ligerDialog.confirm('确认要审批系统ID号为:' +id+ '吗?', function (yes) {
                     if (yes) {
                         $.ajax({
