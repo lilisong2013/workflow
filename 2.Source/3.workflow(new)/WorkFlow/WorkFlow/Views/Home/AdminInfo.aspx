@@ -172,6 +172,10 @@
             $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").addClass(data.css);
             $("#promptDIV").html(data.message);
+
+            if (data.sessionInfo) {
+                location.href = data.toUrl;
+            }
         }
     </script>
 </asp:Content>

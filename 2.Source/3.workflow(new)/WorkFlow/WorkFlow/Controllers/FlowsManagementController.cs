@@ -20,7 +20,7 @@ namespace WorkFlow.Controllers
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Home", "Login");
+                return RedirectToAction("Login", "Home");
             }
             else
             {
