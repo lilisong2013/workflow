@@ -184,14 +184,14 @@
          <td width="300">管理员备注：</td>
          <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_userModel.remark %></td>
          </tr>
-         <tr>
+     <%--    <tr>
          <input id="appID" type="hidden" value="<%=m_appsModel.id %>"/>
           <td colspan="2" align="center">
           <center>
           <input id="approvalApply" class="btn btn-primary btn-info" value="批准申请" onclick="ApprovalCon();"/>
           </center>      
           </td>
-         </tr>
+         </tr>--%>
         </table>
      </form>
     </div>
