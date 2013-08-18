@@ -38,6 +38,13 @@
 
 </head>
 <body>
+<%
+    Response.Expires = 0;
+    Response.Buffer = true;
+    Response.ExpiresAbsolute = DateTime.Now.AddSeconds(-1);
+    Response.AddHeader("pragma", "no-cache");
+    Response.CacheControl = "no-cache";
+     %>
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
