@@ -108,7 +108,7 @@
                         title: '更新用户信息',
                         width: 900,
                         height: 600,
-                        isDrag: true,                    
+                        isDrag: false,                    
                         url: '/UsersManagement/EditPage?id=' + id,
                         buttons:
                     [
@@ -129,7 +129,7 @@
             if (id) {
                 $.ligerDialog.open({
                     title: '详情(' + id + ')信息',
-                    isDrag: true,
+                    isDrag: false, 
                     width: 700,
                     height: 650,
                     url: '/UsersManagement/DetailInfo?id=' + id

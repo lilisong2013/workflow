@@ -104,7 +104,7 @@
                     title: '更新角色信息',
                     width: 900,
                     height:600,
-                    isDrag: true,
+                    isDrag: false,
                     url: '/RolesManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -124,7 +124,6 @@
                    title: '更新角色信息',
                    width: 900,
                    height: 600,
-                   isDrag: true,
                    url: '/RolesManagement/Role_Privileges?id=' + id,
                    buttons:
                     [
@@ -144,7 +143,7 @@
                  title:'详情('+id+')信息',
                  width:700,
                  height: 600,
-                 isDrag: true,
+                 isDrag: false,
                  url: '/RolesManagement/DetailInfo?id=' + id
                });
            }

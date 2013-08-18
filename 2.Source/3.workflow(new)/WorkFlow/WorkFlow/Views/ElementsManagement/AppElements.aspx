@@ -67,6 +67,7 @@
                         { display: '元素ID', name: 'id', width: 80, align: 'center' },
                         { display: '元素名称', name: 'name', align: 'center' },
                         { display: '元素编码', name: 'code', align: 'center' },
+                        { display: '备注信息', name: 'remark',align:'center' },
                         { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
