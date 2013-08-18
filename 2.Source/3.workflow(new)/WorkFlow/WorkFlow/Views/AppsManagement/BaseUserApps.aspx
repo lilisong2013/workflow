@@ -44,9 +44,8 @@
     
     <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
-
-        var QID;
-        var QName;
+        var Name;
+        var ID;
         $(document).ready(function () {
             ShowAppsCount();//显示待审批、已审批系统的数量
         });
@@ -125,7 +124,7 @@
                     },
                     { display: '', width: 80,
                         render: function (row) {
-                            var html = '<i class="icon-list"></i><a href="#" onclick="ApprovalDialog(' + row.id + ')">审批</a>';
+                            var html = '<i class="icon-list"></i><a href="#"  onclick="ApprovalDialog(' + row.id + ')" >审批</a>';
                             return html;
                         }
                     },
@@ -226,14 +225,33 @@
           }
   </script>
 
-
     <%--审批流程--%>
     <script type="text/javascript">
 
         function ApprovalDialog(id) {
-            var ID = id;
+            ID = id;
+//            alert("ID:"+id);
+//            
+//            AppName(ID); //通过ID获得名称
 
-                $.ligerDialog.confirm('确认要审批系统ID号为:'+id+ '吗?', function (yes) {
+//            //通过ID获得名称
+//            function AppName(ID) {
+//                $.ajax({
+//                    url: "/AppsManagement/AppName",
+//                    type: "POST",
+//                    dataType: "json",
+//                    data: { appID: ID },
+//                    success: function (responseText, statusText) {
+//                        //alert(responseText.appName);
+//                        var dataJson = eval("(" + responseText + ")");
+//                       // alert(dataJson.appName);
+//                        Name = dataJson.appName;
+//                       // alert("Name:"+Name)
+//                    }
+//                });
+//            }
+
+            $.ligerDialog.confirm('确认要审批系统名称为:' +id+ '吗?', function (yes) {
                     if (yes) {
                         $.ajax({
                             url: "/AppsManagement/ApprovalApps",
@@ -276,9 +294,10 @@
    
     <ul class="nav nav-tabs">
         <li class="active"><a id="validTab" href="#Apps_valid" data-toggle="tab">已审批系统</a></li>
-        <li><a id="invalidTab" href="#Apps_Invalid" data-toggle="tab">待审批系统</a></li>             
+        <li><a id="invalidTab" href="#Apps_Invalid" data-toggle="tab">待审批系统</a></li>  
+        <input type="hidden" id="appName" name="appName" />           
      </ul>
-  
+    
     <div class="tab-content">
         <%--系统中运行中的系统--%>
         <div class="tab-pane active" id="Apps_valid">

@@ -749,25 +749,27 @@ namespace WorkFlow.Controllers
          
         }
 
-        //public ActionResult AppName()
-        //{
-        //    if (Session["baseuser"] == null)
-        //    {
-        //        return RedirectToAction("Home", "Login");
-        //    }
-        //    else
-        //    {
-        //        WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
-        //        WorkFlow.AppsWebService.SecurityContext m_SecurityContext = new AppsWebService.SecurityContext();
+        public ActionResult AppName()
+        {
+            if (Session["baseuser"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                int ID = Convert.ToInt32(Request.Params["appID"]);
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.SecurityContext m_SecurityContext = new AppsWebService.SecurityContext();
 
-        //        WorkFlow.Base_UserWebService.base_userModel m_base_userModel=(WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
+                WorkFlow.Base_UserWebService.base_userModel m_base_userModel = (WorkFlow.Base_UserWebService.base_userModel)Session["baseuser"];
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_base_userModel.login;
+                m_SecurityContext.PassWord = m_base_userModel.password;
+                m_appsBllService.SecurityContextValue = m_SecurityContext;
 
-        //        m_SecurityContext.UserName = m_base_userModel.login;
-        //        m_SecurityContext.PassWord = m_base_userModel.password;
-        //        m_appsBllService.SecurityContextValue = m_SecurityContext;
-
-        //        string appName = m_appsBllService.GetAppNameByAdminID();
-        //    }
-        //}
+                string appName = m_appsBllService.GetAppNameByAdminID(ID,out msg);
+                return Json("{appName:'" +appName+ "'}");
+            }
+        }
     }
 }

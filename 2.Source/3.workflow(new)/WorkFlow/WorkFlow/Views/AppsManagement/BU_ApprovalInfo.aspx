@@ -34,7 +34,7 @@
          </tr>
          <tr>
          <td width="300">访问链接：</td>
-         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=m_appsModel.url %></td>
+         <td width="300" style="word-break:break-all; word-wrap:break-word;"><a href="<%=m_appsModel.url%>" target="_blank"><%=m_appsModel.url%></a></td>
          </tr>
          <tr>
          <td width="300">系统备注：</td>

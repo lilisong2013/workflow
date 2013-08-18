@@ -533,7 +533,6 @@
     <Content Include="Scripts\ligerGrid.showFilter.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
-    <Content Include="Views\AppsManagement\BaseUserApps2.aspx" />
     <Content Include="Views\AppsManagement\BaseUserApps.aspx" />
     <Content Include="Views\AppsManagement\BU_ApprovalApps.aspx" />
     <Content Include="Views\AppsManagement\BU_ApprovalInfo.aspx" />
