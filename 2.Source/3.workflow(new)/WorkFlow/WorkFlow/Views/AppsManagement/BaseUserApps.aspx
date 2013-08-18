@@ -45,7 +45,6 @@
     <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
         var Name;
-        var ID;
         $(document).ready(function () {
             ShowAppsCount();//显示待审批、已审批系统的数量
         });
@@ -124,7 +123,7 @@
                     },
                     { display: '', width: 80,
                         render: function (row) {
-                            var html = '<i class="icon-list"></i><a href="#"  onclick="ApprovalDialog(' + row.id + ')" >审批</a>';
+                            var html = '<i class="icon-list"></i><a href="javascript:ApprovalDialog(' + row.id + ')"  onclick="ApprovalName(' + row.id + ');" >审批</a>';
                             return html;
                         }
                     },
@@ -228,36 +227,34 @@
     <%--审批流程--%>
     <script type="text/javascript">
 
-        function ApprovalDialog(id) {
-            ID = id;
-//            alert("ID:"+id);
-//            
-//            AppName(ID); //通过ID获得名称
 
-//            //通过ID获得名称
-//            function AppName(ID) {
-//                $.ajax({
-//                    url: "/AppsManagement/AppName",
-//                    type: "POST",
-//                    dataType: "json",
-//                    data: { appID: ID },
-//                    success: function (responseText, statusText) {
-//                        //alert(responseText.appName);
-//                        var dataJson = eval("(" + responseText + ")");
-//                       // alert(dataJson.appName);
-//                        Name = dataJson.appName;
-//                       // alert("Name:"+Name)
-//                    }
-//                });
-//            }
+        function ApprovalName(id) {
+         var ID = id;
+         $.ajax({
+             url: "/AppsManagement/AppName",
+             type: "POST",
+             dataType: "json",
+             data: { appID: ID },
+             async: false,
+             success: function (responseText, statusText) {
+                 var dataJson = eval("(" + responseText + ")");
+                 Name = dataJson.appName;
+             
+             }
+         });
 
-            $.ligerDialog.confirm('确认要审批系统名称为:' +id+ '吗?', function (yes) {
+       }
+
+       function ApprovalDialog(id) {
+
+            var ID = id;
+            $.ligerDialog.confirm('确认要审批系统名称为:' +Name+ '吗?', function (yes) {
                     if (yes) {
                         $.ajax({
                             url: "/AppsManagement/ApprovalApps",
                             type: "POST",
                             dataType: "json",
-                            data: { appID: ID},
+                            data: { appID: ID,appName:Name},
                             success: function (responseText, statusText) {
                                 var dataJson = eval("(" + responseText + ")");
                                 show_DIV(dataJson);
@@ -274,7 +271,8 @@
                             $("#promptDIV").html(data.message);
                         }
                     }
-                });   
+               });
+ 
          }
     </script>
 

@@ -418,7 +418,7 @@ namespace WorkFlow.Controllers
             else
             {
                 int ID = Convert.ToInt32(Request.Params["appID"]);
-                //string Name = Request.Params["appName"];
+                string Name = Request.Params["appName"];
                 string msg = string.Empty;
                 WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
                 WorkFlow.AppsWebService.SecurityContext m_SecurityContext = new AppsWebService.SecurityContext();
@@ -430,13 +430,13 @@ namespace WorkFlow.Controllers
                 m_appsBllService.SecurityContextValue = m_SecurityContext;
 
                 WorkFlow.AppsWebService.appsModel m_appsModel = m_appsBllService.GetModel(ID,out msg);
-                string Name = m_appsModel.name;
+         
                 try 
                 {
                     m_appsModel.invalid = false;
                     if (m_appsBllService.SuperAdminUpdateApp(m_appsModel, out msg) == true)
                     {
-                        return Json("{success:true,css:'alert alert-success',message:'应用系统ID号为:'+ID+'审批成功!'}");
+                        return Json("{success:true,css:'alert alert-success',message:'应用系统名称为:'+Name+'审批成功!'}");
                     }
                     else
                     {
