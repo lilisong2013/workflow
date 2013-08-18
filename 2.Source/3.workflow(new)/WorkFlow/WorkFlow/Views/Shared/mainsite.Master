@@ -91,7 +91,8 @@
              <a href="#" class="dropdown-toggle" data-toggle="dropdown">工作流引擎管理<b class="caret"></b></a>
              <ul class="dropdown-menu">
               <li><a href="/FlowsManagement/AppFlows">流程基本信息管理</a></li>
-              <li><a href="/CodesManagement/AppCodes">代码表信息管理</a></li>
+              <li><a href="/StepsManagement/AppSteps">流程步骤信息管理</a></li>
+              <li><a href="/CodesManagement/AppCodes">代码表信息管理</a></li>       
              </ul>
             </li>
             </ul>

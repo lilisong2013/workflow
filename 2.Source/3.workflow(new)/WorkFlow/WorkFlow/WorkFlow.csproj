@@ -70,6 +70,7 @@
     <Compile Include="Controllers\OperationsManagementController.cs" />
     <Compile Include="Controllers\PrivilegesManagementController.cs" />
     <Compile Include="Controllers\RolesManagementController.cs" />
+    <Compile Include="Controllers\StepsManagementController.cs" />
     <Compile Include="Controllers\UsersManagementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -695,6 +696,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.disco" />
+    <Content Include="Views\StepsManagement\AppSteps.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
