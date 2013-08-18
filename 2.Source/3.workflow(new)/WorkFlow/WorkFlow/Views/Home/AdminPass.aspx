@@ -56,8 +56,9 @@
 
             //form提交响应成功后执行的回调函数
             function admin_showResponse(responseText, statusText) {
+                //alert(statusText);
                 var dataJson = eval("(" + responseText + ")");
-                show_promptDIV(dataJson);//提示信息
+                show_promptDIV(dataJson); //提示信息
             }
 
             //提示信息
@@ -65,31 +66,13 @@
                 $("#promptDIV").removeClass("alert alert-error alert-success");
                 $("#promptDIV").addClass(data.css);
                 $("#promptDIV").html(data.message);
+
+                if (data.sessionInfo) {
+                    location.href = data.toUrl;
+                }
             }
         });
     </script>
-
-   <%-- <script type="text/javascript">
-        $(document).ready(function () {
-            var form = $("#modifyAdminPass");
-            form.submit(function () {
-                $.post(form.attr("action"),
-               form.serialize(),
-               function (result, status) {
-                   //debugger
-                   $("#promptDIV").removeClass("p-warningDIV p-successDIV p-errorDIV");
-                   $("#promptDIV").addClass(result.css);
-                   $("#promptDIV").html(result.message);
-                   if (result.success) {
-                       location.href = result.toUrl;
-                   }
-               },
-               "JSON");
-               return false;
-             
-            });
-        });
-    </script>--%>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>

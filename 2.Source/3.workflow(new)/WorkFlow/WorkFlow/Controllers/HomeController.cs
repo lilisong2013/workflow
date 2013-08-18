@@ -16,12 +16,37 @@ namespace WorkFlow.Controllers
         //
         // GET: /Home/
 
+        //检查Session
+
+        public ActionResult CheckSession()
+        {
+            if (Session["user"] == null)
+            {
+                return Json("{sessionNull:true,toUrl:'/Home/Login'}");
+            }
+            else
+            {
+                return Json("{sessionNull:false}");
+            }
+        }
+
+        public ActionResult CheckSession2()
+        {
+            if (Session["baseuser"] == null)
+            {
+                return Json("{sessionNull:true,toUrl:'/Home/Login'}");
+            }
+            else
+            {
+                return Json("{sessionNull:false}");
+            }
+        }
 
         public ActionResult Login()
         {
-           
-                return View();
-           
+            Session["user"] = null;
+            Session["baseuser"] = null;
+            return View();
         }
 
         /// <summary>
@@ -56,8 +81,8 @@ namespace WorkFlow.Controllers
 
         public ActionResult AdminLogin()
         {
-
-                return View();
+            Session["baseuser"] = null;    
+            return View();
      
         }
 
@@ -68,7 +93,14 @@ namespace WorkFlow.Controllers
         
         public ActionResult Index()
         {
-            return View();
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                return View();
+            }
         }
         
     
@@ -418,6 +450,11 @@ namespace WorkFlow.Controllers
         //应用管理员修改密码     
         public ActionResult ModifyAdminPass(FormCollection collection)
         {
+            if (Session["user"] == null)
+            {
+                return Json("{sessionInfo:true,toUrl:'/Home/Login'}");
+            }
+
             string m_oldpassword = Request.Form["oldpassword"];
             string m_newpassword = Request.Form["newpassword"];
             string m_newpassword2 = Request.Form["newpassword2"];
@@ -588,6 +625,11 @@ namespace WorkFlow.Controllers
         /// </summary>
         public ActionResult ModifyAppInfo()
         {
+            if (Session["user"] == null)
+            {
+                return Json("{sessionInfo:true,toUrl:'/Home/Login'}");
+            }
+
             WorkFlow.AppsWebService.appsBLLservice m_appBllService = new AppsWebService.appsBLLservice();
             WorkFlow.AppsWebService.appsModel m_appModel = new AppsWebService.appsModel();
 
@@ -651,6 +693,11 @@ namespace WorkFlow.Controllers
         /// </summary>
         public ActionResult ModifyAdminInfo()
         {
+            if (Session["user"] == null)
+            {
+                return Json("{sessionInfo:true,toUrl:'/Home/Login'}");
+            }
+
             WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
             WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 

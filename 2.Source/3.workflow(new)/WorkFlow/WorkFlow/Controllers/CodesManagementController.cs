@@ -18,12 +18,12 @@ namespace WorkFlow.Controllers
         {
             if (Session["user"] == null)
             {
-               return  RedirectToAction("Home","Login");
+                return RedirectToAction("Login", "Home");
             }
             else
-            { 
-                return View(); 
-            }         
+            {
+                return View();
+            }     
         }
         public ActionResult GetFlowstep_Type_List()
         {

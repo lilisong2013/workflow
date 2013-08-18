@@ -45,7 +45,8 @@
     <%--统计待审批、已审批系统的数量--%>
     <script type="text/javascript">
 
-        var name;
+        var QID;
+        var QName;
         $(document).ready(function () {
             ShowAppsCount();//显示待审批、已审批系统的数量
         });
@@ -81,12 +82,12 @@
             function GetValidAppsList() {
                 window['v'] = $("#validgrid").ligerGrid({
                     columns: [
-                    { display: '系统ID', name: 'id', width: 150, align: 'center' },
-                    { display: '系统名称', name: 'name', width: 150, align: 'center' },
-                    { display: '系统编码', name: 'code', width: 150, align: 'center' },
-                    { display: '访问连接', name: 'url', width: 150, align: 'center' },
-                    { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
-                    { display: '', width: 100,
+                    { display: '系统ID', name: 'id', width: 60, align: 'center' },
+                    { display: '系统名称', name: 'name', align: 'center' },
+                    { display: '系统编码', name: 'code', align: 'center' },
+                    { display: '访问连接', name: 'url', align: 'center' },
+                    { display: '备注信息', name: 'remark', type: 'int', align: 'center' },
+                    { display: '', width: 80,
                         render: function (row) {
                             var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="VDetailDialog(' + row.id + ')">详情</a>';
                             return html;
@@ -94,7 +95,7 @@
                     }
                   ],
                     dataAction: 'server',
-                    width: '99%',
+                    width: 1000,
                     pageSizeOptions: [5, 10, 15, 20, 25, 50],
                     pageSize: 10,
                     height: '400',
@@ -111,24 +112,24 @@
             function GetInvalidAppsList() {
                 window['i'] = $("#invalidGrid").ligerGrid({
                     columns: [
-                    { display: '系统ID', name: 'id', width: 150, align: 'center' },
-                    { display: '系统名称', name: 'name', width: 150, align: 'center' },
-                    { display: '系统编码', name: 'code', width: 150, align: 'center' },
-                    { display: '访问连接', name: 'url', width: 150, align: 'center' },
-                    { display: '备注信息', name: 'remark', width: 180, type: 'int', align: 'center' },
-                    { display: '', width: 100,
+                    { display: '系统ID', name: 'id', width: 60, align: 'center' },
+                    { display: '系统名称', name: 'name', align: 'center' },
+                    { display: '系统编码', name: 'code', align: 'center' },
+                    { display: '访问连接', name: 'url', align: 'center' },
+                    { display: '备注信息', name: 'remark', type: 'int', align: 'center' },
+                    { display: '', width: 80,
                         render: function (row) {
                             var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="IDetailDialog(' + row.id + ')">详情</a>';
                             return html;
                         }
                     },
-                    { display: '', width: 100,
-                         render: function (row) {
-                             var html = '<i class="icon-list"></i><a href="#" onclick="ApprovalDialog('+row.id+')">审批</a>';
-                             return html;
-                         }
-                     },
-                    { display: '', width: 100,
+                    { display: '', width: 80,
+                        render: function (row) {
+                            var html = '<i class="icon-list"></i><a href="#" onclick="ApprovalDialog(' + row.id + ')">审批</a>';
+                            return html;
+                        }
+                    },
+                    { display: '', width: 80,
                         render: function (row) {
                             var html = '<i class="icon-trash"></i><a href="#" onclick="Delete(' + row.id + ')">删除</a>';
                             return html;
@@ -136,7 +137,7 @@
                     }
                    ],
                     dataAction: 'server',
-                    width: '99%',
+                    width: 1000,
                     pageSizeOptions: [5, 10, 15, 20, 25, 50],
                     pageSize: 10,
                     height: '400',
@@ -164,7 +165,6 @@
     <%--已审批详情弹出框函数--%>
     <script type="text/javascript">
       function VDetailDialog(id) {
-
           if (id) {
               $.ligerDialog.open({
                   title: '详情(' + id + ')信息',
@@ -180,8 +180,7 @@
 
     <%--待审批详情弹出框函数--%>
     <script type="text/javascript">
-           function IDetailDialog(id) {
-
+        function IDetailDialog(id) {
                if (id) {
                    $.ligerDialog.open({
                        title: '详情(' + id + ')信息',
@@ -198,7 +197,7 @@
     <%--待审批列表的删除提示框--%>
     <script type="text/javascript">
         function Delete(id) {
-              var ID=id;
+            var ID = id;
               $.ligerDialog.confirm('确认要删除吗?', function (yes) {
                   if (yes) {
                       $.ajax({
@@ -233,8 +232,8 @@
 
         function ApprovalDialog(id) {
             var ID = id;
- 
-                $.ligerDialog.confirm('确认要审批系统ID号为:' +id+ '吗?', function (yes) {
+
+                $.ligerDialog.confirm('确认要审批系统ID号为:'+id+ '吗?', function (yes) {
                     if (yes) {
                         $.ajax({
                             url: "/AppsManagement/ApprovalApps",

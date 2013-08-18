@@ -32,12 +32,40 @@
             }
         });
     </script>
+
+    <script type="text/javascript">
+        window.onload = checksession;
+        function checksession() {
+            $.ajax({
+                url: "/Home/CheckSession",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var datajson = eval("(" + responseText + ")");
+                    if (datajson.sessionNull) {
+                        location.href = datajson.toUrl;
+                    }
+                }
+            });
+        }
+    </script>
+ 
+
     
     <%--页面js--%>
     <asp:ContentPlaceHolder ID="PageJS" runat="server" />
 
 </head>
 <body>
+<%--<%
+    Response.Expires = 0;
+    Response.Buffer = true;
+    Response.ExpiresAbsolute = DateTime.Now.AddSeconds(-1);
+    Response.AddHeader("pragma", "no-cache");
+    Response.CacheControl = "no-cache";
+     %>--%>
     <div class="navbar">
       <div class="navbar-inner">
         <div class="container">
