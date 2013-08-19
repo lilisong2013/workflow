@@ -247,9 +247,9 @@
 
        function ApprovalDialog(id) {
 
-            var ID = id;
-            $.ligerDialog.confirm('确认要审批系统名称为:' +Name+ '吗?', function (yes) {
-                    if (yes) {
+           var ID = id;
+            $.ligerDialog.confirm('审批系统名称为:<b>< '+Name+'></b>?',function (yes) {
+                if (yes) {
                         $.ajax({
                             url: "/AppsManagement/ApprovalApps",
                             type: "POST",

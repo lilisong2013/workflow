@@ -55,40 +55,45 @@
     <%--在Grid中分页显示Element信息--%>
     <script type="text/javascript">
         $(document).ready(function () {
-            GetElementList();
+
+            $("#infoTab").click(function () {
+                GetElementList();//切换Tab标签时获取元素列表
+            })
+
+            GetElementList(); //获取元素列表
             function GetElementList() {
                 window['t'] = $("#elementgrid").ligerGrid({
-                 columns: [
-                        { display: '元素ID', name: 'id',width:80,align: 'center' },
+                    columns: [
+                        { display: '元素ID', name: 'id', width: 80, align: 'center' },
                         { display: '元素名称', name: 'name', align: 'center' },
                         { display: '元素编码', name: 'code', align: 'center' },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog('+row.id+')">详情</a>';
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog('+row.id+')">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteElement(' + row.id + ')">删除</a>';
                                 return html;
                             }
                         }
                        ],
-                        dataAction: 'server',
-                        width: '99%',
-                        pageSizeOptions: [5, 10, 15, 20, 25, 50],
-                        pageSize: 10,
-                        height: '400',
-                        rownumbers: true,
-                        usePager: true,
-                        url: "/ElementsManagement/GetElements_List"
+                    dataAction: 'server',
+                    width: '99%',
+                    pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                    pageSize: 10,
+                    height: '400',
+                    rownumbers: true,
+                    usePager: true,
+                    url: "/ElementsManagement/GetElements_List"
                 });
                 t.loadData();
             }
@@ -279,8 +284,8 @@
                //更新eMyGrid数据
                eManagerGrid.setOptions({
                    columns: [
-                            { display: '页面元素名称', name: 'name', width: 120 },
-                            { display: '页面元素编码', name: 'code', width: 120 },
+                            { display: '元素名称', name: 'name', width: 120 },
+                            { display: '元素编码', name: 'code', width: 120 },
                             { display: '备注信息', name: 'remark', width: 180 }
                             ],
                    data: dataElementsJson,
@@ -324,7 +329,7 @@
                 if (elementName == "") {
                     $("#promptDIV").removeClass("alert alert-error alert-success");
                     $("#promptDIV").addClass("alert alert-error");
-                    $("#promptDIV").html("元素名称不能为空!");
+                    $("#promptDIV").html("页面元素名称不能为空!");
                     return false;
                 }
             }
@@ -363,19 +368,19 @@
                         { display: '元素ID', name: 'id', width: 80, align: 'center' },
                         { display: '元素名称', name: 'name', align: 'center' },
                         { display: '元素编码', name: 'code', align: 'center' },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteElement(' + row.id + ')">删除</a>';
                                 return html;
@@ -416,7 +421,7 @@
      <div class="tab-pane active" id="AllElements">
       <%--查询按钮--%> 
       <b>元素名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
-      <input id="btnOK" type="button" value="查询" onclick="search()"/> 
+      <input id="btnOK" type="button" value="查询" onclick="search()" class="btn btn-primary"/> 
       <hr />   
      <%--查看所有元素--%>
      <div id="elementgrid"></div>
@@ -425,15 +430,15 @@
      <div class="tab-pane" id="AddElements">
             <form id="add_Elements" class="form-horizontal" method="post" action="">
                 <div class="control-group span6 offset2">
-                    <label class="control-label">页面元素名称</label>
+                    <label class="control-label">元素名称</label>
                     <div class="controls">
-                        <input id="elementsName" name="elementsName" type="text" class="input-prepend span4" placeholder="页面元素名称" />
+                        <input id="elementsName" name="elementsName" type="text" class="input-prepend span4" placeholder="元素名称" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">
-                    <label class="control-label">页面元素编码</label>
+                    <label class="control-label">元素编码</label>
                     <div class="controls">
-                        <input id="elementsCode" name="elementsCode" type="text" class="input-prepend span4" placeholder="页面元素编码" />
+                        <input id="elementsCode" name="elementsCode" type="text" class="input-prepend span4" placeholder="元素编码" />
                     </div>
                 </div>             
                 <div class="control-group span6 offset2">
@@ -461,9 +466,9 @@
            
 
                 <div class="control-group span6 offset2">
-                    <label class="control-label">排序码</label>
+                    <label class="control-label">排序编码</label>
                     <div class="controls">
-                        <input id="elementsSeqno" name="elementsSeqno" type="text" class="span4" placeholder="排序码" />
+                        <input id="elementsSeqno" name="elementsSeqno" type="text" class="span4" placeholder="排序编码" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">

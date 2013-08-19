@@ -43,13 +43,18 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            GetFlowList();
+            $("##infoTab").click(function () {//切换Tab标签时获取流程列表
+                GetFlowList();
+            })
+
+            GetFlowList(); //获取流程列表
+
             function GetFlowList() {
                 window['t'] = $("#AllFlows").ligerGrid({
                     columns: [
-                            { display: '流程ID', name: 'id', align: 'left', width: 80 },
-                            { display: '流程名称', name: 'name', align: 'left' },
-                            { display: '备注', name: 'remark', align: 'left' },
+                            { display: '流程ID', name: 'id', align: 'center', width: 80 },
+                            { display: '流程名称', name: 'name', align: 'center' },
+                            { display: '备注信息', name: 'remark', align: 'center' },
                             { display: '', width: 80,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
@@ -80,7 +85,7 @@
 
 
                 });
-              
+
                 t.loadData();
 
             }
@@ -235,9 +240,9 @@
                    //alert(dataSearchJson2);
                    $("#AllFlows").ligerGrid({
                        columns: [
-                            { display: '流程ID', name: 'id', align: 'left', width: 80 },
-                            { display: '流程名称', name: 'name', align: 'left' },
-                            { display: '备注', name: 'remark', align: 'left' },
+                            { display: '流程ID', name: 'id', align: 'center', width: 80 },
+                            { display: '流程名称', name: 'name', align: 'center' },
+                            { display: '备注', name: 'remark', align: 'center' },
                             { display: '', width: 80,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
@@ -284,7 +289,7 @@
       <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]);%>
     <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
-            <li class="active"> <a href="#AllFlows1" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
+            <li class="active" id="#infoTab"> <a href="#AllFlows1" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
             <li><a href="#AddFlows" data-toggle="tab"><i class="icon-plus"></i>添加</a></li>
         </ul>
     </div>
@@ -296,7 +301,7 @@
 
       <%--查询按钮--%> 
       <b>流程名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
-      <input id="btnOK" type="button" value="查询" onclick="search()"/> 
+      <input id="btnOK" type="button" value="查询" onclick="search()" class="btn btn-primary"/> 
       <hr />  
      
       <%--显示全部流程--%>
@@ -314,9 +319,9 @@
                     </div>
                           
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="flowsRemark">备注：</label>
+                        <label class="control-label" for="flowsRemark">备注信息：</label>
                         <div class="controls">
-                        <textarea name="flowsRemark" id="flowsRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="200"></textarea>
+                        <textarea name="flowsRemark" id="flowsRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="200"></textarea>
                                           
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>

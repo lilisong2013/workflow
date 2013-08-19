@@ -339,12 +339,12 @@ namespace WorkFlow.Controllers
                 if (employee_no.Length == 0)
                 {
            
-                    return Json("{success:false,css:'alert alert-error',message:'工号不能为空!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'员工编号不能为空!'}");
                 }
                 if (mobile_phone.Length == 0 || mobile_phone.Length != 11)
                 {
-           
-                    return Json("{success:false,css:'alert alert-error',message:'手机号不能为空或手机号码不足11位!'}");
+
+                    return Json("{success:false,css:'alert alert-error',message:'手机号码不能为空或手机号码不足11位!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsMobilePhone(mobile_phone) == false)
                 {
@@ -354,17 +354,17 @@ namespace WorkFlow.Controllers
                 if (mail.Length == 0)
                 {
               
-                    return Json("{success:false,css:'alert alert-error',message:'邮件不能为空!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'邮件地址不能为空!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsEmail(mail) == false)
                 {
-           
-                    return Json("{success:false,css:'alert alert-error',message:'邮件格式不正确!'}");
+
+                    return Json("{success:false,css:'alert alert-error',message:'邮件地址格式不正确!'}");
                 }
 
                 if (Convert.ToInt32(remark.ToString().Length) > 150)
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'备注的字符长度不能超过150个字符!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'备注信息的字符长度不能超过150个字符!'}");
                 }
                 //获取某应用系统中数据表中用户的登录名和工号列表
                 DataSet ds = m_usersBllService.GetAllUsersListOfApp(appID, out msg);
@@ -393,7 +393,7 @@ namespace WorkFlow.Controllers
                     if (empnoList.Equals(collection["usersEmployee_no"].Trim().ToString()))
                     {
        
-                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的工号!'}");
+                        return Json("{success:false,css:'alert alert-error',message:'已经存在相同的员工编号!'}");
                     }
                 }
 

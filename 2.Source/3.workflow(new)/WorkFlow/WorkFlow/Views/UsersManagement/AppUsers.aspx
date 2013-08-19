@@ -41,9 +41,15 @@
         });
     </script>
 
+   
+
     <%--在Grid中分页显示user信息--%>
     <script type="text/javascript">
         $(document).ready(function () {
+
+            $("#infoTab").click(function () {
+                GetUserList();//切换全部Tab标签
+            })
 
             GetUserList();
             function GetUserList() {
@@ -52,32 +58,32 @@
                         { display: '用户ID', name: 'id', width: 80, align: 'center' },
                         { display: '登录名称', name: 'login', align: 'center' },
                         { display: '用户姓名', name: 'name', align: 'center' },
-                        { display: '工号', name: 'employee_no', align: 'center' },
-                        { display: '', width: 100,
+                        { display: '员工编号', name: 'employee_no', align: 'center' },
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')" >编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteUser(' + row.id + ')">删除</a>';
                                 return html;
                             }
                         },
-                     
-                       { display: '', width: 100,
-                            render: function (row) {
-                                var html = '<i class="icon-user"></i><a href="javascript:void(0);" onclick="UserRoleDialog('+row.id+')">角色设置</a>';
-                                return html;
-                            }
-                        }
+
+                       { display: '', width: 80,
+                           render: function (row) {
+                               var html = '<i class="icon-user"></i><a href="#" onclick="UserRoleDialog(' + row.id + ')">角色设置</a>';
+                               return html;
+                           }
+                       }
                        ],
                     dataAction: 'server',
                     width: '99%',
@@ -214,7 +220,7 @@
                 if (userName == "") {
                     $("#promptDIV").removeClass("alert alert-error alert-success");
                     $("#promptDIV").addClass("alert alert-error");
-                    $("#promptDIV").html("用户名称不能为空!");
+                    $("#promptDIV").html("登录名称不能为空!");
                     return false;
                 }
             }
@@ -254,25 +260,25 @@
                         { display: '登录名称', name: 'login', align: 'center' },
                         { display: '用户姓名', name: 'name', align: 'center' },
                         { display: '工号', name: 'employee_no', align: 'center' },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteUser(' + row.id + ')">删除</a>';
                                 return html;
                             }
                         },
-                       { display: '', width: 100,
+                       { display: '', width: 80,
                            render: function (row) {
                                var html = '<i class="icon-user"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色设置</a>';
                                return html;
@@ -310,7 +316,7 @@
        <div class="tab-pane active" id="AllUsers">
        <%--查询按钮--%> 
        <b>登录名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
-       <input id="btnOK" type="button" value="查询" onclick="search()"/> 
+       <input id="btnOK" type="button" value="查询" onclick="search()" class="btn btn-primary"/> 
        <hr />  
        <%--查看所有用户--%>
         <div id="usersgrid"></div>
@@ -344,27 +350,27 @@
                         </div>
                     </div>  
                      <div class="control-group span6 offset2">
-                        <label class="control-label" for="usersEmployee_no">工号：</label>
+                        <label class="control-label" for="usersEmployee_no">员工编号：</label>
                         <div class="controls">
-                            <input type="text" name="usersEmployee_no" id="usersEmployee_no" class="input-prepend span4" placeholder="工号" />                            
+                            <input type="text" name="usersEmployee_no" id="usersEmployee_no" class="input-prepend span4" placeholder="员工编号" />                            
                         </div>
                     </div> 
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="usersMobile_phone">手机号：</label>
+                        <label class="control-label" for="usersMobile_phone">手机号码：</label>
                         <div class="controls">
-                            <input type="text" name="usersMobile_phone" id="usersMobile_phone" class="input-prepend span4" placeholder="手机号"/>                            
+                            <input type="text" name="usersMobile_phone" id="usersMobile_phone" class="input-prepend span4" placeholder="手机号码"/>                            
                         </div>
                     </div> 
                      <div class="control-group span6 offset2">
-                        <label class="control-label" for="usersMail">邮件：</label>
+                        <label class="control-label" for="usersMail">邮件地址：</label>
                         <div class="controls">
-                            <input type="text" name="usersMail" id="usersMail" class="input-prepend span4" placeholder="邮件"/>                            
+                            <input type="text" name="usersMail" id="usersMail" class="input-prepend span4" placeholder="邮件地址"/>                            
                         </div>
                     </div>      
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="usersRemark">备注：</label>
+                        <label class="control-label" for="usersRemark">备注信息：</label>
                         <div class="controls">
-                            <textarea name="usersRemark" id="usersRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="80"></textarea>
+                            <textarea name="usersRemark" id="usersRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="80"></textarea>
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]); %>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>

@@ -43,7 +43,12 @@
     <%--在Grid中分页显示operation信息--%>
     <script type="text/javascript">
         $(document).ready(function () {
-            GetOperationsList();
+
+            $("#infoTab").click(function () {//切换Tab标签时获取操作列表
+                GetOperationsList();
+            })
+
+            GetOperationsList();//获取操作列表
             function GetOperationsList() {
                 window['t'] = $("#operationsgrid").ligerGrid({
                     columns: [
@@ -51,19 +56,19 @@
                         { display: '操作名称', name: 'name', align: 'center' },
                         { display: '操作编码', name: 'code', align: 'center' },
                         { display: '操作描述', name: 'description', align: 'center' },
-                        { display: '备注', name: 'remark', align: 'center' },
-                        { display: '', width: 100,
+                        { display: '备注信息', name: 'remark', align: 'center' },
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
-                        }, { display: '', width: 100,
+                        }, { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog('+row.id+')">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteOperation(' + row.id + ')">删除</a>';
                                 return html;
@@ -226,19 +231,19 @@
                         { display: '操作名称', name: 'name', align: 'center' },
                         { display: '操作编码', name: 'code', align: 'center' },
                         { display: '操作描述', name: 'description', align: 'center' },
-                        { display: '备注', name: 'remark', align: 'center' },
-                        { display: '', width: 100,
+                        { display: '备注信息', name: 'remark', align: 'center' },
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
-                        }, { display: '', width: 100,
+                        }, { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteOperation(' + row.id + ')">删除</a>';
                                 return html;
@@ -281,7 +286,7 @@
         <div class="tab-pane active" id="AllOperations">
         <%--查询按钮--%> 
         <b>操作名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
-        <input id="btnOK" type="button" value="查询" onclick="search()"/> 
+        <input id="btnOK" type="button" value="查询" onclick="search()" class="btn btn-primary"/> 
         <hr />   
         <%--查看所有操作列表--%>
         <div id="operationsgrid"></div>
@@ -308,9 +313,9 @@
                         </div>
                     </div>              
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="operationsRemark">备注：</label>
+                        <label class="control-label" for="operationsRemark">备注信息：</label>
                         <div class="controls">
-                            <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="80"></textarea>
+                            <textarea name="operationsRemark" id="operationsRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="80"></textarea>
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"]; %>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                             <%string s = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>

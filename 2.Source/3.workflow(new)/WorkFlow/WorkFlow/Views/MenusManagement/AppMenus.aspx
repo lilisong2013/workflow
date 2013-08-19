@@ -88,23 +88,23 @@
 
                     //更新mygrid数据
                     managerListGrid.setOptions({
-                        columns: [{ display: '菜单名', name: 'name', align: 'center' },
+                        columns: [{ display: '菜单名称', name: 'name', align: 'center' },
                                   { display: '菜单编码', name: 'code', align: 'center' },
                                   { display: '菜单URL', name: 'url', align: 'center' },
                                   { display: '备注信息', name: 'remark', type: 'int', align: 'center' },
-                                  { display: '', width: 100,
+                                  { display: '', width: 80,
                                       render: function (row) {
                                           var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                           return html;
                                       }
                                   },
-                                  { display: '', width: 100,
+                                  { display: '', width: 80,
                                        render: function (row) {
                                            var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                            return html;
                                        }
                                    },
-                                  { display: '', width: 100,
+                                  { display: '', width: 80,
                                       render: function (row) {
                                           var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteMenu(' + row.id + ')">删除</a>';
                                           return html;

@@ -75,19 +75,19 @@
                        { display: '菜单权限名称', name: 'p_name', align: 'center',width: 260 },
                        { display: '菜单名称', name: 'item_name', align: 'center', width: 120 },
                        { display: '菜单编码', name: 'item_code', align: 'center', width: 100 },
-                       { display: '', width: 60,
+                       { display: '', width: 80,
                            render: function (row) {
                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.p_id + ')">详情</a>';
                                return html;
                            }
                        },
-                        { display: '', width: 60,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="MEditDialog(' + row.p_id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 60,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteMPrivileges(' + row.p_id + ')">删除</a>';
                                 return html;

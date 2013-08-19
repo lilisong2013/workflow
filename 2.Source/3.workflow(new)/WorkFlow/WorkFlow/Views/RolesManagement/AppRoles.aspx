@@ -44,6 +44,10 @@
     <script type="text/javascript">
         $("document").ready(function () {
 
+            $("#infoTab").click(function () {
+                GetRoleList();
+            })
+
             GetRoleList();
             function GetRoleList() {
                 window['t'] = $("#rolesgrid").ligerGrid({
@@ -51,28 +55,28 @@
                    { display: '角色ID', name: 'id', width: 80, align: 'center' },
                         { display: '角色名称', name: 'name', align: 'center' },
                         { display: '角色备注', name: 'remark', align: 'center' },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteRole(' + row.id + ')">删除</a>';
                                 return html;
                             }
                         },
-                      
-                         { display: '', width: 100,
+
+                         { display: '', width: 80,
                              render: function (row) {
-                                 var html = '<i class="icon-user"></i><a href="javascript:void(0);" onclick="RolePrivilegeDialog(' + row.id + ')">权限设置</a>';
+                                 var html = '<i class="icon-user"></i><a href="#" onclick="RolePrivilegeDialog(' + row.id + ')">权限设置</a>';
                                  return html;
                              }
                          }
@@ -249,25 +253,25 @@
                         { display: '角色ID', name: 'id', width: 80, align: 'center' },
                         { display: '角色名称', name: 'name', align: 'center' },
                         { display: '角色备注', name: 'remark', align: 'center' },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteRole(' + row.id + ')">删除</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 100,
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-user"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
                                 return html;
@@ -307,7 +311,7 @@
         <div class="tab-pane active" id="AllRoles">
         <%--查询按钮--%> 
         <b>角色名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
-        <input id="btnOK" type="button" value="查询" onclick="search()"/> 
+        <input id="btnOK" type="button" value="查询" onclick="search()" class="btn btn-primary"/> 
         <hr /> 
         <%--查看所有角色--%>
         <div id="rolesgrid"></div>
@@ -324,9 +328,9 @@
                     </div>
                           
                     <div class="control-group span6 offset2">
-                        <label class="control-label" for="rolesRemark">备注：</label>
+                        <label class="control-label" for="rolesRemark">角色备注：</label>
                         <div class="controls">
-                            <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4" placeholder="备注" maxlength="80"></textarea>
+                            <textarea name="rolesRemark" id="rolesRemark" rows="4" cols="5" class="span4" placeholder="角色备注" maxlength="80"></textarea>
 
                             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]);%>
                             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
