@@ -96,6 +96,11 @@ namespace Saron.Common.PubFun
         {
             return System.Text.RegularExpressions.Regex.IsMatch(str_String,@"^[a-zA-Z0-9_\u4e00-\u9fa5]+$");
         }
+        //判断是否是有效的URL
+        public static bool IsValidURL(string str_URL)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(str_URL, @"[a-zA-z]+://[^\s]*");
 
+        }
     }
 }
