@@ -42,6 +42,7 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip)");
             strSql.Append(" values (");
             strSql.Append("@name,@remark,@flow_id,@step_type_id,@repeat_count,@invalid,@order_no,@deleted,@created_at,@created_by,@created_ip)");
+            strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@name", SqlDbType.NVarChar,100),
 					new SqlParameter("@remark", SqlDbType.NVarChar,100),
