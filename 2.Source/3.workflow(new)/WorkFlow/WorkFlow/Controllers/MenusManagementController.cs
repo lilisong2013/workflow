@@ -121,7 +121,7 @@ namespace WorkFlow.Controllers
 
                     if (addFlag != 0)
                     {
-                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "alert alert-success", message = "添加成功", toUrl = "/MenusManagement/AppMenus" });
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = true, css = "alert alert-success", message = "添加成功"});
                     }
                     else
                     {

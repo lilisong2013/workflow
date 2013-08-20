@@ -599,7 +599,8 @@
             //提交add_MenusPrivileges表单后执行的函数
             function m_showResponse(responseText, statusText) {
                 var dataJson = eval("(" + responseText + ")");
-                show_DIV(dataJson)
+                show_DIV(dataJson);
+                
                 //                if (responseText.success) {
                 //                    location.href = responseText.toUrl;
                 //                }

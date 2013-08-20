@@ -28,7 +28,7 @@ namespace Saron.WorkFlowService.WebService
         #region Method
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "增加一条流程步骤记录，<h4>（需要授权验证，系统管理员用户）</h4>")]
-        public bool AddStep(Saron.WorkFlowService.Model.stepsModel stepmodel,int userID, out string msg)
+        public bool AddStep(Saron.WorkFlowService.Model.stepsModel stepmodel,int userID,out string msg)
         {
             #region webservice授权判断
             //是否有权限访问
@@ -49,6 +49,7 @@ namespace Saron.WorkFlowService.WebService
 
             //设定步骤的重复次数
             stepmodel.repeat_count = m_stepsdal.GetRepeatCount(stepmodel);
+
 
             #region 添加流程步骤
             //添加
@@ -79,7 +80,6 @@ namespace Saron.WorkFlowService.WebService
 
 
         }
-
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得流程中的最大排序码(-1：webservice未授权，0：流程中不存在步骤)，<h4>（需要授权验证，系统管理员用户）</h4>")]
