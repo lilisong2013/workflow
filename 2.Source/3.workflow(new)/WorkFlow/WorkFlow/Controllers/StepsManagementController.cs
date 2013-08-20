@@ -72,11 +72,19 @@ namespace WorkFlow.Controllers
                 {
                     if (m_stepsBllService.AddStep(m_stepsModel, userID, out msg))
                     {
+<<<<<<< HEAD
                         return Json("{success:true,css:'alert alert-success',message:'流程步骤添加成功!'}");
                     }
                     else
                     {
                         return Json("{success:false,css:'alert alert-error',message:'添加失败!'}");
+=======
+                        return Json("{success:true,css:'alert alert-success',message:'步骤添加成功!'}");
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'" + msg + "!'}");
+>>>>>>> 9f14daf643b327b06d2b91293daaa541e53fada3
                     }
                 }
                 catch (Exception ex)

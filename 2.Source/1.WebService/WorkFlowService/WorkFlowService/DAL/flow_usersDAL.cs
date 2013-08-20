@@ -29,20 +29,21 @@ namespace Saron.WorkFlowService.DAL
             
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into flow_users(");
-            strSql.Append("id,step_id,user_id,remark)");
+            strSql.Append("step_id,user_id,remark)");
             strSql.Append(" values (");
-            strSql.Append("@id,@step_id,@user_id,@remark)");
+            strSql.Append("@step_id,@user_id,@remark)");
             SqlParameter[] parameters = {
-					new SqlParameter("@id", SqlDbType.Int,4),
 					new SqlParameter("@step_id", SqlDbType.Int,4),
 					new SqlParameter("@user_id", SqlDbType.Int,4),
-					new SqlParameter("@remark", SqlDbType.NVarChar,100)};
-            parameters[0].Value = model.id;
-            parameters[1].Value = model.step_id;
-            parameters[2].Value = model.user_id;
-            parameters[3].Value = model.remark;
+					new SqlParameter("@remark", SqlDbType.NVarChar,100)
+            };
+
+            parameters[0].Value = model.step_id;
+            parameters[1].Value = model.user_id;
+            parameters[2].Value = model.remark;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            
             if (rows > 0)
             {
                 return true;
