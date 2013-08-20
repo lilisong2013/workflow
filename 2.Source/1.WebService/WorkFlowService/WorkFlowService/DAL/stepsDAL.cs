@@ -39,7 +39,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into steps(");
-            strSql.Append("name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip)");
+            strSql.Append("name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip)");
             strSql.Append(" values (");
             strSql.Append("@name,@remark,@flow_id,@step_type_id,@repeat_count,@invalid,@order_no,@deleted,@created_at,@created_by,@created_ip)");
             SqlParameter[] parameters = {
