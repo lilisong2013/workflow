@@ -76,7 +76,7 @@ namespace WorkFlow.Controllers
                     }
                     else
                     {
-                        return Json("{success:false,css:'alert alert-error',message:'添加失败!'}");
+                        return Json("{success:false,css:'alert alert-error',message:'" + msg + "!'}");
                     }
                 }
                 catch (Exception ex)
