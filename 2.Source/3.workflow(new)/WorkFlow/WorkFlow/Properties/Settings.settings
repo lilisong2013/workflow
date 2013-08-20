@@ -54,7 +54,7 @@
       <Value Profile="(Default)">http://192.168.11.103:8081/WebService/flowsBLLservice.asmx</Value>
     </Setting>
     <Setting Name="WorkFlow_StepsWebService_stepsBLLservice" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.12.27:8085/WebService/stepsBLLservice.asmx</Value>
+      <Value Profile="(Default)">http://192.168.11.103:8081/WebService/stepsBLLservice.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>
