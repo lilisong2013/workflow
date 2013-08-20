@@ -192,5 +192,15 @@ namespace WorkFlow.Properties {
                 return ((string)(this["WorkFlow_FlowsWebService_flowsBLLservice"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.11.103:8081/WebService/stepsBLLservice.asmx")]
+        public string WorkFlow_StepsWebService_stepsBLLservice {
+            get {
+                return ((string)(this["WorkFlow_StepsWebService_stepsBLLservice"]));
+            }
+        }
     }
 }

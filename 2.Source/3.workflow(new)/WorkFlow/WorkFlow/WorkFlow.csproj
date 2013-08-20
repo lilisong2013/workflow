@@ -148,6 +148,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\StepsWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\Step_ActionWebService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -662,6 +667,11 @@
     <None Include="Web References\RolesWebService\rolesModel.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\StepsWebService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\StepsWebService\stepsBLLservice.wsdl" />
     <None Include="Web References\Step_ActionWebService\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -704,6 +714,7 @@
     <None Include="Web References\Step_ActionWebService\step_actionBLLservice.disco" />
     <None Include="Web References\Flowstep_TypeWebService\flowstep_typeBLLservice.disco" />
     <None Include="Web References\FlowsWebService\flowsBLLservice.disco" />
+    <None Include="Web References\StepsWebService\stepsBLLservice.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -869,6 +880,17 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_MenusWebService_menusBLLservice</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\StepsWebService\</RelPath>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/stepsBLLservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>WorkFlow_StepsWebService_stepsBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/step_actionBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
