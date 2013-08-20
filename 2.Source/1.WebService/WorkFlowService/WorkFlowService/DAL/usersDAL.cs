@@ -17,6 +17,32 @@ namespace Saron.WorkFlowService.DAL
         #region  Method
 
         /// <summary>
+        /// 根据用户ID获得用户名称
+        /// </summary>
+        public string GetUserName(int userID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name from users ");
+
+            strSql.Append(" where id=@id and deleted=0 ");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = userID;
+
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            if (obj == null)
+            {
+                return "";
+            }
+            else
+            {
+                return obj.ToString();
+            }
+        }
+
+        /// <summary>
         /// 是否存在该记录
         /// </summary>
         public bool Exists(int id, string login)

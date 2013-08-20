@@ -77,6 +77,7 @@
     <Content Include="WebService\privileges_typeBLLservice.asmx" />
     <Content Include="WebService\privilege_roleBLLservice.asmx" />
     <Content Include="WebService\rolesBLLservice.asmx" />
+    <Content Include="WebService\stepsBLLservice.asmx" />
     <Content Include="WebService\step_actionBLLservice.asmx" />
     <Content Include="WebService\usersBLLservice.asmx" />
     <Content Include="WebService\user_roleBLLservice.asmx" />
@@ -87,6 +88,7 @@
     <Compile Include="DAL\elementsDAL.cs" />
     <Compile Include="DAL\flowsDAL.cs" />
     <Compile Include="DAL\flowstep_typeDAL.cs" />
+    <Compile Include="DAL\flow_usersDAL.cs" />
     <Compile Include="DAL\init_statusDAL.cs" />
     <Compile Include="DAL\menusDAL.cs" />
     <Compile Include="DAL\operationsDAL.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="DAL\privileges_typeDAL.cs" />
     <Compile Include="DAL\privilege_roleDAL.cs" />
     <Compile Include="DAL\rolesDAL.cs" />
+    <Compile Include="DAL\stepsDAL.cs" />
     <Compile Include="DAL\step_actionDAL.cs" />
     <Compile Include="DAL\usersDAL.cs" />
     <Compile Include="DAL\user_roleDAL.cs" />
@@ -186,6 +189,10 @@
     </Compile>
     <Compile Include="WebService\rolesBLLservice.asmx.cs">
       <DependentUpon>rolesBLLservice.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebService\stepsBLLservice.asmx.cs">
+      <DependentUpon>stepsBLLservice.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WebService\step_actionBLLservice.asmx.cs">
