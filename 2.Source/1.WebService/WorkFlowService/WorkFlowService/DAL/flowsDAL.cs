@@ -34,6 +34,32 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 根据流程ID获得流程名称
+        /// </summary>
+        public string GetFlowName(int flowID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select name from flows ");
+
+            strSql.Append(" where id=@id and deleted=0 ");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = flowID;
+
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            if (obj == null)
+            {
+                return null;
+            }
+            else
+            {
+                return obj.ToString();
+            }
+        }
+
+        /// <summary>
         /// 增加一条流程信息记录
         /// </summary>
         public int Add(Saron.WorkFlowService.Model.flowsModel model)
