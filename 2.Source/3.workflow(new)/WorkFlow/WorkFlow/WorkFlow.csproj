@@ -880,6 +880,7 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_MenusWebService_menusBLLservice</CachedSettingsPropName>
+<<<<<<< HEAD
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -889,6 +890,20 @@
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\StepsWebService\</RelPath>
       <UpdateFromURL>http://192.168.12.27:8085/WebService/stepsBLLservice.asmx</UpdateFromURL>
+=======
+    </WebReferenceUrl>
+<<<<<<< HEAD
+    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\StepsWebService\</RelPath>
+      <UpdateFromURL>http://192.168.11.103:8081/WebService/stepsBLLservice.asmx</UpdateFromURL>
+=======
+    <WebReferenceUrl Include="http://192.168.12.27:8085/WebService/stepsBLLservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\StepsWebService\</RelPath>
+      <UpdateFromURL>http://192.168.12.27:8085/WebService/stepsBLLservice.asmx</UpdateFromURL>
+>>>>>>> 9f14daf643b327b06d2b91293daaa541e53fada3
+>>>>>>> a6ffe280f07d191bd6dcc2b4d1f88d22e6986747
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
