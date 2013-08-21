@@ -22,6 +22,7 @@ namespace Saron.WorkFlowService.WebService
         private readonly Saron.WorkFlowService.DAL.stepsDAL m_stepsdal = new DAL.stepsDAL();
         private readonly Saron.WorkFlowService.DAL.flowsDAL m_flowsdal = new DAL.flowsDAL();
         private readonly Saron.WorkFlowService.DAL.flow_usersDAL m_flow_usersdal = new DAL.flow_usersDAL();
+        private readonly Saron.WorkFlowService.DAL.v_stepsDAL m_v_stepsdal = new DAL.v_stepsDAL();
 
         public SecurityContext m_securityContext = new SecurityContext();
 
@@ -96,7 +97,20 @@ namespace Saron.WorkFlowService.WebService
             return m_stepsdal.GetFlowMaxOrderNum(flowID);
         }
 
-       
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得流程的步骤列表，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public DataSet GetFlowStepListByFlowID(int flowID, out string msg)
+        {
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+
+            return m_v_stepsdal.GetFlowStepListByFlowID(flowID);
+        }
         #endregion
 
     }
