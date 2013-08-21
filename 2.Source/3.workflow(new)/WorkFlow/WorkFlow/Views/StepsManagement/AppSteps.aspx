@@ -27,19 +27,123 @@
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 
-     <%--隐藏提示信息--%>
-    <script type="text/javascript">
+   <%--隐藏提示信息--%>
+   <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
             $("#promptDIV").removeClass("alert alert-error alert-success");
             $("#promptDIV").html("");
         });
     </script>
+
    <%--在Grid中分页显示steps信息--%>
    <script type="text/javascript">
-     
+       $(document).ready(function () {
+           $("#infoTab").click(function () {
+               GetStepsList(); //切换Tab标签时获取步骤列表
+           })
+
+           GetStepsList(); //获取步骤列表
+
+           //获取步骤列表
+           function GetStepsList() {
+               window['s'] = $("#stepsgrid").ligerGrid({
+                   columns: [
+                        { display: '步骤ID', name: 's_id', width: 80, align: 'center' },
+                        { display: '步骤名称', name: 's_name', align: 'center' },
+                        { display: '流程名称', name: 'f_name', align: 'center' },
+                        { display: '步骤类型', name: 'step_type_name', align: 'center' },
+                        { display: '排序码', name: 'order_no', align: 'center' },
+                        { display: '', width: 80,
+                            render: function (row) {
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 80,
+                            render: function (row) {
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 80,
+                            render: function (row) {
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteStep(' + row.id + ')">删除</a>';
+                                return html;
+                            }
+                        }
+                       ],
+                   dataAction: 'server',
+                   width: '99%',
+                   pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                   pageSize: 10,
+                   height: '400',
+                   rownumbers: true,
+                   usePager: true,
+                   url: "//StepsManagement/GetStepsList"
+               });
+               s.loadData();
+           }
+       });
+
+      
    </script>
   
+  <%--流程步骤名称初始化操作--%>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          BindFlowName();
+          $("#flowsNameInfo").html("请选择");
+      });
+
+      function BindFlowName() {
+          $.ajax({
+              type: "Post",
+              contentType: "application/json",
+              url: "/StepsManagement/GetFlowName",
+              data: {},
+              dataType: 'JSON',
+              success: function (result, status) {
+                  try {
+                      if (status == "success") {
+                          for (var i = 0; i < result.Total; i++) {
+                              $("#flowsName").append("<option value='" + result.Rows[i].FlowsID + "'>" + result.Rows[i].FlowsName + "</option>");
+                          }
+                      }
+                  } catch (e) { }
+              }
+          });
+      }
+  </script>
+ 
+  <%--流程步骤类型初始化操作--%>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          GetStepTypeName();
+          $("#stepsTypeInfo").html("请选择");
+      });
+
+      function GetStepTypeName() {
+          $.ajax({
+              type: "Post",
+              contentType: "application/json",
+              url: "/StepsManagement/GetStepTypeName",
+              data: {},
+              dataType: 'JSON',
+              success: function (result, status) {
+                  try {
+                      if (status == "success") {
+                          for (var i = 0; i < result.Total; i++) {
+                              $("#stepsType").append("<option value='" + result.Rows[i].Flowsteptypeid + "'>" + result.Rows[i].Flowsteptypename + "</option>");
+                          }
+                      }
+                  } catch (e) { }
+              }
+          });
+         
+      }
+  </script>
+
   <%--添加步骤信息--%>
   <script type="text/javascript">
       $(document).ready(function () {
@@ -88,6 +192,7 @@
           }
       });
   </script>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
  
@@ -109,7 +214,9 @@
     
       <%--显示全部流程步骤--%>
       <div class="tab-pane active" id="AllSteps">
-      
+        
+        <%--查看所有步骤--%>
+        <div id="stepsgrid"></div>
       </div>
 
      <%--添加步骤--%>
@@ -121,18 +228,25 @@
                     <input type="text" name="stepsName" id="stepsName" class="input-prepend span4" placeholder="步骤名称" />                                                     
                 </div>
             </div>
+
             <div class="control-group span6 offset2">
-                <label class="control-label" for="flowsName">流程名称：</label>
-                <div class="controls">
-                    <input type="text" name="flowsName" id="flowsName" class="input-prepend span4" placeholder="流程名称" />                                                     
-                </div>
-            </div> 
+               <label class="control-label">流程名称:</label>
+               <div class="controls">
+                  <select class="span4" id="flowsName" name="flowsName" >
+                     <option id="flowsNameInfo"></option>
+                  </select>
+               </div>
+            </div>
+
             <div class="control-group span6 offset2">
-                <label class="control-label" for="stepsType">步骤类型：</label>
-                <div class="controls">
-                    <input type="text" name="stepsType" id="stepsType" class="input-prepend span4" placeholder="步骤类型" />                                                     
-                </div>
-            </div>    
+              <label class="control-label">步骤类型:</label>
+              <div class="controls">
+                 <select class="span4" id="stepsType" name="stepsType">
+                    <option id="stepsTypeInfo"></option>
+                 </select>
+              </div>
+            </div>
+
             <div class="control-group span6 offset2">
                 <label class="control-label" for="repeatCount">重复次数：</label>
                 <div class="controls">
