@@ -104,6 +104,7 @@
     <Compile Include="DAL\v_menu_privilegesDAL.cs.cs" />
     <Compile Include="DAL\v_privilegesDAL.cs" />
     <Compile Include="DAL\v_privileges_treeDAL.cs" />
+    <Compile Include="DAL\v_stepsDAL.cs" />
     <Compile Include="DAL\v_usersDAL.cs" />
     <Compile Include="DAL\v_users_exDAL.cs" />
     <Compile Include="Model\base_userModel.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Model\v_menu_privilegesModel.cs.cs" />
     <Compile Include="Model\v_privilegesModel.cs" />
     <Compile Include="Model\v_privileges_treeModel.cs" />
+    <Compile Include="Model\v_stepsModel.cs" />
     <Compile Include="Model\v_usersModel.cs" />
     <Compile Include="Model\v_users_exModel.cs" />
     <Compile Include="WebService\appsBLLservice.asmx.cs">
