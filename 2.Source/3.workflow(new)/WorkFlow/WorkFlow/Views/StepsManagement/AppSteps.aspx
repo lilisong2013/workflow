@@ -80,7 +80,7 @@
                    height: '400',
                    rownumbers: true,
                    usePager: true,
-                   url: "//StepsManagement/GetStepsList"
+                   url: "/StepsManagement/GetStepsList"
                });
                s.loadData();
            }
