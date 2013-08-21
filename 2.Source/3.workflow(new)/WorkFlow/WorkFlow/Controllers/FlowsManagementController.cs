@@ -27,7 +27,36 @@ namespace WorkFlow.Controllers
                 return View();
             }
         }
-      
+       
+        //FlowSteps页面
+        public ActionResult FlowSteps(int id)
+        {
+
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
+                WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_flowsBllService.SecurityContextValue = m_SecurityContext;
+                
+                WorkFlow.FlowsWebService.flowsModel m_flowsModel = new FlowsWebService.flowsModel();
+                m_flowsModel = m_flowsBllService.GetFlowModel(id,out msg);
+                ViewData["flowsName"] = m_flowsModel.name;
+                ViewData["flowsID"] = m_flowsModel.id;
+                return View();
+            }
+        }
+
         //后台分页获取流程数据列表
         public ActionResult GetFlow_List()
         {
@@ -582,6 +611,55 @@ namespace WorkFlow.Controllers
                   
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
+            }
+        }
+
+        //获取流程步骤的列表
+        public ActionResult GetStepsList()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                string msg = string.Empty;
+                int m_flowsID = Convert.ToInt32(Request.Params["flowsID"]);//流程ID
+                string strJson = "{List:[";//"{List:[{name:'删除',id:'1',selected:'true'},{name:'删除',id:'1',selected:'true'}],total:'2'}";
+                WorkFlow.Flowstep_TypeWebService.flowstep_typeBLLservice m_flowstep_typeBllService = new Flowstep_TypeWebService.flowstep_typeBLLservice();
+                
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+                DataSet ds=new DataSet();
+                try {
+                   ds = m_stepsBllService.GetFlowStepListByFlowID(m_flowsID,out msg);
+                }
+                catch (Exception ex) { }
+                int total = ds.Tables[0].Rows.Count;//某系统某流程下步骤的数量
+                for (int i = 0; i < total; i++)
+                {
+                    int m_stepsID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
+                    string m_stepsName = ds.Tables[0].Rows[i][1].ToString();
+                    if (i < total - 1)
+                    {
+                        strJson += "{id:'" + m_stepsID + "',";
+                        strJson += "name:'" + m_stepsName + "'},";
+                    }
+                    else
+                    {
+                        strJson += "{id:'" + m_stepsID + "',";
+                        strJson += "name:'" + m_stepsName + "'}";
+                    }
+                }
+                strJson += "],total:'"+total+"'";
+                return Json(strJson);
             }
         }
     }

@@ -61,6 +61,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetFlowStepListByFlowID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepListByFlowIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlowStepListByFlowIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AddStepSoapIn">
@@ -81,6 +103,15 @@
   <wsdl:message name="GetFlowMaxOrderNumSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetFlowStepListByFlowIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowStepListByFlowID" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByFlowIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowStepListByFlowIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByFlowIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="stepsBLLserviceSoap">
     <wsdl:operation name="AddStep">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -91,6 +122,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程中的最大排序码(-1：webservice未授权，0：流程中不存在步骤)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetFlowMaxOrderNumSoapIn" />
       <wsdl:output message="tns:GetFlowMaxOrderNumSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByFlowID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程的步骤列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowStepListByFlowIDSoapIn" />
+      <wsdl:output message="tns:GetFlowStepListByFlowIDSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="stepsBLLserviceSoap" type="tns:stepsBLLserviceSoap">
@@ -115,6 +151,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByFlowID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowStepListByFlowID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFlowStepListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="stepsBLLserviceSoap12" type="tns:stepsBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -133,6 +179,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetFlowMaxOrderNumSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByFlowID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowStepListByFlowID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFlowStepListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

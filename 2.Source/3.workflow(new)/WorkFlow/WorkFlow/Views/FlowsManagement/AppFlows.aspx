@@ -72,7 +72,13 @@
                                     var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
                                     return html;
                                 }
-                            }
+                            },
+                           { display: '', width: 120,
+                                  render: function (row) {
+                                      var html = '<i class="icon-trash"></i><a href="#" onclick="FlowSteps(' + row.id + ')">流程步骤维护</a>';
+                                      return html;
+                                  }
+                           }
                            ],
                     dataAction: 'server',
                     width: '99%',
@@ -135,7 +141,23 @@
         }
  
     </script>
+   
+   <%--流程步骤弹出框函数--%>
+   <script type="text/javascript">
+       function FlowSteps(id) {
 
+           if (id) {
+               $.ligerDialog.open({
+                  title:'流程步骤维护',
+                  width:900,
+                  height:700,
+                  isDrag:true,
+                  isResize:true,
+                  url: '/FlowsManagement/FlowSteps?id='+id
+               });
+           }
+       }
+   </script>
    <%--删除确认函数--%>
    <script type="text/javascript">
         function DeleteFlow(id) {
@@ -260,7 +282,13 @@
                                     var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
                                     return html;
                                 }
-                            }
+                            },
+                             { display: '', width: 120,
+                                 render: function (row) {
+                                     var html = '<i class="icon-trash"></i><a href="#" onclick="FlowSteps(' + row.id + ')">流程步骤维护</a>';
+                                     return html;
+                                 }
+                             }
                       ],
                        data: dataSearchJson2,
                        newPage: 1
