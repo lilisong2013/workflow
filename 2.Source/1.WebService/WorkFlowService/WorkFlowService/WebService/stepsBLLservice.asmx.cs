@@ -212,32 +212,37 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-<<<<<<< HEAD
         [WebMethod(Description = "获得某系统下流程的步骤列表，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public DataSet GetFlowStepListByAppID(int appID,out string msg)
         {
-            #region  webservice授权判断
-             //是否有权限访问
-=======
+             #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+               
+            return m_v_stepsdal.GetFlowStepListByAppID(appID);
+        }
+        
+        [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得一个v_stepModel的对象实体，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public Saron.WorkFlowService.Model.v_stepsModel GetV_StepsModel(int stepID, out string msg)
         {
             #region webservice授权判断
             //是否有权限访问
->>>>>>> af0ca62c9fbfd2d04e433033ad816453af2c636c
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 return null;
             }
             #endregion
 
-<<<<<<< HEAD
-            return m_v_stepsdal.GetFlowStepListByAppID(appID);
-=======
             return m_v_stepsdal.GetV_StepsModel(stepID);
->>>>>>> af0ca62c9fbfd2d04e433033ad816453af2c636c
-        }
-        #endregion
 
-    }
+        }
+   
+       #endregion 
+  }
+
 }
