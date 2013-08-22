@@ -46,6 +46,22 @@
         </s:sequence>
         <s:anyAttribute />
       </s:complexType>
+      <s:element name="AddStepAndAllInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepmodel" type="tns:stepsModel" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddStepAndAllInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddStepAndAllInfoResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetFlowMaxOrderNum">
         <s:complexType>
           <s:sequence>
@@ -83,6 +99,32 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetV_StepsModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="stepID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetV_StepsModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetV_StepsModelResult" type="tns:v_stepsModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="v_stepsModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="s_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="s_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="f_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="step_type_name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="app_id" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="f_id" type="s:int" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AddStepSoapIn">
@@ -92,6 +134,15 @@
     <wsdl:part name="parameters" element="tns:AddStepResponse" />
   </wsdl:message>
   <wsdl:message name="AddStepSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddStepAndAllInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:AddStepAndAllInfo" />
+  </wsdl:message>
+  <wsdl:message name="AddStepAndAllInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:AddStepAndAllInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddStepAndAllInfoSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetFlowMaxOrderNumSoapIn">
@@ -112,11 +163,25 @@
   <wsdl:message name="GetFlowStepListByFlowIDSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetV_StepsModelSoapIn">
+    <wsdl:part name="parameters" element="tns:GetV_StepsModel" />
+  </wsdl:message>
+  <wsdl:message name="GetV_StepsModelSoapOut">
+    <wsdl:part name="parameters" element="tns:GetV_StepsModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetV_StepsModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="stepsBLLserviceSoap">
     <wsdl:operation name="AddStep">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录(order_no、repeat_count自动赋值)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddStepSoapIn" />
       <wsdl:output message="tns:AddStepSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddStepAndAllInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddStepAndAllInfoSoapIn" />
+      <wsdl:output message="tns:AddStepAndAllInfoSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetFlowMaxOrderNum">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程中的最大排序码(-1：webservice未授权，0：流程中不存在步骤)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -128,6 +193,11 @@
       <wsdl:input message="tns:GetFlowStepListByFlowIDSoapIn" />
       <wsdl:output message="tns:GetFlowStepListByFlowIDSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetV_StepsModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得一个v_stepModel的对象实体，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetV_StepsModelSoapIn" />
+      <wsdl:output message="tns:GetV_StepsModelSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="stepsBLLserviceSoap" type="tns:stepsBLLserviceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -136,6 +206,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:AddStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddStepAndAllInfo">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddStepAndAllInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddStepAndAllInfoSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -161,6 +241,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetV_StepsModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetV_StepsModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetV_StepsModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="stepsBLLserviceSoap12" type="tns:stepsBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -169,6 +259,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:AddStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddStepAndAllInfo">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddStepAndAllInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddStepAndAllInfoSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -189,6 +289,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetFlowStepListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetV_StepsModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetV_StepsModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetV_StepsModelSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

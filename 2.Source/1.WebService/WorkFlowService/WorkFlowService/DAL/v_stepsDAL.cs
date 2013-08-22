@@ -98,6 +98,20 @@ namespace Saron.WorkFlowService.DAL
             return DbHelperSQL.Query(strSql.ToString(),parameters);
         }
 
+        //根据AppID获得步骤列表
+        public DataSet GetFlowStepListByAppID(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select s_id,s_name,f_name,step_type_name,order_no,app_id,f_id ");
+            strSql.Append(" FROM v_steps ");
+            strSql.Append(" where app_id=@app_id order by s_id desc ");
+
+            SqlParameter[] parameters ={
+                     new SqlParameter("@app_id",SqlDbType.Int,4)                 
+                                      };
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(),parameters);
+        }
         #endregion
     }
 }

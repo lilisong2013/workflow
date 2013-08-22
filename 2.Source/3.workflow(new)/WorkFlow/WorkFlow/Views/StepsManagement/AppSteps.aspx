@@ -37,7 +37,7 @@
     </script>
 
    <%--在Grid中分页显示steps信息--%>
- <%--  <script type="text/javascript">
+   <script type="text/javascript">
        $(document).ready(function () {
            $("#infoTab").click(function () {
                GetStepsList(); //切换Tab标签时获取步骤列表
@@ -87,7 +87,7 @@
        });
 
       
-   </script>--%>
+   </script>
   
   <%--流程步骤名称初始化操作--%>
   <script type="text/javascript">

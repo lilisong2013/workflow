@@ -34,9 +34,13 @@ namespace WorkFlow.StepsWebService {
         
         private System.Threading.SendOrPostCallback AddStepOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AddStepAndAllInfoOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetFlowMaxOrderNumOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetFlowStepListByFlowIDOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetV_StepsModelOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -89,10 +93,16 @@ namespace WorkFlow.StepsWebService {
         public event AddStepCompletedEventHandler AddStepCompleted;
         
         /// <remarks/>
+        public event AddStepAndAllInfoCompletedEventHandler AddStepAndAllInfoCompleted;
+        
+        /// <remarks/>
         public event GetFlowMaxOrderNumCompletedEventHandler GetFlowMaxOrderNumCompleted;
         
         /// <remarks/>
         public event GetFlowStepListByFlowIDCompletedEventHandler GetFlowStepListByFlowIDCompleted;
+        
+        /// <remarks/>
+        public event GetV_StepsModelCompletedEventHandler GetV_StepsModelCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -124,6 +134,39 @@ namespace WorkFlow.StepsWebService {
             if ((this.AddStepCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.AddStepCompleted(this, new AddStepCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/AddStepAndAllInfo", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AddStepAndAllInfo(stepsModel stepmodel, int userID, out string msg) {
+            object[] results = this.Invoke("AddStepAndAllInfo", new object[] {
+                        stepmodel,
+                        userID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddStepAndAllInfoAsync(stepsModel stepmodel, int userID) {
+            this.AddStepAndAllInfoAsync(stepmodel, userID, null);
+        }
+        
+        /// <remarks/>
+        public void AddStepAndAllInfoAsync(stepsModel stepmodel, int userID, object userState) {
+            if ((this.AddStepAndAllInfoOperationCompleted == null)) {
+                this.AddStepAndAllInfoOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddStepAndAllInfoOperationCompleted);
+            }
+            this.InvokeAsync("AddStepAndAllInfo", new object[] {
+                        stepmodel,
+                        userID}, this.AddStepAndAllInfoOperationCompleted, userState);
+        }
+        
+        private void OnAddStepAndAllInfoOperationCompleted(object arg) {
+            if ((this.AddStepAndAllInfoCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddStepAndAllInfoCompleted(this, new AddStepAndAllInfoCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -186,6 +229,37 @@ namespace WorkFlow.StepsWebService {
             if ((this.GetFlowStepListByFlowIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetFlowStepListByFlowIDCompleted(this, new GetFlowStepListByFlowIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetV_StepsModel", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public v_stepsModel GetV_StepsModel(int stepID, out string msg) {
+            object[] results = this.Invoke("GetV_StepsModel", new object[] {
+                        stepID});
+            msg = ((string)(results[1]));
+            return ((v_stepsModel)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetV_StepsModelAsync(int stepID) {
+            this.GetV_StepsModelAsync(stepID, null);
+        }
+        
+        /// <remarks/>
+        public void GetV_StepsModelAsync(int stepID, object userState) {
+            if ((this.GetV_StepsModelOperationCompleted == null)) {
+                this.GetV_StepsModelOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetV_StepsModelOperationCompleted);
+            }
+            this.InvokeAsync("GetV_StepsModel", new object[] {
+                        stepID}, this.GetV_StepsModelOperationCompleted, userState);
+        }
+        
+        private void OnGetV_StepsModelOperationCompleted(object arg) {
+            if ((this.GetV_StepsModelCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetV_StepsModelCompleted(this, new GetV_StepsModelCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -263,6 +337,100 @@ namespace WorkFlow.StepsWebService {
             }
             set {
                 this.anyAttrField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1015")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://saron.workflowservice.org/")]
+    public partial class v_stepsModel {
+        
+        private int s_idField;
+        
+        private string s_nameField;
+        
+        private string f_nameField;
+        
+        private string step_type_nameField;
+        
+        private int order_noField;
+        
+        private System.Nullable<int> app_idField;
+        
+        private int f_idField;
+        
+        /// <remarks/>
+        public int s_id {
+            get {
+                return this.s_idField;
+            }
+            set {
+                this.s_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string s_name {
+            get {
+                return this.s_nameField;
+            }
+            set {
+                this.s_nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string f_name {
+            get {
+                return this.f_nameField;
+            }
+            set {
+                this.f_nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string step_type_name {
+            get {
+                return this.step_type_nameField;
+            }
+            set {
+                this.step_type_nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int order_no {
+            get {
+                return this.order_noField;
+            }
+            set {
+                this.order_noField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> app_id {
+            get {
+                return this.app_idField;
+            }
+            set {
+                this.app_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int f_id {
+            get {
+                return this.f_idField;
+            }
+            set {
+                this.f_idField = value;
             }
         }
     }
@@ -495,6 +663,40 @@ namespace WorkFlow.StepsWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void AddStepAndAllInfoCompletedEventHandler(object sender, AddStepAndAllInfoCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddStepAndAllInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddStepAndAllInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     public delegate void GetFlowMaxOrderNumCompletedEventHandler(object sender, GetFlowMaxOrderNumCompletedEventArgs e);
     
     /// <remarks/>
@@ -549,6 +751,40 @@ namespace WorkFlow.StepsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetV_StepsModelCompletedEventHandler(object sender, GetV_StepsModelCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetV_StepsModelCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetV_StepsModelCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public v_stepsModel Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((v_stepsModel)(this.results[0]));
             }
         }
         

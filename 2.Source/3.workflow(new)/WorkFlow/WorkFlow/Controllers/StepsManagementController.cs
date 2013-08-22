@@ -29,7 +29,37 @@ namespace WorkFlow.Controllers
         }
 
         //获取步骤列表(后台分页)
+        public ActionResult GetStepsList()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
 
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+             
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                DataSet ds = m_stepsBllService.GetFlowStepListByAppID((int)m_usersModel.app_id,out msg);
+                
+            }
+        }
         //添加步骤
         public ActionResult AddStep(FormCollection collection)
         {
