@@ -26,7 +26,7 @@
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["privilegeitem_id"]%></td>
   </tr>
   <tr>
-  <td width="300">应用系统名称：</td>
+  <td width="300">系统名称：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["app_id"]%></td>
   </tr>
   <tr>

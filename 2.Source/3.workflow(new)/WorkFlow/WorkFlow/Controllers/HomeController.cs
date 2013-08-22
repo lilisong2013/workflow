@@ -312,15 +312,18 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'系统编码不能超过30个字符!'}");
             }
-            
-            if (Convert.ToInt32(m_appsModel.url.Length) > 30)
+            if (Convert.ToInt32(m_appsModel.url.Length) != 0)
             {
-                return Json("{success:false,css:'alert alert-error',message:'访问链接不能超过30个字符!'}");
+                if (Convert.ToInt32(m_appsModel.url.Length) > 30)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'访问链接不能超过30个字符!'}");
+                }
+                if (Saron.Common.PubFun.ConditionFilter.IsValidURL(m_appsModel.url) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'不是有效的访问链接!'}");
+                }
             }
-            if (Saron.Common.PubFun.ConditionFilter.IsValidURL(m_appsModel.url) == false)
-            {
-                return Json("{success:false,css:'alert alert-error',message:'不是有效的访问链接!'}");
-            }
+          
 
             if (Convert.ToInt32(m_appsModel.remark.Length) > 150)
             {

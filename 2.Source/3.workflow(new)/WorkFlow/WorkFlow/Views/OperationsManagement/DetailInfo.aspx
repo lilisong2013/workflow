@@ -26,11 +26,11 @@
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsDescription"]%></td>
   </tr>
   <tr>
-  <td width="300">备注：</td>
+  <td width="300">备注信息：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsRemark"]%></td>
   </tr>
   <tr>
-  <td width="300">应用系统名称：</td>
+  <td width="300">系统名称：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsApp_id"]%></td>
   </tr>
   <tr>
@@ -38,27 +38,27 @@
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsInvalid"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建时间：</td>
+  <td width="300">创建时间：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsCreated_at"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建用户：</td>
+  <td width="300">创建用户：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsCreated_by"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建IP：</td>
+  <td width="300">创建IP：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsCreated_ip"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新时间：</td>
+  <td width="300">更新时间：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsUpdated_at"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新用户：</td>
+  <td width="300">更新用户：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsUpdated_by"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新IP：</td>
+  <td width="300">更新IP：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["operationsUpdated_ip"]%></td>
   </tr>
 </table>

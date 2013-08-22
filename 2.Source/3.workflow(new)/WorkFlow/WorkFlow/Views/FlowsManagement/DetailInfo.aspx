@@ -22,31 +22,31 @@
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["flowsRemark"]%></td>
   </tr>
   <tr>
-  <td width="300">应用系统名称：</td>
+  <td width="300">系统名称：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%= ViewData["flowsApp_id"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建时间：</td>
+  <td width="300">创建时间：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["flowsCreated_at"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建用户：</td>
+  <td width="300">创建用户：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%= ViewData["flowsCreated_by"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建IP：</td>
+  <td width="300">创建IP：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["flowsCreated_ip"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新时间：</td>
+  <td width="300">更新时间：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["flowsUpdated_at"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新用户：</td>
+  <td width="300">更新用户：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["flowsUpdated_by"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新IP：</td>
+  <td width="300">更新IP：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["flowsUpdated_ip"]%></td>
   </tr>
 </table>

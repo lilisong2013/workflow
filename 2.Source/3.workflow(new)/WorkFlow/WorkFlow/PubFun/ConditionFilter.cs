@@ -99,7 +99,7 @@ namespace Saron.Common.PubFun
         //判断是否是有效的URL
         public static bool IsValidURL(string str_URL)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(str_URL, @"[a-zA-z]+://[^\s]*");
+            return System.Text.RegularExpressions.Regex.IsMatch(str_URL, @"[a-zA-z]+://[^\s]{1,1000}");
 
         }
     }

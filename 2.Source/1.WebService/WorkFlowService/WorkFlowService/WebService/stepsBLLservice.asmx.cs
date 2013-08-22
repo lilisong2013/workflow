@@ -241,7 +241,50 @@ namespace Saron.WorkFlowService.WebService
             return m_v_stepsdal.GetV_StepsModel(stepID);
 
         }
-   
+        
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "删除步骤，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool DeleteStep(int stepID,out string msg)
+        {
+          
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+            #endregion
+
+            bool flag=false;
+            flag = m_flow_usersdal.DeleteFlow_User(stepID);
+            if (flag)
+            {
+                try
+                {
+                    if (m_stepsdal.DeleteStep(stepID))
+                    {
+                        msg = "删除流程步骤成功!";
+                        return true;
+                    }
+                    else
+                    {
+                        msg = "删除失败!";
+                        return false;
+                    }
+                }
+                catch (Exception ex) {
+                    msg = ex.ToString();
+                    return false;
+                }
+               
+            }
+            else
+            {
+                msg = "删除失败!";
+                return false;
+            }
+        }
+      
        #endregion 
   }
 

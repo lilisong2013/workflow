@@ -279,13 +279,13 @@
        </div>
        </div>
        <div class="m-newline offset2">
-       <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+       <label class="control-label">排序编码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsSeqno" name="elementsSeqno" type="text" value="<%=ViewData["elementsSeqno"]%>" class="input-prepend span5" placeholder="排序码"/>
+       <input id="elementsSeqno" name="elementsSeqno" type="text" value="<%=ViewData["elementsSeqno"]%>" class="input-prepend span5" placeholder="排序编码"/>
        </div>
        </div>
        <div class="m-newline offset2">
-       <label class="control-label">所在页面：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>   
+       <label class="control-label">所在页面：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>   
        <div class="controls">
        <label class="uneditable-input span5"><%=ViewData["elementsMenu_IDName"]%></label>
        <input id="elementsMenu_id" name="elementsMenu_id" type="hidden" value="<%=ViewData["elementsMenu_id"]%>"/>      
@@ -293,9 +293,9 @@
        </div>
       
        <div class="m-newline offset2">
-       <label class="control-label"> 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    
+       <label class="control-label"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注信息：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>    
        <div class="controls">
-       <textarea id="elementsRemark" name="elementsRemark" cols="2" rows="4" class="span5" placeholder="备注" maxlength="80"><%=ViewData["elementsRemark"]%></textarea>
+       <textarea id="elementsRemark" name="elementsRemark" cols="2" rows="4" class="span5" placeholder="备注信息" maxlength="80"><%=ViewData["elementsRemark"]%></textarea>
        </div>   
         
         <input type="hidden" name="elementsDeleted" id="elementsDeleted" value="<%=ViewData["elementsDeleted"]%>" />

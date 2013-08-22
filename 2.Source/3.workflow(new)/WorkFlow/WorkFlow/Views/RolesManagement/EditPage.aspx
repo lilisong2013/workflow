@@ -156,9 +156,9 @@
        </div>
     
        <div class="m-newline offset2">
-       <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
+       <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注信息：</label>
        <div class="controls">  
-       <textarea id="rolesRemark" name="rolesRemark" cols="2" rows="4" placeholder="备注" maxlength="80"><%=ViewData["rolesRemark"]%></textarea>      
+       <textarea id="rolesRemark" name="rolesRemark" cols="2" rows="4" placeholder="备注信息" maxlength="80"><%=ViewData["rolesRemark"]%></textarea>      
 
         <input type="hidden" name="rolesDeleted" id="rolesDeleted" value="<%=ViewData["rolesDeleted"]%>" />
         <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             

@@ -201,7 +201,7 @@
        <div class="m-newline offset2">
        <label class="control-label">菜单名称：</label>
        <div class="controls">
-       <input id="menusName" name="menusName" type="text" value="<%=ViewData["menusName"] %>" />
+       <input id="menusName" name="menusName" type="text" value="<%=ViewData["menusName"] %>" placeholder="菜单名称"/>
        <input id="menusID" name="menusID" type="hidden" value="<%=ViewData["menusId"]%>"/>
        </div>
        </div>
@@ -209,14 +209,14 @@
        <div class="m-newline offset2">
        <label class="control-label">菜单编码：</label>
        <div class="controls">
-       <input id="menuCode" name="menuCode" type="text" value="<%=ViewData["menuCode"] %>" />
+       <input id="menuCode" name="menuCode" type="text" value="<%=ViewData["menuCode"] %>" placeholder="菜单编码"/>
        </div>
        </div>
 
        <div class="m-newline offset2">
        <label class="control-label">菜单URL：</label>
        <div class="controls">
-       <input id="menuUrl" name="menuUrl" type="text" value="<%=ViewData["menuUrl"] %>" />
+       <input id="menuUrl" name="menuUrl" type="text" value="<%=ViewData["menuUrl"] %>" placeholder="菜单URL"/>
        </div>
        </div>
 
@@ -226,12 +226,12 @@
 
        <div class="controls">
        <label class="uneditable-input"><%=ViewData["menuParrent_id1"]%></label>   
-       <input type="hidden" id="menuParent_id" name="menuParent_id" value="<%=ViewData["menuParent_id"]%>"/>
+       <input type="hidden" id="menuParent_id" name="menuParent_id" value="<%=ViewData["menuParent_id"]%>" placeholder="父菜单"/>
        </div>
       </div>
 
        <div class="m-newline offset2">
-       <label class="control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
+       <label class="control-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注信息：</label>
        <div class="controls">  
        <textarea id="menuRemark" name="menuRemark" cols="5" rows="4" maxlength="200"><%=ViewData["menuRemark"]%></textarea>      
      

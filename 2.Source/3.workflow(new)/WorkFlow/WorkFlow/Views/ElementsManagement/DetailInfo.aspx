@@ -22,7 +22,7 @@
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsCode"]%></td>
   </tr>
   <tr>
-  <td width="300">备注：</td>
+  <td width="300">备注信息：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsRemark"]%></td>
   </tr>
   <tr>
@@ -30,7 +30,7 @@
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsInitstatus_id"]%></td>
   </tr>
   <tr>
-  <td width="300">排序码：</td>
+  <td width="300">排序编码：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsSeqno"]%></td>
   </tr>
   <tr>
@@ -46,27 +46,27 @@
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsInvalid"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建时间：</td>
+  <td width="300">创建时间：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsCreated_at"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建用户：</td>
+  <td width="300">创建用户：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsCreated_by"]%></td>
   </tr>
   <tr>
-  <td width="300">记录创建IP：</td>
+  <td width="300">创建IP：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsCreated_ip"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新时间：</td>
+  <td width="300">更新时间：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsUpdated_at"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新用户：</td>
+  <td width="300">更新用户：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsUpdated_by"]%></td>
   </tr>
   <tr>
-  <td width="300">记录更新IP：</td>
+  <td width="300">更新IP：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsUpdated_ip"]%></td>
   </tr>
 </table>

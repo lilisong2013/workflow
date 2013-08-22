@@ -104,7 +104,7 @@ namespace Saron.WorkFlowService.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select s_id,s_name,f_name,step_type_name,order_no,app_id,f_id ");
             strSql.Append(" FROM v_steps ");
-            strSql.Append(" where app_id=@app_id order by s_id desc ");
+            strSql.Append(" where app_id=@app_id order by s_id asc ");
 
             SqlParameter[] parameters ={
                      new SqlParameter("@app_id",SqlDbType.Int,4)                 

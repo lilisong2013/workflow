@@ -26,7 +26,7 @@
    <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["url"]%></td>
    </tr>
    <tr>
-   <td width="300">应用系统名称：</td>
+   <td width="300">系统名称：</td>
    <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["app_id"]%></td>
    </tr>
    <tr>
@@ -34,7 +34,7 @@
    <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["parent_id1"]%></td>
    </tr>
    <tr>
-   <td width="300">备注：</td>
+   <td width="300">备注信息：</td>
    <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["remark"]%></td>
    </tr>
    <tr>

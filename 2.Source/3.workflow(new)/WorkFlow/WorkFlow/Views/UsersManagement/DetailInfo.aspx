@@ -23,7 +23,7 @@
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersName"]%></td>
         </tr>
         <tr>
-        <td width="300">工号：</td>
+        <td width="300">员工编号：</td>
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersEmployee_no"]%></td>
         </tr>
         <tr>
@@ -35,7 +35,7 @@
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersMail"]%></td>
         </tr>
         <tr>
-        <td width="300">备注：</td>
+        <td width="300">备注信息：</td>
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersRemark"]%></td>
         </tr>
         <tr>
@@ -47,27 +47,27 @@
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersInvalid"]%></td>
         </tr>
         <tr>
-        <td width="300">记录创建时间：</td>
+        <td width="300">创建时间：</td>
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%= ViewData["usersCreated_at"]%></td>
         </tr>
         <tr>
-        <td width="300">记录创建用户：</td>
+        <td width="300">创建用户：</td>
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersCreated_by"]%></td>
         </tr>
         <tr>
-        <td width="300">记录创建IP：</td>
+        <td width="300">创建IP：</td>
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersCreated_ip"]%></td>
         </tr>
         <tr>
-        <td width="300">记录更新时间：</td>
+        <td width="300">更新时间：</td>
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersUpdated_at"]%></td>
         </tr>
         <tr>
-        <td width="300">记录更新用户：</td>
+        <td width="300">更新用户：</td>
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersUpdated_by"]%></td>
         </tr>
         <tr>
-        <td width="300">记录更新IP：</td>
+        <td width="300">更新IP：</td>
         <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["usersUpdated_ip"]%></td>
         </tr>
         <tr>

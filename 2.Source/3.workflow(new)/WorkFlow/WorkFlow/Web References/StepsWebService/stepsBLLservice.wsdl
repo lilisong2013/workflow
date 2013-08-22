@@ -99,6 +99,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetFlowStepListByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepListByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlowStepListByAppIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetV_StepsModel">
         <s:complexType>
           <s:sequence>
@@ -125,6 +147,21 @@
           <s:element minOccurs="1" maxOccurs="1" name="f_id" type="s:int" />
         </s:sequence>
       </s:complexType>
+      <s:element name="DeleteStep">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="stepID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteStepResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteStepResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AddStepSoapIn">
@@ -163,6 +200,15 @@
   <wsdl:message name="GetFlowStepListByFlowIDSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetFlowStepListByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowStepListByAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowStepListByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetV_StepsModelSoapIn">
     <wsdl:part name="parameters" element="tns:GetV_StepsModel" />
   </wsdl:message>
@@ -170,6 +216,15 @@
     <wsdl:part name="parameters" element="tns:GetV_StepsModelResponse" />
   </wsdl:message>
   <wsdl:message name="GetV_StepsModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="DeleteStepSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteStep" />
+  </wsdl:message>
+  <wsdl:message name="DeleteStepSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteStepResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteStepSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:portType name="stepsBLLserviceSoap">
@@ -193,10 +248,20 @@
       <wsdl:input message="tns:GetFlowStepListByFlowIDSoapIn" />
       <wsdl:output message="tns:GetFlowStepListByFlowIDSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下流程的步骤列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowStepListByAppIDSoapIn" />
+      <wsdl:output message="tns:GetFlowStepListByAppIDSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetV_StepsModel">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得一个v_stepModel的对象实体，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetV_StepsModelSoapIn" />
       <wsdl:output message="tns:GetV_StepsModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStep">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除步骤，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteStepSoapIn" />
+      <wsdl:output message="tns:DeleteStepSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="stepsBLLserviceSoap" type="tns:stepsBLLserviceSoap">
@@ -241,11 +306,31 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowStepListByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFlowStepListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetV_StepsModel">
       <soap:operation soapAction="http://saron.workflowservice.org/GetV_StepsModel" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetV_StepsModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStep">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteStep" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteStepSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -294,6 +379,16 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowStepListByAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFlowStepListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetV_StepsModel">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetV_StepsModel" style="document" />
       <wsdl:input>
@@ -304,13 +399,23 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="DeleteStep">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="stepsBLLservice">
     <wsdl:port name="stepsBLLserviceSoap" binding="tns:stepsBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx" />
+      <soap:address location="http://192.168.12.3:8081/WebService/stepsBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="stepsBLLserviceSoap12" binding="tns:stepsBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.3:8081/WebService/stepsBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

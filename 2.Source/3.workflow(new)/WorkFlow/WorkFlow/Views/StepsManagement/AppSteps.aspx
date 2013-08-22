@@ -68,7 +68,7 @@
                         },
                         { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteStep(' + row.id + ')">删除</a>';
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteStep(' + row.s_id + ')">删除</a>';
                                 return html;
                             }
                         }
@@ -88,7 +88,37 @@
 
       
    </script>
-  
+
+  <%--删除--%>
+  <script type="text/javascript">
+      function DeleteStep(id) {
+          var stepid = id;
+          alert(stepid);
+          $.ligerDialog.confirm("确定要删除步骤吗?", function (yes) {
+              if (yes) {
+                  $.ajax({
+                      url: "/StepsManagement/DeleteFlowStep",
+                      type: "POST",
+                      dataType: "json",
+                      data: {stepID:stepid},
+                      success: function (responseText, statusText) {
+                          var dataJson = eval("(" + responseText + ")");
+                          show_DIV(dataJson);
+                          s.loadData();
+                      }
+                  });
+
+                  //删除提示信息
+                  function show_DIV(data) {
+                      $("#promptDIV").removeClass("alert alert-error alert-success");
+                      $("#promptDIV").addClass(data.css);
+                      $("#promptDIV").html(data.message);
+                  }
+
+              }
+          });
+      }
+  </script>
   <%--流程步骤名称初始化操作--%>
   <script type="text/javascript">
       $(document).ready(function () {
