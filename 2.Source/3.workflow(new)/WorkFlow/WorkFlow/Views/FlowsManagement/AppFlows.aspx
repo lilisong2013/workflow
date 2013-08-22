@@ -43,7 +43,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("##infoTab").click(function () {//切换Tab标签时获取流程列表
+            $("#infoTab").click(function () {//切换Tab标签时获取流程列表
                 GetFlowList();
             })
 
