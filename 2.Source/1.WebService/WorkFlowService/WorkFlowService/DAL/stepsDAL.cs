@@ -165,7 +165,7 @@ namespace Saron.WorkFlowService.DAL
         public int GetRepeatCount(Saron.WorkFlowService.Model.stepsModel model)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select top repeat_count from steps ");
+            strSql.Append("select repeat_count from steps ");
 
             strSql.Append(" where flow_id=@flow_id and order_no=@order_no and deleted=0 ");
 

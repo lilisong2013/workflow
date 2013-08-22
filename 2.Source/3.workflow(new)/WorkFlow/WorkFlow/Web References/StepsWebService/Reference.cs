@@ -34,6 +34,8 @@ namespace WorkFlow.StepsWebService {
         
         private System.Threading.SendOrPostCallback AddStepOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AddStepAndAllInfoOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetFlowMaxOrderNumOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetFlowStepListByFlowIDOperationCompleted;
@@ -89,6 +91,9 @@ namespace WorkFlow.StepsWebService {
         public event AddStepCompletedEventHandler AddStepCompleted;
         
         /// <remarks/>
+        public event AddStepAndAllInfoCompletedEventHandler AddStepAndAllInfoCompleted;
+        
+        /// <remarks/>
         public event GetFlowMaxOrderNumCompletedEventHandler GetFlowMaxOrderNumCompleted;
         
         /// <remarks/>
@@ -124,6 +129,39 @@ namespace WorkFlow.StepsWebService {
             if ((this.AddStepCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.AddStepCompleted(this, new AddStepCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/AddStepAndAllInfo", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AddStepAndAllInfo(stepsModel stepmodel, int userID, out string msg) {
+            object[] results = this.Invoke("AddStepAndAllInfo", new object[] {
+                        stepmodel,
+                        userID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddStepAndAllInfoAsync(stepsModel stepmodel, int userID) {
+            this.AddStepAndAllInfoAsync(stepmodel, userID, null);
+        }
+        
+        /// <remarks/>
+        public void AddStepAndAllInfoAsync(stepsModel stepmodel, int userID, object userState) {
+            if ((this.AddStepAndAllInfoOperationCompleted == null)) {
+                this.AddStepAndAllInfoOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddStepAndAllInfoOperationCompleted);
+            }
+            this.InvokeAsync("AddStepAndAllInfo", new object[] {
+                        stepmodel,
+                        userID}, this.AddStepAndAllInfoOperationCompleted, userState);
+        }
+        
+        private void OnAddStepAndAllInfoOperationCompleted(object arg) {
+            if ((this.AddStepAndAllInfoCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddStepAndAllInfoCompleted(this, new AddStepAndAllInfoCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -209,7 +247,7 @@ namespace WorkFlow.StepsWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1015")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1009")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -268,7 +306,7 @@ namespace WorkFlow.StepsWebService {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1015")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1009")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -472,6 +510,40 @@ namespace WorkFlow.StepsWebService {
         private object[] results;
         
         internal AddStepCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void AddStepAndAllInfoCompletedEventHandler(object sender, AddStepAndAllInfoCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddStepAndAllInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddStepAndAllInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

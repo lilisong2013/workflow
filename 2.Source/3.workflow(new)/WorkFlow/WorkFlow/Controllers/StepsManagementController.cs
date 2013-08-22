@@ -56,7 +56,7 @@ namespace WorkFlow.Controllers
                 string stepName = collection["stepsName"];
                 string flowName = collection["flowsName"];
                 string stepsType = collection["stepsType"];
-                string repeatCount = collection["repeatCount"];
+                //string repeatCount = collection["repeatCount"];
                 string orderNo = collection["orderNo"];
                 if (stepName.Length == 0)
                 {
@@ -74,28 +74,30 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'请选择步骤类型!'}");
                 }
-                if (repeatCount.Length == 0)
-                {
-                    return Json("{success:false,css:'alert alert-error',message:'重复次数不能为空!'}");
-                }
-                if (Saron.Common.PubFun.ConditionFilter.IsNumber(repeatCount) == false)
-                {
-                    return Json("{success:false,css:'alert alert-error',message:'重复次数只能是数字!'}");
-                }
-                if (orderNo.Length == 0)
-                {
-                    return Json("{success:false,css:'alert alert-error',message:'排序编码不能为空!'}");
-                }
-                if (Saron.Common.PubFun.ConditionFilter.IsNumber(orderNo) == false)
-                {
-                    return Json("{success:false,css:'alert alert-error',message:'排序编码只能是数字!'}");
-                }
+                //if (repeatCount.Length == 0)
+                //{
+                //    return Json("{success:false,css:'alert alert-error',message:'重复次数不能为空!'}");
+                //}
+                //if (Saron.Common.PubFun.ConditionFilter.IsNumber(repeatCount) == false)
+                //{
+                //    return Json("{success:false,css:'alert alert-error',message:'重复次数只能是数字!'}");
+                //}
+                //if (orderNo.Length == 0)
+                //{
+                //    return Json("{success:false,css:'alert alert-error',message:'排序编码不能为空!'}");
+                //}
+                //if (Saron.Common.PubFun.ConditionFilter.IsNumber(orderNo) == false)
+                //{
+                //    return Json("{success:false,css:'alert alert-error',message:'排序编码只能是数字!'}");
+                //}
                 m_stepsModel.name = collection["stepsName"];
                 m_stepsModel.remark = collection["stepsRemark"];
                 m_stepsModel.flow_id = Convert.ToInt32(collection["flowsName"]);
                 m_stepsModel.step_type_id = Convert.ToInt32(collection["stepsType"]);
-                m_stepsModel.repeat_count = Convert.ToInt32(collection["repeatCount"]);
-                m_stepsModel.order_no = Convert.ToInt32(collection["orderNo"]);
+                //m_stepsModel.repeat_count = Convert.ToInt32(collection["repeatCount"]);
+                
+                m_stepsModel.order_no = m_stepsBllService.GetFlowMaxOrderNum((int)m_stepsModel.flow_id, out msg) + 1;
+                
                 m_stepsModel.created_by = (int)m_usersModel.id;
                 m_stepsModel.created_at = Convert.ToDateTime(collection["stepsCreated_at"].Trim());
                 m_stepsModel.created_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();
@@ -114,7 +116,7 @@ namespace WorkFlow.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'" + msg + "!'}");
                 }
             }
         }
