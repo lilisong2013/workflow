@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-<<<<<<< HEAD
+
   <publishProfile publishUrl="F:\workflowWebService7.01" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="配置文件1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Web.config" publishTime="08/20/2013 18:43:25" />
     <file relUrl="WebService/step_actionBLLservice.asmx" publishTime="08/20/2013 18:43:25" />
@@ -23,7 +23,7 @@
     <file relUrl="WebService/privilegesBLLservice.asmx" publishTime="08/20/2013 18:43:25" />
     <file relUrl="WebService/usersBLLservice.asmx" publishTime="08/20/2013 18:43:25" />
     <file relUrl="WebService/privileges_typeBLLservice.asmx" publishTime="08/20/2013 18:43:25" />
-=======
+
   <publishProfile publishUrl="D:\service" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="配置文件1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Web.config" publishTime="08/20/2013 18:39:39" />
     <file relUrl="WebService/privilegesBLLservice.asmx" publishTime="08/20/2013 18:39:39" />
@@ -46,6 +46,6 @@
     <file relUrl="Default.aspx" publishTime="08/20/2013 18:39:38" />
     <file relUrl="WebService/usersBLLservice.asmx" publishTime="08/20/2013 18:39:39" />
     <file relUrl="WebService/operationsBLLservice.asmx" publishTime="08/20/2013 18:39:38" />
->>>>>>> af0ca62c9fbfd2d04e433033ad816453af2c636c
+
   </publishProfile>
 </publishData>
