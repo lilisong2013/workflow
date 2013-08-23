@@ -28,6 +28,7 @@
         });
         var epTotal = 0; //角色数量
     </script>
+
   <%--角色列表初始化--%>
   <script type="text/javascript">
       $(document).ready(function () {
@@ -56,6 +57,7 @@
           });
       });   
   </script>
+
  <%--表单提交操作--%>
  <script type="text/javascript">
      $(document).ready(function () {

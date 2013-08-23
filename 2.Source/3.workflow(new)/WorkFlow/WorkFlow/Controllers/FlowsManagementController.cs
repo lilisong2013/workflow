@@ -638,8 +638,9 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
                 DataSet ds=new DataSet();
+                DataSet ds1 = new DataSet();
                 try {
-                   ds = m_stepsBllService.GetFlowStepListByFlowID(m_flowsID,out msg);
+                    ds = m_stepsBllService.GetFlowStepListByFlowID(m_flowsID,out msg);        
                 }
                 catch (Exception ex) { }
                 int total = ds.Tables[0].Rows.Count;//某系统某流程下步骤的数量
@@ -647,20 +648,84 @@ namespace WorkFlow.Controllers
                 {
                     int m_stepsID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
                     string m_stepsName = ds.Tables[0].Rows[i][1].ToString();
+                    string m_selected = string.Empty;
+
+                    ds1 = m_stepsBllService.GetStepListByID(m_stepsID,out msg);
+                    int total1 = ds1.Tables[0].Rows.Count;
+                    int m_userID;
+                                       
+                    m_userID = Convert.ToInt32(ds1.Tables[0].Rows[0][10].ToString());
+                    bool flaginvalid = Convert.ToBoolean(ds.Tables[0].Rows[0][6]);
+          
+                    //判断flow_user表中存在步骤ID为m_stepID,用户ID为m_user
+                    if (m_stepsBllService.ExistsFlowUser(m_userID, m_stepsID)&&flaginvalid)
+                    {
+                        m_selected = "false";
+                    }
+                    else
+                    {
+                        m_selected = "true";
+                    }
                     if (i < total - 1)
                     {
                         strJson += "{id:'" + m_stepsID + "',";
-                        strJson += "name:'" + m_stepsName + "'},";
+                        strJson += "name:'"+m_stepsName+"',";
+                        strJson += "selected:'" +m_selected+ "'},";
                     }
                     else
                     {
                         strJson += "{id:'" + m_stepsID + "',";
-                        strJson += "name:'" + m_stepsName + "'}";
+                        strJson += "name:'"+m_stepsName+"',";
+                        strJson += "selected:'" +m_selected + "'}";
                     }
+
+                  
+
                 }
-                strJson += "],total:'"+total+"'";
+                strJson += "],total:'"+total+"'}";
+
                 return Json(strJson);
             }
         }
+
+        //编辑流程步骤信息
+        public ActionResult EditFlowSteps()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                int Total = Convert.ToInt32(Request.Params["fs_total"]);//流程ID下对应的步骤个数
+                int fID = Convert.ToInt32(Request.Params["f_ID"]);//流程ID
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                try
+                {
+                    for (int i = 0; i < Total; i++)
+                    {
+                        int m_stepsID = Convert.ToInt32(Request.Params[("fstepID" + i)]);
+                        
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+            }
+        }
+
     }
 }

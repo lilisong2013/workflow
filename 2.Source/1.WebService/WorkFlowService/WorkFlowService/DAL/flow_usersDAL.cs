@@ -65,7 +65,7 @@ namespace Saron.WorkFlowService.DAL
             SqlParameter[] parameters = {
 					new SqlParameter("@step_id", SqlDbType.Int,4)
             };
-            parameters[1].Value = stepID;
+            parameters[0].Value = stepID;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -78,7 +78,24 @@ namespace Saron.WorkFlowService.DAL
             }
         }
 
-      
+        /// <summary>
+        /// 是否存在用户id为user_id,步骤id为step_id的记录
+        /// </summary>
+        public bool ExistsFlowUser(int user_id, int step_id)
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from flow_users");
+            strSql.Append(" where user_id=@user_id and step_id=@step_id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@user_id", SqlDbType.Int,4),
+                    new SqlParameter("@step_id",SqlDbType.Int,4)
+			};
+            parameters[0].Value = user_id;
+            parameters[1].Value = step_id;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
         #endregion
     }
 }

@@ -40,10 +40,11 @@
     </script>
   
    <%--在Grid中分页显示flows信息--%>
-    <script type="text/javascript">
+   <script type="text/javascript">
         $(document).ready(function () {
 
             $("#infoTab").click(function () {//切换Tab标签时获取流程列表
+               
                 GetFlowList();
             })
 
@@ -74,10 +75,10 @@
                                 }
                             },
                            { display: '', width: 120,
-                                  render: function (row) {
-                                      var html = '<i class="icon-trash"></i><a href="#" onclick="FlowSteps(' + row.id + ')">流程步骤维护</a>';
-                                      return html;
-                                  }
+                               render: function (row) {
+                                   var html = '<i class="icon-trash"></i><a href="#" onclick="FlowSteps(' + row.id + ')">流程步骤维护</a>';
+                                   return html;
+                               }
                            }
                            ],
                     dataAction: 'server',
@@ -100,8 +101,8 @@
 
     </script>
 
-    <%--编辑弹出框函数--%>
-    <script type="text/javascript">
+   <%--编辑弹出框函数--%>
+   <script type="text/javascript">
         function EditDialog(id) {
           
             if (id) {
@@ -158,6 +159,7 @@
            }
        }
    </script>
+
    <%--删除确认函数--%>
    <script type="text/javascript">
         function DeleteFlow(id) {
@@ -303,8 +305,6 @@
 
        }
    </script>
-
- 
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">

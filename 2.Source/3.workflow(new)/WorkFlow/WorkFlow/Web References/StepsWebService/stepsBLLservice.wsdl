@@ -162,6 +162,43 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ExistsFlowUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="user_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="step_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsFlowUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsFlowUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepListByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepListByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStepListByIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AddStepSoapIn">
@@ -227,6 +264,21 @@
   <wsdl:message name="DeleteStepSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="ExistsFlowUserSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsFlowUser" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowUserSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsFlowUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStepListByID" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStepListByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListByIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="stepsBLLserviceSoap">
     <wsdl:operation name="AddStep">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录(order_no、repeat_count自动赋值)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -262,6 +314,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除步骤，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:DeleteStepSoapIn" />
       <wsdl:output message="tns:DeleteStepSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断是否存在用户id为user_id,步骤id为step_id的记录</wsdl:documentation>
+      <wsdl:input message="tns:ExistsFlowUserSoapIn" />
+      <wsdl:output message="tns:ExistsFlowUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据ID获取step列表,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetStepListByIDSoapIn" />
+      <wsdl:output message="tns:GetStepListByIDSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="stepsBLLserviceSoap" type="tns:stepsBLLserviceSoap">
@@ -336,6 +398,25 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ExistsFlowUser">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsFlowUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListByID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetStepListByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStepListByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="stepsBLLserviceSoap12" type="tns:stepsBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -404,6 +485,25 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:DeleteStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowUser">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsFlowUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListByID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetStepListByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStepListByIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

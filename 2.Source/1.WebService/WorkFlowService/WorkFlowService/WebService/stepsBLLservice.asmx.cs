@@ -244,9 +244,9 @@ namespace Saron.WorkFlowService.WebService
         
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "删除步骤，<h4>（需要授权验证，系统管理员用户）</h4>")]
-        public bool DeleteStep(int stepID,out string msg)
+        public bool DeleteStep(int stepID, out string msg)
         {
-          
+           
             #region webservice授权判断
             //是否有权限访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
@@ -254,9 +254,10 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
             #endregion
-
-            bool flag=false;
+           
+            bool flag = false;
             flag = m_flow_usersdal.DeleteFlow_User(stepID);
+           
             if (flag)
             {
                 try
@@ -284,7 +285,28 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
         }
-      
+
+        [WebMethod(Description = "判断是否存在用户id为user_id,步骤id为step_id的记录")]
+        public bool ExistsFlowUser(int user_id, int step_id)
+        {
+            return m_flow_usersdal.ExistsFlowUser(user_id,step_id);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据ID获取step列表,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public DataSet GetStepListByID(int id,out string msg)
+        {
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+
+            return m_stepsdal.GetStepListByID(id);
+        }
+
        #endregion 
   }
 

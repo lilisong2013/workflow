@@ -81,6 +81,24 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 获得一条步骤列表
+        /// </summary>
+        public DataSet GetStepListByID(int id)
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
+            strSql.Append(" where id=@id and deleted=0 ");
+            
+            SqlParameter[] parameters = { 
+                         new SqlParameter("@id",SqlDbType.Int,4)                            
+            };
+            parameters[0].Value = id;
+            return DbHelperSQL.Query(strSql.ToString(),parameters);
+
+        }
+
+        /// <summary>
         /// 删除一条数据
         /// </summary>
         public bool DeleteStep(int stepID)
@@ -201,8 +219,108 @@ namespace Saron.WorkFlowService.DAL
             }
         }
 
-      
+        /// <summary>
+        /// 得到一个steps对象实体
+        /// </summary>
+        public Saron.WorkFlowService.Model.stepsModel GetModel(int id) {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select top 1 id,name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
+            strSql.Append(" where id=@id");
+            SqlParameter[] parameters = {
+					new SqlParameter("@id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = id;
+            Saron.WorkFlowService.Model.stepsModel model = new Model.stepsModel();
 
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(),parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0]["id"] != null && ds.Tables[0].Rows[0]["id"].ToString() != "")
+                {
+                    model.id = int.Parse(ds.Tables[0].Rows[0]["id"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["name"] != null && ds.Tables[0].Rows[0]["name"].ToString() != "")
+                {
+                    model.name = ds.Tables[0].Rows[0]["name"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["remark"] != null && ds.Tables[0].Rows[0]["remark"].ToString() != "")
+                {
+                    model.remark = ds.Tables[0].Rows[0]["remark"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["flow_id"] != null && ds.Tables[0].Rows[0]["flow_id"].ToString() != "")
+                {
+                    model.flow_id = int.Parse(ds.Tables[0].Rows[0]["flow_id"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["step_type_id"] != null && ds.Tables[0].Rows[0]["step_type_id"].ToString() != "")
+                {
+                    model.step_type_id = int.Parse(ds.Tables[0].Rows[0]["step_type_id"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["repeat_count"] != null && ds.Tables[0].Rows[0]["repeat_count"].ToString() != "")
+                {
+                    model.repeat_count = int.Parse(ds.Tables[0].Rows[0]["repeat_count"].ToString());
+                }
+               
+             
+              
+                if (ds.Tables[0].Rows[0]["invalid"] != null && ds.Tables[0].Rows[0]["invalid"].ToString() != "")
+                {
+                    if ((ds.Tables[0].Rows[0]["invalid"].ToString() == "1") || (ds.Tables[0].Rows[0]["invalid"].ToString().ToLower() == "true"))
+                    {
+                        model.invalid = true;
+                    }
+                    else
+                    {
+                        model.invalid = false;
+                    }
+                }
+
+                if (ds.Tables[0].Rows[0]["order_no"] != null && ds.Tables[0].Rows[0]["order_no"].ToString() != "")
+                {
+                    model.order_no = int.Parse(ds.Tables[0].Rows[0]["order_no"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["deleted"] != null && ds.Tables[0].Rows[0]["deleted"].ToString() != "")
+                {
+                    if ((ds.Tables[0].Rows[0]["deleted"].ToString() == "1") || (ds.Tables[0].Rows[0]["deleted"].ToString().ToLower() == "true"))
+                    {
+                        model.deleted = true;
+                    }
+                    else
+                    {
+                        model.deleted = false;
+                    }
+                }
+                if (ds.Tables[0].Rows[0]["created_at"] != null && ds.Tables[0].Rows[0]["created_at"].ToString() != "")
+                {
+                    model.created_at = DateTime.Parse(ds.Tables[0].Rows[0]["created_at"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["created_by"] != null && ds.Tables[0].Rows[0]["created_by"].ToString() != "")
+                {
+                    model.created_by = int.Parse(ds.Tables[0].Rows[0]["created_by"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["created_ip"] != null && ds.Tables[0].Rows[0]["created_ip"].ToString() != "")
+                {
+                    model.created_ip = ds.Tables[0].Rows[0]["created_ip"].ToString();
+                }
+                if (ds.Tables[0].Rows[0]["updated_at"] != null && ds.Tables[0].Rows[0]["updated_at"].ToString() != "")
+                {
+                    model.updated_at = DateTime.Parse(ds.Tables[0].Rows[0]["updated_at"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["updated_by"] != null && ds.Tables[0].Rows[0]["updated_by"].ToString() != "")
+                {
+                    model.updated_by = int.Parse(ds.Tables[0].Rows[0]["updated_by"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["updated_ip"] != null && ds.Tables[0].Rows[0]["updated_ip"].ToString() != "")
+                {
+                    model.updated_ip = ds.Tables[0].Rows[0]["updated_ip"].ToString();
+                }
+             
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+        }
         #endregion
     }
 }

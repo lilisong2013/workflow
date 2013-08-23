@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
@@ -19,6 +19,8 @@
    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+ 
+   <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
 
     <%--页面标题--%>
     <script type="text/javascript">
@@ -39,14 +41,17 @@
    <%--在Grid中分页显示steps信息--%>
    <script type="text/javascript">
        $(document).ready(function () {
+
            $("#infoTab").click(function () {
-               GetStepsList(); //切换Tab标签时获取步骤列表
+               GetStepsList();
+
            })
 
            GetStepsList(); //获取步骤列表
 
            //获取步骤列表
            function GetStepsList() {
+
                window['s'] = $("#stepsgrid").ligerGrid({
                    columns: [
                         { display: '步骤ID', name: 's_id', width: 80, align: 'center' },
@@ -56,7 +61,7 @@
                         { display: '排序码', name: 'order_no', align: 'center' },
                         { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
+                                var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.s_id + ')">详情</a>';
                                 return html;
                             }
                         },
@@ -89,11 +94,27 @@
       
    </script>
 
-  <%--删除--%>
+  <%--步骤详情弹出窗--%>
+  <script type="text/javascript">
+      function DetailDialog(id) {
+
+          if (id) {
+              $.ligerDialog.open({
+                  title:'详情信息',
+                  width:700,
+                  height:600,
+                  isDrag:true,
+                  isResize:true,
+                  url: '/StepsManagement/DetailInfo?id='+id
+              });        
+          }
+      }
+  </script>
+
+  <%--删除流程步骤--%>
   <script type="text/javascript">
       function DeleteStep(id) {
           var stepid = id;
-          alert(stepid);
           $.ligerDialog.confirm("确定要删除步骤吗?", function (yes) {
               if (yes) {
                   $.ajax({
@@ -119,6 +140,7 @@
           });
       }
   </script>
+
   <%--流程步骤名称初始化操作--%>
   <script type="text/javascript">
       $(document).ready(function () {
@@ -236,7 +258,7 @@
     <div class="container" style="margin-top:16px;">
         <ul class="nav nav-tabs">
             <li class="active" id="#infoTab"> <a href="#AllSteps" data-toggle="tab"><i class="icon-check"></i>全部</a></li>
-            <li><a href="#AddSteps" data-toggle="tab"><i class="icon-plus"></i>添加</a></li>
+            <li id="AddTab"><a href="#AddSteps" data-toggle="tab"><i class="icon-plus"></i>添加</a></li>
         </ul>
     </div>
     

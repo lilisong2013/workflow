@@ -43,7 +43,6 @@
     <%--在Grid中后台分页显示role信息--%>
     <script type="text/javascript">
         $("document").ready(function () {
-
             $("#infoTab").click(function () {
                 GetRoleList();
             })

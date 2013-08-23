@@ -40,8 +40,10 @@ namespace Saron.WorkFlowService.DAL
             }
         }
 
+    
+
         /// <summary>
-        /// 得到一个对象实体
+        /// 得到一个v_steps对象实体
         /// </summary>
         public Saron.WorkFlowService.Model.v_stepsModel DataRowToModel(DataRow row)
         {

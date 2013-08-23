@@ -275,6 +275,7 @@ namespace WorkFlow.Controllers
                 WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
                 WorkFlow.StepsWebService.SecurityContext ms_SecurityContext = new StepsWebService.SecurityContext();
 
+                
                 WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
 
                 string msg = string.Empty;
@@ -297,6 +298,47 @@ namespace WorkFlow.Controllers
                 catch (Exception ex) {
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
+            }
+        }
+
+       //流程步骤详情
+        public ActionResult DetailInfo(int id)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                WorkFlow.StepsWebService.v_stepsModel mv_stepsModel= m_stepsBllService.GetV_StepsModel(id,out msg);
+
+                ViewData["s_name"] = mv_stepsModel.s_name;
+                ViewData["f_name"] = mv_stepsModel.f_name;
+                ViewData["step_type_name"] = mv_stepsModel.step_type_name;
+                ViewData["order_no"] = mv_stepsModel.order_no;
+
+                WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
+                WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
+
+                ma_SecurityContext.UserName = m_usersModel.login;
+                ma_SecurityContext.PassWord = m_usersModel.password;
+                ma_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_appsBllService.SecurityContextValue = ma_SecurityContext;
+
+                ViewData["appsName"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
+                
+                return View();
             }
         }
     }

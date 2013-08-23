@@ -46,6 +46,10 @@ namespace WorkFlow.StepsWebService {
         
         private System.Threading.SendOrPostCallback DeleteStepOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ExistsFlowUserOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetStepListByIDOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -113,6 +117,12 @@ namespace WorkFlow.StepsWebService {
         
         /// <remarks/>
         public event DeleteStepCompletedEventHandler DeleteStepCompleted;
+        
+        /// <remarks/>
+        public event ExistsFlowUserCompletedEventHandler ExistsFlowUserCompleted;
+        
+        /// <remarks/>
+        public event GetStepListByIDCompletedEventHandler GetStepListByIDCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
@@ -332,6 +342,68 @@ namespace WorkFlow.StepsWebService {
             if ((this.DeleteStepCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteStepCompleted(this, new DeleteStepCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsFlowUser", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistsFlowUser(int user_id, int step_id) {
+            object[] results = this.Invoke("ExistsFlowUser", new object[] {
+                        user_id,
+                        step_id});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistsFlowUserAsync(int user_id, int step_id) {
+            this.ExistsFlowUserAsync(user_id, step_id, null);
+        }
+        
+        /// <remarks/>
+        public void ExistsFlowUserAsync(int user_id, int step_id, object userState) {
+            if ((this.ExistsFlowUserOperationCompleted == null)) {
+                this.ExistsFlowUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistsFlowUserOperationCompleted);
+            }
+            this.InvokeAsync("ExistsFlowUser", new object[] {
+                        user_id,
+                        step_id}, this.ExistsFlowUserOperationCompleted, userState);
+        }
+        
+        private void OnExistsFlowUserOperationCompleted(object arg) {
+            if ((this.ExistsFlowUserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistsFlowUserCompleted(this, new ExistsFlowUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetStepListByID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetStepListByID(int id, out string msg) {
+            object[] results = this.Invoke("GetStepListByID", new object[] {
+                        id});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetStepListByIDAsync(int id) {
+            this.GetStepListByIDAsync(id, null);
+        }
+        
+        /// <remarks/>
+        public void GetStepListByIDAsync(int id, object userState) {
+            if ((this.GetStepListByIDOperationCompleted == null)) {
+                this.GetStepListByIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetStepListByIDOperationCompleted);
+            }
+            this.InvokeAsync("GetStepListByID", new object[] {
+                        id}, this.GetStepListByIDOperationCompleted, userState);
+        }
+        
+        private void OnGetStepListByIDOperationCompleted(object arg) {
+            if ((this.GetStepListByIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetStepListByIDCompleted(this, new GetStepListByIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -925,6 +997,66 @@ namespace WorkFlow.StepsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistsFlowUserCompletedEventHandler(object sender, ExistsFlowUserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistsFlowUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistsFlowUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetStepListByIDCompletedEventHandler(object sender, GetStepListByIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetStepListByIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetStepListByIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
         
