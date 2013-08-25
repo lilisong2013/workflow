@@ -637,33 +637,37 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
                 DataSet ds=new DataSet();
                 DataSet ds1 = new DataSet();
+
                 try {
-                    ds = m_stepsBllService.GetFlowStepListByFlowID(m_flowsID,out msg);        
+                   // ds = m_stepsBllService.GetFlowStepListByFlowID(m_flowsID,out msg);  
+                    ds = m_stepsBllService.GetStepListOfFlowID(m_flowsID,out msg);
                 }
                 catch (Exception ex) { }
                 int total = ds.Tables[0].Rows.Count;//某系统某流程下步骤的数量
+                string m_selected;
                 for (int i = 0; i < total; i++)
                 {
                     int m_stepsID = Convert.ToInt32(ds.Tables[0].Rows[i][0]);
                     string m_stepsName = ds.Tables[0].Rows[i][1].ToString();
-                    string m_selected = string.Empty;
-
-                    ds1 = m_stepsBllService.GetStepListByID(m_stepsID,out msg);
-                    int total1 = ds1.Tables[0].Rows.Count;
-                    int m_userID;
-                                       
-                    m_userID = Convert.ToInt32(ds1.Tables[0].Rows[0][10].ToString());
-                    bool flaginvalid = Convert.ToBoolean(ds.Tables[0].Rows[0][6]);
+                    bool flaginvalid = Convert.ToBoolean(ds.Tables[0].Rows[i][6]);
+                    
+                    //int m_userID;                                     
+                    //m_userID = Convert.ToInt32(ds.Tables[0].Rows[0][10].ToString());
+               
           
                     //判断flow_user表中存在步骤ID为m_stepID,用户ID为m_user
-                    if (m_stepsBllService.ExistsFlowUser(m_userID, m_stepsID)&&flaginvalid)
+                    //if (m_stepsBllService.ExistsFlowUser(m_userID, m_stepsID))
+                    if(flaginvalid==false)
                     {
+                        //m_selected = "false";//invalid=false
                         m_selected = "false";
                     }
                     else
                     {
+                       // m_selected = "true";//invalid=true
                         m_selected = "true";
                     }
                     if (i < total - 1)
@@ -697,10 +701,13 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                int Total = Convert.ToInt32(Request.Params["fs_total"]);//流程ID下对应的步骤个数
                 int fID = Convert.ToInt32(Request.Params["f_ID"]);//流程ID
+                int Total = Convert.ToInt32(Request.Params["fs_total"]);//流程ID下对应的步骤个数
+               
+
                 WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
                 WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
                 WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
 
                 WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
@@ -713,12 +720,24 @@ namespace WorkFlow.Controllers
 
                 try
                 {
-                    for (int i = 0; i < Total; i++)
+                    for (int i = 0; i < Total;i++)
                     {
                         int m_stepsID = Convert.ToInt32(Request.Params[("fstepID" + i)]);
-                        
+                        bool invalid = Convert.ToBoolean(Request.Params["valid"+i]);
+                        DataSet ds = m_stepsBllService.GetStepListByID(m_stepsID,out msg);
+                        m_stepsModel = m_stepsBllService.GetModelByID(m_stepsID,out msg);
+                        m_stepsModel.invalid = invalid;
 
+                        if (m_stepsBllService.Update(m_stepsModel,out msg) == true)
+                        {
+                            return Json("{success:true}");
+                        }
+                        else
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
+                        }
                     }
+                    return Json("{success:true,css:'alert alert-success',message:'修改成功!'}");
                 }
                 catch (Exception ex)
                 {

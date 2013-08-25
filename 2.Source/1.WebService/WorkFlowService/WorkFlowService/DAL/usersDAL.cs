@@ -1369,6 +1369,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(),parameters);
         }
+
         #endregion  Method
     }
 }

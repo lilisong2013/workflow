@@ -5,15 +5,15 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
 
-    <%--页面标题--%>
-    <script type="text/javascript">
+   <%--页面标题--%>
+   <script type="text/javascript">
         var titleUrl = "/Home/GetPageTitle";
         var PageName = "用户角色";
     </script>
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
    
-   <%--隐藏提示信息--%>
-   <script type="text/javascript">
+  <%--隐藏提示信息--%>
+  <script type="text/javascript">
        //隐藏提示信息
        $(document).click(function () {
            $("#promptDIV").removeClass("alert alert-error alert-success");
@@ -21,7 +21,7 @@
        });
     </script>
  
-    <script type="text/javascript">
+  <script type="text/javascript">
         var usersID;
         $(document).ready(function () {
             usersID = $("#usersID").val(); //用户ID
@@ -119,6 +119,7 @@
   <%--操作提示DIV--%>
   <div id="promptDIV" class="row"></div>
   </div>
+
   <div class="tab-pane">
    <form  id="user_roles" method="post" action="" class="form-horizontal">   
       <div class="control-group page-header">

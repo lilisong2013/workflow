@@ -675,6 +675,9 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\StepsWebService\stepsBLLservice.wsdl" />
+    <None Include="Web References\StepsWebService\stepsModel.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\StepsWebService\v_stepsModel.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>

@@ -98,6 +98,18 @@ namespace Saron.WorkFlowService.DAL
 
         }
 
+        public DataSet GetStepListOfFlowID(int flowid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
+            strSql.Append(" where flow_id=@flow_id and deleted=0 ");
+
+            SqlParameter[] parameters = { 
+                         new SqlParameter("@flow_id",SqlDbType.Int,4)                            
+            };
+            parameters[0].Value = flowid;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
         /// <summary>
         /// 删除一条数据
         /// </summary>
@@ -259,9 +271,7 @@ namespace Saron.WorkFlowService.DAL
                 {
                     model.repeat_count = int.Parse(ds.Tables[0].Rows[0]["repeat_count"].ToString());
                 }
-               
-             
-              
+                           
                 if (ds.Tables[0].Rows[0]["invalid"] != null && ds.Tables[0].Rows[0]["invalid"].ToString() != "")
                 {
                     if ((ds.Tables[0].Rows[0]["invalid"].ToString() == "1") || (ds.Tables[0].Rows[0]["invalid"].ToString().ToLower() == "true"))
@@ -321,6 +331,73 @@ namespace Saron.WorkFlowService.DAL
                 return null;
             }
         }
+
+        /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public bool Update(Saron.WorkFlowService.Model.stepsModel model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update steps set ");
+            strSql.Append("name=@name,");
+            strSql.Append("remark=@remark,");
+            strSql.Append("flow_id=@flow_id,");
+            strSql.Append("step_type_id=@step_type_id,");
+            strSql.Append("repeat_count=@repeat_count,");
+            strSql.Append("invalid=@invalid,");
+            strSql.Append("order_no=@order_no,");
+            strSql.Append("deleted=@deleted,");
+            strSql.Append("created_at=@created_at,");
+            strSql.Append("created_by=@created_by,");
+            strSql.Append("created_ip=@created_ip,");
+            strSql.Append("updated_at=@updated_at,");
+            strSql.Append("updated_by=@updated_by,");
+            strSql.Append("updated_ip=@updated_ip");
+            strSql.Append(" where id=@id");
+
+            SqlParameter[] parameters = { 
+                    new SqlParameter("@name", SqlDbType.NVarChar,100),
+					new SqlParameter("@remark", SqlDbType.NVarChar,100),
+					new SqlParameter("@flow_id", SqlDbType.Int,4),
+					new SqlParameter("@step_type_id",SqlDbType.Int,4),
+					new SqlParameter("@repeat_count",SqlDbType.Int,4),
+					new SqlParameter("@invalid", SqlDbType.Bit,1),
+				    new SqlParameter("@order_no",SqlDbType.Int,4),
+					new SqlParameter("@deleted", SqlDbType.Bit,1),
+					new SqlParameter("@created_at", SqlDbType.DateTime),
+					new SqlParameter("@created_by", SqlDbType.Int,4),
+					new SqlParameter("@created_ip", SqlDbType.NVarChar,40),
+					new SqlParameter("@updated_at", SqlDbType.DateTime),
+					new SqlParameter("@updated_by", SqlDbType.Int,4),
+					new SqlParameter("@updated_ip", SqlDbType.NVarChar,40),
+					new SqlParameter("@id", SqlDbType.Int,4)
+					};
+            parameters[0].Value = model.name;
+            parameters[1].Value = model.remark;
+            parameters[2].Value = model.flow_id;
+            parameters[3].Value = model.step_type_id;
+            parameters[4].Value = model.repeat_count;
+            parameters[5].Value = model.invalid;
+            parameters[6].Value = model.order_no;
+            parameters[7].Value = model.deleted;
+            parameters[8].Value = model.created_at;
+            parameters[9].Value = model.created_by;
+            parameters[10].Value = model.created_ip;
+            parameters[11].Value = model.updated_at;
+            parameters[12].Value = model.updated_by;
+            parameters[13].Value = model.updated_ip;
+            parameters[14].Value = model.id;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
     }
 }

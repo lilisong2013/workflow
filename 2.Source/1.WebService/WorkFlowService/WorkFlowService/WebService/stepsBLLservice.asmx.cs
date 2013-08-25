@@ -197,7 +197,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得流程的步骤列表，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        [WebMethod(Description = "获得流程的v_steps视图步骤列表，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public DataSet GetFlowStepListByFlowID(int flowID, out string msg)
         {
             #region webservice授权判断
@@ -241,7 +241,22 @@ namespace Saron.WorkFlowService.WebService
             return m_v_stepsdal.GetV_StepsModel(stepID);
 
         }
-        
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "通过ID获得一个stepsModel的对象实体，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public Saron.WorkFlowService.Model.stepsModel GetModelByID(int id,out string msg)
+        {
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+
+            return m_stepsdal.GetModel(id);
+        }
+
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "删除步骤，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool DeleteStep(int stepID, out string msg)
@@ -305,6 +320,34 @@ namespace Saron.WorkFlowService.WebService
             #endregion
 
             return m_stepsdal.GetStepListByID(id);
+        }
+
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据flowID获取step列表,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public DataSet GetStepListOfFlowID(int flowID,out string msg)
+        {  
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+
+            return m_stepsdal.GetStepListOfFlowID(flowID);
+        }
+        
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "更新一条数据,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool Update(Saron.WorkFlowService.Model.stepsModel model,out string msg)
+        {  
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+           return m_stepsdal.Update(model);
         }
 
        #endregion 
