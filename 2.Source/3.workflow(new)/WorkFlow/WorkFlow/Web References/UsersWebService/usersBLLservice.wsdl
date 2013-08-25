@@ -290,6 +290,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetUserListByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserListByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserListByAppIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetV_AppAdminModelByAdminID">
         <s:complexType>
           <s:sequence>
@@ -532,6 +554,15 @@
   <wsdl:message name="GetModelByAppIDSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetUserListByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserListByAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetUserListByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserListByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserListByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetV_AppAdminModelByAdminIDSoapIn">
     <wsdl:part name="parameters" element="tns:GetV_AppAdminModelByAdminID" />
   </wsdl:message>
@@ -650,9 +681,14 @@
       <wsdl:output message="tns:GetUserModelByLoginSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetModelByAppID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统ID得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员）</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统ID得到一个实体对象，&lt;h4&gt;（需要授权验证，超级管理员）</wsdl:documentation>
       <wsdl:input message="tns:GetModelByAppIDSoapIn" />
       <wsdl:output message="tns:GetModelByAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统ID得到一个实体对象，&lt;h4&gt;（需要授权验证，普通管理员）</wsdl:documentation>
+      <wsdl:input message="tns:GetUserListByAppIDSoapIn" />
+      <wsdl:output message="tns:GetUserListByAppIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetV_AppAdminModelByAdminID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据系统管理员ID获得一个系统-系统管理员对象实体，&lt;h4&gt;（需要授权验证，自定义用户）</wsdl:documentation>
@@ -840,6 +876,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetModelByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetUserListByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetUserListByAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -1051,6 +1097,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetModelByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetUserListByAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetUserListByAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

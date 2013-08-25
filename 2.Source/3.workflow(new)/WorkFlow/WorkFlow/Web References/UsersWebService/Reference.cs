@@ -66,6 +66,8 @@ namespace WorkFlow.UsersWebService {
         
         private System.Threading.SendOrPostCallback GetModelByAppIDOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetUserListByAppIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetV_AppAdminModelByAdminIDOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllUsersListOfAppOperationCompleted;
@@ -171,6 +173,9 @@ namespace WorkFlow.UsersWebService {
         
         /// <remarks/>
         public event GetModelByAppIDCompletedEventHandler GetModelByAppIDCompleted;
+        
+        /// <remarks/>
+        public event GetUserListByAppIDCompletedEventHandler GetUserListByAppIDCompleted;
         
         /// <remarks/>
         public event GetV_AppAdminModelByAdminIDCompletedEventHandler GetV_AppAdminModelByAdminIDCompleted;
@@ -711,6 +716,37 @@ namespace WorkFlow.UsersWebService {
             if ((this.GetModelByAppIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetModelByAppIDCompleted(this, new GetModelByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetUserListByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetUserListByAppID(int appID, out string msg) {
+            object[] results = this.Invoke("GetUserListByAppID", new object[] {
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserListByAppIDAsync(int appID) {
+            this.GetUserListByAppIDAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserListByAppIDAsync(int appID, object userState) {
+            if ((this.GetUserListByAppIDOperationCompleted == null)) {
+                this.GetUserListByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserListByAppIDOperationCompleted);
+            }
+            this.InvokeAsync("GetUserListByAppID", new object[] {
+                        appID}, this.GetUserListByAppIDOperationCompleted, userState);
+        }
+        
+        private void OnGetUserListByAppIDOperationCompleted(object arg) {
+            if ((this.GetUserListByAppIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserListByAppIDCompleted(this, new GetUserListByAppIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1871,6 +1907,40 @@ namespace WorkFlow.UsersWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((usersModel)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetUserListByAppIDCompletedEventHandler(object sender, GetUserListByAppIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserListByAppIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserListByAppIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
         

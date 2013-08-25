@@ -1370,6 +1370,18 @@ namespace Saron.WorkFlowService.DAL
             return DbHelperSQL.Query(strSql.ToString(),parameters);
         }
 
+        public DataSet GetUserListByAppID(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,login,password,name,employee_no,mobile_phone,mail,remark,admin,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
+            strSql.Append(" FROM users ");
+            strSql.Append(" where app_id=@app_id  and deleted=0  order by id desc");
+            SqlParameter[] parameters ={
+              new SqlParameter("@app_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
         #endregion  Method
     }
 }

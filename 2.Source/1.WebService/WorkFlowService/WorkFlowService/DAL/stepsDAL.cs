@@ -136,6 +136,31 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
+       
+        /// <summary>
+        /// 是否存在并行的个数
+        /// </summary>
+        public int ExistStpeType(int flowID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(*) from steps");
+            strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=2");
+            SqlParameter[] parameters = {
+					new SqlParameter("@flow_id", SqlDbType.Int,4)		
+            };
+
+            parameters[0].Value = flowID;
+
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
 
         /// <summary>
         /// 根据步骤ID获得步骤名称
@@ -164,14 +189,14 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
-        /// 获得flow中最大步骤排序码
+        /// 获得flow中最大步骤排序码(顺序状态下)
         /// </summary>
         public int GetFlowMaxOrderNum(int flowID)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select max(order_no) from steps ");
-            
-            strSql.Append(" where flow_id=@flow_id and deleted=0 ");
+
+            strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=1 ");
             
             SqlParameter[] parameters = {
 					new SqlParameter("@flow_id", SqlDbType.Int,4)
@@ -187,6 +212,50 @@ namespace Saron.WorkFlowService.DAL
             {
                 return Convert.ToInt32(obj);
             }
+        }
+
+        /// <summary>
+        /// 获得flow中最大步骤排序码(并序状态下)
+        /// </summary>
+        public int GetFlowMaxNumOfUnorder(int flowID) 
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select max(repeat_count) from steps ");
+
+            strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=2 ");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@flow_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = flowID;
+
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
+        /// <summary>
+        /// 获得flow中最大步骤排序码(并序状态下)
+        /// </summary>
+        public DataSet GetFlowMaxOrderNumOfUnorder(int flowID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select max(repeat_count),max(order_no) from steps ");
+
+            strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=2 ");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@flow_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = flowID;
+           
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+          
         }
 
         /// <summary>

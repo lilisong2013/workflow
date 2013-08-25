@@ -38,6 +38,10 @@ namespace WorkFlow.StepsWebService {
         
         private System.Threading.SendOrPostCallback GetFlowMaxOrderNumOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetFlowMaxNumOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ExistStpeTypeOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetFlowStepListByFlowIDOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetFlowStepListByAppIDOperationCompleted;
@@ -111,6 +115,12 @@ namespace WorkFlow.StepsWebService {
         
         /// <remarks/>
         public event GetFlowMaxOrderNumCompletedEventHandler GetFlowMaxOrderNumCompleted;
+        
+        /// <remarks/>
+        public event GetFlowMaxNumCompletedEventHandler GetFlowMaxNumCompleted;
+        
+        /// <remarks/>
+        public event ExistStpeTypeCompletedEventHandler ExistStpeTypeCompleted;
         
         /// <remarks/>
         public event GetFlowStepListByFlowIDCompletedEventHandler GetFlowStepListByFlowIDCompleted;
@@ -233,6 +243,64 @@ namespace WorkFlow.StepsWebService {
             if ((this.GetFlowMaxOrderNumCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetFlowMaxOrderNumCompleted(this, new GetFlowMaxOrderNumCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetFlowMaxNum", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetFlowMaxNum(int flowID) {
+            object[] results = this.Invoke("GetFlowMaxNum", new object[] {
+                        flowID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFlowMaxNumAsync(int flowID) {
+            this.GetFlowMaxNumAsync(flowID, null);
+        }
+        
+        /// <remarks/>
+        public void GetFlowMaxNumAsync(int flowID, object userState) {
+            if ((this.GetFlowMaxNumOperationCompleted == null)) {
+                this.GetFlowMaxNumOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFlowMaxNumOperationCompleted);
+            }
+            this.InvokeAsync("GetFlowMaxNum", new object[] {
+                        flowID}, this.GetFlowMaxNumOperationCompleted, userState);
+        }
+        
+        private void OnGetFlowMaxNumOperationCompleted(object arg) {
+            if ((this.GetFlowMaxNumCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFlowMaxNumCompleted(this, new GetFlowMaxNumCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistStpeType", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int ExistStpeType(int flowID) {
+            object[] results = this.Invoke("ExistStpeType", new object[] {
+                        flowID});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistStpeTypeAsync(int flowID) {
+            this.ExistStpeTypeAsync(flowID, null);
+        }
+        
+        /// <remarks/>
+        public void ExistStpeTypeAsync(int flowID, object userState) {
+            if ((this.ExistStpeTypeOperationCompleted == null)) {
+                this.ExistStpeTypeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistStpeTypeOperationCompleted);
+            }
+            this.InvokeAsync("ExistStpeType", new object[] {
+                        flowID}, this.ExistStpeTypeOperationCompleted, userState);
+        }
+        
+        private void OnExistStpeTypeOperationCompleted(object arg) {
+            if ((this.ExistStpeTypeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistStpeTypeCompleted(this, new ExistStpeTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -977,6 +1045,58 @@ namespace WorkFlow.StepsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetFlowMaxNumCompletedEventHandler(object sender, GetFlowMaxNumCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFlowMaxNumCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFlowMaxNumCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistStpeTypeCompletedEventHandler(object sender, ExistStpeTypeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistStpeTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistStpeTypeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }
