@@ -717,7 +717,7 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
-
+                bool flag=false;
                 try
                 {
                     for (int i = 0; i < Total;i++)
@@ -730,14 +730,23 @@ namespace WorkFlow.Controllers
 
                         if (m_stepsBllService.Update(m_stepsModel,out msg) == true)
                         {
-                            return Json("{success:true}");
+                            flag = true;
                         }
                         else
                         {
+                            flag = false;
                             return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
                         }
                     }
-                    return Json("{success:true,css:'alert alert-success',message:'修改成功!'}");
+                    if (flag == true)
+                    {
+                        return Json("{success:true,css:'alert alert-success',message:'修改成功!'}");
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'修改失败!'}");
+                    }
+                   
                 }
                 catch (Exception ex)
                 {
