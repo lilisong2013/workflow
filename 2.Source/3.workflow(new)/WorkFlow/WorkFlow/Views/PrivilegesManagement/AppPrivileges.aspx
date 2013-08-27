@@ -497,6 +497,9 @@
                 $("#promptDIV").addClass(dataJson.css);
                 $("#promptDIV").html(dataJson.message);
 
+                $("#oPrivilegesItemInfo").val("-1");
+                $("#oPrivilegesItemInfo").html("选择权限项目（操作）");
+
                 if (responseText.success) {
                     location.href = responseText.toUrl;
                 }
@@ -600,7 +603,8 @@
             function m_showResponse(responseText, statusText) {
                 var dataJson = eval("(" + responseText + ")");
                 show_DIV(dataJson);
-                BindMenusList(); //重载mMyTree数据
+                $("#mPrivilegesItemInfo").val("-1");
+                $("#mPrivilegesItemInfo").html("选择权限项目（菜单）");
 
             }
 
@@ -814,9 +818,8 @@
                 //提示信息
                 show_DIV(dataJson);
 
-                //                if (responseText.success) {
-                //                    location.href = responseText.toUrl;
-                //                }
+                $("#ePrivilegesItemInfo").val("-1");
+                $("#ePrivilegesItemInfo").html("选择权限项目（页面元素）");
             }
             //删除提示
             function show_DIV(data) {
