@@ -303,7 +303,7 @@
                      <div class="control-group span6 offset2">
                         <label class="control-label" for="operationsCode">操作编码：</label>
                         <div class="controls">
-                            <input type="text" name="operationsCode" id="operationsCode" class="input-prepend span4" placeholder="操作编码" />
+                            <input type="text" name="operationsCode" id="operationsCode" class="input-prepend span4" placeholder="操作编码" maxlength="40"/>
                         </div>
                     </div>
                     <div class="control-group span6 offset2">

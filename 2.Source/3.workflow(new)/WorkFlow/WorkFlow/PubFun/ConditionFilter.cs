@@ -42,7 +42,7 @@ namespace Saron.Common.PubFun
         /// </summary>
         public static bool IsCode(string str_number)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(str_number,@"^[a-zA-Z]");
+            return System.Text.RegularExpressions.Regex.IsMatch(str_number,@"^[a-zA-Z]\w{1,40}");
         }
         /// <summary>
         /// 验证用户名（用户名一般就是4-12位，只能是字母（大小写敏感），数字，下划线，不能以下划线开头和结尾）
@@ -61,7 +61,7 @@ namespace Saron.Common.PubFun
         /// <returns></returns>
         public static bool IsPassWord(string str_passWord)
         {
-            return System.Text.RegularExpressions.Regex.IsMatch(str_passWord, @"^[a-zA-Z]\w{5,17}$");
+            return System.Text.RegularExpressions.Regex.IsMatch(str_passWord, @"^[a-zA-Z]+[0-9]{1,}[a-zA-Z]{1,}$|[a-zA-Z]{1,}[0-9]{1,}$");
         }
 
         /// <summary>

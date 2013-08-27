@@ -209,7 +209,7 @@
        <div class="m-newline offset2">
        <label class="control-label">菜单编码：</label>
        <div class="controls">
-       <input id="menuCode" name="menuCode" type="text" value="<%=ViewData["menuCode"] %>" placeholder="菜单编码"/>
+       <input id="menuCode" name="menuCode" type="text" value="<%=ViewData["menuCode"] %>" placeholder="菜单编码" maxlength="40"/>
        </div>
        </div>
 

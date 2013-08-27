@@ -28,6 +28,18 @@ namespace WorkFlow.Controllers
             }
         }
 
+        //AddNode页面
+        public ActionResult AddNode()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                return View();
+            }
+        }
         //获取步骤列表(后台分页)
         public ActionResult GetStepsList()
         {
@@ -384,6 +396,45 @@ namespace WorkFlow.Controllers
                 ViewData["appsName"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
                 
                 return View();
+            }
+        }
+
+        //判断一下步骤是顺序还是并序
+        public ActionResult GetStepType()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                int id = Convert.ToInt32(Request.Params["StepID"]);
+
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                WorkFlow.StepsWebService.stepsModel m_stepsModel =new StepsWebService.stepsModel();
+                try
+                {
+                    m_stepsModel = m_stepsBllService.GetModelByID(id, out msg);
+                    int steptypeID = Convert.ToInt32(m_stepsModel.step_type_id);
+                    return Json("{steptypeID:'" + steptypeID + "'}");
+                }
+                catch (Exception ex)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+               
+                
+                
             }
         }
     }

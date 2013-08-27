@@ -71,7 +71,7 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(Request.Form["MenusCode"]) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "编码以字母开头!" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单编码以字母开头,不能超过40个字符!" });
                 }
                 if (Convert.ToInt32(Request.Form["MenusRemark"].Trim().ToString().Length) > 150)
                 {
@@ -686,7 +686,7 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "编码以字母开头!" });
+                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单编码以字母开头,不能超过40个字符!" });
                 }
                 //if (Convert.ToInt32(remark.ToString().Length) > 150)
                 //{

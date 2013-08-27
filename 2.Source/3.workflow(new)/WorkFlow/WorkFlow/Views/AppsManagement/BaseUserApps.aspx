@@ -166,7 +166,7 @@
           if (id) {
               $.ligerDialog.open({
                   title: '详情(' + id + ')信息',
-                  isDrag: true,
+                  isDrag: false,
                   width: 700,
                   height: 600,
                   url: '/AppsManagement/BU_ApprovalInfo?id=' + id
@@ -182,7 +182,7 @@
                if (id) {
                    $.ligerDialog.open({
                        title: '详情(' + id + ')信息',
-                       isDrag: true,
+                       isDrag: false,
                        width: 700,
                        height: 600,
                        url: '/AppsManagement/BU_ApprovalApps?id=' + id

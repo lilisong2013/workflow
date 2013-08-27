@@ -179,7 +179,7 @@
                             <div class="control-group">
                                 <label class="control-label">登录密码：</label>
                                 <div class="controls">
-                                    <input name="userPassword" type="password" class="span3" />
+                                    <input name="userPassword" type="password" class="span3" maxlength="16"/>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                             <div class="control-group">
                                 <label class="control-label">员工编号：</label>
                                 <div class="controls">
-                                    <input name="userEmployeeNo" type="text" class="span3" />
+                                    <input name="userEmployeeNo" type="text" class="span3" maxlength="40"/>
                                 </div>
                             </div>
                         </div>

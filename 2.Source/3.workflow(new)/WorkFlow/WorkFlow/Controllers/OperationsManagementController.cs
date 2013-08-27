@@ -387,8 +387,8 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
-                  
-                    return Json("{success:false,css:'alert alert-error',message:'编码以字母开头!'}");
+
+                    return Json("{success:false,css:'alert alert-error',message:'操作编码以字母开头,不能超过40个字符!'}");
                 }
                 if (Convert.ToInt32(remark.ToString().Length) > 150)
                 {
@@ -528,7 +528,7 @@ namespace WorkFlow.Controllers
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(m_operationsCode) == false)
                 {
             
-                    return Json("{success:false,css:'alert alert-error',message:'操作编码以字母开头!'}");
+                    return Json("{success:false,css:'alert alert-error',message:'操作编码以字母开头,不能超过40个字符!'}");
                 }
                 if (Convert.ToInt32(remark.ToString().Length) > 150)
                 {

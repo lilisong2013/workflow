@@ -62,7 +62,7 @@
         $(document).ready(function () {
             //定义ligerGrid
             $("#menusgrid").ligerGrid({
-                width: '99%',
+                width: 1000,
                 height: 400,
                 tree: { columnName: 'name' },
                 alternatingRow: false
@@ -260,14 +260,17 @@
 
             function showResponse(responseText, statusText) {
                 //成功后执行的方法
-                //alert(responseText.Id + responseText.Name);
-                GetMenusTreeList(); //绑定菜单树数据并展示
+                // alert(responseText.Id + responseText.Name);
+               
                 $("#promptDIV").removeClass("alert alert-error alert-success");
                 $("#promptDIV").addClass(responseText.css);
                 $("#promptDIV").html(responseText.message);
-                if (responseText.success) {
-                    location.href = responseText.toUrl;
-                }
+                $("#menusgrid").loadData();
+                GetMenusTreeList(); //绑定菜单树数据并展示
+
+                //                if (responseText.success) {
+                //                    location.href = responseText.toUrl;
+                //                }
 
             }
         });
@@ -307,7 +310,7 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">菜单编码</label>
                     <div class="controls">
-                        <input name="MenusCode" type="text" class="input-prepend span4" placeholder="菜单编码" />
+                        <input name="MenusCode" type="text" class="input-prepend span4" placeholder="菜单编码" maxlength="40"/>
                     </div>
                 </div>
                 <div class="control-group span6 offset2">

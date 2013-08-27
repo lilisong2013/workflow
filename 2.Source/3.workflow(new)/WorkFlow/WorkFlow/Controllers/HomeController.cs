@@ -308,9 +308,13 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'系统编码不能为空!'}");
             }
-            if (Convert.ToInt32(m_appsModel.code.Length) > 30)
+            if (Saron.Common.PubFun.ConditionFilter.IsCode(m_appsModel.code) == false)
             {
-                return Json("{success:false,css:'alert alert-error',message:'系统编码不能超过30个字符!'}");
+                return Json("{success:false,css:'alert alert-error',message:'系统编码以字母开头，最多为40个字符!'}");
+            }
+            if (Convert.ToInt32(m_appsModel.code.Length) > 40)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'系统编码不能超过40个字符!'}");
             }
             if (Convert.ToInt32(m_appsModel.url.Length) != 0)
             {
@@ -333,11 +337,11 @@ namespace WorkFlow.Controllers
             //判断用户login、name、password是否为空
             if (m_userModel.login == "")
             {
-                   return Json("{success:false,css:'alert alert-error',message:'用户登录名称不能为空！'}");
+                   return Json("{success:false,css:'alert alert-error',message:'登录名称不能为空！'}");
             }
             if (Convert.ToInt32(m_userModel.login.Length)>30)
             {
-                return Json("{success:false,css:'alert alert-error',message:'用户登录名称长度不能超过30个字符!'}");
+                return Json("{success:false,css:'alert alert-error',message:'登录名称长度不能超过30个字符!'}");
             }
             if (m_userModel.name == "")
             {
@@ -345,7 +349,7 @@ namespace WorkFlow.Controllers
             }
             if (Convert.ToInt32(m_userModel.name.Length) > 30)
             {
-                return Json("{success:false,css:'alert alert-error',message:'用户真实姓名长度不能超过30个字符!'}");
+                return Json("{success:false,css:'alert alert-error',message:'真实姓名长度不能超过30个字符!'}");
             }
             if (m_userModel.password == "")
             {
@@ -353,7 +357,7 @@ namespace WorkFlow.Controllers
             }
             if (Saron.Common.PubFun.ConditionFilter.IsPassWord(m_userModel.password) == false)
             {
-                return Json("{success:false,css:'alert alert-error',message:'登录密码应字母开头，字母和数字组合，至少6位!'}");
+                return Json("{success:false,css:'alert alert-error',message:'登录密码以字母开头，字母和数字组合，至少6位!'}");
             }
             if (Convert.ToInt32(m_userModel.password.Length) > 15)
             {
@@ -376,9 +380,9 @@ namespace WorkFlow.Controllers
             {
                 return Json("{success:false,css:'alert alert-error',message:'员工编号不能为空!'}");
             }
-            if (Convert.ToInt32(m_userModel.employee_no.Length) > 30)
+            if (Convert.ToInt32(m_userModel.employee_no.Length) > 40)
             {
-                return Json("{success:false,css:'alert alert-error',message:'员工编号长度不能超过30个字符!}");
+                return Json("{success:false,css:'alert alert-error',message:'员工编号长度不能超过40个字符!}");
             }
             if (m_userModel.mobile_phone == "")
             {

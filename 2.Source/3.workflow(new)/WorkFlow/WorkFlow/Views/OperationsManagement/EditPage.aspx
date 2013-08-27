@@ -159,7 +159,7 @@
        <div class="m-newline offset2">
        <label class="control-label">操作编码：</label>
        <div class="controls">
-       <input id="operationsCode" name="operationsCode" type="text" value="<%=ViewData["operationsCode"]%>" placeholder="操作编码" />
+       <input id="operationsCode" name="operationsCode" type="text" value="<%=ViewData["operationsCode"]%>" placeholder="操作编码" maxlength="40"/>
        </div>
        </div>  
        <div class="m-newline offset2">
