@@ -44,6 +44,8 @@ namespace WorkFlow.StepsWebService {
         
         private System.Threading.SendOrPostCallback GetFlowStepListByFlowIDOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetFlowStepOrder_noListByFlowIDOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetFlowStepListByAppIDOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetV_StepsModelOperationCompleted;
@@ -124,6 +126,9 @@ namespace WorkFlow.StepsWebService {
         
         /// <remarks/>
         public event GetFlowStepListByFlowIDCompletedEventHandler GetFlowStepListByFlowIDCompleted;
+        
+        /// <remarks/>
+        public event GetFlowStepOrder_noListByFlowIDCompletedEventHandler GetFlowStepOrder_noListByFlowIDCompleted;
         
         /// <remarks/>
         public event GetFlowStepListByAppIDCompletedEventHandler GetFlowStepListByAppIDCompleted;
@@ -332,6 +337,37 @@ namespace WorkFlow.StepsWebService {
             if ((this.GetFlowStepListByFlowIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetFlowStepListByFlowIDCompleted(this, new GetFlowStepListByFlowIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetFlowStepOrder_noListByFlowID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetFlowStepOrder_noListByFlowID(int flowID, out string msg) {
+            object[] results = this.Invoke("GetFlowStepOrder_noListByFlowID", new object[] {
+                        flowID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFlowStepOrder_noListByFlowIDAsync(int flowID) {
+            this.GetFlowStepOrder_noListByFlowIDAsync(flowID, null);
+        }
+        
+        /// <remarks/>
+        public void GetFlowStepOrder_noListByFlowIDAsync(int flowID, object userState) {
+            if ((this.GetFlowStepOrder_noListByFlowIDOperationCompleted == null)) {
+                this.GetFlowStepOrder_noListByFlowIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFlowStepOrder_noListByFlowIDOperationCompleted);
+            }
+            this.InvokeAsync("GetFlowStepOrder_noListByFlowID", new object[] {
+                        flowID}, this.GetFlowStepOrder_noListByFlowIDOperationCompleted, userState);
+        }
+        
+        private void OnGetFlowStepOrder_noListByFlowIDOperationCompleted(object arg) {
+            if ((this.GetFlowStepOrder_noListByFlowIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFlowStepOrder_noListByFlowIDCompleted(this, new GetFlowStepOrder_noListByFlowIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1114,6 +1150,40 @@ namespace WorkFlow.StepsWebService {
         private object[] results;
         
         internal GetFlowStepListByFlowIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetFlowStepOrder_noListByFlowIDCompletedEventHandler(object sender, GetFlowStepOrder_noListByFlowIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFlowStepOrder_noListByFlowIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFlowStepOrder_noListByFlowIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

@@ -48,7 +48,7 @@
         $(document).ready(function () {
 
             $("#infoTab").click(function () {
-                GetUserList();//切换全部Tab标签
+                GetUserList(); //切换全部Tab标签
             })
 
             GetUserList();
@@ -86,10 +86,10 @@
                        }
                        ],
                     dataAction: 'server',
-            
+
                     pageSizeOptions: [5, 10, 15, 20, 25, 50],
                     pageSize: 10,
-                    width:'1100'
+                    width: '99%',
                     height: '400',
                     rownumbers: true,
                     usePager: true,

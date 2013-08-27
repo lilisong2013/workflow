@@ -134,6 +134,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetFlowStepOrder_noListByFlowID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepOrder_noListByFlowIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlowStepOrder_noListByFlowIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetFlowStepListByAppID">
         <s:complexType>
           <s:sequence>
@@ -336,6 +358,15 @@
   <wsdl:message name="GetFlowStepListByFlowIDSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetFlowStepOrder_noListByFlowIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowStepOrder_noListByFlowID" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepOrder_noListByFlowIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowStepOrder_noListByFlowIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepOrder_noListByFlowIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetFlowStepListByAppIDSoapIn">
     <wsdl:part name="parameters" element="tns:GetFlowStepListByAppID" />
   </wsdl:message>
@@ -436,6 +467,11 @@
       <wsdl:input message="tns:GetFlowStepListByFlowIDSoapIn" />
       <wsdl:output message="tns:GetFlowStepListByFlowIDSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetFlowStepOrder_noListByFlowID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程的v_steps视图步骤排序码列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowStepOrder_noListByFlowIDSoapIn" />
+      <wsdl:output message="tns:GetFlowStepOrder_noListByFlowIDSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetFlowStepListByAppID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下流程的步骤列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetFlowStepListByAppIDSoapIn" />
@@ -532,6 +568,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetFlowStepListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepOrder_noListByFlowID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowStepOrder_noListByFlowID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFlowStepOrder_noListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -672,6 +718,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetFlowStepListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepOrder_noListByFlowID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowStepOrder_noListByFlowID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFlowStepOrder_noListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -189,14 +189,14 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
-        /// 获得flow中最大步骤排序码(顺序状态下)
+        /// 获得flow中最大步骤排序码(顺序、并序状态下)
         /// </summary>
         public int GetFlowMaxOrderNum(int flowID)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select max(order_no) from steps ");
 
-            strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=1 ");
+            strSql.Append(" where flow_id=@flow_id and deleted=0");
             
             SqlParameter[] parameters = {
 					new SqlParameter("@flow_id", SqlDbType.Int,4)

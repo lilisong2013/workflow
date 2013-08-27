@@ -31,7 +31,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "增加一条流程步骤记录(order_no、repeat_count自动赋值)，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool AddStep(Saron.WorkFlowService.Model.stepsModel stepmodel,int userID,out string msg)
         {
-            #region webservice授权判断
+               #region webservice授权判断
             //是否有权限访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
@@ -39,20 +39,17 @@ namespace Saron.WorkFlowService.WebService
             }
             #endregion
 
-            #region 判断流程步骤是否重名
+               #region 判断流程步骤是否重名
             if (m_stepsdal.ExistStepName(stepmodel.name, (int)stepmodel.flow_id))
             {
                 msg = "流程：" + m_flowsdal.GetFlowName((int)stepmodel.flow_id) + ",已经存在该步骤名称";
                 return false;
             }
             #endregion
-
-            //判断一下是否存在并序的步骤
-            if (m_stepsdal.ExistStpeType(Convert.ToInt32(stepmodel.flow_id)) == 0)//不存在并序
-            {
+       
                 //设置repeat_count,order_no
 
-                //将要添加的是顺序(顺序->顺序)
+                //将要添加的是顺序(顺序)
                 if (stepmodel.step_type_id == 1)
                 {
                     stepmodel.repeat_count = 0;
@@ -109,14 +106,13 @@ namespace Saron.WorkFlowService.WebService
                     #endregion
 
                 }
-                //将要添加的是并序(顺序->并序)
+                //将要添加的是并序(并序)
                 else
                 {
-                   
-                    stepmodel.order_no = Convert.ToInt32(m_stepsdal.GetFlowMaxOrderNum((int)stepmodel.flow_id)) + 1;
-                    
+
                     stepmodel.repeat_count = 1;
-                   
+                    stepmodel.order_no = Convert.ToInt32(m_stepsdal.GetFlowMaxOrderNum((int)stepmodel.flow_id)) + 1;
+     
                     #region 添加流程步骤
                     int m_stepID = 0;
                     //添加
@@ -169,72 +165,9 @@ namespace Saron.WorkFlowService.WebService
                     #endregion
 
                 }
-            }
-            else if (m_stepsdal.ExistStpeType(Convert.ToInt32(stepmodel.flow_id)) == 1)
-            { //添加前有0个或多个顺序，并且仅仅存在一个并序的情况下
+      
 
-               
-            }
-            else
-            { //存在并序
-
-                //将要添加的是并序(并序->并序)
-
-                stepmodel.repeat_count = Convert.ToInt32(m_stepsdal.GetFlowMaxNumOfUnorder(Convert.ToInt32(stepmodel.flow_id))) + 1;
-                stepmodel.order_no = Convert.ToInt32(m_stepsdal.GetFlowMaxOrderNum((int)stepmodel.flow_id)) + 1;
-
-                #region 添加流程步骤
-                int m_stepID = 0;
-                //添加
-                try
-                {
-                    m_stepID = m_stepsdal.AddStep(stepmodel);
-                }
-                catch (Exception ex)
-                {
-                    msg = ex.ToString();
-                    return false;
-                }
-
-                if (m_stepID == 0)
-                {
-                    msg = "流程添加失败";
-                    return false;
-                }
-                #endregion
-
-                Saron.WorkFlowService.Model.flow_usersModel m_flow_usersModel = new flow_usersModel();
-                m_flow_usersModel.step_id = m_stepID;
-                m_flow_usersModel.user_id = userID;
-
-                #region 添加步骤用户
-                bool flag = false;
-                try
-                {
-                    flag = m_flow_usersdal.AddFlow_User(m_flow_usersModel);
-                }
-                catch (Exception ex)
-                {
-                    //步骤为添加对应的用户，将已添加的步骤删除
-                    m_stepsdal.DeleteStep(m_stepID);
-                    msg = "webservice异常";
-                    return false;
-                }
-
-                if (flag)
-                {
-                    return true;
-                }
-                else
-                {
-                    //步骤为添加对应的用户，将已添加的步骤删除
-                    m_stepsdal.DeleteStep(m_stepID);
-                    msg = "流程添加失败";
-                    return false;
-                }
-                #endregion
-
-            }
+          
 
         }
 
@@ -342,7 +275,9 @@ namespace Saron.WorkFlowService.WebService
             return m_stepsdal.ExistStpeType(flowID);
         }
 
-
+        /// <summary>
+        /// 作者：朱建刚
+        /// </summary>
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得流程的v_steps视图步骤列表，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public DataSet GetFlowStepListByFlowID(int flowID, out string msg)
@@ -356,6 +291,25 @@ namespace Saron.WorkFlowService.WebService
             #endregion
 
             return m_v_stepsdal.GetFlowStepListByFlowID(flowID);
+        }
+
+        /// <summary>
+        /// 作者：朱建刚
+        /// 时间：2013-8-27  11：51
+        /// </summary>
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得流程的v_steps视图步骤排序码列表，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public DataSet GetFlowStepOrder_noListByFlowID(int flowID, out string msg)
+        {
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+
+            return m_v_stepsdal.GetFlowStepOrder_noListByFlowID(flowID);
         }
 
         [SoapHeader("m_securityContext")]
