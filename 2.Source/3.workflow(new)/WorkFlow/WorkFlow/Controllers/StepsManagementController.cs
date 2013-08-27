@@ -122,8 +122,8 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
-
-                int userID = m_usersModel.id;
+               
+                string userName = collection["stepsUser"];
                 string stepName = collection["stepsName"];
                 string flowName = collection["flowsName"];
                 string stepsType = collection["stepsType"];
@@ -145,6 +145,10 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'请选择步骤类型!'}");
                 }
+                if (userName.Equals("请选择"))
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'请选择操作的用户!'}");
+                }
                 //if (repeatCount.Length == 0)
                 //{
                 //    return Json("{success:false,css:'alert alert-error',message:'重复次数不能为空!'}");
@@ -161,13 +165,15 @@ namespace WorkFlow.Controllers
                 //{
                 //    return Json("{success:false,css:'alert alert-error',message:'排序编码只能是数字!'}");
                 //}
+
+                int userID = Convert.ToInt32(collection["stepsUser"]);
                 m_stepsModel.name = collection["stepsName"];
                 m_stepsModel.remark = collection["stepsRemark"];
                 m_stepsModel.flow_id = Convert.ToInt32(collection["flowsName"]);
                 m_stepsModel.step_type_id = Convert.ToInt32(collection["stepsType"]);
                 //m_stepsModel.repeat_count = Convert.ToInt32(collection["repeatCount"]);
                 
-                m_stepsModel.order_no = m_stepsBllService.GetFlowMaxOrderNum((int)m_stepsModel.flow_id, out msg) + 1;
+                //m_stepsModel.order_no = m_stepsBllService.GetFlowMaxOrderNum((int)m_stepsModel.flow_id, out msg) + 1;
                 
                 m_stepsModel.created_by = (int)m_usersModel.id;
                 m_stepsModel.created_at = Convert.ToDateTime(collection["stepsCreated_at"].Trim());
@@ -262,6 +268,45 @@ namespace WorkFlow.Controllers
             }
         }
        
+       //获取步骤用户列表
+        public ActionResult GetStepUserName()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                string msg = string.Empty;
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext ms_SecurityContext = new StepsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+                WorkFlow.UsersWebService.SecurityContext mu_SecurityContext = new UsersWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                mu_SecurityContext.UserName = m_usersModel.login;
+                mu_SecurityContext.PassWord = m_usersModel.password;
+                mu_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_usersBllService.SecurityContextValue = mu_SecurityContext;
+
+                DataSet ds = m_usersBllService.GetUserListByAppID((int)m_usersModel.app_id,out msg);
+                List<Saron.WorkFlow.Models.FlowStepUsersHelper> m_stepuserlist = new List<Saron.WorkFlow.Models.FlowStepUsersHelper>();
+
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    m_stepuserlist.Add(new Saron.WorkFlow.Models.FlowStepUsersHelper { StepuserID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), StepuserName=Convert.ToString(ds.Tables[0].Rows[i][1]) });
+                }
+                var dataJson = new { 
+                  Rows=m_stepuserlist,
+                  Total=ds.Tables[0].Rows.Count
+                };
+                return Json(dataJson,JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
        //删除流程步骤
         public ActionResult DeleteFlowStep()
         {

@@ -77,6 +77,41 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetFlowMaxNum">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowMaxNumResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlowMaxNumResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistStpeType">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistStpeTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistStpeTypeResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetFlowStepListByFlowID">
         <s:complexType>
           <s:sequence>
@@ -280,6 +315,18 @@
   <wsdl:message name="GetFlowMaxOrderNumSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetFlowMaxNumSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowMaxNum" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowMaxNumSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowMaxNumResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistStpeTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistStpeType" />
+  </wsdl:message>
+  <wsdl:message name="ExistStpeTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistStpeTypeResponse" />
+  </wsdl:message>
   <wsdl:message name="GetFlowStepListByFlowIDSoapIn">
     <wsdl:part name="parameters" element="tns:GetFlowStepListByFlowID" />
   </wsdl:message>
@@ -374,6 +421,16 @@
       <wsdl:input message="tns:GetFlowMaxOrderNumSoapIn" />
       <wsdl:output message="tns:GetFlowMaxOrderNumSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetFlowMaxNum">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程中的最大排序码(-1：webservice未授权，0：流程中不存在步骤)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowMaxNumSoapIn" />
+      <wsdl:output message="tns:GetFlowMaxNumSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistStpeType">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断某流程下是否存在并行的列表以及如果存在，返回存在的个数(-1：webservice未授权，0：流程中不存在步骤)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistStpeTypeSoapIn" />
+      <wsdl:output message="tns:ExistStpeTypeSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetFlowStepListByFlowID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程的v_steps视图步骤列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetFlowStepListByFlowIDSoapIn" />
@@ -447,6 +504,24 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetFlowMaxOrderNumSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowMaxNum">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowMaxNum" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistStpeType">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistStpeType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -569,6 +644,24 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:GetFlowMaxOrderNumSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowMaxNum">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowMaxNum" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistStpeType">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistStpeType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

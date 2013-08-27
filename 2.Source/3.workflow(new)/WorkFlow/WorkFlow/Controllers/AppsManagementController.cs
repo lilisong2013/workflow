@@ -85,6 +85,7 @@ namespace WorkFlow.Controllers
                 //根据应用系统ID得到对应下面的用户实体
                 m_usersModel = m_usersBllService.GetModelByAppID(appID,out msg);
                 int userAppID = Convert.ToInt32(m_usersModel.app_id);
+
                 try
                 {  //删除应用系统下对应的用户
                     flag = m_usersBllService.DeleteAdminByAppID(userAppID,out msg);

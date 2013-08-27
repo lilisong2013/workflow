@@ -196,6 +196,34 @@
       }
   </script>
 
+  <%--步骤用户信息初始化--%>
+  <script type="text/javascript">
+      $(document).ready(function () {
+
+          GetStepUserName();
+          $("#stepsUserInfo").html("请选择");
+      });
+      function GetStepUserName() {
+          $.ajax({
+              type: "Post",
+              contentType: "application/json",
+              url: "/StepsManagement/GetStepUserName",
+              data: {},
+              dataType: 'JSON',
+              success: function (result, status) {
+                  try {
+                      if (status == "success") {
+                          for (var i = 0; i < result.Total; i++) {
+                              $("#stepsUser").append("<option value='" + result.Rows[i].StepuserID + "'>" + result.Rows[i].StepuserName + "</option>");
+                          }
+                      }
+                  } catch (e) { }
+              }
+          });
+        
+      }
+  </script>
+
   <%--添加步骤信息--%>
   <script type="text/javascript">
       $(document).ready(function () {
@@ -295,6 +323,15 @@
               <div class="controls">
                  <select class="span4" id="stepsType" name="stepsType">
                     <option id="stepsTypeInfo"></option>
+                 </select>
+              </div>
+            </div>
+
+             <div class="control-group span6 offset2">
+              <label class="control-label">操作用户:</label>
+              <div class="controls">
+                 <select class="span4" id="stepsUser" name="stepsUser">
+                    <option id="stepsUserInfo"></option>
                  </select>
               </div>
             </div>

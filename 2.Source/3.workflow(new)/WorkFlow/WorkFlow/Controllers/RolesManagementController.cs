@@ -812,7 +812,7 @@ namespace WorkFlow.Controllers
                 }
 
 
-                return Json("{success:true,css:'alert alert-success',message:'修改成功!'}");
+                return Json("{success:true,css:'alert alert-success',message:'权限设置成功!'}");
             }
     
        

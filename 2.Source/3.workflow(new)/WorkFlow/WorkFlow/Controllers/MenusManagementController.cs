@@ -92,10 +92,29 @@ namespace WorkFlow.Controllers
                 m_menusModel.created_by = m_usersModel.id;
                 m_menusModel.created_ip = Saron.Common.PubFun.IPHelper.GetClientIP();
 
-                if (m_menusBllService.ExistsMenusName(m_menusModel.name, m_menusModel.parent_id, (int)m_menusModel.app_id, out msg))
+                if (Convert.ToString(m_menusModel.parent_id.ToString())=="")//顶级菜单判断
                 {
-                    return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称在父菜单下已经存在！" });
+                    if (m_menusBllService.ExistsMenusName(m_menusModel.name, m_menusModel.parent_id, (int)m_menusModel.app_id, out msg))
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称在顶级菜单下已经存在！" });
+                    }
+                    else
+                    {
+                       
+                    }
                 }
+                //非顶级菜单
+                else
+                {
+                    if (m_menusBllService.ExistsMenusName(m_menusModel.name, m_menusModel.parent_id, (int)m_menusModel.app_id, out msg))
+                    {
+                        return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "菜单名称在父菜单下已经存在！" });
+                    }
+                    else
+                    { 
+                    }
+                }
+               
 
                 if (m_menusBllService.ExistsMenusCode(m_menusModel.code, (int)m_menusModel.app_id, out msg))
                 {

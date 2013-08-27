@@ -78,6 +78,7 @@
     <Compile Include="Models\AppIDHelper.cs" />
     <Compile Include="Models\FlowsNameHelper.cs" />
     <Compile Include="Models\FlowStepTypeHelper.cs" />
+    <Compile Include="Models\FlowStepUsersHelper.cs" />
     <Compile Include="Models\InformationModel.cs" />
     <Compile Include="Models\InitStatusIDHelper.cs" />
     <Compile Include="Models\InvalidHelper.cs" />
