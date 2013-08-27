@@ -826,17 +826,20 @@ namespace WorkFlow.Controllers
                                 string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
                                 string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
                                 string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                string remark = Convert.ToString(ds.Tables[0].Rows[i][3]);
                                 if (i == ds.Tables[0].Rows.Count - 1)
                                 {
                                     data += "{name:'" + name + "',";
                                     data += "id:'" + id + "',";
-                                    data += "code:'" + code + "'}";
+                                    data += "code:'" + code + "',";
+                                    data += "remark:'" + remark + "'}";
                                 }
                                 else
                                 {
                                     data += "{name:'" + name + "',";
                                     data += "id:'" + id + "',";
-                                    data += "code:'" + code + "'},";
+                                    data += "code:'" + code + "',";
+                                    data += "remark:'" + remark + "'},";
                                 }
                             }
 

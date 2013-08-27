@@ -76,6 +76,12 @@
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteStep(' + row.s_id + ')">删除</a>';
                                 return html;
                             }
+                        },
+                        { display: '', width: 120,
+                            render: function (row) {
+                                var html = '<i class="icon-edit"></i><a href="#" onclick="DeleteStep(' + row.s_id + ')">添加并行节点</a>';
+                                return html;
+                            }
                         }
                        ],
                    dataAction: 'server',
