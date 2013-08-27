@@ -334,7 +334,9 @@ namespace Saron.WorkFlowService.WebService
             return m_stepsdal.ExistStpeType(flowID);
         }
 
-
+        /// <summary>
+        /// 作者：朱建刚
+        /// </summary>
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得流程的v_steps视图步骤列表，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public DataSet GetFlowStepListByFlowID(int flowID, out string msg)
@@ -348,6 +350,25 @@ namespace Saron.WorkFlowService.WebService
             #endregion
 
             return m_v_stepsdal.GetFlowStepListByFlowID(flowID);
+        }
+
+        /// <summary>
+        /// 作者：朱建刚
+        /// 时间：2013-8-27  11：51
+        /// </summary>
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得流程的v_steps视图步骤排序码列表，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public DataSet GetFlowStepOrder_noListByFlowID(int flowID, out string msg)
+        {
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+
+            return m_v_stepsdal.GetFlowStepOrder_noListByFlowID(flowID);
         }
 
         [SoapHeader("m_securityContext")]
