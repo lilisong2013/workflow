@@ -40,8 +40,6 @@ namespace Saron.WorkFlowService.DAL
             }
         }
 
-    
-
         /// <summary>
         /// 得到一个v_steps对象实体
         /// </summary>
@@ -99,6 +97,25 @@ namespace Saron.WorkFlowService.DAL
 
             return DbHelperSQL.Query(strSql.ToString(),parameters);
         }
+
+        /// <summary>
+        /// 获得某流程的步骤排序码列表
+        /// </summary>
+        public DataSet GetFlowStepOrder_noListByFlowID(int flowID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select order_no,step_type_name ");
+            strSql.Append(" FROM v_steps ");
+            strSql.Append(" where f_id=@f_id GROUP BY order_no,step_type_name order by order_no asc  ");
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@f_id", SqlDbType.Int,4)
+     		};
+            parameters[0].Value = flowID;
+
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
 
         //根据AppID获得步骤列表
         public DataSet GetFlowStepListByAppID(int appID)
