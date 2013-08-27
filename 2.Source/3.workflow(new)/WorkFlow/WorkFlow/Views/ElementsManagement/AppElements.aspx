@@ -112,7 +112,7 @@
                    title: '更新流程信息',
                    width: 900,
                    height: 600,
-                   isDrag: true,
+                   isDrag: false,
                    url: '/ElementsManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -134,7 +134,7 @@
                    title: '详情(' + id + ')信息',
                    width: 700,
                    height: 600,
-                   isDrag: true,
+                   isDrag: false,
                    url: '/ElementsManagement/DetailInfo?id=' + id
                });
            }

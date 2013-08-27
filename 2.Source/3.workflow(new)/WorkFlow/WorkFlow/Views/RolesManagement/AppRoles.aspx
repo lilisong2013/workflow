@@ -123,6 +123,7 @@
                    title: '更新角色信息',
                    width: 900,
                    height: 600,
+                   isDrag: false,
                    url: '/RolesManagement/Role_Privileges?id=' + id,
                    buttons:
                     [

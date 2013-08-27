@@ -224,7 +224,7 @@
                    title: '详情(' + p_id + ')信息',
                    width: 700,
                    height: 600,
-                   isDrag: true,
+                   isDrag: false,
                    url: '/PrivilegesManagement/DetailInfo?id=' + p_id
                });
            }
@@ -240,7 +240,7 @@
                    title: '更新流程信息',
                    width: 900,
                    height: 600,
-                   isDrag: true,
+                   isDrag: false,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -262,7 +262,7 @@
                    title: '更新流程信息',
                    width: 900,
                    height: 600,
-                   isDrag: true,
+                   isDrag: false,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -284,7 +284,7 @@
                    title: '更新流程信息',
                    width: 900,
                    height: 600,
-                   isDrag: true,
+                   isDrag: false,
                    url: '/PrivilegesManagement/EditPage?id=' + id,
                    buttons:
                     [

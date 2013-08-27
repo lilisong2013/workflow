@@ -86,9 +86,10 @@
                        }
                        ],
                     dataAction: 'server',
-                    width: '99%',
+            
                     pageSizeOptions: [5, 10, 15, 20, 25, 50],
                     pageSize: 10,
+                    width:'1100'
                     height: '400',
                     rownumbers: true,
                     usePager: true,
@@ -146,7 +147,7 @@
                    title: '用户角色信息',
                    width: 900,
                    height:600,
-                   isDrag:true,
+                   isDrag:false,
                    url: '/UsersManagement/UserRoles?id=' + id,
                    buttons:
                     [

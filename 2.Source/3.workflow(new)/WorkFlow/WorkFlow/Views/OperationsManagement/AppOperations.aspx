@@ -98,7 +98,7 @@
                     title: '更新操作信息',
                     width: 900,
                     height: 600,
-                    isDrag: true,
+                    isDrag: false,
                     url: '/OperationsManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -119,7 +119,7 @@
                   title:'详情('+id+')信息',
                   width:700,
                   height: 600,
-                  isDrag: true,
+                  isDrag: false,
                   url:'/OperationsManagement/DetailInfo?id='+id
                 });
             }

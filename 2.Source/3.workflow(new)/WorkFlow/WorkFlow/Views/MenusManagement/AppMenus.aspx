@@ -151,7 +151,7 @@
                     title: '详情(' + id + ')信息',
                     width: 700,
                     height: 600,
-                    isDrag: true,
+                    isDrag: false,
                     url: '/MenusManagement/DetailInfo?id=' + id
                 });
             }
@@ -168,7 +168,7 @@
                     title: '更新菜单信息',
                     width: 900,
                     height: 600,
-                    isDrag: true,
+                    isDrag: false,
                     url: '/MenusManagement/EditPage?id=' + id,
                     buttons:
                     [

@@ -143,7 +143,7 @@ namespace Saron.WorkFlowService.DAL
         public int ExistStpeType(int flowID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select count(*) from steps");
+            strSql.Append("select count(distinct(order_no)) from steps");
             strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=2");
             SqlParameter[] parameters = {
 					new SqlParameter("@flow_id", SqlDbType.Int,4)		

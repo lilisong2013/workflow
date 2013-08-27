@@ -110,8 +110,7 @@
                     title: '更新流程信息',
                     width: 900,
                     height: 600,
-                    isDrag: true,
-                    isResize: true, 
+                    isDrag: false,
                     url: '/FlowsManagement/EditPage?id=' + id,
                     buttons:
                     [
@@ -133,8 +132,7 @@
                     title: '详情(' + id + ')信息',
                     width: 700,
                     height: 600,
-                    isDrag: true,
-                    isResize: true, 
+                    isDrag: false,
                     url: '/FlowsManagement/DetailInfo?id=' + id
                 });
             }
@@ -152,8 +150,7 @@
                   title:'流程步骤维护',
                   width:900,
                   height:700,
-                  isDrag:true,
-                  isResize:true,
+                  isDrag: false,
                   url: '/FlowsManagement/FlowSteps?id='+id
                });
            }

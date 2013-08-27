@@ -112,8 +112,11 @@ namespace Saron.WorkFlowService.WebService
                 //将要添加的是并序(顺序->并序)
                 else
                 {
-                    stepmodel.repeat_count = 1;
+                   
                     stepmodel.order_no = Convert.ToInt32(m_stepsdal.GetFlowMaxOrderNum((int)stepmodel.flow_id)) + 1;
+                    
+                    stepmodel.repeat_count = 1;
+                   
                     #region 添加流程步骤
                     int m_stepID = 0;
                     //添加
@@ -167,13 +170,18 @@ namespace Saron.WorkFlowService.WebService
 
                 }
             }
+            else if (m_stepsdal.ExistStpeType(Convert.ToInt32(stepmodel.flow_id)) == 1)
+            { //添加前有0个或多个顺序，并且仅仅存在一个并序的情况下
+
+               
+            }
             else
             { //存在并序
 
                 //将要添加的是并序(并序->并序)
-                
-                stepmodel.repeat_count = Convert.ToInt32(m_stepsdal.GetFlowMaxNumOfUnorder(Convert.ToInt32(stepmodel.flow_id)))+1;
-                stepmodel.order_no = Convert.ToInt32(m_stepsdal.GetFlowMaxOrderNum((int)stepmodel.flow_id))+1;
+
+                stepmodel.repeat_count = Convert.ToInt32(m_stepsdal.GetFlowMaxNumOfUnorder(Convert.ToInt32(stepmodel.flow_id))) + 1;
+                stepmodel.order_no = Convert.ToInt32(m_stepsdal.GetFlowMaxOrderNum((int)stepmodel.flow_id)) + 1;
 
                 #region 添加流程步骤
                 int m_stepID = 0;
