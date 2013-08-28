@@ -335,9 +335,11 @@ namespace WorkFlow.Controllers
 
                     if (m_baseuserBllService.ModifyPassword(m_baseuserModel.login, m_newpassword, out msg))
                     {
+                       
+                       
                         WorkFlow.Base_UserWebService.base_userModel m_base_userModel = new Base_UserWebService.base_userModel();
-
-                        m_base_userModel = m_baseuserBllService.GetModelByLogin(m_baseuserModel.login,out msg);
+                        m_securityContext.PassWord = m_newpassword;
+                        m_base_userModel = m_baseuserBllService.GetModelByLoginCK(m_baseuserModel.login, out msg);
                         Session["baseuser"] = m_base_userModel;
                         return Json("{success:true,css:'alert alert-success',message:'密码修改成功！'}");
                     }

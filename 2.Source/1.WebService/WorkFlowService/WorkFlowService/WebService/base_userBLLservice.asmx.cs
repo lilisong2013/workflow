@@ -94,7 +94,7 @@ namespace Saron.WorkFlowService.WebService
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据登录名login得到一个实体对象,<h4>（需要授权验证）</h4>")]
-        public base_userModel GetModelByLogin(string login, out string msg)
+        public base_userModel GetModelByLogin(string login,out string msg)
         {
             //对webservice进行授权验证,超级管理员才可访问(密码为密文)
             if (!m_securityContext.SuperAdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
