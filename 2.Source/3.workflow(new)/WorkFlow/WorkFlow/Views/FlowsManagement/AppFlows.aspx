@@ -263,7 +263,7 @@
                        columns: [
                             { display: '流程ID', name: 'id', align: 'center', width: 80 },
                             { display: '流程名称', name: 'name', align: 'center' },
-                            { display: '备注', name: 'remark', align: 'center' },
+                            { display: '备注信息', name: 'remark', align: 'center' },
                             { display: '', width: 80,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';

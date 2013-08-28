@@ -353,7 +353,7 @@
                      <div class="control-group span6 offset2">
                         <label class="control-label" for="usersEmployee_no">员工编号：</label>
                         <div class="controls">
-                            <input type="text" name="usersEmployee_no" id="usersEmployee_no" class="input-prepend span4" placeholder="员工编号" />                            
+                            <input type="text" name="usersEmployee_no" id="usersEmployee_no" class="input-prepend span4" placeholder="员工编号" maxlength="40"/>                            
                         </div>
                     </div> 
                     <div class="control-group span6 offset2">

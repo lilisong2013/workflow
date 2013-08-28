@@ -716,6 +716,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Web References\V_PrivilegesWebService\v_privilegesBLLservice.disco" />
+    <Content Include="Views\StepsManagement\AddNode.aspx" />
     <Content Include="Views\StepsManagement\AppSteps.aspx" />
     <Content Include="Views\StepsManagement\DetailInfo.aspx" />
     <Content Include="Views\StepsManagement\EditPage.aspx" />

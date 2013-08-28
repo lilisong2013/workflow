@@ -268,7 +268,7 @@
        <div class="m-newline offset2">
        <label class="control-label">元素编码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div class="controls">
-       <input id="elementsCode" name="elementsCode" type="text" value="<%=ViewData["elementsCode"]%>" class="input-prepend span5" placeholder="元素编码" />
+       <input id="elementsCode" name="elementsCode" type="text" value="<%=ViewData["elementsCode"]%>" class="input-prepend span5" placeholder="元素编码" maxlength="40"/>
        </div>
        </div>
        <div class="m-newline offset2">

@@ -441,8 +441,8 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
-                   
-                    return Json("{success:false,css:'alert alert-error',message:'元素编码以字母开头!'}");
+
+                    return Json("{success:false,css:'alert alert-error',message:'元素编码以字母开头,不能超过40个字符!'}");
                 }
                 if (initstatusid.Length == 0 || initstatusid.Equals("请选择"))
                 {
@@ -662,8 +662,8 @@ namespace WorkFlow.Controllers
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsCode(code) == false)
                 {
-                  
-                    return Json("{success:false,css:'alert alert-error',message:'元素编码以字母开头!'}");
+
+                    return Json("{success:false,css:'alert alert-error',message:'元素编码以字母开头,不能超过40个字符!'}");
                 }
                 if (Initstatus_id.Length == 0)
                 {
@@ -867,17 +867,20 @@ namespace WorkFlow.Controllers
                                 string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
                                 string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
                                 string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                string remark = Convert.ToString(ds.Tables[0].Rows[i][3]);
                                 if (i == ds.Tables[0].Rows.Count - 1)
                                 {
                                     data += "{name:'" + name + "',";
                                     data += "id:'" + id + "',";
-                                    data += "code:'" + code + "'}";
+                                    data += "code:'" + code + "',";
+                                    data += "remark:'" + remark + "'}";
                                 }
                                 else
                                 {
                                     data += "{name:'" + name + "',";
                                     data += "id:'" + id + "',";
-                                    data += "code:'" + code + "'},";
+                                    data += "code:'" + code + "',";
+                                    data += "remark:'" + remark + "'},";
                                 }
                             }
                         }

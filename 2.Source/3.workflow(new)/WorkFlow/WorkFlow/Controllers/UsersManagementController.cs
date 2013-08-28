@@ -341,6 +341,12 @@ namespace WorkFlow.Controllers
            
                     return Json("{success:false,css:'alert alert-error',message:'员工编号不能为空!'}");
                 }
+
+                if (Convert.ToInt32(employee_no.Length.ToString()) > 40)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'员工编号不能超过40个字符!'}");
+                }
+
                 if (mobile_phone.Length == 0 || mobile_phone.Length != 11)
                 {
 

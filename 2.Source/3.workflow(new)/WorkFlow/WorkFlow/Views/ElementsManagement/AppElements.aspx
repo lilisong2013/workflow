@@ -55,32 +55,27 @@
     <%--在Grid中分页显示Element信息--%>
     <script type="text/javascript">
         $(document).ready(function () {
-
-            $("#infoTab").click(function () {
-                GetElementList();//切换Tab标签时获取元素列表
-            })
-
-            GetElementList(); //获取元素列表
+            GetElementList();
             function GetElementList() {
                 window['t'] = $("#elementgrid").ligerGrid({
                     columns: [
                         { display: '元素ID', name: 'id', width: 80, align: 'center' },
                         { display: '元素名称', name: 'name', align: 'center' },
                         { display: '元素编码', name: 'code', align: 'center' },
-                        { display: '备注信息', name: 'remark',align:'center' },
-                        { display: '', width: 80,
+                        { display: '备注信息', name: 'remark', align: 'center' },
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteElement(' + row.id + ')">删除</a>';
                                 return html;
@@ -112,7 +107,7 @@
                    title: '更新流程信息',
                    width: 900,
                    height: 600,
-                   isDrag: false,
+                   isDrag: true,
                    url: '/ElementsManagement/EditPage?id=' + id,
                    buttons:
                     [
@@ -134,7 +129,7 @@
                    title: '详情(' + id + ')信息',
                    width: 700,
                    height: 600,
-                   isDrag: false,
+                   isDrag: true,
                    url: '/ElementsManagement/DetailInfo?id=' + id
                });
            }
@@ -144,60 +139,60 @@
    <%--删除信息确认函数--%>
     <script type="text/javascript">
         function DeleteElement(id) {
-         //alert(id);
-         var elementsId = id;
-         $.ligerDialog.confirm('确定要删除吗?', function (yes) {
-             //return true;
-             if (yes) {
-                 $.ajax({
-                     url: "/ElementsManagement/DeleteElement",
-                     type: "POST",
-                     dataType: "json",
-                     data: { elementsID: elementsId },
-                     success: function (responseText, statusText) {
-                         var dataJson = eval("(" + responseText + ")");
-                         show_DIV(dataJson);
-                         t.loadData();
-                     }
-                 });
+            //alert(id);
+            var elementsId = id;
+            $.ligerDialog.confirm('确定要删除吗?', function (yes) {
+                //return true;
+                if (yes) {
+                    $.ajax({
+                        url: "/ElementsManagement/DeleteElement",
+                        type: "POST",
+                        dataType: "json",
+                        data: { elementsID: elementsId },
+                        success: function (responseText, statusText) {
+                            var dataJson = eval("(" + responseText + ")");
+                            show_DIV(dataJson);
+                            t.loadData();
+                        }
+                    });
 
-                 function show_DIV(data) {
-                     $("#promptDIV").removeClass("alert alert-error alert-success");
-                     $("#promptDIV").addClass(data.css);
-                     $("#promptDIV").html(data.message);
-                 }
-             }
+                    function show_DIV(data) {
+                        $("#promptDIV").removeClass("alert alert-error alert-success");
+                        $("#promptDIV").addClass(data.css);
+                        $("#promptDIV").html(data.message);
+                    }
+                }
 
-         })
-     }
+            })
+        }
  </script>
      
     <%--初始化状态选择操作--%>
     <script type="text/javascript">
-     $(document).ready(function () {
-         BindStatus();
-         $("#StatusInfo").html("请选择");
-     });
-     function BindStatus() {
-         $.ajax({
-             type: "Post",
-             contentType: "application/json",
-             url: "/ElementsManagement/GetStatusName",
-             data: {}, //即使参数为空，也需要设置
-             dataType: 'JSON', //返回的类型为XML
-             success: function (result, status) {
-                 //成功后执行的方法
-                 try {
-                     if (status == "success") {
-                         for (var i = 0; i < result.Total; i++) {
-                             $("#StatusParent").append("<option value='" + result.Rows[i].InitStatusID + "'>" + result.Rows[i].InitStatusName + "</option>");
-                         }
-                     }
-                 } catch (e)
+        $(document).ready(function () {
+            BindStatus();
+            $("#StatusInfo").html("请选择");
+        });
+        function BindStatus() {
+            $.ajax({
+                type: "Post",
+                contentType: "application/json",
+                url: "/ElementsManagement/GetStatusName",
+                data: {}, //即使参数为空，也需要设置
+                dataType: 'JSON', //返回的类型为XML
+                success: function (result, status) {
+                    //成功后执行的方法
+                    try {
+                        if (status == "success") {
+                            for (var i = 0; i < result.Total; i++) {
+                                $("#StatusParent").append("<option value='" + result.Rows[i].InitStatusID + "'>" + result.Rows[i].InitStatusName + "</option>");
+                            }
+                        }
+                    } catch (e)
                { }
-             }
-         });
-     }
+                }
+            });
+        }
  </script>
 
  
@@ -209,10 +204,10 @@
             $("#eMyTree").hide(); //初始化隐藏eMyTree树
             //初始化ligerTree
             $("#eMyTree").ligerTree({
-                
+
                 checkbox: false,
                 textFieldName: 'name',
-                nodeWidth:'auto',
+                nodeWidth: 'auto',
                 onSelect: OnSelectMenusOfElements
             });
             eManagerTree = $("#eMyTree").ligerGetTreeManager();
@@ -232,7 +227,7 @@
             });
 
         });
-      //选择元素所在页面后重载eMyGrid数据
+        //选择元素所在页面后重载eMyGrid数据
         function OnSelectMenusOfElements(note) {
             //alert(note.data.id);
             $.ajax({
@@ -253,50 +248,50 @@
                 }
             });
         }
-   //加载eMyTree树的数据
-   function BindMenusListOfElements() {
-       //alert("BindMenusListOfElements???--");
-       $.ajax({
-           url: "/PrivilegesManagement/GetMenusOfItem",
-           type: "POST",
-           dataType: "json",
-           data: {},
-           success: function (responseText, statusText) {
-               //alert(responseText);
-               var dataMenusJson = eval(responseText); //将json字符串转化为json数据
-               eManagerTree.clear();
-               eManagerTree.setData(dataMenusJson);
-               eManagerTree.loadData();
-           }
-       });
-   }
-   //加载表格eMyGrid的数据
-   function BindElementsList(pageID) {
-       //alert(pageID);
-      // alert("BindElementsList???ok---");
-       $.ajax({
-           url: "/PrivilegesManagement/GetElementOfItem",
-           type: "POST",
-           dataType: "json",
-           data: { menusID: pageID },
-           success: function (responseText, statusText) {
-               //alert(responseText);
-               var dataElementsJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-               //更新eMyGrid数据
-               eManagerGrid.setOptions({
-                   columns: [
-                            { display: '元素名称', name: 'name', width: 120 },
-                            { display: '元素编码', name: 'code', width: 120 },
+        //加载eMyTree树的数据
+        function BindMenusListOfElements() {
+            //alert("BindMenusListOfElements???--");
+            $.ajax({
+                url: "/PrivilegesManagement/GetMenusOfItem",
+                type: "POST",
+                dataType: "json",
+                data: {},
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataMenusJson = eval(responseText); //将json字符串转化为json数据
+                    eManagerTree.clear();
+                    eManagerTree.setData(dataMenusJson);
+                    eManagerTree.loadData();
+                }
+            });
+        }
+        //加载表格eMyGrid的数据
+        function BindElementsList(pageID) {
+            //alert(pageID);
+            // alert("BindElementsList???ok---");
+            $.ajax({
+                url: "/PrivilegesManagement/GetElementOfItem",
+                type: "POST",
+                dataType: "json",
+                data: { menusID: pageID },
+                success: function (responseText, statusText) {
+                    //alert(responseText);
+                    var dataElementsJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //更新eMyGrid数据
+                    eManagerGrid.setOptions({
+                        columns: [
+                            { display: '页面元素名称', name: 'name', width: 120 },
+                            { display: '页面元素编码', name: 'code', width: 120 },
                             { display: '备注信息', name: 'remark', width: 180 }
                             ],
-                   data: dataElementsJson,
-                   onSelectRow: OnSelectElements//进一步确认是否优化？
-               });
-               //重载oMyGrid数据
-               eManagerGrid.loadData();
-           }
-       });
-   }
+                        data: dataElementsJson,
+                        onSelectRow: OnSelectElements//进一步确认是否优化？
+                    });
+                    //重载oMyGrid数据
+                    eManagerGrid.loadData();
+                }
+            });
+        }
     </script>
  
 
@@ -330,7 +325,7 @@
                 if (elementName == "") {
                     $("#promptDIV").removeClass("alert alert-error alert-success");
                     $("#promptDIV").addClass("alert alert-error");
-                    $("#promptDIV").html("页面元素名称不能为空!");
+                    $("#promptDIV").html("元素名称不能为空!");
                     return false;
                 }
             }
@@ -370,19 +365,19 @@
                         { display: '元素名称', name: 'name', align: 'center' },
                         { display: '元素编码', name: 'code', align: 'center' },
                         { display: '备注信息', name: 'remark', align: 'center' },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
+                        { display: '', width: 100,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteElement(' + row.id + ')">删除</a>';
                                 return html;
@@ -392,7 +387,6 @@
                        data: dataSearchJson,
                        newPage: 1
                    });
-                   t.loadData();
                    $("#elementgrid").ligerGetGridManager().loadData();
                }
            });
@@ -424,7 +418,7 @@
      <div class="tab-pane active" id="AllElements">
       <%--查询按钮--%> 
       <b>元素名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
-      <input id="btnOK" type="button" value="查询" onclick="search()" class="btn btn-primary"/> 
+      <input id="btnOK" type="button" value="查询" onclick="search()"/> 
       <hr />   
      <%--查看所有元素--%>
      <div id="elementgrid"></div>
@@ -441,7 +435,7 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">元素编码</label>
                     <div class="controls">
-                        <input id="elementsCode" name="elementsCode" type="text" class="input-prepend span4" placeholder="元素编码" />
+                        <input id="elementsCode" name="elementsCode" type="text" class="input-prepend span4" placeholder="元素编码"  maxlength="40"/>
                     </div>
                 </div>             
                 <div class="control-group span6 offset2">
@@ -469,9 +463,9 @@
            
 
                 <div class="control-group span6 offset2">
-                    <label class="control-label">排序编码</label>
+                    <label class="control-label">排序码</label>
                     <div class="controls">
-                        <input id="elementsSeqno" name="elementsSeqno" type="text" class="span4" placeholder="排序编码" />
+                        <input id="elementsSeqno" name="elementsSeqno" type="text" class="span4" placeholder="排序码" />
                     </div>
                 </div>
                 <div class="control-group span6 offset2">

@@ -40,8 +40,8 @@
 
    <%--在Grid中分页显示steps信息--%>
    <script type="text/javascript">
-       $(document).ready(function () {
-
+       var StepTypeID;
+       $(document).ready(function () {    
            $("#infoTab").click(function () {
                GetStepsList();
 
@@ -67,7 +67,7 @@
                         },
                         { display: '', width: 80,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
+                                var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.s_id + ')">编辑</a>';
                                 return html;
                             }
                         },
@@ -79,7 +79,7 @@
                         },
                         { display: '', width: 120,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="#" onclick="DeleteStep(' + row.s_id + ')">添加并行节点</a>';
+                                var html = '<i class="icon-edit"></i><a href="javascript:AddNode(' + row.s_id + ')" onclick="Logicjudge(' + row.s_id + ');">添加并行节点</a>';
                                 return html;
                             }
                         }
@@ -108,15 +108,47 @@
               $.ligerDialog.open({
                   title:'详情信息',
                   width:700,
-                  height:600,
-                  isDrag:true,
-                  isResize:true,
+                  height: 600,
+                  isDrag:false,
                   url: '/StepsManagement/DetailInfo?id='+id
               });        
           }
       }
   </script>
 
+  <%--添加节点弹出窗--%>
+  <script type="text/javascript">
+
+      function Logicjudge(id) {
+          var ID = id;
+          $.ajax({
+              url: "/StepsManagement/GetStepType",
+              type: "POST",
+              dataType: "json",
+              data: { StepID: ID },
+              async:false,
+              success: function (responseText, statusText) {
+                  var dataJson = eval("(" + responseText + ")");
+                  StepTypeID = dataJson.steptypeID;
+                  alert("1:"+StepTypeID);
+              }
+          });
+      }
+      alert("2:" + StepTypeID);
+          function AddNode(id) {
+            
+              if (id) {
+                  $.ligerDialog.open({
+                      title: '添加并行节点',
+                      width: 900,
+                      height: 700,
+                      isDrag: false,
+                      url: '/StepsManagement/AddNode?id=' + id
+                  });
+              }
+         }
+
+  </script>
   <%--删除流程步骤--%>
   <script type="text/javascript">
       function DeleteStep(id) {
