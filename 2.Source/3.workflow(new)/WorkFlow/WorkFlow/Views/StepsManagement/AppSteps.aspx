@@ -79,7 +79,7 @@
                         },
                         { display: '', width: 120,
                             render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="javascript:AddNode(' + row.s_id + ')" onclick="Logicjudge(' + row.s_id + ');">添加并行节点</a>';
+                                var html = '<i class="icon-edit"></i><a href="#" onclick="Logicjudge(' + row.s_id + ');">添加并行节点</a>';
                                 return html;
                             }
                         }
@@ -120,6 +120,7 @@
   <script type="text/javascript">
 
       function Logicjudge(id) {
+          alert("正在代码维护中");
           var ID = id;
           $.ajax({
               url: "/StepsManagement/GetStepType",
@@ -130,23 +131,23 @@
               success: function (responseText, statusText) {
                   var dataJson = eval("(" + responseText + ")");
                   StepTypeID = dataJson.steptypeID;
-                  alert("1:"+StepTypeID);
+                 // alert("1:"+StepTypeID);
               }
           });
       }
-      alert("2:" + StepTypeID);
-          function AddNode(id) {
-            
-              if (id) {
-                  $.ligerDialog.open({
-                      title: '添加并行节点',
-                      width: 900,
-                      height: 700,
-                      isDrag: false,
-                      url: '/StepsManagement/AddNode?id=' + id
-                  });
-              }
-         }
+    
+//          function AddNode(id) {
+//            
+//              if (id) {
+//                  $.ligerDialog.open({
+//                      title: '添加并行节点',
+//                      width: 900,
+//                      height: 700,
+//                      isDrag: false,
+//                      url: '/StepsManagement/AddNode?id=' + id
+//                  });
+//              }
+//         }
 
   </script>
   <%--删除流程步骤--%>
