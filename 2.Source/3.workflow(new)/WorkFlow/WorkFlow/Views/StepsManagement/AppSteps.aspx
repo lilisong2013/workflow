@@ -127,27 +127,32 @@
               type: "POST",
               dataType: "json",
               data: { StepID: ID },
-              async:false,
+              async: false,
               success: function (responseText, statusText) {
                   var dataJson = eval("(" + responseText + ")");
                   StepTypeID = dataJson.steptypeID;
                  // alert("1:"+StepTypeID);
               }
           });
+
+          var sID = StepTypeID;
+          AddNodes(ID,sID);
       }
-    
-//          function AddNode(id) {
-//            
-//              if (id) {
-//                  $.ligerDialog.open({
-//                      title: '添加并行节点',
-//                      width: 900,
-//                      height: 700,
-//                      isDrag: false,
-//                      url: '/StepsManagement/AddNode?id=' + id
-//                  });
-//              }
-//         }
+
+
+      function AddNodes(id, sID) {
+          alert("2ID:"+id);
+          alert("2SID:"+sID);
+              if (id) {
+                  $.ligerDialog.open({
+                      title: '添加并行节点',
+                      width: 800,
+                      height: 600,
+                      isDrag: false,
+                      url: '/StepsManagement/AddNode?id=' + id
+                  });
+              }
+         }
 
   </script>
   <%--删除流程步骤--%>

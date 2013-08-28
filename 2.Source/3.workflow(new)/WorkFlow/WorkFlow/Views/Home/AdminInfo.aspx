@@ -118,10 +118,10 @@
         function app_showRequest() {
             var appName = $("#appName").val();
             var appCode = $("#appCode").val();
-            if (appName == "" || appCode == "") {
+            if (appName == "") {
                 $("#promptDIV").removeClass("alert alert-error alert-success");
                 $("#promptDIV").addClass("alert alert-error");
-                $("#promptDIV").html("系统名称或系统编码不能为空！");
+                $("#promptDIV").html("系统名称不能为空！");
                 return false;
             }
         }
@@ -234,25 +234,25 @@
                     <div class="container">
                         <form id="modifyAdminInfo" class="form-horizontal" method="post" action="">
                             <div class="control-group">
-                                <label class="control-label">登录名：</label>
+                                <label class="control-label">登录名称：</label>
                                 <div class="controls">
                                     <input type="text" id="adminLogin" name="adminLogin" placeholder="登录名" />
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">姓名：</label>
+                                <label class="control-label">员工姓名：</label>
                                 <div class="controls">
                                     <input type="text" id="adminName" name="adminName" placeholder="姓名" />
                                 </div>
                             </div> 
                             <div class="control-group">
-                                <label class="control-label">工号：</label>
+                                <label class="control-label">员工编号：</label>
                                 <div class="controls">
-                                    <input type="text" id="adminEmployeNum" name="adminEmployeNum" placeholder="工号" />
+                                    <input type="text" id="adminEmployeNum" name="adminEmployeNum" placeholder="工号" maxlength="40"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">电话：</label>
+                                <label class="control-label">电话号码：</label>
                                 <div class="controls">
                                     <input type="text" id="adminPhone" name="adminPhone" placeholder="电话" />
                                 </div>

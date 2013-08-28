@@ -418,7 +418,7 @@
      <div class="tab-pane active" id="AllElements">
       <%--查询按钮--%> 
       <b>元素名称:</b><input id="txtKey" type="text" class="input-medium search-query span3"/>
-      <input id="btnOK" type="button" value="查询" onclick="search()"/> 
+      <input id="btnOK" type="button" value="查询" onclick="search()" class="btn btn-primary"/> 
       <hr />   
      <%--查看所有元素--%>
      <div id="elementgrid"></div>

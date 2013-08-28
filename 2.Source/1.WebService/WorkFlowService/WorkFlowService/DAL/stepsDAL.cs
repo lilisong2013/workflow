@@ -110,6 +110,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = flowid;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+       
         /// <summary>
         /// 删除一条数据
         /// </summary>
@@ -239,6 +240,7 @@ namespace Saron.WorkFlowService.DAL
                 return Convert.ToInt32(obj);
             }
         }
+       
         /// <summary>
         /// 获得flow中最大步骤排序码(并序状态下)
         /// </summary>

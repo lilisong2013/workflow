@@ -28,18 +28,7 @@ namespace WorkFlow.Controllers
             }
         }
 
-        //AddNode页面
-        public ActionResult AddNode()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Home", "Login");
-            }
-            else
-            {
-                return View();
-            }
-        }
+  
         //获取步骤列表(后台分页)
         public ActionResult GetStepsList()
         {
@@ -395,6 +384,41 @@ namespace WorkFlow.Controllers
 
                 ViewData["appsName"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
                 
+                return View();
+            }
+        }
+
+        //添加并行节点详情
+        public ActionResult AddNode(int id)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+                WorkFlow.StepsWebService.v_stepsModel mv_stepsModel = new StepsWebService.v_stepsModel();
+
+                string msg = string.Empty;
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                mv_stepsModel = m_stepsBllService.GetV_StepsModel(id, out msg);
+
+                ViewData["s_id"] = mv_stepsModel.s_id;
+                ViewData["s_name"] = mv_stepsModel.s_name;
+                ViewData["f_name"] = mv_stepsModel.f_name;
+                ViewData["step_type_name"] = mv_stepsModel.step_type_name;
+                ViewData["order_no"] = mv_stepsModel.order_no;
+                ViewData["app_id"] = mv_stepsModel.app_id;
+                ViewData["f_id"] = mv_stepsModel.f_id;
+
                 return View();
             }
         }

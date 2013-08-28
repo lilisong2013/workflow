@@ -476,6 +476,7 @@ namespace WorkFlow.Controllers
 
             string msg = string.Empty;
             WorkFlow.UsersWebService.SecurityContext m_u_securityContext = new UsersWebService.SecurityContext();
+           
             m_u_securityContext.UserName = m_usersModel.login;
             m_u_securityContext.PassWord = m_usersModel.password;
             m_u_securityContext.AppID = (int)m_usersModel.app_id;
@@ -516,7 +517,9 @@ namespace WorkFlow.Controllers
                
                 if (m_usersBllService.ModifyPassword(m_usersModel.login, m_newpassword,out msg) == true)
                 {
-        
+                    WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
+                    m_userModel = m_usersBllService.GetUserModelByLogin(m_usersModel.login,out msg);
+                    Session["user"] =m_userModel;
                     return Json("{success:true,css:'alert alert-success',message:'密码修改成功!'}");
                 }
                 else
@@ -666,7 +669,14 @@ namespace WorkFlow.Controllers
             {
 
             }
-
+            if (Convert.ToInt32(Request.Params["appCode"].ToString().Length) == 0)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'系统编码不能为空!'}"); 
+            }
+            if (Saron.Common.PubFun.ConditionFilter.IsCode(Request.Params["appCode"]) == false)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'系统编码以字母开头，最多为40个字符!'}");
+            }
             m_appModel.name = Request.Params["appName"];
             m_appModel.code = Request.Params["appCode"];
             m_appModel.url = Request.Params["appUrl"];
@@ -674,6 +684,8 @@ namespace WorkFlow.Controllers
             m_appModel.updated_at = DateTime.Now;//修改时间
             m_appModel.updated_by = m_userModel.id;//修改用户ID
             m_appModel.updated_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();//修改IP
+           
+           
 
             try
             {
@@ -724,6 +736,14 @@ namespace WorkFlow.Controllers
             m_usersBllService.SecurityContextValue = securityContext;
             #endregion
 
+            if (Convert.ToInt32(Request.Params["adminEmployeNum"].ToString().Length) == 0)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'员工编码不能为空!'}");
+            }
+            if (Convert.ToInt32(Request.Params["adminEmployeNum"].ToString().Length) > 40)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'员工编码最多为40个字符!'}");
+            }
             m_userModel.login = Request.Params["adminLogin"];
             m_userModel.name = Request.Params["adminName"];
             m_userModel.employee_no = Request.Params["adminEmployeNum"];
