@@ -131,18 +131,22 @@
               success: function (responseText, statusText) {
                   var dataJson = eval("(" + responseText + ")");
                   StepTypeID = dataJson.steptypeID;
-                 // alert("1:"+StepTypeID);
+
               }
           });
 
           var sID = StepTypeID;
-          AddNodes(ID,sID);
+          if (StepTypeID == 1) {
+              alert("步骤类型为:顺序,不需要添加并行节点!");
+          } else {
+              AddNodes(ID, sID);
+          }
+         
       }
 
 
       function AddNodes(id, sID) {
-          alert("2ID:"+id);
-          alert("2SID:"+sID);
+
               if (id) {
                   $.ligerDialog.open({
                       title: '添加并行节点',

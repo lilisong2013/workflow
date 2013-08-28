@@ -423,6 +423,36 @@ namespace WorkFlow.Controllers
             }
         }
 
+        //添加并行节点的操作
+        //public ActionResult AddStepNodes(FormCollection collection)
+        //{
+        //    if (Session["user"] == null)
+        //    {
+        //        return RedirectToAction("Home", "Login");
+        //    }
+        //    else
+        //    {
+        //        string msg = string.Empty;
+        //        WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+        //        WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+        //        WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+        //        m_SecurityContext.UserName = m_usersModel.login;
+        //        m_SecurityContext.PassWord = m_usersModel.password;
+        //        m_SecurityContext.AppID = (int)m_usersModel.app_id;
+        //        m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+        //        int ID = Convert.ToInt32(Request.Form["s_id"]);
+        //        WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+
+        //        m_stepsModel = m_stepsBllService.GetModelByID(ID,out msg);
+
+        //        m_stepsModel.name = Request.Form["s_name"];
+               
+        //    }
+        //}
+
         //判断一下步骤是顺序还是并序
         public ActionResult GetStepType()
         {

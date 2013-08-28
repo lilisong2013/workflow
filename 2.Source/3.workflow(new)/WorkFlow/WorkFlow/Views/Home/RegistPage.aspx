@@ -164,7 +164,7 @@
                         </div>
                         <div class="span5">
                             <div class="control-group">
-                                <label class="control-label">真实姓名：</label>
+                                <label class="control-label">员工姓名：</label>
                                 <div class="controls">
                                     <input name="userName" type="text" class="span3" maxlength="30"/>
                                 </div>

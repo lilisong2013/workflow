@@ -212,7 +212,7 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">访问地址：</label>
+                                <label class="control-label">访问链接：</label>
                                 <div class="controls">
                                     <input type="text" id="appUrl" name="appUrl" placeholder="访问链接" />
                                 </div>
@@ -252,13 +252,13 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">电话号码：</label>
+                                <label class="control-label">手机号码：</label>
                                 <div class="controls">
                                     <input type="text" id="adminPhone" name="adminPhone" placeholder="电话" />
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">电子邮件：</label>
+                                <label class="control-label">电子邮箱：</label>
                                 <div class="controls">
                                     <input type="text" id="adminEmail" name="adminEmail" placeholder="电子邮件" />
                                 </div>
