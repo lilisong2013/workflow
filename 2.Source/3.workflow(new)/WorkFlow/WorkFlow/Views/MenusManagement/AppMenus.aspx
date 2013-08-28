@@ -221,6 +221,7 @@
 
         //获得菜单列表的树形菜单json数据格式，并展示
         function GetMenusTreeList() {
+            //alert("123");
             $.ajax({
                 url: "/MenusManagement/GetMenus",
                 type: "POST",
@@ -228,8 +229,9 @@
                 data: {},
                 success: function (responseText, statusText) {
                     //datas = responseText; //获取到的菜单json格式字符串
+                    //alert(responseText);
                     var dataJson = eval(responseText); //将json字符串转化为json数据
-                    
+
                     eManagerTree.clear();
                     eManagerTree.setData(dataJson);
                     eManagerTree.loadData();
@@ -261,17 +263,11 @@
             function showResponse(responseText, statusText) {
                 //成功后执行的方法
                 // alert(responseText.Id + responseText.Name);
-               
+
                 $("#promptDIV").removeClass("alert alert-error alert-success");
                 $("#promptDIV").addClass(responseText.css);
                 $("#promptDIV").html(responseText.message);
-                $("#menusgrid").loadData();
                 GetMenusTreeList(); //绑定菜单树数据并展示
-
-                //                if (responseText.success) {
-                //                    location.href = responseText.toUrl;
-                //                }
-
             }
         });
     </script>
