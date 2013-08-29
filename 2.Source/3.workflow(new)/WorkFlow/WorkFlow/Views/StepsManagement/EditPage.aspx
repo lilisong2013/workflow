@@ -86,24 +86,25 @@
        <div class="m-newline offset1">
          <label class="control-label ">步骤名称:</label>
          <div class="controls">
-           <input id="stepsName" name="stepsName" type="text" value="<%=ViewData["s_name"]%>" class="span4"/>
+           <input id="stepsName" name="stepsName" type="text" value="<%=ViewData["s_name"]%>" class="span4" placeholder="步骤名称"/>
            <input id="stepsID" name="stepsID" type="hidden" value="<%=ViewData["s_id"]%>"/>
          </div>
        </div>
 
-        <div class="m-newline offset1">
+       <div class="m-newline offset1">
          <label class="control-label">流程名称:</label>
          <div class="controls">
-           <input id="s_flow_name" name="s_flow_name" type="text" value="<%=ViewData["s_flow_name"]%>" class="uneditable-input"/>
+           <label class="uneditable-input span4"><%=ViewData["s_flow_name"]%></label>
+           <input id="s_flow_name" name="s_flow_name" type="hidden" value="<%=ViewData["s_flow_name"]%>"/>
            <input id="s_flow_id" name="s_flow_id" type="hidden" value="<%=ViewData["s_flow_id"]%>"/>
          </div>
        </div>
 
-        <div class="m-newline offset1">
+       <div class="m-newline offset1">
          <label class="control-label">步骤类型:</label>
          <div class="controls">
-
-           <input id="s_step_type_name" name="s_step_type_name" type="text" value="<%=ViewData["s_step_type_name"]%>" class="uneditable-input"/>
+           <label class="uneditable-input span4"><%=ViewData["s_step_type_name"]%></label>
+           <input id="s_step_type_name" name="s_step_type_name" type="hidden" value="<%=ViewData["s_step_type_name"]%>"/>
            <input id="s_step_type_id" name="s_step_type_id" type="hidden" value="<%=ViewData["s_step_type_id"]%>"/>
          </div>
        </div>
@@ -111,14 +112,16 @@
        <div class="m-newline offset1">
          <label class="control-label ">排序编码:</label>
          <div class="controls">
-           <input id="s_order_no" name="s_order_no" type="text" value="<%=ViewData["s_order_no"]%>" class="uneditable-input"/>
+           <label class="uneditable-input span4"><%=ViewData["s_order_no"]%></label>
+           <input id="s_order_no" name="s_order_no" type="hidden" value="<%=ViewData["s_order_no"]%>" />
          </div>
        </div>
 
-        <div class="m-newline offset1">
+       <div class="m-newline offset1">
             <label class="control-label ">重复次数:</label>
             <div class="controls">
-            <input id="s_repeat_count" name="s_repeat_count" type="text" value="<%=ViewData["s_repeat_count"]%>" class="uneditable-input"/>
+            <label class="uneditable-input span4"><%=ViewData["s_repeat_count"]%></label>
+            <input id="s_repeat_count" name="s_repeat_count" type="hidden" value="<%=ViewData["s_repeat_count"]%>" class="uneditable-input"/>
             </div>
             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>             
             <%string  s = DateTime.Now.ToString() +"."+ System.DateTime.Now.Millisecond.ToString(); %>
@@ -129,7 +132,14 @@
             <input type="hidden" name="stepsUpdate_by" id="stepsUpdate_by" value="<%=m_usersModel.id%>" />       
             <input type="hidden" name="stepsUpdate_ip" id="stepsUpdate_ip" value="<%= ipAddress %>" /> 
         </div>
-   
+
+       <div class="control-group span4 offset1">
+       <label class="control-label" for="stepsRemark">备注信息:</label>
+       <div class="controls">  
+       <textarea id="stepsRemark" name="stepsRemark" cols="2" rows="4" placeholder="备注信息" maxlength="80" class="span4"> <%=ViewData["s_remark"]%></textarea>      
+        </div> 
+       </div>
+
        <div class="control-group span8 offset2">
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span8 offset2" style="background-position:center"/>  
        </div>

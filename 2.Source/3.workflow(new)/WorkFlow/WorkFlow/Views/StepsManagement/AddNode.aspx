@@ -162,10 +162,10 @@
             <input id="order_no" name="order_no" class="uneditable-input" value="<%=ViewData["order_no"]%>"/>
          </div>
         </div>
-           <div class="m-newline offset2">
+         <div class="m-newline offset2">
          <label class="control-label">备注信息:</label>
          <div class="controls">
-            <textarea name="nodesRemark" id="nodesRemark" rows="4" cols="4" class="span4" placeholder="节点备注" maxlength="80"></textarea>
+            <textarea name="nodesRemark" id="nodesRemark" rows="4" cols="4" class="span4" placeholder="备注信息" maxlength="80"></textarea>
             <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]); %>
             <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
             <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>

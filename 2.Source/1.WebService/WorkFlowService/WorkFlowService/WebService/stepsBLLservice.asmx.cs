@@ -248,7 +248,7 @@ namespace Saron.WorkFlowService.WebService
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "判断同一流程下是否存在相同的步骤名称,<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool ExistStepName(string stepname, int flowID,out string msg)
-        {   
+        {
             #region webservice授权判断
             //是否有权限访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
@@ -258,6 +258,7 @@ namespace Saron.WorkFlowService.WebService
             #endregion
             return m_stepsdal.ExistStepName(stepname,flowID);
         }
+       
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "增加一条流程步骤记录，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool AddStepAndAllInfo(Saron.WorkFlowService.Model.stepsModel stepmodel, int userID, out string msg)

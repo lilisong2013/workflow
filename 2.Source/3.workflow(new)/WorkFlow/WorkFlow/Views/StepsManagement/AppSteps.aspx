@@ -84,12 +84,14 @@
                                 return html;
                             }
                         },
+                    
                         { display: '', width: 120,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="#" onclick="Logicjudge(' + row.s_id + ');">添加并行节点</a>';
                                 return html;
                             }
                         }
+
                        ],
                    dataAction: 'server',
                    width: '99%',
@@ -131,7 +133,7 @@
               $.ligerDialog.open({
                 title:'编辑信息',
                 width:900,
-                height: 600,
+                height: 550,
                 isDrag:false,
                 url: '/StepsManagement/EditPage?id='+id,
                 buttons:
@@ -147,7 +149,7 @@
   <script type="text/javascript">
 
       function Logicjudge(id) {
-          alert("正在代码维护中");
+    
           var ID = id;
           $.ajax({
               url: "/StepsManagement/GetStepType",
@@ -180,7 +182,11 @@
                       width: 800,
                       height: 600,
                       isDrag: false,
-                      url: '/StepsManagement/AddNode?id=' + id
+                      url: '/StepsManagement/AddNode?id=' + id,
+                     buttons:
+                     [
+                     { text: '返回', onclick: function (item, dialog) { s.loadData(); dialog.close(); } }
+                     ]
                   });
               }
          }
@@ -462,21 +468,9 @@
             </div>
 
             <div class="control-group span6 offset2">
-                <label class="control-label" for="repeatCount">重复次数：</label>
-                <div class="controls">
-                    <input type="text" name="repeatCount" id="repeatCount" class="input-prepend span4" placeholder="重复次数" />                                                     
-                </div>
-            </div> 
-            <div class="control-group span6 offset2">
-                <label class="control-label" for="orderNo">排序编码：</label>
-                <div class="controls">
-                    <input type="text" name="orderNo" id="orderNo" class="input-prepend span4" placeholder="排序编码" />                                                     
-                </div>
-            </div>         
-            <div class="control-group span6 offset2">
                 <label class="control-label" for="stepsRemark">备注信息：</label>
                 <div class="controls">
-                <textarea name="stepsRemark" id="stepsRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="200"></textarea>
+                <textarea name="stepsRemark" id="stepsRemark" rows="4" cols="5" class="span4" placeholder="备注信息" maxlength="80"></textarea>
                                           
                     <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                     <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
