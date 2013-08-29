@@ -46,6 +46,38 @@
         </s:sequence>
         <s:anyAttribute />
       </s:complexType>
+      <s:element name="AddNode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepmodel" type="tns:stepsModel" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddNodeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistStepName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepname" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistStepNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistStepNameResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="AddStepAndAllInfo">
         <s:complexType>
           <s:sequence>
@@ -77,38 +109,19 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetFlowMaxNum">
+      <s:element name="GetOrderNoCount">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetFlowMaxNumResponse">
+      <s:element name="GetOrderNoCountResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetFlowMaxNumResult">
-              <s:complexType>
-                <s:sequence>
-                  <s:element ref="s:schema" />
-                  <s:any />
-                </s:sequence>
-              </s:complexType>
-            </s:element>
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ExistStpeType">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="ExistStpeTypeResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="ExistStpeTypeResult" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="GetOrderNoCountResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -308,6 +321,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="UpdateNode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flow_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="repeat_count" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateNodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateNodeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AddStepSoapIn">
@@ -317,6 +347,24 @@
     <wsdl:part name="parameters" element="tns:AddStepResponse" />
   </wsdl:message>
   <wsdl:message name="AddStepSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddNodeSoapIn">
+    <wsdl:part name="parameters" element="tns:AddNode" />
+  </wsdl:message>
+  <wsdl:message name="AddNodeSoapOut">
+    <wsdl:part name="parameters" element="tns:AddNodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddNodeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ExistStepNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistStepName" />
+  </wsdl:message>
+  <wsdl:message name="ExistStepNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistStepNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistStepNameSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="AddStepAndAllInfoSoapIn">
@@ -337,17 +385,14 @@
   <wsdl:message name="GetFlowMaxOrderNumSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
-  <wsdl:message name="GetFlowMaxNumSoapIn">
-    <wsdl:part name="parameters" element="tns:GetFlowMaxNum" />
+  <wsdl:message name="GetOrderNoCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrderNoCount" />
   </wsdl:message>
-  <wsdl:message name="GetFlowMaxNumSoapOut">
-    <wsdl:part name="parameters" element="tns:GetFlowMaxNumResponse" />
+  <wsdl:message name="GetOrderNoCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrderNoCountResponse" />
   </wsdl:message>
-  <wsdl:message name="ExistStpeTypeSoapIn">
-    <wsdl:part name="parameters" element="tns:ExistStpeType" />
-  </wsdl:message>
-  <wsdl:message name="ExistStpeTypeSoapOut">
-    <wsdl:part name="parameters" element="tns:ExistStpeTypeResponse" />
+  <wsdl:message name="GetOrderNoCountSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="GetFlowStepListByFlowIDSoapIn">
     <wsdl:part name="parameters" element="tns:GetFlowStepListByFlowID" />
@@ -436,11 +481,30 @@
   <wsdl:message name="UpdateSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="UpdateNodeSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateNode" />
+  </wsdl:message>
+  <wsdl:message name="UpdateNodeSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateNodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateNodeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="stepsBLLserviceSoap">
     <wsdl:operation name="AddStep">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录(order_no、repeat_count自动赋值)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddStepSoapIn" />
       <wsdl:output message="tns:AddStepSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条并序流程节点，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddNodeSoapIn" />
+      <wsdl:output message="tns:AddNodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistStepName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断同一流程下是否存在相同的步骤名称,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistStepNameSoapIn" />
+      <wsdl:output message="tns:ExistStepNameSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AddStepAndAllInfo">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -452,15 +516,10 @@
       <wsdl:input message="tns:GetFlowMaxOrderNumSoapIn" />
       <wsdl:output message="tns:GetFlowMaxOrderNumSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetFlowMaxNum">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程中的最大排序码(-1：webservice未授权，0：流程中不存在步骤)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
-      <wsdl:input message="tns:GetFlowMaxNumSoapIn" />
-      <wsdl:output message="tns:GetFlowMaxNumSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="ExistStpeType">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断某流程下是否存在并行的列表以及如果存在，返回存在的个数(-1：webservice未授权，0：流程中不存在步骤)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
-      <wsdl:input message="tns:ExistStpeTypeSoapIn" />
-      <wsdl:output message="tns:ExistStpeTypeSoapOut" />
+    <wsdl:operation name="GetOrderNoCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程中排序码为order_no的并序步骤的个数,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetOrderNoCountSoapIn" />
+      <wsdl:output message="tns:GetOrderNoCountSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetFlowStepListByFlowID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程的v_steps视图步骤列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -512,6 +571,11 @@
       <wsdl:input message="tns:UpdateSoapIn" />
       <wsdl:output message="tns:UpdateSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="UpdateNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条流程步骤类型为并序的repeat_count操作,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:UpdateNodeSoapIn" />
+      <wsdl:output message="tns:UpdateNodeSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="stepsBLLserviceSoap" type="tns:stepsBLLserviceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -520,6 +584,26 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:AddStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNode">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddNode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistStepName">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistStepName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistStepNameSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -545,19 +629,11 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetFlowMaxNum">
-      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowMaxNum" style="document" />
+    <wsdl:operation name="GetOrderNoCount">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetOrderNoCount" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ExistStpeType">
-      <soap:operation soapAction="http://saron.workflowservice.org/ExistStpeType" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
+        <soap:header message="tns:GetOrderNoCountSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -662,6 +738,16 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="UpdateNode">
+      <soap:operation soapAction="http://saron.workflowservice.org/UpdateNode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="stepsBLLserviceSoap12" type="tns:stepsBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -670,6 +756,26 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:AddStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNode">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddNode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistStepName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistStepName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistStepNameSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -695,19 +801,11 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetFlowMaxNum">
-      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowMaxNum" style="document" />
+    <wsdl:operation name="GetOrderNoCount">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetOrderNoCount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="ExistStpeType">
-      <soap12:operation soapAction="http://saron.workflowservice.org/ExistStpeType" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
+        <soap12:header message="tns:GetOrderNoCountSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />
@@ -807,6 +905,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateNode">
+      <soap12:operation soapAction="http://saron.workflowservice.org/UpdateNode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateNodeSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

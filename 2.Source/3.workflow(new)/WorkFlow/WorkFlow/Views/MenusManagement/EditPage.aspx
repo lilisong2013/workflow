@@ -201,7 +201,7 @@
        <div class="m-newline offset2">
        <label class="control-label">菜单名称：</label>
        <div class="controls">
-       <input id="menusName" name="menusName" type="text" value="<%=ViewData["menusName"] %>" placeholder="菜单名称"/>
+       <input id="menusName" name="menusName" type="text" value="<%=ViewData["menusName"] %>" placeholder="菜单名称" maxlength="18"/>
        <input id="menusID" name="menusID" type="hidden" value="<%=ViewData["menusId"]%>"/>
        </div>
        </div>

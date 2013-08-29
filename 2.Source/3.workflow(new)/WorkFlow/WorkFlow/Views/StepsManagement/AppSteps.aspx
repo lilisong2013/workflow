@@ -41,6 +41,7 @@
    <%--在Grid中分页显示steps信息--%>
    <script type="text/javascript">
        var StepTypeID;
+       var FlowTypeID;
        $(document).ready(function () {    
            $("#infoTab").click(function () {
                GetStepsList();
@@ -74,6 +75,12 @@
                         { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteStep(' + row.s_id + ')">删除</a>';
+                                return html;
+                            }
+                        },
+                        { display: '', width: 80,
+                            render: function (row) {
+                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlowSteps(' + row.s_id + ')">删除测试</a>';
                                 return html;
                             }
                         },
@@ -112,6 +119,26 @@
                   isDrag:false,
                   url: '/StepsManagement/DetailInfo?id='+id
               });        
+          }
+      }
+  </script>
+
+  <script type="text/javascript">
+     
+      function EditDialog(id) {
+
+          if (id) {
+              $.ligerDialog.open({
+                title:'编辑信息',
+                width:900,
+                height: 600,
+                isDrag:false,
+                url: '/StepsManagement/EditPage?id='+id,
+                buttons:
+                [
+                { text: '返回', onclick: function (item, dialog) { s.loadData(); dialog.close(); } }
+                ]
+              });
           }
       }
   </script>
@@ -159,6 +186,7 @@
          }
 
   </script>
+
   <%--删除流程步骤--%>
   <script type="text/javascript">
       function DeleteStep(id) {
@@ -187,6 +215,55 @@
               }
           });
       }
+  </script>
+  
+  <%--批量删除--%>
+  <script type="text/javascript">
+
+      function DeleteFlowSteps(id) {
+          var ID = id;
+          $.ajax({
+              url: "/StepsManagement/GetFlowID",
+              type: "POST",
+              async: false,
+              dataType: "json",
+              data: { stepID: ID },
+              success: function (responseText, statusText) {
+                  var dataJson = eval("(" + responseText + ")");
+                  FlowTypeID = dataJson.flowID;
+                
+              }
+          });
+          Delete(FlowTypeID);
+      }
+
+      function Delete(FlowTypeID) {
+          var flowID = FlowTypeID;
+          $.ligerDialog.confirm("确定要删除该步骤对应的流程吗?", function (yes) {
+              if (yes) {
+                  $.ajax({
+                      url: "/StepsManagement/DeleteFlowSteps",
+                      type: "POST",
+                      dataType: "json",
+                      data: { FlowID: flowID },
+                      success: function (responseText, statusText) {
+                          var dataJson = eval("(" + responseText + ")");
+                          show_DIV(dataJson);
+                          s.loadData();
+                      }
+                  });
+
+                  //删除提示信息
+                  function show_DIV(data) {
+                      $("#promptDIV").removeClass("alert alert-error alert-success");
+                      $("#promptDIV").addClass(data.css);
+                      $("#promptDIV").html(data.message);
+                  }
+
+              }
+          });
+      }
+
   </script>
 
   <%--流程步骤名称初始化操作--%>

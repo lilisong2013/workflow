@@ -15,9 +15,10 @@ namespace Saron.WorkFlowService.DAL
         { }
 
         #region BasicMethod
+      
         /// <summary>
         /// 判断流程步骤名称是否存在
-        /// </summary>
+        /// </summary>  
         public bool ExistStepName(string stepName,int flowID)
         {
             StringBuilder strSql = new StringBuilder();
@@ -137,31 +138,6 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
         }
-       
-        /// <summary>
-        /// 是否存在并行的个数
-        /// </summary>
-        public int ExistStpeType(int flowID)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select count(distinct(order_no)) from steps");
-            strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=2");
-            SqlParameter[] parameters = {
-					new SqlParameter("@flow_id", SqlDbType.Int,4)		
-            };
-
-            parameters[0].Value = flowID;
-
-            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
-            if (obj == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return Convert.ToInt32(obj);
-            }
-        }
 
         /// <summary>
         /// 根据步骤ID获得步骤名称
@@ -214,22 +190,23 @@ namespace Saron.WorkFlowService.DAL
                 return Convert.ToInt32(obj);
             }
         }
-
+       
         /// <summary>
-        /// 获得flow中最大步骤排序码(并序状态下)
+        /// 获得steps中流程ID为flowID,且并序中排序码为：order_no的个数 
         /// </summary>
-        public int GetFlowMaxNumOfUnorder(int flowID) 
+        public int GetOrderNoCount(int flowID, int order_no)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select max(repeat_count) from steps ");
-
-            strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=2 ");
-
+            strSql.Append("select count(*) from steps");
+            strSql.Append(" where flow_id=@flow_id and order_no=@order_no and deleted=0 ");
             SqlParameter[] parameters = {
-					new SqlParameter("@flow_id", SqlDbType.Int,4)
+					new SqlParameter("@flow_id", SqlDbType.Int,4),
+                    new SqlParameter("@order_no",SqlDbType.Int,4)
             };
-            parameters[0].Value = flowID;
 
+            parameters[0].Value = flowID;
+            parameters[1].Value = order_no;
+            
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
             {
@@ -239,25 +216,6 @@ namespace Saron.WorkFlowService.DAL
             {
                 return Convert.ToInt32(obj);
             }
-        }
-       
-        /// <summary>
-        /// 获得flow中最大步骤排序码(并序状态下)
-        /// </summary>
-        public DataSet GetFlowMaxOrderNumOfUnorder(int flowID)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select max(repeat_count),max(order_no) from steps ");
-
-            strSql.Append(" where flow_id=@flow_id and deleted=0 and step_type_id=2 ");
-
-            SqlParameter[] parameters = {
-					new SqlParameter("@flow_id", SqlDbType.Int,4)
-            };
-            parameters[0].Value = flowID;
-           
-            return DbHelperSQL.Query(strSql.ToString(), parameters);
-          
         }
 
         /// <summary>
@@ -459,6 +417,36 @@ namespace Saron.WorkFlowService.DAL
             parameters[13].Value = model.updated_ip;
             parameters[14].Value = model.id;
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 更新一条步骤表中的并序节点
+        /// </summary>
+        public bool UpdateNode(int flow_id,int order_no,int repeat_count)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update steps set ");
+            strSql.Append("repeat_count=@repeat_count");    
+            strSql.Append(" where order_no=@order_no and flow_id=@flow_id");
+
+            SqlParameter[] parameters = { 		    
+                    new SqlParameter("@flow_id",SqlDbType.Int,4),
+                    new SqlParameter("@order_no",SqlDbType.Int,4),
+				    new SqlParameter("@repeat_count",SqlDbType.Int,4)
+					};
+            parameters[0].Value =flow_id;
+            parameters[1].Value = order_no;
+            parameters[2].Value = repeat_count;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
             {
                 return true;

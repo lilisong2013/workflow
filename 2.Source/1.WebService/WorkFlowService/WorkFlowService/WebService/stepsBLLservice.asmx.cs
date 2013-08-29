@@ -31,7 +31,7 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "增加一条流程步骤记录(order_no、repeat_count自动赋值)，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool AddStep(Saron.WorkFlowService.Model.stepsModel stepmodel,int userID,out string msg)
         {
-               #region webservice授权判断
+            #region webservice授权判断
             //是否有权限访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
@@ -39,7 +39,7 @@ namespace Saron.WorkFlowService.WebService
             }
             #endregion
 
-               #region 判断流程步骤是否重名
+            #region 判断流程步骤是否重名
             if (m_stepsdal.ExistStepName(stepmodel.name, (int)stepmodel.flow_id))
             {
                 msg = "流程：" + m_flowsdal.GetFlowName((int)stepmodel.flow_id) + ",已经存在该步骤名称";
@@ -109,10 +109,9 @@ namespace Saron.WorkFlowService.WebService
                 //将要添加的是并序(并序)
                 else
                 {
-
                     stepmodel.repeat_count = 1;
                     stepmodel.order_no = Convert.ToInt32(m_stepsdal.GetFlowMaxOrderNum((int)stepmodel.flow_id)) + 1;
-     
+
                     #region 添加流程步骤
                     int m_stepID = 0;
                     //添加
@@ -165,12 +164,100 @@ namespace Saron.WorkFlowService.WebService
                     #endregion
 
                 }
-      
-
-          
 
         }
+        
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "增加一条并序流程节点，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool AddNode(Saron.WorkFlowService.Model.stepsModel stepmodel,int userID,out string msg)
+        {
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+            #endregion
 
+            #region 判断流程步骤是否重名
+            if (m_stepsdal.ExistStepName(stepmodel.name, (int)stepmodel.flow_id))
+            {
+                msg = "流程：" + m_flowsdal.GetFlowName((int)stepmodel.flow_id) + ",已经存在该步骤名称";
+                return false;
+            }
+            #endregion
+
+         
+          
+            #region 添加流程步骤
+            int m_stepID = 0;
+            //添加
+            try
+            {
+                m_stepID = m_stepsdal.AddStep(stepmodel);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.ToString();
+                return false;
+            }
+
+            if (m_stepID == 0)
+            {
+                msg = "流程添加失败";
+                return false;
+            }
+            #endregion
+
+            Saron.WorkFlowService.Model.flow_usersModel m_flow_usersModel = new flow_usersModel();
+            m_flow_usersModel.step_id = m_stepID;
+            m_flow_usersModel.user_id = userID;
+
+            #region 添加步骤用户
+            bool flag = false;
+            try
+            {
+                flag = m_flow_usersdal.AddFlow_User(m_flow_usersModel);
+            }
+            catch (Exception ex)
+            {
+                //步骤为添加对应的用户，将已添加的步骤删除
+                m_stepsdal.DeleteStep(m_stepID);
+                msg = "webservice异常";
+                return false;
+            }
+
+            if (flag)
+            {
+                return true;
+            }
+            else
+            {
+                //步骤为添加对应的用户，将已添加的步骤删除
+                m_stepsdal.DeleteStep(m_stepID);
+                msg = "流程添加失败";
+                return false;
+            }
+            #endregion
+
+        }
+        
+        /// <summary>
+        /// author:songlili
+        /// </summary>
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "判断同一流程下是否存在相同的步骤名称,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool ExistStepName(string stepname, int flowID,out string msg)
+        {   
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+            #endregion
+            return m_stepsdal.ExistStepName(stepname,flowID);
+        }
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "增加一条流程步骤记录，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool AddStepAndAllInfo(Saron.WorkFlowService.Model.stepsModel stepmodel, int userID, out string msg)
@@ -263,16 +350,22 @@ namespace Saron.WorkFlowService.WebService
             return m_stepsdal.GetFlowMaxOrderNum(flowID);
         }
 
-        [WebMethod(Description = "获得流程中的最大排序码(-1：webservice未授权，0：流程中不存在步骤)，<h4>（需要授权验证，系统管理员用户）</h4>")]
-        public DataSet GetFlowMaxNum(int flowID)
+        ///<summary>
+        ///author:songlili
+        /// </summary>
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得流程中排序码为order_no的并序步骤的个数,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public int GetOrderNoCount(int flowID, int order_no,out string msg)
         {
-            return m_stepsdal.GetFlowMaxOrderNumOfUnorder(flowID);
-        }
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return -1;
+            }
+            #endregion
 
-        [WebMethod(Description = "判断某流程下是否存在并行的列表以及如果存在，返回存在的个数(-1：webservice未授权，0：流程中不存在步骤)，<h4>（需要授权验证，系统管理员用户）</h4>")]
-        public int ExistStpeType(int flowID)
-        {
-            return m_stepsdal.ExistStpeType(flowID);
+            return m_stepsdal.GetOrderNoCount(flowID,order_no);
         }
 
         /// <summary>
@@ -442,13 +535,31 @@ namespace Saron.WorkFlowService.WebService
         [WebMethod(Description = "更新一条数据,<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool Update(Saron.WorkFlowService.Model.stepsModel model,out string msg)
         {  
+
             //对webservice进行授权验证,系统管理员才可访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
             {
                 //webservice用户未授权，msg提示信息
                 return false;
             }
+
            return m_stepsdal.Update(model);
+        }
+
+        ///<summary>
+        ///author:songlili
+        /// </summary>
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "更新一条流程步骤类型为并序的repeat_count操作,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool UpdateNode(int flow_id, int order_no, int repeat_count,out string msg)
+        {
+            //对webservice进行授权验证,系统管理员才可访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                //webservice用户未授权，msg提示信息
+                return false;
+            }
+            return m_stepsdal.UpdateNode(flow_id,order_no,repeat_count);
         }
 
        #endregion 

@@ -34,6 +34,34 @@
        });
     </script>
 
+  <%--步骤用户信息初始化--%>
+  <script type="text/javascript">
+      $(document).ready(function () {
+
+          GetStepUserName();
+          $("#stepsUserInfo").html("请选择");
+      });
+      function GetStepUserName() {
+          $.ajax({
+              type: "Post",
+              contentType: "application/json",
+              url: "/StepsManagement/GetStepUserName",
+              data: {},
+              dataType: 'JSON',
+              success: function (result, status) {
+                  try {
+                      if (status == "success") {
+                          for (var i = 0; i < result.Total; i++) {
+                              $("#stepsUser").append("<option value='" + result.Rows[i].StepuserID + "'>" + result.Rows[i].StepuserName + "</option>");
+                          }
+                      }
+                  } catch (e) { }
+              }
+          });
+
+      }
+  </script>
+
   <%--表单添加提交数据--%>
   <script type="text/javascript">
       $(document).ready(function () {
@@ -83,6 +111,7 @@
           }
       });
   </script>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="container"><h4>步骤节点添加</h4></div>
@@ -117,14 +146,35 @@
             <input id="step_type_name" name="step_type_name" class="uneditable-input" value="<%=ViewData["step_type_name"]%>"/>       
          </div>
         </div>
+          
+         <div class="m-newline offset2">
+            <label class="control-label">操作用户:</label>
+            <div class="controls">
+                <select class="span4" id="stepsUser" name="stepsUser">
+                <option id="stepsUserInfo"></option>
+                </select>
+            </div>
+         </div>
 
          <div class="m-newline offset2">
-         <label class="control-label">排序码:</label>
+         <label class="control-label">排序编码:</label>
          <div class="controls">
             <input id="order_no" name="order_no" class="uneditable-input" value="<%=ViewData["order_no"]%>"/>
          </div>
         </div>
-
+           <div class="m-newline offset2">
+         <label class="control-label">备注信息:</label>
+         <div class="controls">
+            <textarea name="nodesRemark" id="nodesRemark" rows="4" cols="4" class="span4" placeholder="节点备注" maxlength="80"></textarea>
+            <%WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)(Session["user"]); %>
+            <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
+            <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
+            <%DateTime t = Convert.ToDateTime(dt);%>
+            <input type="hidden" name="nodesCreated_by" id="nodesCreated_by" value="<%=m_usersModel.id%>"/>
+            <input type="hidden" name="nodesCreated_ip" id="nodesCreated_ip" value="<%=ipAddress%>"/>
+            <input type="hidden" name="nodesCreated_at" id="nodesCreated_at" value="<%=t%>"/>
+         </div>
+        </div>
         <div class="control-group span7 offset3" >
         <input id="saveSubmit" type="submit" value="添加" class="btn btn-primary span7 offset3" />  
         </div>  

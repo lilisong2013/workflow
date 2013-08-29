@@ -34,13 +34,15 @@ namespace WorkFlow.StepsWebService {
         
         private System.Threading.SendOrPostCallback AddStepOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AddNodeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ExistStepNameOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddStepAndAllInfoOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetFlowMaxOrderNumOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetFlowMaxNumOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback ExistStpeTypeOperationCompleted;
+        private System.Threading.SendOrPostCallback GetOrderNoCountOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetFlowStepListByFlowIDOperationCompleted;
         
@@ -61,6 +63,8 @@ namespace WorkFlow.StepsWebService {
         private System.Threading.SendOrPostCallback GetStepListOfFlowIDOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UpdateNodeOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -113,16 +117,19 @@ namespace WorkFlow.StepsWebService {
         public event AddStepCompletedEventHandler AddStepCompleted;
         
         /// <remarks/>
+        public event AddNodeCompletedEventHandler AddNodeCompleted;
+        
+        /// <remarks/>
+        public event ExistStepNameCompletedEventHandler ExistStepNameCompleted;
+        
+        /// <remarks/>
         public event AddStepAndAllInfoCompletedEventHandler AddStepAndAllInfoCompleted;
         
         /// <remarks/>
         public event GetFlowMaxOrderNumCompletedEventHandler GetFlowMaxOrderNumCompleted;
         
         /// <remarks/>
-        public event GetFlowMaxNumCompletedEventHandler GetFlowMaxNumCompleted;
-        
-        /// <remarks/>
-        public event ExistStpeTypeCompletedEventHandler ExistStpeTypeCompleted;
+        public event GetOrderNoCountCompletedEventHandler GetOrderNoCountCompleted;
         
         /// <remarks/>
         public event GetFlowStepListByFlowIDCompletedEventHandler GetFlowStepListByFlowIDCompleted;
@@ -155,6 +162,9 @@ namespace WorkFlow.StepsWebService {
         public event UpdateCompletedEventHandler UpdateCompleted;
         
         /// <remarks/>
+        public event UpdateNodeCompletedEventHandler UpdateNodeCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/AddStep", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public bool AddStep(stepsModel stepmodel, int userID, out string msg) {
@@ -184,6 +194,72 @@ namespace WorkFlow.StepsWebService {
             if ((this.AddStepCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.AddStepCompleted(this, new AddStepCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/AddNode", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AddNode(stepsModel stepmodel, int userID, out string msg) {
+            object[] results = this.Invoke("AddNode", new object[] {
+                        stepmodel,
+                        userID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddNodeAsync(stepsModel stepmodel, int userID) {
+            this.AddNodeAsync(stepmodel, userID, null);
+        }
+        
+        /// <remarks/>
+        public void AddNodeAsync(stepsModel stepmodel, int userID, object userState) {
+            if ((this.AddNodeOperationCompleted == null)) {
+                this.AddNodeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddNodeOperationCompleted);
+            }
+            this.InvokeAsync("AddNode", new object[] {
+                        stepmodel,
+                        userID}, this.AddNodeOperationCompleted, userState);
+        }
+        
+        private void OnAddNodeOperationCompleted(object arg) {
+            if ((this.AddNodeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddNodeCompleted(this, new AddNodeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistStepName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ExistStepName(string stepname, int flowID, out string msg) {
+            object[] results = this.Invoke("ExistStepName", new object[] {
+                        stepname,
+                        flowID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ExistStepNameAsync(string stepname, int flowID) {
+            this.ExistStepNameAsync(stepname, flowID, null);
+        }
+        
+        /// <remarks/>
+        public void ExistStepNameAsync(string stepname, int flowID, object userState) {
+            if ((this.ExistStepNameOperationCompleted == null)) {
+                this.ExistStepNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistStepNameOperationCompleted);
+            }
+            this.InvokeAsync("ExistStepName", new object[] {
+                        stepname,
+                        flowID}, this.ExistStepNameOperationCompleted, userState);
+        }
+        
+        private void OnExistStepNameOperationCompleted(object arg) {
+            if ((this.ExistStepNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ExistStepNameCompleted(this, new ExistStepNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -252,60 +328,35 @@ namespace WorkFlow.StepsWebService {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetFlowMaxNum", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetFlowMaxNum(int flowID) {
-            object[] results = this.Invoke("GetFlowMaxNum", new object[] {
-                        flowID});
-            return ((System.Data.DataSet)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void GetFlowMaxNumAsync(int flowID) {
-            this.GetFlowMaxNumAsync(flowID, null);
-        }
-        
-        /// <remarks/>
-        public void GetFlowMaxNumAsync(int flowID, object userState) {
-            if ((this.GetFlowMaxNumOperationCompleted == null)) {
-                this.GetFlowMaxNumOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFlowMaxNumOperationCompleted);
-            }
-            this.InvokeAsync("GetFlowMaxNum", new object[] {
-                        flowID}, this.GetFlowMaxNumOperationCompleted, userState);
-        }
-        
-        private void OnGetFlowMaxNumOperationCompleted(object arg) {
-            if ((this.GetFlowMaxNumCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetFlowMaxNumCompleted(this, new GetFlowMaxNumCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistStpeType", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public int ExistStpeType(int flowID) {
-            object[] results = this.Invoke("ExistStpeType", new object[] {
-                        flowID});
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetOrderNoCount", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetOrderNoCount(int flowID, int order_no, out string msg) {
+            object[] results = this.Invoke("GetOrderNoCount", new object[] {
+                        flowID,
+                        order_no});
+            msg = ((string)(results[1]));
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void ExistStpeTypeAsync(int flowID) {
-            this.ExistStpeTypeAsync(flowID, null);
+        public void GetOrderNoCountAsync(int flowID, int order_no) {
+            this.GetOrderNoCountAsync(flowID, order_no, null);
         }
         
         /// <remarks/>
-        public void ExistStpeTypeAsync(int flowID, object userState) {
-            if ((this.ExistStpeTypeOperationCompleted == null)) {
-                this.ExistStpeTypeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnExistStpeTypeOperationCompleted);
+        public void GetOrderNoCountAsync(int flowID, int order_no, object userState) {
+            if ((this.GetOrderNoCountOperationCompleted == null)) {
+                this.GetOrderNoCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetOrderNoCountOperationCompleted);
             }
-            this.InvokeAsync("ExistStpeType", new object[] {
-                        flowID}, this.ExistStpeTypeOperationCompleted, userState);
+            this.InvokeAsync("GetOrderNoCount", new object[] {
+                        flowID,
+                        order_no}, this.GetOrderNoCountOperationCompleted, userState);
         }
         
-        private void OnExistStpeTypeOperationCompleted(object arg) {
-            if ((this.ExistStpeTypeCompleted != null)) {
+        private void OnGetOrderNoCountOperationCompleted(object arg) {
+            if ((this.GetOrderNoCountCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.ExistStpeTypeCompleted(this, new ExistStpeTypeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetOrderNoCountCompleted(this, new GetOrderNoCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -616,6 +667,41 @@ namespace WorkFlow.StepsWebService {
             if ((this.UpdateCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.UpdateCompleted(this, new UpdateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/UpdateNode", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool UpdateNode(int flow_id, int order_no, int repeat_count, out string msg) {
+            object[] results = this.Invoke("UpdateNode", new object[] {
+                        flow_id,
+                        order_no,
+                        repeat_count});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UpdateNodeAsync(int flow_id, int order_no, int repeat_count) {
+            this.UpdateNodeAsync(flow_id, order_no, repeat_count, null);
+        }
+        
+        /// <remarks/>
+        public void UpdateNodeAsync(int flow_id, int order_no, int repeat_count, object userState) {
+            if ((this.UpdateNodeOperationCompleted == null)) {
+                this.UpdateNodeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateNodeOperationCompleted);
+            }
+            this.InvokeAsync("UpdateNode", new object[] {
+                        flow_id,
+                        order_no,
+                        repeat_count}, this.UpdateNodeOperationCompleted, userState);
+        }
+        
+        private void OnUpdateNodeOperationCompleted(object arg) {
+            if ((this.UpdateNodeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UpdateNodeCompleted(this, new UpdateNodeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1019,6 +1105,74 @@ namespace WorkFlow.StepsWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void AddNodeCompletedEventHandler(object sender, AddNodeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddNodeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddNodeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void ExistStepNameCompletedEventHandler(object sender, ExistStepNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ExistStepNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ExistStepNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     public delegate void AddStepAndAllInfoCompletedEventHandler(object sender, AddStepAndAllInfoCompletedEventArgs e);
     
     /// <remarks/>
@@ -1087,43 +1241,17 @@ namespace WorkFlow.StepsWebService {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void GetFlowMaxNumCompletedEventHandler(object sender, GetFlowMaxNumCompletedEventArgs e);
+    public delegate void GetOrderNoCountCompletedEventHandler(object sender, GetOrderNoCountCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetFlowMaxNumCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetOrderNoCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetFlowMaxNumCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public System.Data.DataSet Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((System.Data.DataSet)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    public delegate void ExistStpeTypeCompletedEventHandler(object sender, ExistStpeTypeCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class ExistStpeTypeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal ExistStpeTypeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetOrderNoCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -1133,6 +1261,14 @@ namespace WorkFlow.StepsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
             }
         }
     }
@@ -1448,6 +1584,40 @@ namespace WorkFlow.StepsWebService {
         private object[] results;
         
         internal UpdateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void UpdateNodeCompletedEventHandler(object sender, UpdateNodeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UpdateNodeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UpdateNodeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

@@ -28,7 +28,6 @@ namespace WorkFlow.Controllers
             }
         }
 
-  
         //获取步骤列表(后台分页)
         public ActionResult GetStepsList()
         {
@@ -308,7 +307,7 @@ namespace WorkFlow.Controllers
 
         }
 
-       //删除流程步骤
+       //删除一条流程步骤
         public ActionResult DeleteFlowStep()
         {
             if (Session["user"] == null)
@@ -330,6 +329,12 @@ namespace WorkFlow.Controllers
                 ms_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = ms_SecurityContext;
 
+                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+                
+                m_stepsModel = m_stepsBllService.GetModelByID(stepID,out msg);
+
+                int flow_ID = Convert.ToInt32(m_stepsModel.flow_id);
+
                 try 
                 {
                     if (m_stepsBllService.DeleteStep(stepID, out msg))
@@ -344,6 +349,65 @@ namespace WorkFlow.Controllers
                 catch (Exception ex) {
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
+            }
+        }
+
+       //批量删除流程信息
+        public ActionResult DeleteFlowSteps()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                int flowID = Convert.ToInt32(Request.Params["FlowID"]);
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                string msg = string.Empty;
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+               
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                ArrayList IDList = new ArrayList();
+                DataSet ds = m_stepsBllService.GetFlowStepListByFlowID(flowID,out msg);
+                var total = ds.Tables[0].Rows.Count;
+                for (int i = 0; i < total; i++)
+                {
+                    IDList.Add(ds.Tables[0].Rows[i][0]);
+                }
+                bool flag=false;
+                try
+                {
+                    foreach (int idlist in IDList)
+                    {
+                        if (m_stepsBllService.DeleteStep(idlist,out msg))
+                        {
+                            flag = true;
+                        }
+                        else
+                        {
+                            flag = false;
+                        }
+                    }
+                    if (flag == true)
+                    {
+                        return Json("{success:true,css:'alert alert-success',message:'删除成功!'}");
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
+                    }
+                }
+                catch (Exception ex) 
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+
             }
         }
 
@@ -424,34 +488,72 @@ namespace WorkFlow.Controllers
         }
 
         //添加并行节点的操作
-        //public ActionResult AddStepNodes(FormCollection collection)
-        //{
-        //    if (Session["user"] == null)
-        //    {
-        //        return RedirectToAction("Home", "Login");
-        //    }
-        //    else
-        //    {
-        //        string msg = string.Empty;
-        //        WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
-        //        WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+        public ActionResult AddStepNodes(FormCollection collection)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                string msg = string.Empty;
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
 
-        //        WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
-        //        m_SecurityContext.UserName = m_usersModel.login;
-        //        m_SecurityContext.PassWord = m_usersModel.password;
-        //        m_SecurityContext.AppID = (int)m_usersModel.app_id;
-        //        m_stepsBllService.SecurityContextValue = m_SecurityContext;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
 
-        //        int ID = Convert.ToInt32(Request.Form["s_id"]);
-        //        WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+                int ID = Convert.ToInt32(collection["s_id"]);
 
-        //        m_stepsModel = m_stepsBllService.GetModelByID(ID,out msg);
+                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+                m_stepsModel = m_stepsBllService.GetModelByID(ID, out msg);
 
-        //        m_stepsModel.name = Request.Form["s_name"];
-               
-        //    }
-        //}
+                int userID = Convert.ToInt32(collection["stepsUser"]);
+
+                m_stepsModel.name = collection["s_name"];
+                m_stepsModel.remark = collection["nodesRemark"];
+                m_stepsModel.flow_id = m_stepsModel.flow_id;
+                m_stepsModel.step_type_id = m_stepsModel.step_type_id;
+                m_stepsModel.repeat_count = Convert.ToInt32(m_stepsModel.repeat_count) + 1;
+                m_stepsModel.invalid = false;
+                m_stepsModel.order_no = m_stepsModel.order_no;
+                m_stepsModel.deleted = false;
+                m_stepsModel.created_by = Convert.ToInt32(collection["nodesCreated_by"]);
+                m_stepsModel.created_at = Convert.ToDateTime(collection["nodesCreated_at"]);
+                m_stepsModel.created_ip = Convert.ToString(collection["nodesCreated_ip"]);
+
+                try {
+
+                    if (m_stepsBllService.AddNode(m_stepsModel, userID, out msg))//添加成功
+                    {
+                        //统计下流程flow_id下排序码为order_no下的
+                        int repeat_count = m_stepsBllService.GetOrderNoCount((int)m_stepsModel.flow_id,(int)m_stepsModel.order_no,out msg);
+                        if (m_stepsBllService.UpdateNode((int)m_stepsModel.flow_id, (int)m_stepsModel.order_no, repeat_count, out msg))
+                        {
+                            return Json("{success:true,css:'alert alert-success',message:'添加同步成功!'}");
+                        }
+                        else
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'添加同步失败!'}");
+                        }
+                       
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'添加失败!'}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+              
+            }
+        }
 
         //判断一下步骤是顺序还是并序
         public ActionResult GetStepType()
@@ -485,10 +587,159 @@ namespace WorkFlow.Controllers
                 catch (Exception ex)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }        
+            }
+
+        }
+  
+        //根据step_id获得对应的flow_id
+        public ActionResult GetFlowID()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                int stepID = Convert.ToInt32(Request.Params["stepID"]);
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                string msg = string.Empty;
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+
+                try
+                {
+                    m_stepsModel = m_stepsBllService.GetModelByID(stepID, out msg);
+                    int flowID = Convert.ToInt32(m_stepsModel.flow_id);
+                    return Json("{flowID:'"+flowID+"'}");
+                }
+                catch (Exception ex) {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
                
-                
-                
+
+
+            }
+        }
+
+        //编辑详情
+        public ActionResult EditPage(int id)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                string msg = string.Empty;
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+                WorkFlow.StepsWebService.v_stepsModel mv_stepsModel = new StepsWebService.v_stepsModel();
+
+                m_stepsModel = m_stepsBllService.GetModelByID(id,out msg);
+                mv_stepsModel = m_stepsBllService.GetV_StepsModel(id,out msg);
+
+                ViewData["s_id"] = m_stepsModel.id;
+                ViewData["s_name"] = m_stepsModel.name;
+                ViewData["s_remark"] = m_stepsModel.remark;
+
+                ViewData["s_flow_id"] = m_stepsModel.flow_id;
+                ViewData["s_flow_name"] = mv_stepsModel.f_name;
+
+                ViewData["s_step_type_id"] = m_stepsModel.step_type_id;
+                ViewData["s_step_type_name"] = mv_stepsModel.step_type_name;
+
+                ViewData["s_repeat_count"] = m_stepsModel.repeat_count;
+                ViewData["s_invalid"] = m_stepsModel.invalid;
+                ViewData["s_order_no"] = m_stepsModel.order_no;
+                ViewData["s_deleted"] = m_stepsModel.deleted;
+                ViewData["s_created_at"] = m_stepsModel.created_at;
+                ViewData["s_created_by"] = m_stepsModel.created_by;
+                ViewData["s_created_ip"] = m_stepsModel.created_ip;
+                ViewData["s_updated_at"] = m_stepsModel.updated_at;
+                ViewData["s_updated_by"] = m_stepsModel.updated_by;
+                ViewData["s_updated_ip"] = m_stepsModel.updated_ip;
+                return View();
+            }
+
+        }
+        
+       //编辑信息
+        public ActionResult EditStep(FormCollection collection)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                string msg = string.Empty;
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                int stepID = Convert.ToInt32(collection["stepsID"].Trim());
+                int flowID=Convert.ToInt32(collection["s_flow_id"].Trim());
+                string stepName = collection["stepsName"].Trim();
+
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(stepName)==false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'步骤名称中含有非法字符,只能包含字母、汉字、数字、下划线!'}");
+                }
+                try
+                {
+                    if (m_stepsBllService.ExistStepName(stepName, flowID, out msg) == false)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'该流程下已经存在相同的步骤名称'}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+               
+                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+                m_stepsModel = m_stepsBllService.GetModelByID(stepID,out msg);
+                m_stepsModel.name = collection["stepsName"].Trim();
+           
+                m_stepsModel.updated_at = Convert.ToDateTime(collection["stepsUpdate_at"]);
+                m_stepsModel.updated_by = Convert.ToInt32(collection["stepsUpdate_by"]);
+                m_stepsModel.updated_ip = Convert.ToString(collection["stepsUpdate_ip"]);
+                try {
+                    if (m_stepsBllService.Update(m_stepsModel, out msg))
+                    {
+                        return Json("{success:true,css:'alert alert-success',message:'更新成功!'}");
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'更新失败!'}");
+                    }
+                }
+                catch (Exception ex) {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
             }
         }
     }
