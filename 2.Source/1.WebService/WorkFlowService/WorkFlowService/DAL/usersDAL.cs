@@ -136,7 +136,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from users");
-            strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and app_id=@app_id and admin=0 and deleted=0 ");
+            strSql.Append(" where login=@login and password=dbo.f_tobase64(HASHBYTES('md5', CONVERT(nvarchar,@password))) and app_id=@app_id and admin=0 and deleted=0 and invalid=0 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@login", SqlDbType.NVarChar,40),
 					new SqlParameter("@password", SqlDbType.NVarChar,255),

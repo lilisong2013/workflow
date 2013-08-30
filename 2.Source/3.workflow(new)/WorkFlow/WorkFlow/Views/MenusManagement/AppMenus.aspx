@@ -300,7 +300,7 @@
                 <div class="control-group span6 offset2">
                     <label class="control-label">菜单名称</label>
                     <div class="controls">
-                        <input name="MenusName" type="text" class="input-prepend span4" placeholder="菜单名称" maxlength="18"/>
+                        <input name="MenusName" type="text" class="input-prepend span4" placeholder="菜单名称" maxlength="16"/>
                     </div>
                 </div>
                 <div class="control-group span6 offset2">

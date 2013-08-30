@@ -30,8 +30,8 @@
    </script>
    <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 
-    <%--隐藏提示信息--%>
-    <script type="text/javascript">
+   <%--隐藏提示信息--%>
+   <script type="text/javascript">
         //隐藏提示信息
         $(document).click(function () {
             $("#promptDIV").removeClass("alert alert-error alert-success");
@@ -74,12 +74,12 @@
                                     return html;
                                 }
                             },
-                           { display: '', width: 120,
-                               render: function (row) {
-                                   var html = '<i class="icon-trash"></i><a href="#" onclick="FlowSteps(' + row.id + ')">流程步骤维护</a>';
-                                   return html;
-                               }
-                           }
+                            { display: '', width: 120,
+                                render: function (row) {
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="FlowStep(' + row.id + ')">流程步骤</a>';
+                                    return html;
+                                }
+                            }
                            ],
                     dataAction: 'server',
                     width: '99%',
@@ -140,18 +140,18 @@
         }
  
     </script>
-   
+
    <%--流程步骤弹出框函数--%>
    <script type="text/javascript">
-       function FlowSteps(id) {
+       function FlowStep(id) {
 
            if (id) {
                $.ligerDialog.open({
-                  title:'流程步骤维护',
-                  width:900,
-                  height:700,
-                  isDrag: false,
-                  url: '/FlowsManagement/FlowSteps?id='+id
+                   title: '流程步骤维护',
+                   width: 1300,
+                   height: 700,
+                   isDrag: false,
+                   url: '/FlowsManagement/FlowSteps?id=' + id
                });
            }
        }

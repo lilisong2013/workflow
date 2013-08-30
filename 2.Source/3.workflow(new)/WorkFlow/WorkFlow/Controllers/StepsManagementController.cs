@@ -149,22 +149,7 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'请选择操作的用户!'}");
                 }
-                //if (repeatCount.Length == 0)
-                //{
-                //    return Json("{success:false,css:'alert alert-error',message:'重复次数不能为空!'}");
-                //}
-                //if (Saron.Common.PubFun.ConditionFilter.IsNumber(repeatCount) == false)
-                //{
-                //    return Json("{success:false,css:'alert alert-error',message:'重复次数只能是数字!'}");
-                //}
-                //if (orderNo.Length == 0)
-                //{
-                //    return Json("{success:false,css:'alert alert-error',message:'排序编码不能为空!'}");
-                //}
-                //if (Saron.Common.PubFun.ConditionFilter.IsNumber(orderNo) == false)
-                //{
-                //    return Json("{success:false,css:'alert alert-error',message:'排序编码只能是数字!'}");
-                //}
+         
 
                 int userID = Convert.ToInt32(collection["stepsUser"]);
                 m_stepsModel.name = collection["stepsName"];
@@ -773,5 +758,7 @@ namespace WorkFlow.Controllers
                 }
             }
         }
+
+
     }
 }

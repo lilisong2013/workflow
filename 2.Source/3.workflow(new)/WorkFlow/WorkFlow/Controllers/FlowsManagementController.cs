@@ -755,5 +755,110 @@ namespace WorkFlow.Controllers
             }
         }
 
+        /// <summary>
+        /// 获取流程的步骤列表
+        /// </summary>
+        public ActionResult GetFlowStepsList()
+        {
+            if (Session["user"] == null)
+            {
+                return Json("{sessionIsNull:true}");
+            }
+            int m_flowID = Convert.ToInt32(Request.Params["flowID"].ToString());
+            WorkFlow.StepsWebService.stepsBLLservice m_stepsBllservice = new StepsWebService.stepsBLLservice();
+            WorkFlow.StepsWebService.SecurityContext m_securityContext = new StepsWebService.SecurityContext();
+            WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+          
+
+            string msg = "";//错误信息
+
+            #region webservice授权验证
+            m_securityContext.UserName = m_userModel.login;
+            m_securityContext.PassWord = m_userModel.password;
+            m_securityContext.AppID = (int)m_userModel.app_id;
+            m_stepsBllservice.SecurityContextValue = m_securityContext;
+            #endregion
+
+            #region 访问webservice获取流程的步骤列表
+            DataSet ds = new DataSet();
+            DataSet ordernoDs = new DataSet();
+            try
+            {
+                ds = m_stepsBllservice.GetFlowStepListByFlowID(m_flowID, out msg);
+                ordernoDs = m_stepsBllservice.GetFlowStepOrder_noListByFlowID(m_flowID, out msg);
+            }
+            catch (Exception ex)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'webservice异常！'}");
+            }
+
+            //webservice是否授权
+            if (ds == null)
+            {
+                return Json("{success:false,css:'alert alert-error',message:'webservice未授权！'}");
+            }
+            #endregion
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                string dataJson = "{success:true,StepRows:[";
+
+                #region 步骤的数据集转化为json格式数据
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string step_id = ds.Tables[0].Rows[i][0].ToString();//步骤ID
+                    string step_name = ds.Tables[0].Rows[i][1].ToString();//步骤名称
+                    string flow_name = ds.Tables[0].Rows[i][2].ToString();//流程名称
+                    string flow_id = ds.Tables[0].Rows[i][6].ToString();//所属流程ID
+                    string stepType_name = ds.Tables[0].Rows[i][3].ToString();//步骤类型
+                    string order_no = ds.Tables[0].Rows[i][4].ToString();//排序码
+
+
+                    if (i == ds.Tables[0].Rows.Count - 1)
+                    {
+                        dataJson += "{step_id:'" + step_id + "',";
+                        dataJson += "step_name:'" + step_name + "',";
+                        dataJson += "stepType_name:'" + stepType_name + "',";
+                        dataJson += "order_no:'" + order_no + "'}]";
+                    }
+                    else
+                    {
+                        dataJson += "{step_id:'" + step_id + "',";
+                        dataJson += "step_name:'" + step_name + "',";
+                        dataJson += "stepType_name:'" + stepType_name + "',";
+                        dataJson += "order_no:'" + order_no + "'},";
+                    }
+                }
+                #endregion
+
+                dataJson += ",AllstepCount:'" + ds.Tables[0].Rows.Count + "',Order_NoRows:[";
+                #region 步骤的排序码数据集转化为json格式数据
+                for (int i = 0; i < ordernoDs.Tables[0].Rows.Count; i++)
+                {
+                    string order_no = ordernoDs.Tables[0].Rows[i][0].ToString();
+                    string stepType_Name = ordernoDs.Tables[0].Rows[i][1].ToString();
+
+                    if (i == ordernoDs.Tables[0].Rows.Count - 1)
+                    {
+                        dataJson += "{order_no:'" + order_no + "',";
+                        dataJson += "stepType_Name:'" + stepType_Name + "'}]";
+                    }
+                    else
+                    {
+                        dataJson += "{order_no:'" + order_no + "',";
+                        dataJson += "stepType_Name:'" + stepType_Name + "'},";
+                    }
+                }
+                #endregion
+
+                dataJson += ",stepCount:'" + ordernoDs.Tables[0].Rows.Count + "'}";
+                return Json(dataJson);
+            }
+            else
+            {
+                return Json("{success:true,stepCount:'0'}");
+            }
+        }
+
     }
 }
