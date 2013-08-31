@@ -2,7 +2,30 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
+
     <script src="../../Scripts/jquery.form.js" type="text/javascript"></script>
+     <link href="../../Css/promptDivCss.css" rel="stylesheet" type="text/css" />
+   <%-- ligerUI核心文件--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-grid.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-tree.css" rel="stylesheet"
+        type="text/css" />
+    <script src="../../LigerUI/lib/ligerUI/js/core/base.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerGrid.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerTree.js" type="text/javascript"></script>
+    <%--LigerUI Dialog文件--%>
+    <%--<link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css"/>--%>
+    <link href="../../LigerUI/lib/ligerUI/skins/Aqua/css/ligerui-dialog.css" rel="stylesheet" type="text/css"/>
+
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+    <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+     <%--LigerUI ToolBar文件--%>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerToolBar.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerCheckBox.js" type="text/javascript"></script>
+   <script src="../../LigerUI/lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+   <script src="../../Scripts/ligerGrid.showFilter.js" type="text/javascript"></script>
+
    <%--页面标题--%>
     <script type="text/javascript">
         var titleUrl = "/Home/GetPageTitle";
@@ -24,14 +47,14 @@
        var flowsID;
        $(document).ready(function () {
            flowsID = $("#flowsID").val(); //流程ID
-          // alert(flowsID);
+           // alert(flowsID);
        });
-       var stepTotal = 0;//步骤数量
+       var stepTotal = 0; //步骤数量
    </script>
+   
+  
 
-
-
-   <%--流程步骤初始化(测试)--%>
+   <%--流程步骤初始化--%>
    <script type="text/javascript">
        $(document).ready(function () {
 
@@ -73,7 +96,7 @@
                                        $("#AllStepShow").append(stepHtmlStr);
                                    } else {
                                        stepHtmlStr += "<td><table>";
-                                      // alert(stepHtmlStr);
+                                       // alert(stepHtmlStr);
                                        for (var j = 0; j < dataJson.AllstepCount; j++) {
                                            if (dataJson.Order_NoRows[i].order_no == dataJson.StepRows[j].order_no) {
                                                //alert(datajson.StepRows[j].step_name);
@@ -121,10 +144,10 @@
 
                        var checkBoxID = $("#flowstep" + i.toString()); //复选框
                        if (checkBoxID.is(":checked")) {
-                          //alert(checkBoxID.val() + "选中");
+                           //alert(checkBoxID.val() + "选中");
                            // flow_stepsStr += "fstepID" + fsTotal.toString() + ":'" + checkBoxID.val() + "',";
                            flow_stepsStr += "fstepID" + fsTotal.toString() + ":'" + checkBoxID.val() + "',";
-                           flow_stepsStr += "valid" + fsTotal.toString() + ":'"+checkBoxID.is(":checked")+"',";
+                           flow_stepsStr += "valid" + fsTotal.toString() + ":'" + checkBoxID.is(":checked") + "',";
                            fsTotal++;
                        } else {
                            //alert(checkBoxID.val() + "未选中");
@@ -137,7 +160,7 @@
                    flow_stepsStr += "fs_total:'" + fsTotal + "',f_ID:'" + $("#flowsID").val() + "'}";
                    //alert("flow_stepsStr:" + flow_stepsStr);
                    flow_stepsData = eval("(" + flow_stepsStr + ")");
-                  // alert("flow_stepsData:" + flow_stepsData);
+                   // alert("flow_stepsData:" + flow_stepsData);
 
                    $("#flow_steps").ajaxForm({
                        success: fs_showResponse, //form提交响应成功执行的回调函数
@@ -176,9 +199,13 @@
   <div id="promptDIV" class="row"></div>
   </div>
 
-  <div class="tab-pane">
+   
+  
+    
+    <div class="tab-pane active">
+
      <form id="flow_steps" method="post" action="" class="form-horizontal">
-         
+ 
          <div class="control-group page-header">
            <label class="control-label">流程名称:</label>
             <div class="controls">
@@ -186,18 +213,19 @@
                <input id="flowsID" name="flowsID" type="hidden" value="<%=ViewData["flowsID"]%>"/>
             </div>
          </div>
-
-         
+   
          <%--步骤显示区--%>
          <div class="container" style="overflow:auto;">
            <table>
              <tr id="AllStepShow"></tr>
            </table>
          </div>
-           
-       
-
+ 
      </form>
-  </div>
+ 
+    </div>
+
+
+ 
 
 </asp:Content>

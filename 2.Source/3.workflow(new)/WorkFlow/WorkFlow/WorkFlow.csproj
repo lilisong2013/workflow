@@ -558,6 +558,7 @@
     <Content Include="Views\FlowsManagement\DetailInfo.aspx" />
     <Content Include="Views\FlowsManagement\EditPage.aspx" />
     <Content Include="Views\FlowsManagement\FlowSteps.aspx" />
+    <Content Include="Views\FlowsManagement\FlowSteps1.aspx" />
     <Content Include="Views\Home\AdminInfo.aspx" />
     <Content Include="Views\Home\AdminLogin.aspx" />
     <Content Include="Views\Home\AdminPass.aspx" />
@@ -787,10 +788,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_ElementsWebService_elementsBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/flowsBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.12.3:8081/WebService/flowsBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\FlowsWebService\</RelPath>
-      <UpdateFromURL>http://192.168.11.103:8081/WebService/flowsBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.12.3:8081/WebService/flowsBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -897,10 +898,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>workflow_MenusWebService_menusBLLservice</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx">
+    <WebReferenceUrl Include="http://192.168.12.3:8081/WebService/stepsBLLservice.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\StepsWebService\</RelPath>
-      <UpdateFromURL>http://192.168.11.103:8081/WebService/stepsBLLservice.asmx</UpdateFromURL>
+      <UpdateFromURL>http://192.168.12.3:8081/WebService/stepsBLLservice.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

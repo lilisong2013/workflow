@@ -37,6 +37,8 @@ namespace WorkFlow.Controllers
             }
             else
             {
+                int flowID = Convert.ToInt32(Request.Params["flowsID"]);
+               
                 //排序的字段名
                 string sortname = Request.Params["sortname"];
                 //排序的方向
@@ -56,7 +58,7 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
 
-                DataSet ds = m_stepsBllService.GetFlowStepListByAppID((int)m_usersModel.app_id,out msg);
+                DataSet ds = m_stepsBllService.GetFlowStepListByFlowID(flowID,out msg);
                 IList<WorkFlow.StepsWebService.v_stepsModel> m_list=new List<WorkFlow.StepsWebService.v_stepsModel>();
 
                 var total = ds.Tables[0].Rows.Count;
