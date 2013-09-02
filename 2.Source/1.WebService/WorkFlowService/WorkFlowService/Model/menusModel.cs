@@ -21,7 +21,6 @@ namespace Saron.WorkFlowService.Model
 		private int? _app_id;
 		private int? _parent_id;
 		private string _remark;
-		private bool _invalid= false;
 		private bool _deleted= false;
 		private DateTime _created_at= DateTime.Now;
 		private int _created_by;
@@ -85,14 +84,7 @@ namespace Saron.WorkFlowService.Model
 			set{ _remark=value;}
 			get{return _remark;}
 		}
-		/// <summary>
-		/// 是否有效
-		/// </summary>
-		public bool invalid
-		{
-			set{ _invalid=value;}
-			get{return _invalid;}
-		}
+
 		/// <summary>
 		/// 记录删除标志
 		/// </summary>
