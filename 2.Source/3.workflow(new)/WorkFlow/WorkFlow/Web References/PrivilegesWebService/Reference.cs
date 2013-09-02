@@ -841,8 +841,6 @@ namespace WorkFlow.PrivilegesWebService {
         
         private int app_idField;
         
-        private bool invalidField;
-        
         private System.DateTime created_atField;
         
         private int created_byField;
@@ -912,16 +910,6 @@ namespace WorkFlow.PrivilegesWebService {
             }
             set {
                 this.app_idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool invalid {
-            get {
-                return this.invalidField;
-            }
-            set {
-                this.invalidField = value;
             }
         }
         

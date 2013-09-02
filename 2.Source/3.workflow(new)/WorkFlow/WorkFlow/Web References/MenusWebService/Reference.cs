@@ -657,8 +657,6 @@ namespace WorkFlow.MenusWebService {
         
         private string remarkField;
         
-        private bool invalidField;
-        
         private bool deletedField;
         
         private System.DateTime created_atField;
@@ -742,16 +740,6 @@ namespace WorkFlow.MenusWebService {
             }
             set {
                 this.remarkField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool invalid {
-            get {
-                return this.invalidField;
-            }
-            set {
-                this.invalidField = value;
             }
         }
         

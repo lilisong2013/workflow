@@ -726,7 +726,7 @@ namespace WorkFlow.Controllers
                         bool invalid = Convert.ToBoolean(Request.Params["valid"+i]);
                         DataSet ds = m_stepsBllService.GetStepListByID(m_stepsID,out msg);
                         m_stepsModel = m_stepsBllService.GetModelByID(m_stepsID,out msg);
-                        m_stepsModel.invalid = invalid;
+                   
 
                         if (m_stepsBllService.Update(m_stepsModel,out msg) == true)
                         {

@@ -506,7 +506,7 @@ namespace WorkFlow.Controllers
                 m_stepsModel.flow_id = m_stepsModel.flow_id;
                 m_stepsModel.step_type_id = m_stepsModel.step_type_id;
                 m_stepsModel.repeat_count = Convert.ToInt32(m_stepsModel.repeat_count) + 1;
-                m_stepsModel.invalid = false;
+
                 m_stepsModel.order_no = m_stepsModel.order_no;
                 m_stepsModel.deleted = false;
                 m_stepsModel.created_by = Convert.ToInt32(collection["nodesCreated_by"]);
@@ -669,7 +669,7 @@ namespace WorkFlow.Controllers
                 ViewData["s_step_type_name"] = mv_stepsModel.step_type_name;
 
                 ViewData["s_repeat_count"] = m_stepsModel.repeat_count;
-                ViewData["s_invalid"] = m_stepsModel.invalid;
+             
                 ViewData["s_order_no"] = m_stepsModel.order_no;
                 ViewData["s_deleted"] = m_stepsModel.deleted;
                 ViewData["s_created_at"] = m_stepsModel.created_at;

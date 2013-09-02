@@ -398,10 +398,10 @@
   </wsdl:binding>
   <wsdl:service name="flowsBLLservice">
     <wsdl:port name="flowsBLLserviceSoap" binding="tns:flowsBLLserviceSoap">
-      <soap:address location="http://192.168.12.3:8081/WebService/flowsBLLservice.asmx" />
+      <soap:address location="http://192.168.11.103:8081/WebService/flowsBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="flowsBLLserviceSoap12" binding="tns:flowsBLLserviceSoap12">
-      <soap12:address location="http://192.168.12.3:8081/WebService/flowsBLLservice.asmx" />
+      <soap12:address location="http://192.168.11.103:8081/WebService/flowsBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

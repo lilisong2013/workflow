@@ -897,8 +897,6 @@ namespace WorkFlow.StepsWebService {
         
         private System.Nullable<int> repeat_countField;
         
-        private bool invalidField;
-        
         private int order_noField;
         
         private bool deletedField;
@@ -975,16 +973,6 @@ namespace WorkFlow.StepsWebService {
             }
             set {
                 this.repeat_countField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool invalid {
-            get {
-                return this.invalidField;
-            }
-            set {
-                this.invalidField = value;
             }
         }
         

@@ -17,7 +17,6 @@
           <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
           <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
           <s:element minOccurs="1" maxOccurs="1" name="app_id" nillable="true" type="s:int" />
-          <s:element minOccurs="1" maxOccurs="1" name="invalid" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="deleted" type="s:boolean" />
           <s:element minOccurs="1" maxOccurs="1" name="created_at" type="s:dateTime" />
           <s:element minOccurs="1" maxOccurs="1" name="created_by" type="s:int" />

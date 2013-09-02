@@ -150,16 +150,7 @@ namespace WorkFlow.Controllers
                 ma_SecurityContext.AppID =(int)m_usersModel.app_id;
                 m_appsBllService.SecurityContextValue = ma_SecurityContext;
                 ViewData["elementsApp_id"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
-  
-                if (m_elementsModel.invalid == true)
-                {
-                    ViewData["elementsInvalid"] ="否";
-                }
-                if (m_elementsModel.invalid == false)
-                {
-                    ViewData["elementsInvalid"] = "是";
-                }
-               
+      
                 ViewData["elementsCreated_at"] = m_elementsModel.created_at;
                 ViewData["elementsCreated_by"] = m_usersModel.login;
                 ViewData["elementsCreated_ip"] = m_elementsModel.created_ip;
@@ -306,15 +297,7 @@ namespace WorkFlow.Controllers
                 int total = 1;
                 string m_InvalidName = "是";
                 int m_elementsID = m_elementID;
-                //判断"元素"中是否有效
-                if (m_elementModel.invalid == false)
-                {
-                    m_selected = "true";
-                }
-                else
-                {
-                    m_selected = "false";
-                }
+              
                 strJson += "{id:'" + m_elementsID + "',";
                 strJson += "name:'" + m_InvalidName + "',";
                 strJson += "selected:'" + m_selected + "'}";
@@ -383,7 +366,7 @@ namespace WorkFlow.Controllers
                 DataSet mds = m_menusBllService.GetMenuNameOfAppID((int)m_usersModel.app_id,menuID,out msg);
                 ViewData["elementsMenu_IDName"]=mds.Tables[0].Rows[0][0];
                 ViewData["elementsApp_id"] = m_elementsModel.app_id;
-                ViewData["elementsInvalid"] = m_elementsModel.invalid;
+               
                 ViewData["elementsDeleted"] = m_elementsModel.deleted;
                 ViewData["elementsCreated_at"] = m_elementsModel.created_at;
                 ViewData["elementsCreated_by"] = m_elementsModel.created_by;
@@ -735,14 +718,7 @@ namespace WorkFlow.Controllers
                 m_elementsModel.seqno = Convert.ToInt32(collection["elementsSeqno"].Trim().ToString());
                 m_elementsModel.menu_id = Convert.ToInt32(collection["elementsMenu_id"].Trim().ToString());
                 m_elementsModel.app_id = Convert.ToInt32(collection["elementsApp_id"].Trim().ToString());
-                if (m_ev_Total == 1)
-                {
-                    m_elementsModel.invalid = false;
-                }
-                if (m_ev_Total == 0)
-                {
-                    m_elementsModel.invalid = true;
-                }
+             
 
                 m_elementsModel.deleted = Convert.ToBoolean(collection["elementsDeleted"].Trim().ToString());
                 m_elementsModel.updated_at = t;

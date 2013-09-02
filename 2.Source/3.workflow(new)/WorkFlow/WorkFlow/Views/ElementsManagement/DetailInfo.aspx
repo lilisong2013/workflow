@@ -41,10 +41,7 @@
   <td width="300">系统名称：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsApp_id"]%></td>
   </tr>
-  <tr>
-  <td width="300">是否有效：</td>
-  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsInvalid"]%></td>
-  </tr>
+
   <tr>
   <td width="300">创建时间：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["elementsCreated_at"]%></td>

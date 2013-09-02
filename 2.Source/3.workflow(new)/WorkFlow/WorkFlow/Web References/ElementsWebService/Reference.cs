@@ -585,8 +585,6 @@ namespace WorkFlow.ElementsWebService {
         
         private System.Nullable<int> app_idField;
         
-        private bool invalidField;
-        
         private bool deletedField;
         
         private System.DateTime created_atField;
@@ -682,16 +680,6 @@ namespace WorkFlow.ElementsWebService {
             }
             set {
                 this.app_idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public bool invalid {
-            get {
-                return this.invalidField;
-            }
-            set {
-                this.invalidField = value;
             }
         }
         
