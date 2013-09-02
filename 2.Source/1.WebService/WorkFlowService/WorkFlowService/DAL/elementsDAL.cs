@@ -39,9 +39,9 @@ namespace Saron.WorkFlowService.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into elements(");
-			strSql.Append("name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip)");
+			strSql.Append("name,code,remark,initstatus_id,seqno,menu_id,app_id,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip)");
 			strSql.Append(" values (");
-			strSql.Append("@name,@code,@remark,@initstatus_id,@seqno,@menu_id,@app_id,@invalid,@deleted,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip)");
+			strSql.Append("@name,@code,@remark,@initstatus_id,@seqno,@menu_id,@app_id,@deleted,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@name", SqlDbType.NVarChar,80),
@@ -51,7 +51,6 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@seqno", SqlDbType.Int,4),
 					new SqlParameter("@menu_id", SqlDbType.Int,4),
 					new SqlParameter("@app_id", SqlDbType.Int,4),
-					new SqlParameter("@invalid", SqlDbType.Bit,1),
 					new SqlParameter("@deleted", SqlDbType.Bit,1),
 					new SqlParameter("@created_at", SqlDbType.DateTime),
 					new SqlParameter("@created_by", SqlDbType.Int,4),
@@ -66,14 +65,13 @@ namespace Saron.WorkFlowService.DAL
 			parameters[4].Value = model.seqno;
 			parameters[5].Value = model.menu_id;
 			parameters[6].Value = model.app_id;
-			parameters[7].Value = model.invalid;
-			parameters[8].Value = model.deleted;
-			parameters[9].Value = model.created_at;
-			parameters[10].Value = model.created_by;
-			parameters[11].Value = model.created_ip;
-			parameters[12].Value = model.updated_at;
-			parameters[13].Value = model.updated_by;
-			parameters[14].Value = model.updated_ip;
+			parameters[7].Value = model.deleted;
+			parameters[8].Value = model.created_at;
+			parameters[9].Value = model.created_by;
+			parameters[10].Value = model.created_ip;
+			parameters[11].Value = model.updated_at;
+			parameters[12].Value = model.updated_by;
+			parameters[13].Value = model.updated_ip;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -100,7 +98,6 @@ namespace Saron.WorkFlowService.DAL
 			strSql.Append("seqno=@seqno,");
 			strSql.Append("menu_id=@menu_id,");
 			strSql.Append("app_id=@app_id,");
-			strSql.Append("invalid=@invalid,");
 			strSql.Append("deleted=@deleted,");
 			strSql.Append("created_at=@created_at,");
 			strSql.Append("created_by=@created_by,");
@@ -117,7 +114,6 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@seqno", SqlDbType.Int,4),
 					new SqlParameter("@menu_id", SqlDbType.Int,4),
 					new SqlParameter("@app_id", SqlDbType.Int,4),
-					new SqlParameter("@invalid", SqlDbType.Bit,1),
 					new SqlParameter("@deleted", SqlDbType.Bit,1),
 					new SqlParameter("@created_at", SqlDbType.DateTime),
 					new SqlParameter("@created_by", SqlDbType.Int,4),
@@ -133,15 +129,14 @@ namespace Saron.WorkFlowService.DAL
 			parameters[4].Value = model.seqno;
 			parameters[5].Value = model.menu_id;
 			parameters[6].Value = model.app_id;
-			parameters[7].Value = model.invalid;
-			parameters[8].Value = model.deleted;
-			parameters[9].Value = model.created_at;
-			parameters[10].Value = model.created_by;
-			parameters[11].Value = model.created_ip;
-			parameters[12].Value = model.updated_at;
-			parameters[13].Value = model.updated_by;
-			parameters[14].Value = model.updated_ip;
-			parameters[15].Value = model.id;
+			parameters[7].Value = model.deleted;
+			parameters[8].Value = model.created_at;
+			parameters[9].Value = model.created_by;
+			parameters[10].Value = model.created_ip;
+			parameters[11].Value = model.updated_at;
+			parameters[12].Value = model.updated_by;
+			parameters[13].Value = model.updated_ip;
+			parameters[14].Value = model.id;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -205,7 +200,7 @@ namespace Saron.WorkFlowService.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from elements ");
+			strSql.Append("select  top 1 id,name,code,remark,initstatus_id,seqno,menu_id,app_id,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from elements ");
 			strSql.Append(" where id=@id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -247,17 +242,6 @@ namespace Saron.WorkFlowService.DAL
 				if(ds.Tables[0].Rows[0]["app_id"]!=null && ds.Tables[0].Rows[0]["app_id"].ToString()!="")
 				{
 					model.app_id=int.Parse(ds.Tables[0].Rows[0]["app_id"].ToString());
-				}
-				if(ds.Tables[0].Rows[0]["invalid"]!=null && ds.Tables[0].Rows[0]["invalid"].ToString()!="")
-				{
-					if((ds.Tables[0].Rows[0]["invalid"].ToString()=="1")||(ds.Tables[0].Rows[0]["invalid"].ToString().ToLower()=="true"))
-					{
-						model.invalid=true;
-					}
-					else
-					{
-						model.invalid=false;
-					}
 				}
 				if(ds.Tables[0].Rows[0]["deleted"]!=null && ds.Tables[0].Rows[0]["deleted"].ToString()!="")
 				{
@@ -308,7 +292,7 @@ namespace Saron.WorkFlowService.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+			strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
 			strSql.Append(" FROM elements ");
 			if(strWhere.Trim()!="")
 			{
@@ -323,7 +307,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetElementsListOfApp(int appID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM elements ");
             strSql.Append("where app_id=@app_id and deleted=0 order by id desc ");
             SqlParameter[] parameters = {
@@ -359,7 +343,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetAllElementsListOfMenuApp(int appID, int menuID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM elements ");
             strSql.Append("where app_id=@app_id and menu_id=@menu_id and deleted=0 ");
             SqlParameter[] parameters = {
@@ -415,7 +399,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetElementsLisOfMenus(int menusID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM elements ");
             strSql.Append(" where menu_id=@menu_id and deleted=0 order by id desc ");
             SqlParameter[] parameters = {
@@ -445,7 +429,7 @@ namespace Saron.WorkFlowService.DAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+			strSql.Append(" id,name,code,remark,initstatus_id,seqno,menu_id,app_id,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
 			strSql.Append(" FROM elements ");
 			if(strWhere.Trim()!="")
 			{
@@ -507,7 +491,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetListByOperationName(string operationName, int appID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append("select id,name,code,remark,initstatus_id,seqno,menu_id,app_id,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM elements ");
             strSql.Append("where app_id=@app_id and name like '%"+operationName+"%' and deleted=0 order by id desc");
             SqlParameter[] parameters = {

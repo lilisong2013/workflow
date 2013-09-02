@@ -40,9 +40,9 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into steps(");
-            strSql.Append("name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip)");
+            strSql.Append("name,remark,flow_id,step_type_id,repeat_count,order_no,deleted,created_at,created_by,created_ip)");
             strSql.Append(" values (");
-            strSql.Append("@name,@remark,@flow_id,@step_type_id,@repeat_count,@invalid,@order_no,@deleted,@created_at,@created_by,@created_ip)");
+            strSql.Append("@name,@remark,@flow_id,@step_type_id,@repeat_count,@order_no,@deleted,@created_at,@created_by,@created_ip)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@name", SqlDbType.NVarChar,100),
@@ -50,7 +50,6 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@flow_id", SqlDbType.Int,4),
 					new SqlParameter("@step_type_id", SqlDbType.Int,4),
 					new SqlParameter("@repeat_count", SqlDbType.Int,4),
-					new SqlParameter("@invalid", SqlDbType.Bit,1),
 					new SqlParameter("@order_no", SqlDbType.Int,4),
 					new SqlParameter("@deleted", SqlDbType.Bit,1),
 					new SqlParameter("@created_at", SqlDbType.DateTime),
@@ -63,12 +62,11 @@ namespace Saron.WorkFlowService.DAL
             parameters[2].Value = model.flow_id;
             parameters[3].Value = model.step_type_id;
             parameters[4].Value = model.repeat_count;
-            parameters[5].Value = model.invalid;
-            parameters[6].Value = model.order_no;
-            parameters[7].Value = model.deleted;
-            parameters[8].Value = model.created_at;
-            parameters[9].Value = model.created_by;
-            parameters[10].Value = model.created_ip;
+            parameters[5].Value = model.order_no;
+            parameters[6].Value = model.deleted;
+            parameters[7].Value = model.created_at;
+            parameters[8].Value = model.created_by;
+            parameters[9].Value = model.created_ip;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
@@ -88,7 +86,7 @@ namespace Saron.WorkFlowService.DAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
+            strSql.Append("select id,name,remark,flow_id,step_type_id,repeat_count,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
             strSql.Append(" where id=@id and deleted=0 ");
             
             SqlParameter[] parameters = { 
@@ -102,7 +100,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetStepListOfFlowID(int flowid)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
+            strSql.Append("select id,name,remark,flow_id,step_type_id,repeat_count,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
             strSql.Append(" where flow_id=@flow_id and deleted=0 ");
 
             SqlParameter[] parameters = { 
@@ -265,7 +263,7 @@ namespace Saron.WorkFlowService.DAL
         /// </summary>
         public Saron.WorkFlowService.Model.stepsModel GetModel(int id) {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select top 1 id,name,remark,flow_id,step_type_id,repeat_count,invalid,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
+            strSql.Append("select top 1 id,name,remark,flow_id,step_type_id,repeat_count,order_no,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from steps ");
             strSql.Append(" where id=@id");
             SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -301,17 +299,6 @@ namespace Saron.WorkFlowService.DAL
                     model.repeat_count = int.Parse(ds.Tables[0].Rows[0]["repeat_count"].ToString());
                 }
                            
-                if (ds.Tables[0].Rows[0]["invalid"] != null && ds.Tables[0].Rows[0]["invalid"].ToString() != "")
-                {
-                    if ((ds.Tables[0].Rows[0]["invalid"].ToString() == "1") || (ds.Tables[0].Rows[0]["invalid"].ToString().ToLower() == "true"))
-                    {
-                        model.invalid = true;
-                    }
-                    else
-                    {
-                        model.invalid = false;
-                    }
-                }
 
                 if (ds.Tables[0].Rows[0]["order_no"] != null && ds.Tables[0].Rows[0]["order_no"].ToString() != "")
                 {
@@ -373,7 +360,6 @@ namespace Saron.WorkFlowService.DAL
             strSql.Append("flow_id=@flow_id,");
             strSql.Append("step_type_id=@step_type_id,");
             strSql.Append("repeat_count=@repeat_count,");
-            strSql.Append("invalid=@invalid,");
             strSql.Append("order_no=@order_no,");
             strSql.Append("deleted=@deleted,");
             strSql.Append("created_at=@created_at,");
@@ -390,7 +376,6 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@flow_id", SqlDbType.Int,4),
 					new SqlParameter("@step_type_id",SqlDbType.Int,4),
 					new SqlParameter("@repeat_count",SqlDbType.Int,4),
-					new SqlParameter("@invalid", SqlDbType.Bit,1),
 				    new SqlParameter("@order_no",SqlDbType.Int,4),
 					new SqlParameter("@deleted", SqlDbType.Bit,1),
 					new SqlParameter("@created_at", SqlDbType.DateTime),
@@ -406,16 +391,15 @@ namespace Saron.WorkFlowService.DAL
             parameters[2].Value = model.flow_id;
             parameters[3].Value = model.step_type_id;
             parameters[4].Value = model.repeat_count;
-            parameters[5].Value = model.invalid;
-            parameters[6].Value = model.order_no;
-            parameters[7].Value = model.deleted;
-            parameters[8].Value = model.created_at;
-            parameters[9].Value = model.created_by;
-            parameters[10].Value = model.created_ip;
-            parameters[11].Value = model.updated_at;
-            parameters[12].Value = model.updated_by;
-            parameters[13].Value = model.updated_ip;
-            parameters[14].Value = model.id;
+            parameters[5].Value = model.order_no;
+            parameters[6].Value = model.deleted;
+            parameters[7].Value = model.created_at;
+            parameters[8].Value = model.created_by;
+            parameters[9].Value = model.created_ip;
+            parameters[10].Value = model.updated_at;
+            parameters[11].Value = model.updated_by;
+            parameters[12].Value = model.updated_ip;
+            parameters[13].Value = model.id;
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
             if (rows > 0)
             {

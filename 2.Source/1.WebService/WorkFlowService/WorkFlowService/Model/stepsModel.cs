@@ -20,7 +20,6 @@ namespace Saron.WorkFlowService.Model
         private int? _flow_id;
         private int? _step_type_id;
         private int? _repeat_count;
-        private bool _invalid = false;
         private int _order_no;
         private bool _deleted = false;
         private DateTime _created_at = DateTime.Now;
@@ -76,14 +75,6 @@ namespace Saron.WorkFlowService.Model
         {
             set { _repeat_count = value; }
             get { return _repeat_count; }
-        }
-        /// <summary>
-        /// 是否有效
-        /// </summary>
-        public bool invalid
-        {
-            set { _invalid = value; }
-            get { return _invalid; }
         }
         /// <summary>
         /// 排序码

@@ -121,9 +121,9 @@ namespace Saron.WorkFlowService.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into privileges(");
-			strSql.Append("name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip)");
+			strSql.Append("name,privilegetype_id,privilegeitem_id,remark,app_id,created_at,created_by,created_ip,updated_at,updated_by,updated_ip)");
 			strSql.Append(" values (");
-			strSql.Append("@name,@privilegetype_id,@privilegeitem_id,@remark,@app_id,@invalid,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip)");
+			strSql.Append("@name,@privilegetype_id,@privilegeitem_id,@remark,@app_id,@created_at,@created_by,@created_ip,@updated_at,@updated_by,@updated_ip)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
 					new SqlParameter("@name", SqlDbType.NVarChar,80),
@@ -131,7 +131,6 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@privilegeitem_id", SqlDbType.Int,4),
 					new SqlParameter("@remark", SqlDbType.NVarChar,80),
 					new SqlParameter("@app_id", SqlDbType.Int,4),
-					new SqlParameter("@invalid", SqlDbType.Bit,1),
 					new SqlParameter("@created_at", SqlDbType.DateTime),
 					new SqlParameter("@created_by", SqlDbType.Int,4),
 					new SqlParameter("@created_ip", SqlDbType.NVarChar,40),
@@ -143,13 +142,12 @@ namespace Saron.WorkFlowService.DAL
 			parameters[2].Value = model.privilegeitem_id;
 			parameters[3].Value = model.remark;
 			parameters[4].Value = model.app_id;
-			parameters[5].Value = model.invalid;
-			parameters[6].Value = model.created_at;
-			parameters[7].Value = model.created_by;
-			parameters[8].Value = model.created_ip;
-			parameters[9].Value = model.updated_at;
-			parameters[10].Value = model.updated_by;
-			parameters[11].Value = model.updated_ip;
+			parameters[5].Value = model.created_at;
+			parameters[6].Value = model.created_by;
+			parameters[7].Value = model.created_ip;
+			parameters[8].Value = model.updated_at;
+			parameters[9].Value = model.updated_by;
+			parameters[10].Value = model.updated_ip;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -171,7 +169,6 @@ namespace Saron.WorkFlowService.DAL
 			strSql.Append("update privileges set ");
 			strSql.Append("name=@name,");
 			strSql.Append("remark=@remark,");
-			strSql.Append("invalid=@invalid,");
 			strSql.Append("created_at=@created_at,");
 			strSql.Append("created_by=@created_by,");
 			strSql.Append("created_ip=@created_ip,");
@@ -182,7 +179,6 @@ namespace Saron.WorkFlowService.DAL
 			SqlParameter[] parameters = {
 					new SqlParameter("@name", SqlDbType.NVarChar,80),
 					new SqlParameter("@remark", SqlDbType.NVarChar,80),
-					new SqlParameter("@invalid", SqlDbType.Bit,1),
 					new SqlParameter("@created_at", SqlDbType.DateTime),
 					new SqlParameter("@created_by", SqlDbType.Int,4),
 					new SqlParameter("@created_ip", SqlDbType.NVarChar,40),
@@ -195,17 +191,16 @@ namespace Saron.WorkFlowService.DAL
 					new SqlParameter("@app_id", SqlDbType.Int,4)};
 			parameters[0].Value = model.name;
 			parameters[1].Value = model.remark;
-			parameters[2].Value = model.invalid;
-			parameters[3].Value = model.created_at;
-			parameters[4].Value = model.created_by;
-			parameters[5].Value = model.created_ip;
-			parameters[6].Value = model.updated_at;
-			parameters[7].Value = model.updated_by;
-			parameters[8].Value = model.updated_ip;
-			parameters[9].Value = model.id;
-			parameters[10].Value = model.privilegetype_id;
-			parameters[11].Value = model.privilegeitem_id;
-			parameters[12].Value = model.app_id;
+			parameters[2].Value = model.created_at;
+			parameters[3].Value = model.created_by;
+			parameters[4].Value = model.created_ip;
+			parameters[5].Value = model.updated_at;
+			parameters[6].Value = model.updated_by;
+			parameters[7].Value = model.updated_ip;
+			parameters[8].Value = model.id;
+			parameters[9].Value = model.privilegetype_id;
+			parameters[10].Value = model.privilegeitem_id;
+			parameters[11].Value = model.app_id;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -270,7 +265,7 @@ namespace Saron.WorkFlowService.DAL
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from privileges ");
+			strSql.Append("select  top 1 id,name,privilegetype_id,privilegeitem_id,remark,app_id,created_at,created_by,created_ip,updated_at,updated_by,updated_ip from privileges ");
 			strSql.Append(" where id=@id");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)
@@ -304,17 +299,6 @@ namespace Saron.WorkFlowService.DAL
 				if(ds.Tables[0].Rows[0]["app_id"]!=null && ds.Tables[0].Rows[0]["app_id"].ToString()!="")
 				{
 					model.app_id=int.Parse(ds.Tables[0].Rows[0]["app_id"].ToString());
-				}
-				if(ds.Tables[0].Rows[0]["invalid"]!=null && ds.Tables[0].Rows[0]["invalid"].ToString()!="")
-				{
-					if((ds.Tables[0].Rows[0]["invalid"].ToString()=="1")||(ds.Tables[0].Rows[0]["invalid"].ToString().ToLower()=="true"))
-					{
-						model.invalid=true;
-					}
-					else
-					{
-						model.invalid=false;
-					}
 				}
 				if(ds.Tables[0].Rows[0]["created_at"]!=null && ds.Tables[0].Rows[0]["created_at"].ToString()!="")
 				{
@@ -354,7 +338,7 @@ namespace Saron.WorkFlowService.DAL
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+			strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
 			strSql.Append(" FROM privileges ");
 			if(strWhere.Trim()!="")
 			{
@@ -370,7 +354,7 @@ namespace Saron.WorkFlowService.DAL
             //菜单ID列表
             if (flag == 1)
             {
-                strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+                strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
                 strSql.Append(" FROM privileges ");
                 strSql.Append(" where app_id=@app_id and privilegetype_id=1 and invalid=0");
                 SqlParameter[] parameters = {
@@ -411,7 +395,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetAllListByAppID(int appID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM privileges ");
             strSql.Append(" where app_id=@app_id");
             SqlParameter[] parameters = {
@@ -432,7 +416,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetListByPrivilegeType(int privilegeTypeID, int appID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+            strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM privileges ");
             strSql.Append(" where app_id=@app_id and privilegetype_id=@privilegetype_id ");
             SqlParameter[] parameters = {
@@ -455,7 +439,7 @@ namespace Saron.WorkFlowService.DAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" id,name,privilegetype_id,privilegeitem_id,remark,app_id,invalid,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
+			strSql.Append(" id,name,privilegetype_id,privilegeitem_id,remark,app_id,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
 			strSql.Append(" FROM privileges ");
 			if(strWhere.Trim()!="")
 			{
