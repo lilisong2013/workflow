@@ -529,14 +529,6 @@ namespace WorkFlow.Controllers
                // ViewData["parent_id"] = m_menusModel.parent_id;
                 ViewData["remark"] = m_menusModel.remark;
 
-                if (m_menusModel.invalid == true)
-                {
-                    ViewData["invalid"] = "否"; 
-                }
-                if (m_menusModel.invalid == false)
-                {
-                    ViewData["invalid"] = "是";
-                }
              
 
                 return View();
@@ -586,7 +578,7 @@ namespace WorkFlow.Controllers
                    // ViewData["menuParrent_id1"] = m_menusModel.name;
                 }
                 ViewData["menuRemark"] = m_menusModel.remark;
-                ViewData["menuInvalid"] = m_menusModel.invalid;
+               
                 ViewData["menuDeleted"] = m_menusModel.deleted;
                 return View();
             }
@@ -623,16 +615,7 @@ namespace WorkFlow.Controllers
                 int m_menusID = m_menuID;
                 string m_InvalidName;
                 m_InvalidName = "是";
-                //判断菜单中是否有效
-                if (menusModel.invalid == false)
-                {
-                    m_selected = "true";
-                }
-                else
-                {
-                    m_selected = "false";
-                }
-
+            
                 strJson += "{id:'" + m_menusID + "',";
                 strJson += "name:'" + m_InvalidName + "',";
                 strJson += "selected:'" + m_selected + "'}";
@@ -739,14 +722,6 @@ namespace WorkFlow.Controllers
                         m_menusModel.parent_id = Convert.ToInt32(collection["menuParent_id"]);
                     }
                     m_menusModel.remark = collection["menuRemark"];
-                    if (m_mi_total == 1)
-                    {
-                        m_menusModel.invalid = false;
-                    }
-                    if (m_mi_total == 0)
-                    {
-                        m_menusModel.invalid = true;
-                    }
                   
                     m_menusModel.updated_at = t;
                     m_menusModel.updated_by = m_usersModel.id;
@@ -812,14 +787,7 @@ namespace WorkFlow.Controllers
                         m_menusModel.parent_id = Convert.ToInt32(collection["menuParent_id"]);
                     }
                     m_menusModel.remark = collection["menuRemark"];
-                    if (m_mi_total == 1)
-                    {
-                        m_menusModel.invalid = false;
-                    }
-                    if (m_mi_total == 0)
-                    {
-                        m_menusModel.invalid = true;
-                    }
+                  
                     //m_menusModel.invalid = Convert.ToBoolean(collection["menuInvalid"]);
                     m_menusModel.updated_at = t;
                     m_menusModel.updated_by = m_usersModel.id;

@@ -225,15 +225,7 @@ namespace WorkFlow.Controllers
                 int m_operationsID = m_operationID;
                 string m_InvalidName;
                 m_InvalidName = "是";
-                //判断操作中是否有效
-                if (operationsModel.invalid == false)
-                {
-                    m_selected = "true";
-                }
-                else
-                {
-                    m_selected = "false";
-                }
+             
 
                 strJson += "{id:'" + m_operationsID + "',";
                 strJson += "name:'" + m_InvalidName + "',";
@@ -284,14 +276,6 @@ namespace WorkFlow.Controllers
                 m_appsBllService.SecurityContextValue = mp_SecurityContext;
                 ViewData["operationsApp_id"] = m_appsBllService.GetAppNameByID((int)m_usersModel.app_id,out msg);
       
-                if (m_operationsModel.invalid == true)
-                {
-                    ViewData["operationsInvalid"] = "否";
-                }
-                if (m_operationsModel.invalid == false)
-                {
-                    ViewData["operationsInvalid"] = "是";
-                }
               
            
                 ViewData["operationsCreated_at"] = m_operationsModel.created_at;
@@ -336,7 +320,7 @@ namespace WorkFlow.Controllers
                 ViewData["operationsDeleted"] = m_operationsModel.deleted;
                 ViewData["operationsRemark"] = m_operationsModel.remark;
                 ViewData["operationsApp_id"] = m_operationsModel.app_id;
-                ViewData["operationsInvalid"] = m_operationsModel.invalid;
+              
                 return View();
             }
          
@@ -432,14 +416,7 @@ namespace WorkFlow.Controllers
                 m_operationsModel.deleted = Convert.ToBoolean(collection["operationsDeleted"]);
                 m_operationsModel.remark = collection["operationsRemark"].Trim();
                 m_operationsModel.app_id = Convert.ToInt32(collection["operationsApp_id"].Trim());
-                if (m_oi_total == 1)
-                {
-                    m_operationsModel.invalid = false;
-                }
-                if (m_oi_total == 0)
-                {
-                    m_operationsModel.invalid = true;
-                }
+           
                 // m_operationsModel.invalid = Convert.ToBoolean(collection["operationsInvalid"].Trim());
                 m_operationsModel.updated_at = t;
                 m_operationsModel.updated_by = m_usersModel.id;

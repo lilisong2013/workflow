@@ -1266,14 +1266,7 @@ namespace WorkFlow.Controllers
                     ViewData["privilegetype"] = "操作";
                 }
 
-                if (m_privilegesModel.invalid == false)
-                {
-                    ViewData["invalid"] = "是"; 
-                }
-                if (m_privilegesModel.invalid == true)
-                {
-                    ViewData["invalid"] = "否";
-                }
+             
 
                 WorkFlow.AppsWebService.appsBLLservice m_appsBllService = new AppsWebService.appsBLLservice();
                 WorkFlow.AppsWebService.SecurityContext ma_SecurityContext = new AppsWebService.SecurityContext();
@@ -1460,7 +1453,7 @@ namespace WorkFlow.Controllers
                 ViewData["privilegeItem_id1"] = m_privilegeModel.privilegeitem_id;
                 ViewData["privilegeRemark"] = m_privilegeModel.remark;
                 ViewData["privilegeApp_id"] = m_privilegeModel.app_id;
-                ViewData["privilegeInvalid"] = m_privilegeModel.invalid;
+          
                 return View();
             }
          
@@ -1498,15 +1491,7 @@ namespace WorkFlow.Controllers
                 int m_privilegesID = m_privilegeID;
                 string m_InvalidName;
                 m_InvalidName = "是";
-                //判断权限中是否有效
-                if (privilegesModel.invalid == false)
-                {
-                    m_selected = "true";
-                }
-                else
-                {
-                    m_selected = "false";
-                }
+         
                 strJson += "{id:'" + m_privilegesID + "',";
                 strJson += "name:'" + m_InvalidName + "',";
                 strJson += "selected:'" + m_selected + "'}";
@@ -1577,14 +1562,7 @@ namespace WorkFlow.Controllers
                 m_privilegesModel.privilegeitem_id = Convert.ToInt32(collection["privilegeItem_id1"]);
                 m_privilegesModel.remark = collection["privilegeRemark"];
                 m_privilegesModel.app_id = Convert.ToInt32(collection["privilegeApp_id"]);
-                if (m_pi_total == 1)
-                {
-                    m_privilegesModel.invalid = false;
-                }
-                if (m_pi_total == 0)
-                {
-                    m_privilegesModel.invalid = true;
-                }
+          
                 m_privilegesModel.updated_at = t;
                 m_privilegesModel.updated_by = m_usersModel.id;
                 m_privilegesModel.updated_ip = collection["privilegeUpdated_ip"].Trim();

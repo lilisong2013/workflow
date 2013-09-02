@@ -45,7 +45,7 @@
     </script>
 
    <%--是否有效初始化--%>
-   <script type="text/javascript">
+<%--   <script type="text/javascript">
        $(document).ready(function () {
            
            $.ajax({
@@ -73,7 +73,7 @@
                }
            });
        });
-   </script>
+   </script>--%>
 
     <%--添加元素的菜单树(数据)--%>
     <script type="text/javascript">
@@ -308,11 +308,11 @@
         <input type="hidden" name="elementsUpdated_ip" id="elementsUpdated_ip"/>
        </div>
 
-       <div class="m-newline offset2">
+     <%--  <div class="m-newline offset2">
        <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
        <div id="invalidList">
        </div>
-       </div>
+       </div>--%>
 
        <div class="control-group span10 offset2" >
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
