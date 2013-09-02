@@ -47,12 +47,50 @@
        var flowsID;
        $(document).ready(function () {
            flowsID = $("#flowsID").val(); //流程ID
-           // alert(flowsID);
+
        });
        var stepTotal = 0; //步骤数量
    </script>
-   
   
+   <%--流程列表(后台分页)--%>
+   <script type="text/javascript">
+      var StepTypeID;
+      var FlowTypeID;
+      $(document).ready(function () {
+          $("#infoTab").click(function () {
+              GetStepsList();
+
+          })
+
+          GetStepsList(); //获取步骤列表
+
+          //获取步骤列表
+          function GetStepsList() {
+
+              window['s'] = $("#flowstepgrid").ligerGrid({
+                  columns: [
+                        { display: '步骤ID', name: 's_id', width: 80, align: 'center' },
+                        { display: '步骤名称', name: 's_name',width: 150, align: 'center' },
+                        { display: '流程名称', name: 'f_name', width: 150, align: 'center' },
+                        { display: '步骤类型', name: 'step_type_name', width: 150, align: 'center' },
+                        { display: '排序码', name: 'order_no', width: 150, align: 'center' }
+
+                       ],
+                  dataAction: 'server',
+                  width: '99%',
+                  pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                  pageSize: 10,
+                  height: '400',
+                  rownumbers: true,
+                  usePager: true,
+                  url: "/StepsManagement/GetFlowStepsList?flowid=" + flowsID
+              });
+              s.loadData();
+          }
+      });
+
+      
+   </script>
 
    <%--流程步骤初始化--%>
    <script type="text/javascript">
@@ -198,12 +236,18 @@
   <%--操作提示DIV--%>
   <div id="promptDIV" class="row"></div>
   </div>
-
    
-  
-    
-    <div class="tab-pane active">
+    <div class="container" style="margin-top:16px;">
+       <ul class="nav nav-tabs">
+         <li class="active"><a href="#ModifyFlowSteps" data-toggle="tab"><i class="icon-check"></i>维护</a></li>
+         <li id="infoTab"><a href="#AllFlowSteps" data-toggle="tab"><i class="icon-plus"></i>全部</a></li>
+       </ul>   
+    </div>
 
+    <div class="tab-content">
+    
+    <%--维护操作--%>
+    <div class="tab-pane active" id="ModifyFlowSteps">
      <form id="flow_steps" method="post" action="" class="form-horizontal">
  
          <div class="control-group page-header">
@@ -222,8 +266,15 @@
          </div>
  
      </form>
- 
     </div>
+
+    <%--添加操作--%>
+    <div class="tab-pane" id="AllFlowSteps">  
+     <div id="flowstepgrid"></div>
+    </div>
+
+    </div>
+    
 
 
  

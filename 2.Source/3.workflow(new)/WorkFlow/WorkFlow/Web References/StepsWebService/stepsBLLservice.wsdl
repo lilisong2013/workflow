@@ -922,10 +922,10 @@
   </wsdl:binding>
   <wsdl:service name="stepsBLLservice">
     <wsdl:port name="stepsBLLserviceSoap" binding="tns:stepsBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx" />
+      <soap:address location="http://192.168.12.3:8081/WebService/stepsBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="stepsBLLserviceSoap12" binding="tns:stepsBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.3:8081/WebService/stepsBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -32,35 +32,6 @@
          var fiTotal = 0; //是否有效数量
     </script>
 
-   <%--是否有效初始化--%>
-   <script type="text/javascript">
-       $(document).ready(function () {          
-           $.ajax({
-               url: "/FlowsManagement/GetInvalidList",
-               type: "POST",
-               dataType: "json",
-               data: { flowsID: flowsID },
-               success: function (responseText, statusText) {
-                   //alert(responseText);
-                   var dataJson = eval("(" + responseText + ")");
-                   //alert(dataJson);
-                   fiTotal = parseInt(dataJson.total); //流程有效数量
-                   for (var i = 0; i < dataJson.total; i++) {
-                       $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
-                   }
-                   for (var i = 0; i < dataJson.total; i++) {
-                       if (dataJson.List[i].selected == 'true') {
-                           $("#invalidValue" + i.toString()).prop("checked", true);                           
-                       }
-                       else {
-                           $("#invalidValue" + i.toString()).prop("checked", false);                        
-                       }
-                   }
-               }
-           });
-       });
-   </script>
-
    <%--表单提交数据--%>
    <script type="text/javascript">
        $(document).ready(function () {
@@ -172,15 +143,11 @@
         </div> 
        </div>
 
-       <div class="m-newline offset2">
-       <label class="control-label">是否有效：</label>
-       <div id="invalidList">
-       </div>
-
-       </div>
        <div class="control-group span10 offset2">
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
        </div>
+
    </form>
+
 </div>
 </asp:Content>

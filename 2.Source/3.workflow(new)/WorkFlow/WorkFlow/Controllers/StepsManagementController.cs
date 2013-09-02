@@ -33,12 +33,11 @@ namespace WorkFlow.Controllers
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Home", "Login");
+                return RedirectToAction("Login", "Home");
             }
             else
             {
-                int flowID = Convert.ToInt32(Request.Params["flowsID"]);
-               
+
                 //排序的字段名
                 string sortname = Request.Params["sortname"];
                 //排序的方向
@@ -58,7 +57,7 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
 
-                DataSet ds = m_stepsBllService.GetFlowStepListByFlowID(flowID,out msg);
+                DataSet ds = m_stepsBllService.GetFlowStepListByAppID((int)m_usersModel.app_id,out msg);
                 IList<WorkFlow.StepsWebService.v_stepsModel> m_list=new List<WorkFlow.StepsWebService.v_stepsModel>();
 
                 var total = ds.Tables[0].Rows.Count;
@@ -103,6 +102,79 @@ namespace WorkFlow.Controllers
             }
         }
 
+        //获取流程步骤列表(后台分页)
+        public ActionResult GetFlowStepsList(int flowid)
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+                string msg = string.Empty;
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                DataSet ds = m_stepsBllService.GetFlowStepListByFlowID(flowid, out msg);
+                IList<WorkFlow.StepsWebService.v_stepsModel> m_list = new List<WorkFlow.StepsWebService.v_stepsModel>();
+
+                var total = ds.Tables[0].Rows.Count;
+                for (var i = 0; i < total; i++)
+                {
+                    WorkFlow.StepsWebService.v_stepsModel mv_stepsModel = (WorkFlow.StepsWebService.v_stepsModel)Activator.CreateInstance(typeof(WorkFlow.StepsWebService.v_stepsModel));
+                    PropertyInfo[] m_propertys = mv_stepsModel.GetType().GetProperties();
+                    foreach (PropertyInfo pi in m_propertys)
+                    {
+                        for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                        {
+                            //属性与字段名称一致的进行赋值
+                            if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                            {
+                                //数据库NULL单独处理
+                                if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                    pi.SetValue(mv_stepsModel, ds.Tables[0].Rows[i][j], null);
+                                else
+                                    pi.SetValue(mv_stepsModel, null, null);
+                                break;
+                            }
+                        }
+                    }
+                    m_list.Add(mv_stepsModel);
+                }
+
+                IList<WorkFlow.StepsWebService.v_stepsModel> m_targetList = new List<WorkFlow.StepsWebService.v_stepsModel>();
+                //模拟分页操作
+                for (var i = 0; i < total; i++)
+                {
+                    if (i >= (page - 1) * pagesize && i < page * pagesize)
+                    {
+                        m_targetList.Add(m_list[i]);
+                    }
+                }
+                var gridData = new
+                {
+                    Rows = m_targetList,
+                    Total = total
+                };
+                return Json(gridData);
+            }
+        }
         //添加步骤
         public ActionResult AddStep(FormCollection collection)
         {

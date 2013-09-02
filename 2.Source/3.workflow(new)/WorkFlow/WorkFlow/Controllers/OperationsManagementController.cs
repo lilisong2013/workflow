@@ -378,12 +378,13 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'备注的长度不能超过150个字符!'}");
                 }
-                DataSet ds = m_operationsBllService.GetOperationsNameList(out msg);
+             
+                DataSet ds = m_operationsBllService.GetOperationsListOfApp(appID,out msg);
                 var total = ds.Tables[0].Rows.Count;
                 ArrayList operationsList = new ArrayList();
                 for (int i = 0; i < total; i++)
                 {
-                    operationsList.Add(ds.Tables[0].Rows[i][0].ToString());
+                    operationsList.Add(ds.Tables[0].Rows[i][1].ToString());
                 }
                 for (int i = 0; i < total; i++)
                 {  //修改后的操作名称和本身相同

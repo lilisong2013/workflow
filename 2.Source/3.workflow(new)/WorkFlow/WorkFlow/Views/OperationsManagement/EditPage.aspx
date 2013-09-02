@@ -33,7 +33,7 @@
   </script>
 
   <%--是否有效初始化--%>
-  <script type="text/javascript">
+<%--  <script type="text/javascript">
       $(document).ready(function () {
           $.ajax({
               url: "/OperationsManagement/GetInvalidList",
@@ -60,7 +60,7 @@
               }
           });
       }); 
-  </script>
+  </script>--%>
 
   <%--表单提交数据--%>
   <script type="text/javascript">
@@ -184,12 +184,12 @@
        </div>
        </div>
 
-       <div class="m-newline offset2">
+    <%--   <div class="m-newline offset2">
        <label class="control-label">是否有效：</label>     
         <div id="invalidList">
         
         </div>   
-       </div>
+       </div>--%>
        <div class="control-group span10 offset2">
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
        </div>    

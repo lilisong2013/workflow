@@ -29,34 +29,8 @@
      });
     var piTotal = 0;//是否有效数量
  </script>
- <%--是否有效初始化--%>
- <script type="text/javascript">
-     $(document).ready(function () {
 
-         $.ajax({
-             url: "/PrivilegesManagement/GetInvalidList",
-             type: "POST",
-             dataType: "json",
-             data: { privilegeId: privilegeID },
-             success: function (responseText, statusText) {
-                 //alert(responseText);
-                 var dataJson = eval("(" + responseText + ")");
-                 piTotal = parseInt(dataJson.total); //权限有效数量
-                 for (var i = 0; i < dataJson.total; i++) {
-                     $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
-                 }
-                 for (var i = 0; i < dataJson.total; i++) {
-                     if (dataJson.List[i].selected == 'true') {
-                         $("#invalidValue" + i.toString()).prop("checked", true);
-                        // alert("ok??");
-                     } else {
-                         $("#invalidValue" + i.toString()).prop("checked", false);
-                     }
-                 }
-             }
-         });
-     });
- </script>
+
  <%--表单提交数据--%>
  <script type="text/javascript">
 
@@ -184,12 +158,6 @@
         <input type="hidden" name="privilegeUpdated_ip" id="privilegeUpdated_ip" value="<%=ipAddress%>" /> 
         
         </div> 
-       </div>
-      
-       <div class="m-newline offset2">
-       <label class="control-label">是否有效：</label>
-       <div id="invalidList">
-       </div>
        </div>
 
        <div class="control-group span10 offset2">

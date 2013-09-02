@@ -37,9 +37,6 @@
    <td width="300">备注信息：</td>
    <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["remark"]%></td>
    </tr>
-   <tr>
-   <td width="300">是否有效：</td>
-   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["invalid"]%></td>
-   </tr>
+
 </table>
 </asp:Content>

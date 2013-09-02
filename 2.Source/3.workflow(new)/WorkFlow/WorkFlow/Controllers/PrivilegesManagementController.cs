@@ -321,7 +321,7 @@ namespace WorkFlow.Controllers
                         string url = ds.Tables[0].Rows[i][3].ToString();
                         string parent_id = ds.Tables[0].Rows[i][5].ToString();
                         string remark = ds.Tables[0].Rows[i][6].ToString();
-                        string invalid = ds.Tables[0].Rows[i][7].ToString();
+                      
                         if (i == ds.Tables[0].Rows.Count - 1)
                         {
                             data += "{name:'" + name + "',";
@@ -329,7 +329,6 @@ namespace WorkFlow.Controllers
                             data += "code:'" + code + "',";
                             data += "url:'" + url + "',";
                             data += "parent_id:'" + parent_id + "',";
-                            data += "invalid:'" + invalid + "',";
                             data += "remark:'" + remark + "'" + GetChildrenMenusList(Convert.ToInt32(id)) + "}";
                         }
                         else
@@ -338,8 +337,7 @@ namespace WorkFlow.Controllers
                             data += "id:'" + id + "',"; //+ GetChildrenMenus(Convert.ToInt32(id)) + "},";
                             data += "code:'" + code + "',";
                             data += "url:'" + url + "',";
-                            data += "parent_id:'" + parent_id + "',";
-                            data += "invalid:'" + invalid + "',";
+                            data += "parent_id:'" + parent_id + "',";                           
                             data += "remark:'" + remark + "'" + GetChildrenMenusList(Convert.ToInt32(id)) + "},";
                         }
                     }
@@ -384,7 +382,7 @@ namespace WorkFlow.Controllers
                     string url = ds.Tables[0].Rows[i][3].ToString();
                     string parent_id = ds.Tables[0].Rows[i][5].ToString();
                     string remark = ds.Tables[0].Rows[i][6].ToString();
-                    string invalid = ds.Tables[0].Rows[i][7].ToString();
+                    
                     if (m_menusBllService.ExistsChildrenMenus((int)ds.Tables[0].Rows[i][0], out msg))
                     {
                         if (i == ds.Tables[0].Rows.Count - 1)
@@ -394,7 +392,7 @@ namespace WorkFlow.Controllers
                             dataStr += "code:'" + code + "',";
                             dataStr += "url:'" + url + "',";
                             dataStr += "parent_id:'" + parent_id + "',";
-                            dataStr += "invalid:'" + invalid + "',";
+                          
                             dataStr += "remark:'" + remark + "'" + GetChildrenMenusList(Convert.ToInt32(id)) + "},";
                         }
                         else
@@ -404,7 +402,7 @@ namespace WorkFlow.Controllers
                             dataStr += "code:'" + code + "',";
                             dataStr += "url:'" + url + "',";
                             dataStr += "parent_id:'" + parent_id + "',";
-                            dataStr += "invalid:'" + invalid + "',";
+                            
                             dataStr += "remark:'" + remark + "'" + GetChildrenMenusList(Convert.ToInt32(id)) + "},";
                         }
                     }
@@ -417,7 +415,7 @@ namespace WorkFlow.Controllers
                             dataStr += "code:'" + code + "',";
                             dataStr += "url:'" + url + "',";
                             dataStr += "parent_id:'" + parent_id + "',";
-                            dataStr += "invalid:'" + invalid + "',";
+                            
                             dataStr += "remark:'" + remark + "'}";
                         }
                         else
@@ -427,7 +425,7 @@ namespace WorkFlow.Controllers
                             dataStr += "code:'" + code + "',";
                             dataStr += "url:'" + url + "',";
                             dataStr += "parent_id:'" + parent_id + "',";
-                            dataStr += "invalid:'" + invalid + "',";
+                            
                             dataStr += "remark:'" + remark + "'},";
                         }
                     }

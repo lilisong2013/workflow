@@ -96,8 +96,6 @@
         });
     </script>
 
- 
-
    <%--编辑弹出框函数--%>
    <script type="text/javascript">
        function EditDialog(id) {
@@ -250,7 +248,7 @@
         }
         //加载eMyTree树的数据
         function BindMenusListOfElements() {
-            //alert("BindMenusListOfElements???--");
+           //alert("BindMenusListOfElements???--");
             $.ajax({
                 url: "/PrivilegesManagement/GetMenusOfItem",
                 type: "POST",
@@ -392,6 +390,7 @@
            });
        }
    </script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
