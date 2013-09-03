@@ -104,9 +104,9 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetFlowStepOrder_noListByFlowID(int flowID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select order_no,step_type_name ");
+            strSql.Append("select order_no,repeat_count,step_type_name ");
             strSql.Append(" FROM v_steps ");
-            strSql.Append(" where f_id=@f_id GROUP BY order_no,step_type_name order by order_no asc  ");
+            strSql.Append(" where f_id=@f_id GROUP BY order_no,repeat_count,step_type_name order by order_no asc  ");
 
             SqlParameter[] parameters = {
 					new SqlParameter("@f_id", SqlDbType.Int,4)

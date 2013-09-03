@@ -836,16 +836,19 @@ namespace WorkFlow.Controllers
                 for (int i = 0; i < ordernoDs.Tables[0].Rows.Count; i++)
                 {
                     string order_no = ordernoDs.Tables[0].Rows[i][0].ToString();
-                    string stepType_Name = ordernoDs.Tables[0].Rows[i][1].ToString();
-
+                    string repeat_count = ordernoDs.Tables[0].Rows[i][1].ToString();
+                    string stepType_Name = ordernoDs.Tables[0].Rows[i][2].ToString();
+                    
                     if (i == ordernoDs.Tables[0].Rows.Count - 1)
                     {
                         dataJson += "{order_no:'" + order_no + "',";
+                        dataJson += "repeat_count:'" + repeat_count + "',";
                         dataJson += "stepType_Name:'" + stepType_Name + "'}]";
                     }
                     else
                     {
                         dataJson += "{order_no:'" + order_no + "',";
+                        dataJson += "repeat_count:'"+repeat_count+"',";
                         dataJson += "stepType_Name:'" + stepType_Name + "'},";
                     }
                 }

@@ -199,10 +199,9 @@ namespace WorkFlow.Controllers
                
                 string userName = collection["stepsUser"];
                 string stepName = collection["stepsName"];
-                string flowName = collection["flowsName"];
+                string flowName = collection["flowsName1"];
                 string stepsType = collection["stepsType"];
-                //string repeatCount = collection["repeatCount"];
-                string orderNo = collection["orderNo"];
+                
                 if (stepName.Length == 0)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'步骤名称不能为空!'}");
@@ -211,10 +210,7 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'步骤名称含有非法字符，只能包含字母、汉字、数字、下划线!'}");
                 }
-                if (flowName.Equals("请选择"))
-                {
-                    return Json("{success:false,css:'alert alert-error',message:'请选择流程名称!'}");
-                }
+           
                 if (stepsType.Equals("请选择"))
                 {
                     return Json("{success:false,css:'alert alert-error',message:'请选择步骤类型!'}");
@@ -228,12 +224,9 @@ namespace WorkFlow.Controllers
                 int userID = Convert.ToInt32(collection["stepsUser"]);
                 m_stepsModel.name = collection["stepsName"];
                 m_stepsModel.remark = collection["stepsRemark"];
-                m_stepsModel.flow_id = Convert.ToInt32(collection["flowsName"]);
+                m_stepsModel.flow_id = Convert.ToInt32(collection["flowsID1"]);
                 m_stepsModel.step_type_id = Convert.ToInt32(collection["stepsType"]);
-                //m_stepsModel.repeat_count = Convert.ToInt32(collection["repeatCount"]);
-                
-                //m_stepsModel.order_no = m_stepsBllService.GetFlowMaxOrderNum((int)m_stepsModel.flow_id, out msg) + 1;
-                
+             
                 m_stepsModel.created_by = (int)m_usersModel.id;
                 m_stepsModel.created_at = Convert.ToDateTime(collection["stepsCreated_at"].Trim());
                 m_stepsModel.created_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();
@@ -543,6 +536,92 @@ namespace WorkFlow.Controllers
                 ViewData["f_id"] = mv_stepsModel.f_id;
 
                 return View();
+            }
+        }
+
+        //添加并行节点的操作
+        public ActionResult AddBStepNodes(FormCollection collection)
+        {
+
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                string msg = string.Empty;
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                int ID = Convert.ToInt32(collection["s_id"]);
+
+                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+                m_stepsModel = m_stepsBllService.GetModelByID(ID, out msg);
+
+                int userID = Convert.ToInt32(collection["stepsUser"]);
+
+                m_stepsModel.name = collection["s_name"];
+                m_stepsModel.remark = collection["nodesRemark"];
+                m_stepsModel.flow_id = m_stepsModel.flow_id;
+                m_stepsModel.step_type_id = m_stepsModel.step_type_id;
+                m_stepsModel.repeat_count = Convert.ToInt32(m_stepsModel.repeat_count) + 1;
+
+                m_stepsModel.order_no = m_stepsModel.order_no;
+                m_stepsModel.deleted = false;
+                m_stepsModel.created_by = Convert.ToInt32(collection["nodesCreated_by"]);
+                m_stepsModel.created_at = Convert.ToDateTime(collection["nodesCreated_at"]);
+                m_stepsModel.created_ip = Convert.ToString(collection["nodesCreated_ip"]);
+
+                try
+                {
+                    bool flag = false;
+                    if (m_stepsBllService.ExistStepName(m_stepsModel.name, (int)m_stepsModel.flow_id, out msg) == true)
+                    {//存在相同的名称
+                        flag = false;
+                    }
+                    else
+                    {//与添加的与系统的名称不相同
+                        flag = true;
+                    }
+                    if (flag == false)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'该流程下存在相同的步骤名称!'}");
+                    }
+                    else
+                    {
+                        if (m_stepsBllService.AddNode(m_stepsModel, userID, out msg))//添加成功
+                        {
+                            //统计下流程flow_id下排序码为order_no下的
+                            int repeat_count = m_stepsBllService.GetOrderNoCount((int)m_stepsModel.flow_id, (int)m_stepsModel.order_no, out msg);
+                            if (m_stepsBllService.UpdateNode((int)m_stepsModel.flow_id, (int)m_stepsModel.order_no, repeat_count, out msg))
+                            {
+                                return Json("{success:true,css:'alert alert-success',message:'添加同步成功!'}");
+                            }
+                            else
+                            {
+                                return Json("{success:false,css:'alert alert-error',message:'添加同步失败!'}");
+                            }
+
+                        }
+                        else
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'添加失败!'}");
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+
             }
         }
 

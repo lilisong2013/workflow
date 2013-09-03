@@ -475,7 +475,7 @@
                     <%string ipAddress = Saron.Common.PubFun.IPHelper.GetIpAddress(); %>
                     <%string dt = System.DateTime.Now.ToString() + "." + System.DateTime.Now.Millisecond.ToString(); %>
                     <%DateTime t = Convert.ToDateTime(dt);%>
-                <input  type="hidden" id="stepsCreated_at" name="stepsCreated_at" value="<%=t%>"/>
+                   <input  type="hidden" id="stepsCreated_at" name="stepsCreated_at" value="<%=t%>"/>
                 </div>
             </div>
 
