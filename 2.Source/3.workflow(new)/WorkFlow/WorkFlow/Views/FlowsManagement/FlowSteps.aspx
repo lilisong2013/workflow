@@ -155,8 +155,7 @@
 
                                             alert("order_no:" + dataJson.Order_NoRows[i].order_no);
                                             alert("repeat_count:" + dataJson.Order_NoRows[i].repeat_count);
-                                            stepHtmlStr += "<tr><td colspan='2'><a  href='#' class='btn btn-primary' data-toggle='modal' data-target='#AddB_StepModal' onclick='Test()'>增加步骤</a></td></tr>";
-
+                                            stepHtmlStr += "<tr><td colspan='2'><a id='add_BSteps' href='#' class='btn btn-primary' data-toggle='modal' data-target='#AddB_StepModal' onclick='Test()'>增加步骤</a></td></tr>";
                                         }
                                         stepHtmlStr += "</table></td>";
                                         //alert(stepHtmlStr);
@@ -298,6 +297,39 @@
                 $("#promptDIV2").addClass(data.css);
                 $("#promptDIV2").html(data.message);
             }
+
+
+            //删除流程
+            function DeleteFlows() {
+                $.ligerDialog.confirm("确定要删除该步骤对应的流程吗?", function (yes) {
+                    if (yes) {
+                        $.ajax({
+                            url: "/StepsManagement/DeleteFlowSteps",
+                            type: "POST",
+                            dataType: "json",
+                            data: { FlowID: flowsID },
+                            success: function (responseText, statusText) {
+
+                                var dataJson = eval("(" + responseText + ")");
+                                if (dataJson.success) {
+                                    $("#AllStepShow").html("");
+                                    FlowStepInitial();
+                                    show_promptDIV(dataJson);
+                                }
+                                show_DIV(dataJson);
+                            }
+                        });
+
+                        //删除提示信息
+                        function show_DIV(data) {
+                            $("#promptDIV").removeClass("alert alert-error alert-success");
+                            $("#promptDIV").addClass(data.css);
+                            $("#promptDIV").html(data.message);
+                        }
+                    }
+                });
+            }
+
 
         });
    </script>
@@ -479,6 +511,7 @@
                <span class="input-xlarge uneditable-input"><%=ViewData["flowsName"]%></span>
                <input id="flowsID" name="flowsID" type="hidden" value="<%=ViewData["flowsID"]%>"/>
                <a id="addstep" href="#" class="btn btn-primary" data-toggle="modal" data-target="#AddC_StepModal" data-backdrop="false">增加步骤</a>
+               <a id="deletestep" href="#" class="btn btn-primary" onclick="DeleteFlows()">删除流程</a>
             </div>           
          </div>
    
@@ -655,6 +688,7 @@
          
       </div>
     </form>
+
 
     <%--显示操作--%>
     <div class="tab-pane" id="AllFlowSteps">  
