@@ -96,6 +96,33 @@ namespace Saron.WorkFlowService.DAL
 
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
+
+        //更新用户id为user_id,步骤id为step_id的记录
+        public bool UpdateFlowUser(int step_id, int user_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update flow_users set user_id=@user_id");
+            strSql.Append(" where step_id=@step_id ");
+            SqlParameter[] parameters = 
+            { 
+               new SqlParameter("@user_id",SqlDbType.Int,4),
+               new SqlParameter("@step_id",SqlDbType.Int,4)
+            };
+            parameters[0].Value = user_id;
+            parameters[1].Value = step_id;
+
+            int row = DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+
+            if (row > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+           
+        }
         #endregion
     }
 }

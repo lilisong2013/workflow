@@ -201,7 +201,7 @@ namespace WorkFlow.Controllers
                 string stepName = collection["stepsName"];
                 string flowName = collection["flowsName1"];
                 string stepsType = collection["stepsType"];
-                
+                bool flag=false;
                 if (stepName.Length == 0)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'步骤名称不能为空!'}");
@@ -217,36 +217,74 @@ namespace WorkFlow.Controllers
                 }
                 if (userName.Equals("请选择"))
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'请选择操作的用户!'}");
+                    flag = false;//步骤用户暂时不维护
+                    //return Json("{success:false,css:'alert alert-error',message:'你确定暂时先不选择步骤用户吗?'}");
                 }
-         
-
-                int userID = Convert.ToInt32(collection["stepsUser"]);
-                m_stepsModel.name = collection["stepsName"];
-                m_stepsModel.remark = collection["stepsRemark"];
-                m_stepsModel.flow_id = Convert.ToInt32(collection["flowsID1"]);
-                m_stepsModel.step_type_id = Convert.ToInt32(collection["stepsType"]);
-             
-                m_stepsModel.created_by = (int)m_usersModel.id;
-                m_stepsModel.created_at = Convert.ToDateTime(collection["stepsCreated_at"].Trim());
-                m_stepsModel.created_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();
-       
-                
-                try
+                else
                 {
-                    if (m_stepsBllService.AddStep(m_stepsModel, userID, out msg))
+                    flag = true;//步骤用户已添加上
+                }
+
+                if (flag == true)
+                {
+                    int userID = Convert.ToInt32(collection["stepsUser"]);
+                    m_stepsModel.name = collection["stepsName"];
+                    m_stepsModel.remark = collection["stepsRemark"];
+                    m_stepsModel.flow_id = Convert.ToInt32(collection["flowsID1"]);
+                    m_stepsModel.step_type_id = Convert.ToInt32(collection["stepsType"]);
+
+                    m_stepsModel.created_by = (int)m_usersModel.id;
+                    m_stepsModel.created_at = Convert.ToDateTime(collection["stepsCreated_at"].Trim());
+                    m_stepsModel.created_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();
+
+
+                    try
                     {
-                        return Json("{success:true,css:'alert alert-success',message:'步骤添加成功!'}");
+                        if (m_stepsBllService.AddStep(m_stepsModel, userID, out msg))
+                        {
+                            return Json("{success:true,css:'alert alert-success',message:'步骤添加成功!'}");
+                        }
+                        else
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'" + msg + "!'}");
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
                         return Json("{success:false,css:'alert alert-error',message:'" + msg + "!'}");
                     }
                 }
-                catch (Exception ex)
+                else 
                 {
-                    return Json("{success:false,css:'alert alert-error',message:'" + msg + "!'}");
+
+                    //int userID = Convert.ToInt32(collection["stepsUser"]);
+                    m_stepsModel.name = collection["stepsName"];
+                    m_stepsModel.remark = collection["stepsRemark"];
+                    m_stepsModel.flow_id = Convert.ToInt32(collection["flowsID1"]);
+                    m_stepsModel.step_type_id = Convert.ToInt32(collection["stepsType"]);
+
+                    m_stepsModel.created_by = (int)m_usersModel.id;
+                    m_stepsModel.created_at = Convert.ToDateTime(collection["stepsCreated_at"].Trim());
+                    m_stepsModel.created_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();
+
+
+                    try
+                    {
+                        if (m_stepsBllService.AddNoUserStep(m_stepsModel,out msg))
+                        {
+                            return Json("{success:true,css:'alert alert-success',message:'步骤添加成功!'}");
+                        }
+                        else
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'" + msg + "!'}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'" + msg + "!'}");
+                    }
                 }
+              
             }
         }
 
@@ -549,6 +587,9 @@ namespace WorkFlow.Controllers
             }
             else
             {
+                int Flowno=Convert.ToInt32(Request.Params["flowid"]);
+                int Orderno = Convert.ToInt32(Request.Params["orderno"]);
+                int Repeatno = Convert.ToInt32(Request.Params["repeatcount"]);
                 string msg = string.Empty;
                 WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
                 WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
@@ -559,25 +600,35 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
+                
+                WorkFlow.StepsWebService.stepsModel m_stepsModel=new StepsWebService.stepsModel();
 
-                int ID = Convert.ToInt32(collection["s_id"]);
+                string stepsName=collection["BstepsName"];
+                string userName = collection["BstepsUser"];
+                if (stepsName.Length == 0)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'步骤名称不能为空!'}");
+                }
+                if (Saron.Common.PubFun.ConditionFilter.IsValidString(stepsName) == false)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'步骤名称含有非法字符，只能包含字母、汉字、数字、下划线!'}");
+                }
+                if (userName.Equals("请选择"))
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'请选择操作的用户!'}");
+                }
+                int userID = Convert.ToInt32(collection["BstepsUser"]);
+                m_stepsModel.name =collection["BstepsName"] ;
+                m_stepsModel.remark = collection["BstepsRemark"];
+                m_stepsModel.flow_id =Flowno;
+                m_stepsModel.step_type_id = 2;
+                m_stepsModel.repeat_count = Convert.ToInt32(Repeatno) + 1;
 
-                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
-                m_stepsModel = m_stepsBllService.GetModelByID(ID, out msg);
-
-                int userID = Convert.ToInt32(collection["stepsUser"]);
-
-                m_stepsModel.name = collection["s_name"];
-                m_stepsModel.remark = collection["nodesRemark"];
-                m_stepsModel.flow_id = m_stepsModel.flow_id;
-                m_stepsModel.step_type_id = m_stepsModel.step_type_id;
-                m_stepsModel.repeat_count = Convert.ToInt32(m_stepsModel.repeat_count) + 1;
-
-                m_stepsModel.order_no = m_stepsModel.order_no;
+                m_stepsModel.order_no =Orderno;
                 m_stepsModel.deleted = false;
-                m_stepsModel.created_by = Convert.ToInt32(collection["nodesCreated_by"]);
-                m_stepsModel.created_at = Convert.ToDateTime(collection["nodesCreated_at"]);
-                m_stepsModel.created_ip = Convert.ToString(collection["nodesCreated_ip"]);
+                m_stepsModel.created_by = Convert.ToInt32(m_usersModel.id);
+                m_stepsModel.created_at = Convert.ToDateTime(collection["BstepsCreated_at"]);
+                m_stepsModel.created_ip = Convert.ToString(Saron.Common.PubFun.IPHelper.GetClientIP());
 
                 try
                 {
@@ -854,20 +905,30 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
 
-                int stepID = Convert.ToInt32(collection["stepsID"].Trim());
-                int flowID=Convert.ToInt32(collection["s_flow_id"].Trim());
-                string stepName = collection["stepsName"].Trim();
-                string flowName = collection["s_flow_name"].Trim();
+                int stepID = Convert.ToInt32(collection["EstepID"].Trim());
+                int flowID = Convert.ToInt32(Request.Params["flowid"]);
+                int userID = Convert.ToInt32(collection["EstepsUser"]);
+                string stepName = collection["EstepsName"].Trim();
+                string stepUser = collection["EstepsUser"].Trim();
+
+                if (stepName.Length == 0)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'步骤名称不能为空!'}");
+                }
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(stepName)==false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'步骤名称中含有非法字符,只能包含字母、汉字、数字、下划线!'}");
+                }
+                if (stepUser.Equals("请选择"))
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'请选择操作步骤用户!'}");
                 }
                 try
                 {
                     bool flag = false;
                     WorkFlow.StepsWebService.stepsModel m_stepModel = new StepsWebService.stepsModel();
                     m_stepModel = m_stepsBllService.GetModelByID(stepID,out msg);
-                    if (m_stepModel.name.Equals(collection["stepsName"]))
+                    if (m_stepModel.name.Equals(collection["EstepsName"]))
                     {
                         flag = false;
                     }
@@ -891,20 +952,69 @@ namespace WorkFlow.Controllers
                
                 WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
                 m_stepsModel = m_stepsBllService.GetModelByID(stepID,out msg);
-                m_stepsModel.name = collection["stepsName"].Trim();
-                m_stepsModel.remark = collection["stepsRemark"].Trim();
-                m_stepsModel.updated_at = Convert.ToDateTime(collection["stepsUpdate_at"]);
-                m_stepsModel.updated_by = Convert.ToInt32(collection["stepsUpdate_by"]);
-                m_stepsModel.updated_ip = Convert.ToString(collection["stepsUpdate_ip"]);
+                m_stepsModel.name = collection["EstepsName"].Trim();
+                m_stepsModel.remark = collection["E_stepsRemark"].Trim();
+                m_stepsModel.updated_at = Convert.ToDateTime(collection["E_stepsCreated_at"]);
+                m_stepsModel.updated_by = Convert.ToInt32(collection["EstepsUser"]);
+                m_stepsModel.updated_ip = Convert.ToString(Saron.Common.PubFun.IPHelper.GetClientIP());
                 try {
-                    if (m_stepsBllService.Update(m_stepsModel, out msg))
+                    bool Tag = true;
+                    bool Eag = true;
+                    bool Aag = true;
+                    bool Dag = true;
+                    WorkFlow.StepsWebService.flow_usersModel m_flowuserModel=new StepsWebService.flow_usersModel();                 
+                    m_flowuserModel.user_id=userID;
+                    m_flowuserModel.step_id=stepID;
+
+                    if (m_stepsBllService.ExistsFlowUser(userID, stepID, out msg))//存在此记录
                     {
-                        return Json("{success:true,css:'alert alert-success',message:'更新成功!'}");
+                        Eag = true;
+                        if (m_stepsBllService.DeleteFlow_User(stepID, out msg))//删除此记录
+                        {
+                            Dag = true;
+                        }
+                        else
+                        {
+                            Dag = false;
+                        }
+                    }
+                    else
+                    { //不存在此记录
+                        Eag = false;
+                        if (m_stepsBllService.AddFlow_User(m_flowuserModel, out msg))
+                        {
+                            Aag = true;
+                            Eag = true;
+                        }
+                        else
+                        {
+                            Aag = false;
+                        }
+                    }
+                    if (m_stepsBllService.UpdateFlowUser(stepID, userID, out msg))
+                    {
+                        Tag = true;//更新flow_user表成功
+                    }
+                    else
+                    {
+                        Tag = false;//更新flow_user表失败
+                    }
+                    if (Tag == true&&Aag==true&&Eag==true&&Dag==true)
+                    {
+                        if (m_stepsBllService.Update(m_stepsModel, out msg))
+                        {
+                            return Json("{success:true,css:'alert alert-success',message:'更新成功!'}");
+                        }
+                        else
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'更新失败!'}");
+                        }
                     }
                     else
                     {
                         return Json("{success:false,css:'alert alert-error',message:'更新失败!'}");
                     }
+                   
                 }
                 catch (Exception ex) {
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
@@ -912,6 +1022,51 @@ namespace WorkFlow.Controllers
             }
         }
 
+        //根据step_id获得step实体
+        public ActionResult GetStepsModel()
+        {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("Home", "Login");
+            }
+            else
+            {
+                int step_id = Convert.ToInt32(Request.Params["StepID"]);
+
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext m_SecurityContext = new StepsWebService.SecurityContext();
+
+                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                string msg = string.Empty;
+
+                m_SecurityContext.UserName = m_usersModel.login;
+                m_SecurityContext.PassWord = m_usersModel.password;
+                m_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = m_SecurityContext;
+
+                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+                try {
+                   m_stepsModel = m_stepsBllService.GetModelByID(step_id,out msg);
+                   string stepname = m_stepsModel.name;
+                   string remark = m_stepsModel.remark;
+                   string steptype;
+                   if (Convert.ToInt32(m_stepsModel.step_type_id) == 1)
+                   {
+                        steptype = "顺序";
+                   }
+                   else
+                   {
+                        steptype = "并序";
+                   }
+                   return Json("{Name:'"+stepname+"',Type:'"+steptype+"',Remark:'"+remark+"'}");
+                }
+                catch (Exception ex) {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+              
+               
+            }
+        }
 
     }
 }

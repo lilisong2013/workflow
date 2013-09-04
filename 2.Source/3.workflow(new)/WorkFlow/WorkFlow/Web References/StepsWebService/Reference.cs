@@ -34,6 +34,14 @@ namespace WorkFlow.StepsWebService {
         
         private System.Threading.SendOrPostCallback AddStepOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AddFlow_UserOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeleteFlow_UserOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback AddNoUserStepOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UpdateFlowUserOperationCompleted;
+        
         private System.Threading.SendOrPostCallback AddNodeOperationCompleted;
         
         private System.Threading.SendOrPostCallback ExistStepNameOperationCompleted;
@@ -117,6 +125,18 @@ namespace WorkFlow.StepsWebService {
         public event AddStepCompletedEventHandler AddStepCompleted;
         
         /// <remarks/>
+        public event AddFlow_UserCompletedEventHandler AddFlow_UserCompleted;
+        
+        /// <remarks/>
+        public event DeleteFlow_UserCompletedEventHandler DeleteFlow_UserCompleted;
+        
+        /// <remarks/>
+        public event AddNoUserStepCompletedEventHandler AddNoUserStepCompleted;
+        
+        /// <remarks/>
+        public event UpdateFlowUserCompletedEventHandler UpdateFlowUserCompleted;
+        
+        /// <remarks/>
         public event AddNodeCompletedEventHandler AddNodeCompleted;
         
         /// <remarks/>
@@ -194,6 +214,132 @@ namespace WorkFlow.StepsWebService {
             if ((this.AddStepCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.AddStepCompleted(this, new AddStepCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/AddFlow_User", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AddFlow_User(flow_usersModel flow_usermodel, out string msg) {
+            object[] results = this.Invoke("AddFlow_User", new object[] {
+                        flow_usermodel});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddFlow_UserAsync(flow_usersModel flow_usermodel) {
+            this.AddFlow_UserAsync(flow_usermodel, null);
+        }
+        
+        /// <remarks/>
+        public void AddFlow_UserAsync(flow_usersModel flow_usermodel, object userState) {
+            if ((this.AddFlow_UserOperationCompleted == null)) {
+                this.AddFlow_UserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddFlow_UserOperationCompleted);
+            }
+            this.InvokeAsync("AddFlow_User", new object[] {
+                        flow_usermodel}, this.AddFlow_UserOperationCompleted, userState);
+        }
+        
+        private void OnAddFlow_UserOperationCompleted(object arg) {
+            if ((this.AddFlow_UserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddFlow_UserCompleted(this, new AddFlow_UserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/DeleteFlow_User", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool DeleteFlow_User(int stepID, out string msg) {
+            object[] results = this.Invoke("DeleteFlow_User", new object[] {
+                        stepID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void DeleteFlow_UserAsync(int stepID) {
+            this.DeleteFlow_UserAsync(stepID, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteFlow_UserAsync(int stepID, object userState) {
+            if ((this.DeleteFlow_UserOperationCompleted == null)) {
+                this.DeleteFlow_UserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteFlow_UserOperationCompleted);
+            }
+            this.InvokeAsync("DeleteFlow_User", new object[] {
+                        stepID}, this.DeleteFlow_UserOperationCompleted, userState);
+        }
+        
+        private void OnDeleteFlow_UserOperationCompleted(object arg) {
+            if ((this.DeleteFlow_UserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteFlow_UserCompleted(this, new DeleteFlow_UserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/AddNoUserStep", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AddNoUserStep(stepsModel stepmodel, out string msg) {
+            object[] results = this.Invoke("AddNoUserStep", new object[] {
+                        stepmodel});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddNoUserStepAsync(stepsModel stepmodel) {
+            this.AddNoUserStepAsync(stepmodel, null);
+        }
+        
+        /// <remarks/>
+        public void AddNoUserStepAsync(stepsModel stepmodel, object userState) {
+            if ((this.AddNoUserStepOperationCompleted == null)) {
+                this.AddNoUserStepOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddNoUserStepOperationCompleted);
+            }
+            this.InvokeAsync("AddNoUserStep", new object[] {
+                        stepmodel}, this.AddNoUserStepOperationCompleted, userState);
+        }
+        
+        private void OnAddNoUserStepOperationCompleted(object arg) {
+            if ((this.AddNoUserStepCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddNoUserStepCompleted(this, new AddNoUserStepCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/UpdateFlowUser", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool UpdateFlowUser(int stepID, int userID, out string msg) {
+            object[] results = this.Invoke("UpdateFlowUser", new object[] {
+                        stepID,
+                        userID});
+            msg = ((string)(results[1]));
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UpdateFlowUserAsync(int stepID, int userID) {
+            this.UpdateFlowUserAsync(stepID, userID, null);
+        }
+        
+        /// <remarks/>
+        public void UpdateFlowUserAsync(int stepID, int userID, object userState) {
+            if ((this.UpdateFlowUserOperationCompleted == null)) {
+                this.UpdateFlowUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateFlowUserOperationCompleted);
+            }
+            this.InvokeAsync("UpdateFlowUser", new object[] {
+                        stepID,
+                        userID}, this.UpdateFlowUserOperationCompleted, userState);
+        }
+        
+        private void OnUpdateFlowUserOperationCompleted(object arg) {
+            if ((this.UpdateFlowUserCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UpdateFlowUserCompleted(this, new UpdateFlowUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -547,11 +693,13 @@ namespace WorkFlow.StepsWebService {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/ExistsFlowUser", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool ExistsFlowUser(int user_id, int step_id) {
+        public bool ExistsFlowUser(int user_id, int step_id, out string msg) {
             object[] results = this.Invoke("ExistsFlowUser", new object[] {
                         user_id,
                         step_id});
+            msg = ((string)(results[1]));
             return ((bool)(results[0]));
         }
         
@@ -883,6 +1031,63 @@ namespace WorkFlow.StepsWebService {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://saron.workflowservice.org/")]
+    public partial class flow_usersModel {
+        
+        private int idField;
+        
+        private int step_idField;
+        
+        private int user_idField;
+        
+        private string remarkField;
+        
+        /// <remarks/>
+        public int id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int step_id {
+            get {
+                return this.step_idField;
+            }
+            set {
+                this.step_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int user_id {
+            get {
+                return this.user_idField;
+            }
+            set {
+                this.user_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string remark {
+            get {
+                return this.remarkField;
+            }
+            set {
+                this.remarkField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.0.30319.1015")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://saron.workflowservice.org/")]
     public partial class stepsModel {
         
         private int idField;
@@ -1070,6 +1275,142 @@ namespace WorkFlow.StepsWebService {
         private object[] results;
         
         internal AddStepCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void AddFlow_UserCompletedEventHandler(object sender, AddFlow_UserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddFlow_UserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddFlow_UserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void DeleteFlow_UserCompletedEventHandler(object sender, DeleteFlow_UserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class DeleteFlow_UserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal DeleteFlow_UserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void AddNoUserStepCompletedEventHandler(object sender, AddNoUserStepCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddNoUserStepCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddNoUserStepCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void UpdateFlowUserCompletedEventHandler(object sender, UpdateFlowUserCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UpdateFlowUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UpdateFlowUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -1487,6 +1828,14 @@ namespace WorkFlow.StepsWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
             }
         }
     }
