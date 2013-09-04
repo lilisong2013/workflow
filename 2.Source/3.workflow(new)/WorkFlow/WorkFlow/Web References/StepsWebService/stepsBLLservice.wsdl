@@ -130,6 +130,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="AddNoUserNode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepmodel" type="tns:stepsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNoUserNodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddNoUserNodeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="ExistStepName">
         <s:complexType>
           <s:sequence>
@@ -318,7 +333,6 @@
       <s:element name="ExistsFlowUser">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="1" maxOccurs="1" name="user_id" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="step_id" type="s:int" />
           </s:sequence>
         </s:complexType>
@@ -461,6 +475,15 @@
     <wsdl:part name="parameters" element="tns:AddNodeResponse" />
   </wsdl:message>
   <wsdl:message name="AddNodeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserNodeSoapIn">
+    <wsdl:part name="parameters" element="tns:AddNoUserNode" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserNodeSoapOut">
+    <wsdl:part name="parameters" element="tns:AddNoUserNodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserNodeSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
   <wsdl:message name="ExistStepNameSoapIn">
@@ -625,9 +648,14 @@
       <wsdl:output message="tns:UpdateFlowUserSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="AddNode">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条并序流程节点，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条并序流程节点(同时添加步骤用户)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:AddNodeSoapIn" />
       <wsdl:output message="tns:AddNodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNoUserNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条并序流程节点(暂时不添加步骤用户)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddNoUserNodeSoapIn" />
+      <wsdl:output message="tns:AddNoUserNodeSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="ExistStepName">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断同一流程下是否存在相同的步骤名称,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -762,6 +790,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:AddNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNoUserNode">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddNoUserNode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddNoUserNodeSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -980,6 +1018,16 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="AddNoUserNode">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddNoUserNode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddNoUserNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="ExistStepName">
       <soap12:operation soapAction="http://saron.workflowservice.org/ExistStepName" style="document" />
       <wsdl:input>
@@ -1133,10 +1181,10 @@
   </wsdl:binding>
   <wsdl:service name="stepsBLLservice">
     <wsdl:port name="stepsBLLserviceSoap" binding="tns:stepsBLLserviceSoap">
-      <soap:address location="http://192.168.12.3:8081/WebService/stepsBLLservice.asmx" />
+      <soap:address location="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="stepsBLLserviceSoap12" binding="tns:stepsBLLserviceSoap12">
-      <soap12:address location="http://192.168.12.3:8081/WebService/stepsBLLservice.asmx" />
+      <soap12:address location="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

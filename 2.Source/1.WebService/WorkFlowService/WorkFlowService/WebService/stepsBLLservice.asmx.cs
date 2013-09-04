@@ -288,7 +288,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "增加一条并序流程节点，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        [WebMethod(Description = "增加一条并序流程节点(同时添加步骤用户)，<h4>（需要授权验证，系统管理员用户）</h4>")]
         public bool AddNode(Saron.WorkFlowService.Model.stepsModel stepmodel,int userID,out string msg)
         {
             #region webservice授权判断
@@ -360,6 +360,56 @@ namespace Saron.WorkFlowService.WebService
             }
             #endregion
 
+        }
+
+        /// <summary>
+        /// author:songlili
+        /// </summary>
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "增加一条并序流程节点(暂时不添加步骤用户)，<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool AddNoUserNode(Saron.WorkFlowService.Model.stepsModel stepmodel, out string msg)
+        {
+
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+            #endregion
+
+            #region 判断流程步骤是否重名
+            if (m_stepsdal.ExistStepName(stepmodel.name, (int)stepmodel.flow_id))
+            {
+                msg = "流程：" + m_flowsdal.GetFlowName((int)stepmodel.flow_id) + ",已经存在该步骤名称";
+                return false;
+            }
+            #endregion
+           
+            #region 添加流程步骤
+            int m_stepID = 0;
+            //添加
+            try
+            {
+                m_stepID = m_stepsdal.AddStep(stepmodel);
+            }
+            catch (Exception ex)
+            {
+                msg = ex.ToString();
+                return false;
+            }
+
+            if (m_stepID == 0)
+            {
+                msg = "流程添加失败";
+                return false;
+            }
+            else
+            {
+                msg = "添加成功!";
+                return true;
+            }
+            #endregion
         }
         
         /// <summary>
@@ -618,8 +668,8 @@ namespace Saron.WorkFlowService.WebService
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "判断是否存在用户id为user_id,步骤id为step_id的记录")]
-        public bool ExistsFlowUser(int user_id, int step_id,out string msg)
-        {    
+        public bool ExistsFlowUser(int step_id,out string msg)
+        {
             #region webservice授权判断
             //是否有权限访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
@@ -628,7 +678,7 @@ namespace Saron.WorkFlowService.WebService
             }
             #endregion
            
-            return m_flow_usersdal.ExistsFlowUser(user_id,step_id);
+            return m_flow_usersdal.ExistsFlowUser(step_id);
         }
 
         [SoapHeader("m_securityContext")]

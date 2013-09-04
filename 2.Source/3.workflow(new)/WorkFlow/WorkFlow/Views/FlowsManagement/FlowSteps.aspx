@@ -367,7 +367,7 @@
                      success: function (responseText, statusText) {
 
                          var dataJson = eval("(" + responseText + ")");
-                         alert(dataJson.success);
+                        // alert(dataJson.success);
                          if (dataJson.success) {
                              $("#AllStepShow").html("");
                              FlowStepInitial();
