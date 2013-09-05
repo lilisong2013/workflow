@@ -635,11 +635,6 @@ namespace Saron.WorkFlowService.WebService
             }
             #endregion
            
-            bool flag = false;
-            flag = m_flow_usersdal.DeleteFlow_User(stepID);
-           
-            if (flag)
-            {
                 try
                 {
                     if (m_stepsdal.DeleteStep(stepID))
@@ -658,12 +653,7 @@ namespace Saron.WorkFlowService.WebService
                     return false;
                 }
                
-            }
-            else
-            {
-                msg = "删除失败!";
-                return false;
-            }
+          
         }
 
         [SoapHeader("m_securityContext")]
@@ -680,7 +670,21 @@ namespace Saron.WorkFlowService.WebService
            
             return m_flow_usersdal.ExistsFlowUser(step_id);
         }
+        
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "判断是流程id为flow_id是否存在steps表中,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public bool ExistsFlowID(int stepID,out string msg)
+        { 
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return false;
+            }
+            #endregion
 
+            return m_stepsdal.ExistsFlowID(stepID);
+        }
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据ID获取step列表,<h4>（需要授权验证，系统管理员用户）</h4>")]
         public DataSet GetStepListByID(int id,out string msg)

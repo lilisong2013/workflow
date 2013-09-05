@@ -149,9 +149,14 @@
                $.ligerDialog.open({
                    title: '流程步骤维护',
                    width: 1300,
-                   height: 700,
+                   height: 800,
                    isDrag: false,
-                   url: '/FlowsManagement/FlowSteps?id=' + id
+                   url: '/FlowsManagement/FlowSteps?id=' + id,
+                   buttons:
+                   [
+                    { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
+
+                   ]
                });
            }
        }
@@ -259,7 +264,7 @@
                    //alert(responseText);
                    var dataSearchJson2 = eval("(" + responseText + ")"); //将json字符串转化为json数据
                    //alert(dataSearchJson2);
-                   $("#AllFlows").ligerGrid({
+                   window['st']=$("#AllFlows").ligerGrid({
                        columns: [
                             { display: '流程ID', name: 'id', align: 'center', width: 80 },
                             { display: '流程名称', name: 'name', align: 'center' },
@@ -278,7 +283,7 @@
                             },
                             { display: '', width: 80,
                                 render: function (row) {
-                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="SDeleteFlow(' + row.id + ')">删除</a>';
                                     return html;
                                 }
                             },
@@ -302,6 +307,41 @@
 
        }
    </script>
+
+   <%--查询后删除确认函数--%>
+   <script type="text/javascript">
+       function SDeleteFlow(id) {
+           //alert(id);
+           //alert(g.get('total'));
+           var flowid = id;
+           $.ligerDialog.confirm("确定要删除信息?", function (yes) {
+               if (yes) {
+                   $.ajax({
+                       url: "/FlowsManagement/DeleteFlows",
+                       type: "POST",
+                       dataType: "json",
+                       data: { flowID: flowid },
+                       success: function (responseText, statusText) {
+                           var dataJson = eval("(" + responseText + ")");
+                           //删除提示信息
+                           alert(dataJson.success)
+                           show_DIV(dataJson);
+                           $("#AllFlows").ligerGetGridManager().loadData();
+                           st.loadData();
+                         
+
+                       }
+                   });
+                   //删除提示信息
+                   function show_DIV(data) {
+                       $("#promptDIV").removeClass("alert alert-error alert-success");
+                       $("#promptDIV").addClass(data.css);
+                       $("#promptDIV").html(data.message);
+                   }
+               }
+           });
+       }
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">

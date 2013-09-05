@@ -386,10 +386,13 @@ namespace WorkFlow.Controllers
             }
             else
             {
+                bool flag = false;
                 int flowsid = Convert.ToInt32(Request.Form["flowID"]);
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
-
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
+
+                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
+                WorkFlow.StepsWebService.SecurityContext ms_SecurityContext = new StepsWebService.SecurityContext();
 
                 WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
                 string msg = string.Empty;
@@ -398,18 +401,42 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_flowsBllService.SecurityContextValue = m_SecurityContext;
 
+                ms_SecurityContext.UserName = m_usersModel.login;
+                ms_SecurityContext.PassWord = m_usersModel.password;
+                ms_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_stepsBllService.SecurityContextValue = ms_SecurityContext;
+
                 try
                 {
-                    if (m_flowsBllService.DeleteFlow(flowsid, out msg))
+                    if (m_stepsBllService.ExistsFlowID(flowsid, out msg))
                     {
-                      
-                        return Json("{success:true,css:'alert alert-success',message:'删除成功!'}");
+                        flag = true;//流程ID存在步骤表中不能删除
                     }
                     else
                     {
-                        
-                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
+                        flag = false;//流程ID不存在步骤表中可以删除
                     }
+
+                    if (flag == false)
+                    {
+
+                        if (m_flowsBllService.DeleteFlow(flowsid, out msg))
+                        {
+
+                            return Json("{success:true,css:'alert alert-success',message:'流程删除成功!'}");
+                        }
+                        else
+                        {
+
+                            return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
+                        }
+                    }
+                    else 
+                    {
+
+                        return Json("{success:false,css:'alert alert-error',message:'流程下存在步骤，不能删除!'}");
+                    }
+                   
                 }
                 catch (Exception ex)
                 {

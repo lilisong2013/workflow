@@ -345,6 +345,21 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ExistsFlowID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="stepID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsFlowIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsFlowIDResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetStepListByID">
         <s:complexType>
           <s:sequence>
@@ -585,6 +600,15 @@
   <wsdl:message name="ExistsFlowUserSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="ExistsFlowIDSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsFlowID" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowIDSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsFlowIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetStepListByIDSoapIn">
     <wsdl:part name="parameters" element="tns:GetStepListByID" />
   </wsdl:message>
@@ -711,6 +735,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断是否存在用户id为user_id,步骤id为step_id的记录</wsdl:documentation>
       <wsdl:input message="tns:ExistsFlowUserSoapIn" />
       <wsdl:output message="tns:ExistsFlowUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断是流程id为flow_id是否存在steps表中,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsFlowIDSoapIn" />
+      <wsdl:output message="tns:ExistsFlowIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetStepListByID">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据ID获取step列表,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -910,6 +939,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:ExistsFlowUserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowID">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsFlowID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsFlowIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -1133,6 +1172,16 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:ExistsFlowUserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsFlowID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsFlowIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/mainsite.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/superapproval.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageJS" runat="server">
@@ -154,12 +154,12 @@
                                         for (var j = 0; j < dataJson.AllstepCount; j++) {
                                             if (dataJson.Order_NoRows[i].order_no == dataJson.StepRows[j].order_no) {
                                                 //alert("step_id:" + dataJson.StepRows[j].step_id);
-                                                stepHtmlStr += "<tr><td><div class='myicon-arrow-right'></div></td><td><table><tr><td class='myicon-man'></td></tr><tr><td><a href='#' data-toggle='modal' data-target='#Edit_StepModal' data-backdrop='false' onclick=\"GetIDValue('" + dataJson.StepRows[j].step_id + "')\">" + dataJson.StepRows[j].step_name + "</a></td></tr></table></td></tr>";
+                                                stepHtmlStr += "<tr><td><div class='myicon-arrow-right'></div></td><td><table><tr><td class='myicon-man'></td></tr><tr><td width='120px'><a href='#' data-toggle='modal' data-target='#Edit_StepModal' data-backdrop='false' onclick=\"GetIDValue('" + dataJson.StepRows[j].step_id + "')\">" + dataJson.StepRows[j].step_name + "</a></td></tr></table></td></tr>";
                                             }
                                         }
 
                                         if (dataJson.Order_NoRows[i].stepType_Name == "并行") {
-                                            stepHtmlStr += "<tr><td colspan='2'><a  href='#' class='btn btn-primary' data-toggle='modal' data-target='#AddB_StepModal'data-backdrop='false' onclick=\"GetORValue('" + dataJson.Order_NoRows[i].order_no + "','" + dataJson.Order_NoRows[i].repeat_count + "')\">增加并序步骤</a></td></tr>";
+                                            stepHtmlStr += "<tr><td colspan='2'><a  href='#' class='btn btn-primary' data-toggle='modal' data-target='#AddB_StepModal'data-backdrop='false' onclick=\"GetORValue('" + dataJson.Order_NoRows[i].order_no + "','" + dataJson.Order_NoRows[i].repeat_count + "')\">增加并行步骤</a></td></tr>";
                                         }
                                         stepHtmlStr += "</table></td>";
                                         //alert(stepHtmlStr);
@@ -224,7 +224,7 @@
                     $("#promptDIV1").html("步骤名称不能为空!");
                     return false;
                 }
-               
+
             }
 
             //form提交响应成功后执行的回调函数
@@ -340,8 +340,10 @@
                     $("#AllStepShow").html("");
                     FlowStepInitial();
                     show_promptDIV3(dataJson); //提示信息
+
                 }
                 show_promptDIV3(dataJson); //提示信息
+              
             }
 
             //提示信息
@@ -519,7 +521,7 @@
                async: false,
                data: { StepID: stepid },
                success: function (responseText, statusText) {
-                  // alert("responseText:" + responseText);
+                   // alert("responseText:" + responseText);
                    var dataJson = eval("(" + responseText + ")");
                    Name = dataJson.Name;
                    Remark = dataJson.Remark;
@@ -527,6 +529,8 @@
                    $("#EstepsTypeInfo").val(dataJson.Type);
                    $("#E_stepsRemark").val(dataJson.Remark);
                    $("#EstepID").val(stepid);
+                   $("#EstepsUser").val("请选择");
+           
                }
            });
 
@@ -538,13 +542,12 @@
  
  <div class="container"><h2>流程步骤管理</h2></div>
  
-     <div class="container">
+   <div class="container">
   <%--操作提示DIV--%>
   <div id="promptDIV" class="row"></div>
   </div>
-
   
-     <div class="container" style="margin-top:16px;">
+   <div class="container" style="margin-top:16px;">
        <ul class="nav nav-tabs">
          <li class="active" id="modifyTab"><a href="#ModifyFlowSteps" data-toggle="tab"><i class="icon-check"></i>维护</a></li>
          <li id="infoTab"><a href="#AllFlowSteps" data-toggle="tab"><i class="icon-plus"></i>全部</a></li>
@@ -606,7 +609,7 @@
                     <div class="input-prepend input-append">
                     <label class="control-label">步骤名称:</label>
                     <div class="controls">
-                    <input name="stepsName" id="stepsName" type="text" class="span2" />
+                    <input name="stepsName" id="stepsName" type="text" class="span2"/>
                     </div>                      
                     </div>
                 </div>
@@ -701,7 +704,7 @@
                 <div class="input-prepend input-append">
                   <label class="control-label">步骤类型:</label>
                   <div class="controls">
-                     <input id="BstepsTypeInfo" name="BstepsTypeInfo" type="text" class="uneditable-input span2" value="并序" disabled="disabled"/>
+                     <input id="BstepsTypeInfo" name="BstepsTypeInfo" type="text" class="uneditable-input span2" value="并行" disabled="disabled"/>
                   </div>
                 </div>
               </div>
@@ -790,7 +793,7 @@
                        <label class="control-label">步骤用户:</label>
                        <div class="controls">
                        <select class="span2" id="EstepsUser" name="EstepsUser">
-                       <option id="EstepsUserInfo" value="请选择" selected="selected"></option>
+                       <option id="EstepsUserInfo" value="请选择"></option>
                        </select>
                        </div>
                     </div>

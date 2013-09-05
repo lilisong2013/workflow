@@ -206,6 +206,10 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'步骤名称不能为空!'}");
                 }
+                if (stepName.Length < 5)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'步骤名称长度至少是四个字符以上!'}");
+                }
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(stepName) == false)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'步骤名称含有非法字符，只能包含字母、汉字、数字、下划线!'}");
@@ -464,26 +468,53 @@ namespace WorkFlow.Controllers
                 m_stepsBllService.SecurityContextValue = m_SecurityContext;
 
                 ArrayList IDList = new ArrayList();
+                ArrayList fuList = new ArrayList();
+
                 DataSet ds = m_stepsBllService.GetFlowStepListByFlowID(flowID,out msg);
                 var total = ds.Tables[0].Rows.Count;
                 for (int i = 0; i < total; i++)
                 {
                     IDList.Add(ds.Tables[0].Rows[i][0]);
+                    if (m_stepsBllService.ExistsFlowUser(Convert.ToInt32(ds.Tables[0].Rows[i][0]), out msg))
+                    {
+                        fuList.Add(ds.Tables[0].Rows[i][0]);
+                    }
                 }
                 bool flag=false;
+                bool fuag = false;
                 try
                 {
-                    foreach (int idlist in IDList)
+                    foreach (int fulist in fuList)
                     {
-                        if (m_stepsBllService.DeleteStep(idlist,out msg))
+                        if (m_stepsBllService.DeleteFlow_User(fulist, out msg))
                         {
-                            flag = true;
+                            fuag = true;
                         }
                         else
                         {
-                            flag = false;
+                            fuag = false;
                         }
                     }
+
+                    if (fuag == true)
+                    {
+                        foreach (int idlist in IDList)
+                        {
+                            if (m_stepsBllService.DeleteStep(idlist, out msg))
+                            {
+                                flag = true;
+                            }
+                            else
+                            {
+                                flag = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
+                    }
+                  
                     if (flag == true)
                     {
                         return Json("{success:true,css:'alert alert-success',message:'删除成功!'}");
@@ -609,6 +640,10 @@ namespace WorkFlow.Controllers
                 if (stepsName.Length == 0)
                 {
                     return Json("{success:false,css:'alert alert-error',message:'步骤名称不能为空!'}");
+                }
+                if (stepsName.Length < 5)
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'步骤名称长度至少四个字符以上!'}");
                 }
                 if (Saron.Common.PubFun.ConditionFilter.IsValidString(stepsName) == false)
                 {
@@ -1134,7 +1169,7 @@ namespace WorkFlow.Controllers
                    }
                    else
                    {
-                        steptype = "并序";
+                        steptype = "并行";
                    }
                    return Json("{Name:'"+stepname+"',Type:'"+steptype+"',Remark:'"+remark+"'}");
                 }

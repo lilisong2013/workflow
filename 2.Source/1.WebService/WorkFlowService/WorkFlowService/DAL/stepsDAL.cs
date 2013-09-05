@@ -34,6 +34,22 @@ namespace Saron.WorkFlowService.DAL
         }
 
         /// <summary>
+        /// 判断流程ID是否存在步骤表中
+        /// </summary>  
+        public bool ExistsFlowID(int stepID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from steps");
+            strSql.Append(" where flow_id=@flow_id and deleted=0 ");
+            SqlParameter[] parameters ={
+                 new SqlParameter("@flow_id",SqlDbType.Int,4)                     
+           };
+           parameters[0].Value = stepID;
+           return DbHelperSQL.Exists(strSql.ToString(),parameters);  
+
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
         public int AddStep(Saron.WorkFlowService.Model.stepsModel model)
