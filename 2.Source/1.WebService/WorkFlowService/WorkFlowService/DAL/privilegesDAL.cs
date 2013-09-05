@@ -392,17 +392,18 @@ namespace Saron.WorkFlowService.DAL
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public DataSet GetAllListByAppID(int appID)
+        public DataSet GetAllListByAppID(int appID,int ptID)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select id,name,privilegetype_id,privilegeitem_id,remark,app_id,created_at,created_by,created_ip,updated_at,updated_by,updated_ip ");
             strSql.Append(" FROM privileges ");
-            strSql.Append(" where app_id=@app_id");
+            strSql.Append(" where app_id=@app_id and privilegetype_id=@privilegetype_id");
             SqlParameter[] parameters = {
-					new SqlParameter("@app_id", SqlDbType.Int,4)
+					new SqlParameter("@app_id", SqlDbType.Int,4),
+                    new SqlParameter("@privilegetype_id", SqlDbType.Int,4)
 			};
             parameters[0].Value = appID;
-      
+            parameters[1].Value = ptID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
    

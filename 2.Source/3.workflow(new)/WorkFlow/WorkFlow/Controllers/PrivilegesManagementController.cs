@@ -1405,6 +1405,7 @@ namespace WorkFlow.Controllers
                 if (m_privilegeModel.privilegetype_id == 1)
                 {
                     ViewData["privilegeType_id"] = "菜单";
+                    ViewData["privilegeType_id1"] = 1;
                     WorkFlow.MenusWebService.menusBLLservice m_menusBllService = new MenusWebService.menusBLLservice();
                     WorkFlow.MenusWebService.SecurityContext m_MSecurity = new MenusWebService.SecurityContext();
 
@@ -1420,6 +1421,7 @@ namespace WorkFlow.Controllers
                 if (m_privilegeModel.privilegetype_id == 2)
                 {
                     ViewData["privilegeType_id"] = "页面元素";
+                    ViewData["privilegeType_id1"] = 2;
                     WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
                     WorkFlow.ElementsWebService.SecurityContext m_ESecurity = new ElementsWebService.SecurityContext();
 
@@ -1434,6 +1436,7 @@ namespace WorkFlow.Controllers
                 if (m_privilegeModel.privilegetype_id == 3)
                 {
                     ViewData["privilegeType_id"] = "操作";
+                    ViewData["privilegeType_id1"] = 3;
                     WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
                     WorkFlow.OperationsWebService.SecurityContext m_OSecurity = new OperationsWebService.SecurityContext();
 
@@ -1528,6 +1531,7 @@ namespace WorkFlow.Controllers
                 int m_privilegesId = Convert.ToInt32(collection["privilegeId"].Trim());
                 m_privilegesModel = m_privilegesBllService.GetModel(m_privilegesId, out msg);
                 string name = collection["privilegeName"].Trim().ToString();
+                int ptID = Convert.ToInt32(collection["pTypeID"].Trim().ToString());
                 if (name.Length == 0)
                 {
                   
@@ -1537,7 +1541,7 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'权限名称含有非法字符,只能包含字母、汉字、数字、下划线!'}");
                 }
-                DataSet ds = m_privilegesBllService.GetAllListByAppID(appID,out msg);
+                DataSet ds = m_privilegesBllService.GetAllListByAppID(appID,ptID,out msg);
                 var total = ds.Tables[0].Rows.Count;
                 ArrayList privilgeList = new ArrayList();
                 for (int i = 0; i < total; i++)

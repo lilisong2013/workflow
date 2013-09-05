@@ -175,16 +175,28 @@ namespace WorkFlow.Controllers
                                 string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
                                 string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
                                 string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                string invalid;
+                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][3]) == false)
+                                {
+                                    invalid = "是";
+                                }
+                                else
+                                {
+                                    invalid = "否";
+                                }
+
                                 if (i == ds.Tables[0].Rows.Count - 1)
                                 {
                                     data += "{name:'" + name + "',";
                                     data += "id:'" + id + "',";
+                                    data += "invalid:'" + invalid + "',";
                                     data += "remark:'" + remark + "'}";
                                 }
                                 else
                                 {
                                     data += "{name:'" + name + "',";
                                     data += "id:'" + id + "',";
+                                    data += "invalid:'" + invalid + "',";
                                     data += "remark:'" + remark + "'},";
                                 }
                             }
@@ -216,16 +228,27 @@ namespace WorkFlow.Controllers
                                 string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
                                 string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
                                 string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
+                                string invalid;
+                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][3]) == false)
+                                {
+                                    invalid = "是";
+                                }
+                                else
+                                {
+                                    invalid = "否";
+                                }
                                 if (i == ds.Tables[0].Rows.Count - 1)
                                 {
                                     data += "{name:'" + name + "',";
                                     data += "id:'" + id + "',";
+                                    data += "invalid:'" + invalid + "',";
                                     data += "remark:'" + remark + "'}";
                                 }
                                 else
                                 {
                                     data += "{name:'" + name + "',";
                                     data += "id:'" + id + "',";
+                                    data += "invalid:'" + invalid + "',";
                                     data += "remark:'" + remark + "'},";
                                 }
                             }

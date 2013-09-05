@@ -143,7 +143,7 @@ namespace Saron.WorkFlowService.WebService
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "获得某系统的所有权限列表，<h4>（需要授权验证，系统管理员）</h4>")]
-        public DataSet GetAllListByAppID(int appID,out string msg)
+        public DataSet GetAllListByAppID(int appID,int ptID,out string msg)
         {
             //对webservice进行授权验证,系统管理员才可访问
             if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
@@ -152,7 +152,7 @@ namespace Saron.WorkFlowService.WebService
                 return null;
             }
 
-            return m_privilegesDal.GetAllListByAppID(appID);
+            return m_privilegesDal.GetAllListByAppID(appID,ptID);
         }
             
         [SoapHeader("m_securityContext")]

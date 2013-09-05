@@ -263,12 +263,14 @@
                 data: {},
                 success: function (responseText, statusText) {
                     var dataSearchJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
+                    //alert(dataSearchJson);
                     $("#usersgrid").ligerGrid({
                         columns: [
                         { display: '用户ID', name: 'id', width: 80, align: 'center' },
                         { display: '登录名称', name: 'login', align: 'center' },
                         { display: '用户姓名', name: 'name', align: 'center' },
                         { display: '员工编号', name: 'employee_no', align: 'center' },
+                        { display: '是否有效', name: 'invalid', align: 'center' },                      
                         { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';

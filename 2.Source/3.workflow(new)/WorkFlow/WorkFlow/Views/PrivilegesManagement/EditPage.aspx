@@ -126,7 +126,8 @@
        <div class="m-newline offset2">
        <label class="control-label">权限类型：</label>
        <div class="controls">
-       <label class="uneditable-input" width="200px"><%=ViewData["privilegeType_id"]%></label>       
+       <label class="uneditable-input" width="200px"><%=ViewData["privilegeType_id"]%></label> 
+       <input type="hidden" id="pTypeID" name="pTypeID" value="<%=ViewData["privilegeType_id1"]%>"/>      
        </div>
        </div>
 

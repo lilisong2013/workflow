@@ -922,11 +922,22 @@ namespace WorkFlow.Controllers
                                 string name = Convert.ToString(ds.Tables[0].Rows[i][3]);
                                 string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
                                 string employeeno = Convert.ToString(ds.Tables[0].Rows[i][4]);
+                                string invalid;
+                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][9]) == false)
+                                {
+                                    invalid = "是";
+                                }
+                                else
+                                {
+                                    invalid = "否"; 
+                                }
+                             
                                 if (i == ds.Tables[0].Rows.Count - 1)
                                 {
                                     data += "{login:'" + login + "',";
                                     data += "id:'" + id + "',";
                                     data += "name:'" + name + "',";
+                                    data+="invalid:'"+invalid+"',";
                                     data += "employee_no:'" + employeeno + "'}";
                                 }
                                 else
@@ -934,6 +945,7 @@ namespace WorkFlow.Controllers
                                     data += "{login:'" + login + "',";
                                     data += "id:'" + id + "',";
                                     data += "name:'" + name + "',";
+                                    data += "invalid:'" + invalid + "',";
                                     data += "employee_no:'" + employeeno + "'},";
                                 }
                             }
@@ -955,11 +967,21 @@ namespace WorkFlow.Controllers
                                 string name = Convert.ToString(ds.Tables[0].Rows[i][3]);
                                 string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
                                 string employeeno = Convert.ToString(ds.Tables[0].Rows[i][4]);
+                                string invalid;
+                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][9]) == false)
+                                {
+                                    invalid = "是";
+                                }
+                                else
+                                {
+                                    invalid = "否";
+                                }
                                 if (i == ds.Tables[0].Rows.Count - 1)
                                 {
                                     data += "{login:'" + login + "',";
                                     data += "id:'" + id + "',";
                                     data += "name:'" + name + "',";
+                                    data += "invalid:'" + invalid + "',";
                                     data += "employee_no:'" + employeeno + "'}";
                                 }
                                 else
@@ -967,6 +989,7 @@ namespace WorkFlow.Controllers
                                     data += "{login:'" + login + "',";
                                     data += "id:'" + id + "',";
                                     data += "name:'" + name + "',";
+                                    data += "invalid:'" + invalid + "',";
                                     data += "employee_no:'" + employeeno + "'},";
                                 }
                             }

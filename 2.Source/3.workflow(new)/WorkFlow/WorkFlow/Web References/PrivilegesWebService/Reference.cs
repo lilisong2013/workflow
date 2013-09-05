@@ -364,25 +364,27 @@ namespace WorkFlow.PrivilegesWebService {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetAllListByAppID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetAllListByAppID(int appID, out string msg) {
+        public System.Data.DataSet GetAllListByAppID(int appID, int ptID, out string msg) {
             object[] results = this.Invoke("GetAllListByAppID", new object[] {
-                        appID});
+                        appID,
+                        ptID});
             msg = ((string)(results[1]));
             return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
-        public void GetAllListByAppIDAsync(int appID) {
-            this.GetAllListByAppIDAsync(appID, null);
+        public void GetAllListByAppIDAsync(int appID, int ptID) {
+            this.GetAllListByAppIDAsync(appID, ptID, null);
         }
         
         /// <remarks/>
-        public void GetAllListByAppIDAsync(int appID, object userState) {
+        public void GetAllListByAppIDAsync(int appID, int ptID, object userState) {
             if ((this.GetAllListByAppIDOperationCompleted == null)) {
                 this.GetAllListByAppIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllListByAppIDOperationCompleted);
             }
             this.InvokeAsync("GetAllListByAppID", new object[] {
-                        appID}, this.GetAllListByAppIDOperationCompleted, userState);
+                        appID,
+                        ptID}, this.GetAllListByAppIDOperationCompleted, userState);
         }
         
         private void OnGetAllListByAppIDOperationCompleted(object arg) {

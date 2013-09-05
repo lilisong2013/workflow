@@ -268,6 +268,7 @@
                         { display: '角色ID', name: 'id', width: 80, align: 'center' },
                         { display: '角色名称', name: 'name', align: 'center' },
                         { display: '角色备注', name: 'remark', align: 'center' },
+                        { display: '是否有效', name: 'invalid', align: 'center' },
                         { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
