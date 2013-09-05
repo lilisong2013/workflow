@@ -357,7 +357,7 @@
     <script type="text/javascript">
      //删除流程
      function DeleteFlows() {
-         $.ligerDialog.confirm("确定要删除该步骤对应的流程吗?", function (yes) {
+         $.ligerDialog.confirm("确定要删除该流程下所有的步骤吗?", function (yes) {
              if (yes) {
                  $.ajax({
                      url: "/StepsManagement/DeleteFlowSteps",
@@ -475,9 +475,9 @@
    <%--编辑步骤用户信息初始化--%>
     <script type="text/javascript">
         $(document).ready(function () {
-
-            GetEStepUserName();
             $("#EstepsUserInfo").html("请选择");
+            GetEStepUserName();
+ 
         });
         function GetEStepUserName() {
             $.ajax({
@@ -563,7 +563,7 @@
                <span class="input-xlarge uneditable-input"><%=ViewData["flowsName"]%></span>
                <input id="flowsID" name="flowsID" type="hidden" value="<%=ViewData["flowsID"]%>"/>
                <a id="addstep" href="#" class="btn btn-primary" data-toggle="modal" data-target="#AddC_StepModal" data-backdrop="false">增加顺序步骤</a>
-               <a href="#" class="btn btn-primary" onclick="DeleteFlows()">删除流程</a>
+               <a href="#" class="btn btn-primary" onclick="DeleteFlows()">删除流程步骤</a>
             </div>           
          </div>
    
@@ -790,7 +790,7 @@
                        <label class="control-label">步骤用户:</label>
                        <div class="controls">
                        <select class="span2" id="EstepsUser" name="EstepsUser">
-                       <option id="EstepsUserInfo"></option>
+                       <option id="EstepsUserInfo" value="请选择" selected="selected"></option>
                        </select>
                        </div>
                     </div>

@@ -76,7 +76,7 @@
                             },
                             { display: '', width: 120,
                                 render: function (row) {
-                                    var html = '<i class="icon-trash"></i><a href="#" onclick="FlowStep(' + row.id + ')">流程步骤</a>';
+                                    var html = '<i class="icon-user"></i><a href="#" onclick="FlowStep(' + row.id + ')">流程步骤维护</a>';
                                     return html;
                                 }
                             }
@@ -284,7 +284,7 @@
                             },
                              { display: '', width: 120,
                                  render: function (row) {
-                                     var html = '<i class="icon-trash"></i><a href="#" onclick="FlowSteps(' + row.id + ')">流程步骤维护</a>';
+                                     var html = '<i class="icon-user"></i><a href="#" onclick="FlowStep(' + row.id + ')">流程步骤维护</a>';
                                      return html;
                                  }
                              }

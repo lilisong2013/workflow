@@ -41,8 +41,6 @@
         });
     </script>
 
-   
-
     <%--在Grid中分页显示user信息--%>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -89,7 +87,7 @@
 
                        { display: '', width: 80,
                            render: function (row) {
-                               var html = '<i class="icon-user"></i><a href="#" onclick="UserRoleDialog(' + row.id + ')">角色设置</a>';
+                               var html = '<i class="icon-user"></i><a href="#" onclick="SUserRoleDialog(' + row.id + ')">角色设置</a>';
                                return html;
                            }
                        }
@@ -304,6 +302,26 @@
             });
         }
     </script>
+
+    <%--查询时用户角色弹出框函数--%>
+    <script type="text/javascript">
+         function SUserRoleDialog(id) {
+             if (id) {
+                 $.ligerDialog.open({
+                     title: '用户角色信息',
+                     width: 900,
+                     height: 600,
+                     isDrag: false,
+                     url: '/UsersManagement/UserRoles?id=' + id,
+                     buttons:
+                    [
+                    { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
+
+                    ]
+                 });
+             }
+         }
+   </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
