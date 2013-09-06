@@ -23,7 +23,7 @@ namespace Saron.WorkFlowService.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from steps");
-            strSql.Append(" where name=@name and flow_id=@flow_id ");
+            strSql.Append(" where name=@name and flow_id=@flow_id and deleted=0 ");
             SqlParameter[] parameters = {
 					new SqlParameter("@name", SqlDbType.NVarChar,100),
 					new SqlParameter("@flow_id", SqlDbType.Int,4)			};

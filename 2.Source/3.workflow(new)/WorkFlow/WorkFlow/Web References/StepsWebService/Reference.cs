@@ -1023,6 +1023,10 @@ namespace WorkFlow.StepsWebService {
         
         private int f_idField;
         
+        private int user_idField;
+        
+        private string user_nameField;
+        
         /// <remarks/>
         public int s_id {
             get {
@@ -1091,6 +1095,26 @@ namespace WorkFlow.StepsWebService {
             }
             set {
                 this.f_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int user_id {
+            get {
+                return this.user_idField;
+            }
+            set {
+                this.user_idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string user_name {
+            get {
+                return this.user_nameField;
+            }
+            set {
+                this.user_nameField = value;
             }
         }
     }

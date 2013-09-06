@@ -200,6 +200,7 @@ namespace WorkFlow.Controllers
                 string userName = collection["stepsUser"];
                 string stepName = collection["stepsName"];
                 string flowName = collection["flowsName1"];
+                int flowID = Convert.ToInt32(collection["flowsID1"]);
                 string stepsType = collection["stepsType"];
                 bool flag=false;
                 if (stepName.Length == 0)
@@ -228,7 +229,10 @@ namespace WorkFlow.Controllers
                 {
                     flag = true;//步骤用户已添加上
                 }
-
+                if (m_stepsBllService.ExistStepName(stepName,flowID,out msg))
+                {
+                    return Json("{success:false,css:'alert alert-error',message:'已经存在相同的步骤名称!'}");
+                }
                 if (flag == true)
                 {
                     int userID = Convert.ToInt32(collection["stepsUser"]);
@@ -390,7 +394,7 @@ namespace WorkFlow.Controllers
 
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
-                    m_stepuserlist.Add(new Saron.WorkFlow.Models.FlowStepUsersHelper { StepuserID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), StepuserName=Convert.ToString(ds.Tables[0].Rows[i][1]) });
+                    m_stepuserlist.Add(new Saron.WorkFlow.Models.FlowStepUsersHelper { StepuserID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), StepuserName=Convert.ToString(ds.Tables[0].Rows[i][3]) });
                 }
                 var dataJson = new { 
                   Rows=m_stepuserlist,

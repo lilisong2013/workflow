@@ -21,6 +21,9 @@ namespace Saron.WorkFlowService.Model
         private int _order_no;
         private int? _app_id;
         private int _f_id;
+        private int _user_id;
+        private string _user_name;
+      
         /// <summary>
         /// 流程步骤ID
         /// </summary>
@@ -76,6 +79,17 @@ namespace Saron.WorkFlowService.Model
         {
             set { _f_id = value; }
             get { return _f_id; }
+        }
+
+        public int user_id
+        {
+            get { return _user_id; }
+            set { _user_id = value; }
+        }
+        public string user_name
+        {
+            get { return _user_name; }
+            set { _user_name = value; }
         }
         #endregion Model
 

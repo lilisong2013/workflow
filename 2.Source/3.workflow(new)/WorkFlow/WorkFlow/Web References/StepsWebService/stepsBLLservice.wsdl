@@ -298,6 +298,8 @@
           <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="app_id" nillable="true" type="s:int" />
           <s:element minOccurs="1" maxOccurs="1" name="f_id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="user_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="user_name" type="s:string" />
         </s:sequence>
       </s:complexType>
       <s:element name="GetModelByID">

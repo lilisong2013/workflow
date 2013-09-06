@@ -86,7 +86,7 @@ namespace Saron.WorkFlowService.DAL
         public DataSet GetFlowStepListByFlowID(int flowID)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select s_id,s_name,f_name,step_type_name,order_no,app_id,f_id ");
+            strSql.Append("select s_id,s_name,f_name,step_type_name,order_no,app_id,f_id,user_id,user_name");
             strSql.Append(" FROM v_steps ");
             strSql.Append(" where f_id=@f_id order by s_id asc  ");
 

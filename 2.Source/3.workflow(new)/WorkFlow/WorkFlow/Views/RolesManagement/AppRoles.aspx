@@ -98,10 +98,12 @@
                     usePager: true,
                     url: "/RolesManagement/GetRolesList",
                     rowAttrRender: function (rowdata, rowid) {
-                      
+
                         if (rowdata.invalid) {
-                            return 'style="background:grey;"';
+                            return "style='background:#F1D3F7;'";
                         }
+                        else
+                            return "";
                     }
                 });
                 t.loadData();
