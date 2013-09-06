@@ -59,9 +59,9 @@
                             { display: '是否有效', name: 'invalid', align: 'center',
                                 render: function (item) {
                                     if (item.invalid == true) {
-                                        return '<span class="red">否</span>';
+                                        return '<span class="red"><b><font color="red">否</font></b></span>';
                                     } else if (item.invalid == false) {
-                                        return '<span class="blue" >是</span>';
+                                        return '<span class="blue" ><b><font color="blue">是</font></b></span>';
                                     }
                                 }
                              },
@@ -263,22 +263,24 @@
        function search() {
            
            key = $("#txtKey").val();
-        
-           $.ajax({
-               url: "/FlowsManagement/GetFlowName_List?flowname=" + key,
-               type: "POST",
-               dataType: "json",
-               data: {},
-               success: function (responseText, statusText) {
-                   //alert(responseText);
-                   var dataSearchJson2 = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                   //alert(dataSearchJson2);
-                   window['st']=$("#AllFlows").ligerGrid({
-                       columns: [
+
+           GetSFlowList(); //根据搜索关键字，显示列表
+
+           function GetSFlowList() {
+               window['s'] = $("#AllFlows").ligerGrid({
+                   columns: [
                             { display: '流程ID', name: 'id', align: 'center', width: 80 },
                             { display: '流程名称', name: 'name', align: 'center' },
                             { display: '备注信息', name: 'remark', align: 'center' },
-                            { display: '是否有效', name: 'invalid', align: 'center' },
+                            { display: '是否有效', name: 'invalid', align: 'center',
+                                render: function (item) {
+                                    if (item.invalid == true) {
+                                        return '<span class="red"><b><font color="red">否</font></b></span>';
+                                    } else if (item.invalid == false) {
+                                        return '<span class="blue" ><b><font color="blue">是</font></b></span>';
+                                    }
+                                }
+                            },
                             { display: '', width: 80,
                                 render: function (row) {
                                     var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
@@ -293,27 +295,29 @@
                             },
                             { display: '', width: 80,
                                 render: function (row) {
-                                    var html = '<i class="icon-trash"></i><a href="#" onclick="SDeleteFlow(' + row.id + ')">删除</a>';
+                                    var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteFlow(' + row.id + ')">删除</a>';
                                     return html;
                                 }
                             },
-                             { display: '', width: 120,
-                                 render: function (row) {
-                                     var html = '<i class="icon-user"></i><a href="#" onclick="FlowStep(' + row.id + ')">流程步骤维护</a>';
-                                     return html;
-                                 }
-                             }
-                      ],
-                       data: dataSearchJson2,
-                       newPage: 1
-                     
-                   });
-
-                 $("#AllFlows").ligerGetGridManager().loadData();
-
-               }
-           });
-               
+                            { display: '', width: 120,
+                                render: function (row) {
+                                    var html = '<i class="icon-user"></i><a href="#" onclick="FlowStep(' + row.id + ')">流程步骤维护</a>';
+                                    return html;
+                                }
+                            }
+                           ],
+                   dataAction: 'server',
+                   width: '99%',
+                   pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                   pageSize: 10,
+                   height: '400',
+                   rownumbers: true,
+                   usePager: true,
+                   newPage: 1,
+                   url: "/FlowsManagement/GetFlowName_List?flowname=" + key
+               });
+               s.loadData();
+           }
 
        }
    </script>

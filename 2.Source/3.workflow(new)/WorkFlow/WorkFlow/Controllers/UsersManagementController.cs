@@ -884,122 +884,131 @@ namespace WorkFlow.Controllers
 
         }
 
-        //根据用户登录名称实现模糊查询
+        //根据搜索关键字显示用户列表
         public ActionResult GetUserListByLogin(string userlogin)
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Home", "Login");
+                return RedirectToAction("Login", "Home");
             }
             else
-            {
+            { 
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
                 string msg = string.Empty;
-                WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
+                WorkFlow.UsersWebService.usersBLLservice m_usersService = new UsersWebService.usersBLLservice();
                 WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
 
-                WorkFlow.UsersWebService.usersModel m_userModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
                 m_SecurityContext.UserName = m_userModel.login;
                 m_SecurityContext.PassWord = m_userModel.password;
                 m_SecurityContext.AppID = (int)m_userModel.app_id;
-                m_usersBllService.SecurityContextValue = m_SecurityContext;
+                m_usersService.SecurityContextValue = m_SecurityContext;
 
-                //搜索关键字为空的情况，显示全部数据
+                //如果查询内容为空，显示全部列表
                 if (userlogin.Length == 0)
                 {
-                    DataSet ds = m_usersBllService.GetAllUsersListOfApp((int)m_userModel.app_id, out msg);
-                    string data = "{Rows:[";
-                    if (ds == null)
+                    DataSet ds = m_usersService.GetAllUsersListOfApp((int)m_userModel.app_id, out msg);
+
+                    IList<WorkFlow.UsersWebService.usersModel> m_list = new List<WorkFlow.UsersWebService.usersModel>();
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
                     {
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else
-                    {
-                        try
+                        WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Activator.CreateInstance(typeof(WorkFlow.UsersWebService.usersModel));
+                        PropertyInfo[] m_propertys = m_usersModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
                         {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                             {
-                                string login = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][3]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string employeeno = Convert.ToString(ds.Tables[0].Rows[i][4]);
-                                string invalid;
-                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][9]) == false)
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
-                                    invalid = "是";
-                                }
-                                else
-                                {
-                                    invalid = "否"; 
-                                }
-                             
-                                if (i == ds.Tables[0].Rows.Count - 1)
-                                {
-                                    data += "{login:'" + login + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "name:'" + name + "',";
-                                    data+="invalid:'"+invalid+"',";
-                                    data += "employee_no:'" + employeeno + "'}";
-                                }
-                                else
-                                {
-                                    data += "{login:'" + login + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "name:'" + name + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "employee_no:'" + employeeno + "'},";
+                                    //数据库NULL值单独处理
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_usersModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_usersModel, null, null);
+                                    break;
                                 }
                             }
                         }
-                        catch (Exception ex) { }
-                        data += "]}";
-                        return Json(data);
+                        m_list.Add(m_usersModel);
                     }
 
+                    IList<WorkFlow.UsersWebService.usersModel> m_targetList = new List<WorkFlow.UsersWebService.usersModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
+
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
                 }
-                //搜索关键字不为空的情况，显示部分搜索结果数据
-                else {
-                    DataSet ds = m_usersBllService.GetUserListByLogin(userlogin,(int)m_userModel.app_id,out msg);
-                    string data = "{Rows:[";
-                        try {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++) 
+                else
+                {
+                    DataSet ds = m_usersService.GetUserListByLogin(userlogin,(int)m_userModel.app_id,out msg);
+                    IList<WorkFlow.UsersWebService.usersModel> m_list = new List<WorkFlow.UsersWebService.usersModel>();
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
+                    {
+                        WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Activator.CreateInstance(typeof(WorkFlow.UsersWebService.usersModel));
+                        PropertyInfo[] m_propertys = m_usersModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
+                        {
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                             {
-                                string login = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][3]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string employeeno = Convert.ToString(ds.Tables[0].Rows[i][4]);
-                                string invalid;
-                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][9]) == false)
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
-                                    invalid = "是";
-                                }
-                                else
-                                {
-                                    invalid = "否";
-                                }
-                                if (i == ds.Tables[0].Rows.Count - 1)
-                                {
-                                    data += "{login:'" + login + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "name:'" + name + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "employee_no:'" + employeeno + "'}";
-                                }
-                                else
-                                {
-                                    data += "{login:'" + login + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "name:'" + name + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "employee_no:'" + employeeno + "'},";
+                                    //数据库NULL值单独处理
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_usersModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_usersModel, null, null);
+                                    break;
                                 }
                             }
                         }
-                        catch (Exception ex) { }
-                        data += "]}";
-                        return Json(data);                
-                }
+                        m_list.Add(m_usersModel);
+                    }
 
+                    IList<WorkFlow.UsersWebService.usersModel> m_targetList = new List<WorkFlow.UsersWebService.usersModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
+
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
+
+                }
             }
+          
         }
+
     }
 }

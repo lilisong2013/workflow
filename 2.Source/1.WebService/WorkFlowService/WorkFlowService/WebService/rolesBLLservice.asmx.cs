@@ -123,7 +123,7 @@ namespace Saron.WorkFlowService.WebService
         }
 
         [SoapHeader("m_securityContext")]
-        [WebMethod(Description = "获得某应用系统的有效角色数据列表(用户角色设置)，<h4>（需要授权验证，系统管理员）</h4>")]
+        [WebMethod(Description = "获得某应用系统的角色数据列表(用户角色设置)，<h4>（需要授权验证，系统管理员）</h4>")]
         public DataSet GetAllRolesListOfAppID(int appID, out string msg)
         {
 

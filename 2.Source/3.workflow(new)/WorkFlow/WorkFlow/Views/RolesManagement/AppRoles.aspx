@@ -29,6 +29,7 @@
         var titleUrl = "/Home/GetPageTitle";
         var PageName = "角色管理";
     </script>
+    
     <script src="../../Scripts/jquery.title.js" type="text/javascript"></script>
 
      <%--隐藏提示信息--%>
@@ -58,12 +59,12 @@
                         { display: '是否有效', name: 'invalid', align: 'center',
                             render: function (item) {
                                 if (item.invalid == true) {
-                                    return '<span class="red">否</span>';
+                                    return '<span class="red" style="background:#F1D3F7;"><b><font color="red">否</font></b></span>';
                                 } else if (item.invalid == false) {
-                                    return '<span class="blue" >是</span>';
+                                    return '<span class="blue" style="background:#F1D3F7;"><b><font color="blue">是</font></b></span>';
                                 }
                             }
-                        },
+                         },                      
                         { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
@@ -95,16 +96,9 @@
                     pageSize: 10,
                     height: '400',
                     rownumbers: true,
-                    usePager: true,
-                    url: "/RolesManagement/GetRolesList",
-                    rowAttrRender: function (rowdata, rowid) {
-
-                        if (rowdata.invalid) {
-                            return "style='background:#F1D3F7;'";
-                        }
-                        else
-                            return "";
-                    }
+                    usePager: true,             
+                    url: "/RolesManagement/GetRolesList"
+                   
                 });
                 t.loadData();
 
@@ -253,24 +247,29 @@
    </script>
   
   <%--查询信息--%>
-  <script type="text/javascript">
+   <script type="text/javascript">
       var key;
       function search() {
           key = $("#txtKey").val();
 
-          $.ajax({
-              url: "/RolesManagement/GetListByRoleName?roleName="+key,
-              type: "POST",
-              dataType: "json",
-              data: {},
-              success: function (responseText, statusText) {
-                  var dataSearchJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                  $("#rolesgrid").ligerGrid({
-                      columns: [
+          GetSRoleList();//根据搜索字段显示角色列表
+
+          function GetSRoleList() {
+              window['s'] = $("#rolesgrid").ligerGrid({
+                  columns: [
                         { display: '角色ID', name: 'id', width: 80, align: 'center' },
                         { display: '角色名称', name: 'name', align: 'center' },
                         { display: '角色备注', name: 'remark', align: 'center' },
-                        { display: '是否有效', name: 'invalid', align: 'center' },
+                        { display: '是否有效', name: 'invalid', align: 'center',
+                            render: function (item) {
+                                if (item.invalid == true) {
+                                    return '<span class="red" style="background:#F1D3F7;"><b><font color="red">否</font></b></span>';
+                                } else if (item.invalid == false) {
+                                    return '<span class="blue" style="background:#F1D3F7;"><b><font color="blue">是</font></b></span>';
+                                }
+                            }
+                           
+                        },
                         { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
@@ -289,21 +288,30 @@
                                 return html;
                             }
                         },
-                        { display: '', width: 80,
-                            render: function (row) {
-                                var html = '<i class="icon-user"></i><a href="/RolesManagement/Role_Privileges?id=' + row.id + '">权限设置</a>';
-                                return html;
-                            }
-                        }
+                         { display: '', width: 80,
+                             render: function (row) {
+                                 var html = '<i class="icon-user"></i><a href="#" onclick="RolePrivilegeDialog(' + row.id + ')">权限设置</a>';
+                                 return html;
+                             }
+                         }
                    ],
-                      data: dataSearchJson,
-                      newPage: 1
-                  });
-                  $("#rolesgrid").ligerGetGridManager().loadData();
-              }
-          });
+                dataAction: 'server',
+                width: '99%',
+                pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                pageSize: 10,
+                height: '400',
+                rownumbers: true,
+                usePager: true,
+                newPage: 1,
+                url: "/RolesManagement/GetListByRoleName?roleName=" + key
+            });
+            s.loadData();
+          }
+
       }
   </script>
+
+
 
 </asp:Content>
 

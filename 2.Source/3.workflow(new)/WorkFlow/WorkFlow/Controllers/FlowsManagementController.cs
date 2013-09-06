@@ -142,129 +142,134 @@ namespace WorkFlow.Controllers
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Home", "Login");
+                return RedirectToAction("Login", "Home");
             }
             else
-            {              
-                string msg = string.Empty;
+            {
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();
 
-                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                string msg = string.Empty;
                 m_SecurityContext.UserName = m_usersModel.login;
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_flowsBllService.SecurityContextValue = m_SecurityContext;
 
-                //搜索关键字为空的情况，显示全部数据
+                //如果搜索字段为空，显示全部流程列表
                 if (flowname.Length == 0)
                 {
-                    DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id,out msg);
-                    string data = "{Rows:[";
-                    if (ds == null)
-                    {
-                       // return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "无权访问WebService！" });
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else
-                    {
-                        try
-                        {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                            {
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                                string invalid;
-                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][3]) == false)
-                                {
-                                    invalid = "是";
-                                }
-                                else
-                                {
-                                    invalid = "否";
-                                }
+                    DataSet ds = m_flowsBllService.GetListOfFlows((int)m_usersModel.app_id, out msg);
 
-                                if (i == ds.Tables[0].Rows.Count - 1)
+                    IList<WorkFlow.FlowsWebService.flowsModel> m_list = new List<WorkFlow.FlowsWebService.flowsModel>();
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
+                    {
+                        WorkFlow.FlowsWebService.flowsModel m_flowsModel = (WorkFlow.FlowsWebService.flowsModel)Activator.CreateInstance(typeof(WorkFlow.FlowsWebService.flowsModel));
+                        PropertyInfo[] m_propertys = m_flowsModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
+                        {
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                            {
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "remark:'" + remark + "'}";
-                                }
-                                else
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "remark:'" + remark + "'},";
+                                    //数据库NULL值单独处理
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_flowsModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_flowsModel, null, null);
+                                    break;
                                 }
                             }
-
                         }
-                        catch (Exception ex) { }
-
-                        data += "]}";
-                        return Json(data);
+                        m_list.Add(m_flowsModel);
+                    }
+                    //模拟排序操作
+                    //if (sortorder == "desc")
+                    //    m_list = m_list.OrderByDescending(c => c.id).ToList();
+                    //else
+                    //    m_list = m_list.OrderBy(c => c.id).ToList();
+                    IList<WorkFlow.FlowsWebService.flowsModel> m_targetList = new List<WorkFlow.FlowsWebService.flowsModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
                     }
 
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
                 }
-                //搜索关键字不为空的情况，显示部分搜索结果数据
-                else
+                else 
                 {
                     DataSet ds = m_flowsBllService.GetListOfFlowsByName(flowname, (int)m_usersModel.app_id, out msg);
-                    string data = "{Rows:[";
-                    if (ds == null)
+                    IList<WorkFlow.FlowsWebService.flowsModel> m_list = new List<WorkFlow.FlowsWebService.flowsModel>();
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
                     {
-                        //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "alert alert-error", message = "无权访问WebService！" });
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else
-                    {
-                        try
+                        WorkFlow.FlowsWebService.flowsModel m_flowsModel = (WorkFlow.FlowsWebService.flowsModel)Activator.CreateInstance(typeof(WorkFlow.FlowsWebService.flowsModel));
+                        PropertyInfo[] m_propertys = m_flowsModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
                         {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                             {
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                                string invalid;
-                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][3]) == false)
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
-                                    invalid = "是";
-                                }
-                                else
-                                {
-                                    invalid = "否";
-                                }
-                                if (i == ds.Tables[0].Rows.Count - 1)
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "remark:'" + remark + "'}";
-                                }
-                                else
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "remark:'" + remark + "'},";
+                                    //数据库NULL值单独处理
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_flowsModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_flowsModel, null, null);
+                                    break;
                                 }
                             }
-
                         }
-                        catch (Exception ex) { }
-
-                        data += "]}";
-                        return Json(data);
+                        m_list.Add(m_flowsModel);
                     }
-                }
+                    //模拟排序操作
+                    //if (sortorder == "desc")
+                    //    m_list = m_list.OrderByDescending(c => c.id).ToList();
+                    //else
+                    //    m_list = m_list.OrderBy(c => c.id).ToList();
+                    IList<WorkFlow.FlowsWebService.flowsModel> m_targetList = new List<WorkFlow.FlowsWebService.flowsModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
 
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
+                }
 
             }
         }
-       
+      
         //添加流程数据
         public ActionResult AddFlows(FormCollection collection)
         {

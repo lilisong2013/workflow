@@ -63,8 +63,8 @@ namespace WorkFlow.Controllers
                 ViewData["r_Name"] = m_rolesModel.name;
                 return View();
             }
-        }       
-
+        }
+     
         //角色添加    
         public ActionResult AddRoles(FormCollection collection)
         {
@@ -122,6 +122,7 @@ namespace WorkFlow.Controllers
                     }
                 }
                 m_rolesModel.name = collection["rolesName"].Trim();
+                m_rolesModel.invalid = true;
                 m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
                 m_rolesModel.created_at = Convert.ToDateTime(collection["rolesCreated_at"].Trim());
                 m_rolesModel.created_by = Convert.ToInt32(collection["rolesCreated_by"].Trim());
@@ -354,7 +355,7 @@ namespace WorkFlow.Controllers
                     return Json("{success:false,css:'alert alert-error',message:'角色备注长度不能超过150个字符!'}");
                 }
                 //获得deleted=false且应用系统ID为appid的rolesName列表
-                DataSet ds = m_rolesBllService.GetAllRolesListOfAppID((int)m_usersModel.app_id, out msg);
+                DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id, out msg);
                 var total = ds.Tables[0].Rows.Count;
                 ArrayList rolesList = new ArrayList();
                 for (int i = 0; i < total; i++)
@@ -380,8 +381,7 @@ namespace WorkFlow.Controllers
                 {
                     m_rolesModel.invalid = true;
                 }
-                m_rolesModel.invalid = Convert.ToBoolean(collection["InvalidParent"].Trim());
-                m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());
+
                 m_rolesModel.remark = collection["rolesRemark"].Trim();
                 m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());
                 m_rolesModel.updated_at = t;
@@ -504,7 +504,7 @@ namespace WorkFlow.Controllers
                 m_rolesBllService.SecurityContextValue = m_SecurityContext;
 
                 int appID = Convert.ToInt32(m_usersModel.app_id);
-                DataSet ds = m_rolesBllService.GetAllRolesListOfApp(appID, out msg);
+                DataSet ds = m_rolesBllService.GetAllRolesListOfAppID(appID, out msg);
                 if (ds == null)
                 {
                     //return Json(new Saron.WorkFlow.Models.InformationModel { success = false, css = "p-errorDIV", message = "无权访问WebService！" });
@@ -997,113 +997,126 @@ namespace WorkFlow.Controllers
             }
             else
             {
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
                 string msg = string.Empty;
                 WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
                 WorkFlow.RolesWebService.SecurityContext m_SecurityContext = new RolesWebService.SecurityContext();
 
-                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
                 m_SecurityContext.UserName = m_usersModel.login;
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_rolesBllService.SecurityContextValue=m_SecurityContext;
+                m_rolesBllService.SecurityContextValue = m_SecurityContext;
 
-                //如果搜索的字段为空，则显示全部角色列表
+                //如果搜索字段为空，显示全部角色列表
                 if (roleName.Length == 0)
                 {
-                    DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id,out msg);
-                    string data = "{Rows:[";
-                    if (ds == null)
-                    {
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService!'}");
-                    }
-                    else
-                    {
-                        try
-                        {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                            {
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                                string invalid;
-                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][3]) == false)
-                                {
-                                    invalid = "是";
-                                }
-                                else
-                                {
-                                    invalid = "否";
-                                }
-
-                                if (i == ds.Tables[0].Rows.Count - 1)
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "invalid:'"+invalid+"',";
-                                    data += "remark:'" + remark + "'}";
-                                }
-                                else
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "remark:'" + remark + "'},";
-                                }
-                            }
-                        }
-                        catch (Exception ex) { }
-                        data += "]}";
-                        return Json(data);
-                    }
-                }
-                //如果搜索的字段不为空，则根据搜索字段显示部分角色列表
-                else 
-                {
-                    DataSet ds = m_rolesBllService.GetListByRoleName(roleName,(int)m_usersModel.app_id,out msg);
-                    String data = "{Rows:[";
-                   
-                        try
-                        {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                            {
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string remark = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                                string invalid;
-                                if (Convert.ToBoolean(ds.Tables[0].Rows[i][3]) == false)
-                                {
-                                    invalid = "是";
-                                }
-                                else
-                                {
-                                    invalid = "否";
-                                }
-
-                                if (i == ds.Tables[0].Rows.Count - 1)
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "remark:'" + remark + "'}";
-                                }
-                                else
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "invalid:'" + invalid + "',";
-                                    data += "remark:'" + remark + "'},";
-                                }
-                            }
-                        }
-                        catch (Exception ex) { }
-                        data += "]}";
-                        return Json(data);
                   
+                    DataSet ds = m_rolesBllService.GetAllRolesListOfAppID((int)m_usersModel.app_id, out msg);
+ 
+                    IList<WorkFlow.RolesWebService.rolesModel> m_list = new List<WorkFlow.RolesWebService.rolesModel>();
+
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
+                    {
+                        WorkFlow.RolesWebService.rolesModel m_rolesModel = (WorkFlow.RolesWebService.rolesModel)Activator.CreateInstance(typeof(WorkFlow.RolesWebService.rolesModel));
+                        PropertyInfo[] m_propertys = m_rolesModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
+                        {
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                            {
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                                {
+                                    // 数据库NULL值单独处理 
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_rolesModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_rolesModel, null, null);
+                                    break;
+                                }
+                            }
+                        }
+                        m_list.Add(m_rolesModel);
+                    }
+
+                    IList<WorkFlow.RolesWebService.rolesModel> m_targetList = new List<WorkFlow.RolesWebService.rolesModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
+
+
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
                 }
+                else
+                {
+                    DataSet ds = m_rolesBllService.GetListByRoleName(roleName, (int)m_usersModel.app_id, out msg);
+                    IList<WorkFlow.RolesWebService.rolesModel> m_list = new List<WorkFlow.RolesWebService.rolesModel>();
+
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
+                    {
+                        WorkFlow.RolesWebService.rolesModel m_rolesModel = (WorkFlow.RolesWebService.rolesModel)Activator.CreateInstance(typeof(WorkFlow.RolesWebService.rolesModel));
+                        PropertyInfo[] m_propertys = m_rolesModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
+                        {
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                            {
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
+                                {
+                                    // 数据库NULL值单独处理 
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_rolesModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_rolesModel, null, null);
+                                    break;
+                                }
+                            }
+                        }
+                        m_list.Add(m_rolesModel);
+                    }
+
+                    IList<WorkFlow.RolesWebService.rolesModel> m_targetList = new List<WorkFlow.RolesWebService.rolesModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
+
+
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
+                }
+
             }
         }
-
-
+        
     }
 }

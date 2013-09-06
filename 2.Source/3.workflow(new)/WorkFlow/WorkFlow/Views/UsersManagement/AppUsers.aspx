@@ -87,7 +87,7 @@
 
                        { display: '', width: 80,
                            render: function (row) {
-                               var html = '<i class="icon-user"></i><a href="#" onclick="SUserRoleDialog(' + row.id + ')">角色设置</a>';
+                               var html = '<i class="icon-user"></i><a href="#" onclick="UserRoleDialog(' + row.id + ')">角色设置</a>';
                                return html;
                            }
                        }
@@ -148,7 +148,7 @@
     </script>
 
    <%--用户角色弹出框函数--%>
-   <script type="text/javascript">
+    <script type="text/javascript">
        function UserRoleDialog(id) {
            if (id) {
                $.ligerDialog.open({
@@ -254,23 +254,27 @@
     <script type="text/javascript">
         var key;
         function search() {
-            key = $("#txtKey").val();
+            key = $("#txtKey").val();     
+            
+            GetSUserList();//根据搜索关键字获得用户列表
 
-            $.ajax({
-                url: "/UsersManagement/GetUserListByLogin?userlogin=" + key,
-                type: "POST",
-                dataType: "json",
-                data: {},
-                success: function (responseText, statusText) {
-                    var dataSearchJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                    //alert(dataSearchJson);
-                    $("#usersgrid").ligerGrid({
-                        columns: [
+            //根据搜索关键字获得用户列表
+            function GetSUserList() {
+                window['s'] = $("#usersgrid").ligerGrid({
+                    columns: [
                         { display: '用户ID', name: 'id', width: 80, align: 'center' },
                         { display: '登录名称', name: 'login', align: 'center' },
                         { display: '用户姓名', name: 'name', align: 'center' },
                         { display: '员工编号', name: 'employee_no', align: 'center' },
-                        { display: '是否有效', name: 'invalid', align: 'center' },                      
+                        { display: '是否有效', name: 'invalid', align: 'center',
+                            render: function (item) {
+                                if (item.invalid == true) {
+                                    return '<span class="red" ><b><font color="red">否</font></b></span>';
+                                } else if (item.invalid ==false) {
+                                    return '<span class="blue" ><b><font color="blue">是</font></b></span>';
+                                }
+                            }
+                        },
                         { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
@@ -291,39 +295,29 @@
                         },
                        { display: '', width: 80,
                            render: function (row) {
-                               var html = '<i class="icon-user"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色设置</a>';
+                               var html = '<i class="icon-user"></i><a href="#" onclick="UserRoleDialog(' + row.id + ')">角色设置</a>';
                                return html;
                            }
                        }
                        ],
-                        data: dataSearchJson,
-                        newPage: 1
-                    });
-                    $("#usersgrid").ligerGetGridManager().loadData();
-                }
-            });
+                    dataAction: 'server',
+                    pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                    pageSize: 10,
+                    width: '99%',
+                    height: '400',
+                    rownumbers: true,
+                    usePager: true,
+                    newPage: 1,
+                    url: "/UsersManagement/GetUserListByLogin?userlogin=" + key
+                });
+                s.loadData();
+            }
+
+
         }
     </script>
 
-    <%--查询时用户角色弹出框函数--%>
-    <script type="text/javascript">
-         function SUserRoleDialog(id) {
-             if (id) {
-                 $.ligerDialog.open({
-                     title: '用户角色信息',
-                     width: 900,
-                     height: 600,
-                     isDrag: false,
-                     url: '/UsersManagement/UserRoles?id=' + id,
-                     buttons:
-                    [
-                    { text: '返回', onclick: function (item, dialog) { t.loadData(); dialog.close(); } }
-
-                    ]
-                 });
-             }
-         }
-   </script>
+  
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

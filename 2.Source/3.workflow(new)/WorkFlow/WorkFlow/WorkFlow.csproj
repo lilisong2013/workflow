@@ -582,6 +582,7 @@
     <Content Include="Views\RolesManagement\DetailInfo.aspx" />
     <Content Include="Views\RolesManagement\EditPage.aspx" />
     <Content Include="Views\RolesManagement\Role_Privileges.aspx" />
+    <Content Include="Views\RolesManagement\SRole_Privileges.aspx" />
     <Content Include="Views\Shared\supersite.Master" />
     <Content Include="Views\Shared\superapproval.Master" />
     <None Include="Web References\AppsWebService\appsBLLservice.wsdl" />
