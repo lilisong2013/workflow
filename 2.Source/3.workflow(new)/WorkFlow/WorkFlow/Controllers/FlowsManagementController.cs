@@ -321,6 +321,7 @@ namespace WorkFlow.Controllers
 
                 m_flowsModel.name=collection["flowsName"];
                 m_flowsModel.remark = collection["flowsRemark"];
+                m_flowsModel.invalid = true;
                 m_flowsModel.created_by =(int)m_usersModel.id;
                 m_flowsModel.created_at = Convert.ToDateTime(collection["flowsCreated_at"].Trim());
                 m_flowsModel.created_ip = Saron.Common.PubFun.IPHelper.GetIpAddress();
@@ -409,7 +410,7 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                bool flag = false;
+                bool flag;
                 int flowsid = Convert.ToInt32(Request.Form["flowID"]);
                 WorkFlow.FlowsWebService.flowsBLLservice m_flowsBllService = new FlowsWebService.flowsBLLservice();
                 WorkFlow.FlowsWebService.SecurityContext m_SecurityContext = new FlowsWebService.SecurityContext();

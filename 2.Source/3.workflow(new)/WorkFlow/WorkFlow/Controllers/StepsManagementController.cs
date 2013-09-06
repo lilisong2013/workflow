@@ -485,7 +485,7 @@ namespace WorkFlow.Controllers
                     }
                 }
                 bool flag=false;
-                bool fuag = false;
+                bool fuag = true;
                 try
                 {
                     foreach (int fulist in fuList)

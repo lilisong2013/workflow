@@ -154,7 +154,7 @@
                                         for (var j = 0; j < dataJson.AllstepCount; j++) {
                                             if (dataJson.Order_NoRows[i].order_no == dataJson.StepRows[j].order_no) {
                                                 //alert("step_id:" + dataJson.StepRows[j].step_id);
-                                                stepHtmlStr += "<tr><td><div class='myicon-arrow-right'></div></td><td><table width='160px'><tr><td><div class='myicon-man'></div></td></tr><tr><td><a href='#' data-toggle='modal' data-target='#Edit_StepModal' data-backdrop='false' onclick=\"GetIDValue('" + dataJson.StepRows[j].step_id + "')\">" + dataJson.StepRows[j].step_name + "</a></td></tr></table></td></tr>";
+                                                stepHtmlStr += "<tr><td><div class='myicon-arrow-right'></div></td><td><table width='130px'><tr><td><div class='myicon-man'></div></td></tr><tr><td><a href='#' data-toggle='modal' data-target='#Edit_StepModal' data-backdrop='false' onclick=\"GetIDValue('" + dataJson.StepRows[j].step_id + "')\">" + dataJson.StepRows[j].step_name + "</a></td></tr></table></td></tr>";
                                             }
                                         }
 
@@ -165,14 +165,19 @@
                                         //alert(stepHtmlStr);
                                         $("#AllStepShow").append(stepHtmlStr);
                                     } else {
-                                        stepHtmlStr += "<td><table width='160px'>";
+                                        stepHtmlStr += "<td><table width='130px'>";
                                         // alert(stepHtmlStr);
                                         for (var j = 0; j < dataJson.AllstepCount; j++) {
                                             if (dataJson.Order_NoRows[i].order_no == dataJson.StepRows[j].order_no) {
                                                 //alert(datajson.StepRows[j].step_name);
-                                                stepHtmlStr += "<tr><td><div class='myicon-man'></div></td></tr><tr><td><a href='#' data-toggle='modal' data-target='#Edit_StepModal' data-backdrop='false' onclick=\"GetIDValue('" + dataJson.StepRows[j].step_id + "')\">" + dataJson.StepRows[j].step_name + "</a></td></tr>";
+                                                stepHtmlStr += "<tr><td><div class='myicon-man'></div></td></tr><tr><td width='130px'><a href='#' data-toggle='modal' data-target='#Edit_StepModal' data-backdrop='false' onclick=\"GetIDValue('" + dataJson.StepRows[j].step_id + "')\">" + dataJson.StepRows[j].step_name + "</a></td></tr>";
                                             }
                                         }
+
+                                        if (dataJson.Order_NoRows[i].stepType_Name == "并行") {
+                                            stepHtmlStr += "<tr><td colspan='2'><a  href='#' class='btn btn-primary' data-toggle='modal' data-target='#AddB_StepModal'data-backdrop='false' onclick=\"GetORValue('" + dataJson.Order_NoRows[i].order_no + "','" + dataJson.Order_NoRows[i].repeat_count + "')\">增加并行步骤</a></td></tr>";
+                                        }
+
                                         stepHtmlStr += "</table></td>";
                                         //alert(stepHtmlStr);
                                         $("#AllStepShow").append(stepHtmlStr);

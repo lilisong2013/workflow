@@ -26,6 +26,10 @@
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%= ViewData["flowsApp_id"]%></td>
   </tr>
   <tr>
+  <td width="300">是否有效:</td>
+  <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["flowsInvalid"]%></td>
+  </tr>
+  <tr>
   <td width="300">创建时间：</td>
   <td width="300" style="word-break:break-all; word-wrap:break-word;"><%=ViewData["flowsCreated_at"]%></td>
   </tr>

@@ -354,7 +354,7 @@ namespace WorkFlow.Controllers
                     return Json("{success:false,css:'alert alert-error',message:'角色备注长度不能超过150个字符!'}");
                 }
                 //获得deleted=false且应用系统ID为appid的rolesName列表
-                DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id, out msg);
+                DataSet ds = m_rolesBllService.GetAllRolesListOfAppID((int)m_usersModel.app_id, out msg);
                 var total = ds.Tables[0].Rows.Count;
                 ArrayList rolesList = new ArrayList();
                 for (int i = 0; i < total; i++)
@@ -380,7 +380,7 @@ namespace WorkFlow.Controllers
                 {
                     m_rolesModel.invalid = true;
                 }
-                //m_rolesModel.invalid = Convert.ToBoolean(collection["InvalidParent"].Trim());
+                m_rolesModel.invalid = Convert.ToBoolean(collection["InvalidParent"].Trim());
                 m_rolesModel.deleted = Convert.ToBoolean(collection["rolesDeleted"].Trim());
                 m_rolesModel.remark = collection["rolesRemark"].Trim();
                 m_rolesModel.app_id = Convert.ToInt32(collection["rolesApp_id"].Trim());

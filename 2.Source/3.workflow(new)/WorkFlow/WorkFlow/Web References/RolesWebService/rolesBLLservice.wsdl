@@ -109,6 +109,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAllRolesListOfAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllRolesListOfAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllRolesListOfAppIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetListByRoleName">
         <s:complexType>
           <s:sequence>
@@ -179,6 +201,15 @@
   <wsdl:message name="GetAllRolesListOfAppSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetAllRolesListOfAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllRolesListOfAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetAllRolesListOfAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllRolesListOfAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllRolesListOfAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:message name="GetListByRoleNameSoapIn">
     <wsdl:part name="parameters" element="tns:GetListByRoleName" />
   </wsdl:message>
@@ -210,9 +241,14 @@
       <wsdl:output message="tns:GetModelSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllRolesListOfApp">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的角色数据列表，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的有效角色数据列表(用户角色设置)，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetAllRolesListOfAppSoapIn" />
       <wsdl:output message="tns:GetAllRolesListOfAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllRolesListOfAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的有效角色数据列表(用户角色设置)，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetAllRolesListOfAppIDSoapIn" />
+      <wsdl:output message="tns:GetAllRolesListOfAppIDSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetListByRoleName">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据查询的角色名称获得角色列表,&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
@@ -267,6 +303,16 @@
       <wsdl:input>
         <soap:body use="literal" />
         <soap:header message="tns:GetAllRolesListOfAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllRolesListOfAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAllRolesListOfAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetAllRolesListOfAppIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap:body use="literal" />
@@ -335,6 +381,16 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAllRolesListOfAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAllRolesListOfAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAllRolesListOfAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetListByRoleName">
       <soap12:operation soapAction="http://saron.workflowservice.org/GetListByRoleName" style="document" />
       <wsdl:input>
@@ -348,10 +404,10 @@
   </wsdl:binding>
   <wsdl:service name="rolesBLLservice">
     <wsdl:port name="rolesBLLserviceSoap" binding="tns:rolesBLLserviceSoap">
-      <soap:address location="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx" />
+      <soap:address location="http://192.168.12.3:8081/WebService/rolesBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="rolesBLLserviceSoap12" binding="tns:rolesBLLserviceSoap12">
-      <soap12:address location="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx" />
+      <soap12:address location="http://192.168.12.3:8081/WebService/rolesBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

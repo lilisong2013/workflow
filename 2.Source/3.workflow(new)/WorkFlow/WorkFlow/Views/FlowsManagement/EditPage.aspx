@@ -32,6 +32,36 @@
          var fiTotal = 0; //是否有效数量
     </script>
 
+   <%--是否有效初始化--%>
+   <script type="text/javascript">
+       $(document).ready(function () {
+           $.ajax({
+               url: "/FlowsManagement/GetInvalidList",
+               type: "POST",
+               dataType: "json",
+               data: { flowsID: flowsID },
+               success: function (responseText, statusText) {
+                   //alert(responseText);
+                   var dataJson = eval("(" + responseText + ")");
+                   inTotal = parseInt(dataJson.total); //操作数量
+                   for (var i = 0; i < dataJson.total; i++) {
+                       $("#invalidList").append("<label class='checkbox span2'><input id='invalidValue" + i + "' type='checkbox' value='" + dataJson.List[i].id + "' />" + dataJson.List[i].name + "</label>");
+                   }
+
+                   for (var i = 0; i < dataJson.total; i++) {
+                       if (dataJson.List[i].selected == "true") {
+                           $("#invalidValue" + i.toString()).prop("checked", true);
+
+                       } else {
+                           $("#invalidValue" + i.toString()).prop("checked", false);
+
+                       }
+                   }
+               }
+           });
+       });
+   </script>
+
    <%--表单提交数据--%>
    <script type="text/javascript">
        $(document).ready(function () {
@@ -141,6 +171,13 @@
         <input type="hidden" name="flowsCreated_by" id="flowsCreated_by" value="<%=m_usersModel.id%>" />       
         <input type="hidden" name="flowsCreated_ip" id="flowsCreated_ip" value="<%= ipAddress %>" />       
         </div> 
+       </div>
+
+       <div class="m-newline offset2">
+         <label class="control-label">是否有效:&nbsp;&nbsp;&nbsp;</label>
+         <div id="invalidList">
+         
+         </div>
        </div>
 
        <div class="control-group span10 offset2">

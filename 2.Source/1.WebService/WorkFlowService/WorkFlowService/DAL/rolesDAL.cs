@@ -315,7 +315,23 @@ namespace Saron.WorkFlowService.DAL
 		}
         
         ///<summary>
-        ///获得某系统数据列表
+        ///获得某系统有效的数据列表
+        /// </summary>
+        public DataSet GetInvalidRolesListOfApp(int appID)
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id,name,remark,invalid,deleted,created_at,created_by,created_ip,updated_at,updated_by,updated_ip,app_id ");
+            strSql.Append(" FROM roles where app_id=@app_id and deleted=0 and invalid=0 order by id desc ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value = appID;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
+        ///<summary>
+        ///获得某系统有效的数据列表
         /// </summary>
         public DataSet GetAllRolesListOfApp(int appID)
         {
@@ -328,7 +344,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
-		
+
         /// <summary>
 		/// 获得前几行数据
 		/// </summary>
