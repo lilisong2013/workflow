@@ -246,7 +246,7 @@
       <wsdl:output message="tns:GetAllRolesListOfAppSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllRolesListOfAppID">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的有效角色数据列表(用户角色设置)，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某应用系统的角色数据列表(用户角色设置)，&lt;h4&gt;（需要授权验证，系统管理员）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:GetAllRolesListOfAppIDSoapIn" />
       <wsdl:output message="tns:GetAllRolesListOfAppIDSoapOut" />
     </wsdl:operation>
@@ -404,10 +404,10 @@
   </wsdl:binding>
   <wsdl:service name="rolesBLLservice">
     <wsdl:port name="rolesBLLserviceSoap" binding="tns:rolesBLLserviceSoap">
-      <soap:address location="http://192.168.12.3:8081/WebService/rolesBLLservice.asmx" />
+      <soap:address location="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx" />
     </wsdl:port>
     <wsdl:port name="rolesBLLserviceSoap12" binding="tns:rolesBLLserviceSoap12">
-      <soap12:address location="http://192.168.12.3:8081/WebService/rolesBLLservice.asmx" />
+      <soap12:address location="http://192.168.11.103:8081/WebService/rolesBLLservice.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
