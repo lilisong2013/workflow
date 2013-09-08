@@ -215,18 +215,14 @@
        var key;
        function search() {
            key = $("#txtKey").val();
-          // alert(key);
-           $.ajax({
-               url: "/OperationsManagement/GetListByOperationName?operationName=" + key,
-               type: "POST",
-               dataType: "json",
-               data: {},
-               success: function (responseText, statusText) {
-                   //alert(responseText);
-                   var dataSearchJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-                   //alert(dataSearchJson2);
-                   $("#operationsgrid").ligerGrid({
-                       columns: [
+
+           GetSOperationsList();//根据搜索条件显示操作列表
+
+           //根据搜索条件显示操作列表
+           function GetSOperationsList() {
+
+               window['s'] = $("#operationsgrid").ligerGrid({
+                   columns: [
                         { display: '操作ID', name: 'id', width: 80, align: 'center' },
                         { display: '操作名称', name: 'name', align: 'center' },
                         { display: '操作编码', name: 'code', align: 'center' },
@@ -237,7 +233,8 @@
                                 var html = '<i class="icon-list"></i><a href="javascript:void(0);" onclick="DetailDialog(' + row.id + ')">详情</a>';
                                 return html;
                             }
-                        }, { display: '', width: 80,
+                        }, 
+                        { display: '', width: 80,
                             render: function (row) {
                                 var html = '<i class="icon-edit"></i><a href="javascript:void(0);" onclick="EditDialog(' + row.id + ')">编辑</a>';
                                 return html;
@@ -250,16 +247,20 @@
                             }
                         }
                        ],
-                       data: dataSearchJson,
-                       newPage: 1
+                        dataAction: 'server',
+                        width: '99%',
+                        pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                        pageSize: 10,
+                        height: '400',
+                        rownumbers: true,
+                        usePager: true,
+                        newPage: 1,
+                        url: "/OperationsManagement/GetListByOperationName?operationName=" + key
 
-                   });
-
-                   $("#operationsgrid").ligerGetGridManager().loadData();
-
-               }
-           });
-          
+                    });
+                    s.loadData();
+           }
+         
        }
    </script>
  </asp:Content>

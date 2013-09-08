@@ -60,9 +60,9 @@
                         { display: '是否有效', name: 'invalid', align: 'center',
                             render: function (item) {
                                 if (item.invalid == true) {
-                                    return '<span class="red" ><b><font color="red">否</font></b></span>';
+                                    return '<span class="red" style="background:#F1D3F7;"><b><font color="red">否</font></b></span>';
                                 } else if (item.invalid == false) {
-                                    return '<span class="blue" ><b><font color="blue">是</font></b></span>';
+                                    return '<span class="blue" style="background:#F1D3F7;"><b><font color="blue">是</font></b></span>';
                                 }
                             }
                         },
@@ -269,9 +269,9 @@
                         { display: '是否有效', name: 'invalid', align: 'center',
                             render: function (item) {
                                 if (item.invalid == true) {
-                                    return '<span class="red" ><b><font color="red">否</font></b></span>';
+                                    return '<span class="red" style="background:#F1D3F7;"><b><font color="red">否</font></b></span>';
                                 } else if (item.invalid ==false) {
-                                    return '<span class="blue" ><b><font color="blue">是</font></b></span>';
+                                    return '<span class="blue" style="background:#F1D3F7;"><b><font color="blue">是</font></b></span>';
                                 }
                             }
                         },

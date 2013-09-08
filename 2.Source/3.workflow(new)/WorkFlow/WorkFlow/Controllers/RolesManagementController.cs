@@ -106,7 +106,7 @@ namespace WorkFlow.Controllers
                 }
                 m_rolesModel.name = collection["rolesName"].Trim();
                 //获得deleted=false的rolesName列表
-                DataSet ds = m_rolesBllService.GetAllRolesListOfApp((int)m_usersModel.app_id, out msg);
+                DataSet ds = m_rolesBllService.GetAllRolesListOfAppID((int)m_usersModel.app_id, out msg);
                 var total = ds.Tables[0].Rows.Count;
                 ArrayList rolesList = new ArrayList();
                 for (int i = 0; i < total; i++)

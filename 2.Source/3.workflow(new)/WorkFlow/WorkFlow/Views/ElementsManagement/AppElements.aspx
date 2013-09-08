@@ -350,15 +350,13 @@
        var key;
        function search() {
            key = $("#txtKey").val();
-           $.ajax({
-               url: "/ElementsManagement/GetListByElementName?elementName=" + key,
-               type: "POST",
-               dataType: "json",
-               data: {},
-               success: function (responseText, statusText) {
-                   var dataSearchJson = eval("(" + responseText + ")");
-                   $("#elementgrid").ligerGrid({
-                       columns: [
+
+           GetSElementList();//显示相应的元素列表
+           
+           //显示相应的元素列表
+           function GetSElementList() {
+               window['s'] = $("#elementgrid").ligerGrid({
+                   columns: [
                         { display: '元素ID', name: 'id', width: 80, align: 'center' },
                         { display: '元素名称', name: 'name', align: 'center' },
                         { display: '元素编码', name: 'code', align: 'center' },
@@ -382,14 +380,20 @@
                             }
                         }
                        ],
-                       data: dataSearchJson,
-                       newPage: 1
-                   });
-                   $("#elementgrid").ligerGetGridManager().loadData();
-               }
-           });
-       }
-   </script>
+                   dataAction: 'server',
+                   width: '99%',
+                   pageSizeOptions: [5, 10, 15, 20, 25, 50],
+                   pageSize: 10,
+                   height: '400',
+                   rownumbers: true,
+                   usePager: true,
+                   newPage: 1,
+                   url: "/ElementsManagement/GetListByElementName?elementName=" + key
+               });
+               s.loadData();
+             }
+      }
+  </script>
 
 </asp:Content>
 

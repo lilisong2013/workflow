@@ -180,14 +180,14 @@ namespace WorkFlow.Controllers
         //删除一条记录
         public ActionResult DeleteElement()
         {
-            Boolean flag=false;
+            
             if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
             else
             {
-               
+                bool flag=true;
                 string msg = string.Empty;
                 int elementID = Convert.ToInt32(Request.Form["elementsID"]);
                 WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
@@ -228,6 +228,7 @@ namespace WorkFlow.Controllers
                     if (idlist.Equals(elementID))
                     {
                         flag = true;//存在
+                        break;
                     }
                     else
                     {
@@ -769,104 +770,129 @@ namespace WorkFlow.Controllers
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Home", "Login");
+                return RedirectToAction("Login", "Home");
             }
             else
             {
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
                 string msg = string.Empty;
-                WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+                WorkFlow.ElementsWebService.elementsBLLservice m_elementsService = new ElementsWebService.elementsBLLservice();
+                WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
                 WorkFlow.ElementsWebService.SecurityContext m_SecurityContext = new ElementsWebService.SecurityContext();
 
-                WorkFlow.UsersWebService.usersModel m_usersModel =(WorkFlow.UsersWebService.usersModel)Session["user"];
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
                 m_SecurityContext.UserName = m_usersModel.login;
                 m_SecurityContext.PassWord = m_usersModel.password;
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_elementsBllService.SecurityContextValue = m_SecurityContext;
+                m_elementsService.SecurityContextValue = m_SecurityContext;
 
-                //如果搜索元素名称为空，显示全部元素列表
+                //如果搜索字段为空，显示全部元素列表
                 if (elementName.Length == 0)
                 {
-                    DataSet ds = m_elementsBllService.GetElementsListOfApp((int)m_usersModel.app_id,out msg);
-                    string data = "{Rows:[";
-                    if (ds == null)
-                    {
+                    DataSet ds = m_elementsService.GetElementsListOfApp((int)m_usersModel.app_id, out msg);
 
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else 
+                    IList<WorkFlow.ElementsWebService.elementsModel> m_list = new List<WorkFlow.ElementsWebService.elementsModel>();
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
                     {
-                        try {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        WorkFlow.ElementsWebService.elementsModel m_elementModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
+                        PropertyInfo[] m_propertys = m_elementModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
+                        {
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                             {
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                                string remark = Convert.ToString(ds.Tables[0].Rows[i][3]);
-                                if (i == ds.Tables[0].Rows.Count - 1)
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "code:'" + code + "',";
-                                    data += "remark:'" + remark + "'}";
-                                }
-                                else
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "code:'" + code + "',";
-                                    data += "remark:'" + remark + "'},";
+                                    // 数据库NULL值单独处理 
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_elementModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_elementModel, null, null);
+                                    break;
                                 }
                             }
-
                         }
-                        catch (Exception ex) { }
-                        data += "]}";
-                        return Json(data);
+                        m_list.Add(m_elementModel);
                     }
+
+
+                    IList<WorkFlow.ElementsWebService.elementsModel> m_targetList = new List<WorkFlow.ElementsWebService.elementsModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
                 }
-                //如果搜索元素名称不为空，显示相应的元素列表
                 else
-                {
-                    DataSet ds = m_elementsBllService.GetListByOperationName(elementName,(int)m_usersModel.app_id, out msg);
-                    string data = "{Rows:[";
-                    if (ds == null)
-                    {
+                {//如果搜索字段不为空，显示相应的列表
+                    DataSet ds = m_elementsService.GetListByOperationName(elementName, (int)m_usersModel.app_id, out msg);
 
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else
+                    IList<WorkFlow.ElementsWebService.elementsModel> m_list = new List<WorkFlow.ElementsWebService.elementsModel>();
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
                     {
-                        try {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        WorkFlow.ElementsWebService.elementsModel m_elementModel = (WorkFlow.ElementsWebService.elementsModel)Activator.CreateInstance(typeof(WorkFlow.ElementsWebService.elementsModel));
+                        PropertyInfo[] m_propertys = m_elementModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
+                        {
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                             {
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                                string remark = Convert.ToString(ds.Tables[0].Rows[i][3]);
-                                if (i == ds.Tables[0].Rows.Count - 1)
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "code:'" + code + "',";
-                                    data += "remark:'" + remark + "'}";
-                                }
-                                else
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "code:'" + code + "',";
-                                    data += "remark:'" + remark + "'},";
+                                    // 数据库NULL值单独处理 
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_elementModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_elementModel, null, null);
+                                    break;
                                 }
                             }
                         }
-                        catch (Exception ex) { }
-                        data += "]}";
-                        return Json(data);
+                        m_list.Add(m_elementModel);
                     }
+
+
+                    IList<WorkFlow.ElementsWebService.elementsModel> m_targetList = new List<WorkFlow.ElementsWebService.elementsModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
                 }
+               
             }
-        }
+       }
+
+        
       
         public class LoginResultDTO
         {

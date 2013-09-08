@@ -108,14 +108,14 @@ namespace WorkFlow.Controllers
         //删除一条记录
         public ActionResult DeleteOperation()
         {
-            Boolean flag = false;//判断删除的标志
+            
             if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
             else
             {
-                
+                bool flag = true;//判断删除的标志
                 string msg = string.Empty;
                 int operationID = Convert.ToInt32(Request.Form["operationID"]);
                 WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
@@ -158,6 +158,7 @@ namespace WorkFlow.Controllers
                     if (idlist.Equals(operationID))
                     {
                         flag = true;//存在
+                        break;
                     }
                     else
                     {
@@ -586,104 +587,123 @@ namespace WorkFlow.Controllers
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("Home", "Login");
+                return RedirectToAction("Login", "Home");
             }
             else
             {
+                //排序的字段名
+                string sortname = Request.Params["sortname"];
+                //排序的方向
+                string sortorder = Request.Params["sortorder"];
+                //当前页
+                int page = Convert.ToInt32(Request.Params["page"]);
+                //每页显示的记录数
+                int pagesize = Convert.ToInt32(Request.Params["pagesize"]);
+
                 string msg = string.Empty;
-                WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();
-                WorkFlow.OperationsWebService.SecurityContext m_SecurityContext = new OperationsWebService.SecurityContext();
+                WorkFlow.OperationsWebService.operationsBLLservice m_operationsService = new OperationsWebService.operationsBLLservice();
+                WorkFlow.OperationsWebService.SecurityContext m_securityContext = new OperationsWebService.SecurityContext();
 
-                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-                m_SecurityContext.UserName = m_usersModel.login;
-                m_SecurityContext.PassWord = m_usersModel.password;
-                m_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_operationsBllService.SecurityContextValue = m_SecurityContext;
+                WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
 
-                 //如果搜索字段为空，默认为显示全部数据
+                //SecurityContext实体对象赋值
+                m_securityContext.UserName = m_usersModel.login;
+                m_securityContext.PassWord = m_usersModel.password;
+                m_securityContext.AppID = (int)m_usersModel.app_id;
+                m_operationsService.SecurityContextValue = m_securityContext;//实例化 [SoapHeader("m_securityContext")]
+
+                //如果搜索字段为空，全部显示操作列表
                 if (operationName.Length == 0)
                 {
-                    DataSet ds = m_operationsBllService.GetOperationsListOfApp((int)m_usersModel.app_id,out msg);
-                    string data = "{Rows:[";
-                    if (ds == null)
+                    DataSet ds = m_operationsService.GetOperationsListOfApp((int)m_usersModel.app_id, out msg);
+
+                    IList<WorkFlow.OperationsWebService.operationsModel> m_list = new List<WorkFlow.OperationsWebService.operationsModel>();
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
                     {
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else
-                    {
-                        try {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        WorkFlow.OperationsWebService.operationsModel m_operationsModel = (WorkFlow.OperationsWebService.operationsModel)Activator.CreateInstance(typeof(WorkFlow.OperationsWebService.operationsModel));
+                        PropertyInfo[] m_propertys = m_operationsModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
+                        {
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                             {
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string remark = Convert.ToString(ds.Tables[0].Rows[i][4]);
-                                string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                                string description = Convert.ToString(ds.Tables[0].Rows[i][3]);
-                                if (i == ds.Tables[0].Rows.Count - 1)
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "code:'" + code + "',";
-                                    data += "description:'" + description + "',";
-                                    data += "remark:'" + remark + "'}";
-                                }
-                                else
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "code:'" + code + "',";
-                                    data += "description:'" + description + "',";
-                                    data += "remark:'" + remark + "'},";
+                                    //数据库NULL值单独处理
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_operationsModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_operationsModel, null, null);
+                                    break;
                                 }
                             }
                         }
-                        catch (Exception ex) { }
-                        data += "]}";
-                        return Json(data);
+                        m_list.Add(m_operationsModel);
                     }
+
+                    IList<WorkFlow.OperationsWebService.operationsModel> m_targetList = new List<WorkFlow.OperationsWebService.operationsModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
+
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
                 }
-                //如果搜索字段不为空，按照搜索字段显示部分数据列表
                 else
                 {
-                    DataSet ds = m_operationsBllService.GetListByOperationName(operationName,(int)m_usersModel.app_id,out msg);
-                    string data = "{Rows:[";
-                    if (ds == null)
+                    DataSet ds = m_operationsService.GetListByOperationName(operationName, (int)m_usersModel.app_id, out msg);
+                   
+                    IList<WorkFlow.OperationsWebService.operationsModel> m_list = new List<WorkFlow.OperationsWebService.operationsModel>();
+                    var total = ds.Tables[0].Rows.Count;
+                    for (var i = 0; i < total; i++)
                     {
-                        return Json("{success:false,css:'alert alert-error',message:'无权访问WebService！'}");
-                    }
-                    else
-                    {
-                        try {
-                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        WorkFlow.OperationsWebService.operationsModel m_operationsModel = (WorkFlow.OperationsWebService.operationsModel)Activator.CreateInstance(typeof(WorkFlow.OperationsWebService.operationsModel));
+                        PropertyInfo[] m_propertys = m_operationsModel.GetType().GetProperties();
+                        foreach (PropertyInfo pi in m_propertys)
+                        {
+                            for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
                             {
-                                string name = Convert.ToString(ds.Tables[0].Rows[i][1]);
-                                string id = Convert.ToString(ds.Tables[0].Rows[i][0]);
-                                string remark = Convert.ToString(ds.Tables[0].Rows[i][4]);
-                                string code = Convert.ToString(ds.Tables[0].Rows[i][2]);
-                                string description = Convert.ToString(ds.Tables[0].Rows[i][3]);
-                                if (i == ds.Tables[0].Rows.Count - 1)
+                                // 属性与字段名称一致的进行赋值 
+                                if (pi.Name.Equals(ds.Tables[0].Columns[j].ColumnName))
                                 {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "code:'" + code + "',";
-                                    data += "description:'" + description + "',";
-                                    data += "remark:'" + remark + "'}";
-                                }
-                                else
-                                {
-                                    data += "{name:'" + name + "',";
-                                    data += "id:'" + id + "',";
-                                    data += "code:'" + code + "',";
-                                    data += "description:'" + description + "',";
-                                    data += "remark:'" + remark + "'},";
+                                    //数据库NULL值单独处理
+                                    if (ds.Tables[0].Rows[i][j] != DBNull.Value)
+                                        pi.SetValue(m_operationsModel, ds.Tables[0].Rows[i][j], null);
+                                    else
+                                        pi.SetValue(m_operationsModel, null, null);
+                                    break;
                                 }
                             }
                         }
-                        catch (Exception ex) { }
-
-                        data += "]}";
-                        return Json(data);
+                        m_list.Add(m_operationsModel);
                     }
+
+                    IList<WorkFlow.OperationsWebService.operationsModel> m_targetList = new List<WorkFlow.OperationsWebService.operationsModel>();
+                    //模拟分页操作
+                    for (var i = 0; i < total; i++)
+                    {
+                        if (i >= (page - 1) * pagesize && i < page * pagesize)
+                        {
+                            m_targetList.Add(m_list[i]);
+                        }
+                    }
+
+                    var gridData = new
+                    {
+                        Rows = m_targetList,
+                        Total = total
+                    };
+                    return Json(gridData);
                 }
             }
         }
