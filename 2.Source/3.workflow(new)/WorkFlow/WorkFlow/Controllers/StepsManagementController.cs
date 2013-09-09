@@ -175,6 +175,7 @@ namespace WorkFlow.Controllers
                 return Json(gridData);
             }
         }
+       
         //添加步骤
         public ActionResult AddStep(FormCollection collection)
         {
@@ -401,19 +402,46 @@ namespace WorkFlow.Controllers
                 mr_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_rolesBllService.SecurityContextValue = mr_SecurityContext;
 
-                //根据流程角色名称获得角色ID
-                DataSet rds = m_rolesBllService.GetRoleIDByName((int)m_usersModel.app_id,out msg);
-                int froleID = Convert.ToInt32(rds.Tables[0].Rows[0][0]); 
+                DataSet rds = new DataSet();
+                try 
+                {
+                    //根据流程角色名称获得角色ID
+                    rds = m_rolesBllService.GetRoleIDByName((int)m_usersModel.app_id, out msg);
+                    if (rds == null)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'流程角色用户不存在!'}");
+                    }
+                }
+                catch (Exception ex) {
+
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+
+              
+                int froleID = Convert.ToInt32(rds.Tables[0].Rows[0][0]);
+
+                DataSet uIDds = new DataSet();
+                try 
+                {
+                    //根据角色ID获得用户ID列表
+                    uIDds = m_uroleBllService.GetUserListByRoleID(froleID);
+                    if (uIDds == null)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'流程角色用户不存在!'}");
+                    }
+                }
+                catch (Exception ex) {
+                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                }
+                
                
-                //根据角色ID获得用户ID列表
-                DataSet uIDds = m_uroleBllService.GetUserListByRoleID(froleID);
 
                 int total = uIDds.Tables[0].Rows.Count;
                 
                 ArrayList UList = new ArrayList();
-                int[] uid=new int[total];
-               
-                ArrayList LNlist = new ArrayList();            
+                ArrayList VList = new ArrayList();
+
+                int[] uid=new int[total];         
                 string[] uname=new string[total];
 
                 for (int i = 0; i < total; i++)
@@ -423,18 +451,34 @@ namespace WorkFlow.Controllers
                 }
 
                 int j=0;
-                foreach(int ulist in UList)
+                int count = 0;
+                //根据角色流程获得所有的有效的用户列表
+                foreach (int ulist in UList)
                 {
                     m_userModel = m_usersBllService.GetModelByID(ulist,out msg);
-                    LNlist.Add(m_userModel.login + "-" + m_userModel.name);
-                    uname[j++] = Convert.ToString(m_userModel.login + "-" + m_userModel.name);
+                    if (Convert.ToBoolean(m_userModel.invalid) == false)
+                    {
+                        VList.Add(m_userModel.id);
+                        count++;
+                    }
+                }
+                
+                //赋值
+                foreach(int vlist in VList)
+                {
+                    WorkFlow.UsersWebService.usersModel m_userModel1 = new UsersWebService.usersModel();
+
+                    m_userModel1 = m_usersBllService.GetModelByID(vlist, out msg);
+                   
+                    uname[j++] = Convert.ToString(m_userModel1.name + "(" + m_userModel1.login + ")");
+                   
                 }
 
-                //DataSet ds = m_usersBllService.GetUserListByAppID((int)m_usersModel.app_id,out msg);
+                
 
                 List<Saron.WorkFlow.Models.FlowStepUsersHelper> m_stepuserlist = new List<Saron.WorkFlow.Models.FlowStepUsersHelper>();
 
-                for (int i = 0; i <total; i++)
+                for (int i = 0; i <count; i++)
                 {
                     m_stepuserlist.Add(new Saron.WorkFlow.Models.FlowStepUsersHelper { StepuserID = Convert.ToInt32(uid[i]), StepuserName = Convert.ToString(uname[i]) });
                 }

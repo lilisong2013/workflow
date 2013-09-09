@@ -98,6 +98,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[1].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(),parameters);
         }
+       
         //获得系统某菜单的子菜单
         public DataSet GetChildrenPMenusListOfApp(int parentID, int appID)
         {
@@ -389,6 +390,7 @@ namespace Saron.WorkFlowService.DAL
             }
            
         }
+       
         /// <summary>
         /// 获得数据列表
         /// </summary>

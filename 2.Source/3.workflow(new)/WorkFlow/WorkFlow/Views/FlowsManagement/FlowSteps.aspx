@@ -566,9 +566,9 @@
      <form id="flow_steps" method="post" action="" class="form-horizontal">
  
          <div class="control-group page-header">
-           <label class="control-label">流程名称:</label>
+           <label class="control-label">流程名称:(<b><%=ViewData["flowsName"]%>)</b></label>
             <div class="controls">
-               <span class="input-xlarge uneditable-input"><%=ViewData["flowsName"]%></span>
+               
                <input id="flowsID" name="flowsID" type="hidden" value="<%=ViewData["flowsID"]%>"/>
                <a id="addstep" href="#" class="btn btn-primary" data-toggle="modal" data-target="#AddC_StepModal" data-backdrop="false">增加顺序步骤</a>
                <a href="#" class="btn btn-primary" onclick="DeleteFlows()">删除流程步骤</a>

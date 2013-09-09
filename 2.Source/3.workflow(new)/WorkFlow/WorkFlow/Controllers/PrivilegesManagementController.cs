@@ -1296,6 +1296,13 @@ namespace WorkFlow.Controllers
                 WorkFlow.PrivilegesWebService.privilegesBLLservice m_privilegesBllService = new PrivilegesWebService.privilegesBLLservice();
                 WorkFlow.PrivilegesWebService.SecurityContext m_SecurityContext = new PrivilegesWebService.SecurityContext();
 
+                WorkFlow.V_PrivilegesWebService.v_privilegesBLLservice mv_privilegesBllService = new V_PrivilegesWebService.v_privilegesBLLservice();
+                WorkFlow.V_PrivilegesWebService.SecurityContext mv_SecurityContext = new V_PrivilegesWebService.SecurityContext();
+
+                WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();
+                WorkFlow.ElementsWebService.SecurityContext me_SecurityContext = new ElementsWebService.SecurityContext();
+                WorkFlow.ElementsWebService.elementsModel m_elementsModel = new ElementsWebService.elementsModel();
+
                 string msg = string.Empty;
                 int privilegeID = Convert.ToInt32(Request.Form["privilegeID"]);
                 WorkFlow.UsersWebService.usersModel m_usersModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
@@ -1305,9 +1312,52 @@ namespace WorkFlow.Controllers
                 m_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_privilegesBllService.SecurityContextValue = m_SecurityContext;
 
-                DataSet ds = m_privilegesBllService.GetItemIDByPID(privilegeID,(int)m_usersModel.app_id,out msg);
+                mv_SecurityContext.UserName = m_usersModel.login;
+                mv_SecurityContext.PassWord = m_usersModel.password;
+                mv_SecurityContext.AppID = (int)m_usersModel.app_id;
+                mv_privilegesBllService.SecurityContextValue = mv_SecurityContext;
+
+                me_SecurityContext.UserName = m_usersModel.login;
+                me_SecurityContext.PassWord = m_usersModel.password;
+                me_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_elementsBllService.SecurityContextValue = me_SecurityContext;
+
+                //获得权限管理下的元素权限下的privilegesitem_id列表
+                DataSet eds = mv_privilegesBllService.GetEPrivilegesListOfApp((int)m_usersModel.app_id, out msg);
+                ArrayList eIDList = new ArrayList();
+
+                //获得权限管理下的菜单权限下的privilegesitem_id列表
+                DataSet ds = m_privilegesBllService.GetItemIDByPID(privilegeID, (int)m_usersModel.app_id, out msg);
                 int itemID = Convert.ToInt32(ds.Tables[0].Rows[0][0].ToString());
-       
+
+                //权限管理下的元素权限下的privilegesitem_id列表的个数
+                int count = eds.Tables[0].Rows.Count;
+                int[] eID = new int[count];
+                int[] mID = new int[count];
+
+                //根据元素ID列表获得对应的menu_id列表
+                for (int i = 0; i < count; i++)
+                {
+                    eIDList.Add(eds.Tables[0].Rows[i][7]);
+                    eID[i] = Convert.ToInt32(eds.Tables[0].Rows[i][7]);
+                    try
+                    {
+                        m_elementsModel = m_elementsBllService.GetModel(eID[i], out msg);
+                        mID[i] = Convert.ToInt32(m_elementsModel.menu_id);
+                        if (mID[i].Equals(itemID))
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'菜单权限下存在页面元素权限，不能删除!'}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
+                    }
+                }
+
+              
+                
+
                 try
                 {
                     if (m_privilegesBllService.ExistsChildrenPMenus(itemID, (int)m_usersModel.app_id, out msg) == true)

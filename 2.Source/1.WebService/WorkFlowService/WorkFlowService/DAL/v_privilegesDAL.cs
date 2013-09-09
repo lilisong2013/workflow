@@ -14,6 +14,7 @@ namespace Saron.WorkFlowService.DAL
         public v_privilegesDAL()
 		{}
 		#region  Method
+      
         /// <summary>
         /// 通过项目编码item_code、权限类型名称pt_name、系统ID获得权限ID
         /// </summary>
@@ -83,6 +84,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+       
         //获取视图下权限下菜单列表
         public DataSet GetMPrivilegesListOfApp(int appID)
         {
@@ -96,6 +98,8 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+
+      
         //获取视图下权限下元素列表
         public DataSet GetEPrivilegesListOfApp(int appID)
         {
@@ -109,6 +113,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+        
         //获取视图下权限下操作列表
         public DataSet GetOPrivilegesListOfApp(int appID)
         {
@@ -122,6 +127,7 @@ namespace Saron.WorkFlowService.DAL
             parameters[0].Value = appID;
             return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
+       
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
@@ -202,6 +208,7 @@ namespace Saron.WorkFlowService.DAL
             }
             return model;
         }
-		#endregion  Method
+		
+        #endregion  Method
     }
 }

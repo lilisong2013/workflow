@@ -252,7 +252,7 @@ namespace Saron.WorkFlowService.WebService
             }
 
             return m_usersdal.GetModel(id);
-        }
+        }    
 
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据应用系统主键appid获得系统管理员实体对象，<h4>（需要授权验证,超级管理员用户）")]
