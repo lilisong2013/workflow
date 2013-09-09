@@ -307,13 +307,7 @@
         <input type="hidden" name="elementsUpdated_by" id="elementsUpdated_by"/>
         <input type="hidden" name="elementsUpdated_ip" id="elementsUpdated_ip"/>
        </div>
-
-     <%--  <div class="m-newline offset2">
-       <label class="control-label">是否有效：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-       <div id="invalidList">
-       </div>
-       </div>--%>
-
+       <br />
        <div class="control-group span10 offset2" >
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
        </div>    

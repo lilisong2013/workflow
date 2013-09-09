@@ -183,13 +183,7 @@
         <input type="hidden" name="operationsUpdated_ip" id="operationsUpdated_ip" value=""/>
        </div>
        </div>
-
-    <%--   <div class="m-newline offset2">
-       <label class="control-label">是否有效：</label>     
-        <div id="invalidList">
-        
-        </div>   
-       </div>--%>
+       <br />
        <div class="control-group span10 offset2">
        <input id="saveSubmit" type="submit" value="修改" class="btn btn-primary span10 offset2" />  
        </div>    

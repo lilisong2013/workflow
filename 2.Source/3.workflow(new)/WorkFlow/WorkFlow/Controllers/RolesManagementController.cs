@@ -175,8 +175,8 @@ namespace WorkFlow.Controllers
                     }
                     else 
                     {
-                       
-                        return Json("{success:false,css:'alert alert-error',message:'删除失败!'}");
+
+                        return Json("{success:false,css:'alert alert-error',message:'角色已经分配权限或者被用户赋予角色，无法删除!'}");
                     }
                 }
                 catch (Exception ex)
