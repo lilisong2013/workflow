@@ -381,24 +381,66 @@ namespace WorkFlow.Controllers
 
                 WorkFlow.UsersWebService.usersBLLservice m_usersBllService = new UsersWebService.usersBLLservice();
                 WorkFlow.UsersWebService.SecurityContext mu_SecurityContext = new UsersWebService.SecurityContext();
+               
+                WorkFlow.RolesWebService.rolesBLLservice m_rolesBllService = new RolesWebService.rolesBLLservice();
+                WorkFlow.RolesWebService.SecurityContext mr_SecurityContext = new RolesWebService.SecurityContext();
+
+                WorkFlow.User_RoleBLLservice.user_roleBLLservice m_uroleBllService = new User_RoleBLLservice.user_roleBLLservice();
 
                 WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
+
+                WorkFlow.UsersWebService.usersModel m_userModel = new UsersWebService.usersModel();
 
                 mu_SecurityContext.UserName = m_usersModel.login;
                 mu_SecurityContext.PassWord = m_usersModel.password;
                 mu_SecurityContext.AppID = (int)m_usersModel.app_id;
                 m_usersBllService.SecurityContextValue = mu_SecurityContext;
 
-                DataSet ds = m_usersBllService.GetUserListByAppID((int)m_usersModel.app_id,out msg);
+                mr_SecurityContext.UserName = m_usersModel.login;
+                mr_SecurityContext.PassWord = m_usersModel.password;
+                mr_SecurityContext.AppID = (int)m_usersModel.app_id;
+                m_rolesBllService.SecurityContextValue = mr_SecurityContext;
+
+                //根据流程角色名称获得角色ID
+                DataSet rds = m_rolesBllService.GetRoleIDByName((int)m_usersModel.app_id,out msg);
+                int froleID = Convert.ToInt32(rds.Tables[0].Rows[0][0]); 
+               
+                //根据角色ID获得用户ID列表
+                DataSet uIDds = m_uroleBllService.GetUserListByRoleID(froleID);
+
+                int total = uIDds.Tables[0].Rows.Count;
+                
+                ArrayList UList = new ArrayList();
+                int[] uid=new int[total];
+               
+                ArrayList LNlist = new ArrayList();            
+                string[] uname=new string[total];
+
+                for (int i = 0; i < total; i++)
+                {
+                    UList.Add(uIDds.Tables[0].Rows[i][0]);
+                    uid[i] = Convert.ToInt32(uIDds.Tables[0].Rows[i][0]);
+                }
+
+                int j=0;
+                foreach(int ulist in UList)
+                {
+                    m_userModel = m_usersBllService.GetModelByID(ulist,out msg);
+                    LNlist.Add(m_userModel.login + "-" + m_userModel.name);
+                    uname[j++] = Convert.ToString(m_userModel.login + "-" + m_userModel.name);
+                }
+
+                //DataSet ds = m_usersBllService.GetUserListByAppID((int)m_usersModel.app_id,out msg);
+
                 List<Saron.WorkFlow.Models.FlowStepUsersHelper> m_stepuserlist = new List<Saron.WorkFlow.Models.FlowStepUsersHelper>();
 
-                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                for (int i = 0; i <total; i++)
                 {
-                    m_stepuserlist.Add(new Saron.WorkFlow.Models.FlowStepUsersHelper { StepuserID = Convert.ToInt32(ds.Tables[0].Rows[i][0]), StepuserName=Convert.ToString(ds.Tables[0].Rows[i][3]) });
+                    m_stepuserlist.Add(new Saron.WorkFlow.Models.FlowStepUsersHelper { StepuserID = Convert.ToInt32(uid[i]), StepuserName = Convert.ToString(uname[i]) });
                 }
                 var dataJson = new { 
                   Rows=m_stepuserlist,
-                  Total=ds.Tables[0].Rows.Count
+                  Total=total
                 };
                 return Json(dataJson,JsonRequestBehavior.AllowGet);
             }

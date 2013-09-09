@@ -194,6 +194,19 @@ namespace Saron.WorkFlowService.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
+        //根据流程角色ID获得用户ID
+        public DataSet GetUserListByRoleID(int roleID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select distinct(user_id) from user_role");
+            strSql.Append(" where role_id=@role_id ");
+            SqlParameter[] parameters ={
+              new SqlParameter("@role_id", SqlDbType.Int,4)
+            };
+            parameters[0].Value = roleID;
+
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
 		/// <summary>
 		/// 获得前几行数据
 		/// </summary>

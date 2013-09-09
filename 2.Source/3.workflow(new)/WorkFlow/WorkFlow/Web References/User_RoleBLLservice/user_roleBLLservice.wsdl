@@ -123,6 +123,27 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetUserListByRoleID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="roleID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserListByRoleIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserListByRoleIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="ExistsSoapIn">
@@ -173,6 +194,12 @@
   <wsdl:message name="DeleteByRoleIDSoapOut">
     <wsdl:part name="parameters" element="tns:DeleteByRoleIDResponse" />
   </wsdl:message>
+  <wsdl:message name="GetUserListByRoleIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserListByRoleID" />
+  </wsdl:message>
+  <wsdl:message name="GetUserListByRoleIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserListByRoleIDResponse" />
+  </wsdl:message>
   <wsdl:portType name="user_roleBLLserviceSoap">
     <wsdl:operation name="Exists">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断是否存在用户id为user_id,角色id为role_id的记录</wsdl:documentation>
@@ -213,6 +240,11 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除用户id为user_id的所有权限</wsdl:documentation>
       <wsdl:input message="tns:DeleteByRoleIDSoapIn" />
       <wsdl:output message="tns:DeleteByRoleIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListByRoleID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据流程角色ID获得用户ID列表</wsdl:documentation>
+      <wsdl:input message="tns:GetUserListByRoleIDSoapIn" />
+      <wsdl:output message="tns:GetUserListByRoleIDSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="user_roleBLLserviceSoap" type="tns:user_roleBLLserviceSoap">
@@ -289,6 +321,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetUserListByRoleID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetUserListByRoleID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="user_roleBLLserviceSoap12" type="tns:user_roleBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -357,6 +398,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteByRoleID">
       <soap12:operation soapAction="http://saron.workflowservice.org/DeleteByRoleID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListByRoleID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetUserListByRoleID" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

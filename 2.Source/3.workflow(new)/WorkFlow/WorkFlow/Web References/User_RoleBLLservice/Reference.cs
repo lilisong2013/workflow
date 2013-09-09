@@ -20,6 +20,7 @@ namespace WorkFlow.User_RoleBLLservice {
     using System.Web.Services.Protocols;
     using System.ComponentModel;
     using System.Xml.Serialization;
+    using System.Data;
     
     
     /// <remarks/>
@@ -44,6 +45,8 @@ namespace WorkFlow.User_RoleBLLservice {
         private System.Threading.SendOrPostCallback User_RoleCountByUserIDOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteByRoleIDOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetUserListByRoleIDOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -106,6 +109,9 @@ namespace WorkFlow.User_RoleBLLservice {
         
         /// <remarks/>
         public event DeleteByRoleIDCompletedEventHandler DeleteByRoleIDCompleted;
+        
+        /// <remarks/>
+        public event GetUserListByRoleIDCompletedEventHandler GetUserListByRoleIDCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/Exists", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -338,6 +344,35 @@ namespace WorkFlow.User_RoleBLLservice {
             if ((this.DeleteByRoleIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.DeleteByRoleIDCompleted(this, new DeleteByRoleIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetUserListByRoleID", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetUserListByRoleID(int roleID) {
+            object[] results = this.Invoke("GetUserListByRoleID", new object[] {
+                        roleID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserListByRoleIDAsync(int roleID) {
+            this.GetUserListByRoleIDAsync(roleID, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserListByRoleIDAsync(int roleID, object userState) {
+            if ((this.GetUserListByRoleIDOperationCompleted == null)) {
+                this.GetUserListByRoleIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserListByRoleIDOperationCompleted);
+            }
+            this.InvokeAsync("GetUserListByRoleID", new object[] {
+                        roleID}, this.GetUserListByRoleIDOperationCompleted, userState);
+        }
+        
+        private void OnGetUserListByRoleIDOperationCompleted(object arg) {
+            if ((this.GetUserListByRoleIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserListByRoleIDCompleted(this, new GetUserListByRoleIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -623,6 +658,32 @@ namespace WorkFlow.User_RoleBLLservice {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetUserListByRoleIDCompletedEventHandler(object sender, GetUserListByRoleIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserListByRoleIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserListByRoleIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
     }

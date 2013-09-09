@@ -387,7 +387,20 @@ namespace Saron.WorkFlowService.DAL
 				return Convert.ToInt32(obj);
 			}
 		}
-		
+       
+        //获得流程角色的指定角色ID
+        public DataSet GetRoleIDByName(int appID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id from roles");
+            strSql.Append(" where app_id=@app_id and deleted=0 and invalid=0 and name='流程角色'");
+            SqlParameter[] parameters = {
+					new SqlParameter("@app_id", SqlDbType.Int,4)
+			};
+            parameters[0].Value =appID;
+
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
         /// <summary>
 		/// 分页获取数据列表
 		/// </summary>

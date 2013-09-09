@@ -97,5 +97,11 @@ namespace Saron.WorkFlowService.WebService
                 return true;
             }
         }
+        
+        [WebMethod(Description = "根据流程角色ID获得用户ID列表")]
+        public DataSet GetUserListByRoleID(int roleID)
+        {
+            return m_userRoleDal.GetUserListByRoleID(roleID);
+        }
     }
 }

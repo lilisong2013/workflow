@@ -34,6 +34,8 @@ namespace WorkFlow.RolesWebService {
         
         private System.Threading.SendOrPostCallback AddOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetRoleIDByNameOperationCompleted;
+        
         private System.Threading.SendOrPostCallback UpdateOperationCompleted;
         
         private System.Threading.SendOrPostCallback DeleteOperationCompleted;
@@ -97,6 +99,9 @@ namespace WorkFlow.RolesWebService {
         public event AddCompletedEventHandler AddCompleted;
         
         /// <remarks/>
+        public event GetRoleIDByNameCompletedEventHandler GetRoleIDByNameCompleted;
+        
+        /// <remarks/>
         public event UpdateCompletedEventHandler UpdateCompleted;
         
         /// <remarks/>
@@ -142,6 +147,37 @@ namespace WorkFlow.RolesWebService {
             if ((this.AddCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.AddCompleted(this, new AddCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapHeaderAttribute("SecurityContextValue")]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://saron.workflowservice.org/GetRoleIDByName", RequestNamespace="http://saron.workflowservice.org/", ResponseNamespace="http://saron.workflowservice.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetRoleIDByName(int appID, out string msg) {
+            object[] results = this.Invoke("GetRoleIDByName", new object[] {
+                        appID});
+            msg = ((string)(results[1]));
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetRoleIDByNameAsync(int appID) {
+            this.GetRoleIDByNameAsync(appID, null);
+        }
+        
+        /// <remarks/>
+        public void GetRoleIDByNameAsync(int appID, object userState) {
+            if ((this.GetRoleIDByNameOperationCompleted == null)) {
+                this.GetRoleIDByNameOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetRoleIDByNameOperationCompleted);
+            }
+            this.InvokeAsync("GetRoleIDByName", new object[] {
+                        appID}, this.GetRoleIDByNameOperationCompleted, userState);
+        }
+        
+        private void OnGetRoleIDByNameOperationCompleted(object arg) {
+            if ((this.GetRoleIDByNameCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetRoleIDByNameCompleted(this, new GetRoleIDByNameCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -589,6 +625,40 @@ namespace WorkFlow.RolesWebService {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+        
+        /// <remarks/>
+        public string msg {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[1]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    public delegate void GetRoleIDByNameCompletedEventHandler(object sender, GetRoleIDByNameCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.0.30319.1")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetRoleIDByNameCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetRoleIDByNameCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
         
