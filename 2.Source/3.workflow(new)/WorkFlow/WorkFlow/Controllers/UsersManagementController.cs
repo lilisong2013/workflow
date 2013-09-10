@@ -71,60 +71,6 @@ namespace WorkFlow.Controllers
           
         }
 
-        //获取用户列表(在grid中显示)
-        public ActionResult GetUsers_Apply()
-        {
-            string msg = string.Empty;
-            WorkFlow.UsersWebService.usersBLLservice m_usersService = new UsersWebService.usersBLLservice();
-            WorkFlow.UsersWebService.SecurityContext m_SecurityContext = new UsersWebService.SecurityContext();
-
-
-            WorkFlow.UsersWebService.usersModel m_userModel = (WorkFlow.UsersWebService.usersModel)Session["user"];
-
-            m_SecurityContext.UserName = m_userModel.login;
-            m_SecurityContext.PassWord = m_userModel.password;
-            m_SecurityContext.AppID = (int)m_userModel.app_id;
-            m_usersService.SecurityContextValue = m_SecurityContext;
-
-            int appID = Convert.ToInt32(m_userModel.app_id);
-            string data = "{Rows:[";
-            try
-            {
-                DataSet ds = m_usersService.GetAllUsersListOfApp(appID, out msg);
-                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-                {
-                    string login = ds.Tables[0].Rows[i][1].ToString();
-                    string id = ds.Tables[0].Rows[i][0].ToString();
-                    string name = ds.Tables[0].Rows[i][3].ToString();
-                    string employee_no = ds.Tables[0].Rows[i][4].ToString();
-                    string invalid = ds.Tables[0].Rows[i][9].ToString();
-
-                    if (i == ds.Tables[0].Rows.Count - 1)
-                    {
-                        data += "{login:'" + login + "',";
-                        data += "id:'" + id + "',";
-                        data += "name:'" + name + "',";
-                        data += "invalid:'"+invalid+"',";
-                        data += "employee_no:'" + employee_no + "'}";
-                    }
-                    else
-                    {
-                        data += "{login:'" + login + "',";
-                        data += "id:'" + id + "',";
-                        data += "name:'" + name + "',";
-                        data += "invalid:'"+invalid+"',";
-                        data += "employee_no:'" + employee_no + "'},";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-            data += "]}";
-            return Json(data);
-
-        }
-
         //后台分页，获取用户列表
         public ActionResult GetUsers_List()
         {

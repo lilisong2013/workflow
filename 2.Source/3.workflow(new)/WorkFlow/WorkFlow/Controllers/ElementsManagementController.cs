@@ -180,14 +180,14 @@ namespace WorkFlow.Controllers
         //删除一条记录
         public ActionResult DeleteElement()
         {
-            
+            bool flag=false;
             if (Session["user"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
             else
             {
-                bool flag=true;
+                
                 string msg = string.Empty;
                 int elementID = Convert.ToInt32(Request.Form["elementsID"]);
                 WorkFlow.ElementsWebService.elementsBLLservice m_elementsBllService = new ElementsWebService.elementsBLLservice();

@@ -43,83 +43,6 @@
 
     <%--在Grid中分页显示user信息--%>
     <script type="text/javascript">
-        var managerListGrid;
-        $(document).ready(function () {
-            //定义ligerGrid;
-            $("#usersgrid").ligerGrid({
-                width: '90%',
-                height: 400
-            });
-            managerListGrid = $("#usersgrid").ligerGetGridManager();
-            GetUsersList(); //获取用户数据列表
-            $("#infoTab").click(function () {
-                GetUsersList(); //获取用户数据列表
-            });
-        });
-        function GetUsersList() {
-            $.ajax({
-                url: "/UsersManagement/GetUsers_Apply",
-                type: "POST",
-                dataType: "json",
-                data: {},
-
-                success: function (responseText, statusText) {
-                    // alert(responseText);
-
-                    var dataJson = eval("(" + responseText + ")"); //将json字符串转化为json数据
-
-                    //更新mygrid数据
-                    managerListGrid.setOptions({
-                        columns: [
-                        { display: '登录名称', name: 'login', width: 100, align: 'center' },
-                        { display: '用户姓名', name: 'name', width: 100, align: 'center' },
-                        { display: '员工编号', name: 'employee_no', width: 100, align: 'center' },
-                        { display: '是否有效', name: 'invalid', width: 100, align: 'center' },
-                        { display: '', width: 80,
-                            render: function (row) {
-                                var html = '<i class="icon-lock"></i><a href="/UsersManagement/DetailInfo?id=' + row.id + '">详情</a>';
-                                return html;
-                            }
-                        },
-                        { display: '', width: 80,
-                            render: function (row) {
-                                var html = '<i class="icon-edit"></i><a href="/UsersManagement/EditPage?id=' + row.id + '">编辑</a>';
-                                return html;
-                            }
-                        },
-                        { display: '', width: 80,
-                            render: function (row) {
-                                var html = '<i class="icon-trash"></i><a href="#" onclick="DeleteUser(' + row.id + ')">删除</a>';
-                                return html;
-                            }
-                        },
-                       { display: '', width: 100,
-                           render: function (row) {
-                               var html = '<i class="icon-edit"></i><a href="/UsersManagement/UserRoles?id=' + row.id + '">角色设置</a>';
-                               return html;
-                           }
-                       }
-                       ],
-                        data: dataJson,
-                        rowAttrRender: function (rowdata, rowid) {
-                            if (rowdata.invalid == true) {
-                                return "style='background:#F1D3F7;'";
-                            }
-                            else {
-                                return "style='background:grey;'";
-                            }
-                        }
-
-                    });
-                    managerListGrid.loadData();
-                }
-            });
-        }
-
-     
-    </script>
-
-  <%--  <script type="text/javascript">
         $(document).ready(function () {
 
             $("#infoTab").click(function () {
@@ -130,17 +53,21 @@
             function GetUserList() {
                 window['t'] = $("#usersgrid").ligerGrid({
                     columns: [
-                        { display: '用户ID', name: 'id', width: 80, align: 'center' },
-                        { display: '登录名称', name: 'login', align: 'center' },
-                        { display: '用户姓名', name: 'name', align: 'center' },
-                        { display: '员工编号', name: 'employee_no', align: 'center' },
+                        { display: '用户ID', name: 'id', width: 80, align: 'center'
+                        },
+                        { display: '登录名称', name: 'login', align: 'center'
+
+                        },
+                        { display: '用户姓名', name: 'name', align: 'center'
+                        },
+                        { display: '员工编号', name: 'employee_no', align: 'center'
+                        },
                         { display: '是否有效', name: 'invalid', align: 'center',
-                            render: function (item) {
-                                if (item.invalid == true) {                                
-                                    return '否';
-                                } else if (item.invalid == false) {
-                                    return '是';
-                                
+                            render: function (row, item) {
+                                if (row.invalid == true) {
+                                    return '<span style="background:grey;"><b>否</b></span>';
+                                } else if (row.invalid == false) {
+                                    return '<span><b>是</b></span>';
                                 }
                             }
                         },
@@ -177,19 +104,12 @@
                     height: '400',
                     rownumbers: true,
                     usePager: true,
-                    url: "/UsersManagement/GetUsers_List",
-                    rowAttrRender: function (rowdata, rowid) {
-                        if (rowdata.invalid == true) {
-                            return "";
-                        } else {
-                            return "style='background:#F1D3F7;'";
-                        }
-                    }
+                    url: "/UsersManagement/GetUsers_List"
                 });
                 t.loadData();
             }
         });
-    </script>--%>
+    </script>
 
     <%--编辑弹出框函数--%>
     <script type="text/javascript">
@@ -351,9 +271,9 @@
                         { display: '是否有效', name: 'invalid', align: 'center',
                             render: function (item) {
                                 if (item.invalid == true) {
-                                    return '<span class="red" style="background:#F1D3F7;"><b><font color="red">否</font></b></span>';
+                                    return '<span style="background:grey;"><b>否</b></span>';
                                 } else if (item.invalid ==false) {
-                                    return '<span class="blue" style="background:#F1D3F7;"><b><font color="blue">是</font></b></span>';
+                                    return '<span ><b>是</b></span>';
                                 }
                             }
                         },

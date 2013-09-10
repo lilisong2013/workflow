@@ -115,7 +115,7 @@ namespace WorkFlow.Controllers
             }
             else
             {
-                bool flag = true;//判断删除的标志
+                bool flag = false;//判断删除的标志
                 string msg = string.Empty;
                 int operationID = Convert.ToInt32(Request.Form["operationID"]);
                 WorkFlow.OperationsWebService.operationsBLLservice m_operationsBllService = new OperationsWebService.operationsBLLservice();

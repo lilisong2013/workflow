@@ -723,7 +723,6 @@
     <Content Include="Views\StepsManagement\AppSteps.aspx" />
     <Content Include="Views\StepsManagement\DetailInfo.aspx" />
     <Content Include="Views\StepsManagement\EditPage.aspx" />
-    <Content Include="Views\UsersManagement\AppUser1.aspx" />
     <Content Include="Views\UsersManagement\AppUsers.aspx" />
     <Content Include="Views\UsersManagement\DetailInfo.aspx" />
     <Content Include="Views\UsersManagement\EditPage.aspx" />
