@@ -1,0 +1,7 @@
+F:\work\saron_007003\2.Source\3.workflow(new)\WorkFlow\WorkFlow\bin\WorkFlow.dll
+F:\work\saron_007003\2.Source\3.workflow(new)\WorkFlow\WorkFlow\bin\WorkFlow.pdb
+F:\work\saron_007003\2.Source\3.workflow(new)\WorkFlow\WorkFlow\bin\EntityFramework.dll
+F:\work\saron_007003\2.Source\3.workflow(new)\WorkFlow\WorkFlow\bin\EntityFramework.xml
+F:\work\saron_007003\2.Source\3.workflow(new)\WorkFlow\WorkFlow\obj\Debug\ResolveAssemblyReference.cache
+F:\work\saron_007003\2.Source\3.workflow(new)\WorkFlow\WorkFlow\obj\Debug\WorkFlow.dll
+F:\work\saron_007003\2.Source\3.workflow(new)\WorkFlow\WorkFlow\obj\Debug\WorkFlow.pdb

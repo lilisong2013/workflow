@@ -59,9 +59,9 @@
                         { display: '是否有效', name: 'invalid', align: 'center',
                             render: function (item) {
                                 if (item.invalid == true) {
-                                    return '<span class="red" style="background:#F1D3F7;"><b><font color="red">否</font></b></span>';
+                                    return '<span>否</span>';
                                 } else if (item.invalid == false) {
-                                    return '<span class="blue" style="background:#F1D3F7;"><b><font color="blue">是</font></b></span>';
+                                    return '<span>是</span>';
                                 }
                             }
                          },                      
@@ -96,8 +96,15 @@
                     pageSize: 10,
                     height: '400',
                     rownumbers: true,
-                    usePager: true,             
-                    url: "/RolesManagement/GetRolesList"
+                    usePager: true,
+                    alternatingRow: false,             
+                    url: "/RolesManagement/GetRolesList",
+                    rowAttrRender: function (row, rowid) {
+                        if (row.invalid == true) {
+                            return "style='background:#F1D3F7;'";
+                        }
+                        return "";
+                    }
                    
                 });
                 t.loadData();
@@ -263,9 +270,9 @@
                         { display: '是否有效', name: 'invalid', align: 'center',
                             render: function (item) {
                                 if (item.invalid == true) {
-                                    return '<span class="red" style="background:#F1D3F7;"><b><font color="red">否</font></b></span>';
+                                    return '<span>否</span>';
                                 } else if (item.invalid == false) {
-                                    return '<span class="blue" style="background:#F1D3F7;"><b><font color="blue">是</font></b></span>';
+                                    return '<span>是</span>';
                                 }
                             }
                            
@@ -303,7 +310,14 @@
                 rownumbers: true,
                 usePager: true,
                 newPage: 1,
-                url: "/RolesManagement/GetListByRoleName?roleName=" + key
+                alternatingRow: false,  
+                url: "/RolesManagement/GetListByRoleName?roleName=" + key,
+                rowAttrRender: function (row, rowid) {
+                    if (row.invalid == true) {
+                        return "style='background:#F1D3F7;'";
+                    }
+                    return "";
+                }
             });
             s.loadData();
           }
