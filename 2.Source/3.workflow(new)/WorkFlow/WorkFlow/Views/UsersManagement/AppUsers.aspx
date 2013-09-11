@@ -53,21 +53,16 @@
             function GetUserList() {
                 window['t'] = $("#usersgrid").ligerGrid({
                     columns: [
-                        { display: '用户ID', name: 'id', width: 80, align: 'center'
-                        },
-                        { display: '登录名称', name: 'login', align: 'center'
-
-                        },
-                        { display: '用户姓名', name: 'name', align: 'center'
-                        },
-                        { display: '员工编号', name: 'employee_no', align: 'center'
-                        },
+                        { display: '用户ID', name: 'id', width: 80, align: 'center' },
+                        { display: '登录名称', name: 'login', align: 'center' },
+                        { display: '用户姓名', name: 'name', align: 'center' },
+                        { display: '员工编号', name: 'employee_no', align: 'center' },                       
                         { display: '是否有效', name: 'invalid', align: 'center',
                             render: function (row, item) {
                                 if (row.invalid == true) {
-                                    return '<span style="background:grey;"><b>否</b></span>';
+                                    return '<span>否</span>';
                                 } else if (row.invalid == false) {
-                                    return '<span><b>是</b></span>';
+                                    return '<span>是</span>';
                                 }
                             }
                         },
@@ -104,7 +99,15 @@
                     height: '400',
                     rownumbers: true,
                     usePager: true,
-                    url: "/UsersManagement/GetUsers_List"
+                    alternatingRow:false,
+                    url: "/UsersManagement/GetUsers_List",
+                    rowAttrRender: function (row,rowid) {
+                     if (row.invalid==true)
+                      {
+                        return "style='background:#F1D3F7;'";
+                      }
+                    return "";
+                   }
                 });
                 t.loadData();
             }
@@ -271,9 +274,9 @@
                         { display: '是否有效', name: 'invalid', align: 'center',
                             render: function (item) {
                                 if (item.invalid == true) {
-                                    return '<span style="background:grey;"><b>否</b></span>';
+                                    return '<span>否</span>';
                                 } else if (item.invalid ==false) {
-                                    return '<span ><b>是</b></span>';
+                                    return '<span>是</span>';
                                 }
                             }
                         },
@@ -309,8 +312,15 @@
                     height: '400',
                     rownumbers: true,
                     usePager: true,
+                    alternatingRow: false,
                     newPage: 1,
-                    url: "/UsersManagement/GetUserListByLogin?userlogin=" + key
+                    url: "/UsersManagement/GetUserListByLogin?userlogin=" + key,
+                    rowAttrRender: function (row, rowid) {
+                        if (row.invalid == true) {
+                            return "style='background:#F1D3F7;'";
+                        }
+                        return "";
+                    }
                 });
                 s.loadData();
             }

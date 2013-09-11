@@ -1,0 +1,5 @@
+F:\work\saron_007003\2.Source\1.WebService\WorkFlowService\WorkFlowService\bin\WorkFlowService.dll
+F:\work\saron_007003\2.Source\1.WebService\WorkFlowService\WorkFlowService\bin\WorkFlowService.pdb
+F:\work\saron_007003\2.Source\1.WebService\WorkFlowService\WorkFlowService\obj\Debug\ResolveAssemblyReference.cache
+F:\work\saron_007003\2.Source\1.WebService\WorkFlowService\WorkFlowService\obj\Debug\WorkFlowService.dll
+F:\work\saron_007003\2.Source\1.WebService\WorkFlowService\WorkFlowService\obj\Debug\WorkFlowService.pdb
