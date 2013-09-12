@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Collections;
+using System.IO;
 
 namespace WorkFlow.Controllers
 {
@@ -717,11 +718,16 @@ namespace WorkFlow.Controllers
                     m_menusModel.code = collection["menuCode"];
                     m_menusModel.url = collection["menuUrl"];
                     m_menusModel.app_id = Convert.ToInt32(collection["menuApp_id"]);
+                   
+                    //
                     if (m_menusModel.parent_id.ToString().Length != 0)
                     {
                         m_menusModel.parent_id = Convert.ToInt32(collection["menuParent_id"]);
                     }
-                    m_menusModel.remark = collection["menuRemark"];
+                    string remark = Convert.ToString(collection["menuRemark"].Trim());
+                    remark = remark.Replace("\n", "");
+                    m_menusModel.remark = remark;
+       
                   
                     m_menusModel.updated_at = t;
                     m_menusModel.updated_by = m_usersModel.id;
@@ -786,7 +792,10 @@ namespace WorkFlow.Controllers
                     {
                         m_menusModel.parent_id = Convert.ToInt32(collection["menuParent_id"]);
                     }
-                    m_menusModel.remark = collection["menuRemark"];
+
+                    string remark = Convert.ToString(collection["menuRemark"].Trim());
+                    remark = remark.Replace("\n", "");
+                    m_menusModel.remark = remark;
                   
                     //m_menusModel.invalid = Convert.ToBoolean(collection["menuInvalid"]);
                     m_menusModel.updated_at = t;
