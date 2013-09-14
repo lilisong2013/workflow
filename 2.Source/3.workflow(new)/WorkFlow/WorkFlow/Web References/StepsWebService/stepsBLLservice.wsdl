@@ -1,0 +1,1354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
+      <s:element name="AddStep">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepmodel" type="tns:stepsModel" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="stepsModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="flow_id" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="step_type_id" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="repeat_count" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="deleted" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_at" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_by" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="created_ip" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_at" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_by" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="updated_ip" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddStepResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddStepResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="AddFlow_User">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="flow_usermodel" type="tns:flow_usersModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="flow_usersModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="step_id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="user_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddFlow_UserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddFlow_UserResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteFlow_User">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="stepID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteFlow_UserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteFlow_UserResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNoUserStep">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepmodel" type="tns:stepsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNoUserStepResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddNoUserStepResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateFlowUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="stepID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateFlowUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateFlowUserResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepmodel" type="tns:stepsModel" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddNodeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNoUserNode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepmodel" type="tns:stepsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddNoUserNodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddNoUserNodeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistStepName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepname" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistStepNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistStepNameResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddStepAndAllInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stepmodel" type="tns:stepsModel" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddStepAndAllInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddStepAndAllInfoResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowMaxOrderNum">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowMaxOrderNumResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetFlowMaxOrderNumResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrderNoCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrderNoCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetOrderNoCountResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepListByFlowID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepListByFlowIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlowStepListByFlowIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepOrder_noListByFlowID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepOrder_noListByFlowIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlowStepOrder_noListByFlowIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepListByAppID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="appID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFlowStepListByAppIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFlowStepListByAppIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetV_StepsModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="stepID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetV_StepsModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetV_StepsModelResult" type="tns:v_stepsModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="v_stepsModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="s_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="s_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="f_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="step_type_name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="app_id" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="f_id" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="user_id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="user_name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetModelByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelByIDResult" type="tns:stepsModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteStep">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="stepID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteStepResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteStepResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsFlowUser">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="step_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsFlowUserResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsFlowUserResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsFlowID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="stepID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsFlowIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsFlowIDResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepListByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepListByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStepListByIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepListOfFlowID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flowID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepListOfFlowIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStepListOfFlowIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Update">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:stepsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateNode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flow_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="repeat_count" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateNodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateNodeResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepIDListByOrderno">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flow_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepIDListByOrdernoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStepIDListByOrdernoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserIDBystepID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="step_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserIDBystepIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserIDBystepIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddStepSoapIn">
+    <wsdl:part name="parameters" element="tns:AddStep" />
+  </wsdl:message>
+  <wsdl:message name="AddStepSoapOut">
+    <wsdl:part name="parameters" element="tns:AddStepResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddStepSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddFlow_UserSoapIn">
+    <wsdl:part name="parameters" element="tns:AddFlow_User" />
+  </wsdl:message>
+  <wsdl:message name="AddFlow_UserSoapOut">
+    <wsdl:part name="parameters" element="tns:AddFlow_UserResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddFlow_UserSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFlow_UserSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteFlow_User" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFlow_UserSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteFlow_UserResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFlow_UserSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserStepSoapIn">
+    <wsdl:part name="parameters" element="tns:AddNoUserStep" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserStepSoapOut">
+    <wsdl:part name="parameters" element="tns:AddNoUserStepResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserStepSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="UpdateFlowUserSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateFlowUser" />
+  </wsdl:message>
+  <wsdl:message name="UpdateFlowUserSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateFlowUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateFlowUserSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddNodeSoapIn">
+    <wsdl:part name="parameters" element="tns:AddNode" />
+  </wsdl:message>
+  <wsdl:message name="AddNodeSoapOut">
+    <wsdl:part name="parameters" element="tns:AddNodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddNodeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserNodeSoapIn">
+    <wsdl:part name="parameters" element="tns:AddNoUserNode" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserNodeSoapOut">
+    <wsdl:part name="parameters" element="tns:AddNoUserNodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddNoUserNodeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ExistStepNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistStepName" />
+  </wsdl:message>
+  <wsdl:message name="ExistStepNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistStepNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistStepNameSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddStepAndAllInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:AddStepAndAllInfo" />
+  </wsdl:message>
+  <wsdl:message name="AddStepAndAllInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:AddStepAndAllInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddStepAndAllInfoSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowMaxOrderNumSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowMaxOrderNum" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowMaxOrderNumSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowMaxOrderNumResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowMaxOrderNumSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderNoCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrderNoCount" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderNoCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrderNoCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderNoCountSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByFlowIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowStepListByFlowID" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByFlowIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowStepListByFlowIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByFlowIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepOrder_noListByFlowIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowStepOrder_noListByFlowID" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepOrder_noListByFlowIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowStepOrder_noListByFlowIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepOrder_noListByFlowIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByAppIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFlowStepListByAppID" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByAppIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFlowStepListByAppIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFlowStepListByAppIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetV_StepsModelSoapIn">
+    <wsdl:part name="parameters" element="tns:GetV_StepsModel" />
+  </wsdl:message>
+  <wsdl:message name="GetV_StepsModelSoapOut">
+    <wsdl:part name="parameters" element="tns:GetV_StepsModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetV_StepsModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModelByID" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelByIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="DeleteStepSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteStep" />
+  </wsdl:message>
+  <wsdl:message name="DeleteStepSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteStepResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteStepSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowUserSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsFlowUser" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowUserSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsFlowUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowUserSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowIDSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsFlowID" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowIDSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsFlowIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsFlowIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStepListByID" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStepListByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListByIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListOfFlowIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStepListOfFlowID" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListOfFlowIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStepListOfFlowIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStepListOfFlowIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:Update" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="UpdateNodeSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateNode" />
+  </wsdl:message>
+  <wsdl:message name="UpdateNodeSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateNodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="UpdateNodeSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetStepIDListByOrdernoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStepIDListByOrderno" />
+  </wsdl:message>
+  <wsdl:message name="GetStepIDListByOrdernoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStepIDListByOrdernoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStepIDListByOrdernoSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetUserIDBystepIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserIDBystepID" />
+  </wsdl:message>
+  <wsdl:message name="GetUserIDBystepIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserIDBystepIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserIDBystepIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:portType name="stepsBLLserviceSoap">
+    <wsdl:operation name="AddStep">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录(需要添加步骤用户,order_no、repeat_count自动赋值)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddStepSoapIn" />
+      <wsdl:output message="tns:AddStepSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddFlow_User">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">添加步骤用户表,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddFlow_UserSoapIn" />
+      <wsdl:output message="tns:AddFlow_UserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFlow_User">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除步骤用户表,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteFlow_UserSoapIn" />
+      <wsdl:output message="tns:DeleteFlow_UserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNoUserStep">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录(不添加步骤用户时,order_no、repeat_count自动赋值)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddNoUserStepSoapIn" />
+      <wsdl:output message="tns:AddNoUserStepSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFlowUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条流程用户信息，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:UpdateFlowUserSoapIn" />
+      <wsdl:output message="tns:UpdateFlowUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条并序流程节点(同时添加步骤用户)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddNodeSoapIn" />
+      <wsdl:output message="tns:AddNodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddNoUserNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条并序流程节点(暂时不添加步骤用户)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddNoUserNodeSoapIn" />
+      <wsdl:output message="tns:AddNoUserNodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistStepName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断同一流程下是否存在相同的步骤名称,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistStepNameSoapIn" />
+      <wsdl:output message="tns:ExistStepNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddStepAndAllInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddStepAndAllInfoSoapIn" />
+      <wsdl:output message="tns:AddStepAndAllInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowMaxOrderNum">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程中的最大排序码(-1：webservice未授权，0：流程中不存在步骤)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowMaxOrderNumSoapIn" />
+      <wsdl:output message="tns:GetFlowMaxOrderNumSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderNoCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程中排序码为order_no的并序步骤的个数,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetOrderNoCountSoapIn" />
+      <wsdl:output message="tns:GetOrderNoCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByFlowID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程的v_steps视图步骤列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowStepListByFlowIDSoapIn" />
+      <wsdl:output message="tns:GetFlowStepListByFlowIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepOrder_noListByFlowID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得流程的v_steps视图步骤排序码列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowStepOrder_noListByFlowIDSoapIn" />
+      <wsdl:output message="tns:GetFlowStepOrder_noListByFlowIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByAppID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得某系统下流程的步骤列表，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetFlowStepListByAppIDSoapIn" />
+      <wsdl:output message="tns:GetFlowStepListByAppIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetV_StepsModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得一个v_stepModel的对象实体，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetV_StepsModelSoapIn" />
+      <wsdl:output message="tns:GetV_StepsModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过ID获得一个stepsModel的对象实体，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetModelByIDSoapIn" />
+      <wsdl:output message="tns:GetModelByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStep">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除步骤，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteStepSoapIn" />
+      <wsdl:output message="tns:DeleteStepSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowUser">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断是否存在用户id为user_id,步骤id为step_id的记录</wsdl:documentation>
+      <wsdl:input message="tns:ExistsFlowUserSoapIn" />
+      <wsdl:output message="tns:ExistsFlowUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">判断是流程id为flow_id是否存在steps表中,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsFlowIDSoapIn" />
+      <wsdl:output message="tns:ExistsFlowIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据ID获取step列表,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetStepListByIDSoapIn" />
+      <wsdl:output message="tns:GetStepListByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListOfFlowID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据flowID获取step列表,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetStepListOfFlowIDSoapIn" />
+      <wsdl:output message="tns:GetStepListOfFlowIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条数据,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:UpdateSoapIn" />
+      <wsdl:output message="tns:UpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateNode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条流程步骤类型为并序的repeat_count操作,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:UpdateNodeSoapIn" />
+      <wsdl:output message="tns:UpdateNodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStepIDListByOrderno">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得同一并行步骤的ID列表,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetStepIDListByOrdernoSoapIn" />
+      <wsdl:output message="tns:GetStepIDListByOrdernoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDBystepID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据step_id获得user_id,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetUserIDBystepIDSoapIn" />
+      <wsdl:output message="tns:GetUserIDBystepIDSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="stepsBLLserviceSoap" type="tns:stepsBLLserviceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddStep">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddStep" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddFlow_User">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddFlow_User" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddFlow_UserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFlow_User">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteFlow_User" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteFlow_UserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNoUserStep">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddNoUserStep" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddNoUserStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFlowUser">
+      <soap:operation soapAction="http://saron.workflowservice.org/UpdateFlowUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateFlowUserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNode">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddNode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNoUserNode">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddNoUserNode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddNoUserNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistStepName">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistStepName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistStepNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddStepAndAllInfo">
+      <soap:operation soapAction="http://saron.workflowservice.org/AddStepAndAllInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddStepAndAllInfoSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowMaxOrderNum">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowMaxOrderNum" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFlowMaxOrderNumSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderNoCount">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetOrderNoCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetOrderNoCountSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByFlowID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowStepListByFlowID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFlowStepListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepOrder_noListByFlowID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowStepOrder_noListByFlowID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFlowStepOrder_noListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByAppID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetFlowStepListByAppID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetFlowStepListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetV_StepsModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetV_StepsModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetV_StepsModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModelByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStep">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteStep" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowUser">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsFlowUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsFlowUserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowID">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsFlowID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListByID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetStepListByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStepListByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListOfFlowID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetStepListOfFlowID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStepListOfFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateNode">
+      <soap:operation soapAction="http://saron.workflowservice.org/UpdateNode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:UpdateNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepIDListByOrderno">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetStepIDListByOrderno" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStepIDListByOrdernoSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDBystepID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetUserIDBystepID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetUserIDBystepIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="stepsBLLserviceSoap12" type="tns:stepsBLLserviceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddStep">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddFlow_User">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddFlow_User" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddFlow_UserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFlow_User">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteFlow_User" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteFlow_UserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNoUserStep">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddNoUserStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddNoUserStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFlowUser">
+      <soap12:operation soapAction="http://saron.workflowservice.org/UpdateFlowUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateFlowUserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNode">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddNode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddNoUserNode">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddNoUserNode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddNoUserNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistStepName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistStepName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistStepNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddStepAndAllInfo">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AddStepAndAllInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddStepAndAllInfoSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowMaxOrderNum">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowMaxOrderNum" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFlowMaxOrderNumSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderNoCount">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetOrderNoCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetOrderNoCountSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByFlowID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowStepListByFlowID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFlowStepListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepOrder_noListByFlowID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowStepOrder_noListByFlowID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFlowStepOrder_noListByFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFlowStepListByAppID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetFlowStepListByAppID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetFlowStepListByAppIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetV_StepsModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetV_StepsModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetV_StepsModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModelByID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModelByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStep">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteStepSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowUser">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsFlowUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsFlowUserSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsFlowID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsFlowID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListByID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetStepListByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStepListByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepListOfFlowID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetStepListOfFlowID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStepListOfFlowIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Update" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateNode">
+      <soap12:operation soapAction="http://saron.workflowservice.org/UpdateNode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:UpdateNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepIDListByOrderno">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetStepIDListByOrderno" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStepIDListByOrdernoSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDBystepID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetUserIDBystepID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetUserIDBystepIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="stepsBLLservice">
+    <wsdl:port name="stepsBLLserviceSoap" binding="tns:stepsBLLserviceSoap">
+      <soap:address location="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="stepsBLLserviceSoap12" binding="tns:stepsBLLserviceSoap12">
+      <soap12:address location="http://192.168.11.103:8081/WebService/stepsBLLservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

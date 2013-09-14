@@ -1,0 +1,782 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://saron.workflowservice.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://saron.workflowservice.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://saron.workflowservice.org/">
+      <s:element name="ExistsAppName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsAppNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsAppNameResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SecurityContext" type="tns:SecurityContext" />
+      <s:complexType name="SecurityContext">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassWord" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AppID" type="s:int" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="GetAppNameByID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAppNameByIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAppNameByIDResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAppNameByAdminID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAppNameByAdminIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAppNameByAdminIDResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExistsAppNameOutAppModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appModel" type="tns:appsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="appsModel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="remark" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="invalid" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="created_at" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="created_ip" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_at" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="updated_by" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="updated_ip" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="apply_at" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="approval_at" nillable="true" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ExistsAppNameOutAppModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExistsAppNameOutAppModelResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Add">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:appsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuperAdminUpdateApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:appsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SuperAdminUpdateAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SuperAdminUpdateAppResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdminUpdateApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="model" type="tns:appsModel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdminUpdateAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AdminUpdateAppResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteApp">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteAppResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteAppResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetModelResult" type="tns:appsModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdminGetModel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AdminGetModelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AdminGetModelResult" type="tns:appsModel" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInvalidAppsList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetInvalidAppsListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInvalidAppsListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValidAppsList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetValidAppsListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetValidAppsListResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetValidAppCount">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetValidAppCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetValidAppCountResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInValidAppCount">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetInValidAppCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetInValidAppCountResult" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExistsAppNameSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsAppName" />
+  </wsdl:message>
+  <wsdl:message name="ExistsAppNameSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsAppNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsAppNameSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetAppNameByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAppNameByID" />
+  </wsdl:message>
+  <wsdl:message name="GetAppNameByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAppNameByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAppNameByIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetAppNameByAdminIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAppNameByAdminID" />
+  </wsdl:message>
+  <wsdl:message name="GetAppNameByAdminIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAppNameByAdminIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAppNameByAdminIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="ExistsAppNameOutAppModelSoapIn">
+    <wsdl:part name="parameters" element="tns:ExistsAppNameOutAppModel" />
+  </wsdl:message>
+  <wsdl:message name="ExistsAppNameOutAppModelSoapOut">
+    <wsdl:part name="parameters" element="tns:ExistsAppNameOutAppModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExistsAppNameOutAppModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AddSoapIn">
+    <wsdl:part name="parameters" element="tns:Add" />
+  </wsdl:message>
+  <wsdl:message name="AddSoapOut">
+    <wsdl:part name="parameters" element="tns:AddResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="SuperAdminUpdateAppSoapIn">
+    <wsdl:part name="parameters" element="tns:SuperAdminUpdateApp" />
+  </wsdl:message>
+  <wsdl:message name="SuperAdminUpdateAppSoapOut">
+    <wsdl:part name="parameters" element="tns:SuperAdminUpdateAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="SuperAdminUpdateAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AdminUpdateAppSoapIn">
+    <wsdl:part name="parameters" element="tns:AdminUpdateApp" />
+  </wsdl:message>
+  <wsdl:message name="AdminUpdateAppSoapOut">
+    <wsdl:part name="parameters" element="tns:AdminUpdateAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="AdminUpdateAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:Delete" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAppSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteApp" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAppSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteAppResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteAppSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSoapIn">
+    <wsdl:part name="parameters" element="tns:GetModel" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSoapOut">
+    <wsdl:part name="parameters" element="tns:GetModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="AdminGetModelSoapIn">
+    <wsdl:part name="parameters" element="tns:AdminGetModel" />
+  </wsdl:message>
+  <wsdl:message name="AdminGetModelSoapOut">
+    <wsdl:part name="parameters" element="tns:AdminGetModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="AdminGetModelSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetInvalidAppsListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInvalidAppsList" />
+  </wsdl:message>
+  <wsdl:message name="GetInvalidAppsListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInvalidAppsListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetInvalidAppsListSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetValidAppsListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetValidAppsList" />
+  </wsdl:message>
+  <wsdl:message name="GetValidAppsListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetValidAppsListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetValidAppsListSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetValidAppCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetValidAppCount" />
+  </wsdl:message>
+  <wsdl:message name="GetValidAppCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetValidAppCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetValidAppCountSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetInValidAppCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInValidAppCount" />
+  </wsdl:message>
+  <wsdl:message name="GetInValidAppCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInValidAppCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetInValidAppCountSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:portType name="appsBLLserviceSoap">
+    <wsdl:operation name="ExistsAppName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">是否存在系统名称为appName该记录，&lt;h4&gt;（需要授权验证，自定义用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsAppNameSoapIn" />
+      <wsdl:output message="tns:ExistsAppNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAppNameByID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过系统ID获得系统名称，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetAppNameByIDSoapIn" />
+      <wsdl:output message="tns:GetAppNameByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAppNameByAdminID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过系统ID获得系统名称，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetAppNameByAdminIDSoapIn" />
+      <wsdl:output message="tns:GetAppNameByAdminIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExistsAppNameOutAppModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">除原系统外是否存在系统名称为appName该记录，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:ExistsAppNameOutAppModelSoapIn" />
+      <wsdl:output message="tns:ExistsAppNameOutAppModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条系统记录（返回0添加失败，返回-1系统已经存在，不等于0或-1为记录ID），&lt;h4&gt;（需要授权验证，自定义用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AddSoapIn" />
+      <wsdl:output message="tns:AddSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SuperAdminUpdateApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条系统记录，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:SuperAdminUpdateAppSoapIn" />
+      <wsdl:output message="tns:SuperAdminUpdateAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdateApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条系统记录，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AdminUpdateAppSoapIn" />
+      <wsdl:output message="tns:AdminUpdateAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录，&lt;h4&gt;（需要授权验证，自定义用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteSoapIn" />
+      <wsdl:output message="tns:DeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteApp">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">删除id为id的记录，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:DeleteAppSoapIn" />
+      <wsdl:output message="tns:DeleteAppSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetModelSoapIn" />
+      <wsdl:output message="tns:GetModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AdminGetModel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据主键id得到一个实体对象，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:AdminGetModelSoapIn" />
+      <wsdl:output message="tns:AdminGetModelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInvalidAppsList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得有效系统数据列表，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetInvalidAppsListSoapIn" />
+      <wsdl:output message="tns:GetInvalidAppsListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppsList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得无效系统数据列表，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetValidAppsListSoapIn" />
+      <wsdl:output message="tns:GetValidAppsListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">统计下已审批系统的数量，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetValidAppCountSoapIn" />
+      <wsdl:output message="tns:GetValidAppCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInValidAppCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">统计下已审批系统的数量，&lt;h4&gt;（需要授权验证，超级管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetInValidAppCountSoapIn" />
+      <wsdl:output message="tns:GetInValidAppCountSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="appsBLLserviceSoap" type="tns:appsBLLserviceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExistsAppName">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsAppName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsAppNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppNameByID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAppNameByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetAppNameByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppNameByAdminID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetAppNameByAdminID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetAppNameByAdminIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsAppNameOutAppModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/ExistsAppNameOutAppModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ExistsAppNameOutAppModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <soap:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuperAdminUpdateApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/SuperAdminUpdateApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SuperAdminUpdateAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdateApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/AdminUpdateApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AdminUpdateAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteApp">
+      <soap:operation soapAction="http://saron.workflowservice.org/DeleteApp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:DeleteAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminGetModel">
+      <soap:operation soapAction="http://saron.workflowservice.org/AdminGetModel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:AdminGetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInvalidAppsList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetInvalidAppsList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetInvalidAppsListSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppsList">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetValidAppsList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetValidAppsListSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppCount">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetValidAppCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetValidAppCountSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInValidAppCount">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetInValidAppCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetInValidAppCountSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="appsBLLserviceSoap12" type="tns:appsBLLserviceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExistsAppName">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsAppName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsAppNameSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppNameByID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAppNameByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAppNameByIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAppNameByAdminID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetAppNameByAdminID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetAppNameByAdminIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExistsAppNameOutAppModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/ExistsAppNameOutAppModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ExistsAppNameOutAppModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Add" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AddSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SuperAdminUpdateApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/SuperAdminUpdateApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SuperAdminUpdateAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminUpdateApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AdminUpdateApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AdminUpdateAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap12:operation soapAction="http://saron.workflowservice.org/Delete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteApp">
+      <soap12:operation soapAction="http://saron.workflowservice.org/DeleteApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:DeleteAppSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AdminGetModel">
+      <soap12:operation soapAction="http://saron.workflowservice.org/AdminGetModel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:AdminGetModelSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInvalidAppsList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetInvalidAppsList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetInvalidAppsListSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppsList">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetValidAppsList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetValidAppsListSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetValidAppCount">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetValidAppCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetValidAppCountSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInValidAppCount">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetInValidAppCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetInValidAppCountSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="appsBLLservice">
+    <wsdl:port name="appsBLLserviceSoap" binding="tns:appsBLLserviceSoap">
+      <soap:address location="http://192.168.11.103:8081/WebService/appsBLLservice.asmx" />
+    </wsdl:port>
+    <wsdl:port name="appsBLLserviceSoap12" binding="tns:appsBLLserviceSoap12">
+      <soap12:address location="http://192.168.11.103:8081/WebService/appsBLLservice.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
