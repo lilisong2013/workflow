@@ -149,7 +149,7 @@
                                     var stepHtmlStr = "";
                                     //alert(dataJson.StepRows[i].order_no);
                                     if (dataJson.StepRows[i].order_no > 1) {
-                                        stepHtmlStr += "<td><table>";
+                                        stepHtmlStr += "<td><table style='margin-bottom:5px'>";
                                         //alert(stepHtmlStr);
                                         for (var j = 0; j < dataJson.AllstepCount; j++) {
                                             if (dataJson.Order_NoRows[i].order_no == dataJson.StepRows[j].order_no) {

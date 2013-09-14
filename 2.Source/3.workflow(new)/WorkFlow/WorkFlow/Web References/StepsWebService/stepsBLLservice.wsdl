@@ -438,6 +438,51 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetStepIDListByOrderno">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="flow_id" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="order_no" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStepIDListByOrdernoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStepIDListByOrdernoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserIDBystepID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="step_id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserIDBystepIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserIDBystepIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="msg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AddStepSoapIn">
@@ -647,6 +692,24 @@
   <wsdl:message name="UpdateNodeSecurityContext">
     <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
   </wsdl:message>
+  <wsdl:message name="GetStepIDListByOrdernoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStepIDListByOrderno" />
+  </wsdl:message>
+  <wsdl:message name="GetStepIDListByOrdernoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStepIDListByOrdernoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStepIDListByOrdernoSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
+  <wsdl:message name="GetUserIDBystepIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserIDBystepID" />
+  </wsdl:message>
+  <wsdl:message name="GetUserIDBystepIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserIDBystepIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserIDBystepIDSecurityContext">
+    <wsdl:part name="SecurityContext" element="tns:SecurityContext" />
+  </wsdl:message>
   <wsdl:portType name="stepsBLLserviceSoap">
     <wsdl:operation name="AddStep">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">增加一条流程步骤记录(需要添加步骤用户,order_no、repeat_count自动赋值)，&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
@@ -762,6 +825,16 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新一条流程步骤类型为并序的repeat_count操作,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
       <wsdl:input message="tns:UpdateNodeSoapIn" />
       <wsdl:output message="tns:UpdateNodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStepIDListByOrderno">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获得同一并行步骤的ID列表,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetStepIDListByOrdernoSoapIn" />
+      <wsdl:output message="tns:GetStepIDListByOrdernoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDBystepID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据step_id获得user_id,&lt;h4&gt;（需要授权验证，系统管理员用户）&lt;/h4&gt;</wsdl:documentation>
+      <wsdl:input message="tns:GetUserIDBystepIDSoapIn" />
+      <wsdl:output message="tns:GetUserIDBystepIDSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="stepsBLLserviceSoap" type="tns:stepsBLLserviceSoap">
@@ -996,6 +1069,26 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetStepIDListByOrderno">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetStepIDListByOrderno" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetStepIDListByOrdernoSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDBystepID">
+      <soap:operation soapAction="http://saron.workflowservice.org/GetUserIDBystepID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetUserIDBystepIDSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="stepsBLLserviceSoap12" type="tns:stepsBLLserviceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1224,6 +1317,26 @@
       <wsdl:input>
         <soap12:body use="literal" />
         <soap12:header message="tns:UpdateNodeSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStepIDListByOrderno">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetStepIDListByOrderno" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetStepIDListByOrdernoSecurityContext" part="SecurityContext" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserIDBystepID">
+      <soap12:operation soapAction="http://saron.workflowservice.org/GetUserIDBystepID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetUserIDBystepIDSecurityContext" part="SecurityContext" use="literal" />
       </wsdl:input>
       <wsdl:output>
         <soap12:body use="literal" />

@@ -457,6 +457,25 @@ namespace Saron.WorkFlowService.DAL
             }
         }
 
+        /// <summary>
+        /// 获得同一并行步骤的ID列表
+        /// </summary>
+        public DataSet GetStepIDListByOrderno(int flow_id, int order_no)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append(" select id from steps ");
+            strSql.Append(" where flow_id=@flow_id and order_no=@order_no and step_type_id=2 ");
+           
+            SqlParameter[] parameters = { 
+                         new SqlParameter("@flow_id",SqlDbType.Int,4),
+                         new SqlParameter("@order_no",SqlDbType.Int,4)   
+            };
+
+            parameters[0].Value = flow_id;
+            parameters[1].Value = order_no;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
+        }
+
         #endregion
     }
 }

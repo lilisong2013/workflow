@@ -490,52 +490,7 @@ namespace WorkFlow.Controllers
             }
 
         }
-
-       //删除一条流程步骤
-        public ActionResult DeleteFlowStep()
-        {
-            if (Session["user"] == null)
-            {
-                return RedirectToAction("Home", "Login");
-            }
-            else
-            {
-                int stepID = Convert.ToInt32(Request.Form["stepID"]);
-                WorkFlow.StepsWebService.stepsBLLservice m_stepsBllService = new StepsWebService.stepsBLLservice();
-                WorkFlow.StepsWebService.SecurityContext ms_SecurityContext = new StepsWebService.SecurityContext();
-
-                
-                WorkFlow.UsersWebService.usersModel m_usersModel=(WorkFlow.UsersWebService.usersModel)Session["user"];
-
-                string msg = string.Empty;
-                ms_SecurityContext.UserName = m_usersModel.login;
-                ms_SecurityContext.PassWord = m_usersModel.password;
-                ms_SecurityContext.AppID = (int)m_usersModel.app_id;
-                m_stepsBllService.SecurityContextValue = ms_SecurityContext;
-
-                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
-                
-                m_stepsModel = m_stepsBllService.GetModelByID(stepID,out msg);
-
-                int flow_ID = Convert.ToInt32(m_stepsModel.flow_id);
-
-                try 
-                {
-                    if (m_stepsBllService.DeleteStep(stepID, out msg))
-                    {
-                        return Json("{success:true,css:'alert alert-success',message:'成功删除步骤!'}");
-                    }
-                    else
-                    {
-                        return Json("{success:false,css:'alert alert-error',message:'"+msg+"'}");
-                    }
-                }
-                catch (Exception ex) {
-                    return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
-                }
-            }
-        }
-
+       
        //批量删除流程信息
         public ActionResult DeleteFlowSteps()
         {
@@ -709,6 +664,7 @@ namespace WorkFlow.Controllers
             else
             {
                 bool uag=true;
+
                 int Flowno=Convert.ToInt32(Request.Params["flowid"]);
                 int Orderno = Convert.ToInt32(Request.Params["orderno"]);
                 int Repeatno = Convert.ToInt32(Request.Params["repeatcount"]);
@@ -821,6 +777,7 @@ namespace WorkFlow.Controllers
                     try
                     {
                         bool flag = false;
+
                         if (m_stepsBllService.ExistStepName(m_stepsModel.name, (int)m_stepsModel.flow_id, out msg) == true)
                         {//存在相同的名称
                             flag = false;
@@ -829,31 +786,72 @@ namespace WorkFlow.Controllers
                         {//与添加的与系统的名称不相同
                             flag = true;
                         }
-                        if (flag == false)
-                        {
-                            return Json("{success:false,css:'alert alert-error',message:'该流程下存在相同的步骤名称!'}");
-                        }
-                        else
-                        {
-                            if (m_stepsBllService.AddNode(m_stepsModel, userID, out msg))//添加成功
-                            {
-                                //统计下流程flow_id下排序码为order_no下的
-                                int repeat_count = m_stepsBllService.GetOrderNoCount((int)m_stepsModel.flow_id, (int)m_stepsModel.order_no, out msg);
-                                if (m_stepsBllService.UpdateNode((int)m_stepsModel.flow_id, (int)m_stepsModel.order_no, repeat_count, out msg))
+
+                          
+
+                                if (flag == false)
                                 {
-                                    return Json("{success:true,css:'alert alert-success',message:'添加同步成功!'}");
+                                    return Json("{success:false,css:'alert alert-error',message:'该流程下存在相同的步骤名称!'}");
                                 }
                                 else
                                 {
-                                    return Json("{success:false,css:'alert alert-error',message:'添加同步失败!'}");
-                                }
+                                    //判断添加的步骤用户是否重名
+                                    DataSet unDs = new DataSet();
+                                    
+                                    unDs = m_stepsBllService.GetStepIDListByOrderno(Flowno, Orderno, out msg);
+                                    int count = unDs.Tables[0].Rows.Count;
+                                    
+                                    int[] sIDList = new int[count];//step_id列表
+                                    int[] svIDList=new int[count];//flow_user中具有步骤用户的列表
+                                  
+                                    int j = 0;
+                                    int vcount = 0;
+                                    for (int i = 0; i < count; i++)
+                                    {
+                                        //获得并行步骤下ID列表
+                                        sIDList[i] = Convert.ToInt32(unDs.Tables[0].Rows[i][0]);
+                                        
+                                        //判断下flow_user下是否存在step_id的记录
+                                        if (m_stepsBllService.ExistsFlowUser(sIDList[i],out msg))
+                                        { 
+                                          svIDList[j++]=sIDList[i];               
+                                          vcount = j;
+                                        }
 
-                            }
-                            else
-                            {
-                                return Json("{success:false,css:'alert alert-error',message:'添加失败!'}");
-                            }
-                        }
+                                    }
+
+                                    DataSet uIDDs = new DataSet();
+                                    int[] uIDList = new int[vcount];//步骤用户的列表
+                                    //在flow_user表中根据stepID获得userID列表
+                                    for (int i = 0; i < vcount; i++)
+                                    {
+                                        uIDDs = m_stepsBllService.GetUserIDBystepID(svIDList[i],out msg);
+                                        uIDList[i] = Convert.ToInt32(uIDDs.Tables[0].Rows[0][0]);
+                                        if (uIDList[i].Equals(userID))
+                                        {
+                                            return Json("{success:false,css:'alert alert-error',message:'存在相同的步骤用户!'}");
+                                        }
+                                    }
+
+                                    if (m_stepsBllService.AddNode(m_stepsModel, userID, out msg))//添加成功
+                                    {
+                                        //统计下流程flow_id下排序码为order_no下的
+                                        int repeat_count = m_stepsBllService.GetOrderNoCount((int)m_stepsModel.flow_id, (int)m_stepsModel.order_no, out msg);
+                                        if (m_stepsBllService.UpdateNode((int)m_stepsModel.flow_id, (int)m_stepsModel.order_no, repeat_count, out msg))
+                                        {
+                                            return Json("{success:true,css:'alert alert-success',message:'添加并行步骤成功!'}");
+                                        }
+                                        else
+                                        {
+                                            return Json("{success:false,css:'alert alert-error',message:'添加并行步骤失败!'}");
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        return Json("{success:false,css:'alert alert-error',message:'添加失败!'}");
+                                    }
+                                }
 
                     }
                     catch (Exception ex)
@@ -1115,13 +1113,21 @@ namespace WorkFlow.Controllers
                 }
 
                 int userID = Convert.ToInt32(collection["EstepsUser"]);
+                
+                WorkFlow.StepsWebService.stepsModel m_stepModel = new StepsWebService.stepsModel();
+                m_stepModel = m_stepsBllService.GetModelByID(stepID,out msg);
 
+                int Orderno = Convert.ToInt32(m_stepModel.order_no);
+                int stepType = Convert.ToInt32(m_stepModel.step_type_id);
+                
+              
+               
                 try
                 {
                     bool flag = false;
-                    WorkFlow.StepsWebService.stepsModel m_stepModel = new StepsWebService.stepsModel();
-                    m_stepModel = m_stepsBllService.GetModelByID(stepID,out msg);
-                    if (m_stepModel.name.Equals(collection["EstepsName"]))
+                    WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
+                    m_stepsModel = m_stepsBllService.GetModelByID(stepID, out msg);
+                    if (m_stepsModel.name.Equals(collection["EstepsName"]))
                     {
                         flag = false;
                     }
@@ -1142,14 +1148,58 @@ namespace WorkFlow.Controllers
                 {
                     return Json("{success:false,css:'alert alert-error',message:'程序异常!'}");
                 }
-               
-                WorkFlow.StepsWebService.stepsModel m_stepsModel = new StepsWebService.stepsModel();
-                m_stepsModel = m_stepsBllService.GetModelByID(stepID,out msg);
-                m_stepsModel.name = collection["EstepsName"].Trim();
-                m_stepsModel.remark = collection["E_stepsRemark"].Trim();
-                m_stepsModel.updated_at = Convert.ToDateTime(collection["E_stepsCreated_at"]);
-                m_stepsModel.updated_by = Convert.ToInt32(collection["EstepsUser"]);
-                m_stepsModel.updated_ip = Convert.ToString(Saron.Common.PubFun.IPHelper.GetClientIP());
+
+                #region
+                //如果是并行，编辑时判断是否存在相同的步骤用户
+                if (stepType == 2)
+                {
+
+                    DataSet unDs = new DataSet();
+
+                    unDs = m_stepsBllService.GetStepIDListByOrderno(flowID, Orderno, out msg);
+                    int count = unDs.Tables[0].Rows.Count;
+
+                    int[] sIDList = new int[count];//step_id列表
+                    int[] svIDList = new int[count];//flow_user中具有步骤用户的列表
+
+                    int j = 0;
+                    int vcount = 0;
+                    for (int i = 0; i < count; i++)
+                    {
+                        //获得并行步骤下ID列表
+                        sIDList[i] = Convert.ToInt32(unDs.Tables[0].Rows[i][0]);
+
+                        //判断下flow_user下是否存在step_id的记录
+                        if (m_stepsBllService.ExistsFlowUser(sIDList[i], out msg))
+                        {
+                            svIDList[j++] = sIDList[i];
+                            vcount = j;
+                        }
+
+                    }
+
+                    DataSet uIDDs = new DataSet();
+                    int[] uIDList = new int[vcount];//步骤用户的列表
+                    //在flow_user表中根据stepID获得userID列表
+                    for (int i = 0; i < vcount; i++)
+                    {
+                        uIDDs = m_stepsBllService.GetUserIDBystepID(svIDList[i], out msg);
+                        uIDList[i] = Convert.ToInt32(uIDDs.Tables[0].Rows[0][0]);
+                        if (uIDList[i].Equals(userID))
+                        {
+                            return Json("{success:false,css:'alert alert-error',message:'存在相同的步骤用户!'}");
+                        }
+                    }
+                }
+                #endregion
+
+                WorkFlow.StepsWebService.stepsModel stepsModel = new StepsWebService.stepsModel();
+                stepsModel = m_stepsBllService.GetModelByID(stepID, out msg);
+                stepsModel.name = collection["EstepsName"].Trim();
+                stepsModel.remark = collection["E_stepsRemark"].Trim();
+                stepsModel.updated_at = Convert.ToDateTime(collection["E_stepsCreated_at"]);
+                stepsModel.updated_by = Convert.ToInt32(collection["EstepsUser"]);
+                stepsModel.updated_ip = Convert.ToString(Saron.Common.PubFun.IPHelper.GetClientIP());
                 try {
                     bool Tag = true;
                     bool Eag = true;
@@ -1204,7 +1254,7 @@ namespace WorkFlow.Controllers
                     }
                     if (Tag == true&&Aag==true&&Eag==true&&Dag==true)
                     {
-                        if (m_stepsBllService.Update(m_stepsModel, out msg))
+                        if (m_stepsBllService.Update(stepsModel, out msg))
                         {
                             return Json("{success:true,css:'alert alert-success',message:'更新成功!'}");
                         }

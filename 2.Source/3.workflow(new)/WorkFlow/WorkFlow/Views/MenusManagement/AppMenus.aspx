@@ -131,6 +131,7 @@
                         data: { menuID: menuid },
                         success: function (responseText, statusText) {
                             GetMenusList(); //重载菜单数据列表
+                            GetMenusTreeList(); //绑定菜单树数据并展示
                             $("#promptDIV").removeClass("alert alert-error alert-success");
                             $("#promptDIV").addClass(responseText.css);
                             $("#promptDIV").html(responseText.message);
@@ -263,7 +264,7 @@
             function showResponse(responseText, statusText) {
                 //成功后执行的方法
                 // alert(responseText.Id + responseText.Name);
-
+                GetMenusTreeList(); //绑定菜单树数据并展示
                 $("#promptDIV").removeClass("alert alert-error alert-success");
                 $("#promptDIV").addClass(responseText.css);
                 $("#promptDIV").html(responseText.message);

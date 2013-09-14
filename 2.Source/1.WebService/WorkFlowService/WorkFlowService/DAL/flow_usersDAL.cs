@@ -14,6 +14,7 @@ namespace Saron.WorkFlowService.DAL
         public flow_usersDAL()
         { }
         #region  BasicMethod
+      
         /// <summary>
         /// 添加一条流程步骤、用户对应记录
         /// </summary>
@@ -120,6 +121,22 @@ namespace Saron.WorkFlowService.DAL
                 return false;
             }
            
+        }
+
+        //根据step_id获得user_id
+        public DataSet GetUserIDBystepID(int step_id)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append(" select user_id from flow_users ");
+            strSql.Append(" where step_id=@step_id");
+           
+            SqlParameter[] parameters = 
+            { 
+               new SqlParameter("@step_id",SqlDbType.Int,4)
+            };
+
+            parameters[0].Value = step_id;
+            return DbHelperSQL.Query(strSql.ToString(), parameters);
         }
         #endregion
     }

@@ -685,6 +685,7 @@ namespace Saron.WorkFlowService.WebService
 
             return m_stepsdal.ExistsFlowID(stepID);
         }
+       
         [SoapHeader("m_securityContext")]
         [WebMethod(Description = "根据ID获取step列表,<h4>（需要授权验证，系统管理员用户）</h4>")]
         public DataSet GetStepListByID(int id,out string msg)
@@ -744,6 +745,44 @@ namespace Saron.WorkFlowService.WebService
                 return false;
             }
             return m_stepsdal.UpdateNode(flow_id,order_no,repeat_count);
+        }
+
+        ///<summary>
+        ///author:songlili
+        /// </summary>
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "获得同一并行步骤的ID列表,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public DataSet GetStepIDListByOrderno(int flow_id, int order_no,out string msg)
+        {
+           
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+
+            return m_stepsdal.GetStepIDListByOrderno(flow_id,order_no);
+        }
+
+        ///<summary>
+        ///author:songlili
+        /// </summary>
+        [SoapHeader("m_securityContext")]
+        [WebMethod(Description = "根据step_id获得user_id,<h4>（需要授权验证，系统管理员用户）</h4>")]
+        public DataSet GetUserIDBystepID(int step_id,out string msg)
+        {
+           
+            #region webservice授权判断
+            //是否有权限访问
+            if (!m_securityContext.AdminIsValid(m_securityContext.UserName, m_securityContext.PassWord, out msg))
+            {
+                return null;
+            }
+            #endregion
+
+            return m_flow_usersdal.GetUserIDBystepID(step_id);
         }
 
        #endregion 
